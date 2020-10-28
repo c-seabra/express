@@ -6,6 +6,8 @@ import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
 
 import UploadStatus from '../statusIcon/StatusIcon'
 
+import getCookie from '../../lib/utils/getCookieByName'
+
 const BookingRef = styled.div`
   width: calc(15% - 1rem);
   text-align: center;
@@ -55,6 +57,8 @@ const AssigneeItem = ({bookingRef, firstName, lastName, email, ticketId} : {
     message:'Assignment is still processing.',
     type: 'pending'
   })
+  const token = getCookie('token')
+
   const [ticketAssign] = useMutation(TICKET_ASSIGN_MUTATION, {
     onCompleted: ({ ticketAssign }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
@@ -73,11 +77,11 @@ const AssigneeItem = ({bookingRef, firstName, lastName, email, ticketId} : {
       }
     }
   });
-  const testis = (firstName, lastName, email, ticketId) => {
-    if(firstName && lastName && email && ticketId){
+  const reassignTicket = (firstName, lastName, email, ticketId) => {
+    if(token && firstName && lastName && email && ticketId){
       ticketAssign({
         context: {
-          token: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3ZWJzdW1taXQiLCJqdGkiOiIwMGJlZTY3OS1jZDE0LTQwZWUtYTc3Yi0wZTI1NmQyNjgxNTQiLCJpYXQiOjE2MDM4MDk2NTYsImV4cCI6MTYwNDQxNDQ1NiwiZW1haWwiOiJ0b21pc2xhdi5zdmVjYWtAd2Vic3VtbWl0LmNvbSIsImNvbmZfc2x1ZyI6InJjMjEiLCJzZXJ2ZXIiOiJ0aWNrZXQtYXNzaWdubWVudCJ9.hy7W1DN7C7A2ItcqtrpuWHPXm9xZUipvdDvdGY0s2_I',
+          token,
           slug: 'rc21'
         },
         variables: {
@@ -92,7 +96,7 @@ const AssigneeItem = ({bookingRef, firstName, lastName, email, ticketId} : {
 
   useEffect(() => {
     if(firstName && lastName && email && ticketId) {
-      testis(firstName, lastName, email, ticketId)
+      reassignTicket(firstName, lastName, email, ticketId)
     }
   }, [firstName, lastName, email, ticketId])
 
