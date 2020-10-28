@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import Upload from "../upload/Upload"
 import ConferenceInput from "../conferenceInput/ConferenceInput"
-import { AssigneeContext, AssigneesList } from '../../context/AssigneeContext'
+import { AppContext, AppTypes } from '../../context/AppContext'
 import styled from 'styled-components'
 
 const SubmitButton = styled.button`
@@ -9,10 +9,10 @@ const SubmitButton = styled.button`
 `;
 
 const Form = () => {
-  const { setAssigneesList, setConferenceSlug } = useContext(AssigneeContext)
+  const { setAssigneesList, setConferenceSlug } = useContext(AppContext)
   const [confSlug, setConfSlug] = useState('')
   const [formError, setFormError] = useState(false)
-  const [assignees, setAssignees] = useState<AssigneesList["assigneesList"]>([])
+  const [assignees, setAssignees] = useState<AppTypes["assigneesList"]>([])
   const onSubmit = e => {
     e.preventDefault()
     if(confSlug && assignees.length > 0) {

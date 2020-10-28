@@ -1,6 +1,6 @@
 import React from "react"
 import AssigneeList from "../assigneeList/AssigneeList"
-import { AssigneeProvider } from "../../context/AssigneeContext"
+import { AppContextProvider } from "../../context/AppContext"
 import withApollo from '../../lib/apollo/withApollo'
 import styled, { createGlobalStyle } from 'styled-components'
 import Form from "../form/Form"
@@ -23,7 +23,7 @@ const StyledSection = styled.section`
 
 const App = () => {
   return (
-    <AssigneeProvider>
+    <AppContextProvider>
       <GlobalStyle/>
       <StlyedContainer>
         <StyledSection>
@@ -33,7 +33,7 @@ const App = () => {
           <AssigneeList />
         </StyledSection>
       </StlyedContainer>
-    </AssigneeProvider>
+    </AppContextProvider>
   );
 };
 

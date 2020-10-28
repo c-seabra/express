@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Assignee, AssigneesList } from '../../context/AssigneeContext'
+import { Assignee, AppTypes } from '../../context/AppContext'
 import styled from 'styled-components'
 
 const Field = styled.label`
@@ -10,7 +10,7 @@ const Field = styled.label`
   margin-bottom: .5rem;
 `;
 
-const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList["assigneesList"]) => void}) => {
+const Upload = ({setAssignees}: {setAssignees: (list:AppTypes["assigneesList"]) => void}) => {
   const [error, setError] = useState(false)
 
   const onUpload = () => {
@@ -43,7 +43,7 @@ const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList["assigneesLis
         result.push(obj as Assignee)
       }
 
-      setAssignees(result as AssigneesList["assigneesList"])
+      setAssignees(result as AppTypes["assigneesList"])
     }
 
     if (window.FileReader) {

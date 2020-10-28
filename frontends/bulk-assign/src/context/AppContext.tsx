@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { createContext, useContext, useState } from 'react'
 
-export type AssigneesList = {
+export type AppTypes = {
   assigneesList?: Array<Assignee>
   setAssigneesList?: (assignees: Array<Assignee>) => void
   conferenceSlug?: string
@@ -17,13 +17,13 @@ export type Assignee = {
 }
 
 
-export const AssigneeContext = createContext<AssigneesList>({})
+export const AppContext = createContext<AppTypes>({})
 
-export const AssigneeProvider = ({ children }: { children: React.ReactNode }) => {
+export const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [assigneesList, setAssigneesList] = useState<Array<Assignee>>()
   const [conferenceSlug, setConferenceSlug] = useState<string>()
   return (
-    <AssigneeContext.Provider
+    <AppContext.Provider
       value={{
         assigneesList,
         setAssigneesList,
@@ -32,8 +32,8 @@ export const AssigneeProvider = ({ children }: { children: React.ReactNode }) =>
       }}
     >
       {children}
-    </AssigneeContext.Provider>
+    </AppContext.Provider>
   )
 }
 
-export const useAssigneesList = () => useContext(AssigneeContext)
+export const useAssigneesList = () => useContext(AppContext)
