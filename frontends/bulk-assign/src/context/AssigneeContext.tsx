@@ -5,6 +5,8 @@ import React, { createContext, useContext, useState } from 'react'
 export type AssigneesList = {
   assigneesList?: Array<Assignee>
   setAssigneesList?: (assignees: Array<Assignee>) => void
+  conferenceSlug?: string
+  setConferenceSlug?: (slug: string) => void
 }
 export type Assignee = {
   firstName: string
@@ -19,11 +21,14 @@ export const AssigneeContext = createContext<AssigneesList>({})
 
 export const AssigneeProvider = ({ children }: { children: React.ReactNode }) => {
   const [assigneesList, setAssigneesList] = useState<Array<Assignee>>()
+  const [conferenceSlug, setConferenceSlug] = useState<string>()
   return (
     <AssigneeContext.Provider
       value={{
         assigneesList,
-        setAssigneesList
+        setAssigneesList,
+        conferenceSlug,
+        setConferenceSlug
       }}
     >
       {children}
