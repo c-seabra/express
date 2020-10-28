@@ -1,8 +1,17 @@
-import React, { useContext } from 'react'
-import { Assignee, AssigneeContext, AssigneesList } from '../../context/AssigneeContext'
+import React, { useState } from 'react'
+import { Assignee, AssigneesList } from '../../context/AssigneeContext'
+import styled from 'styled-components'
 
-const Upload = () => {
-  const { setAssigneesList } = useContext(AssigneeContext)
+const Field = styled.label`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem 0 0;
+  margin-bottom: .5rem;
+`;
+
+const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList["assigneesList"]) => void}) => {
+  const [error, setError] = useState(false)
 
   const onUpload = () => {
     const input = document.getElementById("csvFileInput") as HTMLInputElement
@@ -34,15 +43,19 @@ const Upload = () => {
         result.push(obj as Assignee)
       }
 
-      setAssigneesList(result as AssigneesList["assigneesList"])
+      setAssignees(result as AssigneesList["assigneesList"])
     }
 
     if (window.FileReader) {
-      const testis = files[0];
-      const reader = new FileReader()
-      reader.readAsText(testis);
-      reader.onload = process;
-      reader.onerror = errorHandler;
+      const file = files[0];
+      if(file) {
+        const reader = new FileReader()
+        reader.readAsText(file);
+        reader.onload = process;
+        reader.onerror = errorHandler;
+      } else {
+        setError(true)
+      }
     } else {
       alert("FileReader are not supported in this browser.")
     }
@@ -51,12 +64,16 @@ const Upload = () => {
 
   return (
     <div>
-      <input
-        type="file"
-        id="csvFileInput"
-        onChange={() => onUpload()}
-        accept=".csv"
-      />
+      {error && <span>There seems to be an error with upload field.</span>}
+      <Field>
+        Assignees list file
+        <input
+          type="file"
+          id="csvFileInput"
+          onChange={() => onUpload()}
+          accept=".csv"
+        />
+      </Field>
     </div>
   )
 }

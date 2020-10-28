@@ -46,7 +46,8 @@ export type StatusType = {
 }
 
 
-const AssigneeItem = ({bookingRef, firstName, lastName, email, ticketId} : {
+const AssigneeItem = ({conferenceSlug, bookingRef, firstName, lastName, email, ticketId} : {
+  conferenceSlug: string
   bookingRef: string
   firstName: string
   lastName: string
@@ -62,14 +63,12 @@ const AssigneeItem = ({bookingRef, firstName, lastName, email, ticketId} : {
   const [ticketAssign] = useMutation(TICKET_ASSIGN_MUTATION, {
     onCompleted: ({ ticketAssign }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
-        console.log("success", ticketAssign?.ticket?.assignment?.assignee)
         setStatus({
           message: 'Assignment has been successful',
           type: 'success'
         })
       }
       if (ticketAssign?.userErrors.length) {
-        console.log(ticketAssign.userErrors[0])
         setStatus({
           message: ticketAssign.userErrors[0].message,
           type: 'error'
@@ -82,7 +81,7 @@ const AssigneeItem = ({bookingRef, firstName, lastName, email, ticketId} : {
       ticketAssign({
         context: {
           token,
-          slug: 'rc21'
+          slug: conferenceSlug
         },
         variables: {
           firstName,

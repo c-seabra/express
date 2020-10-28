@@ -1,9 +1,9 @@
 import React from "react"
 import AssigneeList from "../assigneeList/AssigneeList"
 import { AssigneeProvider } from "../../context/AssigneeContext"
-import Upload from "../upload/Upload"
 import withApollo from '../../lib/apollo/withApollo'
 import styled, { createGlobalStyle } from 'styled-components'
+import Form from "../form/Form"
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -27,7 +27,7 @@ const App = () => {
       <GlobalStyle/>
       <StlyedContainer>
         <StyledSection>
-          <Upload />
+          <Form />
         </StyledSection>
         <StyledSection>
           <AssigneeList />

@@ -11,13 +11,13 @@ const StyledList = styled.ul`
 `
 
 const AssigneeList = () => {
-  const { assigneesList } = useContext(AssigneeContext)
+  const { assigneesList, conferenceSlug } = useContext(AssigneeContext)
   if (!assigneesList || assigneesList?.length < 0) return null
   return (
     <StyledList>
       <AssigneeItem bookingRef="Booking Ref" firstName="First & " lastName="last name" email="Email" />
       {assigneesList.map(({firstName, lastName, email, bookingRef, ticketId}) => {
-        return <AssigneeItem bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} ticketId={ticketId} />
+        return <AssigneeItem conferenceSlug={conferenceSlug} bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} ticketId={ticketId} />
       })}
     </StyledList>
   )
