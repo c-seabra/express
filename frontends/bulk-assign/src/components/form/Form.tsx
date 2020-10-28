@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
 import Upload from "../upload/Upload"
-import ConferenceInput from "../conferenceInput/ConferenceInput"
-import { AppContext, AppTypes } from '../../context/AppContext'
+import { AppContext, AppTypes } from '../app/App'
 import styled from 'styled-components'
 
 const SubmitButton = styled.button`
@@ -9,14 +8,12 @@ const SubmitButton = styled.button`
 `;
 
 const Form = () => {
-  const { setAssigneesList, setConferenceSlug } = useContext(AppContext)
-  const [confSlug, setConfSlug] = useState('')
+  const { setAssigneesList } = useContext(AppContext)
   const [formError, setFormError] = useState(false)
   const [assignees, setAssignees] = useState<AppTypes["assigneesList"]>([])
   const onSubmit = e => {
     e.preventDefault()
-    if(confSlug && assignees.length > 0) {
-      setConferenceSlug(confSlug)
+    if(assignees.length > 0) {
       setAssigneesList(assignees)
     } else {
       setFormError(true)
@@ -25,7 +22,6 @@ const Form = () => {
   return (
     <form onSubmit={e => onSubmit(e)}>
       {formError && <div>There seems to be an error with your inputs.</div>}
-      <ConferenceInput confSlug={confSlug} setConfSlug={setConfSlug} />
       <Upload setAssignees={setAssignees} />
       <SubmitButton type="submit">Submit</SubmitButton>
     </form>

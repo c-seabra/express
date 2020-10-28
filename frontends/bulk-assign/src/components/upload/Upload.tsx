@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Assignee, AppTypes } from '../../context/AppContext'
+import { Assignee, AppTypes } from '../app/App'
 import styled from 'styled-components'
 
 const Field = styled.label`

@@ -1,7 +1,6 @@
 {
-  "extends": "ts-config-single-spa",
   "compilerOptions": {
     "jsx": "react"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../../conferenceInput"]
 }
