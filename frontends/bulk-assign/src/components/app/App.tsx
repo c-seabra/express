@@ -26,6 +26,7 @@ export type AppTypes = {
   assigneesList?: Array<Assignee>
   setAssigneesList?: (assignees: Array<Assignee>) => void
   conferenceSlug?: string
+  token?: string
   setConferenceSlug?: (slug: string) => void
 }
 export type Assignee = {
@@ -53,6 +54,7 @@ const App = ({token}) => {
   return (
     <AppContext.Provider
       value={{
+        token,
         assigneesList,
         setAssigneesList,
         conferenceSlug

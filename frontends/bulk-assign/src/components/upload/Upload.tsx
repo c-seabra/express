@@ -37,7 +37,7 @@ const Upload = ({setAssignees}: {setAssignees: (list:AppTypes["assigneesList"]) 
 
         for (let j = 0; j < headers.length; j++) {
           const key = headers[j].trim()
-          const value = currentline[j].trim().toLowerCase()
+          const value = currentline[j].trim()
           obj[key] = value
         }
         result.push(obj as Assignee)
