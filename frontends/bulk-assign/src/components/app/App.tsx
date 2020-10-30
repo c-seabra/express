@@ -66,7 +66,7 @@ const App = ({token}) => {
           <Form />
         </StyledSection>
         <StyledSection>
-          <AssigneeList list={assigneesList} conferenceSlug={conferenceSlug} />
+          <AssigneeList list={assigneesList} />
         </StyledSection>
       </StlyedContainer>
     </AppContext.Provider>
