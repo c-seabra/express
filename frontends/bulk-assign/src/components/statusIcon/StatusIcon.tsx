@@ -6,6 +6,7 @@ import Alert from '../../lib/svgs/Alert'
 import Loading from '../../lib/svgs/Loading'
 import Tooltip from '../tooltip/Tooltip'
 import CheckMark from '../../lib/svgs/CheckMark'
+import Loader from './Loader'
 
 
 const rotate = keyframes`
@@ -26,7 +27,7 @@ const StatusIcon = ({
 }: {
   status: StatusType
 }) => {
-  let iconElem = <Rotate><Loading  /></Rotate> as ReactElement
+  let iconElem = <Loader />
   if(type === 'error') iconElem = <Alert />
   if(type === 'success') iconElem = <CheckMark />
   return (

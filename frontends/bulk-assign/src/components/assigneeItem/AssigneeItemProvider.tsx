@@ -51,21 +51,17 @@ const AssigneeItemProvider = ({bookingRef, firstName, lastName, email} : {
       reference: bookingRef,
     },
     onCompleted: (data) => {
-      console.log(data)
       if (!data?.ticket?.id) {
-        setStatus({type: 'error', message: 'Cannot find Ticket ID for given booking ref. Your role might not be sufficient for this action.'})
+        setStatus({ type: 'error', message: 'Cannot find Ticket ID for given booking ref. Your role might not be sufficient for this action.' })
       }
       if (data?.ticket?.userErrors?.length) {
-        setStatus({
-          message: data?.ticket?.userErrors?.[0]?.message,
-          type: 'error'
-        })
+        setStatus({ message: data?.ticket?.userErrors?.[0]?.message, type: 'error' })
       }
     }
   });
 
   useEffect(() => {
-    if(firstName && lastName && email && data?.ticket?.id){
+    if(firstName && lastName && email && data?.ticket?.id && !error){
       ticketAssign({
         context: {
           token,
@@ -79,9 +75,8 @@ const AssigneeItemProvider = ({bookingRef, firstName, lastName, email} : {
         }
       })
     }
-  }, [data?.ticket?.id])
-  if(error) console.log(error)
-  if(loading || error) return null
+  }, [data?.ticket?.id, error])
+  if(loading) return null
 
   return (
     <AssigneeItem bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} status={status} />
