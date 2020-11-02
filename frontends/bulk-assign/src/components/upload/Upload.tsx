@@ -11,7 +11,7 @@ const Field = styled.label`
 `;
 
 const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList) => void}) => {
-  const [error, setError] = useState(false)
+  const [error, setError] = useState('')
 
   const onUpload = () => {
     const input = document.getElementById("csvFileInput") as HTMLInputElement
@@ -19,7 +19,7 @@ const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList) => void}) =>
 
     const errorHandler = evt => {
       if (evt.target.error.name == "NotReadableError") {
-        alert("Canno't read file !")
+        setError('Unable to read uploaded file')
       }
     }
 
@@ -28,16 +28,14 @@ const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList) => void}) =>
       const lines = csv.split("\n");
       let result = []
 
-      const headers = lines[0].split(",");
+      const headers = lines[0].split(",")
 
       for (let i = 1; i <= lines.length - 1; i++) {
+        const currentLine = lines[i].split(",")
         let obj = {}
-
-        const currentline = lines[i].split(",")
-
         for (let j = 0; j < headers.length; j++) {
           const key = headers[j].trim()
-          const value = currentline[j].trim()
+          const value = currentLine[j].trim()
           obj[key] = value
         }
         result.push(obj as Assignee)
@@ -54,10 +52,10 @@ const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList) => void}) =>
         reader.onload = process;
         reader.onerror = errorHandler;
       } else {
-        setError(true)
+        setError('No file has been selected')
       }
     } else {
-      alert("FileReader are not supported in this browser.")
+      alert("FileReader is not supported in this browser.")
     }
 
   };
