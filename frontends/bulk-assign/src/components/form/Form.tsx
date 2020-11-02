@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import Upload from "../upload/Upload"
-import { AppContext, AppTypes } from '../app/App'
+import { AppContext, AssigneesList } from '../app/App'
 import styled from 'styled-components'
 
 const SubmitButton = styled.button`
@@ -10,7 +10,7 @@ const SubmitButton = styled.button`
 const Form = () => {
   const { setAssigneesList } = useContext(AppContext)
   const [formError, setFormError] = useState(false)
-  const [assignees, setAssignees] = useState<AppTypes["assigneesList"]>([])
+  const [assignees, setAssignees] = useState<AssigneesList>([])
   const onSubmit = e => {
     e.preventDefault()
     if(assignees.length > 0) {

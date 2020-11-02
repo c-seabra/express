@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { AppTypes } from '../app/App'
+import { AssigneesList } from '../app/App'
 import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider'
 import AssigneeItem from '../assigneeItem/AssigneeItem'
 
@@ -11,7 +11,7 @@ const StyledList = styled.ul`
   list-style: none;
 `
 
-const AssigneeList = ({list}: {list: AppTypes['assigneesList']}) => {
+const AssigneeList = ({list}: {list: AssigneesList}) => {
   if (!list || list?.length < 0) return null
   return (
     <StyledList>

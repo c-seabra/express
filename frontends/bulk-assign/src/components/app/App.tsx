@@ -21,14 +21,8 @@ const StlyedContainer = styled.section`
 const StyledSection = styled.section`
   padding: 1rem;
 `
-
-export type AppTypes = {
-  assigneesList?: Array<Assignee>
-  setAssigneesList?: (assignees: Array<Assignee>) => void
-  conferenceSlug?: string
-  token?: string
-  setConferenceSlug?: (slug: string) => void
-}
+export type AssigneesList = Array<Assignee>
+export type SetAssigneesList = (assignees: AssigneesList) => void
 export type Assignee = {
   firstName: string
   lastName: string
@@ -38,7 +32,7 @@ export type Assignee = {
 }
 
 
-export const AppContext = createContext<AppTypes>({})
+export const AppContext = createContext<{assigneesList?: AssigneesList; setAssigneesList?: SetAssigneesList; conferenceSlug?: string; token?: string}>({})
 
 const App = ({token}) => {
   if (!token) return null
@@ -48,7 +42,7 @@ const App = ({token}) => {
     setConferenceSlug(tokenPayload.conf_slug)
   }, [token])
 
-  const [assigneesList, setAssigneesList] = useState<Array<Assignee>>()
+  const [assigneesList, setAssigneesList] = useState<AssigneesList>()
   const [conferenceSlug, setConferenceSlug] = useState<string>()
 
   return (
