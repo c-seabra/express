@@ -28,17 +28,22 @@ const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList) => void}) =>
       const lines = csv.split("\n");
       let result = []
 
-      const headers = lines[0].split(",")
+      const headers = lines[0].replace(/(\r\n|\n|\r|)/gm, "").replace(/\,$/g,'').split(",")
 
       for (let i = 1; i <= lines.length - 1; i++) {
-        const currentLine = lines[i].split(",")
-        let obj = {}
-        for (let j = 0; j < headers.length; j++) {
-          const key = headers[j].trim()
-          const value = currentLine[j].trim()
-          obj[key] = value
+        const currentLine = lines[i].replace(/(\r\n|\n|\r|)/gm, "").replace(/\,$/g,'').split(",")
+        if(currentLine.length === headers.length) {
+          let obj = {}
+          for (let j = 0; j < headers.length; j++) {
+            const key = headers[j].trim()
+            const value = currentLine[j].trim()
+            obj[key] = value
+          }
+          result.push(obj as Assignee)
+        } else {
+          setError('This csv format is not supported make sure that there are no extra columns in your csv')
+          return
         }
-        result.push(obj as Assignee)
       }
 
       setAssignees(result as AssigneesList)
@@ -62,7 +67,7 @@ const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList) => void}) =>
 
   return (
     <div>
-      {error && <span>There seems to be an error with upload field.</span>}
+      {error && <span>{error}</span>}
       <Field>
         Assignees list file
         <input

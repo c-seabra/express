@@ -74,6 +74,11 @@ const AssigneeItemProvider = ({bookingRef, firstName, lastName, email} : {
           ticketId: data?.ticket?.id
         }
       })
+    } else {
+      setStatus({
+        message: 'Insufficient information provided, please make sure your csv contains all required information.',
+        type: 'error'
+      })
     }
   }, [data?.ticket?.id, error])
   if(loading) return null
