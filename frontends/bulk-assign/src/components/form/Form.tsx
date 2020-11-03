@@ -1,19 +1,19 @@
 import React, { useState, useContext } from 'react'
-import Upload from "../upload/Upload"
+import Upload from '../upload/Upload'
 import { AppContext, AssigneesList } from '../app/App'
 import styled from 'styled-components'
 
 const SubmitButton = styled.button`
   margin: 1rem 0;
-`;
+`
 
-const Form = () => {
+const Form: React.FC = () => {
   const { setAssigneesList } = useContext(AppContext)
   const [formError, setFormError] = useState(false)
   const [assignees, setAssignees] = useState<AssigneesList>([])
-  const onSubmit = e => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if(assignees.length > 0) {
+    if(assignees && assignees.length > 0 && setAssigneesList) {
       setAssigneesList(assignees)
     } else {
       setFormError(true)

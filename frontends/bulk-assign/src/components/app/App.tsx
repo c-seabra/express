@@ -1,10 +1,10 @@
-import React, { createContext, useEffect, useState } from "react"
+import React, { createContext, useEffect, useState } from 'react'
 import jwt from 'jwt-decode'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import AssigneeList from "../assigneeList/AssigneeList"
+import AssigneeList from '../assigneeList/AssigneeList'
 import withApollo from '../../lib/apollo/withApollo'
-import Form from "../form/Form"
+import Form from '../form/Form'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -34,9 +34,9 @@ export type Assignee = {
 
 export const AppContext = createContext<{assigneesList?: AssigneesList; setAssigneesList?: SetAssigneesList; conferenceSlug?: string; token?: string}>({})
 
-const App = ({token}) => {
+const App = ({token}:{token:string}) => {
   if (!token) return null
-  const tokenPayload = jwt(token)
+  const tokenPayload: {email: string; conf_slug: string} = jwt(token)
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug)
@@ -60,11 +60,11 @@ const App = ({token}) => {
           <Form />
         </StyledSection>
         <StyledSection>
-          <AssigneeList list={assigneesList} />
+          {assigneesList && assigneesList?.length > 0 && <AssigneeList list={assigneesList} />}
         </StyledSection>
       </StlyedContainer>
     </AppContext.Provider>
-  );
-};
+  )
+}
 
 export default withApollo(App)

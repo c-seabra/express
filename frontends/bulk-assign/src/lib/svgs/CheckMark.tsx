@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CheckMark = () => {
+const CheckMark: React.FC = () => {
   return (
     <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
       <g id="Icon-/-Tick" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

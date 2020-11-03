@@ -11,7 +11,7 @@ const StyledList = styled.ul`
   list-style: none;
 `
 
-const AssigneeList = ({list}: {list: AssigneesList}) => {
+const AssigneeList: React.FC<{list: AssigneesList}> = ({list}) => {
   if (!list || list?.length < 0) return null
   return (
     <StyledList>

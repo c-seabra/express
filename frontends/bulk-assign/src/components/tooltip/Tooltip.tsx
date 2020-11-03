@@ -41,7 +41,7 @@ const StyledTooltip = styled.div`
   }
 `
 
-const Tooltip = ({children, tooltipText}) => {
+const Tooltip: React.FC<{children: React.ReactElement; tooltipText: string}> = ({children, tooltipText}) => {
 
 
   return (

@@ -8,62 +8,67 @@ const Field = styled.label`
   align-items: flex-start;
   padding: 1rem 0 0;
   margin-bottom: .5rem;
-`;
+`
 
-const Upload = ({setAssignees}: {setAssignees: (list:AssigneesList) => void}) => {
+const Upload: React.FC<{setAssignees: (list:AssigneesList) => void}> = ({setAssignees}) => {
   const [error, setError] = useState('')
 
   const onUpload = () => {
-    const input = document.getElementById("csvFileInput") as HTMLInputElement
+    const input = document.getElementById('csvFileInput') as HTMLInputElement
     const files = input.files
 
-    const errorHandler = evt => {
-      if (evt.target.error.name == "NotReadableError") {
+    const errorHandler = (evt: ProgressEvent<FileReader>) => {
+      if (evt?.target?.error?.name == 'NotReadableError') {
         setError('Unable to read uploaded file')
       }
     }
 
-    const process = (fileReader) => {
-      const csv = fileReader.target.result
-      const lines = csv.split("\n");
-      let result = []
-
-      const headers = lines[0].replace(/(\r\n|\n|\r|)/gm, "").replace(/\,$/g,'').split(",")
-
-      for (let i = 1; i <= lines.length - 1; i++) {
-        const currentLine = lines[i].replace(/(\r\n|\n|\r|)/gm, "").replace(/\,$/g,'').split(",")
-        if(currentLine.length === headers.length) {
-          let obj = {}
-          for (let j = 0; j < headers.length; j++) {
-            const key = headers[j].trim()
-            const value = currentLine[j].trim()
-            obj[key] = value
+    const process = (fileReader: ProgressEvent<FileReader>) => {
+      const csv = fileReader?.target?.result as string
+      if(csv) {
+        const lines = csv.split('\n')
+        const result = []
+  
+        const headers = lines[0].replace(/(\r\n|\n|\r|)/gm, '').replace(/,$/g,'').split(',')
+  
+        for (let i = 1; i <= lines.length - 1; i++) {
+          const currentLine = lines[i].replace(/(\r\n|\n|\r|)/gm, '').replace(/,$/g,'').split(',')
+          if(currentLine.length === headers.length) {
+            const obj = {} as {[key:string]: string}
+            for (let j = 0; j < headers.length; j++) {
+              const key = headers[j].trim()
+              const value = currentLine[j].trim()
+              obj[key] = value
+            }
+            result.push(obj as Assignee)
+          } else {
+            setError('This csv format is not supported make sure that there are no extra columns in your csv')
+            return
           }
-          result.push(obj as Assignee)
-        } else {
-          setError('This csv format is not supported make sure that there are no extra columns in your csv')
-          return
         }
+  
+        setAssignees(result as AssigneesList)
+      } else {
+        setError('There has been an issue reading uploaded CSV try again or check your CSV has correct format.')
+        return
       }
-
-      setAssignees(result as AssigneesList)
     }
 
     if (window.FileReader) {
-      const file = files[0];
+      const file = files?.[0]
       if(file) {
         const reader = new FileReader()
-        reader.readAsText(file);
-        reader.onload = process;
-        reader.onerror = errorHandler;
+        reader.readAsText(file)
+        reader.onload = process
+        reader.onerror = errorHandler
       } else {
         setError('No file has been selected')
       }
     } else {
-      alert("FileReader is not supported in this browser.")
+      alert('FileReader is not supported in this browser.')
     }
 
-  };
+  }
 
   return (
     <div>
