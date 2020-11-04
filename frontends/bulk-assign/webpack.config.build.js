@@ -88,8 +88,7 @@ module.exports = (env, argv) => {
         filename: './index.html',
         title: 'bulkAssign',
         token: process.env.TOKEN,
-        env: process.env.ENV,
-        tz: process.env.TZ,
+        env: process.env.ENV
       })
     ])
     config.devServer = {

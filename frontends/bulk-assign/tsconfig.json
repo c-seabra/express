@@ -8,6 +8,7 @@
       "esnext"
     ],
     "allowJs": true,
+    "outDir": "dist",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -22,5 +23,9 @@
   "include": [
     "src/**/*",
     "../../conferenceInput"
+  ],
+  "exclude": [
+    "src/index.js",
+    "src/lib/apollo/*.js"
   ]
 }
