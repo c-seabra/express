@@ -9,10 +9,7 @@ const lifecycles = singleSpaReact({
   ReactDOM,
   rootComponent: (props) => (
     <App {...props} token="12345"/>
-  ),
-  errorBoundary(err, info, props) {
-    return null;
-  },
+  )
 })
 
 export const { bootstrap, mount, unmount, update } = lifecycles
