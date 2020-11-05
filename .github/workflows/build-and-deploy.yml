@@ -4,7 +4,7 @@ on:
     branches:
     - master
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -38,20 +38,6 @@ jobs:
       - name: Build standalone artifacts
         run: cd frontends/bulk-assign && yarn build-standalone
 
-      - name: Archive build artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: Standalone build
-          path: frontends/bulk-assign/dist
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get build artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: Standalone build
-
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:
@@ -71,3 +57,5 @@ jobs:
           AWS_REGION: 'us-east-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
