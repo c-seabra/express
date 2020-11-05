@@ -8,6 +8,12 @@ const Field = styled.label`
   align-items: flex-start;
   padding: 1rem 0 0;
   margin-bottom: .5rem;
+  input {
+    cursor: pointer;
+  }
+  span {
+    margin-bottom: .5rem;
+  }
 `
 
 const Upload: React.FC<{setAssignees: (list:AssigneesList) => void}> = ({setAssignees}) => {
@@ -74,7 +80,7 @@ const Upload: React.FC<{setAssignees: (list:AssigneesList) => void}> = ({setAssi
     <div>
       {error && <span>{error}</span>}
       <Field>
-        Assignees list file
+        <span>Please upload assignee detail as a CSV file</span>
         <input
           type="file"
           id="csvFileInput"

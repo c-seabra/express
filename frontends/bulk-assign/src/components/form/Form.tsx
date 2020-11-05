@@ -5,6 +5,17 @@ import styled from 'styled-components'
 
 const SubmitButton = styled.button`
   margin: 1rem 0;
+  padding: .5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  border: 1px solid grey;
+  background: white;
+  cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    background-color: grey;
+    color: white;
+  }
 `
 
 const Form: React.FC = () => {
@@ -21,7 +32,7 @@ const Form: React.FC = () => {
   }
   return (
     <form onSubmit={e => onSubmit(e)}>
-      {formError && <div>There seems to be an error with your inputs.</div>}
+      {formError && <div>There seems to be an error with your input.</div>}
       <Upload setAssignees={setAssignees} />
       <SubmitButton type="submit">Submit</SubmitButton>
     </form>
