@@ -24,19 +24,19 @@ jobs:
 
       - name: Cache node_modules dependencies
         uses: actions/cache@v1
-        id: node_modules
+        id: /frontends/bulk-assign/node_modules
         with:
           path: node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn
+        run: cd /frontends/bulk-assign && yarn
 
       - name: Build single-spa artifacts
-        run: yarn build
+        run: cd /frontends/bulk-assign && yarn build
 
       - name: Build standalone artifacts
-        run: yarn build-standalone
+        run: cd /frontends/bulk-assign && yarn build-standalone
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v1
