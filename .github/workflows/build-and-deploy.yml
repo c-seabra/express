@@ -30,13 +30,13 @@ jobs:
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        run: cd /frontends/bulk-assign && yarn
+        run: cd frontends/bulk-assign && yarn
 
       - name: Build single-spa artifacts
-        run: cd /frontends/bulk-assign && yarn build
+        run: cd frontends/bulk-assign && yarn build
 
       - name: Build standalone artifacts
-        run: cd /frontends/bulk-assign && yarn build-standalone
+        run: cd frontends/bulk-assign && yarn build-standalone
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v1
