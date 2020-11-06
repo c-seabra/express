@@ -6,17 +6,12 @@ import AssigneeList from '../assigneeList/AssigneeList'
 import withApollo from '../../lib/apollo/withApollo'
 import Form from '../form/Form'
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-`
 const StlyedContainer = styled.section`
   padding: 1rem;
   max-width: 1024px;
   width: 100%;
   margin: 0 auto;
+  font-size: 16px;
 `
 const StyledSection = styled.section`
   padding: 1rem;
@@ -54,7 +49,6 @@ const App = ({token}:{token:string}) => {
         conferenceSlug
       }}
     >
-      <GlobalStyle/>
       <StlyedContainer>
         <StyledSection>
           <h2>Ticket Assignment - Bulk upload ticket details</h2>
