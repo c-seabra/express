@@ -11,7 +11,7 @@ const TooltipText = styled.div`
   border-radius: 6px;
   border-bottom-right-radius: 0;
   padding: .5rem;
-  font-size: 1rem;
+  font-size: 1em;
   position: absolute;
   z-index: 1;
   bottom: -1px;
