@@ -22,7 +22,7 @@ const Status = styled.div`
 `
 
 const StyledListItem = styled.li`
-  font-size: 1.2rem;
+  font-size: 1.2em;
   display: flex;
   margin-bottom: .5rem;
   padding: .75rem;
