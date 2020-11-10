@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import UploadStatus from '../statusIcon/StatusIcon'
-
 const BookingRef = styled.div`
   width: calc(15% - 1rem);
   text-align: center;
@@ -41,35 +39,16 @@ const StyledListItem = styled.li`
   }
 `
 
-export type StatusType = {
-  message: string
-  type: 'PENDING' | 'SUCCESS' | 'ERROR'
-}
-
-type AssigneItemType = {
-  bookingRef?: string
-  firstName?: string
-  lastName?: string
-  email?: string
-  status?: StatusType
-  claimStatus?: StatusType
-}
-
-
-const AssigneeItem: React.FC<AssigneItemType> = ({bookingRef, firstName, lastName, email, status, claimStatus}) => {
+const AssigneeListHeader: React.FC = () => {
   return (
     <StyledListItem>
-      <BookingRef>{bookingRef}</BookingRef>
-      <Name>{firstName} {lastName}</Name>
-      <Email>{email}</Email>
-      <Status>
-        {status && <UploadStatus status={status} />}
-      </Status>
-      <ClaimStatus>
-        {claimStatus && <UploadStatus status={claimStatus} />}
-      </ClaimStatus>
+      <BookingRef>Booking Ref</BookingRef>
+      <Name>First & last name</Name>
+      <Email>Email</Email>
+      <Status>Status</Status>
+      <ClaimStatus>Claim status</ClaimStatus>
     </StyledListItem>
   )
 }
 
-export default AssigneeItem
+export default AssigneeListHeader
