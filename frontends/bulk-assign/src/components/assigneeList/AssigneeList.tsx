@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { AssigneesList } from '../app/App'
 import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider'
 import AssigneeItem from '../assigneeItem/AssigneeItem'
+import AssigneeListHeader from './AssigneeListHeader'
 
 const StyledList = styled.ul`
   margin: 0;
@@ -15,7 +16,7 @@ const AssigneeList: React.FC<{list: AssigneesList}> = ({list}) => {
   if (!list || list?.length < 0) return null
   return (
     <StyledList>
-      <AssigneeItem bookingRef="Booking Ref" firstName="First & " lastName="last name" email="Email" />
+      <AssigneeListHeader />
       {list.map(({firstName, lastName, email, bookingRef, autoClaim}) => {
         if (!bookingRef && !email) return (
           <AssigneeItem
@@ -24,7 +25,7 @@ const AssigneeList: React.FC<{list: AssigneesList}> = ({list}) => {
             lastName={lastName}
             email={email}
             status={{message: 'Not enough information provided', type: 'ERROR'}}
-            claimStatus={undefined}
+            claimStatus={{message: 'Not enough information provided', type: 'ERROR'}}
           />
         )
         return <AssigneeItemProvider bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} autoClaim={autoClaim} />
