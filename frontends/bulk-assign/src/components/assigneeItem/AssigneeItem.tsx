@@ -46,11 +46,11 @@ type AssigneItemType = {
   lastName: string
   email: string
   status?: StatusType
+  claimStatus?: StatusType
 }
 
 
-const AssigneeItem: React.FC<AssigneItemType> = ({bookingRef, firstName, lastName, email, status}) => {
-
+const AssigneeItem: React.FC<AssigneItemType> = ({bookingRef, firstName, lastName, email, status, claimStatus}) => {
   return (
     <StyledListItem>
       <BookingRef>{bookingRef}</BookingRef>
@@ -58,6 +58,7 @@ const AssigneeItem: React.FC<AssigneItemType> = ({bookingRef, firstName, lastNam
       <Email>{email}</Email>
       <Status>
         {status ? <UploadStatus status={status} /> : 'Status'}
+        {claimStatus && <UploadStatus status={claimStatus} />}
       </Status>
     </StyledListItem>
   )

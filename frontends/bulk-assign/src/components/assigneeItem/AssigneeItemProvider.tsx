@@ -29,6 +29,48 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
     message:'Assignment is still processing.',
     type: 'PENDING'
   })
+  const [claimStatus, setClaimStatus] = useState<StatusType>({
+    message:'Auto claim is still processing.',
+    type: 'PENDING'
+  })
+  const hasAutoClaim = autoClaim?.toLowerCase() === 'true'
+
+  const [ticketAccept] = useMutation(TICKET_ACCEPT_MUTATION, {
+    onCompleted: ({ ticketAccept }: {
+      ticketAccept: {
+        userErrors: [{message: string}]
+      }
+    }) => {
+      if (ticketAccept?.userErrors.length) {
+        setClaimStatus({
+          message: ticketAccept.userErrors[0].message,
+          type: 'ERROR'
+        })
+      } else {
+        setClaimStatus({
+          message: 'Auto claim was successful',
+          type: 'SUCCESS'
+        })
+      }
+    }
+  })
+
+  const claimTicket = (ticketId: string) => {
+    ticketAccept({
+      context: {
+        token,
+        slug: conferenceSlug
+      },
+      variables: {
+        ticketId
+      }
+    }).catch(() => {
+      setStatus({
+        message: `Unable to assign this ticket - ${bookingRef}`,
+        type: 'ERROR'
+      })
+    })
+  }
 
   const [ticketAssign] = useMutation(TICKET_ASSIGN_MUTATION, {
     onCompleted: ({ ticketAssign }: {
@@ -45,25 +87,11 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
           message: 'Assignment has been successful',
           type: 'SUCCESS'
         })
+        if(hasAutoClaim && data?.ticket?.id) claimTicket(data?.ticket?.id)
       }
       if (ticketAssign?.userErrors.length) {
         setStatus({
           message: ticketAssign.userErrors[0].message,
-          type: 'ERROR'
-        })
-      }
-    }
-  })
-
-  const [ticketAccept] = useMutation(TICKET_ACCEPT_MUTATION, {
-    onCompleted: ({ ticketAccept }: {
-      ticketAccept: {
-        userErrors: [{message: string}]
-      }
-    }) => {
-      if (ticketAccept?.userErrors.length) {
-        setStatus({
-          message: ticketAccept.userErrors[0].message,
           type: 'ERROR'
         })
       }
@@ -102,22 +130,6 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
   })
 
   useEffect(() => {
-    const claimTicket = (ticketId: string) => {
-      ticketAccept({
-        context: {
-          token,
-          slug: conferenceSlug
-        },
-        variables: {
-          ticketId
-        }
-      }).catch(() => {
-        setStatus({
-          message: `Unable to assign this ticket - ${bookingRef}`,
-          type: 'ERROR'
-        })
-      })
-    }
     if(!error && data?.ticket) {
       if (email === data.ticket.assignment?.assignee?.email) {
         setStatus({
@@ -125,7 +137,14 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
           type: 'ERROR'
         })
 
-        if(autoClaim?.toLowerCase() === 'true' && (data.ticket.assignment?.state === 'PENDING' || data.ticket.assignment?.state === 'REJECTED')) claimTicket(data.ticket.id)
+        if(hasAutoClaim && (data.ticket.assignment?.state === 'PENDING' || data.ticket.assignment?.state === 'REJECTED')) {
+          claimTicket(data.ticket.id)
+        } else {
+          setClaimStatus({
+            message: `${bookingRef} ticket cannot be auto claimed as it has already been accepted`,
+            type: 'ERROR'
+          })
+        }
 
       } else {
         if (data.ticket.assignment === null || data.ticket.assignment?.state === 'PENDING' || data.ticket.assignment?.state === 'REJECTED' && firstName && lastName && data.ticket.id) {
@@ -146,7 +165,6 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
               type: 'ERROR'
             })
           })
-          if(status.type !== 'ERROR' && autoClaim?.toLowerCase() === 'true') claimTicket(data.ticket.id)
         } else {
           setStatus({
             message: `This ticket has already been claimed - ${bookingRef}`,
@@ -165,7 +183,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
   if(loading) return null
 
   return (
-    <AssigneeItem bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} status={status} />
+    <AssigneeItem bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} status={status} claimStatus={hasAutoClaim ? claimStatus : undefined} />
   )
 
 }
