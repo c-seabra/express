@@ -109,6 +109,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
       ticket?: {
         userErrors?: [{message: string}];
         id: string;
+        state: string;
         assignment: {
           state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
           assignee: Assignee
@@ -143,7 +144,16 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
 
   useEffect(() => {
     if(!error && data?.ticket) {
-      if (email === data.ticket.assignment?.assignee?.email) {
+      if(data.ticket.state === 'VOID') {
+        setStatus({
+          message: 'This ticket has been voided',
+          type: 'ERROR'
+        })
+        setClaimStatus({
+          message: 'Tikcet is voided',
+          type: 'ERROR'
+        })
+      } else if (email === data.ticket.assignment?.assignee?.email) {
         setStatus({
           message: `Current ticket asignee email is same as reassignment email - ${bookingRef}`,
           type: 'ERROR'
