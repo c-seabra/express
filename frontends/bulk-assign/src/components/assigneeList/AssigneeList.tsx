@@ -17,7 +17,7 @@ const AssigneeList: React.FC<{list: AssigneesList}> = ({list}) => {
     <StyledList>
       <AssigneeItem bookingRef="Booking Ref" firstName="First & " lastName="last name" email="Email" />
       {list.map(({firstName, lastName, email, bookingRef, autoClaim}) => {
-        if (!bookingRef) return null
+        if (!bookingRef && !email) return null
         return <AssigneeItemProvider bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} autoClaim={autoClaim} />
       })}
     </StyledList>
