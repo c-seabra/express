@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react'
 import jwt from 'jwt-decode'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 import AssigneeList from '../assigneeList/AssigneeList'
 import withApollo from '../../lib/apollo/withApollo'
