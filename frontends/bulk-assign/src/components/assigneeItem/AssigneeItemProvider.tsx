@@ -94,6 +94,10 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
           message: ticketAssign.userErrors[0].message,
           type: 'ERROR'
         })
+        setClaimStatus({
+          message: `${ticketAssign.userErrors[0].message} - and can not auto claim`,
+          type: 'ERROR'
+        })
       }
     }
   })
@@ -172,9 +176,17 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
               message: `Unable to assign this ticket - ${bookingRef}`,
               type: 'ERROR'
             })
+            setClaimStatus({
+              message: 'Can not auto claim',
+              type: 'ERROR'
+            })
           })
         } else {
           setStatus({
+            message: `This ticket has already been claimed - ${bookingRef}`,
+            type: 'ERROR'
+          })
+          setClaimStatus({
             message: `This ticket has already been claimed - ${bookingRef}`,
             type: 'ERROR'
           })
