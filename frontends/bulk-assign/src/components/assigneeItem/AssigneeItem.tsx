@@ -41,10 +41,10 @@ export type StatusType = {
 }
 
 type AssigneItemType = {
-  bookingRef: string
-  firstName: string
-  lastName: string
-  email: string
+  bookingRef?: string
+  firstName?: string
+  lastName?: string
+  email?: string
   status?: StatusType
   claimStatus?: StatusType
 }
