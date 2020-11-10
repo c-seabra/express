@@ -37,7 +37,7 @@ const StyledListItem = styled.li`
 
 export type StatusType = {
   message: string
-  type: 'pending' | 'success' | 'error'
+  type: 'PENDING' | 'SUCCESS' | 'ERROR'
 }
 
 type AssigneItemType = {

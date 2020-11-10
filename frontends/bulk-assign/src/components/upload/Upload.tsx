@@ -39,18 +39,18 @@ const Upload: React.FC<{setAssignees: (list:AssigneesList) => void}> = ({setAssi
   
         for (let i = 1; i <= lines.length - 1; i++) {
           const currentLine = lines[i].replace(/(\r\n|\n|\r|)/gm, '').replace(/,$/g,'').split(',')
-          if(currentLine.length === headers.length) {
+          // if(currentLine.length === headers.length) {
             const obj = {} as {[key:string]: string}
             for (let j = 0; j < headers.length; j++) {
-              const key = headers[j].trim()
-              const value = currentLine[j].trim()
+              const key = headers?.[j]?.trim()
+              const value = currentLine?.[j]?.trim()
               obj[key] = value
             }
             result.push(obj as Assignee)
-          } else {
-            setError('This csv format is not supported make sure that there are no extra columns in your csv')
-            return
-          }
+          // } else {
+          //   setError('This csv format is not supported make sure that there are no extra columns in your csv')
+          //   return
+          // }
         }
   
         setAssignees(result as AssigneesList)

@@ -24,6 +24,7 @@ export type Assignee = {
   email: string
   ticketId: string
   bookingRef: string
+  autoClaim?: string
 }
 
 
