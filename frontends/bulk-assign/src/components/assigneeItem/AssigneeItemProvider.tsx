@@ -122,9 +122,17 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
     onCompleted: (data) => {
       if (!data?.ticket?.id) {
         setStatus({ type: 'ERROR', message: `Cannot find Ticket ID for - ${bookingRef}. Your role might not be sufficient for this action.` })
+        setClaimStatus({
+          message: 'Ticket ID is missing and can not auto claim',
+          type: 'ERROR'
+        })
       }
       if (data?.ticket?.userErrors?.length) {
         setStatus({ message: data?.ticket?.userErrors?.[0]?.message, type: 'ERROR' })
+        setClaimStatus({
+          message: `${data?.ticket?.userErrors?.[0]?.message} - and can not auto claim`,
+          type: 'ERROR'
+        })
       }
     }
   })
