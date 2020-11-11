@@ -30,7 +30,7 @@ const StyledTooltip = styled.div`
     border-bottom-right-radius: 4px;
     transition: all 0.3s;
     svg {
-      path {
+      path, polygon {
         fill: #fff;
       }
     }
