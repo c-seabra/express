@@ -32,7 +32,7 @@ export const AppContext = createContext<{assigneesList?: AssigneesList; setAssig
 
 const App = ({token}:{token:string}) => {
   if (!token) return null
-  const tokenPayload: {email: string; conf_slug: string} = jwt(token)
+  const tokenPayload: {email: string; conf_slug: string} = jwt(token) as {email: string; conf_slug: string}
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug)

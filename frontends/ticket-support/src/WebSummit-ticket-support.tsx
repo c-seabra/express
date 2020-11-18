@@ -10,7 +10,6 @@ const lifecycles = singleSpaReact({
   rootComponent: (props) => (
       <App
         {...props}
-        conf_slug="rc21"
         token="12345"/>
   )
 });
