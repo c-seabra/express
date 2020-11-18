@@ -1,32 +1,31 @@
 {
   "compilerOptions": {
+    "jsx": "react",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
-    "alwaysStrict": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "checkJs": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "lib": ["dom"],
-    "moduleResolution": "node",
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "preserveConstEnums": true,
-    "removeComments": true,
-    "resolveJsonModule": true,
+    "outDir": "dist",
     "skipLibCheck": true,
-    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "strictNullChecks": true,
-    "typeRoots": ["./src/@types", "node_modules/@types"]
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
-  "include": ["**/*.json", "**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", ".eslintrc.js"],
-  "exclude": [".out", "out", "node_modules"]
+  "include": [
+    "src/**/*",
+    "../../conferenceInput"
+  ],
+  "exclude": [
+    "src/index.js",
+    "src/lib/apollo/*.js"
+  ]
 }
