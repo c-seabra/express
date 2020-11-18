@@ -43,12 +43,12 @@ export type Ticket = {
 
 export const AppContext = createContext<{conferenceSlug?: string; token?: string}>({})
 
-const App = ({token}:{token:string}) => {
+const App = ({token, conf_slug}:{token:string, conf_slug:string}) => {
   if (!token) return null
-  const tokenPayload: {email: string; conf_slug: string} = jwt(token) as {email: string; conf_slug: string}
+  const tokenPayload: {email: string} = jwt(token) as {email: string}
 
   useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug)
+    setConferenceSlug(conf_slug)
   }, [token])
 
   const [conferenceSlug, setConferenceSlug] = useState<string>()

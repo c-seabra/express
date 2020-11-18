@@ -11,7 +11,7 @@ const StyledList = styled.ul`
   list-style: none;
 `
 
-const TicketList: React.FC<{list: Ticket[]}> = ({list}) => {
+const TicketList: React.FC<{list: Ticket[] | undefined}> = ({list}) => {
   if (!list || list?.length < 0) return null
   return (
     <StyledList>
