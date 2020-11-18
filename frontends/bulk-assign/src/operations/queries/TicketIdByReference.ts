@@ -5,6 +5,7 @@ export const TICKET_ID_BY_REFERENCE = gql`
     ticket(reference: $reference) {
       id
       bookingRef
+      state
       assignment {
         id
         state

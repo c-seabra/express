@@ -10,8 +10,8 @@ const StatusIcon: React.FC<{status: StatusType}> = ({
   status: { type, message }
 }) => {
   let iconElem = <Loader />
-  if(type === 'error') iconElem = <Alert />
-  if(type === 'success') iconElem = <CheckMark />
+  if(type === 'ERROR') iconElem = <Alert />
+  if(type === 'SUCCESS') iconElem = <CheckMark />
   return (
     <Tooltip tooltipText={message}>
       {iconElem}
