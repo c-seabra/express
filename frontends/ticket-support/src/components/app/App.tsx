@@ -3,7 +3,9 @@ import jwt from 'jwt-decode'
 import styled from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
-import {intersect} from "@hapi/hoek";
+import {ApolloError, useQuery} from "@apollo/client";
+import TICKET_LIST from "../../operations/queries/TicketList";
+import TicketList from "../ticketList/TicketList";
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -15,19 +17,31 @@ const StlyedContainer = styled.section`
 const StyledSection = styled.section`
   padding: 1rem;
 `
-export type AssigneesList = Array<Assignee>
-export type SetAssigneesList = (assignees: AssigneesList) => void
-export type Assignee = {
+
+export type Account = {
   firstName: string
   lastName: string
   email: string
-  ticketId: string
+}
+
+export type Ticket = {
+  id: string
   bookingRef: string
-  autoClaim?: string
+  state: string
+  ticketType: {
+    name: string
+  }
+  order: {
+    owner: Account
+  }
+  assignment?: {
+    state: string
+    assignee: Account
+  }
 }
 
 
-export const AppContext = createContext<{assigneesList?: AssigneesList; setAssigneesList?: SetAssigneesList; conferenceSlug?: string; token?: string}>({})
+export const AppContext = createContext<{conferenceSlug?: string; token?: string}>({})
 
 const App = ({token}:{token:string}) => {
   if (!token) return null
@@ -37,15 +51,31 @@ const App = ({token}:{token:string}) => {
     setConferenceSlug(tokenPayload.conf_slug)
   }, [token])
 
-  const [assigneesList, setAssigneesList] = useState<AssigneesList>()
   const [conferenceSlug, setConferenceSlug] = useState<string>()
+
+  const {loading, error, data}: {
+    loading?: boolean;
+    error?: ApolloError;
+    data?: {
+      tickets: {
+        edges: [
+          {
+            node: Ticket
+          }
+        ]
+      }
+    }
+  } = useQuery(TICKET_LIST, {
+    context: {
+      token,
+      slug: conferenceSlug
+    }
+  })
 
   return (
     <AppContext.Provider
       value={{
         token,
-        assigneesList,
-        setAssigneesList,
         conferenceSlug
       }}
     >
@@ -54,7 +84,9 @@ const App = ({token}:{token:string}) => {
           <h2>Ticket Assignment - Ticket Support Dashboard</h2>
         </StyledSection>
         <StyledSection>
-          hello world
+          {loading && "Loading tickets list"}
+          {error}
+          {!loading && !error && <TicketList list={data?.tickets.edges.map((node) => node.node)} />}
         </StyledSection>
       </StlyedContainer>
     </AppContext.Provider>
