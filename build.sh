@@ -6,12 +6,12 @@ cd frontends || exit
 
 for f in ./*; do
     if [ -d "$f" ]; then
-      echo "starting to build $f"
+      printf "\n\n##########\n# starting to build $f\n##########\n\n\n"
       cd "$f" || return
       yarn
       yarn build
       yarn build-standalone
-      mv ./dist "../../builds/$f"
+      cp -r -f -v ./dist "../../builds/$f"
       cd ..
     fi
 done
