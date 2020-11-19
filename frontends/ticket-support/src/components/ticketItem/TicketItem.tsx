@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import {Ticket} from "../app/App";
+import { Ticket } from '../app/App'
 
 const Column = styled.div`
   width: calc(15% - 1rem);
@@ -22,8 +22,8 @@ const State = styled.div`
 const StyledListItem = styled.li`
   font-size: 1.2em;
   display: flex;
-  margin-bottom: .5rem;
-  padding: .75rem;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
   background-color: gainsboro;
   &:nth-child(2n + 1) {
     background-color: white;
@@ -33,10 +33,8 @@ const StyledListItem = styled.li`
   }
 `
 
-
-const ticketItem: React.FC<Ticket> = (ticket) => {
-
-  let state = ticket.state;
+const ticketItem: React.FC<Ticket> = ticket => {
+  let state = ticket.state
   if (state == 'ACTIVE') {
     state = ticket.assignment?.state || 'UNASSIGNED'
   }
@@ -44,11 +42,15 @@ const ticketItem: React.FC<Ticket> = (ticket) => {
   return (
     <StyledListItem>
       <Column>{ticket.bookingRef}</Column>
-      <Column>{ticket.ticketType.name}</Column>
-      <Column>{ticket.assignment?.assignee.firstName} {ticket.assignment?.assignee.lastName}</Column>
+      <Column>{ticket.ticketType?.name}</Column>
+      <Column>
+        {ticket.assignment?.assignee.firstName} {ticket.assignment?.assignee.lastName}
+      </Column>
       <Email>{ticket.assignment?.assignee.email}</Email>
       <State>{state}</State>
-      <Column>{ticket.order.owner.firstName} {ticket.order.owner.lastName}</Column>
+      <Column>
+        {ticket.order.owner.firstName} {ticket.order.owner.lastName}
+      </Column>
     </StyledListItem>
   )
 }
