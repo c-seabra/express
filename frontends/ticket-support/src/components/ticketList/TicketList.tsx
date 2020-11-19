@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import {Ticket} from '../app/App'
+import { Ticket } from '../app/App'
 import TicketItem from '../ticketItem/TicketItem'
 import TicketListHeader from './TicketListHeader'
 
@@ -11,15 +11,13 @@ const StyledList = styled.ul`
   list-style: none;
 `
 
-const TicketList: React.FC<{list: Ticket[] | undefined}> = ({list}) => {
+const TicketList: React.FC<{ list: Ticket[] | undefined }> = ({ list }) => {
   if (!list || list?.length < 0) return null
   return (
     <StyledList>
       <TicketListHeader />
-      {list.map((ticket) => (
-          <TicketItem
-              {...ticket}
-          />
+      {list.map(ticket => (
+        <TicketItem {...ticket} />
       ))}
     </StyledList>
   )

@@ -1,11 +1,9 @@
-import React, { createContext, useEffect, useState } from 'react'
 import jwt from 'jwt-decode'
+import React, { createContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
-import {ApolloError, useQuery} from "@apollo/client";
-import TICKET_LIST from "../../operations/queries/TicketList";
-import TicketList from "../ticketList/TicketList";
+import TicketDashboard from '../dashboard/TicketDashboard'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -19,33 +17,35 @@ const StyledSection = styled.section`
 `
 
 export type Account = {
+  email: string
   firstName: string
   lastName: string
-  email: string
 }
 
 export type Ticket = {
-  id: string
+  assignment?: {
+    assignee: Account
+    state: string
+  }
   bookingRef: string
+  id: string
+  order: {
+    owner: Account
+  }
   state: string
   ticketType: {
     name: string
   }
-  order: {
-    owner: Account
-  }
-  assignment?: {
-    state: string
-    assignee: Account
-  }
 }
 
+export const AppContext = createContext<{ conferenceSlug?: string; token?: string }>({})
 
-export const AppContext = createContext<{conferenceSlug?: string; token?: string}>({})
-
-const App = ({token}:{token:string}) => {
+const App = ({ token }: { token: string }) => {
   if (!token) return null
-  const tokenPayload: {email: string; conf_slug: string} = jwt(token) as {email: string; conf_slug: string}
+  const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
+    conf_slug: string
+    email: string
+  }
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug)
@@ -53,41 +53,18 @@ const App = ({token}:{token:string}) => {
 
   const [conferenceSlug, setConferenceSlug] = useState<string>()
 
-  const {loading, error, data}: {
-    loading?: boolean;
-    error?: ApolloError;
-    data?: {
-      tickets: {
-        edges: [
-          {
-            node: Ticket
-          }
-        ]
-      }
-    }
-  } = useQuery(TICKET_LIST, {
-    context: {
-      token,
-      slug: conferenceSlug
-    }
-  })
-
   return (
     <AppContext.Provider
       value={{
+        conferenceSlug,
         token,
-        conferenceSlug
       }}
     >
       <StlyedContainer>
         <StyledSection>
           <h2>Ticket Assignment - Ticket Support Dashboard</h2>
         </StyledSection>
-        <StyledSection>
-          {loading && "Loading tickets list"}
-          {error}
-          {!loading && !error && <TicketList list={data?.tickets.edges.map((node) => node.node)} />}
-        </StyledSection>
+        <TicketDashboard />
       </StlyedContainer>
     </AppContext.Provider>
   )
