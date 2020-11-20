@@ -16,11 +16,12 @@ const Search = styled.div`
 
 const TicketDashboard: React.FC = () => {
   const { conferenceSlug, token } = useContext(AppContext)
-  const [searchQuery, setSearchQuery] = useState()
-
-  const onSubmit = (e: React.FormEvent) => {
+  const [searchQuery, setSearchQuery] = useState(String)
+  
+  const onSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      setSearchQuery(e.target?.value)
+      const element = e.currentTarget as HTMLInputElement
+      setSearchQuery(element.value)
     }
   }
 
