@@ -95,7 +95,7 @@ const TicketDashboard: React.FC = () => {
 
   const handleTicketTypeFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const element = e.currentTarget as HTMLSelectElement
-    let ticketTypeIds = Array.from(element.selectedOptions, option => option.value);
+    const ticketTypeIds = Array.from(element.selectedOptions, option => option.value);
     ticketTypeIds.length > 0 ? setTicketTypesFilter(ticketTypeIds) : setTicketTypesFilter(undefined)
     setCursorStack([])
     setAfterCursor(undefined)
@@ -163,7 +163,7 @@ const TicketDashboard: React.FC = () => {
       token,
     }
   })
-  const tts = ticketTypesData?.ticketTypes.edges.map(({ node: { id, name } }) => ({id, name}))
+  const ticketTypes = ticketTypesData?.ticketTypes.edges.map(({ node: { id, name } }) => ({id, name}))
 
   return (
     <div>
@@ -186,11 +186,11 @@ const TicketDashboard: React.FC = () => {
           </select>
         </Filter>
         <Filter>
-          {tts &&
+          {ticketTypes &&
             <>
               <span>Ticket types</span>
               <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)}>
-                { tts.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
+                { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
               </select>
             </>
           }
