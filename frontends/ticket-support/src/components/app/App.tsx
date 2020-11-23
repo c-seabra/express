@@ -38,6 +38,12 @@ export type Ticket = {
   }
 }
 
+export type TicketType = {
+  id: string
+  name: string
+  description: string
+}
+
 export type PageInfo = {
   hasPreviousPage: string
   hasNextPage: string
