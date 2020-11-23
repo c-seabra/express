@@ -16,10 +16,9 @@ const StyledList = styled.ul`
   list-style: none;
 `
 
-const FilterOptions = styled.div`
+const Row = styled.div`
   display: flex;
-  flex-direction: row;
-  padding: 1.6rem;
+  padding: 1rem 0 1rem 0;
 `
 
 const Search = styled.div`
@@ -30,13 +29,23 @@ const Search = styled.div`
   }
 `
 
-const Filter = styled.div`
+const Select = styled.div`
   padding-left: 1.6rem;
   flex: 1;
   select {
     height: 2rem;
     width: 100%;
   }
+`
+
+const MultiSelect = styled.label`
+  display:block;
+  padding-bottom: 1rem;
+  select {
+    display: block;
+    width: 50%;
+  }
+}
 `
 
 const Pagination = styled.div`
@@ -167,7 +176,7 @@ const TicketDashboard: React.FC = () => {
 
   return (
     <div>
-      <FilterOptions>
+      <Row>
         <Search>
           <span>Search</span>
           <input
@@ -176,7 +185,7 @@ const TicketDashboard: React.FC = () => {
             onKeyDown={e => handleSearch(e)}
           />
         </Search>
-        <Filter>
+        <Select>
           <span>Ticket status</span>
           <select name="filter[status]" onChange={e => handleTicketStatusFilterChange(e)}>
             <option></option>
@@ -184,18 +193,16 @@ const TicketDashboard: React.FC = () => {
               <option value={key}>{value}</option>
             ))}
           </select>
-        </Filter>
-        <Filter>
-          {ticketTypes &&
-            <>
-              <span>Ticket types</span>
-              <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)}>
-                { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
-              </select>
-            </>
-          }
-        </Filter>
-      </FilterOptions>
+        </Select>
+      </Row>
+      <MultiSelect>
+        Ticket types
+        {ticketTypes &&
+          <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)}>
+            { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
+          </select>
+        }
+      </MultiSelect>
       <StyledList>
         <TicketDashboardHeader />
         {loading && 'Loading tickets list'}
