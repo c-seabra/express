@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
-import TicketDashboard from '../dashboard/TicketDashboard'
+import TicketDashboard from '../ticketDashboard/TicketDashboard'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -36,6 +36,13 @@ export type Ticket = {
   ticketType: {
     name: string
   }
+}
+
+export type PageInfo = {
+  hasPreviousPage: string
+  hasNextPage: string
+  endCursor: string
+  startCursor: string
 }
 
 export const AppContext = createContext<{ conferenceSlug?: string; token?: string }>({})

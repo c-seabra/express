@@ -20,8 +20,8 @@ const State = styled.div`
 const StyledListItem = styled.li`
   font-size: 1.2em;
   display: flex;
-  margin-bottom: .5rem;
-  padding: .75rem;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
   background-color: gainsboro;
   &:nth-child(2n + 1) {
     background-color: white;

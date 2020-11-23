@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client'
 
 export const TICKET_LIST = gql`
-  query($filter: TicketFilter, $searchQuery: String) {
-    tickets(filter: $filter, searchQuery: $searchQuery) {
+  query($filter: TicketFilter, $searchQuery: String, $first: Int, $after: String) {
+    tickets(filter: $filter, searchQuery: $searchQuery, first: $first, after: $after) {
       edges {
+        cursor
         node {
           id
           bookingRef
@@ -27,6 +28,12 @@ export const TICKET_LIST = gql`
             }
           }
         }
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        endCursor
+        startCursor
       }
     }
   }
