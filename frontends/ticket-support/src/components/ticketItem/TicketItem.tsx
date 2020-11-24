@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Ticket } from '../app/App'
@@ -31,13 +32,19 @@ const StyledListItem = styled.li`
   ${Column}, ${State} {
     margin-right: 1rem;
   }
+  &:hover {
+    background-color: dimgrey;
+    cursor: pointer;
+  }
 `
 
 const formatState = (state: string) => {
-  return state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+  return state.charAt(0).toUpperCase() + state.slice(1).toLowerCase()
 }
 
 const ticketItem: React.FC<Ticket> = ticket => {
+  const history = useHistory()
+
   let state = ticket.state
   if (state == 'active') {
     state = ticket.assignment?.state || 'unassigned'
@@ -45,7 +52,7 @@ const ticketItem: React.FC<Ticket> = ticket => {
   state = formatState(state)
 
   return (
-    <StyledListItem>
+    <StyledListItem onClick={() => history.push(`tickets/${ticket.bookingRef}`)}>
       <Column>{ticket.bookingRef}</Column>
       <Column>{ticket.ticketType?.name}</Column>
       <Column>

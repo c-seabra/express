@@ -1,9 +1,11 @@
 import jwt from 'jwt-decode'
 import React, { createContext, useEffect, useState } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
+import TicketDetails from '../ticketDetails/TicketDetails'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -24,6 +26,7 @@ export type Account = {
 
 export type Ticket = {
   assignment?: {
+    appLoginEmail: string
     assignee: Account
     state: string
   }
@@ -74,10 +77,20 @@ const App = ({ token }: { token: string }) => {
       }}
     >
       <StlyedContainer>
-        <StyledSection>
-          <h2>Ticket Assignment - Ticket Support Dashboard</h2>
-        </StyledSection>
-        <TicketDashboard />
+        <Router>
+          <StyledSection>
+            <h2>Ticket Assignment - Ticket Support Dashboard</h2>
+          </StyledSection>
+
+          <Switch>
+            <Route path="/tickets/:bookingRef">
+              <TicketDetails />
+            </Route>
+            <Route path="/">
+              <TicketDashboard />
+            </Route>
+          </Switch>
+        </Router>
       </StlyedContainer>
     </AppContext.Provider>
   )
