@@ -14,7 +14,7 @@ const Column = styled(ColumnStyles)`
   width: 10%;
 `
 const Email = styled(ColumnStyles)`
-  width: 25%;
+  width: 20%;
   white-space: pre-wrap;
   word-wrap: break-word;
 `
@@ -51,10 +51,6 @@ const StyledListItem = styled.li`
 `
 
 const ticketItem: React.FC<Ticket> = ticket => {
-  let state = ticket.state.toLowerCase()
-  if (state == 'active') {
-    state = ticket.assignment?.state.toLowerCase() || 'unassigned'
-  }
 
   return (
     <StyledListItem>
@@ -65,10 +61,15 @@ const ticketItem: React.FC<Ticket> = ticket => {
       </Column>
       <Email>{ticket.assignment?.assignee.email}</Email>
       <Column>
-        {state === 'accepted' && <ActiveState>Assigned</ActiveState>}
-        {state === 'unassigned' && <UnassignedState>Unassigned</UnassignedState>}
-        {state === 'pending' && <UnassignedState>Pending</UnassignedState>}
-        {state === 'void' && <VoidState>Void</VoidState>}
+        {ticket.assignment?.state === 'ACCEPTED' && <ActiveState>Assigned</ActiveState>}
+        {ticket.assignment?.state === 'DUPLICATE' && <UnassignedState>Unassigned</UnassignedState>}
+        {ticket.assignment?.state === 'PENDING' && <UnassignedState>Pending</UnassignedState>}
+      </Column>
+      <Column>
+        {ticket.state === 'ACTIVE' && <ActiveState>Active</ActiveState>}
+        {ticket.state === 'CHECKED_IN' && <UnassignedState>Checked In</UnassignedState>}
+        {ticket.state === 'LOCKED' && <ActiveState>Locked</ActiveState>}
+        {ticket.state === 'VOID' && <VoidState>Void</VoidState>}
       </Column>
       <Column>
         {ticket.order.owner.firstName} {ticket.order.owner.lastName}

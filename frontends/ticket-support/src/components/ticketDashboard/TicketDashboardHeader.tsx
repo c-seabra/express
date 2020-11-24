@@ -13,7 +13,7 @@ const Column = styled(ColumnStyles)`
   width: 10%;
 `
 const Email = styled(ColumnStyles)`
-  width: 25%;
+  width: 20%;
   white-space: pre-wrap;
   word-wrap: break-word;
 `
@@ -35,7 +35,8 @@ const TicketListHeader: React.FC = () => {
       <Column>Ticket Type</Column>
       <Column>Assigned To</Column>
       <Email>Email Used</Email>
-      <Column>Status</Column>
+      <Column>Assignment Status</Column>
+      <Column>Ticket Status</Column>
       <Column>Ticket Owner</Column>
       <Email>Ticket Owner Email</Email>
     </StyledListItem>
