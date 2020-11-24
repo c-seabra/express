@@ -33,11 +33,16 @@ const StyledListItem = styled.li`
   }
 `
 
+const formatState = (state: string) => {
+  return state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+}
+
 const ticketItem: React.FC<Ticket> = ticket => {
   let state = ticket.state
-  if (state == 'ACTIVE') {
-    state = ticket.assignment?.state || 'UNASSIGNED'
+  if (state == 'active') {
+    state = ticket.assignment?.state || 'unassigned'
   }
+  state = formatState(state)
 
   return (
     <StyledListItem>
