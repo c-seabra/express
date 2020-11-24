@@ -9,7 +9,7 @@ import fetch from 'isomorphic-unfetch'
 import { isBrowser, isServer } from './ssrMode'
 
 export const GRAPHQL_API_URL = 'https://api.cilabs.com/catalyst'
-export const DEFAULT_CONFERENCE_SLUG = 'rc21'
+export const DEFAULT_CONFERENCE_SLUG = 'ws20'
 
 
 const constructContextHeaders = (
