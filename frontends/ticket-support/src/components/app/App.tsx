@@ -7,7 +7,7 @@ import TicketDashboard from '../ticketDashboard/TicketDashboard'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
-  max-width: 1024px;
+  max-width: 1280px;
   width: 100%;
   margin: 0 auto;
   font-size: 16px;
