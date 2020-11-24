@@ -1,7 +1,9 @@
 import jwt from 'jwt-decode'
 import React, { createContext, useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
-
+import {
+  BrowserRouter as Router
+} from "react-router-dom"
 import withApollo from '../../lib/apollo/withApollo'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
 
@@ -84,10 +86,12 @@ const App = ({ token }: { token: string }) => {
         token,
       }}
     >
-      <StlyedContainer>
-        <GlobalStyle/>
-        <TicketDashboard />
-      </StlyedContainer>
+      <Router>
+        <StlyedContainer>
+          <GlobalStyle/>
+          <TicketDashboard />
+        </StlyedContainer>
+      </Router>
     </AppContext.Provider>
   )
 }

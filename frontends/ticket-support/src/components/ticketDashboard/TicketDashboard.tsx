@@ -1,6 +1,8 @@
 import { ApolloError, useQuery } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useLocation, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import qs from 'qs'
 
 import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
@@ -113,25 +115,71 @@ export enum TicketFilterStatus {
   CHECKED_IN = "Checked In",
 }
 
+const filterEmptyStrings = (_: unknown, val: string) => val || undefined
+
+const createURL = (state: Record<string, unknown>) =>
+  `?${qs.stringify(state, { encodeValuesOnly: true, filter: filterEmptyStrings, skipNulls: true })}`
+
+const searchStateToUrl = ({
+  pathname,
+  searchState,
+}: {
+  pathname: string
+  searchState: Record<string, unknown>
+}) =>
+  searchState !== null &&
+  typeof searchState === 'object' &&
+  Object.keys(searchState ?? {}).length > 0
+    ? `${pathname}${createURL(searchState)}`
+    : pathname
+
+const pathToSearchState = (path: string): Record<string, unknown> =>
+  path.includes('?') ? qs.parse(path.substring(path.indexOf('?') + 1)) : {}
+
 const TicketDashboard: React.FC = () => {
   const { conferenceSlug, token } = useContext(AppContext)
-  const [searchQuery, setSearchQuery] = useState<String>()
-  const [ticketStatusFilter, setTicketStatusFilter] = useState<String | undefined>()
+  const location = useLocation()
+  const history = useHistory()
+  const pathname = location.pathname
+  const asPath = window.location.href
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [ticketStatusFilter, setTicketStatusFilter] = useState<string | undefined>()
   const [ticketTypesFilter, setTicketTypesFilter] = useState<Array<string | undefined>>()
   const [cursorStack, setCursorStack] = useState<Array<string>>([])
-  const [afterCursor, setAfterCursor] = useState<String | undefined>()
+  const [afterCursor, setAfterCursor] = useState<string | undefined>()
+  const [searchState, setSearchState] = useState<Record<string, unknown>>(pathToSearchState(asPath))
 
-  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (searchState.search) setSearchQuery(searchState.search as string)
+    if (searchState.ticketStatus) setTicketStatusFilter(searchState.ticketStatus as string)
+  }, [])
+
+  useEffect(() => {
+    onSearchStateChange(searchState)
+  }, [searchState])
+
+  const onSearchStateChange = (updatedSearchState: Record<string, unknown>) => {
+    const url = searchStateToUrl({ pathname, searchState: updatedSearchState })
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    history.push(url)
+  }
+
+  const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const element = e.currentTarget as HTMLInputElement
-      setSearchQuery(element.value)
+      setSearchState({...searchState, search:element.value})
       setCursorStack([])
       setAfterCursor(undefined)
     }
   }
 
   const handleTicketStatusFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.target.value ? setTicketStatusFilter(e.target.value) : setTicketStatusFilter(undefined)
+    if (e.target.value) {
+      setTicketStatusFilter(e.target.value)
+      setSearchState({...searchState, ticketStatus:e.target.value})
+    } else {
+      setTicketStatusFilter(undefined)
+    }
     setCursorStack([])
     setAfterCursor(undefined)
   }
@@ -139,7 +187,11 @@ const TicketDashboard: React.FC = () => {
   const handleTicketTypeFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const element = e.currentTarget as HTMLSelectElement
     const ticketTypeIds = Array.from(element.selectedOptions, option => option.value);
-    ticketTypeIds.length > 0 ? setTicketTypesFilter(ticketTypeIds) : setTicketTypesFilter(undefined)
+    if (ticketTypeIds.length > 0) {
+      setTicketTypesFilter(ticketTypeIds)
+    } else {
+      setTicketTypesFilter(undefined)
+    }
     setCursorStack([])
     setAfterCursor(undefined)
   }
@@ -179,7 +231,7 @@ const TicketDashboard: React.FC = () => {
       token,
     },
     variables: {
-      searchQuery,
+      searchQuery: searchState.search,
       filter: {
         status: ticketStatusFilter,
         ticketTypeIds: ticketTypesFilter
@@ -215,16 +267,18 @@ const TicketDashboard: React.FC = () => {
       <SearchFilters>
         <Search>
           <SearchIcon />
-          <input
-            placeholder="Search by name, reference or email of ticket or order"
-            type="text"
-            onKeyDown={e => handleSearch(e)}
-          />
+            <input
+              placeholder="Search by name, reference or email of ticket or order"
+              type="text"
+              defaultValue={searchQuery}
+              onKeyDown={e => handleSearchKey(e)}
+              onChange={e => setSearchQuery(e.target.value)}
+            />
         </Search>
         <Filters>
           <Select>
             <span>Ticket status</span>
-            <select name="filter[status]" onChange={e => handleTicketStatusFilterChange(e)}>
+            <select name="filter[status]" onChange={e => handleTicketStatusFilterChange(e)} value={ticketStatusFilter}>
               <option></option>
               {Object.entries(TicketFilterStatus).map(([key, value]) => (
                 <option value={key}>{value}</option>
