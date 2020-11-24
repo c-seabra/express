@@ -12,10 +12,11 @@ const Email = styled.div`
   font-weight: bold;
 `
 const State = styled.div`
-  width: calc(10% - 1rem);
-  display: flex;
   align-items: center;
+  display: flex;
+  font-weight: bold;
   justify-content: center;
+  width: calc(10% - 1rem);
 `
 const StyledListItem = styled.li`
   font-size: 1.2em;
