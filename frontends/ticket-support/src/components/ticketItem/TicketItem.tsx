@@ -3,46 +3,58 @@ import styled from 'styled-components'
 
 import { Ticket } from '../app/App'
 
-const Column = styled.div`
-  width: calc(15% - 1rem);
+const ColumnStyles = styled.div`
   text-align: center;
-  font-weight: bold;
-`
-const Email = styled.div`
-  width: calc(30% - 1rem);
-  text-align: center;
-  font-weight: bold;
-`
-const State = styled.div`
-  width: calc(10% - 1rem);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 0.25rem;
 `
+const Column = styled(ColumnStyles)`
+  width: 10%;
+`
+const Email = styled(ColumnStyles)`
+  width: 25%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+`
+const State = styled.div`
+  border-radius: 8px;
+  padding: .25rem .5rem;
+  font-size: .825rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,.5);
+`
+const ActiveState = styled(State)`
+  background-color: #00ac93;
+  color: #fff;
+`
+const UnassignedState = styled(State)`
+  background-color: #ffb74c;
+  color: #fff;
+`
+const VoidState = styled(State)`
+  background-color: #ed1846;
+  color: #fff;
+`
+
 const StyledListItem = styled.li`
-  font-size: 1.2em;
+  font-size: 1rem;
   display: flex;
   margin-bottom: 0.5rem;
   padding: 0.75rem;
   background-color: gainsboro;
   &:nth-child(2n + 1) {
-    background-color: white;
-  }
-  ${Column}, ${State} {
-    margin-right: 1rem;
+    background-color: #fff;
   }
 `
 
-const formatState = (state: string) => {
-  return state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
-}
-
 const ticketItem: React.FC<Ticket> = ticket => {
-  let state = ticket.state
+  let state = ticket.state.toLowerCase()
   if (state == 'active') {
-    state = ticket.assignment?.state || 'unassigned'
+    state = ticket.assignment?.state.toLowerCase() || 'unassigned'
   }
-  state = formatState(state)
 
   return (
     <StyledListItem>
@@ -52,7 +64,12 @@ const ticketItem: React.FC<Ticket> = ticket => {
         {ticket.assignment?.assignee.firstName} {ticket.assignment?.assignee.lastName}
       </Column>
       <Email>{ticket.assignment?.assignee.email}</Email>
-      <State>{state}</State>
+      <Column>
+        {state === 'accepted' && <ActiveState>Assigned</ActiveState>}
+        {state === 'unassigned' && <UnassignedState>Unassigned</UnassignedState>}
+        {state === 'pending' && <UnassignedState>Pending</UnassignedState>}
+        {state === 'void' && <VoidState>Void</VoidState>}
+      </Column>
       <Column>
         {ticket.order.owner.firstName} {ticket.order.owner.lastName}
       </Column>

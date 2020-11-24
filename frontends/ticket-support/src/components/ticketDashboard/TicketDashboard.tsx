@@ -7,6 +7,8 @@ import TICKET_TYPES from '../../operations/queries/TickeTypes'
 import { AppContext, PageInfo, Ticket, TicketType } from '../app/App'
 import TicketList from '../ticketList/TicketList'
 import TicketDashboardHeader from './TicketDashboardHeader'
+import SearchIcon from '../../lib/svgs/search'
+import Loader from '../../lib/Loading'
 
 const TICKETS_PER_PAGE = 20
 
@@ -14,42 +16,68 @@ const StyledList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid grey;
 `
 
-const Row = styled.div`
+const SearchFilters = styled.div`
   display: flex;
   padding: 1rem 0 1rem 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 `
 
-const Search = styled.div`
-  flex: 1;
+const StyledLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  select, input {
+    height: 2rem;
+    width: 100%;
+  }
+`
+
+const Search = styled(StyledLabel)`
+  width: 30%;
+  position: relative;
+  svg {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: .5rem;
+    top: .5rem;
+  }
   input {
-    height: 2rem;
-    width: 100%;
+    padding-left: 2rem;
+    border: none;
+    border-bottom: 1px solid grey;
   }
 `
 
-const Select = styled.div`
-  padding-left: 1.6rem;
-  flex: 1;
+const Filters = styled.div`
+  display: flex;
+  align-items: flex-end;
+`
+
+const Select = styled(StyledLabel)`
+  margin-right: 1rem;
   select {
-    height: 2rem;
-    width: 100%;
+    padding-right: 1rem;
   }
 `
 
-const MultiSelect = styled.label`
-  display:block;
-  padding-bottom: 1rem;
+const MultiSelect = styled(StyledLabel)`
   select {
-    display: block;
-    width: 50%;
+    height: 4rem;
   }
 }
 `
 
 const Pagination = styled.div`
-  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const PaginationButton = styled.button`
@@ -59,12 +87,18 @@ const PaginationButton = styled.button`
   border: none;
   border: 1px solid grey;
   background: white;
+  color: #000;
   cursor: pointer;
   margin: 0.5rem;
   transition: all 0.3s;
   &:hover {
     background-color: grey;
     color: white;
+  }
+  &:disabled {
+    background: white;
+    color: grey;
+    cursor: not-allowed;
   }
 `
 
@@ -118,6 +152,7 @@ const TicketDashboard: React.FC = () => {
 
   const nextPage = (endCursor: string) => {
     cursorStack.push(endCursor)
+    console.log({endCursor})
     setAfterCursor(endCursor)
   }
 
@@ -176,49 +211,50 @@ const TicketDashboard: React.FC = () => {
 
   return (
     <div>
-      <Row>
+      <h2>Manage Tickets - Ticket Assignment - Ticket Support Dashboard</h2>
+      <SearchFilters>
         <Search>
-          <span>Search</span>
+          <SearchIcon />
           <input
-            placeholder="Enter name, reference or email of ticket or order"
+            placeholder="Search by name, reference or email of ticket or order"
             type="text"
             onKeyDown={e => handleSearch(e)}
           />
         </Search>
-        <Select>
-          <span>Ticket status</span>
-          <select name="filter[status]" onChange={e => handleTicketStatusFilterChange(e)}>
-            <option></option>
-            {Object.entries(TicketFilterStatus).map(([key, value]) => (
-              <option value={key}>{value}</option>
-            ))}
-          </select>
-        </Select>
-      </Row>
-      <MultiSelect>
-        Ticket types
-        {ticketTypes &&
-          <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)}>
-            { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
-          </select>
-        }
-      </MultiSelect>
+        <Filters>
+          <Select>
+            <span>Ticket status</span>
+            <select name="filter[status]" onChange={e => handleTicketStatusFilterChange(e)}>
+              <option></option>
+              {Object.entries(TicketFilterStatus).map(([key, value]) => (
+                <option value={key}>{value}</option>
+                ))}
+            </select>
+          </Select>
+          <MultiSelect>
+            <span>Ticket types</span>
+            {ticketTypes &&
+              <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)}>
+                { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
+              </select>
+            }
+          </MultiSelect>
+        </Filters>
+      </SearchFilters>
       <StyledList>
         <TicketDashboardHeader />
-        {loading && 'Loading tickets list'}
+        {loading && <Loader />}
         {error}
         {!loading && !error && <TicketList list={data?.tickets.edges.map(node => node.node)} />}
       </StyledList>
-      <Pagination>
-        {!loading && !error && cursorStack.length > 0 && (
-          <PaginationButton onClick={() => previousPage()}>Previous</PaginationButton>
-        )}
-        {!loading && !error && data?.tickets?.pageInfo?.hasNextPage && (
-          <PaginationButton onClick={() => nextPage(data?.tickets?.pageInfo?.endCursor)}>
+      {!loading && !error && (
+        <Pagination>
+          <PaginationButton disabled={cursorStack.length <= 0} onClick={cursorStack.length > 0 ? () => previousPage() : ()=>{}}>Previous</PaginationButton>
+          <PaginationButton disabled={!data?.tickets?.pageInfo?.hasNextPage}onClick={data?.tickets?.pageInfo?.hasNextPage ? () => nextPage(data?.tickets?.pageInfo?.endCursor) : ()=>{}}>
             Next
           </PaginationButton>
-        )}
-      </Pagination>
+        </Pagination>
+      )}
     </div>
   )
 }
