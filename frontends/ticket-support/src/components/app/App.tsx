@@ -1,13 +1,24 @@
 import jwt from 'jwt-decode'
 import React, { createContext, useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
 
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: "Lato";
+    src: url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap')
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+  }
+`
+
 const StlyedContainer = styled.section`
   padding: 1rem;
-  max-width: 1280px;
+  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
   font-size: 16px;
@@ -74,9 +85,7 @@ const App = ({ token }: { token: string }) => {
       }}
     >
       <StlyedContainer>
-        <StyledSection>
-          <h2>Ticket Assignment - Ticket Support Dashboard</h2>
-        </StyledSection>
+        <GlobalStyle/>
         <TicketDashboard />
       </StlyedContainer>
     </AppContext.Provider>
