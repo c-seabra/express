@@ -41,6 +41,7 @@ const TicketListHeader: React.FC = () => {
       <Email>Email Used</Email>
       <State>Status</State>
       <Column>Ticket Owner</Column>
+      <Email>Ticket Owner Email</Email>
     </StyledListItem>
   )
 }

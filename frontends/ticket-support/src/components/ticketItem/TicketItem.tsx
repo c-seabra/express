@@ -56,6 +56,9 @@ const ticketItem: React.FC<Ticket> = ticket => {
       <Column>
         {ticket.order.owner.firstName} {ticket.order.owner.lastName}
       </Column>
+      <Email>
+        {ticket.order.owner.email}
+      </Email>
     </StyledListItem>
   )
 }
