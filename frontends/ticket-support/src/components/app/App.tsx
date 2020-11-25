@@ -90,10 +90,6 @@ const App = ({ token }: { token: string }) => {
       <StlyedContainer>
         <GlobalStyle/>
         <Router>
-          <StyledSection>
-            <h2>Ticket Assignment - Ticket Support Dashboard</h2>
-          </StyledSection>
-
           <Switch>
             <Route path="/tickets/:bookingRef">
               <TicketDetails />
