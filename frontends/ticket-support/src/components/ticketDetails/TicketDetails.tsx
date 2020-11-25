@@ -1,9 +1,11 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import React, { useContext, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
+
 import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
+import TicketUnlock from '../ticketUnlock/TicketUnlock'
 import AssignTicket from '../ticketActions/AssignTicket'
 
 const Button = styled.button`
@@ -55,7 +57,7 @@ const ticketDetails: React.FC = () => {
       <h3>Ticket: {bookingRef}</h3>
       {!loading && !error && ticket && (
         <>
-          <span>Ticket status: {ticket?.state}</span>
+          <span>Ticket status: {ticket.state}</span>
 
           {ticket && !assignment && (
             <AssignTicket ticketId={ticket.id} resetReassignment={setReassignment} />
@@ -79,7 +81,7 @@ const ticketDetails: React.FC = () => {
             </>
           )}
           <h3>Ticket operation</h3>
-          <span>Lock</span>
+          {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
         </>
       )}
     </>
