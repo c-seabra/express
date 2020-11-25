@@ -1,34 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Column = styled.div`
-  width: calc(15% - 1rem);
+const ColumnStyles = styled.div`
   text-align: center;
   font-weight: bold;
-`
-const Email = styled.div`
-  width: calc(30% - 1rem);
-  text-align: center;
-  font-weight: bold;
-`
-const State = styled.div`
-  align-items: center;
   display: flex;
-  font-weight: bold;
+  align-items: center;
   justify-content: center;
-  width: calc(10% - 1rem);
+  padding: 0 0.25rem;
+`
+const Column = styled(ColumnStyles)`
+  width: 10%;
+`
+const Email = styled(ColumnStyles)`
+  width: 20%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 `
 const StyledListItem = styled.li`
-  font-size: 1.2em;
+  font-size: 1rem;
   display: flex;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem 0;
   padding: 0.75rem;
   background-color: gainsboro;
   &:nth-child(2n + 1) {
     background-color: white;
-  }
-  ${Column}, ${State} {
-    margin-right: 1rem;
   }
 `
 
@@ -39,8 +35,10 @@ const TicketListHeader: React.FC = () => {
       <Column>Ticket Type</Column>
       <Column>Assigned To</Column>
       <Email>Email Used</Email>
-      <State>Status</State>
+      <Column>Assignment Status</Column>
+      <Column>Ticket Status</Column>
       <Column>Ticket Owner</Column>
+      <Email>Ticket Owner Email</Email>
     </StyledListItem>
   )
 }
