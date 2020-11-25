@@ -180,12 +180,13 @@ const TicketDashboard: React.FC = () => {
   }
 
   const handleTicketStatusFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value)
     if (e.target.value) {
       setTicketStatusFilter(e.target.value)
-      setSearchState({...searchState, ticketStatus:e.target.value})
     } else {
       setTicketStatusFilter(undefined)
     }
+    setSearchState({...searchState, ticketStatus:e.target.value})
     setCursorStack([])
     setAfterCursor(undefined)
   }
@@ -195,10 +196,10 @@ const TicketDashboard: React.FC = () => {
     const ticketTypeIds = Array.from(element.selectedOptions, option => option.value);
     if (ticketTypeIds.length > 0) {
       setTicketTypesFilter(ticketTypeIds)
-      setSearchState({...searchState, ticketTypeIds:ticketTypeIds.toString()})
     } else {
       setTicketTypesFilter(undefined)
     }
+    setSearchState({...searchState, ticketTypeIds:ticketTypeIds.toString()})
     setCursorStack([])
     setAfterCursor(undefined)
   }
