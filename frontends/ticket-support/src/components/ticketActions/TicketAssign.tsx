@@ -4,9 +4,28 @@ import styled from 'styled-components'
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
 import { AppContext } from '../app/App'
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: row;
+`
+
+const Field = styled.label`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: 1rem;
+  margin-bottom: .5rem;
+  input {
+    cursor: pointer;
+  }
+  span {
+    margin-bottom: .5rem;
+  }
+`
+
 const SubmitButton = styled.button`
   margin: 1rem 0;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   border-radius: 8px;
   border: none;
   border: 1px solid grey;
@@ -19,7 +38,7 @@ const SubmitButton = styled.button`
   }
 `
 
-const AssignTicket: React.FC<{ ticketId: string; resetReassignment: (value: boolean) => void }> = ({
+const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: boolean) => void }> = ({
   ticketId,
   resetReassignment,
 }) => {
@@ -58,22 +77,28 @@ const AssignTicket: React.FC<{ ticketId: string; resetReassignment: (value: bool
   })
 
   return (
-    <form
+    <Form
       onSubmit={e => {
         e.preventDefault()
         assign()
       }}
     >
       {error && <div>{error}</div>}
-      <label>First name:</label>
-      <input type="text" name="firstName" onChange={e => setFirstName(e.target.value)} required />
-      <label>Last name:</label>
-      <input type="text" name="lastName" onChange={e => setLastName(e.target.value)} />
-      <label>Email:</label>
-      <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
+      <Field>
+        <span>First name:</span>
+        <input type="text" name="firstName" onChange={e => setFirstName(e.target.value)} required />
+      </Field>
+      <Field>
+        <span>Last name:</span>
+        <input type="text" name="lastName" onChange={e => setLastName(e.target.value)} />
+      </Field>
+      <Field>
+        <span>Email:</span>
+        <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
+      </Field>
       <SubmitButton type="submit">Submit</SubmitButton>
-    </form>
+    </Form>
   )
 }
 
-export default AssignTicket
+export default TicketAssign

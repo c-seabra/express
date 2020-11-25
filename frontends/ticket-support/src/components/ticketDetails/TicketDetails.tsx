@@ -5,8 +5,28 @@ import { useParams } from 'react-router-dom'
 
 import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
-import TicketUnlock from '../ticketUnlock/TicketUnlock'
-import AssignTicket from '../ticketActions/AssignTicket'
+import { getAssignmentBadge, getTicketBadge } from '../ticketItem/TicketHelper'
+import TicketAssign from '../ticketActions/TicketAssign'
+import TicketUnlock from '../ticketActions/TicketUnlock'
+
+const Heading = styled.div`
+  border-radius: 8px;
+  padding-top: 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: bold;
+`
+
+const Text = styled.div`
+  border-radius: 8px;
+  padding: .25rem;
+  font-size: 1rem;
+  font-weight: 400;
+`
+
+const Badge = styled.div`
+  width: fit-content;
+`
 
 const Button = styled.button`
   margin: 1rem 0;
@@ -51,40 +71,58 @@ const ticketDetails: React.FC = () => {
   const ticket = data?.ticket
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
+  const ticketBadge = getTicketBadge(ticket?.state)
+  const assignmentBadge = getAssignmentBadge(ticket?.state)
 
   return (
-    <>
-      <h3>Ticket: {bookingRef}</h3>
+    <div>
+      <Heading>Ticket: {bookingRef}</Heading>
       {!loading && !error && ticket && (
-        <>
-          <span>Ticket status: {ticket.state}</span>
+        <div>
+          <div>
+            <Heading>Ticket status:</Heading>
+            <Badge>{ticketBadge}</Badge>
+            <Heading>Assignment status:</Heading>
+            <Badge>{assignmentBadge}</Badge>
 
-          {ticket && !assignment && (
-            <AssignTicket ticketId={ticket.id} resetReassignment={setReassignment} />
-          )}
+            {ticket && !assignment && (
+              <div>
+                <Heading>Assign ticket:</Heading>
+                <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+              </div>
+            )}
+          </div>
 
-          {assignee && (
-            <>
-              <h3>Ticket access information</h3>
-              <span>Booking reference: {assignee?.email}</span>
-              <span>App login email: {assignment?.appLoginEmail || assignee?.email}</span>
+            {assignee && (
+              <div>
+                <Heading>Assignee details</Heading>
+                <Text>Name: {assignee.firstName} {assignee.lastName}</Text>
+                <Text>Email: {assignee.email}</Text>
+                {ticket && reassignment && (
+                  <div>
+                    <Heading>Reassign ticket</Heading>
+                    <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+                  </div>
+                )}
+                <Button onClick={() => setReassignment(!reassignment)}>
+                  {reassignment ? 'Cancel' : 'Reassign'}
+                </Button>
 
-              <Button onClick={() => setReassignment(!reassignment)}>
-                {reassignment ? 'Cancel' : 'Reassign'}
-              </Button>
-              {ticket && reassignment && (
-                <AssignTicket ticketId={ticket.id} resetReassignment={setReassignment} />
-              )}
+                <Heading>Ticket access information</Heading>
+                <Text>Booking reference: {assignee?.email}</Text>
+                <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
 
-              <h3>User account information</h3>
-              <span>Identity email: {assignee?.email}</span>
-            </>
-          )}
-          <h3>Ticket operation</h3>
-          {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-        </>
+                <Heading>User account information</Heading>
+                <Text>Identity email: {assignee?.email}</Text>
+              </div>
+            )}
+            <div>
+              <Heading>Ticket operation</Heading>
+              {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+            </div>
+        </div>
       )}
-    </>
+    </div>
   )
 }
 
