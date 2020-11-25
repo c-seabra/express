@@ -1,6 +1,6 @@
 import jwt from 'jwt-decode'
 import React, { createContext, useEffect, useState } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
@@ -42,15 +42,15 @@ export type Ticket = {
 }
 
 export type TicketType = {
+  description: string
   id: string
   name: string
-  description: string
 }
 
 export type PageInfo = {
-  hasPreviousPage: string
-  hasNextPage: string
   endCursor: string
+  hasNextPage: string
+  hasPreviousPage: string
   startCursor: string
 }
 
