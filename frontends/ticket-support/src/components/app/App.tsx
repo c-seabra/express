@@ -1,11 +1,11 @@
 import jwt from 'jwt-decode'
 import React, { createContext, useEffect, useState } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
-import {
-  BrowserRouter as Router
-} from "react-router-dom"
+
 import withApollo from '../../lib/apollo/withApollo'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
+import TicketDetails from '../ticketDetails/TicketDetails'
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -37,6 +37,7 @@ export type Account = {
 
 export type Ticket = {
   assignment?: {
+    appLoginEmail: string
     assignee: Account
     state: string
   }
@@ -86,12 +87,23 @@ const App = ({ token }: { token: string }) => {
         token,
       }}
     >
-      <Router>
-        <StlyedContainer>
-          <GlobalStyle/>
-          <TicketDashboard />
-        </StlyedContainer>
-      </Router>
+      <StlyedContainer>
+        <GlobalStyle/>
+        <Router>
+          <StyledSection>
+            <h2>Ticket Assignment - Ticket Support Dashboard</h2>
+          </StyledSection>
+
+          <Switch>
+            <Route path="/tickets/:bookingRef">
+              <TicketDetails />
+            </Route>
+            <Route path="/">
+              <TicketDashboard />
+            </Route>
+          </Switch>
+        </Router>
+      </StlyedContainer>
     </AppContext.Provider>
   )
 }

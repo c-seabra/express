@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Ticket } from '../app/App'
@@ -42,18 +43,22 @@ const VoidState = styled(State)`
 const StyledListItem = styled.li`
   font-size: 1rem;
   display: flex;
-  margin-bottom: 0.5rem;
-  padding: 0.75rem;
+  padding: 1rem 0.75rem;
   background-color: gainsboro;
   &:nth-child(2n + 1) {
     background-color: #fff;
   }
+  &:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+  }
 `
 
 const ticketItem: React.FC<Ticket> = ticket => {
+  const history = useHistory()
 
   return (
-    <StyledListItem>
+    <StyledListItem onClick={() => history.push(`tickets/${ticket.bookingRef}`)}>
       <Column>{ticket.bookingRef}</Column>
       <Column>{ticket.ticketType?.name}</Column>
       <Column>
