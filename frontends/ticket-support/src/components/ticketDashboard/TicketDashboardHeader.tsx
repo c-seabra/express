@@ -18,7 +18,7 @@ const Email = styled(ColumnStyles)`
   word-wrap: break-word;
 `
 const StyledListItem = styled.li`
-  font-size: 1.2em;
+  font-size: 1rem;
   display: flex;
   margin: 0.5rem 0;
   padding: 0.75rem;
