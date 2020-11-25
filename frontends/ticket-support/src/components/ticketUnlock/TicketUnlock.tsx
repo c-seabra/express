@@ -18,7 +18,7 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
   })
 
   if (loading) return <p>Unlocking ticket...</p>
-  if (error) return <p>Error unlocking ticket.</p>
+  if (error) return <p>Error unlocking ticket. Reason: {error.message}</p>
   if (data) return <p>Ticket unlocked.</p>
 
   return (
