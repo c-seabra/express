@@ -56,6 +56,35 @@ const StyledListItem = styled.li`
 
 const ticketItem: React.FC<Ticket> = ticket => {
   const history = useHistory()
+  
+  let assignmentState = <UnassignedState>{ticket.assignment?.state}</UnassignedState>
+  switch (ticket.assignment?.state) {
+    case 'ACCEPTED':
+      assignmentState = <ActiveState>Assigned</ActiveState>
+      break;
+    case 'DUPLICATE':
+      assignmentState = <UnassignedState>Duplicate</UnassignedState>
+      break;
+    case 'PENDING':
+      assignmentState = <UnassignedState>Pending</UnassignedState>
+      break;
+  }
+
+let ticketState = <UnassignedState>{ticket.state}</UnassignedState>
+  switch (ticket.state) {
+    case 'ACTIVE':
+      ticketState = <ActiveState>Active</ActiveState>
+      break;
+    case 'CHECKED_IN':
+      ticketState = <UnassignedState>Checked In</UnassignedState>
+      break;
+    case 'LOCKED':
+      ticketState = <ActiveState>Locked</ActiveState>
+      break;
+    case 'VOID':
+      ticketState = <VoidState>Void</VoidState>
+      break;
+  }
 
   return (
     <StyledListItem onClick={() => history.push(`tickets/${ticket.bookingRef}`)}>
@@ -66,16 +95,11 @@ const ticketItem: React.FC<Ticket> = ticket => {
       </Column>
       <Email>{ticket.assignment?.assignee.email}</Email>
       <Column>
-        {ticket.assignment?.state === 'ACCEPTED' && <ActiveState>Assigned</ActiveState>}
-        {(ticket.assignment === null || ticket.assignment?.state === 'DUPLICATE') && <UnassignedState>Unassigned</UnassignedState>}
-        {ticket.assignment?.state === 'PENDING' && <UnassignedState>Pending</UnassignedState>}
+        {ticket.assignment === null ? (
+          <UnassignedState>Unassigned</UnassignedState>
+        ) : assignmentState}
       </Column>
-      <Column>
-        {ticket.state === 'ACTIVE' && <ActiveState>Active</ActiveState>}
-        {ticket.state === 'CHECKED_IN' && <UnassignedState>Checked In</UnassignedState>}
-        {ticket.state === 'LOCKED' && <ActiveState>Locked</ActiveState>}
-        {ticket.state === 'VOID' && <VoidState>Void</VoidState>}
-      </Column>
+      <Column>{ticketState}</Column>
       <Column>
         {ticket.order.owner.firstName} {ticket.order.owner.lastName}
       </Column>
