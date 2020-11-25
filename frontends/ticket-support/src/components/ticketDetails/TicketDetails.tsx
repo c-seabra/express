@@ -1,12 +1,14 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import React, { useContext } from 'react'
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
+import { useParams, useHistory } from 'react-router-dom'
 import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
+import StatePlate from '../ticketItem/StatePlate'
+import ClaimTicket from './ClaimTicketButton'
 
 const ticketDetails: React.FC = () => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
+  const history = useHistory()
   const { conferenceSlug, token } = useContext(AppContext)
 
   const {
@@ -35,10 +37,14 @@ const ticketDetails: React.FC = () => {
 
   return (
     <>
+      <button type="button"  onClick={() => history.goBack()}>Back</button>
       <h3>Ticket: {bookingRef}</h3>
       {!loading && !error && ticket && (
         <>
-          <span>Ticket status: {ticket?.state}</span>
+          <div>
+            Ticket status: <StatePlate state={ticket?.state}/>
+          </div>
+          <div>Assignment status: <StatePlate state={!ticket.assignment ? 'Unassigned' : assignment?.state as string} /></div>
 
           {assignee && (
             <>
@@ -52,6 +58,10 @@ const ticketDetails: React.FC = () => {
           )}
           <h3>Ticket operation</h3>
           <span>Lock</span>
+
+          <div>
+            <ClaimTicket ticketId={ticket.id} />
+          </div>
         </>
       )}
     </>
