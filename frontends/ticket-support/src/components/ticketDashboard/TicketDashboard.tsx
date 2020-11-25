@@ -152,6 +152,11 @@ const TicketDashboard: React.FC = () => {
   useEffect(() => {
     if (searchState.search) setSearchQuery(searchState.search as string)
     if (searchState.ticketStatus) setTicketStatusFilter(searchState.ticketStatus as string)
+    if (searchState.ticketTypeIds) {
+      const fixTypeTicketTypeIds = searchState.ticketTypeIds as string
+      const ticketTypeIdsArray = fixTypeTicketTypeIds.split(',')
+      setTicketTypesFilter(ticketTypeIdsArray)
+    }
   }, [])
 
   useEffect(() => {
@@ -189,6 +194,7 @@ const TicketDashboard: React.FC = () => {
     const ticketTypeIds = Array.from(element.selectedOptions, option => option.value);
     if (ticketTypeIds.length > 0) {
       setTicketTypesFilter(ticketTypeIds)
+      setSearchState({...searchState, ticketTypeIds:ticketTypeIds.toString()})
     } else {
       setTicketTypesFilter(undefined)
     }
@@ -288,7 +294,7 @@ const TicketDashboard: React.FC = () => {
           <MultiSelect>
             <span>Ticket types</span>
             {ticketTypes &&
-              <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)}>
+              <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)} defaultValue={ticketTypesFilter as string[] || [''] as string[]}>
                 { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
               </select>
             }
