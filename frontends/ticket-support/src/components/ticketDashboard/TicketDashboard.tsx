@@ -25,9 +25,9 @@ const StyledList = styled.ul`
 
 const SearchFilters = styled.div`
   display: flex;
-  padding: 1rem 0 1rem 0;
+  padding-bottom: 1rem;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
 `
 
@@ -59,7 +59,7 @@ const Search = styled(StyledLabel)`
 
 const Filters = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
 `
 
 const Select = styled(StyledLabel)`
