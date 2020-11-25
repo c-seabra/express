@@ -62,7 +62,7 @@ const ticketItem: React.FC<Ticket> = ticket => {
       <Email>{ticket.assignment?.assignee.email}</Email>
       <Column>
         {ticket.assignment?.state === 'ACCEPTED' && <ActiveState>Assigned</ActiveState>}
-        {ticket.assignment?.state === 'DUPLICATE' && <UnassignedState>Unassigned</UnassignedState>}
+        {(ticket.assignment === null || ticket.assignment?.state === 'DUPLICATE') && <UnassignedState>Unassigned</UnassignedState>}
         {ticket.assignment?.state === 'PENDING' && <UnassignedState>Pending</UnassignedState>}
       </Column>
       <Column>
