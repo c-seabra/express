@@ -38,6 +38,11 @@ const SubmitButton = styled.button`
   }
 `
 
+const Warning = styled.div`
+  font-style: italic;
+  font-size: 0.8em;
+`
+
 const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: boolean) => void }> = ({
   ticketId,
   resetReassignment,
@@ -77,27 +82,30 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
   })
 
   return (
-    <Form
-      onSubmit={e => {
-        e.preventDefault()
-        assign()
-      }}
-    >
-      {error && <div>{error}</div>}
-      <Field>
-        <span>First name:</span>
-        <input type="text" name="firstName" onChange={e => setFirstName(e.target.value)} required />
-      </Field>
-      <Field>
-        <span>Last name:</span>
-        <input type="text" name="lastName" onChange={e => setLastName(e.target.value)} />
-      </Field>
-      <Field>
-        <span>Email:</span>
-        <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
-      </Field>
-      <SubmitButton type="submit">Submit</SubmitButton>
-    </Form>
+    <div>
+      <Form
+        onSubmit={e => {
+          e.preventDefault()
+          assign()
+        }}
+      >
+        {error && <div>{error}</div>}
+        <Field>
+          <span>First name:</span>
+          <input type="text" name="firstName" onChange={e => setFirstName(e.target.value)} required />
+        </Field>
+        <Field>
+          <span>Last name:</span>
+          <input type="text" name="lastName" onChange={e => setLastName(e.target.value)} />
+        </Field>
+        <Field>
+          <span>Email:</span>
+          <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
+        </Field>
+        <SubmitButton type="submit">Submit</SubmitButton>
+      </Form>
+      <Warning>Email notifications will be sent to new assignee, old assignee and order owner</Warning>
+    </div>
   )
 }
 
