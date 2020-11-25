@@ -23,6 +23,7 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
 
   return (
     <button
+      style={{ cursor: 'pointer' }}
       type="button"
       onClick={async () => {
         if (confirm('Are you sure you want to unlock this ticket?')) {
