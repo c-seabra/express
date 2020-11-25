@@ -53,15 +53,15 @@ export type Ticket = {
 }
 
 export type TicketType = {
+  description: string
   id: string
   name: string
-  description: string
 }
 
 export type PageInfo = {
-  hasPreviousPage: string
-  hasNextPage: string
   endCursor: string
+  hasNextPage: string
+  hasPreviousPage: string
   startCursor: string
 }
 
