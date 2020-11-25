@@ -1,9 +1,10 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
+
 import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
+import TicketUnlock from '../ticketUnlock/TicketUnlock'
 
 const ticketDetails: React.FC = () => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
@@ -38,7 +39,7 @@ const ticketDetails: React.FC = () => {
       <h3>Ticket: {bookingRef}</h3>
       {!loading && !error && ticket && (
         <>
-          <span>Ticket status: {ticket?.state}</span>
+          <span>Ticket status: {ticket.state}</span>
 
           {assignee && (
             <>
@@ -51,7 +52,7 @@ const ticketDetails: React.FC = () => {
             </>
           )}
           <h3>Ticket operation</h3>
-          <span>Lock</span>
+          {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
         </>
       )}
     </>
