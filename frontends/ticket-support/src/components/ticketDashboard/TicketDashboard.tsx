@@ -180,7 +180,6 @@ const TicketDashboard: React.FC = () => {
   }
 
   const handleTicketStatusFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value)
     if (e.target.value) {
       setTicketStatusFilter(e.target.value)
     } else {
@@ -212,7 +211,6 @@ const TicketDashboard: React.FC = () => {
 
   const nextPage = (endCursor: string) => {
     cursorStack.push(endCursor)
-    console.log({endCursor})
     setAfterCursor(endCursor)
   }
 
