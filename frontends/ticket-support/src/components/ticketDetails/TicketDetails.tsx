@@ -1,17 +1,54 @@
 import { ApolloError, useQuery } from '@apollo/client'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 import StatePlate from '../ticketItem/StatePlate'
 import ClaimTicket from './ClaimTicketButton'
 
 import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
-import TicketUnlock from '../ticketUnlock/TicketUnlock'
+import TicketAssign from '../ticketActions/TicketAssign'
+import TicketUnlock from '../ticketActions/TicketUnlock'
+
+const Heading = styled.div`
+  border-radius: 8px;
+  padding-top: 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: bold;
+`
+
+const Text = styled.div`
+  border-radius: 8px;
+  padding: .25rem;
+  font-size: 1rem;
+  font-weight: 400;
+`
+
+const Badge = styled.div`
+  width: fit-content;
+`
+
+const Button = styled.button`
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  border: 1px solid grey;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    background-color: grey;
+    color: white;
+  }
+`
 
 const ticketDetails: React.FC = () => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
   const history = useHistory()
   const { conferenceSlug, token } = useContext(AppContext)
+  const [reassignment, setReassignment] = useState(false)
 
   const {
     loading,
@@ -38,35 +75,58 @@ const ticketDetails: React.FC = () => {
   const assignee = assignment?.assignee
 
   return (
-    <>
+    <div>
       <button type="button"  onClick={() => history.goBack()}>Back</button>
-      <h3>Ticket: {bookingRef}</h3>
+      <Heading>Ticket: {bookingRef}</Heading>
       {!loading && !error && ticket && (
-        <>
+        <div>
           <div>
-            Ticket status: <StatePlate state={ticket?.state}/>
+            <Heading>Ticket status:</Heading>
+            <StatePlate state={ticket?.state}/>
+            <Heading>Assignment status:</Heading>
+            <StatePlate state={!ticket.assignment ? 'Unassigned' : assignment?.state as string} />
+
+            {ticket && !assignment && (
+              <div>
+                <Heading>Assign ticket:</Heading>
+                <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+              </div>
+            )}
           </div>
-          <div>Assignment status: <StatePlate state={!ticket.assignment ? 'Unassigned' : assignment?.state as string} /></div>
 
-          {assignee && (
-            <>
-              <h3>Ticket access information</h3>
-              <span>Booking reference: {assignee?.email}</span>
-              <span>App login email: {assignment?.appLoginEmail || assignee?.email}</span>
+            {assignee && (
+              <div>
+                <Heading>Assignee details</Heading>
+                <Text>Name: {assignee.firstName} {assignee.lastName}</Text>
+                <Text>Email: {assignee.email}</Text>
+                {ticket && reassignment && (
+                  <div>
+                    <Heading>Reassign ticket</Heading>
+                    <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+                  </div>
+                )}
+                <Button onClick={() => setReassignment(!reassignment)}>
+                  {reassignment ? 'Cancel' : 'Reassign'}
+                </Button>
 
-              <h3>User account information</h3>
-              <span>Identity email: {assignee?.email}</span>
-            </>
-          )}
-          <h3>Ticket operation</h3>
-          {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+                <Heading>Ticket access information</Heading>
+                <Text>Booking reference: {assignee?.email}</Text>
+                <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
 
-          <div>
-            <ClaimTicket ticketId={ticket.id} />
-          </div>
-        </>
+                <Heading>User account information</Heading>
+                <Text>Identity email: {assignee?.email}</Text>
+              </div>
+            )}
+            <div>
+              <Heading>Ticket operation</Heading>
+              {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+              <div>
+                <ClaimTicket ticketId={ticket.id} />
+              </div>
+            </div>
+        </div>
       )}
-    </>
+    </div>
   )
 }
 
