@@ -285,7 +285,7 @@ const TicketDashboard: React.FC = () => {
           <Select>
             <span>Ticket status</span>
             <select name="filter[status]" onChange={e => handleTicketStatusFilterChange(e)} value={ticketStatusFilter}>
-              <option></option>
+              <option value="">All</option>
               {Object.entries(TicketFilterStatus).map(([key, value]) => (
                 <option value={key}>{value}</option>
                 ))}
