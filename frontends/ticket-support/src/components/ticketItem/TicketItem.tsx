@@ -11,6 +11,7 @@ const ColumnStyles = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0 0.25rem;
+  word-break: break-word;
 `
 const Column = styled(ColumnStyles)`
   width: 10%;
@@ -18,7 +19,6 @@ const Column = styled(ColumnStyles)`
 const Email = styled(ColumnStyles)`
   width: 20%;
   white-space: pre-wrap;
-  word-wrap: break-word;
 `
 
 const StyledListItem = styled.li`

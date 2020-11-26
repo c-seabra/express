@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const State = styled.div`
+const State = styled.span`
   border-radius: 8px;
   padding: .25rem .5rem;
   font-size: .825rem;
