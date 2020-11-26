@@ -1,11 +1,12 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import React, { useContext, useState } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
+import StatePlate from '../ticketItem/StatePlate'
+import TicketClaim from '../ticketActions/TicketClaim'
 
 import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
-import { getAssignmentBadge, getTicketBadge } from '../ticketItem/TicketHelper'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 
@@ -22,10 +23,6 @@ const Text = styled.div`
   padding: .25rem;
   font-size: 1rem;
   font-weight: 400;
-`
-
-const Badge = styled.div`
-  width: fit-content;
 `
 
 const Button = styled.button`
@@ -45,6 +42,7 @@ const Button = styled.button`
 
 const ticketDetails: React.FC = () => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
+  const history = useHistory()
   const { conferenceSlug, token } = useContext(AppContext)
   const [reassignment, setReassignment] = useState(false)
 
@@ -71,21 +69,20 @@ const ticketDetails: React.FC = () => {
   const ticket = data?.ticket
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
-  const ticketBadge = getTicketBadge(ticket?.state)
-  const assignmentBadge = getAssignmentBadge(ticket?.state)
 
   return (
     <div>
+      <button type="button"  onClick={() => history.goBack()}>Back</button>
       <Heading>Ticket: {bookingRef}</Heading>
       {!loading && !error && ticket && (
         <div>
           <div>
             <Heading>Ticket status:</Heading>
-            <Badge>{ticketBadge}</Badge>
+            <StatePlate state={ticket?.state}/>
             <Heading>Assignment status:</Heading>
-            <Badge>{assignmentBadge}</Badge>
+            <StatePlate state={!assignment ? 'Unassigned' : assignment?.state as string} />
 
-            {ticket && !assignment && (
+            {ticket && ticket.state !== 'VOID' && !assignment && (
               <div>
                 <Heading>Assign ticket:</Heading>
                 <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
@@ -104,9 +101,11 @@ const ticketDetails: React.FC = () => {
                     <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
                   </div>
                 )}
-                <Button onClick={() => setReassignment(!reassignment)}>
-                  {reassignment ? 'Cancel' : 'Reassign'}
-                </Button>
+                {ticket.state !== 'VOID' && (
+                  <Button onClick={() => setReassignment(!reassignment)}>
+                    {reassignment ? 'Cancel' : 'Reassign'}
+                  </Button>
+                )}
 
                 <Heading>Ticket access information</Heading>
                 <Text>Booking reference: {assignee?.email}</Text>
@@ -119,6 +118,11 @@ const ticketDetails: React.FC = () => {
             <div>
               <Heading>Ticket operation</Heading>
               {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+              {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                <div>
+                  <TicketClaim ticketId={ticket.id} />
+                </div>
+              )}
             </div>
         </div>
       )}

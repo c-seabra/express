@@ -21,7 +21,6 @@ const GlobalStyle = createGlobalStyle`
 const StlyedContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
-  width: 100%;
   margin: 0 auto;
   font-size: 16px;
 `

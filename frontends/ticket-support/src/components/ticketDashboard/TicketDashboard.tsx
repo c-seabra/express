@@ -285,7 +285,7 @@ const TicketDashboard: React.FC = () => {
           <Select>
             <span>Ticket status</span>
             <select name="filter[status]" onChange={e => handleTicketStatusFilterChange(e)} value={ticketStatusFilter}>
-              <option></option>
+              <option value="">All</option>
               {Object.entries(TicketFilterStatus).map(([key, value]) => (
                 <option value={key}>{value}</option>
                 ))}
@@ -305,7 +305,7 @@ const TicketDashboard: React.FC = () => {
         <TicketDashboardHeader />
         {loading && <Loader />}
         {error}
-        {!loading && !error && <TicketList list={data?.tickets.edges.map(node => node.node)} />}
+        {!loading && !error && data?.tickets?.edges !== undefined && data?.tickets?.edges?.length > 0 && <TicketList list={data?.tickets.edges.map(node => node.node)} />}
       </StyledList>
       {!loading && !error && (
         <Pagination>

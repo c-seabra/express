@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Ticket } from '../app/App'
-import { getAssignmentBadge, UnassignedState } from './TicketHelper'
+import StatePlate from './StatePlate'
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -11,6 +11,7 @@ const ColumnStyles = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0 0.25rem;
+  word-break: break-word;
 `
 const Column = styled(ColumnStyles)`
   width: 10%;
@@ -18,7 +19,6 @@ const Column = styled(ColumnStyles)`
 const Email = styled(ColumnStyles)`
   width: 20%;
   white-space: pre-wrap;
-  word-wrap: break-word;
 `
 
 const StyledListItem = styled.li`
@@ -37,9 +37,9 @@ const StyledListItem = styled.li`
 
 const ticketItem: React.FC<Ticket> = ticket => {
   const history = useHistory()
-  let assignmentState = getAssignmentBadge(ticket?.assignment?.state)
-  let ticketState = getAssignmentBadge(ticket?.state)
- 
+
+  const assignmentState = !ticket.assignment ? 'Unassigned' : ticket.assignment?.state as string
+
   return (
     <StyledListItem onClick={() => history.push(`tickets/${ticket.bookingRef}`)}>
       <Column>{ticket.bookingRef}</Column>
@@ -48,12 +48,8 @@ const ticketItem: React.FC<Ticket> = ticket => {
         {ticket.assignment?.assignee.firstName} {ticket.assignment?.assignee.lastName}
       </Column>
       <Email>{ticket.assignment?.assignee.email}</Email>
-      <Column>
-        {ticket.assignment === null ? (
-          <UnassignedState>Unassigned</UnassignedState>
-        ) : assignmentState}
-      </Column>
-      <Column>{ticketState}</Column>
+      <Column><StatePlate state={assignmentState}/></Column>
+      <Column><StatePlate state={ticket.state}/></Column>
       <Column>
         {ticket.order.owner.firstName} {ticket.order.owner.lastName}
       </Column>
