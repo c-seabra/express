@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { TICKET_ACCEPT_MUTATION } from '../../operations/mutations/TicketAccept'
 import { AppContext } from '../app/App'
+import { Button } from '../ticketDetails/TicketDetails'
 
 const TicketClaim = ({ ticketId } : { ticketId :string}) => {
   const { conferenceSlug, token } = useContext(AppContext)
@@ -46,7 +47,7 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
   return (
     <div>
       {claimStatus.message}
-      <button type="button" onClick={() => claimTicket()}>Auto claim</button>
+      <Button type="button" onClick={() => claimTicket()}>Auto claim</Button>
     </div>
   )
 }
