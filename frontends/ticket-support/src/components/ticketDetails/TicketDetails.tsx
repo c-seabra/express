@@ -9,6 +9,7 @@ import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
+import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 
 const Heading = styled.div`
   border-radius: 8px;
@@ -72,7 +73,7 @@ const ticketDetails: React.FC = () => {
   const ticket = data?.ticket
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
-
+  console.log({ticket})
   return (
     <div>
       <Heading><button type="button"  onClick={() => history.goBack()}>Back</button> Manage Ticket/<span>{bookingRef}</span></Heading>
@@ -112,6 +113,9 @@ const ticketDetails: React.FC = () => {
                 <Heading>Ticket access information</Heading>
                 <Text>Booking reference: {assignee?.email}</Text>
                 <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
+                <div>
+                  <UpdateAppLoginEmail bookingRef={bookingRef}/>
+                </div>
 
                 <Heading>User account information</Heading>
                 <Text>Identity email: {assignee?.email}</Text>
