@@ -48,10 +48,10 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
   resetReassignment,
 }) => {
   const { conferenceSlug, token } = useContext(AppContext)
-  const [email, setEmail] = useState()
-  const [firstName, setFirstName] = useState()
-  const [lastName, setLastName] = useState()
-  const [error, setError] = useState()
+  const [email, setEmail] = useState<string | undefined>()
+  const [firstName, setFirstName] = useState<string | undefined>()
+  const [lastName, setLastName] = useState<string | undefined>()
+  const [error, setError] = useState<string | undefined>()
 
   const assign = () => {
     if (firstName && email) {
