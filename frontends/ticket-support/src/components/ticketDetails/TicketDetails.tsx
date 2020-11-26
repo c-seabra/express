@@ -9,6 +9,7 @@ import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
+import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 
 const Heading = styled.div`
   border-radius: 8px;
@@ -16,6 +17,9 @@ const Heading = styled.div`
   font-size: 1rem;
   font-weight: 400;
   font-weight: bold;
+  span {
+    color: #00ac93;
+  }
 `
 
 const Text = styled.div`
@@ -45,6 +49,7 @@ const ticketDetails: React.FC = () => {
   const history = useHistory()
   const { conferenceSlug, token } = useContext(AppContext)
   const [reassignment, setReassignment] = useState(false)
+  const [loginEmailChange, setLoginEmailChange] = useState(false)
 
   const {
     loading,
@@ -72,8 +77,7 @@ const ticketDetails: React.FC = () => {
 
   return (
     <div>
-      <button type="button"  onClick={() => history.goBack()}>Back</button>
-      <Heading>Ticket: {bookingRef}</Heading>
+      <Heading><button type="button"  onClick={() => history.goBack()}>Back</button> Manage Ticket/<span>{bookingRef}</span></Heading>
       {!loading && !error && ticket && (
         <div>
           <div>
@@ -110,6 +114,14 @@ const ticketDetails: React.FC = () => {
                 <Heading>Ticket access information</Heading>
                 <Text>Booking reference: {assignee?.email}</Text>
                 <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
+                {loginEmailChange && (
+                  <div>
+                    <UpdateAppLoginEmail bookingRef={bookingRef}/>
+                  </div>
+                )}
+                <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                  Update App Login Email
+                </Button>
 
                 <Heading>User account information</Heading>
                 <Text>Identity email: {assignee?.email}</Text>

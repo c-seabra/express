@@ -27,7 +27,8 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
           type: 'SUCCESS'
         })
       }
-    }
+    },
+    refetchQueries: ['Ticket'],
   })
 
   const claimTicket = () => {
