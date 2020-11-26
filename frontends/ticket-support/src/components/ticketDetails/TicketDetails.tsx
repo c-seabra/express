@@ -16,6 +16,9 @@ const Heading = styled.div`
   font-size: 1rem;
   font-weight: 400;
   font-weight: bold;
+  span {
+    color: #00ac93;
+  }
 `
 
 const Text = styled.div`
@@ -76,8 +79,7 @@ const ticketDetails: React.FC = () => {
 
   return (
     <div>
-      <button type="button"  onClick={() => history.goBack()}>Back</button>
-      <Heading>Ticket: {bookingRef}</Heading>
+      <Heading><button type="button"  onClick={() => history.goBack()}>Back</button> Manage Ticket/<span>{bookingRef}</span></Heading>
       {!loading && !error && ticket && (
         <div>
           <div>
