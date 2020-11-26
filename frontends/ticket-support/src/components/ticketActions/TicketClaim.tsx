@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { TICKET_ACCEPT_MUTATION } from '../../operations/mutations/TicketAccept'
 import { AppContext } from '../app/App'
 
-const ClaimTicket = ({ ticketId } : { ticketId :string}) => {
+const TicketClaim = ({ ticketId } : { ticketId :string}) => {
   const { conferenceSlug, token } = useContext(AppContext)
   const [claimStatus, setClaimStatus] = useState({
     message: '',
@@ -50,4 +50,4 @@ const ClaimTicket = ({ ticketId } : { ticketId :string}) => {
   )
 }
 
-export default ClaimTicket
+export default TicketClaim

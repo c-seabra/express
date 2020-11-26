@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import StatePlate from '../ticketItem/StatePlate'
-import ClaimTicket from './ClaimTicketButton'
+import TicketClaim from '../ticketActions/TicketClaim'
 
 import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
@@ -26,10 +26,6 @@ const Text = styled.div`
   padding: .25rem;
   font-size: 1rem;
   font-weight: 400;
-`
-
-const Badge = styled.div`
-  width: fit-content;
 `
 
 const Button = styled.button`
@@ -86,7 +82,7 @@ const ticketDetails: React.FC = () => {
             <Heading>Ticket status:</Heading>
             <StatePlate state={ticket?.state}/>
             <Heading>Assignment status:</Heading>
-            <StatePlate state={!ticket.assignment ? 'Unassigned' : assignment?.state as string} />
+            <StatePlate state={!assignment ? 'Unassigned' : assignment?.state as string} />
 
             {ticket && ticket.state !== 'VOID' && !assignment && (
               <div>
@@ -126,7 +122,7 @@ const ticketDetails: React.FC = () => {
               {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
               {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
                 <div>
-                  <ClaimTicket ticketId={ticket.id} />
+                  <TicketClaim ticketId={ticket.id} />
                 </div>
               )}
             </div>
