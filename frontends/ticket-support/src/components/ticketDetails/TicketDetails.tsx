@@ -73,7 +73,7 @@ const ticketDetails: React.FC = () => {
   const ticket = data?.ticket
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
-  console.log({ticket})
+
   return (
     <div>
       <Heading><button type="button"  onClick={() => history.goBack()}>Back</button> Manage Ticket/<span>{bookingRef}</span></Heading>
