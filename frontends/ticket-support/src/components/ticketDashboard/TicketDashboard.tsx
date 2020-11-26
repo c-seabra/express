@@ -269,7 +269,6 @@ const TicketDashboard: React.FC = () => {
 
   return (
     <div>
-      <h2>Manage Tickets - Ticket Assignment - Ticket Support Dashboard</h2>
       <SearchFilters>
         <Search>
           <SearchIcon />
