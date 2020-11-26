@@ -86,7 +86,7 @@ const ticketDetails: React.FC = () => {
             <Heading>Assignment status:</Heading>
             <StatePlate state={!ticket.assignment ? 'Unassigned' : assignment?.state as string} />
 
-            {ticket && !assignment && (
+            {ticket && ticket.state !== 'VOID' && !assignment && (
               <div>
                 <Heading>Assign ticket:</Heading>
                 <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
@@ -105,9 +105,11 @@ const ticketDetails: React.FC = () => {
                     <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
                   </div>
                 )}
-                <Button onClick={() => setReassignment(!reassignment)}>
-                  {reassignment ? 'Cancel' : 'Reassign'}
-                </Button>
+                {ticket.state !== 'VOID' && (
+                  <Button onClick={() => setReassignment(!reassignment)}>
+                    {reassignment ? 'Cancel' : 'Reassign'}
+                  </Button>
+                )}
 
                 <Heading>Ticket access information</Heading>
                 <Text>Booking reference: {assignee?.email}</Text>
@@ -120,9 +122,11 @@ const ticketDetails: React.FC = () => {
             <div>
               <Heading>Ticket operation</Heading>
               {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-              <div>
-                <ClaimTicket ticketId={ticket.id} />
-              </div>
+              {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                <div>
+                  <ClaimTicket ticketId={ticket.id} />
+                </div>
+              )}
             </div>
         </div>
       )}
