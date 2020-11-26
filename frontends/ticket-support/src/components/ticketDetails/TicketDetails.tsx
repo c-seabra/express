@@ -49,6 +49,7 @@ const ticketDetails: React.FC = () => {
   const history = useHistory()
   const { conferenceSlug, token } = useContext(AppContext)
   const [reassignment, setReassignment] = useState(false)
+  const [loginEmailChange, setLoginEmailChange] = useState(false)
 
   const {
     loading,
@@ -113,9 +114,14 @@ const ticketDetails: React.FC = () => {
                 <Heading>Ticket access information</Heading>
                 <Text>Booking reference: {assignee?.email}</Text>
                 <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
-                <div>
-                  <UpdateAppLoginEmail bookingRef={bookingRef}/>
-                </div>
+                {loginEmailChange && (
+                  <div>
+                    <UpdateAppLoginEmail bookingRef={bookingRef}/>
+                  </div>
+                )}
+                <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                  Update App Login Email
+                </Button>
 
                 <Heading>User account information</Heading>
                 <Text>Identity email: {assignee?.email}</Text>
