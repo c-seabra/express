@@ -114,14 +114,18 @@ const ticketDetails: React.FC = () => {
                 <Heading>Ticket access information</Heading>
                 <Text>Booking reference: {assignee?.email}</Text>
                 <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
-                {loginEmailChange && (
-                  <div>
-                    <UpdateAppLoginEmail bookingRef={bookingRef}/>
-                  </div>
+                {assignment?.state === 'ACCEPTED' && (
+                  <>
+                    {loginEmailChange && (
+                      <div>
+                        <UpdateAppLoginEmail bookingRef={bookingRef}/>
+                      </div>
+                    )}
+                    <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                      Update App Login Email
+                    </Button>
+                  </>
                 )}
-                <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                  Update App Login Email
-                </Button>
 
                 <Heading>User account information</Heading>
                 <Text>Identity email: {assignee?.email}</Text>
