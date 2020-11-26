@@ -82,7 +82,9 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string }> = ({
       <Form
         onSubmit={e => {
           e.preventDefault()
-         updateLoginEmail()
+          if (confirm('Are you sure you want to change App Login Email for this ticket? This will have many implications in our systems! Make sure you know what you are doing!')) {
+            updateLoginEmail()
+          }
         }}
       >
         {error && <div>{error}</div>}
@@ -92,7 +94,7 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string }> = ({
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
-      <Warning>Here goes a big red flashy warning</Warning>
+      <Warning>Change this only if you know how it's going to reflect our systems!</Warning>
     </div>
   )
 }
