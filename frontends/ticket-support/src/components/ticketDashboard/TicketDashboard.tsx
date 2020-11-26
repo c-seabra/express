@@ -158,6 +158,7 @@ const TicketDashboard: React.FC = () => {
       const ticketTypeIdsArray = fixTypeTicketTypeIds.split(',')
       setTicketTypesFilter(ticketTypeIdsArray)
     }
+    if (searchState.page) setAfterCursor(searchState.page as string)
   }, [])
 
   useEffect(() => {
@@ -207,11 +208,13 @@ const TicketDashboard: React.FC = () => {
     cursorStack.pop()
     const endCursor = cursorStack[cursorStack.length - 1]
     setAfterCursor(endCursor)
+    setSearchState({...searchState, page:endCursor})
   }
 
   const nextPage = (endCursor: string) => {
     cursorStack.push(endCursor)
     setAfterCursor(endCursor)
+    setSearchState({...searchState, page:endCursor})
   }
 
   const {
@@ -309,7 +312,7 @@ const TicketDashboard: React.FC = () => {
       {!loading && !error && (
         <Pagination>
           <PaginationButton disabled={cursorStack.length <= 0} onClick={cursorStack.length > 0 ? () => previousPage() : ()=>{}}>Previous</PaginationButton>
-          <PaginationButton disabled={!data?.tickets?.pageInfo?.hasNextPage}onClick={data?.tickets?.pageInfo?.hasNextPage ? () => nextPage(data?.tickets?.pageInfo?.endCursor) : ()=>{}}>
+          <PaginationButton disabled={!data?.tickets?.pageInfo?.hasNextPage} onClick={data?.tickets?.pageInfo?.hasNextPage ? () => nextPage(data?.tickets?.pageInfo?.endCursor) : ()=>{}}>
             Next
           </PaginationButton>
         </Pagination>
