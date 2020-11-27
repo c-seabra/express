@@ -5,7 +5,15 @@ export const ASSIGNMENT_USER = gql`
     assignmentUser(
       email: $email
     ) {
-      email
+      assigneeAssignments {
+        edges {
+          node {
+            assignee {
+              email
+            }
+          }
+        }
+      }
     }
   }
 `
