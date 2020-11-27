@@ -251,18 +251,16 @@ const ticketDetails: React.FC = () => {
 
               </div>
             )}
-            {ticket.state === 'LOCKED' || (assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID') && (
-              <div>
-                <hr/>
-                <Heading>Ticket operation</Heading>
-                {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-                {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
-                  <div>
-                    <TicketClaim ticketId={ticket.id} />
-                  </div>
-                )}
-              </div>
-            )}
+            <div>
+              <hr/>
+              <Heading>Ticket operation</Heading>
+              {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+              {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                <div>
+                  <TicketClaim ticketId={ticket.id} />
+                </div>
+              )}
+            </div>
         </div>
       )}
     </StlyedContainer>
