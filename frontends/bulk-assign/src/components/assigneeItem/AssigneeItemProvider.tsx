@@ -103,7 +103,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
     }
   })
 
-  const { data: newAssignmentUserData }: {data: unknown} = useQuery(ASSIGNMENT_USER, {
+  const { data: newAssignmentUserData } = useQuery(ASSIGNMENT_USER, {
     context: {
       token,
       slug: conferenceSlug
@@ -111,11 +111,26 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
     variables: {
       email,
     },
-    onCompleted: (data) => {
-      console.log({data})
-      if (data?.assignmentUser?.email) {
+    onCompleted: (
+      data: {
+        userErrors?: [{message: string}];
+        assignmentUser?: {
+          assigneeAssignments?: {
+            edges?: [
+              {
+                node?: {
+                  assignee?: {
+                    email?: string
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }) => {
+      if (data?.assignmentUser?.assigneeAssignments?.edges?.[0].node?.assignee?.email) {
         setStatus({
-          message: 'Current assignee email is same as new one.',
+          message: 'Current assignee email is same as new assignee email.',
           type: 'ERROR'
         })
       }
@@ -170,84 +185,91 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
 
   useEffect(() => {
     if(!error && data?.ticket && newAssignmentUserData) {
-      if(data.ticket.state === 'VOID') {
-        setStatus({
-          message: 'This ticket has been voided',
-          type: 'ERROR'
-        })
-        setClaimStatus({
-          message: 'Tikcet is voided',
-          type: 'ERROR'
-        })
-      } else if (email === data.ticket.assignment?.assignee?.email) {
-        setStatus({
-          message: `Current ticket asignee email is same as reassignment email - ${bookingRef}`,
-          type: 'ERROR'
-        })
+      const newAssignmentUserEmail = newAssignmentUserData?.assignmentUser?.assigneeAssignments?.edges?.[0].node?.assignee?.email
+      const ticketState = data.ticket.state
+      const ticketAssignment = data.ticket.assignment
+      const ticketAssignmentState = ticketAssignment?.state
+      const ticketAssignmentEmail = ticketAssignment?.assignee?.email
 
-        if(hasAutoClaim && (data.ticket.assignment?.state === 'PENDING')) {
-          claimTicket(data.ticket.id)
-        } else {
-          setClaimStatus({
-            message: `${bookingRef} ticket cannot be auto claimed as it has already been ${data.ticket.assignment?.state}`,
-            type: 'ERROR'
-          })
-        }
-      } else if (newAssignmentUserData?.assignmentUser?.email) {
-        setStatus({
-          message: `New assignee already owns a ticket for ${conferenceSlug as string} therefore reassignment will not be executed.`,
-          type: 'ERROR'
-        })
-        if(hasAutoClaim && (data.ticket.assignment?.state === 'PENDING')) {
-          claimTicket(data.ticket.id)
-        } else {
-          setClaimStatus({
-            message: `${bookingRef} ticket cannot be auto claimed as it has already been accepted`,
-            type: 'ERROR'
-          })
-        }
-      } else {
-        if (
-          (data.ticket.assignment === null
-          || data.ticket.assignment?.state === 'PENDING'
-          || data.ticket.assignment?.state === 'REJECTED')
-          && (firstName && lastName && data.ticket.id)
-        ) {
-          ticketAssign({
-            context: {
-              token,
-              slug: conferenceSlug
-            },
-            variables: {
-              firstName,
-              lastName,
-              email,
-              ticketId: data?.ticket?.id
-            }
-          }).catch(() => {
-            setStatus({
-              message: `Unable to assign this ticket - ${bookingRef}`,
-              type: 'ERROR'
-            })
-            setClaimStatus({
-              message: 'Can not auto claim',
-              type: 'ERROR'
-            })
-          })
-        } else {
+      if (
+        ticketState !== 'VOID'
+        && (ticketAssignment === null || ticketAssignmentState === 'REJECTED')
+        && !newAssignmentUserEmail
+        && email !== ticketAssignmentEmail
+        && (firstName && lastName && data.ticket.id)
+      ) {
+        ticketAssign({
+          context: {
+            token,
+            slug: conferenceSlug
+          },
+          variables: {
+            firstName,
+            lastName,
+            email,
+            ticketId: data?.ticket?.id
+          }
+        }).catch(() => {
           setStatus({
-            message: `This ticket has already been claimed - ${bookingRef}`,
+            message: `Unable to assign this ticket - ${bookingRef}`,
             type: 'ERROR'
           })
           setClaimStatus({
-            message: `This ticket has already been claimed - ${bookingRef}`,
+            message: 'Can not auto claim',
+            type: 'ERROR'
+          })
+        })
+      } else {
+        if(ticketState === 'VOID') {
+          setStatus({
+            message: 'This ticket has been voided and cannot be reassigned.',
+            type: 'ERROR'
+          })
+          setClaimStatus({
+            message: 'This ticket has been voided and cannot be claimed.',
+            type: 'ERROR'
+          })
+        }
+        else if (email === ticketAssignmentEmail) {
+          setStatus({
+            message: 'Reassignment email is same as current ticket assignee email.',
+            type: 'ERROR'
+          })
+  
+          if(hasAutoClaim && (ticketAssignmentState === 'PENDING')) {
+            claimTicket(data.ticket.id)
+          } else {
+            setClaimStatus({
+              message: `${bookingRef} ticket cannot be auto claimed as it has been ${ticketAssignmentState}`,
+              type: 'ERROR'
+            })
+          }
+        }
+        else if (ticketAssignmentState === 'PENDING' || ticketAssignmentState === 'ACCEPTED') {
+          setStatus({
+            message: `This ticket has ${ticketAssignmentState} ticket state and cannot be reassigned.`,
+            type: 'ERROR'
+          })
+          setClaimStatus({
+            message: `This ticket has ${ticketAssignmentState} ticket state and cannot be claimed.`,
+            type: 'ERROR'
+          })
+        }
+        else if (newAssignmentUserEmail) {
+          setStatus({
+            message: `${newAssignmentUserEmail} already owns a ticket for ${conferenceSlug as string} event therefore reassignment will not be executed.`,
+            type: 'ERROR'
+          })
+          setClaimStatus({
+            message: `${newAssignmentUserEmail} already owns a ticket for ${conferenceSlug as string} event therefore auto claim will not be executed.`,
             type: 'ERROR'
           })
         }
       }
+
     } else {
       setStatus({
-        message: `There was an error fetching ticket information, make sure your csv contains all required information - ${bookingRef}`,
+        message: 'There was an error fetching ticket information, make sure your csv contains all required information or try again later.',
         type: 'ERROR'
       })
     }
