@@ -29,6 +29,9 @@ const Heading = styled.div`
   font-size: 1rem;
   font-weight: 400;
   font-weight: bold;
+  button {
+    margin-right: 1rem;
+  }
   span {
     color: #00ac93;
   }
@@ -39,6 +42,11 @@ const Text = styled.div`
   padding: .25rem;
   font-size: 1rem;
   font-weight: 400;
+`
+
+const TextHighlight = styled.span`
+  color: #337ab7;
+  margin: 0 .25rem;
 `
 
 export const Button = styled.button`
@@ -75,6 +83,38 @@ const TicketStatusBar = styled.div`
   align-items: center;
 `
 
+const TooltipIndicator = styled.span`
+  opacity: 0;
+  position: absolute;
+  left: -9999px;
+  transition: opacity .2s ease;
+`
+
+const Tooltip = styled.span`
+  position: relative;
+  ${TooltipIndicator} {
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+    transition: opacity .2s ease;
+  }
+  &:hover {
+    cursor: pointer;
+    ${TooltipIndicator} {
+      opacity: 1;
+      left: 0;
+      top: -20px;
+      width: 70px;
+      font-size: .725rem;
+      background: grey;
+      color: white;
+      padding: .25rem;
+      border-radius: 4px;
+      text-align: center;
+    }
+  }
+`
+
 const ticketDetails: React.FC = () => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
   const history = useHistory()
@@ -102,6 +142,15 @@ const ticketDetails: React.FC = () => {
     },
   })
 
+  const copyToClipBoard = (copyMe: string) => {
+    const textField = document.createElement('textarea')
+    textField.innerText = copyMe
+    document.body.appendChild(textField)
+    textField.select()
+    document.execCommand('copy')
+    textField.remove()
+  };
+
   const ticket = data?.ticket
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
@@ -109,7 +158,14 @@ const ticketDetails: React.FC = () => {
   return (
     <StlyedContainer>
       <TicketHeader>
-        <Heading><Button type="button"  onClick={() => history.goBack()}>Back</Button> Manage Ticket/<span>{bookingRef}</span></Heading>
+        <Heading>
+          <Button type="button"  onClick={() => history.goBack()}>Back</Button>
+          Manage Ticket/
+          <Tooltip onClick={() => copyToClipBoard(bookingRef)}>
+            {bookingRef}
+            <TooltipIndicator>Click to copy</TooltipIndicator>
+          </Tooltip>
+        </Heading>
         <TicketStatusBar>
           <TicketStatus>
             <span>Ticket status</span>
@@ -138,7 +194,12 @@ const ticketDetails: React.FC = () => {
               <div>
                 <Heading>Assignee details</Heading>
                 <Text>Name: {assignee.firstName} {assignee.lastName}</Text>
-                <Text>Email: {assignee.email}</Text>
+                <Text>Email:
+                  <Tooltip onClick={() => copyToClipBoard(assignee.email)}>
+                    <TextHighlight>{assignee.email}</TextHighlight>
+                    <TooltipIndicator>Click to copy</TooltipIndicator>
+                  </Tooltip>
+                </Text>
                 {ticket && reassignment && (
                   <div>
                     <Heading>Reassign ticket</Heading>
@@ -154,10 +215,20 @@ const ticketDetails: React.FC = () => {
                 <hr/>
 
                 <Heading>Ticket access information</Heading>
-                <Text>Booking reference: {bookingRef}</Text>
+                <Text>Booking reference:
+                  <Tooltip onClick={() => copyToClipBoard(bookingRef)}>
+                    <TextHighlight>{bookingRef}</TextHighlight>
+                    <TooltipIndicator>Click to copy</TooltipIndicator>
+                  </Tooltip>
+                </Text>
                 {assignment?.state === 'ACCEPTED' && (
                   <>
-                    <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
+                    <Text>App login email: 
+                      <Tooltip onClick={() => copyToClipBoard(assignment?.appLoginEmail || assignee?.email)}>
+                        <TextHighlight>{assignment?.appLoginEmail || assignee?.email}</TextHighlight>
+                        <TooltipIndicator>Click to copy</TooltipIndicator>
+                      </Tooltip>
+                    </Text>
                     {loginEmailChange && (
                       <UpdateAppLoginEmail bookingRef={bookingRef} resetLoginEmailChange={setLoginEmailChange}/>
                     )}
@@ -170,7 +241,12 @@ const ticketDetails: React.FC = () => {
                 <hr/>
 
                 <Heading>User account information</Heading>
-                <Text>Identity email: {assignee?.email}</Text>
+                <Text>Identity email: 
+                  <Tooltip onClick={() => copyToClipBoard(assignee?.email)}>
+                    <TextHighlight>{assignee?.email}</TextHighlight>
+                    <TooltipIndicator>Click to copy</TooltipIndicator>
+                  </Tooltip>
+                </Text>
 
 
               </div>
