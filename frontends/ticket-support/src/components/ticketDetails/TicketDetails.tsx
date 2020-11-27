@@ -19,7 +19,7 @@ const StlyedContainer = styled.section`
   border-radius: 8px;
   border: 1px solid grey;
   hr {
-    border-color: 1px solid grey;
+    border-color: grey;
   }
 `
 
