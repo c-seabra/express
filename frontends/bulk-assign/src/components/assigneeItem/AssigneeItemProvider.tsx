@@ -8,6 +8,7 @@ import TICKET_ACCEPT_MUTATION from '../../operations/mutations/TicketAccept'
 import AssigneeItem from '../assigneeItem/AssigneeItem'
 
 import { AppContext, Assignee } from '../app/App'
+import ASSIGNMENT_USER from '../../operations/queries/AssignmentUserByEmail'
 
 export type StatusType = {
   message: string
@@ -102,6 +103,31 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
     }
   })
 
+  const { data: newAssignmentUserData }: {data: unknown} = useQuery(ASSIGNMENT_USER, {
+    context: {
+      token,
+      slug: conferenceSlug
+    },
+    variables: {
+      email,
+    },
+    onCompleted: (data) => {
+      console.log({data})
+      if (data?.assignmentUser?.email) {
+        setStatus({
+          message: 'Current assignee email is same as new one.',
+          type: 'ERROR'
+        })
+      }
+      if (data?.userErrors?.length) {
+        setStatus({
+          message: data.userErrors[0].message,
+          type: 'ERROR'
+        })
+      }
+    }
+  })
+
   const {loading, error, data}: {
     loading?: boolean;
     error?: ApolloError;
@@ -143,7 +169,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
   })
 
   useEffect(() => {
-    if(!error && data?.ticket) {
+    if(!error && data?.ticket && newAssignmentUserData) {
       if(data.ticket.state === 'VOID') {
         setStatus({
           message: 'This ticket has been voided',
@@ -159,7 +185,20 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
           type: 'ERROR'
         })
 
-        if(hasAutoClaim && (data.ticket.assignment?.state === 'PENDING' || data.ticket.assignment?.state === 'REJECTED')) {
+        if(hasAutoClaim && (data.ticket.assignment?.state === 'PENDING')) {
+          claimTicket(data.ticket.id)
+        } else {
+          setClaimStatus({
+            message: `${bookingRef} ticket cannot be auto claimed as it has already been ${data.ticket.assignment?.state}`,
+            type: 'ERROR'
+          })
+        }
+      } else if (newAssignmentUserData?.assignmentUser?.email) {
+        setStatus({
+          message: `New assignee already owns a ticket for ${conferenceSlug as string} therefore reassignment will not be executed.`,
+          type: 'ERROR'
+        })
+        if(hasAutoClaim && (data.ticket.assignment?.state === 'PENDING')) {
           claimTicket(data.ticket.id)
         } else {
           setClaimStatus({
@@ -167,9 +206,13 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
             type: 'ERROR'
           })
         }
-
       } else {
-        if (data.ticket.assignment === null || data.ticket.assignment?.state === 'PENDING' || data.ticket.assignment?.state === 'REJECTED' && firstName && lastName && data.ticket.id) {
+        if (
+          (data.ticket.assignment === null
+          || data.ticket.assignment?.state === 'PENDING'
+          || data.ticket.assignment?.state === 'REJECTED')
+          && (firstName && lastName && data.ticket.id)
+        ) {
           ticketAssign({
             context: {
               token,
@@ -209,7 +252,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
       })
     }
 
-  }, [data?.ticket?.id as string, error])
+  }, [data?.ticket?.id as string, error, newAssignmentUserData])
   if(loading) return null
 
   return (
