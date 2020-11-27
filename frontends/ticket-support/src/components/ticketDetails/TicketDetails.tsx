@@ -142,7 +142,7 @@ const ticketDetails: React.FC = () => {
                     <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
                   </div>
                 )}
-                {ticket.state !== 'VOID' && (
+                {ticket.state =='ACTIVE' && (
                   <Button onClick={() => setReassignment(!reassignment)}>
                     {reassignment ? 'Cancel' : 'Reassign'}
                   </Button>
