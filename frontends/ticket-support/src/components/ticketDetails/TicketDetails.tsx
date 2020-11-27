@@ -18,6 +18,9 @@ const StlyedContainer = styled.section`
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid grey;
+  hr {
+    border-color: 1px solid grey;
+  }
 `
 
 const Heading = styled.div`
@@ -156,12 +159,10 @@ const ticketDetails: React.FC = () => {
                   <>
                     <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
                     {loginEmailChange && (
-                      <div>
-                        <UpdateAppLoginEmail bookingRef={bookingRef}/>
-                      </div>
+                      <UpdateAppLoginEmail bookingRef={bookingRef} resetLoginEmailChange={setLoginEmailChange}/>
                     )}
                     <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                      Update App Login Email
+                      {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
                     </Button>
                   </>
                 )}
