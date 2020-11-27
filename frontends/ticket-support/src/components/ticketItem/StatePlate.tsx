@@ -21,6 +21,10 @@ const VoidState = styled(State)`
   background-color: #ed1846;
   color: #fff;
 `
+const LockedState = styled(State)`
+  background-color: #0d153a;
+  color: #fff;
+`
 
 const StatePlate = ({state}: {state:string}) => {
 
@@ -30,7 +34,7 @@ const StatePlate = ({state}: {state:string}) => {
     case 'CHECKED_IN':
       return <UnassignedState>Checked In</UnassignedState>
     case 'LOCKED':
-      return <ActiveState>Locked</ActiveState>
+      return <LockedState>Locked</LockedState>
     case 'VOID':
       return <VoidState>Void</VoidState>
     case 'ACCEPTED':

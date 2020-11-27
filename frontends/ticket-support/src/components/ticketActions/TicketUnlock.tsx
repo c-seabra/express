@@ -5,6 +5,7 @@ import React, { FC, useContext } from 'react'
 
 import UNLOCK_MUTATION from '../../operations/mutations/TicketUnlock'
 import { AppContext } from '../app/App'
+import { Button } from '../ticketDetails/TicketDetails'
 
 interface IProps {
   bookingRef: string
@@ -22,7 +23,7 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
   if (data) return <p>Ticket unlocked.</p>
 
   return (
-    <button
+    <Button
       style={{ cursor: 'pointer' }}
       type="button"
       onClick={async () => {
@@ -36,7 +37,7 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
       }}
     >
       Unlock
-    </button>
+    </Button>
   )
 }
 

@@ -11,6 +11,15 @@ import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 
+const StlyedContainer = styled.section`
+  padding: 1rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid grey;
+`
+
 const Heading = styled.div`
   border-radius: 8px;
   padding-top: 0.75rem;
@@ -29,8 +38,8 @@ const Text = styled.div`
   font-weight: 400;
 `
 
-const Button = styled.button`
-  margin: 1rem 0;
+export const Button = styled.button`
+  margin: 0 0 1rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: none;
@@ -42,6 +51,25 @@ const Button = styled.button`
     background-color: grey;
     color: white;
   }
+`
+const TicketHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+const TicketStatus = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: .85rem;
+  margin-right: .75rem;
+  > span {
+    margin-bottom: .25rem;
+  }
+`
+const TicketStatusBar = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 const ticketDetails: React.FC = () => {
@@ -76,23 +104,32 @@ const ticketDetails: React.FC = () => {
   const assignee = assignment?.assignee
 
   return (
-    <div>
-      <Heading><button type="button"  onClick={() => history.goBack()}>Back</button> Manage Ticket/<span>{bookingRef}</span></Heading>
+    <StlyedContainer>
+      <TicketHeader>
+        <Heading><Button type="button"  onClick={() => history.goBack()}>Back</Button> Manage Ticket/<span>{bookingRef}</span></Heading>
+        <TicketStatusBar>
+          <TicketStatus>
+            <span>Ticket status</span>
+            <StatePlate state={ticket?.state as string}/>
+          </TicketStatus>
+          <TicketStatus>
+            <span>Assignment status</span>
+            <StatePlate state={!assignment ? 'Unassigned' : assignment?.state as string} />
+          </TicketStatus>
+        </TicketStatusBar>
+      </TicketHeader>
+      <hr/>
       {!loading && !error && ticket && (
         <div>
-          <div>
-            <Heading>Ticket status:</Heading>
-            <StatePlate state={ticket?.state}/>
-            <Heading>Assignment status:</Heading>
-            <StatePlate state={!assignment ? 'Unassigned' : assignment?.state as string} />
-
             {ticket && ticket.state !== 'VOID' && !assignment && (
-              <div>
-                <Heading>Assign ticket:</Heading>
-                <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
-              </div>
+              <>
+                <div>
+                  <Heading>Assign ticket:</Heading>
+                  <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+                </div>
+                <hr/>
+              </>
             )}
-          </div>
 
             {assignee && (
               <div>
@@ -111,34 +148,47 @@ const ticketDetails: React.FC = () => {
                   </Button>
                 )}
 
+                <hr/>
+
                 <Heading>Ticket access information</Heading>
-                <Text>Booking reference: {assignee?.email}</Text>
-                <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
-                {loginEmailChange && (
-                  <div>
-                    <UpdateAppLoginEmail bookingRef={bookingRef}/>
-                  </div>
+                <Text>Booking reference: {bookingRef}</Text>
+                {assignment?.state === 'ACCEPTED' && (
+                  <>
+                    <Text>App login email: {assignment?.appLoginEmail || assignee?.email}</Text>
+                    {loginEmailChange && (
+                      <div>
+                        <UpdateAppLoginEmail bookingRef={bookingRef}/>
+                      </div>
+                    )}
+                    <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                      Update App Login Email
+                    </Button>
+                  </>
                 )}
-                <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                  Update App Login Email
-                </Button>
+
+                <hr/>
 
                 <Heading>User account information</Heading>
                 <Text>Identity email: {assignee?.email}</Text>
+
+
               </div>
             )}
-            <div>
-              <Heading>Ticket operation</Heading>
-              {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-              {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
-                <div>
-                  <TicketClaim ticketId={ticket.id} />
-                </div>
-              )}
-            </div>
+            {ticket.state === 'LOCKED' || (assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID') && (
+              <div>
+                <hr/>
+                <Heading>Ticket operation</Heading>
+                {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+                {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                  <div>
+                    <TicketClaim ticketId={ticket.id} />
+                  </div>
+                )}
+              </div>
+            )}
         </div>
       )}
-    </div>
+    </StlyedContainer>
   )
 }
 
