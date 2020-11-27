@@ -7,6 +7,7 @@ import { AppContext } from '../app/App'
 const Form = styled.form`
   display: flex;
   flex-direction: row;
+  align-items: center;
 `
 
 const Field = styled.label`
@@ -24,7 +25,6 @@ const Field = styled.label`
 `
 
 const SubmitButton = styled.button`
-  margin: 1rem 0;
   padding: 0.5rem;
   border-radius: 8px;
   border: none;
@@ -41,6 +41,12 @@ const SubmitButton = styled.button`
 const Warning = styled.div`
   font-style: italic;
   font-size: 0.8em;
+  span {
+    background: #ed1846;
+    padding: .25rem;
+    line-height: 1.25rem;
+    color: #fff;
+  }
 `
 
 const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: boolean) => void }> = ({
@@ -86,7 +92,9 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
       <Form
         onSubmit={e => {
           e.preventDefault()
-          assign()
+          if (confirm('Are you sure you want to reassign this ticket? This will have  implications in our systems and current assignee! Make sure you know what you are doing!')) {
+            assign()
+          }
         }}
       >
         {error && <div>{error}</div>}
@@ -104,7 +112,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
-      <Warning>Email notifications will be sent to new assignee, old assignee and order owner</Warning>
+      <Warning><span>Email notifications will be sent to new assignee, old assignee and order owner</span></Warning>
     </div>
   )
 }

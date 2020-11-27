@@ -294,7 +294,7 @@ const TicketDashboard: React.FC = () => {
             </select>
           </Select>
           <MultiSelect>
-            <span>Ticket types</span>
+            <span>Ticket types(ctrl/cmd + click to select/deselect)</span>
             {ticketTypes &&
               <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)} defaultValue={ticketTypesFilter as string[] || [''] as string[]}>
                 { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }

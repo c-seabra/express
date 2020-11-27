@@ -7,6 +7,10 @@ import { AppContext } from '../app/App'
 const Form = styled.form`
   display: flex;
   flex-direction: row;
+  align-items: center;
+`
+const FormWrap = styled.div`
+  margin-bottom: 1rem;
 `
 
 const Field = styled.label`
@@ -24,7 +28,6 @@ const Field = styled.label`
 `
 
 const SubmitButton = styled.button`
-  margin: 1rem 0;
   padding: 0.5rem;
   border-radius: 8px;
   border: none;
@@ -41,10 +44,17 @@ const SubmitButton = styled.button`
 const Warning = styled.div`
   font-style: italic;
   font-size: 0.8em;
+  span {
+    background: #ed1846;
+    padding: .25rem;
+    line-height: 1.25rem;
+    color: #fff;
+  }
 `
 
-const UpdateAppLoginEmail: React.FC<{ bookingRef: string }> = ({
-  bookingRef
+const UpdateAppLoginEmail: React.FC<{ bookingRef: string; resetLoginEmailChange: (value: boolean) => void }> = ({
+  bookingRef,
+  resetLoginEmailChange
 }) => {
   const { conferenceSlug, token } = useContext(AppContext)
   const [email, setEmail] = useState<string | undefined>()
@@ -62,9 +72,8 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string }> = ({
       token,
     },
     onCompleted: ({assignmentTicketLoginUpdate}) => {
-      console.log({assignmentTicketLoginUpdate})
       if (assignmentTicketLoginUpdate?.ticket?.assignment?.assignee) {
-        console.log(assignmentTicketLoginUpdate?.ticket?.assignment)
+        resetLoginEmailChange(false)
       }
       if (assignmentTicketLoginUpdate?.userErrors?.length) {
         setError(assignmentTicketLoginUpdate.userErrors[0])
@@ -78,7 +87,7 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string }> = ({
   })
 
   return (
-    <div>
+    <FormWrap>
       <Form
         onSubmit={e => {
           e.preventDefault()
@@ -94,8 +103,8 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string }> = ({
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
-      <Warning>Change this only if you know how it's going to reflect our systems!</Warning>
-    </div>
+      <Warning><span>This email will be used to login to apps and for further conference specific communications.<br/> Change this only if you know how it's going to reflect our systems!</span></Warning>
+    </FormWrap>
   )
 }
 
