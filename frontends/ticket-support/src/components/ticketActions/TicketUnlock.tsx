@@ -6,6 +6,7 @@ import React, { FC, useContext, useEffect, useState } from 'react'
 import UNLOCK_MUTATION from '../../operations/mutations/TicketUnlock'
 import { AppContext } from '../app/App'
 import { Button } from '../ticketDetails/TicketDetails'
+import Warning from './Warning'
 
 interface IProps {
   bookingRef: string
@@ -35,7 +36,7 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
     }
   }, [claimReason])
 
-  const claimTicket = () => {
+  const handleUnlockTicket = () => {
     const reason = prompt('Please enter reason for this change(required)')
     if(reason) {
       setClaimReason(reason)
@@ -49,21 +50,20 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
   if (data) return <p>Ticket unlocked.</p>
 
   return (
-    <Button
-      style={{ cursor: 'pointer' }}
-      type="button"
-      onClick={async () => {
-        if (confirm('Are you sure you want to unlock this ticket?')) {
-          await unlockTicket({
-            variables: {
-              input: { reference: bookingRef },
-            },
-          })
-        }
-      }}
-    >
-      Unlock
-    </Button>
+    <div>
+      {claimReasonError && <Warning>{claimReasonError}</Warning>}
+      <Button
+        style={{ cursor: 'pointer' }}
+        type="button"
+        onClick={() => {
+          if (confirm('Are you sure you want to unlock this ticket?')) {
+            handleUnlockTicket()
+          }
+        }}
+      >
+        Unlock
+      </Button>
+    </div>
   )
 }
 

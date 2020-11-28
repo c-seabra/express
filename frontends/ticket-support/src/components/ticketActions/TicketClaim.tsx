@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { TICKET_ACCEPT_MUTATION } from '../../operations/mutations/TicketAccept'
 import { AppContext } from '../app/App'
 import { Button } from '../ticketDetails/TicketDetails'
+import Warning from './Warning'
 
 const TicketClaim = ({ ticketId } : { ticketId :string}) => {
   const { conferenceSlug, token } = useContext(AppContext)
@@ -62,7 +63,7 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
 
   return (
     <div>
-      {error && <div>{error}</div>}
+      {error && <Warning>{error}</Warning>}
       {claimStatus.message}
       <Button type="button" onClick={() => claimTicket()}>Auto claim</Button>
     </div>

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
 import { AppContext } from '../app/App'
+import Warning from './Warning'
 
 const Form = styled.form`
   display: flex;
@@ -35,18 +36,6 @@ const SubmitButton = styled.button`
   &:hover {
     background-color: grey;
     color: white;
-  }
-`
-
-const Warning = styled.div`
-  font-style: italic;
-  font-size: 0.8em;
-  margin-bottom: .5rem;
-  span {
-    background: #ed1846;
-    padding: .25rem;
-    line-height: 1.25rem;
-    color: #fff;
   }
 `
 
@@ -100,7 +89,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
 
   return (
     <div>
-      {error && <Warning><span>{error}</span></Warning>}
+      {error && <Warning>{error}</Warning>}
       <Form
         onSubmit={e => {
           e.preventDefault()
@@ -126,7 +115,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
-      <Warning><span>Email notifications will be sent to new assignee, old assignee and order owner</span></Warning>
+      <Warning>Email notifications will be sent to new assignee, old assignee and order owner</Warning>
     </div>
   )
 }
