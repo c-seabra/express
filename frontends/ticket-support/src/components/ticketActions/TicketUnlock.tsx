@@ -29,6 +29,7 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
             'x-admin-reason': claimReason
           }
         },
+        refetchQueries: ['TicketAuditTrail'],
         variables: {
           input: { reference: bookingRef },
         },

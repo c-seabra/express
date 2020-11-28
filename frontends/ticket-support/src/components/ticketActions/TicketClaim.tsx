@@ -24,6 +24,7 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
             'x-admin-reason': claimReason
           }
         },
+        refetchQueries: ['TicketAuditTrail'],
         variables: {
           ticketId
         }
