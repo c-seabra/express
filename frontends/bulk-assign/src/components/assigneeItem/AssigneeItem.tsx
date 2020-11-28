@@ -7,6 +7,7 @@ const BookingRef = styled.div`
   width: calc(15% - 1rem);
   text-align: center;
   font-weight: bold;
+  text-transform: uppercase;
 `
 const Name = styled.div`
   width: calc(35% - 1rem);

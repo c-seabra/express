@@ -28,7 +28,7 @@ const AssigneeList: React.FC<{list: AssigneesList}> = ({list}) => {
             claimStatus={{message: 'Not enough information provided', type: 'ERROR'}}
           />
         )
-        return <AssigneeItemProvider bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} autoClaim={autoClaim} />
+        return <AssigneeItemProvider bookingRef={bookingRef.toUpperCase()} firstName={firstName} lastName={lastName} email={email} autoClaim={autoClaim} />
       })}
     </StyledList>
   )
