@@ -31,6 +31,7 @@ const StyledSection = styled.section`
 `
 
 export type Account = {
+  id: string
   email: string
   firstName: string
   lastName: string
@@ -66,6 +67,11 @@ export type PageInfo = {
   startCursor: string
 }
 
+export type UserError = {
+  message: string
+  path: string
+}
+
 export const AppContext = createContext<{ conferenceSlug?: string; token?: string }>({})
 
 const App = ({ token }: { token: string }) => {
@@ -89,7 +95,7 @@ const App = ({ token }: { token: string }) => {
       }}
     >
       <StlyedContainer>
-        <GlobalStyle/>
+        <GlobalStyle />
         <h2>Manage Tickets - Ticket Assignment - Ticket Support Dashboard</h2>
         <Router>
           <Switch>
