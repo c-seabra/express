@@ -11,6 +11,7 @@ import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
+import AuditTrail from '../auditTrail/AuditTrail'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -123,6 +124,7 @@ const ticketDetails: React.FC = () => {
   const [reassignment, setReassignment] = useState(false)
   const [loginEmailChange, setLoginEmailChange] = useState(false)
   const [identityEmailChange, setIdentityEmailChange] = useState(false)
+  const [showAuditTrail, setShowAuditTrail] = useState(false)
 
   const {
     loading,
@@ -277,15 +279,26 @@ const ticketDetails: React.FC = () => {
               )}
             </div>
           )}
+          {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' || ticket.state === 'LOCKED' ? (
+            <div>
+              <hr />
+              <Heading>Ticket operation</Heading>
+              {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+              {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                <div>
+                  <TicketClaim ticketId={ticket.id} />
+                </div>
+              )}
+            </div>
+          ): null}
+
           <div>
             <hr />
-            <Heading>Ticket operation</Heading>
-            {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-            {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
-              <div>
-                <TicketClaim ticketId={ticket.id} />
-              </div>
-            )}
+            <Heading>History changes</Heading>
+            <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
+              {showAuditTrail ? 'Hide' : 'Load History Changes'}
+            </Button>
+            {showAuditTrail && <AuditTrail />}
           </div>
         </div>
       )}
