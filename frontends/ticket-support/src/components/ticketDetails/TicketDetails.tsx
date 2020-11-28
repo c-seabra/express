@@ -1,4 +1,4 @@
-import { ApolloError, useQuery } from '@apollo/client'
+import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -11,6 +11,7 @@ import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
+import ASSIGNMENT_LOGIN_LINK from '../../operations/mutations/AssignmentLoginLinkRequest'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -43,6 +44,10 @@ const Text = styled.div`
   padding: 0.25rem;
   font-size: 1rem;
   font-weight: 400;
+  a {
+    color: #337ab7;
+    margin: 0 0.25rem;
+  }
 `
 
 const TextHighlight = styled.span`
@@ -123,6 +128,7 @@ const ticketDetails: React.FC = () => {
   const [reassignment, setReassignment] = useState(false)
   const [loginEmailChange, setLoginEmailChange] = useState(false)
   const [identityEmailChange, setIdentityEmailChange] = useState(false)
+  const [lastLoginLinkRequestedAt, setLastLoginLinkRequestedAt] = useState<string>()
 
   const {
     loading,
@@ -153,9 +159,36 @@ const ticketDetails: React.FC = () => {
     textField.remove()
   }
 
+  const formatDateTime = (dateTime: string) => {
+    const formattedDateTime = new Date(dateTime)
+    return formattedDateTime.toString()
+  }
+
+  const [sendLoginLink] = useMutation(ASSIGNMENT_LOGIN_LINK, {
+    refetchQueries: ['Ticket'],
+  })
+
+  const sendAssignmentLoginLink = (email: string) => {
+    sendLoginLink({
+      context: {
+        token,
+        slug: conferenceSlug,
+      },
+      variables: {
+        email,
+      },
+    })
+  }
+
   const ticket = data?.ticket
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
+  if (
+    assignee?.lastLoginTokenCreatedAt &&
+    assignee?.lastLoginTokenCreatedAt != lastLoginLinkRequestedAt
+  ) {
+    setLastLoginLinkRequestedAt(assignee.lastLoginTokenCreatedAt)
+  }
 
   return (
     <StlyedContainer>
@@ -221,6 +254,36 @@ const ticketDetails: React.FC = () => {
 
               <hr />
 
+              <Heading>Assignment dashboard login link</Heading>
+              {lastLoginLinkRequestedAt ? (
+                <Text>
+                  Last login link requested at: {formatDateTime(lastLoginLinkRequestedAt)}
+                </Text>
+              ) : (
+                <Text>No login links requested for assignee</Text>
+              )}
+              <Text>
+                <a
+                  href={'https://metabase.cilabs.com/question/1184?email=' + assignee.email}
+                  target="_blank"
+                >
+                  Check Ticket Machine emails sent to assignee on metabase
+                </a>
+              </Text>
+              <Button
+                onClick={() => {
+                  if (
+                    confirm('Are you sure you want to send another login link to this assignee?')
+                  ) {
+                    sendAssignmentLoginLink(assignee.email)
+                  }
+                }}
+              >
+                Send assignee login link email
+              </Button>
+
+              <hr />
+
               <Heading>Ticket access information</Heading>
               <Text>
                 Booking reference:
@@ -275,10 +338,10 @@ const ticketDetails: React.FC = () => {
                   </Button>
                 </>
               )}
+              <hr />
             </div>
           )}
           <div>
-            <hr />
             <Heading>Ticket operation</Heading>
             {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
             {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (

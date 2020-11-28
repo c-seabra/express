@@ -35,6 +35,7 @@ export type Account = {
   email: string
   firstName: string
   lastName: string
+  lastLoginTokenCreatedAt: string
 }
 
 export type Ticket = {

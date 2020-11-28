@@ -31,6 +31,7 @@ export const TICKET = gql`
           email
           firstName
           lastName
+          lastLoginTokenCreatedAt
         }
       }
     }
