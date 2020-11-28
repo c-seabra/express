@@ -240,18 +240,18 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
             claimTicket(data.ticket.id)
           } else {
             setClaimStatus({
-              message: `${bookingRef} ticket cannot be auto claimed as it has been ${ticketAssignmentState}`,
+              message: `Ticket cannot be auto claimed as it has ${ticketAssignmentState.toLowerCase()} state`,
               type: 'ERROR'
             })
           }
         }
         else if (ticketAssignmentState === 'PENDING' || ticketAssignmentState === 'ACCEPTED') {
           setStatus({
-            message: `This ticket has ${ticketAssignmentState} ticket state and cannot be reassigned.`,
+            message: `This ticket has ${ticketAssignmentState.toLowerCase()} ticket state and cannot be reassigned.`,
             type: 'ERROR'
           })
           setClaimStatus({
-            message: `This ticket has ${ticketAssignmentState} ticket state and cannot be claimed.`,
+            message: `This ticket has ${ticketAssignmentState.toLowerCase()} ticket state and cannot be claimed.`,
             type: 'ERROR'
           })
         }
