@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { Column, MediumColumn } from './AuditTrail'
 
 const ColumnStyles = styled.div`
   display: flex;
@@ -7,16 +8,6 @@ const ColumnStyles = styled.div`
   justify-content: flex-start;
   padding: 0 0.25rem;
   word-break: break-word;
-`
-const Column = styled(ColumnStyles)`
-  width: 10%;
-`
-const User = styled(ColumnStyles)`
-  width: 25%;
-  white-space: pre-wrap;
-`
-const WideColumn = styled(Column)`
-  width: 35%;
 `
 const Trail = styled.div`
   font-size: 1rem;
@@ -28,82 +19,120 @@ const Trail = styled.div`
   }
 `
 
-const Change = ({title, oldValue, newValue}:{title?: string; oldValue?:string, newValue?: string}) => {
+const ChangesList = styled.div`
+  &.active {
+    opacity: 1;
+    right: -.5rem;
+    top: calc(100% + .5rem);
+  }
+  opacity: 0;
+  position: absolute;
+  background: white;
+  padding: 1rem;
+  border: 1px solid grey;
+  border-radius: 8px;
+  width: 400px;
+  top: -9999px;
+  right: -9999px;
+  z-index: 100;
+`
+const ChangesListWrap = styled.div`
+  position: relative;
+`
+const ChangesTrigger = styled.span`
+`
+
+const Change = ({title, values}:{title?: string; values: unknown}) => {
+  const oldVal = values?.[0] || '' as string
+  const newVal = values?.[1] || '' as string
   return (
     <div>
-      <div>{title}:</div>
-      <div>old value - {oldValue || 'undefined'}</div>
-      <div>new value - {newValue || 'undefined'}</div>
+      <div>{title}</div>
+      <div>old value - {oldVal || 'undefined'}</div>
+      <div>new value - {newVal || 'undefined'}</div>
+      <hr/>
     </div>
   )
 }
 
 const AuditTrailItem = ({
-  itemId,
-  createdAt,
-  itemType,
-  event,
-  reason,
-  whodunnit,
-  objectChanges
+  trail: {
+    context: contextString,
+    createdAt,
+    itemType,
+    event,
+    reason,
+    whodunnit,
+    objectChanges: objectChangesString
+  }
 }: {
-  itemId?: string
-  createdAt?: string
-  itemType?: string
-  event?: string
-  reason?: string
-  whodunnit?: string
-  objectChanges?: {
-    assigned_at?: string
-    assignee_id?: string
-    assigner_id?: string
-    created_at?: string
-    ticket_id?: string
-    updated_at?: string
-    duplicate?: string
-    app_login_email?: string
-    previous_assignment_id?: string
-    current_assignment_id?: string
-    accepted_at?: string
+  trail: {
+    context?: string
+    createdAt?: string
+    itemType?: string
+    event?: string
+    reason?: string
+    whodunnit?: string
+    objectChanges?: string
   }
 }) => {
+  const [openChangesLog, setOpenChangesLog] = useState(false)
+  const objectChanges = objectChangesString && JSON.parse(objectChangesString)
+  const context = contextString && JSON.parse(contextString)
+  console.log(context && context)
   return (
-    <Trail key={itemId}>
-      <Column>{createdAt}</Column>
+    <Trail>
+      <MediumColumn>{createdAt}</MediumColumn>
       <Column>{itemType}</Column>
       <Column>{event}</Column>
-      <Column>{reason || 'No reason'}</Column>
-      <User>{whodunnit}</User>
-      <WideColumn>
-        {event === 'create' ? (
-          <div>
-            <div>assigned_at - {objectChanges?.assigned_at}</div>
-            <div>assignee_id - {objectChanges?.assignee_id}</div>
-            <div>assigner_id - {objectChanges?.assigner_id}</div>
-            <div>created_at - {objectChanges?.created_at}</div>
-            <div>ticket_id - {objectChanges?.ticket_id}</div>
-            <div>updated_at - {objectChanges?.updated_at}</div>
-          </div>
-        ) : (
-          <>
-            {objectChanges?.duplicate && (
-              <Change title="Duplicate state" oldValue={objectChanges?.duplicate[0]?.toString()} newValue={objectChanges?.duplicate[1]?.toString()}/>
+      <Column>{reason}</Column>
+      <MediumColumn>{whodunnit}</MediumColumn>
+      <Column>
+        <ChangesListWrap>
+          <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>Click me</ChangesTrigger>
+          <ChangesList className={openChangesLog ? 'active' : ''}>
+            <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>Close</ChangesTrigger>
+            {Object.entries(objectChanges).map(([key, value]) => {
+              return (
+                <Change title={key} values={value} />
+              )
+            })}
+            {context?.assignments && (
+              <div>
+                <div>
+                  Assignee name - {context.assignments.current.assignee_name}<br/>
+                  Assignee email - {context.assignments.current.assignee_email}
+                </div>
+                <div>
+                  Assigner name - {context.assignments.current.assigner_name}<br/>
+                  Assigner email - {context.assignments.current.assigner_email}
+                </div>
+                <div>
+                  Previous Assignee name - {context.assignments.current.assignee_name}<br/>
+                  Previous Assignee email - {context.assignments.current.assignee_email}
+                </div>
+                <div>
+                  Previous Assigner name - {context.assignments.current.assigner_name}<br/>
+                  Previous Assigner email - {context.assignments.current.assigner_email}
+                </div>
+              </div>
             )}
-            {objectChanges?.app_login_email && (
-              <Change title="App login email" oldValue={objectChanges?.app_login_email[0]?.toString()} newValue={objectChanges?.app_login_email[1]?.toString()}/>
+            {context?.assigne&& (
+              <div>
+                <div>
+                  Previous assignee - {context.assignee.previous_assignee}
+                </div>
+                <div>
+                  Assigner - {context.assignee.assigner}
+                </div>
+                <div>
+                  New Assignee - {context.assignee.assignee}
+                </div>
+              </div>
             )}
-            {objectChanges?.previous_assignment_id && (
-              <Change title="Previous assignment" oldValue={objectChanges?.previous_assignment_id[0]?.toString()} newValue={objectChanges?.previous_assignment_id[1]?.toString()}/>
-            )}
-            {objectChanges?.current_assignment_id && (
-              <Change title="Current assignment" oldValue={objectChanges?.current_assignment_id[0]?.toString()} newValue={objectChanges?.current_assignment_id[1]?.toString()}/>
-            )}
-            {objectChanges?.accepted_at && (
-              <Change title="Accepted at" oldValue={objectChanges?.accepted_at[0]?.toString()} newValue={objectChanges?.accepted_at[1]?.toString()}/>
-            )}
-          </>
-        )}
-      </WideColumn>
+          </ChangesList>
+        </ChangesListWrap>
+      </Column>
     </Trail>
   )
 }

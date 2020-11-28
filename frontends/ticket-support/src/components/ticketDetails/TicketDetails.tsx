@@ -298,7 +298,7 @@ const ticketDetails: React.FC = () => {
             <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
               {showAuditTrail ? 'Hide' : 'Load History Changes'}
             </Button>
-            {showAuditTrail && <AuditTrail />}
+            {showAuditTrail && <AuditTrail bookingRef={bookingRef} token={token as string} conferenceSlug={conferenceSlug as string} />}
           </div>
         </div>
       )}
