@@ -42,9 +42,10 @@ const ChangesListWrap = styled.div`
 const ChangesTrigger = styled.span`
 `
 
-const Change = ({title, values}:{title?: string; values: unknown}) => {
-  const oldVal = values?.[0] || '' as string
-  const newVal = values?.[1] || '' as string
+const Change = ({title, values}:{title?: string; values: Array<string> | unknown}) => {
+  const val = Array.isArray(values) ? values as Array<string> : values
+  const oldVal: string = Array.isArray(val) ? val?.[0] : ''
+  const newVal: string = Array.isArray(val) ? val?.[1] : ''
   return (
     <div>
       <div>{title}</div>
