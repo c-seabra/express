@@ -1,15 +1,34 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { TICKET_ACCEPT_MUTATION } from '../../operations/mutations/TicketAccept'
 import { AppContext } from '../app/App'
 import { Button } from '../ticketDetails/TicketDetails'
 
 const TicketClaim = ({ ticketId } : { ticketId :string}) => {
   const { conferenceSlug, token } = useContext(AppContext)
+  const [claimReason, setClaimReason] = useState<string>('')
+  const [error, setError] = useState<string | undefined>()
   const [claimStatus, setClaimStatus] = useState({
     message: '',
     type: ''
   })
+
+  useEffect(() => {
+    if(claimReason) {
+      ticketAccept({
+        context: {
+          token,
+          slug: conferenceSlug,
+          headers: {
+            'x-admin-reason': claimReason
+          }
+        },
+        variables: {
+          ticketId
+        }
+      })
+    }
+  }, [claimReason])
 
   const [ticketAccept] = useMutation(TICKET_ACCEPT_MUTATION, {
     onCompleted: ({ ticketAccept }: {
@@ -33,19 +52,17 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
   })
 
   const claimTicket = () => {
-    ticketAccept({
-      context: {
-        token,
-        slug: conferenceSlug
-      },
-      variables: {
-        ticketId
-      }
-    })
+    const reason = prompt('Please enter reason for this change(required)')
+    if(reason) {
+      setClaimReason(reason)
+    } else {
+      setError('Reason has to be provided')
+    }
   }
 
   return (
     <div>
+      {error && <div>{error}</div>}
       {claimStatus.message}
       <Button type="button" onClick={() => claimTicket()}>Auto claim</Button>
     </div>
