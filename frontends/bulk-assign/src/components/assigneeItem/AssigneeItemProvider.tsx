@@ -128,7 +128,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
           }
         }
       }) => {
-      if (data?.assignmentUser?.assigneeAssignments?.edges?.[0].node?.assignee?.email) {
+      if (data?.assignmentUser?.assigneeAssignments?.edges?.[0]?.node?.assignee?.email) {
         setStatus({
           message: 'Current assignee email is same as new assignee email.',
           type: 'ERROR'
@@ -185,7 +185,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
 
   useEffect(() => {
     if(!error && data?.ticket && newAssignmentUserData) {
-      const newAssignmentUserEmail = newAssignmentUserData?.assignmentUser?.assigneeAssignments?.edges?.[0].node?.assignee?.email
+      const newAssignmentUserEmail = newAssignmentUserData?.assignmentUser?.assigneeAssignments?.edges?.[0]?.node?.assignee?.email
       const ticketState = data.ticket.state
       const ticketAssignment = data.ticket.assignment
       const ticketAssignmentState = ticketAssignment?.state
