@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { Button } from '../ticketDetails/TicketDetails'
 import { Column, MediumColumn, WideColumn } from './AuditTrail'
 
 const Trail = styled.div`
@@ -37,8 +38,9 @@ const ChangesList = styled.div`
     align-self: flex-end;
   }
   & > div {
-    width: 100%;
-    max-width: 400px;
+    max-width: 600px;
+    max-height: 70%;
+    overflow-x: auto;
     background: white;
     padding: 1rem;
     border: 1px solid grey;
@@ -48,8 +50,6 @@ const ChangesList = styled.div`
   }
 `
 const ChangesListWrap = styled.div`
-`
-const ChangesTrigger = styled.button`
 `
 
 const Change = ({title, values}:{title?: string; values: Array<string> | unknown}) => {
@@ -90,7 +90,7 @@ const AuditTrailItem = ({
   const [openChangesLog, setOpenChangesLog] = useState(false)
   const objectChanges = objectChangesString && JSON.parse(objectChangesString)
   const context = contextString && JSON.parse(contextString)
-  console.log(context && context)
+
   return (
     <Trail>
       <MediumColumn>{createdAt}</MediumColumn>
@@ -101,10 +101,10 @@ const AuditTrailItem = ({
       <WideColumn>{whodunnit}</WideColumn>
       <Column>
         <ChangesListWrap>
-            <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>See changes</ChangesTrigger>
+            <Button onClick={() => setOpenChangesLog(!openChangesLog)}>See changes</Button>
             <ChangesList className={openChangesLog ? 'active' : ''}>
               <div>
-                <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>Close</ChangesTrigger>
+                <Button onClick={() => setOpenChangesLog(!openChangesLog)}>Close</Button>
                 {Object.entries(objectChanges).map(([key, value]) => {
                   return (
                     <Change title={key} values={value} />

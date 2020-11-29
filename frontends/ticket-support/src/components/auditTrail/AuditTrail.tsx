@@ -3,6 +3,7 @@ import React from 'react'
 import TICKET_AUDIT_TRAIL from '../../operations/queries/AuditTrailByTicketId'
 import styled from 'styled-components'
 import AuditTrailItem from './AuditTrailItem'
+import Loader from '../../lib/Loading'
 
 export type TrailVersion = {
   context?: string
@@ -76,9 +77,9 @@ const AuditTrail = ({bookingRef, conferenceSlug, token}: {bookingRef: string; co
     },
   })
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <div><Loader /></div>
   if (error) return <div>{error}</div>
-  if (data) {
+  if (data && data.ticket) {
     let trails: Array<TrailVersion> = []
     const ticketTrails = data.ticket.versions
     if (ticketTrails) trails = trails.concat(ticketTrails)
@@ -92,6 +93,7 @@ const AuditTrail = ({bookingRef, conferenceSlug, token}: {bookingRef: string; co
       trails = trails.concat(assignmentTrailsVersions)
     }
     const orderedTrails = trails.sort((a,b) => (a.createdAt && b.createdAt && a.createdAt < b.createdAt) ? 1 : ((a.createdAt && b.createdAt && b.createdAt < a.createdAt) ? -1 : 0))
+    if (!orderedTrails.length) return <div>No paper trail records at the moment.</div>
     return (
       <TrailsList>
         <Trail>
