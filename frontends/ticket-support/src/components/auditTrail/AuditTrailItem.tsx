@@ -120,12 +120,12 @@ const AuditTrailItem = ({
                       Assigner email - {context.assignments.current.assigner_email}
                     </div>
                     <div>
-                      Previous Assignee name - {context.assignments.current.assignee_name}<br/>
-                      Previous Assignee email - {context.assignments.current.assignee_email}
+                      Previous Assignee name - {context.assignments.previous.assignee_name}<br/>
+                      Previous Assignee email - {context.assignments.previous.assignee_email}
                     </div>
                     <div>
-                      Previous Assigner name - {context.assignments.current.assigner_name}<br/>
-                      Previous Assigner email - {context.assignments.current.assigner_email}
+                      Previous Assigner name - {context.assignments.previous.assigner_name}<br/>
+                      Previous Assigner email - {context.assignments.previous.assigner_email}
                     </div>
                   </div>
                 )}
