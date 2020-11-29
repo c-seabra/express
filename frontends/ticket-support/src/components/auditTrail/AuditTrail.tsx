@@ -49,6 +49,9 @@ export const Column = styled.div`
   align-items: center;
 `
 export const MediumColumn = styled(Column)`
+  width: 15%;
+`
+export const WideColumn = styled(Column)`
   width: 25%;
 `
 
@@ -95,8 +98,9 @@ const AuditTrail = ({bookingRef, conferenceSlug, token}: {bookingRef: string; co
           <MediumColumn>Created at</MediumColumn>
           <Column>Type</Column>
           <Column>Event</Column>
+          <Column>Intent</Column>
           <Column>Reason</Column>
-          <MediumColumn>Who</MediumColumn>
+          <WideColumn>Who</WideColumn>
           <Column>Changes</Column>
         </Trail>
         {orderedTrails.map(trail => <AuditTrailItem key={trail.itemId} trail={trail} />)}

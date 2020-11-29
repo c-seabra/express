@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Column, MediumColumn } from './AuditTrail'
+import { Column, MediumColumn, WideColumn } from './AuditTrail'
 
 const Trail = styled.div`
   font-size: 1rem;
@@ -96,8 +96,9 @@ const AuditTrailItem = ({
       <MediumColumn>{createdAt}</MediumColumn>
       <Column>{itemType}</Column>
       <Column>{event}</Column>
+      <Column>unknown</Column>
       <Column>{reason}</Column>
-      <MediumColumn>{whodunnit}</MediumColumn>
+      <WideColumn>{whodunnit}</WideColumn>
       <Column>
         <ChangesListWrap>
             <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>See changes</ChangesTrigger>
