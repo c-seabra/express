@@ -43,6 +43,7 @@ const TicketItem = ({
   ticketTypeName
 }: {
   assignment?: {
+    state: string
     assignee?: {
       firstName?: string
       lastName?: string
