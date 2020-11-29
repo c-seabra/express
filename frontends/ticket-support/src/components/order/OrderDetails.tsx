@@ -163,6 +163,7 @@ const OrderDetails: React.FC = () => {
               {tickets.edges.map(({node}) => {
                 return (
                   <TicketItem
+                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
                     assignment={node.assignment}
                     bookingRef={node.bookingRef}
                     ticketState={node.state}

@@ -1,8 +1,6 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Ticket } from '../app/App'
 import StatePlate from './StatePlate'
 
 const ColumnStyles = styled.div`
@@ -40,7 +38,8 @@ const TicketItem = ({
   bookingRef,
   ticketState,
   orderOwner,
-  ticketTypeName
+  ticketTypeName,
+  handleOnClick
 }: {
   assignment?: {
     state: string
@@ -58,13 +57,13 @@ const TicketItem = ({
   }
   ticketState: string
   ticketTypeName: string
+  handleOnClick?: () => void
 }) => {
-  const history = useHistory()
 
   const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state as string
 
   return (
-    <StyledListItem onClick={() => history.push(`tickets/${bookingRef}`)}>
+    <StyledListItem onClick={handleOnClick}>
       <Column>{bookingRef}</Column>
       <Column>{ticketTypeName}</Column>
       <Column>
