@@ -1,4 +1,4 @@
-import { ApolloError, useQuery } from '@apollo/client'
+import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -11,6 +11,7 @@ import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
+import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
 import AuditTrail from '../auditTrail/AuditTrail'
 
 const StlyedContainer = styled.section`
@@ -40,11 +41,15 @@ const Heading = styled.div`
   }
 `
 
-const Text = styled.div`
+export const Text = styled.div`
   border-radius: 8px;
   padding: 0.25rem;
   font-size: 1rem;
   font-weight: 400;
+  a {
+    color: #337ab7;
+    margin: 0 0.25rem;
+  }
 `
 
 const TextHighlight = styled.span`
@@ -224,6 +229,11 @@ const ticketDetails: React.FC = () => {
 
               <hr />
 
+              <Heading>Assignment dashboard login link</Heading>
+              <LoginLinkRequest account={assignee} />
+
+              <hr />
+
               <Heading>Ticket access information</Heading>
               <Text>
                 Booking reference:
@@ -292,7 +302,6 @@ const ticketDetails: React.FC = () => {
               )}
             </div>
           ): null}
-
           <div>
             <hr />
             <Heading>History changes</Heading>
