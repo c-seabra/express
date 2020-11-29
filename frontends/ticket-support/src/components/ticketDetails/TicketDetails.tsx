@@ -12,6 +12,7 @@ import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
+import AuditTrail from '../auditTrail/AuditTrail'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -22,6 +23,7 @@ const StlyedContainer = styled.section`
   border: 1px solid grey;
   hr {
     border-color: grey;
+    margin: 1rem 0;
   }
 `
 
@@ -128,6 +130,7 @@ const ticketDetails: React.FC = () => {
   const [reassignment, setReassignment] = useState(false)
   const [loginEmailChange, setLoginEmailChange] = useState(false)
   const [identityEmailChange, setIdentityEmailChange] = useState(false)
+  const [showAuditTrail, setShowAuditTrail] = useState(false)
 
   const {
     loading,
@@ -285,17 +288,27 @@ const ticketDetails: React.FC = () => {
                   </Button>
                 </>
               )}
-              <hr />
             </div>
           )}
+          {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' || ticket.state === 'LOCKED' ? (
+            <div>
+              <hr />
+              <Heading>Ticket operation</Heading>
+              {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+              {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                <div>
+                  <TicketClaim ticketId={ticket.id} />
+                </div>
+              )}
+            </div>
+          ): null}
           <div>
-            <Heading>Ticket operation</Heading>
-            {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-            {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
-              <div>
-                <TicketClaim ticketId={ticket.id} />
-              </div>
-            )}
+            <hr />
+            <Heading>History changes</Heading>
+            <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
+              {showAuditTrail ? 'Hide' : 'Load History Changes'}
+            </Button>
+            {showAuditTrail && <AuditTrail bookingRef={bookingRef} token={token as string} conferenceSlug={conferenceSlug as string} />}
           </div>
         </div>
       )}
