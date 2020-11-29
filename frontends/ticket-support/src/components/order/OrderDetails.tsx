@@ -2,8 +2,8 @@ import { ApolloError, useQuery } from '@apollo/client'
 import React, { useContext } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { AppContext, Ticket } from '../app/App'
-import Tooltip from '../../lib/Tooltip'
+import { AppContext } from '../app/App'
+// import Tooltip from '../../lib/Tooltip'
 import ORDER from '../../operations/queries/OrderByRef'
 import TicketItem from '../ticketItem/TicketItem'
 
@@ -146,7 +146,9 @@ const OrderDetails: React.FC = () => {
             Back
           </Button>
           Manage Order/
-          <Tooltip copyToClip value={orderRef} title={<TextHighlight>{orderRef}</TextHighlight>}/>
+          {/* <Tooltip copyToClip value={orderRef} title={ */}
+          <TextHighlight>{orderRef}</TextHighlight>
+          {/* }/> */}
         </Heading>
         <TicketStatusBar>
           {owner?.firstName} {owner?.lastName} - {owner?.email}
