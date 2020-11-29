@@ -166,153 +166,156 @@ const ticketDetails: React.FC = () => {
   const assignee = assignment?.assignee
 
   return (
-    <StlyedContainer>
-      <TicketHeader>
-        <Heading>
-          <Button type="button" onClick={() => history.goBack()}>
-            Back
-          </Button>
-          Manage Ticket/
-          <Tooltip onClick={() => copyToClipBoard(bookingRef)}>
-            {bookingRef}
-            <TooltipIndicator>Click to copy</TooltipIndicator>
-          </Tooltip>
-        </Heading>
-        <TicketStatusBar>
-          <TicketStatus>
-            <span>Ticket status</span>
-            <StatePlate state={ticket?.state as string} />
-          </TicketStatus>
-          <TicketStatus>
-            <span>Assignment status</span>
-            <StatePlate state={!assignment ? 'Unassigned' : (assignment?.state as string)} />
-          </TicketStatus>
-        </TicketStatusBar>
-      </TicketHeader>
-      <hr />
-      {!loading && !error && ticket && (
-        <div>
-          {ticket && ticket.state !== 'VOID' && !assignment && (
-            <>
-              <div>
-                <Heading>Assign ticket:</Heading>
-                <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
-              </div>
-              <hr />
-            </>
-          )}
-
-          {assignee && (
-            <div>
-              <Heading>Assignee details</Heading>
-              <Text>
-                Name: {assignee.firstName} {assignee.lastName}
-              </Text>
-              <Text>
-                Email:
-                <Tooltip onClick={() => copyToClipBoard(assignee.email)}>
-                  <TextHighlight>{assignee.email}</TextHighlight>
-                  <TooltipIndicator>Click to copy</TooltipIndicator>
-                </Tooltip>
-              </Text>
-              {ticket && reassignment && (
+    <>
+    <h2>Manage ticket - Ticket Assignment - Ticket Support Dashboard</h2>
+      <StlyedContainer>
+        <TicketHeader>
+          <Heading>
+            <Button type="button" onClick={() => history.goBack()}>
+              Back
+            </Button>
+            Manage Ticket/
+            <Tooltip onClick={() => copyToClipBoard(bookingRef)}>
+              {bookingRef}
+              <TooltipIndicator>Click to copy</TooltipIndicator>
+            </Tooltip>
+          </Heading>
+          <TicketStatusBar>
+            <TicketStatus>
+              <span>Ticket status</span>
+              <StatePlate state={ticket?.state as string} />
+            </TicketStatus>
+            <TicketStatus>
+              <span>Assignment status</span>
+              <StatePlate state={!assignment ? 'Unassigned' : (assignment?.state as string)} />
+            </TicketStatus>
+          </TicketStatusBar>
+        </TicketHeader>
+        <hr />
+        {!loading && !error && ticket && (
+          <div>
+            {ticket && ticket.state !== 'VOID' && !assignment && (
+              <>
                 <div>
-                  <Heading>Reassign ticket</Heading>
+                  <Heading>Assign ticket:</Heading>
                   <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
                 </div>
-              )}
-              {ticket.state !== 'VOID' && (
-                <Button onClick={() => setReassignment(!reassignment)}>
-                  {reassignment ? 'Cancel' : 'Reassign'}
-                </Button>
-              )}
+                <hr />
+              </>
+            )}
 
-              <hr />
-
-              <Heading>Assignment dashboard login link</Heading>
-              <LoginLinkRequest account={assignee} />
-
-              <hr />
-
-              <Heading>Ticket access information</Heading>
-              <Text>
-                Booking reference:
-                <Tooltip onClick={() => copyToClipBoard(bookingRef)}>
-                  <TextHighlight>{bookingRef}</TextHighlight>
-                  <TooltipIndicator>Click to copy</TooltipIndicator>
-                </Tooltip>
-              </Text>
-              {assignment?.state === 'ACCEPTED' && (
-                <>
-                  <Text>
-                    App login email:
-                    <Tooltip
-                      onClick={() => copyToClipBoard(assignment?.appLoginEmail || assignee?.email)}
-                    >
-                      <TextHighlight>{assignment?.appLoginEmail || assignee?.email}</TextHighlight>
-                      <TooltipIndicator>Click to copy</TooltipIndicator>
-                    </Tooltip>
-                  </Text>
-                  {loginEmailChange && (
-                    <UpdateAppLoginEmail
-                      bookingRef={bookingRef}
-                      resetLoginEmailChange={setLoginEmailChange}
-                    />
-                  )}
-                  <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                    {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
+            {assignee && (
+              <div>
+                <Heading>Assignee details</Heading>
+                <Text>
+                  Name: {assignee.firstName} {assignee.lastName}
+                </Text>
+                <Text>
+                  Email:
+                  <Tooltip onClick={() => copyToClipBoard(assignee.email)}>
+                    <TextHighlight>{assignee.email}</TextHighlight>
+                    <TooltipIndicator>Click to copy</TooltipIndicator>
+                  </Tooltip>
+                </Text>
+                {ticket && reassignment && (
+                  <div>
+                    <Heading>Reassign ticket</Heading>
+                    <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+                  </div>
+                )}
+                {ticket.state !== 'VOID' && (
+                  <Button onClick={() => setReassignment(!reassignment)}>
+                    {reassignment ? 'Cancel' : 'Reassign'}
                   </Button>
-                </>
-              )}
+                )}
 
-              <hr />
+                <hr />
 
-              {assignee && (
-                <>
-                  <Heading>User account information</Heading>
-                  <Text>
-                    Identity email:
-                    <Tooltip onClick={() => copyToClipBoard(assignee?.email)}>
-                      <TextHighlight>{assignee?.email}</TextHighlight>
-                      <TooltipIndicator>Click to copy</TooltipIndicator>
-                    </Tooltip>
-                  </Text>
-                  {identityEmailChange && (
-                    <IdentityEmailUpdate
-                      accountId={assignee?.id}
-                      resetIdentityEmailChange={setIdentityEmailChange}
-                    />
-                  )}
-                  <Button onClick={() => setIdentityEmailChange(!identityEmailChange)}>
-                    {identityEmailChange ? 'Cancel' : 'Update Identity Email'}
-                  </Button>
-                </>
-              )}
-            </div>
-          )}
-          {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' || ticket.state === 'LOCKED' ? (
+                <Heading>Assignment dashboard login link</Heading>
+                <LoginLinkRequest account={assignee} />
+
+                <hr />
+
+                <Heading>Ticket access information</Heading>
+                <Text>
+                  Booking reference:
+                  <Tooltip onClick={() => copyToClipBoard(bookingRef)}>
+                    <TextHighlight>{bookingRef}</TextHighlight>
+                    <TooltipIndicator>Click to copy</TooltipIndicator>
+                  </Tooltip>
+                </Text>
+                {assignment?.state === 'ACCEPTED' && (
+                  <>
+                    <Text>
+                      App login email:
+                      <Tooltip
+                        onClick={() => copyToClipBoard(assignment?.appLoginEmail || assignee?.email)}
+                      >
+                        <TextHighlight>{assignment?.appLoginEmail || assignee?.email}</TextHighlight>
+                        <TooltipIndicator>Click to copy</TooltipIndicator>
+                      </Tooltip>
+                    </Text>
+                    {loginEmailChange && (
+                      <UpdateAppLoginEmail
+                        bookingRef={bookingRef}
+                        resetLoginEmailChange={setLoginEmailChange}
+                      />
+                    )}
+                    <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                      {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
+                    </Button>
+                  </>
+                )}
+
+                <hr />
+
+                {assignee && (
+                  <>
+                    <Heading>User account information</Heading>
+                    <Text>
+                      Identity email:
+                      <Tooltip onClick={() => copyToClipBoard(assignee?.email)}>
+                        <TextHighlight>{assignee?.email}</TextHighlight>
+                        <TooltipIndicator>Click to copy</TooltipIndicator>
+                      </Tooltip>
+                    </Text>
+                    {identityEmailChange && (
+                      <IdentityEmailUpdate
+                        accountId={assignee?.id}
+                        resetIdentityEmailChange={setIdentityEmailChange}
+                      />
+                    )}
+                    <Button onClick={() => setIdentityEmailChange(!identityEmailChange)}>
+                      {identityEmailChange ? 'Cancel' : 'Update Identity Email'}
+                    </Button>
+                  </>
+                )}
+              </div>
+            )}
+            {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' || ticket.state === 'LOCKED' ? (
+              <div>
+                <hr />
+                <Heading>Ticket operation</Heading>
+                {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+                {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                  <div>
+                    <TicketClaim ticketId={ticket.id} />
+                  </div>
+                )}
+              </div>
+            ): null}
             <div>
               <hr />
-              <Heading>Ticket operation</Heading>
-              {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-              {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
-                <div>
-                  <TicketClaim ticketId={ticket.id} />
-                </div>
-              )}
+              <Heading>History changes</Heading>
+              <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
+                {showAuditTrail ? 'Hide' : 'Load History Changes'}
+              </Button>
+              {showAuditTrail && <AuditTrail bookingRef={bookingRef} token={token as string} conferenceSlug={conferenceSlug as string} />}
             </div>
-          ): null}
-          <div>
-            <hr />
-            <Heading>History changes</Heading>
-            <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
-              {showAuditTrail ? 'Hide' : 'Load History Changes'}
-            </Button>
-            {showAuditTrail && <AuditTrail bookingRef={bookingRef} token={token as string} conferenceSlug={conferenceSlug as string} />}
           </div>
-        </div>
-      )}
-    </StlyedContainer>
+        )}
+      </StlyedContainer>
+    </>
   )
 }
 

@@ -139,40 +139,43 @@ const OrderDetails: React.FC = () => {
   console.log(order && order)
 
   return (
-    <StlyedContainer>
-      <TicketHeader>
-        <Heading>
-          <Button type="button" onClick={() => history.goBack()}>
-            Back
-          </Button>
-          Manage Order/
-          {/* <Tooltip copyToClip value={orderRef} title={ */}
-          <TextHighlight>{orderRef}</TextHighlight>
-          {/* }/> */}
-        </Heading>
-        <TicketStatusBar>
-          {owner?.firstName} {owner?.lastName} - {owner?.email}
-        </TicketStatusBar>
-      </TicketHeader>
-      <div>
-        <Heading>Tickets in order</Heading>
-        {!loading && !error && tickets && (
-          <>
-            {tickets.edges.map(({node}) => {
-              return (
-                <TicketItem
-                  assignment={node.assignment}
-                  bookingRef={node.bookingRef}
-                  ticketState={node.state}
-                  orderOwner={node.order.owner}
-                  ticketTypeName={node.ticketType.name}
-                />
-              )
-            })}
-          </>
-        )}
-      </div>
-    </StlyedContainer>
+    <>
+      <h2>Order - Ticket Assignment - Ticket Support Dashboard</h2>
+      <StlyedContainer>
+        <TicketHeader>
+          <Heading>
+            <Button type="button" onClick={() => history.goBack()}>
+              Back
+            </Button>
+            Manage Order/
+            {/* <Tooltip copyToClip value={orderRef} title={ */}
+            <TextHighlight>{orderRef}</TextHighlight>
+            {/* }/> */}
+          </Heading>
+          <TicketStatusBar>
+            {owner?.firstName} {owner?.lastName} - {owner?.email}
+          </TicketStatusBar>
+        </TicketHeader>
+        <div>
+          <Heading>Tickets in order</Heading>
+          {!loading && !error && tickets && (
+            <>
+              {tickets.edges.map(({node}) => {
+                return (
+                  <TicketItem
+                    assignment={node.assignment}
+                    bookingRef={node.bookingRef}
+                    ticketState={node.state}
+                    orderOwner={node.order.owner}
+                    ticketTypeName={node.ticketType.name}
+                  />
+                )
+              })}
+            </>
+          )}
+        </div>
+      </StlyedContainer>
+    </>
   )
 }
 
