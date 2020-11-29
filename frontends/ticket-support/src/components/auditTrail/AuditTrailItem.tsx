@@ -97,9 +97,9 @@ const AuditTrailItem = ({
       <Column>{itemType}</Column>
       <Column>{event}</Column>
       <Column>unknown</Column>
-      <Column>{reason}</Column>
+      <Column>{reason || 'No reason given'}</Column>
       <WideColumn>{whodunnit}</WideColumn>
-      <Column>
+      <MediumColumn>
         <ChangesListWrap>
             <Button onClick={() => setOpenChangesLog(!openChangesLog)}>See changes</Button>
             <ChangesList className={openChangesLog ? 'active' : ''}>
@@ -146,7 +146,7 @@ const AuditTrailItem = ({
               </div>
             </ChangesList>
         </ChangesListWrap>
-      </Column>
+      </MediumColumn>
     </Trail>
   )
 }
