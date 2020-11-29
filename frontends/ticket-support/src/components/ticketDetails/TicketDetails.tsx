@@ -142,25 +142,25 @@ const ticketDetails: React.FC = () => {
           </TicketStatus>
           <TicketStatus>
             <span>Assignment status</span>
-            <StatePlate state={!assignment ? 'Unassigned' : (assignment?.state as string)} />
+            <StatePlate state={!assignment ? 'UNASSIGNED' : (assignment?.state as string)} />
           </TicketStatus>
         </TicketStatusBar>
       </TicketHeader>
-      <hr />
       {!loading && !error && ticket && (
         <div>
           {ticket && ticket.state !== 'VOID' && !assignment && (
             <>
+              <hr />
               <div>
                 <Heading>Assign ticket:</Heading>
                 <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
               </div>
-              <hr />
             </>
           )}
 
           {assignee && (
             <div>
+              <hr />
               <Heading>Assignee details</Heading>
               <Text>
                 Name: {assignee.firstName} {assignee.lastName}

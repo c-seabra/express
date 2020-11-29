@@ -21,8 +21,10 @@ const StyledTooltip = styled.span`
     ${TooltipIndicator} {
       opacity: 1;
       left: 0;
-      top: -20px;
-      width: 70px;
+      bottom: 110%;
+      min-width: 70px;
+      max-width: 250px;
+      width: auto;
       font-size: 0.725rem;
       background: grey;
       color: white;

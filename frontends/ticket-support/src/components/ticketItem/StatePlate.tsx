@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Tooltip from '../../lib/Tooltip'
 
 const State = styled.span`
   border-radius: 8px;
@@ -30,21 +31,23 @@ const StatePlate = ({state}: {state:string}) => {
 
   switch (state) {
     case 'ACTIVE':
-      return <ActiveState>Active</ActiveState>
+      return <Tooltip content="Ticket hasn't yet been used to login, attend physical event or been voided" title={<ActiveState>Active</ActiveState>} />
     case 'CHECKED_IN':
-      return <UnassignedState>Checked In</UnassignedState>
+      return <Tooltip content="Assignee has checked into the physical event" title={<UnassignedState>Checked In</UnassignedState>} />
     case 'LOCKED':
-      return <LockedState>Locked</LockedState>
+      return <Tooltip content="Ticket is locked due to logging into our app" title={<LockedState>Locked</LockedState>} />
     case 'VOID':
-      return <VoidState>Void</VoidState>
+      return <Tooltip content="Ticket is voided" title={<VoidState>Void</VoidState>} />
     case 'ACCEPTED':
-      return <ActiveState>Accepted</ActiveState>
+      return <Tooltip content="Assignee has accepted(claimed) the ticket" title={<ActiveState>Accepted</ActiveState>} />
     case 'DUPLICATE':
-      return <UnassignedState>Duplicate</UnassignedState>
+      return <Tooltip content="This assignee has duplicate tickets assigned" title={<UnassignedState>Duplicate</UnassignedState>} />
     case 'PENDING':
-      return <UnassignedState>Pending</UnassignedState>
+      return <Tooltip content="Assignment waiting for assignees engagement" title={<UnassignedState>Pending</UnassignedState>} />
+    case 'UNASSIGNED':
+      return <Tooltip content="This ticket hasn't yet been assigned" title={<UnassignedState>Unassigned</UnassignedState>} />
     default:
-      return <UnassignedState>{state}</UnassignedState>
+      return <Tooltip content={`This is ${state} state description`} title={<UnassignedState>{state}</UnassignedState>} />
   }
 }
 
