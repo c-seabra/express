@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
 import { AppContext } from '../app/App'
+import Warning from './Warning'
 
 const Form = styled.form`
   display: flex;
@@ -38,18 +39,6 @@ const SubmitButton = styled.button`
   }
 `
 
-const Warning = styled.div`
-  font-style: italic;
-  font-size: 0.8em;
-  margin-bottom: .5rem;
-  span {
-    background: #ed1846;
-    padding: .25rem;
-    line-height: 1.25rem;
-    color: #fff;
-  }
-`
-
 const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: boolean) => void }> = ({
   ticketId,
   resetReassignment,
@@ -58,18 +47,28 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
   const [email, setEmail] = useState<string | undefined>()
   const [firstName, setFirstName] = useState<string | undefined>()
   const [lastName, setLastName] = useState<string | undefined>()
+  const [assignReason, setAssignReason] = useState<string>('')
   const [error, setError] = useState<string | undefined>()
 
   const assign = () => {
-    if (firstName && email) {
+    if (firstName && email && assignReason) {
       ticketAssignMutation()
     }
   }
+
+  useEffect(() => {
+    if (assignReason && confirm('Are you sure you want to reassign this ticket? This will have  implications in our systems and current assignee! Make sure you know what you are doing!')) {
+      assign()
+    }
+  }, [assignReason])
 
   const [ticketAssignMutation] = useMutation(TICKET_ASSIGN_MUTATION, {
     context: {
       slug: conferenceSlug,
       token,
+      headers: {
+        'x-admin-reason': assignReason
+      }
     },
     onCompleted: ({ ticketAssign }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
@@ -79,7 +78,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         setError(ticketAssign.userErrors[0])
       }
     },
-    refetchQueries: ['MyTickets'],
+    refetchQueries: ['Ticket'],
     variables: {
       email,
       firstName,
@@ -90,30 +89,33 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
 
   return (
     <div>
+      {error && <Warning>{error}</Warning>}
       <Form
         onSubmit={e => {
           e.preventDefault()
-          if (confirm('Are you sure you want to reassign this ticket? This will have  implications in our systems and current assignee! Make sure you know what you are doing!')) {
-            assign()
+          const reason = prompt('Please enter reason for this change(required)')
+          if(reason) {
+            setAssignReason(reason)
+          } else {
+            setError('Reason has to be provided')
           }
         }}
       >
-        {error && <div>{error}</div>}
         <Field>
-          <span>First name:</span>
+          <span>First name*</span>
           <input type="text" name="firstName" onChange={e => setFirstName(e.target.value)} required />
         </Field>
         <Field>
-          <span>Last name:</span>
+          <span>Last name</span>
           <input type="text" name="lastName" onChange={e => setLastName(e.target.value)} />
         </Field>
         <Field>
-          <span>Email:</span>
+          <span>Email*</span>
           <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
-      <Warning><span>Email notifications will be sent to new assignee, old assignee and order owner</span></Warning>
+      <Warning>Email notifications will be sent to new assignee, old assignee and order owner</Warning>
     </div>
   )
 }

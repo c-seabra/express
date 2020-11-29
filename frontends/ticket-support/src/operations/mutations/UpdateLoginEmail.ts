@@ -2,7 +2,7 @@
 import { gql } from '@apollo/client'
 
 export const TICKET_LOGIN_UPDATE = gql`
-  mutation ticketLoginUpdate($appLoginEmail: String!, $bookingRef: String!) {
+  mutation TicketLoginUpdate($appLoginEmail: String!, $bookingRef: String!) {
     assignmentTicketLoginUpdate(
       input: { appLoginEmail: $appLoginEmail, bookingRef: $bookingRef }
     ) {
