@@ -2,13 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Column, MediumColumn } from './AuditTrail'
 
-const ColumnStyles = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 0.25rem;
-  word-break: break-word;
-`
 const Trail = styled.div`
   font-size: 1rem;
   display: flex;
@@ -22,24 +15,41 @@ const Trail = styled.div`
 const ChangesList = styled.div`
   &.active {
     opacity: 1;
-    right: -.5rem;
-    top: calc(100% + .5rem);
+    top: 0;
+    left: 0;
   }
   opacity: 0;
-  position: absolute;
+  position: fixed;
   background: white;
-  padding: 1rem;
-  border: 1px solid grey;
-  border-radius: 8px;
-  width: 400px;
   top: -9999px;
-  right: -9999px;
+  left: -9999px;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.5);
+  button {
+    align-self: flex-end;
+  }
+  & > div {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 1rem;
+    border: 1px solid grey;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
 `
 const ChangesListWrap = styled.div`
-  position: relative;
 `
-const ChangesTrigger = styled.span`
+const ChangesTrigger = styled.button`
 `
 
 const Change = ({title, values}:{title?: string; values: Array<string> | unknown}) => {
@@ -90,48 +100,50 @@ const AuditTrailItem = ({
       <MediumColumn>{whodunnit}</MediumColumn>
       <Column>
         <ChangesListWrap>
-          <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>Click me</ChangesTrigger>
-          <ChangesList className={openChangesLog ? 'active' : ''}>
-            <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>Close</ChangesTrigger>
-            {Object.entries(objectChanges).map(([key, value]) => {
-              return (
-                <Change title={key} values={value} />
-              )
-            })}
-            {context?.assignments && (
+            <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>See changes</ChangesTrigger>
+            <ChangesList className={openChangesLog ? 'active' : ''}>
               <div>
-                <div>
-                  Assignee name - {context.assignments.current.assignee_name}<br/>
-                  Assignee email - {context.assignments.current.assignee_email}
-                </div>
-                <div>
-                  Assigner name - {context.assignments.current.assigner_name}<br/>
-                  Assigner email - {context.assignments.current.assigner_email}
-                </div>
-                <div>
-                  Previous Assignee name - {context.assignments.current.assignee_name}<br/>
-                  Previous Assignee email - {context.assignments.current.assignee_email}
-                </div>
-                <div>
-                  Previous Assigner name - {context.assignments.current.assigner_name}<br/>
-                  Previous Assigner email - {context.assignments.current.assigner_email}
-                </div>
+                <ChangesTrigger onClick={() => setOpenChangesLog(!openChangesLog)}>Close</ChangesTrigger>
+                {Object.entries(objectChanges).map(([key, value]) => {
+                  return (
+                    <Change title={key} values={value} />
+                  )
+                })}
+                {context?.assignments && (
+                  <div>
+                    <div>
+                      Assignee name - {context.assignments.current.assignee_name}<br/>
+                      Assignee email - {context.assignments.current.assignee_email}
+                    </div>
+                    <div>
+                      Assigner name - {context.assignments.current.assigner_name}<br/>
+                      Assigner email - {context.assignments.current.assigner_email}
+                    </div>
+                    <div>
+                      Previous Assignee name - {context.assignments.current.assignee_name}<br/>
+                      Previous Assignee email - {context.assignments.current.assignee_email}
+                    </div>
+                    <div>
+                      Previous Assigner name - {context.assignments.current.assigner_name}<br/>
+                      Previous Assigner email - {context.assignments.current.assigner_email}
+                    </div>
+                  </div>
+                )}
+                {context?.assigne&& (
+                  <div>
+                    <div>
+                      Previous assignee - {context.assignee.previous_assignee}
+                    </div>
+                    <div>
+                      Assigner - {context.assignee.assigner}
+                    </div>
+                    <div>
+                      New Assignee - {context.assignee.assignee}
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-            {context?.assigne&& (
-              <div>
-                <div>
-                  Previous assignee - {context.assignee.previous_assignee}
-                </div>
-                <div>
-                  Assigner - {context.assignee.assigner}
-                </div>
-                <div>
-                  New Assignee - {context.assignee.assignee}
-                </div>
-              </div>
-            )}
-          </ChangesList>
+            </ChangesList>
         </ChangesListWrap>
       </Column>
     </Trail>
