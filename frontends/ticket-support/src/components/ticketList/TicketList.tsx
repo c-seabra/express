@@ -8,7 +8,13 @@ const TicketList: React.FC<{ list: Ticket[] | undefined }> = ({ list }) => {
   return (
     <>
       {list.map(ticket => (
-        <TicketItem {...ticket} />
+        <TicketItem
+          assignment={ticket.assignment}
+          bookingRef={ticket.bookingRef}
+          ticketState={ticket.state}
+          orderOwner={ticket.order.owner}
+          ticketTypeName={ticket.ticketType.name}
+        />
       ))}
     </>
   )

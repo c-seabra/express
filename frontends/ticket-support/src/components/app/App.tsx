@@ -4,6 +4,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
+import OrderDetails from '../order/OrderDetails'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
 import TicketDetails from '../ticketDetails/TicketDetails'
 
@@ -102,6 +103,9 @@ const App = ({ token }: { token: string }) => {
           <Switch>
             <Route path="/tickets/:bookingRef">
               <TicketDetails />
+            </Route>
+            <Route path="/order/:orderRef">
+              <OrderDetails />
             </Route>
             <Route path="/">
               <TicketDashboard />

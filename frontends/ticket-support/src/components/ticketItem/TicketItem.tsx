@@ -35,29 +35,51 @@ const StyledListItem = styled.li`
   }
 `
 
-const ticketItem: React.FC<Ticket> = ticket => {
+const TicketItem = ({
+  assignment,
+  bookingRef,
+  ticketState,
+  orderOwner,
+  ticketTypeName
+}: {
+  assignment?: {
+    assignee?: {
+      firstName?: string
+      lastName?: string
+      email?: string
+    }
+  }
+  bookingRef: string
+  orderOwner?: {
+    firstName?: string
+    lastName?: string
+    email?: string
+  }
+  ticketState: string
+  ticketTypeName: string
+}) => {
   const history = useHistory()
 
-  const assignmentState = !ticket.assignment ? 'Unassigned' : ticket.assignment?.state as string
+  const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state as string
 
   return (
-    <StyledListItem onClick={() => history.push(`tickets/${ticket.bookingRef}`)}>
-      <Column>{ticket.bookingRef}</Column>
-      <Column>{ticket.ticketType?.name}</Column>
+    <StyledListItem onClick={() => history.push(`tickets/${bookingRef}`)}>
+      <Column>{bookingRef}</Column>
+      <Column>{ticketTypeName}</Column>
       <Column>
-        {ticket.assignment?.assignee.firstName} {ticket.assignment?.assignee.lastName}
+        {assignment?.assignee?.firstName} {assignment?.assignee?.lastName}
       </Column>
-      <Email>{ticket.assignment?.assignee.email}</Email>
+      <Email>{assignment?.assignee?.email}</Email>
       <Column><StatePlate state={assignmentState}/></Column>
-      <Column><StatePlate state={ticket.state}/></Column>
+      <Column><StatePlate state={ticketState}/></Column>
       <Column>
-        {ticket.order.owner.firstName} {ticket.order.owner.lastName}
+        {orderOwner?.firstName} {orderOwner?.lastName}
       </Column>
       <Email>
-        {ticket.order.owner.email}
+        {orderOwner?.email}
       </Email>
     </StyledListItem>
   )
 }
 
-export default ticketItem
+export default TicketItem
