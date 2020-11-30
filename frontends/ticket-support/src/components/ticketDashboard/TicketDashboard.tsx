@@ -307,7 +307,7 @@ const TicketDashboard: React.FC = () => {
         <TicketDashboardHeader />
         {loading && <Loader />}
         {error}
-        {!loading && !error && data?.tickets?.edges !== undefined && data?.tickets?.edges?.length > 0 && <TicketList list={data?.tickets.edges.map(node => node.node)} />}
+        {!loading && !error && data?.tickets?.edges !== undefined && data?.tickets?.edges?.length > 0 && <TicketList list={data?.tickets?.edges?.map(node => node.node)} />}
       </StyledList>
       {!loading && !error && (
         <Pagination>
