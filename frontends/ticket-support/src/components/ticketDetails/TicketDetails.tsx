@@ -129,7 +129,7 @@ const ticketDetails: React.FC = () => {
     <StlyedContainer>
       <TicketHeader>
         <Heading>
-          <Button type="button" onClick={() => history.goBack()}>
+          <Button type="button" onClick={() => history.push('/')}>
             Back
           </Button>
           Manage Ticket/
