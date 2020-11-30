@@ -129,7 +129,7 @@ const ticketDetails: React.FC = () => {
     <StlyedContainer>
       <TicketHeader>
         <Heading>
-          <Button type="button" onClick={() => history.push('/')}>
+          <Button type="button" onClick={() => history.length > 2 ? history.goBack() : history.push('/')}>
             Back
           </Button>
           Manage Ticket/
