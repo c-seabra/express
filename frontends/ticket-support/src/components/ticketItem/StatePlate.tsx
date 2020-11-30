@@ -47,7 +47,7 @@ const StatePlate = ({state}: {state:string}) => {
     case 'UNASSIGNED':
       return <Tooltip content="This ticket hasn't yet been assigned" title={<UnassignedState>Unassigned</UnassignedState>} />
     default:
-      return <Tooltip content={`This is ${state} state description`} title={<UnassignedState>{state}</UnassignedState>} />
+      return <Tooltip content={`This ticket is in ${state} state`} title={<UnassignedState>{state}</UnassignedState>} />
   }
 }
 
