@@ -38,7 +38,7 @@ const StyledListItem = styled.li`
 const ticketItem: React.FC<Ticket> = ticket => {
   const history = useHistory()
 
-  const assignmentState = !ticket.assignment ? 'Unassigned' : ticket.assignment?.state as string
+  const assignmentState = !ticket.assignment ? 'UNASSIGNED' : ticket.assignment?.state as string
 
   return (
     <StyledListItem onClick={() => history.push(`tickets/${ticket.bookingRef}`)}>
