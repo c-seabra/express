@@ -48,6 +48,7 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
           message: 'Auto claim was successful',
           type: 'SUCCESS'
         })
+        setError('')
       }
     },
     refetchQueries: ['Ticket'],
