@@ -66,6 +66,8 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string; resetLoginEmailChange:
     if (reason) {
       ticketLoginUpdate({
         context: {
+          slug: conferenceSlug,
+          token,
           headers: {
             "x-admin-reason": reason
           }
@@ -77,10 +79,6 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string; resetLoginEmailChange:
   }
 
   const [ticketLoginUpdate, {error: mutationError}] = useMutation(TICKET_LOGIN_UPDATE, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
     onCompleted: ({assignmentTicketLoginUpdate}) => {
       if (assignmentTicketLoginUpdate?.ticket?.assignment?.assignee) {
         resetLoginEmailChange(false)

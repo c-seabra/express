@@ -66,6 +66,8 @@ const UpdateAppLoginEmail: React.FC<{
     if (reason) {
       identityEmailUpdate({
         context: {
+          slug: conferenceSlug,
+          token,
           headers: {
             "x-admin-reason": reason
           }
@@ -79,10 +81,6 @@ const UpdateAppLoginEmail: React.FC<{
   const [identityEmailUpdate, {error: mutationError}] = useMutation<{
     assignmentAccountUpdate: { account: Account; userErrors: [UserError] }
   }>(IDENTITY_EMAIL_UPDATE, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
     onCompleted: ({ assignmentAccountUpdate }) => {
       if (assignmentAccountUpdate?.account?.email) {
         resetIdentityEmailChange(false)
