@@ -88,7 +88,7 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string; resetLoginEmailChange:
         setError(assignmentTicketLoginUpdate.userErrors[0])
       }
     },
-    refetchQueries: ['Ticket'],
+    refetchQueries: ['TicketAuditTrail', 'Ticket'],
     variables: {
       appLoginEmail: email,
       bookingRef,
