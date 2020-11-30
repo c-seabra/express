@@ -293,21 +293,21 @@ const TicketDashboard: React.FC = () => {
                 ))}
             </select>
           </Select>
-          <MultiSelect>
-            <span>Ticket types(ctrl/cmd + click to select/deselect)</span>
-            {ticketTypes &&
-              <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)} defaultValue={ticketTypesFilter as string[] || [''] as string[]}>
-                { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
-              </select>
-            }
-          </MultiSelect>
+          {ticketTypes &&
+            <MultiSelect>
+              <span>Ticket types(ctrl/cmd + click to select/deselect)</span>
+                <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)} defaultValue={ticketTypesFilter as string[] || [''] as string[]}>
+                  { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
+                </select>
+            </MultiSelect>
+          }
         </Filters>
       </SearchFilters>
       <StyledList>
         <TicketDashboardHeader />
         {loading && <Loader />}
-        {error}
-        {!loading && !error && data?.tickets?.edges !== undefined && data?.tickets?.edges?.length > 0 && <TicketList list={data?.tickets.edges.map(node => node.node)} />}
+        {error && error.message}
+        {!loading && !error && data?.tickets?.edges !== undefined && data?.tickets?.edges?.length > 0 && <TicketList list={data?.tickets?.edges?.map(node => node.node)} />}
       </StyledList>
       {!loading && !error && (
         <Pagination>
