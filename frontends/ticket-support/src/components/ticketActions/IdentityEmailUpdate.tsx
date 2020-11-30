@@ -84,6 +84,7 @@ const UpdateAppLoginEmail: React.FC<{
     onCompleted: ({ assignmentAccountUpdate }) => {
       if (assignmentAccountUpdate?.account?.email) {
         resetIdentityEmailChange(false)
+        setError('')
       }
       if (assignmentAccountUpdate?.userErrors?.length) {
         setError(assignmentAccountUpdate.userErrors[0].message)

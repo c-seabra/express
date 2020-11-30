@@ -82,6 +82,7 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string; resetLoginEmailChange:
     onCompleted: ({assignmentTicketLoginUpdate}) => {
       if (assignmentTicketLoginUpdate?.ticket?.assignment?.assignee) {
         resetLoginEmailChange(false)
+        setError('')
       }
       if (assignmentTicketLoginUpdate?.userErrors?.length) {
         setError(assignmentTicketLoginUpdate.userErrors[0])
