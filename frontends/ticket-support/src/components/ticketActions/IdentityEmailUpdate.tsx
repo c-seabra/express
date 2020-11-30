@@ -90,7 +90,7 @@ const UpdateAppLoginEmail: React.FC<{
         setError(assignmentAccountUpdate.userErrors[0].message)
       }
     },
-    refetchQueries: ['Ticket'],
+    refetchQueries: ['TicketAuditTrail', 'Ticket'],
     variables: {
       accountId,
       email,
