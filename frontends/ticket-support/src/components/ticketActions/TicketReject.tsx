@@ -74,7 +74,7 @@ const TicketReject = ({ ticketId } : { ticketId :string}) => {
       </Warning>
       <div>
         <div>
-          <span>Send email notification to assignee</span>
+          <div>Send email notification to assignee</div>
           <input
             name="emailNotification"
             type="checkbox"

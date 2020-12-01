@@ -32,6 +32,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
 }) => {
   const { conferenceSlug, token } = useContext(AppContext)
   const [email, setEmail] = useState<string | undefined>()
+  const [emailNotification, setEmailNotification] = useState(true)
   const [firstName, setFirstName] = useState<string | undefined>()
   const [lastName, setLastName] = useState<string | undefined>()
   const [assignReason, setAssignReason] = useState<string>('')
@@ -63,7 +64,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         setError('')
       }
       if (ticketAssign?.userErrors.length) {
-        setError(ticketAssign.userErrors[0])
+        setError(ticketAssign.userErrors[0]?.message)
       }
     },
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
@@ -72,6 +73,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
       firstName,
       lastName,
       ticketId,
+      notify: emailNotification
     },
   })
 
@@ -92,6 +94,14 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         <Field fieldName="firstName" label="First name" onChange={setFirstName} required />
         <Field fieldName="lastName" label="Last name" onChange={setLastName} required />
         <Field fieldType="email" label="Email" fieldName="email" onChange={setEmail} required />
+        <div>
+          <div>Send email notification to assignee</div>
+          <input
+            name="emailNotification"
+            type="checkbox"
+            checked={emailNotification}
+            onChange={e => setEmailNotification(e.target.checked)} />
+        </div>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
       <Warning>Email notifications will be sent to new assignee, old assignee and order owner</Warning>
