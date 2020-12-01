@@ -145,7 +145,6 @@ const OrderDetails: React.FC = () => {
   const order = data?.order
   const tickets = order?.tickets
   const owner = order?.owner
-  console.log(order && order)
 
   return (
     <>

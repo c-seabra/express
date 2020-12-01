@@ -45,6 +45,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
 }) => {
   const { conferenceSlug, token } = useContext(AppContext)
   const [email, setEmail] = useState<string | undefined>()
+  const [emailNotification, setEmailNotification] = useState(true)
   const [firstName, setFirstName] = useState<string | undefined>()
   const [lastName, setLastName] = useState<string | undefined>()
   const [assignReason, setAssignReason] = useState<string>('')
@@ -85,6 +86,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
       firstName,
       lastName,
       ticketId,
+      notify: emailNotification
     },
   })
 
@@ -113,6 +115,17 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         <Field>
           <span>Email*</span>
           <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
+        </Field>
+        <Field>
+          <span>
+            Send email notification<br/>
+            to old and new assignee
+          </span>
+          <input
+            name="emailNotification"
+            type="checkbox"
+            checked={emailNotification}
+            onChange={e => setEmailNotification(e.target.checked)} />
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
