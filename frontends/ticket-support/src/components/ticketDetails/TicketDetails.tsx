@@ -16,6 +16,7 @@ import AuditTrail from '../auditTrail/AuditTrail'
 import Tooltip from '../../lib/Tooltip'
 import Loader from '../../lib/Loading'
 import TicketReject from '../ticketActions/TicketReject'
+import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -140,10 +141,17 @@ const ticketDetails: React.FC = () => {
                 Back
               </Button>
               Manage Ticket/
-              <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
+              <Tooltip
+                copyToClip
+                value={bookingRef}
+                title={<TextHighlight>{bookingRef}</TextHighlight>}
+              />
             </Heading>
             <Heading>
-              <Button type="button" onClick={() => history.push(`/order/${ticket.order.reference}`)}>
+              <Button
+                type="button"
+                onClick={() => history.push(`/order/${ticket.order.reference}`)}
+              >
                 Order Details
               </Button>
             </Heading>
@@ -177,7 +185,11 @@ const ticketDetails: React.FC = () => {
                 </Text>
                 <Text>
                   Email:
-                  <Tooltip copyToClip value={assignee.email} title={<TextHighlight>{assignee.email}</TextHighlight>}/>
+                  <Tooltip
+                    copyToClip
+                    value={assignee.email}
+                    title={<TextHighlight>{assignee.email}</TextHighlight>}
+                  />
                 </Text>
                 {ticket && reassignment && (
                   <div>
@@ -203,16 +215,33 @@ const ticketDetails: React.FC = () => {
 
                 <hr />
 
+                <Heading>Assignment dashboard login link generate</Heading>
+                <LoginLinkGenerate account={assignee} />
+
+                <hr />
+
                 <Heading>Ticket access information</Heading>
                 <Text>
                   Booking reference:
-                  <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
+                  <Tooltip
+                    copyToClip
+                    value={bookingRef}
+                    title={<TextHighlight>{bookingRef}</TextHighlight>}
+                  />
                 </Text>
                 {assignment?.state === 'ACCEPTED' && (
                   <>
                     <Text>
                       App login email:
-                      <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email} title={<TextHighlight>{assignment?.appLoginEmail || assignee?.email}</TextHighlight>}/>
+                      <Tooltip
+                        copyToClip
+                        value={assignment?.appLoginEmail || assignee?.email}
+                        title={
+                          <TextHighlight>
+                            {assignment?.appLoginEmail || assignee?.email}
+                          </TextHighlight>
+                        }
+                      />
                     </Text>
                     {loginEmailChange && (
                       <UpdateAppLoginEmail
@@ -226,14 +255,17 @@ const ticketDetails: React.FC = () => {
                   </>
                 )}
 
-
                 {assignee && (
                   <>
                     <hr />
                     <Heading>User account information</Heading>
                     <Text>
                       Identity email:
-                      <Tooltip copyToClip value={assignee?.email} title={<TextHighlight>{assignee?.email}</TextHighlight>}/>
+                      <Tooltip
+                        copyToClip
+                        value={assignee?.email}
+                        title={<TextHighlight>{assignee?.email}</TextHighlight>}
+                      />
                     </Text>
                     {identityEmailChange && (
                       <IdentityEmailUpdate
@@ -248,7 +280,8 @@ const ticketDetails: React.FC = () => {
                 )}
               </div>
             )}
-            {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' || ticket.state === 'LOCKED' ? (
+            {(assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID') ||
+            ticket.state === 'LOCKED' ? (
               <div>
                 <hr />
                 <Heading>Ticket operation</Heading>
@@ -259,14 +292,20 @@ const ticketDetails: React.FC = () => {
                   </div>
                 )}
               </div>
-            ): null}
+            ) : null}
             <div>
               <hr />
               <Heading>History changes</Heading>
               <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
                 {showAuditTrail ? 'Hide' : 'Load History Changes'}
               </Button>
-              {showAuditTrail && <AuditTrail bookingRef={bookingRef} token={token as string} conferenceSlug={conferenceSlug as string} />}
+              {showAuditTrail && (
+                <AuditTrail
+                  bookingRef={bookingRef}
+                  token={token as string}
+                  conferenceSlug={conferenceSlug as string}
+                />
+              )}
             </div>
           </div>
         </StlyedContainer>
