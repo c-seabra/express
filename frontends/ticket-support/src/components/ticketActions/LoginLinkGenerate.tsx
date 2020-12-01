@@ -17,7 +17,6 @@ const LoginLinkGenerate = ({ account }: { account: Account }) => {
       <Tooltip
         copyToClip
         title={<TextHighlight>Generated login link</TextHighlight>}
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         value={data.assignmentMagicLinkGenerate.loginLink}
       />
     )
@@ -27,10 +26,14 @@ const LoginLinkGenerate = ({ account }: { account: Account }) => {
       style={{ cursor: 'pointer' }}
       type="button"
       onClick={async () => {
-        // eslint-disable-next-line no-restricted-globals
-        if (confirm('Are you sure you want to generate this login link?')) {
+        // eslint-disable-next-line no-alert
+        const reason = prompt('Please enter reason for this change(required)')
+        if (reason) {
           await generateLoginLink({
             context: {
+              headers: {
+                'x-admin-reason': reason,
+              },
               slug: conferenceSlug,
               token,
             },
