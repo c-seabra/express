@@ -10,6 +10,7 @@ export const TICKET = gql`
         name
       }
       order {
+        reference
         owner {
           firstName
           lastName

@@ -8,6 +8,12 @@ export const ORDER = gql`
         lastName
         email
       }
+      summary {
+        ticketType {
+          name
+        }
+        tickets
+      }
       tickets {
         edges {
           node {

@@ -6,6 +6,7 @@ import { AppContext } from '../app/App'
 // import Tooltip from '../../lib/Tooltip'
 import ORDER from '../../operations/queries/OrderByRef'
 import TicketItem from '../ticketItem/TicketItem'
+import Tooltip from '../../lib/Tooltip'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -86,6 +87,12 @@ const OrderDetails: React.FC = () => {
   }: {
     data?: {
       order: {
+        summary: {
+          ticketType: {
+            name: string
+          }
+          tickets: number
+        }
         owner: {
           firstName: string
           lastName: string
@@ -148,20 +155,39 @@ const OrderDetails: React.FC = () => {
               Back
             </Button>
             Manage Order/
-            {/* <Tooltip copyToClip value={orderRef} title={ */}
-            <TextHighlight>{orderRef}</TextHighlight>
-            {/* }/> */}
+            <Tooltip copyToClip value={orderRef} title={<TextHighlight>{orderRef}</TextHighlight>}/>
           </Heading>
-          <TicketStatusBar>
-            {owner?.firstName} {owner?.lastName} - {owner?.email}
-          </TicketStatusBar>
         </TicketHeader>
         <div>
-          <Heading>Tickets in order</Heading>
-          {!loading && !error && tickets && (
-            <>
-              {tickets.edges.map(({node}) => {
-                return (
+          <div>
+            <hr/>
+            <Heading>
+              Order owner details
+            </Heading>
+            <div>
+              Owner: {owner?.firstName} {owner?.lastName}
+            </div>
+            <div>
+              Owner email: {owner?.email}
+            </div>
+          </div>
+          <div>
+            <hr/>
+            <Heading>
+              Order summary details
+            </Heading>
+            <div>
+              Order type: {order?.summary?.ticketType?.name}
+            </div>
+            <div>
+              Number of tickets: {order?.summary?.tickets}
+            </div>
+          </div>
+          {!loading && !error && tickets && tickets.edges?.length > 0 && (
+            <div>
+              <hr/>
+              <Heading>Tickets</Heading>
+                {tickets.edges.map(({node}) => (
                   <TicketItem
                     handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
                     assignment={node.assignment}
@@ -170,10 +196,9 @@ const OrderDetails: React.FC = () => {
                     orderOwner={node.order.owner}
                     ticketTypeName={node.ticketType.name}
                   />
-                )
-              })}
-            </>
-          )}
+                ))}
+            </div>
+            )}
         </div>
       </StlyedContainer>
     </>

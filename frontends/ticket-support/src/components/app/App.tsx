@@ -48,6 +48,7 @@ export type Ticket = {
   bookingRef: string
   id: string
   order: {
+    reference: string
     owner: Account
   }
   state: string

@@ -14,6 +14,7 @@ import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
 import AuditTrail from '../auditTrail/AuditTrail'
 import Tooltip from '../../lib/Tooltip'
+import Loader from '../../lib/Loading'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -127,28 +128,35 @@ const ticketDetails: React.FC = () => {
 
   return (
     <>
-    <h2>Manage ticket - Ticket Assignment - Ticket Support Dashboard</h2>
-      <StlyedContainer>
-        <TicketHeader>
-          <Heading>
-            <Button type="button" onClick={() => history.goBack()}>
-              Back
-            </Button>
-            Manage Ticket/
-            <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
-          </Heading>
-          <TicketStatusBar>
-            <TicketStatus>
-              <span>Ticket status</span>
-              <StatePlate state={ticket?.state as string} />
-            </TicketStatus>
-            <TicketStatus>
-              <span>Assignment status</span>
-              <StatePlate state={!assignment ? 'Unassigned' : (assignment?.state as string)} />
-            </TicketStatus>
-          </TicketStatusBar>
-        </TicketHeader>
-        {!loading && !error && ticket && (
+      <h2>Manage ticket - Ticket Assignment - Ticket Support Dashboard</h2>
+      {loading && <Loader />}
+      {error && <div>{error}</div>}
+      {!loading && !error && ticket && (
+        <StlyedContainer>
+          <TicketHeader>
+            <Heading>
+              <Button type="button" onClick={() => history.goBack()}>
+                Back
+              </Button>
+              Manage Ticket/
+              <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
+            </Heading>
+            <Heading>Manage Order?
+              <Button type="button" onClick={() => history.push(`/order/${ticket.order.reference}`)}>
+                {ticket.order.reference}
+              </Button>
+            </Heading>
+            <TicketStatusBar>
+              <TicketStatus>
+                <span>Ticket status</span>
+                <StatePlate state={ticket?.state as string} />
+              </TicketStatus>
+              <TicketStatus>
+                <span>Assignment status</span>
+                <StatePlate state={!assignment ? 'Unassigned' : (assignment?.state as string)} />
+              </TicketStatus>
+            </TicketStatusBar>
+          </TicketHeader>
           <div>
             <hr />
             {ticket && ticket.state !== 'VOID' && !assignment && (
@@ -255,8 +263,8 @@ const ticketDetails: React.FC = () => {
               {showAuditTrail && <AuditTrail bookingRef={bookingRef} token={token as string} conferenceSlug={conferenceSlug as string} />}
             </div>
           </div>
-        )}
-      </StlyedContainer>
+        </StlyedContainer>
+      )}
     </>
   )
 }
