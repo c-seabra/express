@@ -16,7 +16,7 @@ const LoginLinkRequest = ({ account } : { account : Account}) => {
   }
 
   const [sendLoginLink] = useMutation(ASSIGNMENT_LOGIN_LINK, {
-    refetchQueries: ['Ticket'],
+    refetchQueries: ['TicketAuditTrail', 'Ticket'],
   })
 
   if (

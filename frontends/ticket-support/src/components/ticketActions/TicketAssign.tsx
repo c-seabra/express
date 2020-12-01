@@ -73,12 +73,13 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
     onCompleted: ({ ticketAssign }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
         resetReassignment(false)
+        setError('')
       }
       if (ticketAssign?.userErrors.length) {
         setError(ticketAssign.userErrors[0])
       }
     },
-    refetchQueries: ['Ticket'],
+    refetchQueries: ['TicketAuditTrail', 'Ticket'],
     variables: {
       email,
       firstName,

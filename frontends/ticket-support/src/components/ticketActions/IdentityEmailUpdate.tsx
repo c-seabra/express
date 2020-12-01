@@ -41,19 +41,6 @@ const SubmitButton = styled.button`
   }
 `
 
-const Error = styled.div`
-  font-style: italic;
-  font-size: 0.8em;
-  color: #ed1846;
-  margin-bottom: 0.5rem;
-  span {
-    background: #ed1846;
-    padding: 0.25rem;
-    line-height: 1.25rem;
-    color: #fff;
-  }
-`
-
 const Warning = styled.div`
   font-style: italic;
   font-size: 0.8em;
@@ -75,27 +62,35 @@ const UpdateAppLoginEmail: React.FC<{
   const [error, setError] = useState<string | undefined>()
 
   const updateIdentityEmail = () => {
-    if (email) {
-      identityEmailUpdate()
+    const reason = prompt('Please enter reason for this change(required)')
+    if (reason) {
+      identityEmailUpdate({
+        context: {
+          slug: conferenceSlug,
+          token,
+          headers: {
+            "x-admin-reason": reason
+          }
+        }
+      })
+    } else {
+      setError("Reason is required for this action")
     }
   }
 
-  const [identityEmailUpdate] = useMutation<{
+  const [identityEmailUpdate, {error: mutationError}] = useMutation<{
     assignmentAccountUpdate: { account: Account; userErrors: [UserError] }
   }>(IDENTITY_EMAIL_UPDATE, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
     onCompleted: ({ assignmentAccountUpdate }) => {
       if (assignmentAccountUpdate?.account?.email) {
         resetIdentityEmailChange(false)
+        setError('')
       }
       if (assignmentAccountUpdate?.userErrors?.length) {
         setError(assignmentAccountUpdate.userErrors[0].message)
       }
     },
-    refetchQueries: ['Ticket'],
+    refetchQueries: ['TicketAuditTrail', 'Ticket'],
     variables: {
       accountId,
       email,
@@ -107,16 +102,21 @@ const UpdateAppLoginEmail: React.FC<{
       <Warning>
         <span>Only super admins are permitted to make this change</span>
       </Warning>
-      {error && <Error>{error}</Error>}
+      {error && <Warning><span>{error}</span></Warning>}
+      {mutationError && <Warning><span>{mutationError.message}</span></Warning>}
       <Form
         onSubmit={e => {
           e.preventDefault()
-          if (
-            confirm(
-              'Are you sure you want to change the identity email for this assignee? This will have many implications in our systems! Make sure you know what you are doing!'
-            )
-          ) {
-            updateIdentityEmail()
+          if(email) {
+            if (
+              confirm(
+                'Are you sure you want to change the identity email for this assignee? This will have many implications in our systems! Make sure you know what you are doing!'
+              )
+            ) {
+              updateIdentityEmail()
+            }
+          } else {
+            setError('Email field value incorrect')
           }
         }}
       >

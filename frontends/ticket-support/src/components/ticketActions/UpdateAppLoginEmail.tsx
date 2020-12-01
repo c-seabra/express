@@ -62,25 +62,33 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string; resetLoginEmailChange:
   const [error, setError] = useState<string | undefined>()
 
   const updateLoginEmail = () => {
-    if (email) {
-      ticketLoginUpdate()
+    const reason = prompt('Please enter reason for this change(required)')
+    if (reason) {
+      ticketLoginUpdate({
+        context: {
+          slug: conferenceSlug,
+          token,
+          headers: {
+            "x-admin-reason": reason
+          }
+        }
+      })
+    } else {
+      setError("Reason is required for this action")
     }
   }
 
-  const [ticketLoginUpdate] = useMutation(TICKET_LOGIN_UPDATE, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
+  const [ticketLoginUpdate, {error: mutationError}] = useMutation(TICKET_LOGIN_UPDATE, {
     onCompleted: ({assignmentTicketLoginUpdate}) => {
       if (assignmentTicketLoginUpdate?.ticket?.assignment?.assignee) {
         resetLoginEmailChange(false)
+        setError('')
       }
       if (assignmentTicketLoginUpdate?.userErrors?.length) {
         setError(assignmentTicketLoginUpdate.userErrors[0])
       }
     },
-    refetchQueries: ['Ticket'],
+    refetchQueries: ['TicketAuditTrail', 'Ticket'],
     variables: {
       appLoginEmail: email,
       bookingRef,
@@ -89,15 +97,20 @@ const UpdateAppLoginEmail: React.FC<{ bookingRef: string; resetLoginEmailChange:
 
   return (
     <FormWrap>
+      {error && <Warning><span>{error}</span></Warning>}
+      {mutationError && <Warning><span>{mutationError.message}</span></Warning>}
       <Form
         onSubmit={e => {
           e.preventDefault()
-          if (confirm('Are you sure you want to change App Login Email for this ticket? This will have many implications in our systems! Make sure you know what you are doing!')) {
-            updateLoginEmail()
+          if(email) {
+            if (confirm('Are you sure you want to change App Login Email for this ticket? This will have many implications in our systems! Make sure you know what you are doing!')) {
+              updateLoginEmail()
+            }
+          } else {
+            setError('Email field value incorrect')
           }
         }}
       >
-        {error && <div>{error}</div>}
         <Field>
           <span>Email:</span>
           <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />

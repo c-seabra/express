@@ -24,7 +24,7 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
             'x-admin-reason': claimReason
           }
         },
-        refetchQueries: ['TicketAuditTrail'],
+        refetchQueries: ['TicketAuditTrail', 'Ticket'],
         variables: {
           ticketId
         }
@@ -48,6 +48,7 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
           message: 'Auto claim was successful',
           type: 'SUCCESS'
         })
+        setError('')
       }
     },
     refetchQueries: ['Ticket'],
