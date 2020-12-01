@@ -95,7 +95,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         <Field fieldName="lastName" label="Last name" onChange={setLastName} required />
         <Field fieldType="email" label="Email" fieldName="email" onChange={setEmail} required />
         <div>
-          <div>Send email notification to assignee</div>
+          <div>Send email notification to new and old assignee</div>
           <input
             name="emailNotification"
             type="checkbox"
