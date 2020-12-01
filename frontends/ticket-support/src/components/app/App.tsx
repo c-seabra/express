@@ -4,6 +4,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
+import OrderDetails from '../order/OrderDetails'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
 import TicketDetails from '../ticketDetails/TicketDetails'
 
@@ -47,6 +48,7 @@ export type Ticket = {
   bookingRef: string
   id: string
   order: {
+    reference: string
     owner: Account
   }
   state: string
@@ -97,11 +99,13 @@ const App = ({ token }: { token: string }) => {
     >
       <StlyedContainer>
         <GlobalStyle />
-        <h2>Manage Tickets - Ticket Assignment - Ticket Support Dashboard</h2>
         <Router>
           <Switch>
             <Route path="/tickets/:bookingRef">
               <TicketDetails />
+            </Route>
+            <Route path="/order/:orderRef">
+              <OrderDetails />
             </Route>
             <Route path="/">
               <TicketDashboard />
