@@ -202,7 +202,7 @@ const ticketDetails: React.FC = () => {
                     {reassignment ? 'Cancel' : 'Reassign'}
                   </Button>
                 )}
-                {ticket.state !== 'VOID' && (assignment.state === 'ACCEPTED' || assignment.state === 'PENDING') && (
+                {ticket.state !== 'VOID' && (assignment?.state === 'ACCEPTED' || assignment?.state === 'PENDING') && (
                   <div>
                     <TicketReject ticketId={ticket.id} />
                   </div>

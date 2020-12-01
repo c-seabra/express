@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import styled from 'styled-components'
 
 const StyledField = styled.label`
@@ -25,7 +25,7 @@ const Field = ({
   label?: string
   fieldName: string
   fieldType?: string
-  onChange: (val:string | boolean) => void
+  onChange: (val:string) => void
   required: boolean
 }) => {
   return (
