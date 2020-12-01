@@ -48,7 +48,7 @@ export const Text = styled.div`
   }
 `
 
-const TextHighlight = styled.span`
+export const TextHighlight = styled.span`
   color: #337ab7;
   margin: 0 0.25rem;
 `
@@ -157,53 +157,51 @@ const OrderDetails: React.FC = () => {
               Back
             </Button>
             Manage Order/
-            <Tooltip copyToClip value={orderRef} title={<TextHighlight>{orderRef}</TextHighlight>}/>
+            <Tooltip
+              copyToClip
+              value={orderRef}
+              title={<TextHighlight>{orderRef}</TextHighlight>}
+            />
           </Heading>
         </TicketHeader>
         {loading && <Loader />}
-        {error && <Warning><span>{error}</span></Warning>}
+        {error && (
+          <Warning>
+            <span>{error}</span>
+          </Warning>
+        )}
         {!loading && !error && (
           <div>
             <div>
-              <hr/>
-              <Heading>
-                Order owner details
-              </Heading>
+              <hr />
+              <Heading>Order owner details</Heading>
               <div>
                 Owner: {owner?.firstName} {owner?.lastName}
               </div>
-              <div>
-                Owner email: {owner?.email}
-              </div>
+              <div>Owner email: {owner?.email}</div>
             </div>
             <div>
-              <hr/>
-              <Heading>
-                Order summary details
-              </Heading>
-              <div>
-                Order type: {order?.summary?.ticketType?.name}
-              </div>
-              <div>
-                Number of tickets: {order?.summary?.tickets}
-              </div>
+              <hr />
+              <Heading>Order summary details</Heading>
+              <div>Order type: {order?.summary?.ticketType?.name}</div>
+              <div>Number of tickets: {order?.summary?.tickets}</div>
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <hr/>
+                <hr />
                 <Heading>Tickets</Heading>
-                  {tickets.edges.map(({node}) => (
-                    <TicketItem
-                      handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
-                      assignment={node.assignment}
-                      bookingRef={node.bookingRef}
-                      ticketState={node.state}
-                      orderOwner={node.order.owner}
-                      ticketTypeName={node.ticketType.name}
-                    />
-                  ))}
+                {tickets.edges.map(({ node }) => (
+                  <TicketItem
+                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
+                    assignment={node.assignment}
+                    bookingRef={node.bookingRef}
+                    ticketState={node.state}
+                    orderOwner={node.order.owner}
+                    ticketTypeName={node.ticketType.name}
+                  />
+                ))}
               </div>
-              )}
+            )}
           </div>
         )}
       </StlyedContainer>
