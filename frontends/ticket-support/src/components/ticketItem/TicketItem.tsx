@@ -1,8 +1,6 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Ticket } from '../app/App'
 import StatePlate from './StatePlate'
 
 const ColumnStyles = styled.div`
@@ -35,29 +33,53 @@ const StyledListItem = styled.li`
   }
 `
 
-const ticketItem: React.FC<Ticket> = ticket => {
-  const history = useHistory()
+const TicketItem = ({
+  assignment,
+  bookingRef,
+  ticketState,
+  orderOwner,
+  ticketTypeName,
+  handleOnClick
+}: {
+  assignment?: {
+    state: string
+    assignee?: {
+      firstName?: string
+      lastName?: string
+      email?: string
+    }
+  }
+  bookingRef: string
+  orderOwner?: {
+    firstName?: string
+    lastName?: string
+    email?: string
+  }
+  ticketState: string
+  ticketTypeName: string
+  handleOnClick?: () => void
+}) => {
 
-  const assignmentState = !ticket.assignment ? 'UNASSIGNED' : ticket.assignment?.state as string
+  const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state as string
 
   return (
-    <StyledListItem onClick={() => history.push(`tickets/${ticket.bookingRef}`)}>
-      <Column>{ticket.bookingRef}</Column>
-      <Column>{ticket.ticketType?.name}</Column>
+    <StyledListItem onClick={handleOnClick}>
+      <Column>{bookingRef}</Column>
+      <Column>{ticketTypeName}</Column>
       <Column>
-        {ticket.assignment?.assignee.firstName} {ticket.assignment?.assignee.lastName}
+        {assignment?.assignee?.firstName} {assignment?.assignee?.lastName}
       </Column>
-      <Email>{ticket.assignment?.assignee.email}</Email>
+      <Email>{assignment?.assignee?.email}</Email>
       <Column><StatePlate state={assignmentState}/></Column>
-      <Column><StatePlate state={ticket.state}/></Column>
+      <Column><StatePlate state={ticketState}/></Column>
       <Column>
-        {ticket.order.owner.firstName} {ticket.order.owner.lastName}
+        {orderOwner?.firstName} {orderOwner?.lastName}
       </Column>
       <Email>
-        {ticket.order.owner.email}
+        {orderOwner?.email}
       </Email>
     </StyledListItem>
   )
 }
 
-export default ticketItem
+export default TicketItem

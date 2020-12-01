@@ -14,6 +14,7 @@ import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
 import AuditTrail from '../auditTrail/AuditTrail'
 import Tooltip from '../../lib/Tooltip'
+import Loader from '../../lib/Loading'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -126,136 +127,145 @@ const ticketDetails: React.FC = () => {
   const assignee = assignment?.assignee
 
   return (
-    <StlyedContainer>
-      <TicketHeader>
-        <Heading>
-          <Button type="button" onClick={() => history.length > 2 ? history.goBack() : history.push('/')}>
-            Back
-          </Button>
-          Manage Ticket/
-          <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
-        </Heading>
-        <TicketStatusBar>
-          <TicketStatus>
-            <span>Ticket status</span>
-            <StatePlate state={ticket?.state as string} />
-          </TicketStatus>
-          <TicketStatus>
-            <span>Assignment status</span>
-            <StatePlate state={!assignment ? 'UNASSIGNED' : (assignment?.state as string)} />
-          </TicketStatus>
-        </TicketStatusBar>
-      </TicketHeader>
+    <>
+      <h2>Manage ticket - Ticket Assignment - Ticket Support Dashboard</h2>
+      {loading && <Loader />}
+      {error && <div>{error}</div>}
       {!loading && !error && ticket && (
-        <div>
-          {ticket && ticket.state !== 'VOID' && !assignment && (
-            <>
-              <hr />
-              <div>
-                <Heading>Assign ticket:</Heading>
-                <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
-              </div>
-            </>
-          )}
-
-          {assignee && (
-            <div>
-              <hr />
-              <Heading>Assignee details</Heading>
-              <Text>
-                Name: {assignee.firstName} {assignee.lastName}
-              </Text>
-              <Text>
-                Email:
-                <Tooltip copyToClip value={assignee.email} title={<TextHighlight>{assignee.email}</TextHighlight>}/>
-              </Text>
-              {ticket && reassignment && (
-                <div>
-                  <Heading>Reassign ticket</Heading>
-                  <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
-                </div>
-              )}
-              {ticket.state !== 'VOID' && (
-                <Button onClick={() => setReassignment(!reassignment)}>
-                  {reassignment ? 'Cancel' : 'Reassign'}
-                </Button>
-              )}
-
-              <hr />
-
-              <Heading>Assignment dashboard login link</Heading>
-              <LoginLinkRequest account={assignee} />
-
-              <hr />
-
-              <Heading>Ticket access information</Heading>
-              <Text>
-                Booking reference:
-                <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
-              </Text>
-              {assignment?.state === 'ACCEPTED' && (
-                <>
-                  <Text>
-                    App login email:
-                    <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email} title={<TextHighlight>{assignment?.appLoginEmail || assignee?.email}</TextHighlight>}/>
-                  </Text>
-                  {loginEmailChange && (
-                    <UpdateAppLoginEmail
-                      bookingRef={bookingRef}
-                      resetLoginEmailChange={setLoginEmailChange}
-                    />
-                  )}
-                  <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                    {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
-                  </Button>
-                </>
-              )}
-
-              <hr />
-
-              {assignee && (
-                <>
-                  <Heading>User account information</Heading>
-                  <Text>
-                    Identity email:
-                    <Tooltip copyToClip value={assignee?.email} title={<TextHighlight>{assignee?.email}</TextHighlight>}/>
-                  </Text>
-                  {identityEmailChange && (
-                    <IdentityEmailUpdate
-                      accountId={assignee?.id}
-                      resetIdentityEmailChange={setIdentityEmailChange}
-                    />
-                  )}
-                  <Button onClick={() => setIdentityEmailChange(!identityEmailChange)}>
-                    {identityEmailChange ? 'Cancel' : 'Update Identity Email'}
-                  </Button>
-                </>
-              )}
-            </div>
-          )}
-          {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' || ticket.state === 'LOCKED' ? (
-            <div>
-              <hr />
-              <Heading>Ticket operation</Heading>
-              {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-              {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
-                <div>
-                  <TicketClaim ticketId={ticket.id} />
-                </div>
-              )}
-            </div>
-          ): null}
+        <StlyedContainer>
+          <TicketHeader>
+            <Heading>
+              <Button type="button" onClick={() => history.goBack()}>
+                Back
+              </Button>
+              Manage Ticket/
+              <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
+            </Heading>
+            <Heading>
+              <Button type="button" onClick={() => history.push(`/order/${ticket.order.reference}`)}>
+                Order Details
+              </Button>
+            </Heading>
+            <TicketStatusBar>
+              <TicketStatus>
+                <span>Ticket status</span>
+                <StatePlate state={ticket?.state as string} />
+              </TicketStatus>
+              <TicketStatus>
+                <span>Assignment status</span>
+                <StatePlate state={!assignment ? 'Unassigned' : (assignment?.state as string)} />
+              </TicketStatus>
+            </TicketStatusBar>
+          </TicketHeader>
           <div>
             <hr />
-            <Heading>History changes</Heading>
-            <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
-              {showAuditTrail ? 'Hide' : 'Load History Changes'}
-            </Button>
-            {showAuditTrail && <AuditTrail bookingRef={bookingRef} token={token as string} conferenceSlug={conferenceSlug as string} />}
+            {ticket && ticket.state !== 'VOID' && !assignment && (
+              <>
+                <div>
+                  <Heading>Assign ticket:</Heading>
+                  <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+                </div>
+              </>
+            )}
+
+            {assignee && (
+              <div>
+                <Heading>Assignee details</Heading>
+                <Text>
+                  Name: {assignee.firstName} {assignee.lastName}
+                </Text>
+                <Text>
+                  Email:
+                  <Tooltip copyToClip value={assignee.email} title={<TextHighlight>{assignee.email}</TextHighlight>}/>
+                </Text>
+                {ticket && reassignment && (
+                  <div>
+                    <Heading>Reassign ticket</Heading>
+                    <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+                  </div>
+                )}
+                {ticket.state !== 'VOID' && (
+                  <Button onClick={() => setReassignment(!reassignment)}>
+                    {reassignment ? 'Cancel' : 'Reassign'}
+                  </Button>
+                )}
+
+                <hr />
+
+                <Heading>Assignment dashboard login link</Heading>
+                <LoginLinkRequest account={assignee} />
+
+                <hr />
+
+                <Heading>Ticket access information</Heading>
+                <Text>
+                  Booking reference:
+                  <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
+                </Text>
+                {assignment?.state === 'ACCEPTED' && (
+                  <>
+                    <Text>
+                      App login email:
+                      <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email} title={<TextHighlight>{assignment?.appLoginEmail || assignee?.email}</TextHighlight>}/>
+                    </Text>
+                    {loginEmailChange && (
+                      <UpdateAppLoginEmail
+                        bookingRef={bookingRef}
+                        resetLoginEmailChange={setLoginEmailChange}
+                      />
+                    )}
+                    <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                      {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
+                    </Button>
+                  </>
+                )}
+
+
+                {assignee && (
+                  <>
+                    <hr />
+                    <Heading>User account information</Heading>
+                    <Text>
+                      Identity email:
+                      <Tooltip copyToClip value={assignee?.email} title={<TextHighlight>{assignee?.email}</TextHighlight>}/>
+                    </Text>
+                    {identityEmailChange && (
+                      <IdentityEmailUpdate
+                        accountId={assignee?.id}
+                        resetIdentityEmailChange={setIdentityEmailChange}
+                      />
+                    )}
+                    <Button onClick={() => setIdentityEmailChange(!identityEmailChange)}>
+                      {identityEmailChange ? 'Cancel' : 'Update Identity Email'}
+                    </Button>
+                  </>
+                )}
+              </div>
+            )}
+            {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' || ticket.state === 'LOCKED' ? (
+              <div>
+                <hr />
+                <Heading>Ticket operation</Heading>
+                {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+                {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                  <div>
+                    <TicketClaim ticketId={ticket.id} />
+                  </div>
+                )}
+              </div>
+            ): null}
+            <div>
+              <hr />
+              <Heading>History changes</Heading>
+              <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
+                {showAuditTrail ? 'Hide' : 'Load History Changes'}
+              </Button>
+              {showAuditTrail && <AuditTrail bookingRef={bookingRef} token={token as string} conferenceSlug={conferenceSlug as string} />}
+            </div>
           </div>
-        </div>
+        </StlyedContainer>
       )}
-    </StlyedContainer>
+    </>
   )
 }
 
