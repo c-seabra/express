@@ -141,9 +141,9 @@ const ticketDetails: React.FC = () => {
               Manage Ticket/
               <Tooltip copyToClip value={bookingRef} title={<TextHighlight>{bookingRef}</TextHighlight>}/>
             </Heading>
-            <Heading>Manage Order?
+            <Heading>
               <Button type="button" onClick={() => history.push(`/order/${ticket.order.reference}`)}>
-                {ticket.order.reference}
+                Order Details
               </Button>
             </Heading>
             <TicketStatusBar>
