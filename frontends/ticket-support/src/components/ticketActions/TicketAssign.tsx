@@ -122,7 +122,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
             to old and new assignee
           </span>
           <input
-            name="isGoing"
+            name="emailNotification"
             type="checkbox"
             checked={emailNotification}
             onChange={e => setEmailNotification(e.target.checked)} />
