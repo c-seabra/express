@@ -86,6 +86,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
       firstName,
       lastName,
       ticketId,
+      notify: emailNotification
     },
   })
 
