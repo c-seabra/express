@@ -7,6 +7,8 @@ import { AppContext } from '../app/App'
 import ORDER from '../../operations/queries/OrderByRef'
 import TicketItem from '../ticketItem/TicketItem'
 import Tooltip from '../../lib/Tooltip'
+import Loader from '../../lib/Loading'
+import Warning from '../ticketActions/Warning'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -158,48 +160,52 @@ const OrderDetails: React.FC = () => {
             <Tooltip copyToClip value={orderRef} title={<TextHighlight>{orderRef}</TextHighlight>}/>
           </Heading>
         </TicketHeader>
-        <div>
+        {loading && <Loader />}
+        {error && <Warning><span>{error}</span></Warning>}
+        {!loading && !error && (
           <div>
-            <hr/>
-            <Heading>
-              Order owner details
-            </Heading>
-            <div>
-              Owner: {owner?.firstName} {owner?.lastName}
-            </div>
-            <div>
-              Owner email: {owner?.email}
-            </div>
-          </div>
-          <div>
-            <hr/>
-            <Heading>
-              Order summary details
-            </Heading>
-            <div>
-              Order type: {order?.summary?.ticketType?.name}
-            </div>
-            <div>
-              Number of tickets: {order?.summary?.tickets}
-            </div>
-          </div>
-          {!loading && !error && tickets && tickets.edges?.length > 0 && (
             <div>
               <hr/>
-              <Heading>Tickets</Heading>
-                {tickets.edges.map(({node}) => (
-                  <TicketItem
-                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
-                    assignment={node.assignment}
-                    bookingRef={node.bookingRef}
-                    ticketState={node.state}
-                    orderOwner={node.order.owner}
-                    ticketTypeName={node.ticketType.name}
-                  />
-                ))}
+              <Heading>
+                Order owner details
+              </Heading>
+              <div>
+                Owner: {owner?.firstName} {owner?.lastName}
+              </div>
+              <div>
+                Owner email: {owner?.email}
+              </div>
             </div>
-            )}
-        </div>
+            <div>
+              <hr/>
+              <Heading>
+                Order summary details
+              </Heading>
+              <div>
+                Order type: {order?.summary?.ticketType?.name}
+              </div>
+              <div>
+                Number of tickets: {order?.summary?.tickets}
+              </div>
+            </div>
+            {tickets && tickets.edges?.length > 0 && (
+              <div>
+                <hr/>
+                <Heading>Tickets</Heading>
+                  {tickets.edges.map(({node}) => (
+                    <TicketItem
+                      handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
+                      assignment={node.assignment}
+                      bookingRef={node.bookingRef}
+                      ticketState={node.state}
+                      orderOwner={node.order.owner}
+                      ticketTypeName={node.ticketType.name}
+                    />
+                  ))}
+              </div>
+              )}
+          </div>
+        )}
       </StlyedContainer>
     </>
   )
