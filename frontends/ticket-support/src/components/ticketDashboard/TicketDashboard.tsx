@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import qs from 'qs'
+import { Helmet } from 'react-helmet'
 
 import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
@@ -272,7 +273,9 @@ const TicketDashboard: React.FC = () => {
 
   return (
     <div>
-      <h2>Tickets List - Ticket Assignment - Ticket Support Dashboard</h2>
+      <Helmet>
+        <title>Tickets list - Ticket machine</title>
+      </Helmet>
       <SearchFilters>
         <Search>
           <SearchIcon />
