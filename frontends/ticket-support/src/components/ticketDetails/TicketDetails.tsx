@@ -16,6 +16,7 @@ import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
 import AuditTrail from '../auditTrail/AuditTrail'
 import Tooltip from '../../lib/Tooltip'
 import Loader from '../../lib/Loading'
+import TicketReject from '../ticketActions/TicketReject'
 import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
 
 const StlyedContainer = styled.section`
@@ -203,6 +204,11 @@ const ticketDetails: React.FC = () => {
                   <Button onClick={() => setReassignment(!reassignment)}>
                     {reassignment ? 'Cancel' : 'Reassign'}
                   </Button>
+                )}
+                {ticket.state !== 'VOID' && (assignment?.state === 'ACCEPTED' || assignment?.state === 'PENDING') && (
+                  <div>
+                    <TicketReject ticketId={ticket.id} />
+                  </div>
                 )}
 
                 <hr />
