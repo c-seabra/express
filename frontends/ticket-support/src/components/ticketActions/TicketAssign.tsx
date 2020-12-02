@@ -4,25 +4,12 @@ import styled from 'styled-components'
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
 import { AppContext } from '../app/App'
 import Warning from './Warning'
+import Field from './Field'
 
 const Form = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
-
-const Field = styled.label`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-right: 1rem;
-  margin-bottom: .5rem;
-  input {
-    cursor: pointer;
-  }
-  span {
-    margin-bottom: .5rem;
-  }
 `
 
 const SubmitButton = styled.button`
@@ -77,7 +64,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         setError('')
       }
       if (ticketAssign?.userErrors.length) {
-        setError(ticketAssign.userErrors[0])
+        setError(ticketAssign.userErrors[0]?.message)
       }
     },
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
@@ -104,29 +91,17 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
           }
         }}
       >
-        <Field>
-          <span>First name*</span>
-          <input type="text" name="firstName" onChange={e => setFirstName(e.target.value)} required />
-        </Field>
-        <Field>
-          <span>Last name</span>
-          <input type="text" name="lastName" onChange={e => setLastName(e.target.value)} />
-        </Field>
-        <Field>
-          <span>Email*</span>
-          <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
-        </Field>
-        <Field>
-          <span>
-            Send email notification<br/>
-            to old and new assignee
-          </span>
+        <Field fieldName="firstName" label="First name" onChange={setFirstName} required />
+        <Field fieldName="lastName" label="Last name" onChange={setLastName} required />
+        <Field fieldType="email" label="Email" fieldName="email" onChange={setEmail} required />
+        <div>
+          <div>Send email notification to new and old assignee</div>
           <input
             name="emailNotification"
             type="checkbox"
             checked={emailNotification}
             onChange={e => setEmailNotification(e.target.checked)} />
-        </Field>
+        </div>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
       <Warning>Email notifications will be sent to new assignee, old assignee and order owner</Warning>
