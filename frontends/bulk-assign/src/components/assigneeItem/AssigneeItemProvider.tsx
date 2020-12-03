@@ -230,30 +230,30 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
             type: 'ERROR'
           })
         }
-        else if (email === ticketAssignmentEmail) {
-          setStatus({
-            message: 'Reassignment email is same as current ticket assignee email.',
-            type: 'ERROR'
-          })
-  
-          if(hasAutoClaim && (ticketAssignmentState === 'PENDING')) {
-            claimTicket(data.ticket.id)
+        else if (ticketAssignmentState === 'PENDING' || ticketAssignmentState === 'ACCEPTED') {
+          if (email === ticketAssignmentEmail) {
+            setStatus({
+              message: `Ticket email is same as new assignee email. Assignment state ${ticketAssignmentState.toLowerCase()}`,
+              type: 'ERROR'
+            })
+            if(hasAutoClaim && (ticketAssignmentState === 'PENDING')) {
+              claimTicket(data.ticket.id)
+            } else {
+              setClaimStatus({
+                message: `Ticket cannot be auto claimed as it has ${ticketAssignmentState.toLowerCase()} state`,
+                type: 'ERROR'
+              })
+            }
           } else {
+            setStatus({
+              message: `This ticket is already assigned to ${ticketAssignmentEmail}`,
+              type: 'ERROR'
+            })
             setClaimStatus({
-              message: `Ticket cannot be auto claimed as it has ${ticketAssignmentState.toLowerCase()} state`,
+              message: `This ticket is already assigned to ${ticketAssignmentEmail}, cannot be claimed.`,
               type: 'ERROR'
             })
           }
-        }
-        else if (ticketAssignmentState === 'PENDING' || ticketAssignmentState === 'ACCEPTED') {
-          setStatus({
-            message: `This ticket has ${ticketAssignmentState.toLowerCase()} ticket state and cannot be reassigned.`,
-            type: 'ERROR'
-          })
-          setClaimStatus({
-            message: `This ticket has ${ticketAssignmentState.toLowerCase()} ticket state and cannot be claimed.`,
-            type: 'ERROR'
-          })
         }
         else if (newAssignmentUserEmail) {
           setStatus({
