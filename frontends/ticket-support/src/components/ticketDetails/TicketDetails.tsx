@@ -2,9 +2,10 @@ import { ApolloError, useQuery } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
+
 import StatePlate from '../ticketItem/StatePlate'
 import TicketClaim from '../ticketActions/TicketClaim'
-
 import TICKET from '../../operations/queries/Ticket'
 import { AppContext, Ticket } from '../app/App'
 import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
@@ -130,7 +131,9 @@ const ticketDetails: React.FC = () => {
 
   return (
     <>
-      <h2>Manage ticket - Ticket Assignment - Ticket Support Dashboard</h2>
+      <Helmet>
+        <title>Manage {bookingRef} ticket - Ticket machine</title>
+      </Helmet>
       {loading && <Loader />}
       {error && <div>{error}</div>}
       {!loading && !error && ticket && (

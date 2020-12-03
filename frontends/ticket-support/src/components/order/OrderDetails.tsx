@@ -2,8 +2,9 @@ import { ApolloError, useQuery } from '@apollo/client'
 import React, { useContext } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
+
 import { AppContext } from '../app/App'
-// import Tooltip from '../../lib/Tooltip'
 import ORDER from '../../operations/queries/OrderByRef'
 import TicketItem from '../ticketItem/TicketItem'
 import Tooltip from '../../lib/Tooltip'
@@ -148,7 +149,9 @@ const OrderDetails: React.FC = () => {
 
   return (
     <>
-      <h2>Order - Ticket Assignment - Ticket Support Dashboard</h2>
+      <Helmet>
+        <title>Manage {orderRef} order - Ticket machine</title>
+      </Helmet>
       <StlyedContainer>
         <TicketHeader>
           <Heading>
