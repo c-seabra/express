@@ -1,12 +1,12 @@
-import jwt from 'jwt-decode'
-import React, { createContext, useEffect, useState } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
-import styled, { createGlobalStyle } from 'styled-components'
+import jwt from 'jwt-decode';
+import React, { createContext, useEffect, useState } from 'react';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
 
-import withApollo from '../../lib/apollo/withApollo'
-import OrderDetails from '../order/OrderDetails'
-import TicketDashboard from '../ticketDashboard/TicketDashboard'
-import TicketDetails from '../ticketDetails/TicketDetails'
+import withApollo from '../../lib/apollo/withApollo';
+import OrderDetails from '../order/OrderDetails';
+import TicketDashboard from '../ticketDashboard/TicketDashboard';
+import TicketDetails from '../ticketDetails/TicketDetails';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -19,76 +19,76 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Lato', sans-serif;
   }
-`
+`;
 
 const StlyedContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-`
+`;
 const StyledSection = styled.section`
   padding: 1rem;
-`
+`;
 
 export type Account = {
-  id: string
-  email: string
-  firstName: string
-  lastName: string
-  lastLoginTokenCreatedAt: string
-}
+  email: string;
+  firstName: string;
+  id: string;
+  lastLoginTokenCreatedAt: string;
+  lastName: string;
+};
 
 export type Ticket = {
   assignment?: {
-    appLoginEmail: string
-    assignee: Account
-    state: string
-  }
-  bookingRef: string
-  id: string
+    appLoginEmail: string;
+    assignee: Account;
+    state: string;
+  };
+  bookingRef: string;
+  id: string;
   order: {
-    reference: string
-    owner: Account
-  }
-  state: string
+    owner: Account;
+    reference: string;
+  };
+  state: string;
   ticketType: {
-    name: string
-  }
-}
+    name: string;
+  };
+};
 
 export type TicketType = {
-  description: string
-  id: string
-  name: string
-}
+  description: string;
+  id: string;
+  name: string;
+};
 
 export type PageInfo = {
-  endCursor: string
-  hasNextPage: string
-  hasPreviousPage: string
-  startCursor: string
-}
+  endCursor: string;
+  hasNextPage: string;
+  hasPreviousPage: string;
+  startCursor: string;
+};
 
 export type UserError = {
-  message: string
-  path: string
-}
+  message: string;
+  path: string;
+};
 
-export const AppContext = createContext<{ conferenceSlug?: string; token?: string }>({})
+export const AppContext = createContext<{ conferenceSlug?: string; token?: string }>({});
 
 const App = ({ token }: { token: string }) => {
-  if (!token) return null
+  if (!token) return null;
   const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
-    conf_slug: string
-    email: string
-  }
+    conf_slug: string;
+    email: string;
+  };
 
   useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug)
-  }, [token])
+    setConferenceSlug(tokenPayload.conf_slug);
+  }, [token]);
 
-  const [conferenceSlug, setConferenceSlug] = useState<string>()
+  const [conferenceSlug, setConferenceSlug] = useState<string>();
 
   return (
     <AppContext.Provider
@@ -114,7 +114,7 @@ const App = ({ token }: { token: string }) => {
         </Router>
       </StlyedContainer>
     </AppContext.Provider>
-  )
+  );
 }
 
-export default withApollo(App)
+export default withApollo(App);

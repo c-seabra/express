@@ -1,15 +1,15 @@
-import { ApolloError, useQuery } from '@apollo/client'
-import React, { useContext } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import { Helmet } from 'react-helmet'
+import { ApolloError, useQuery } from '@apollo/client';
+import React, { useContext } from 'react';
+import { Helmet } from 'react-helmet';
+import { useHistory, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { AppContext } from '../app/App'
-import ORDER from '../../operations/queries/OrderByRef'
-import TicketItem from '../ticketItem/TicketItem'
-import Tooltip from '../../lib/Tooltip'
-import Loader from '../../lib/Loading'
-import Warning from '../ticketActions/Warning'
+import Loader from '../../lib/Loading';
+import Tooltip from '../../lib/Tooltip';
+import ORDER from '../../operations/queries/OrderByRef';
+import { AppContext } from '../app/App';
+import Warning from '../ticketActions/Warning';
+import TicketItem from '../ticketItem/TicketItem';
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -22,7 +22,7 @@ const StlyedContainer = styled.section`
     border-color: grey;
     margin: 1rem 0;
   }
-`
+`;
 
 const Heading = styled.div`
   border-radius: 8px;
@@ -36,7 +36,7 @@ const Heading = styled.div`
   span {
     color: #00ac93;
   }
-`
+`;
 
 export const Text = styled.div`
   border-radius: 8px;
@@ -47,12 +47,12 @@ export const Text = styled.div`
     color: #337ab7;
     margin: 0 0.25rem;
   }
-`
+`;
 
 export const TextHighlight = styled.span`
   color: #337ab7;
   margin: 0 0.25rem;
-`
+`;
 
 export const Button = styled.button`
   margin: 0 0 1rem;
@@ -67,21 +67,21 @@ export const Button = styled.button`
     background-color: grey;
     color: white;
   }
-`
+`;
 const TicketHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 const TicketStatusBar = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const OrderDetails: React.FC = () => {
-  const { orderRef } = useParams<{ orderRef: string }>()
-  const history = useHistory()
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { orderRef } = useParams<{ orderRef: string }>();
+  const history = useHistory();
+  const { conferenceSlug, token } = useContext(AppContext);
 
   const {
     loading,
@@ -90,49 +90,49 @@ const OrderDetails: React.FC = () => {
   }: {
     data?: {
       order: {
+        owner: {
+          email: string;
+          firstName: string;
+          lastName: string;
+        };
         summary: {
           ticketType: {
-            name: string
-          }
-          tickets: number
-        }
-        owner: {
-          firstName: string
-          lastName: string
-          email: string
-        }
+            name: string;
+          };
+          tickets: number;
+        };
         tickets: {
           edges: [
             {
               node: {
                 assignment: {
-                  state: string
                   assignee: {
-                    firstName: string
-                    lastName: string
-                    email: string
-                  }
-                }
-                bookingRef: string
-                state: string
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                  };
+                  state: string;
+                };
+                bookingRef: string;
                 order: {
                   owner: {
-                    firstName: string
-                    lastName: string
-                    email: string
-                  }
-                }
+                    email: string;
+                    firstName: string;
+                    lastName: string;
+                  };
+                };
+                state: string;
                 ticketType: {
-                  name: string
-                }
-              }
+                  name: string;
+                };
+              };
             }
-          ]
-        }
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
+          ];
+        };
+      };
+    };
+    error?: ApolloError;
+    loading?: boolean;
   } = useQuery(ORDER, {
     context: {
       slug: conferenceSlug,
@@ -141,11 +141,11 @@ const OrderDetails: React.FC = () => {
     variables: {
       reference: orderRef,
     },
-  })
+  });
 
-  const order = data?.order
-  const tickets = order?.tickets
-  const owner = order?.owner
+  const order = data?.order;
+  const tickets = order?.tickets;
+  const owner = order?.owner;
 
   return (
     <>
@@ -161,8 +161,8 @@ const OrderDetails: React.FC = () => {
             Manage Order/
             <Tooltip
               copyToClip
-              value={orderRef}
               title={<TextHighlight>{orderRef}</TextHighlight>}
+              value={orderRef}
             />
           </Heading>
         </TicketHeader>
@@ -194,11 +194,11 @@ const OrderDetails: React.FC = () => {
                 <Heading>Tickets</Heading>
                 {tickets.edges.map(({ node }) => (
                   <TicketItem
-                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
                     assignment={node.assignment}
                     bookingRef={node.bookingRef}
-                    ticketState={node.state}
+                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
                     orderOwner={node.order.owner}
+                    ticketState={node.state}
                     ticketTypeName={node.ticketType.name}
                   />
                 ))}
@@ -208,7 +208,7 @@ const OrderDetails: React.FC = () => {
         )}
       </StlyedContainer>
     </>
-  )
+  );
 }
 
-export default OrderDetails
+export default OrderDetails;

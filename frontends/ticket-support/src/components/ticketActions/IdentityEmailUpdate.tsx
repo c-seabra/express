@@ -1,17 +1,18 @@
-import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
-import styled from 'styled-components'
-import IDENTITY_EMAIL_UPDATE from '../../operations/mutations/IdentityEmailUpdate'
-import { AppContext, Account, UserError } from '../app/App'
+import { useMutation } from '@apollo/client';
+import React, { useContext, useState } from 'react';
+import styled from 'styled-components';
+
+import IDENTITY_EMAIL_UPDATE from '../../operations/mutations/IdentityEmailUpdate';
+import { Account, AppContext, UserError } from '../app/App';
 
 const Form = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 const FormWrap = styled.div`
   margin-bottom: 1rem;
-`
+`;
 
 const Field = styled.label`
   display: flex;
@@ -25,7 +26,7 @@ const Field = styled.label`
   span {
     margin-bottom: 0.5rem;
   }
-`
+`;
 
 const SubmitButton = styled.button`
   padding: 0.5rem;
@@ -39,7 +40,7 @@ const SubmitButton = styled.button`
     background-color: grey;
     color: white;
   }
-`
+`;
 
 const Warning = styled.div`
   font-style: italic;
@@ -51,43 +52,43 @@ const Warning = styled.div`
     line-height: 1.25rem;
     color: #fff;
   }
-`
+`;
 
 const UpdateAppLoginEmail: React.FC<{
-  accountId: string
-  resetIdentityEmailChange: (value: boolean) => void
+  accountId: string;
+  resetIdentityEmailChange: (value: boolean) => void;
 }> = ({ accountId, resetIdentityEmailChange }) => {
-  const { conferenceSlug, token } = useContext(AppContext)
-  const [email, setEmail] = useState<string | undefined>()
-  const [error, setError] = useState<string | undefined>()
+  const { conferenceSlug, token } = useContext(AppContext);
+  const [email, setEmail] = useState<string | undefined>();
+  const [error, setError] = useState<string | undefined>();
 
   const updateIdentityEmail = () => {
-    const reason = prompt('Please enter reason for this change(required)')
+    const reason = prompt('Please enter reason for this change(required)');
     if (reason) {
       identityEmailUpdate({
         context: {
+          headers: {
+            'x-admin-reason': reason,
+          },
           slug: conferenceSlug,
           token,
-          headers: {
-            "x-admin-reason": reason
-          }
-        }
-      })
+        },
+      });
     } else {
-      setError("Reason is required for this action")
+      setError('Reason is required for this action');
     }
-  }
+  };
 
-  const [identityEmailUpdate, {error: mutationError}] = useMutation<{
-    assignmentAccountUpdate: { account: Account; userErrors: [UserError] }
+  const [identityEmailUpdate, { error: mutationError }] = useMutation<{
+    assignmentAccountUpdate: { account: Account; userErrors: [UserError] };
   }>(IDENTITY_EMAIL_UPDATE, {
     onCompleted: ({ assignmentAccountUpdate }) => {
       if (assignmentAccountUpdate?.account?.email) {
-        resetIdentityEmailChange(false)
-        setError('')
+        resetIdentityEmailChange(false);
+        setError('');
       }
       if (assignmentAccountUpdate?.userErrors?.length) {
-        setError(assignmentAccountUpdate.userErrors[0].message)
+        setError(assignmentAccountUpdate.userErrors[0].message);
       }
     },
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
@@ -95,34 +96,42 @@ const UpdateAppLoginEmail: React.FC<{
       accountId,
       email,
     },
-  })
+  });
 
   return (
     <FormWrap>
       <Warning>
         <span>Only super admins are permitted to make this change</span>
       </Warning>
-      {error && <Warning><span>{error}</span></Warning>}
-      {mutationError && <Warning><span>{mutationError.message}</span></Warning>}
+      {error && (
+        <Warning>
+          <span>{error}</span>
+        </Warning>
+      )}
+      {mutationError && (
+        <Warning>
+          <span>{mutationError.message}</span>
+        </Warning>
+      )}
       <Form
         onSubmit={e => {
-          e.preventDefault()
-          if(email) {
+          e.preventDefault();
+          if (email) {
             if (
               confirm(
                 'Are you sure you want to change the identity email for this assignee? This will have many implications in our systems! Make sure you know what you are doing!'
               )
             ) {
-              updateIdentityEmail()
+              updateIdentityEmail();
             }
           } else {
-            setError('Email field value incorrect')
+            setError('Email field value incorrect');
           }
         }}
       >
         <Field>
           <span>Email:</span>
-          <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
+          <input required name="email" type="email" onChange={e => setEmail(e.target.value)} />
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
@@ -135,7 +144,7 @@ const UpdateAppLoginEmail: React.FC<{
         </span>
       </Warning>
     </FormWrap>
-  )
+  );
 }
 
-export default UpdateAppLoginEmail
+export default UpdateAppLoginEmail;

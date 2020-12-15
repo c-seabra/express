@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const TooltipIndicator = styled.span`
   opacity: 0;
   position: absolute;
   left: -9999px;
   transition: opacity 0.2s ease;
-`
+`;
 
 const StyledTooltip = styled.span`
   position: relative;
@@ -33,17 +33,26 @@ const StyledTooltip = styled.span`
       text-align: center;
     }
   }
-`
+`;
 
-const Tooltip = ({copyToClip = true, title, content = "Click to copy", value = ''}: {value?: string; title: React.ReactNode; content?: string; copyToClip?: boolean}) => {
-
+const Tooltip = ({
+  copyToClip = true,
+  title,
+  content = 'Click to copy',
+  value = '',
+}: {
+  content?: string;
+  copyToClip?: boolean;
+  title: React.ReactNode;
+  value?: string;
+}) => {
   const copyToClipBoard = (copyMe: string) => {
-    const textField = document.createElement('textarea')
-    textField.innerText = copyMe
-    document.body.appendChild(textField)
-    textField.select()
-    document.execCommand('copy')
-    textField.remove()
+    const textField = document.createElement('textarea');
+    textField.innerText = copyMe;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
   }
 
   return (
@@ -51,7 +60,7 @@ const Tooltip = ({copyToClip = true, title, content = "Click to copy", value = '
       {title}
       <TooltipIndicator>{content}</TooltipIndicator>
     </StyledTooltip>
-  )
+  );
 }
 
-export default Tooltip
+export default Tooltip;

@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import StatePlate from './StatePlate'
+import StatePlate from './StatePlate';
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -10,14 +10,14 @@ const ColumnStyles = styled.div`
   justify-content: center;
   padding: 0 0.25rem;
   word-break: break-word;
-`
+`;
 const Column = styled(ColumnStyles)`
   width: 10%;
-`
+`;
 const Email = styled(ColumnStyles)`
   width: 20%;
   white-space: pre-wrap;
-`
+`;
 
 const StyledListItem = styled.li`
   font-size: 1rem;
@@ -31,7 +31,7 @@ const StyledListItem = styled.li`
     background-color: lightgrey;
     cursor: pointer;
   }
-`
+`;
 
 const TicketItem = ({
   assignment,
@@ -39,28 +39,27 @@ const TicketItem = ({
   ticketState,
   orderOwner,
   ticketTypeName,
-  handleOnClick
+  handleOnClick,
 }: {
   assignment?: {
-    state: string
     assignee?: {
-      firstName?: string
-      lastName?: string
-      email?: string
-    }
-  }
-  bookingRef: string
+      email?: string;
+      firstName?: string;
+      lastName?: string;
+    };
+    state: string;
+  };
+  bookingRef: string;
+  handleOnClick?: () => void;
   orderOwner?: {
-    firstName?: string
-    lastName?: string
-    email?: string
-  }
-  ticketState: string
-  ticketTypeName: string
-  handleOnClick?: () => void
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+  };
+  ticketState: string;
+  ticketTypeName: string;
 }) => {
-
-  const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state as string
+  const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state;
 
   return (
     <StyledListItem onClick={handleOnClick}>
@@ -70,16 +69,18 @@ const TicketItem = ({
         {assignment?.assignee?.firstName} {assignment?.assignee?.lastName}
       </Column>
       <Email>{assignment?.assignee?.email}</Email>
-      <Column><StatePlate state={assignmentState}/></Column>
-      <Column><StatePlate state={ticketState}/></Column>
+      <Column>
+        <StatePlate state={assignmentState} />
+      </Column>
+      <Column>
+        <StatePlate state={ticketState} />
+      </Column>
       <Column>
         {orderOwner?.firstName} {orderOwner?.lastName}
       </Column>
-      <Email>
-        {orderOwner?.email}
-      </Email>
+      <Email>{orderOwner?.email}</Email>
     </StyledListItem>
-  )
+  );
 }
 
-export default TicketItem
+export default TicketItem;
