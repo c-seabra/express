@@ -1,22 +1,38 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
+import { ApolloError } from '@apollo/client'
 
 import { Ticket } from '../../lib/types'
+import Loader from '../../lib/Loading'
 import TicketItem from '../ticketItem/TicketItem'
 
-const TicketList: React.FC<{ list: Ticket[] | undefined }> = ({ list }) => {
-  if (!list || list?.length < 0) return null
+type TicketListProps = {
+  error?: ApolloError
+  list: Ticket[]
+  loading: boolean
+}
+
+const TicketList = ({ list = [], loading, error }: TicketListProps): ReactElement => {
   const history = useHistory()
+
+  if (loading) {
+    return <Loader />
+  }
+
+  if (error) {
+    return <>{error.message}</>
+  }
 
   return (
     <>
       {list.map(ticket => (
         <TicketItem
-          handleOnClick={() => history.push(`tickets/${ticket.bookingRef}`)}
+          key={ticket.bookingRef}
           assignment={ticket.assignment}
           bookingRef={ticket.bookingRef}
-          ticketState={ticket.state}
+          handleOnClick={() => history.push(`tickets/${ticket.bookingRef}`)}
           orderOwner={ticket.order.owner}
+          ticketState={ticket.state}
           ticketTypeName={ticket.ticketType.name}
         />
       ))}

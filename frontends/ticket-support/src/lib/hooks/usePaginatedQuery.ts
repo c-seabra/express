@@ -86,6 +86,7 @@ const usePaginatedQuery = <TData, key, TVariables, TContext = unknown>({
   }
 
   return {
+    currentPage: pageInfo?.endCursor,
     error,
     isBackwardsDisabled,
     isForwardDisabled,

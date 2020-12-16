@@ -4,7 +4,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import Loader from '../../lib/Loading'
 import SearchIcon from '../../lib/svgs/search'
 import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
@@ -84,6 +83,7 @@ const TicketDashboard: React.FC = () => {
 
   const {
     results,
+    currentPage,
     error,
     loading,
     isForwardDisabled,
@@ -109,14 +109,13 @@ const TicketDashboard: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    onSearchStateChange(searchState)
-  }, [searchState])
+    setSearchState({ ...searchState, page: currentPage })
+  }, [currentPage, searchState])
 
-  const onSearchStateChange = (updatedSearchState: Record<string, unknown>) => {
-    const url = searchStateToUrl({ pathname, searchState: updatedSearchState })
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  useEffect(() => {
+    const url = searchStateToUrl({ pathname, searchState })
     history.push(url)
-  }
+  }, [history, pathname, searchState])
 
   const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -186,7 +185,7 @@ const TicketDashboard: React.FC = () => {
             placeholder="Search by name, reference or email of ticket or order"
             type="text"
             onChange={e => setSearchQuery(e.target.value)}
-            onKeyDown={e => handleSearchKey(e)}
+            onKeyDown={handleSearchKey}
           />
         </Search>
         <Filters>
@@ -199,7 +198,9 @@ const TicketDashboard: React.FC = () => {
             >
               <option value="">All</option>
               {Object.entries(TicketFilterStatus).map(([key, value]) => (
-                <option value={key}>{value}</option>
+                <option key={key} value={key}>
+                  {value}
+                </option>
               ))}
             </select>
           </Select>
@@ -213,7 +214,9 @@ const TicketDashboard: React.FC = () => {
                 onChange={e => handleTicketTypeFilterChange(e)}
               >
                 {ticketTypes.map(ticketType => (
-                  <option value={ticketType.id}>{ticketType.name}</option>
+                  <option key={ticketType.id} value={ticketType.id}>
+                    {ticketType.name}
+                  </option>
                 ))}
               </select>
             </MultiSelect>
@@ -222,9 +225,7 @@ const TicketDashboard: React.FC = () => {
       </SearchFilters>
       <StyledList>
         <TicketDashboardHeader />
-        {loading && <Loader />}
-        {error && error.message}
-        {results.length > 0 && <TicketList list={results} />}
+        <TicketList error={error} list={results} loading={loading} />
       </StyledList>
       {!loading && !error && (
         <Pagination
