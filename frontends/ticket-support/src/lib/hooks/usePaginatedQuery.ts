@@ -2,7 +2,7 @@ import { DocumentNode, useQuery } from '@apollo/client'
 import { TypedDocumentNode } from '@graphql-typed-document-node/core'
 import { useEffect, useState } from 'react'
 
-import { PageInfo } from '../../components/app/App'
+import { PageInfo } from '../types'
 
 type PaginatedQuery<NodeType, key> = {
   [key: string]: {

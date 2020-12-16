@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { Ticket } from '../app/App'
+import { Ticket } from '../../lib/types'
 import TicketItem from '../ticketItem/TicketItem'
 
 const TicketList: React.FC<{ list: Ticket[] | undefined }> = ({ list }) => {

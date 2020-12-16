@@ -3,7 +3,8 @@ import React, { useContext } from 'react'
 
 import Tooltip from '../../lib/Tooltip'
 import MAGIC_LINK_GENERATE from '../../operations/mutations/LoginLinkGenerate'
-import { Account, AppContext } from '../app/App'
+import { AppContext } from '../app/App'
+import { Account } from '../../lib/types'
 import { Button, TextHighlight } from '../order/OrderDetails'
 
 const LoginLinkGenerate = ({ account }: { account: Account }) => {

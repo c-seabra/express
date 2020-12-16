@@ -7,7 +7,8 @@ import { Helmet } from 'react-helmet'
 import StatePlate from '../ticketItem/StatePlate'
 import TicketClaim from '../ticketActions/TicketClaim'
 import TICKET from '../../operations/queries/Ticket'
-import { AppContext, Ticket } from '../app/App'
+import { AppContext } from '../app/App'
+import { Ticket } from '../../lib/types'
 import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
@@ -205,11 +206,12 @@ const ticketDetails: React.FC = () => {
                     {reassignment ? 'Cancel' : 'Reassign'}
                   </Button>
                 )}
-                {ticket.state !== 'VOID' && (assignment?.state === 'ACCEPTED' || assignment?.state === 'PENDING') && (
-                  <div>
-                    <TicketReject ticketId={ticket.id} />
-                  </div>
-                )}
+                {ticket.state !== 'VOID' &&
+                  (assignment?.state === 'ACCEPTED' || assignment?.state === 'PENDING') && (
+                    <div>
+                      <TicketReject ticketId={ticket.id} />
+                    </div>
+                  )}
 
                 <hr />
 

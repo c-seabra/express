@@ -2,10 +2,11 @@ import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import ASSIGNMENT_LOGIN_LINK from '../../operations/mutations/AssignmentLoginLinkRequest'
 
-import { AppContext, Account } from '../app/App'
+import { AppContext } from '../app/App'
+import { Account } from '../../lib/types'
 import { Button, Text } from '../ticketDetails/TicketDetails'
 
-const LoginLinkRequest = ({ account } : { account : Account}) => {
+const LoginLinkRequest = ({ account }: { account: Account }) => {
   const { conferenceSlug, token } = useContext(AppContext)
   const [lastLoginLinkRequestedAt, setLastLoginLinkRequestedAt] = useState<string>()
   const [loginLinkRequestReasonError, setLoginLinkRequestReasonError] = useState<string>()
@@ -28,13 +29,13 @@ const LoginLinkRequest = ({ account } : { account : Account}) => {
 
   const sendAssignmentLoginLink = (email: string) => {
     const reason = prompt('Please enter reason for this change(required)')
-    if(reason) {
+    if (reason) {
       sendLoginLink({
         context: {
           token,
           slug: conferenceSlug,
           headers: {
-            'x-admin-reason': reason
+            'x-admin-reason': reason,
           },
         },
         variables: {
@@ -49,9 +50,7 @@ const LoginLinkRequest = ({ account } : { account : Account}) => {
   return (
     <>
       {lastLoginLinkRequestedAt ? (
-        <Text>
-          Last login link requested at: {formatDateTime(lastLoginLinkRequestedAt)}
-        </Text>
+        <Text>Last login link requested at: {formatDateTime(lastLoginLinkRequestedAt)}</Text>
       ) : (
         <Text>No login links requested for assignee</Text>
       )}
@@ -63,14 +62,10 @@ const LoginLinkRequest = ({ account } : { account : Account}) => {
           Check Ticket Machine emails sent to assignee on metabase
         </a>
       </Text>
-      {loginLinkRequestReasonError && (
-        <Text>You must provide a reason for requesting a link</Text>
-      )}
+      {loginLinkRequestReasonError && <Text>You must provide a reason for requesting a link</Text>}
       <Button
         onClick={() => {
-          if (
-            confirm('Are you sure you want to send another login link to this assignee?')
-          ) {
+          if (confirm('Are you sure you want to send another login link to this assignee?')) {
             sendAssignmentLoginLink(account.email)
           }
         }}
