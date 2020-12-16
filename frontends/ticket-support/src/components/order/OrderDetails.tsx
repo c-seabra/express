@@ -207,14 +207,6 @@ const OrderDetails: React.FC = () => {
         )}
         {!loading && !error && (
           <div>
-            {/*<div>*/}
-            {/*  <hr />*/}
-            {/*  <Heading>Order owner details</Heading>*/}
-            {/*  <div>*/}
-            {/*    Owner: {owner?.firstName} {owner?.lastName}*/}
-            {/*  </div>*/}
-            {/*  <div>Owner email: {owner?.email}</div>*/}
-            {/*</div>*/}
             <div>
               <hr />
               <OrderDetailsSummary
@@ -225,9 +217,9 @@ const OrderDetails: React.FC = () => {
                 orderStatus={orderDetails.status.value}
               />
 
-              {/*<Heading>Order summary details</Heading>*/}
-              {/*<div>Order type: {order?.summary?.ticketType?.name}</div>*/}
-              {/*<div>Number of tickets: {order?.summary?.tickets}</div>*/}
+              <Heading>Order summary details</Heading>
+              <div>Order type: {order?.summary?.ticketType?.name}</div>
+              <div>Number of tickets: {order?.summary?.tickets}</div>
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>

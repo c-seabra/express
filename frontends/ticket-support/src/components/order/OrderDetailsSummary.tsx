@@ -8,20 +8,38 @@ import Warning from '../ticketActions/Warning'
 const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 1rem;
   font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid grey;
+
+  // TODO PP: spacing needs to be evaluated as modifier to box
+  margin-bottom: 16px;
 `
 
-const StyledField = styled.div`
+const StyledFieldContainer = styled.div`
   display: flex;
   font-size: 16px;
+`
+
+const StyledField = styled.input`
+  display: flex;
+  font-size: 16px;
+
+  // TODO PP: Move to some utility (s)css class eg. spacing--md
+  margin-right: 16px;
 `
 
 const StyledHeader = styled.div`
   font-weight: 500;
   font-size: 24px;
+`
+
+const StyledInfoHeader = styled.div`
+  font-weight: 500;
+  font-size: 18px;
+  color: #97b5e8; // TODO: add color constants, needs to be discussed
+
+  // TODO PP: Move to some utility (s)css class eg. spacing--md
+  // Cause: spacing needs to be evaluated as modifier to box otherwise style lost its ability to be reusable
+  margin-bottom: 16px;
 `
 
 const StyledDefaultContainer = styled.div`
@@ -59,52 +77,52 @@ const OrderDetailsSummary = ({
         {!loading && !error && (
           <>
             <StyledDefaultContainer>
-              <StyledField>
-                <div>Order Reference #</div>
-                <input type="text" value={orderReference} />
-              </StyledField>
+              <StyledFieldContainer>
+                <span>Order Reference #</span>
+                <StyledField type="text" disabled value={orderReference} />
+              </StyledFieldContainer>
 
-              <StyledField>
-                <div>Created On:</div>
-                <input type="text" value={orderDetails.createdOn.value} />
-              </StyledField>
+              <StyledFieldContainer>
+                <span>Created On:</span>
+                <input type="text" disabled value={orderDetails.createdOn.value} />
+              </StyledFieldContainer>
 
-              <StyledField>
-                <div>Last Updated On:</div>
-                <input type="text" value={orderDetails.lastUpdatedOn.value} />
-              </StyledField>
+              <StyledFieldContainer>
+                <span>Last Updated On:</span>
+                <input type="text" disabled value={orderDetails.lastUpdatedOn.value} />
+              </StyledFieldContainer>
 
-              <StyledField>
-                <div>Source of Sale:</div>
-                <input type="text" value={orderDetails.sourceOfSale.value} />
-              </StyledField>
+              <StyledFieldContainer>
+                <span>Source of Sale:</span>
+                <input type="text" disabled value={orderDetails.sourceOfSale.value} />
+              </StyledFieldContainer>
 
-              <StyledField>
-                <div>Order Status:</div>
+              <StyledFieldContainer>
+                <span>Order Status:</span>
                 <Badge>{orderStatus}</Badge>
-              </StyledField>
+              </StyledFieldContainer>
             </StyledDefaultContainer>
 
-            <div>
+            <StyledInfoHeader>
               Order Owner’s Details ( Changes to this section shall transfer ticket assignment
               ownership)
-            </div>
+            </StyledInfoHeader>
 
             <StyledDefaultContainer>
-              <StyledField>
-                <div>First Name*:</div>
-                <input type="text" value={orderDetails.name.value} />
-              </StyledField>
+              <StyledFieldContainer>
+                <span>First Name*:</span>
+                <input type="text" disabled value={orderDetails.name.value} />
+              </StyledFieldContainer>
 
-              <StyledField>
-                <div>Last Name:</div>
-                <input type="text" value={orderDetails.surname.value} />
-              </StyledField>
+              <StyledFieldContainer>
+                <span>Last Name:</span>
+                <input type="text" disabled value={orderDetails.surname.value} />
+              </StyledFieldContainer>
 
-              <StyledField>
-                <div>Email:</div>
-                <input type="email" value={orderDetails.email.value} />
-              </StyledField>
+              <StyledFieldContainer>
+                <span>Email:</span>
+                <input type="email" disabled value={orderDetails.email.value} />
+              </StyledFieldContainer>
             </StyledDefaultContainer>
           </>
         )}
