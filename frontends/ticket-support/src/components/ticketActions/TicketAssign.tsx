@@ -1,10 +1,11 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
 import { AppContext } from '../app/App'
-import Warning from './Warning'
 import Field from './Field'
+import Warning from './Warning'
 
 const Form = styled.form`
   display: flex;
@@ -26,7 +27,7 @@ const SubmitButton = styled.button`
   }
 `
 
-const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: boolean) => void }> = ({
+const TicketAssign: React.FC<{ resetReassignment: (value: boolean) => void; ticketId: string }> = ({
   ticketId,
   resetReassignment,
 }) => {
@@ -45,18 +46,23 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
   }
 
   useEffect(() => {
-    if (assignReason && confirm('Are you sure you want to reassign this ticket? This will have  implications in our systems and current assignee! Make sure you know what you are doing!')) {
+    if (
+      assignReason &&
+      confirm(
+        'Are you sure you want to reassign this ticket? This will have  implications in our systems and current assignee! Make sure you know what you are doing!'
+      )
+    ) {
       assign()
     }
   }, [assignReason])
 
   const [ticketAssignMutation] = useMutation(TICKET_ASSIGN_MUTATION, {
     context: {
+      headers: {
+        'x-admin-reason': assignReason,
+      },
       slug: conferenceSlug,
       token,
-      headers: {
-        'x-admin-reason': assignReason
-      }
     },
     onCompleted: ({ ticketAssign }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
@@ -72,8 +78,8 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
       email,
       firstName,
       lastName,
+      notify: emailNotification,
       ticketId,
-      notify: emailNotification
     },
   })
 
@@ -84,27 +90,30 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         onSubmit={e => {
           e.preventDefault()
           const reason = prompt('Please enter reason for this change(required)')
-          if(reason) {
+          if (reason) {
             setAssignReason(reason)
           } else {
             setError('Reason has to be provided')
           }
         }}
       >
-        <Field fieldName="firstName" label="First name" onChange={setFirstName} required />
-        <Field fieldName="lastName" label="Last name" onChange={setLastName} required />
-        <Field fieldType="email" label="Email" fieldName="email" onChange={setEmail} required />
+        <Field required fieldName="firstName" label="First name" onChange={setFirstName} />
+        <Field required fieldName="lastName" label="Last name" onChange={setLastName} />
+        <Field required fieldName="email" fieldType="email" label="Email" onChange={setEmail} />
         <div>
           <div>Send email notification to new and old assignee</div>
           <input
+            checked={emailNotification}
             name="emailNotification"
             type="checkbox"
-            checked={emailNotification}
-            onChange={e => setEmailNotification(e.target.checked)} />
+            onChange={e => setEmailNotification(e.target.checked)}
+          />
         </div>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
-      <Warning>Email notifications will be sent to new assignee, old assignee and order owner</Warning>
+      <Warning>
+        Email notifications will be sent to new assignee, old assignee and order owner
+      </Warning>
     </div>
   )
 }

@@ -20,14 +20,14 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
   const [unlockTicket, { data, loading, error }] = useMutation(UNLOCK_MUTATION)
 
   useEffect(() => {
-    if(claimReason) {
+    if (claimReason) {
       unlockTicket({
         context: {
-          token,
-          slug: conferenceSlug,
           headers: {
-            'x-admin-reason': claimReason
-          }
+            'x-admin-reason': claimReason,
+          },
+          slug: conferenceSlug,
+          token,
         },
         refetchQueries: ['TicketAuditTrail', 'Ticket'],
         variables: {
@@ -39,7 +39,7 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
 
   const handleUnlockTicket = () => {
     const reason = prompt('Please enter reason for this change(required)')
-    if(reason) {
+    if (reason) {
       setClaimReason(reason)
     } else {
       setClaimReasonError('Reason is required on this action.')

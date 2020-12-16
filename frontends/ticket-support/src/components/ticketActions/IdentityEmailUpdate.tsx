@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
+
 import IDENTITY_EMAIL_UPDATE from '../../operations/mutations/IdentityEmailUpdate'
-import { AppContext, Account, UserError } from '../app/App'
+import { Account, AppContext, UserError } from '../app/App'
 
 const Form = styled.form`
   display: flex;
@@ -66,19 +67,19 @@ const UpdateAppLoginEmail: React.FC<{
     if (reason) {
       identityEmailUpdate({
         context: {
+          headers: {
+            'x-admin-reason': reason,
+          },
           slug: conferenceSlug,
           token,
-          headers: {
-            "x-admin-reason": reason
-          }
-        }
+        },
       })
     } else {
-      setError("Reason is required for this action")
+      setError('Reason is required for this action')
     }
   }
 
-  const [identityEmailUpdate, {error: mutationError}] = useMutation<{
+  const [identityEmailUpdate, { error: mutationError }] = useMutation<{
     assignmentAccountUpdate: { account: Account; userErrors: [UserError] }
   }>(IDENTITY_EMAIL_UPDATE, {
     onCompleted: ({ assignmentAccountUpdate }) => {
@@ -102,12 +103,20 @@ const UpdateAppLoginEmail: React.FC<{
       <Warning>
         <span>Only super admins are permitted to make this change</span>
       </Warning>
-      {error && <Warning><span>{error}</span></Warning>}
-      {mutationError && <Warning><span>{mutationError.message}</span></Warning>}
+      {error && (
+        <Warning>
+          <span>{error}</span>
+        </Warning>
+      )}
+      {mutationError && (
+        <Warning>
+          <span>{mutationError.message}</span>
+        </Warning>
+      )}
       <Form
         onSubmit={e => {
           e.preventDefault()
-          if(email) {
+          if (email) {
             if (
               confirm(
                 'Are you sure you want to change the identity email for this assignee? This will have many implications in our systems! Make sure you know what you are doing!'
@@ -122,7 +131,7 @@ const UpdateAppLoginEmail: React.FC<{
       >
         <Field>
           <span>Email:</span>
-          <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
+          <input required name="email" type="email" onChange={e => setEmail(e.target.value)} />
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>

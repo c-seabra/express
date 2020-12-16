@@ -13,7 +13,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'frontends.[name].bundle.js',
     library: ['frontends', '[name]'],
-    libraryTarget: 'window'
+    libraryTarget: 'window',
   },
   module: {
     rules: [
@@ -26,46 +26,44 @@ const config = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: 'style-loader',
           },
           {
-            loader: 'css-loader'
-          }
+            loader: 'css-loader',
+          },
         ],
-        exclude: /\.module\.css$/
+        exclude: /\.module\.css$/,
       },
       {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: 'style-loader',
           },
           {
             loader: 'css-loader',
             options: {
               modules: true,
               importLoaders: 1,
-              sourceMap: true
-            }
-          }
+              sourceMap: true,
+            },
+          },
         ],
-        include: /\.module\.css$/
-      }
-    ]
+        include: /\.module\.css$/,
+      },
+    ],
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.jsx', '.js' ],
+    extensions: ['.tsx', '.ts', '.jsx', '.js'],
   },
-  plugins: [
-    new CleanWebpackPlugin()
-  ]
+  plugins: [new CleanWebpackPlugin()],
 }
 
 module.exports = (env, argv) => {
@@ -76,8 +74,8 @@ module.exports = (env, argv) => {
         exclude: /node_modules/,
         failOnError: true,
         allowAsyncCycles: false,
-        cwd: process.cwd()
-      })
+        cwd: process.cwd(),
+      }),
     ])
   }
 
@@ -88,11 +86,11 @@ module.exports = (env, argv) => {
         filename: './index.html',
         title: 'ticketSupport',
         token: process.env.TOKEN,
-        env: process.env.ENV
-      })
+        env: process.env.ENV,
+      }),
     ])
     config.devServer = {
-      contentBase: path.join(__dirname, 'dist')
+      contentBase: path.join(__dirname, 'dist'),
     }
   }
 

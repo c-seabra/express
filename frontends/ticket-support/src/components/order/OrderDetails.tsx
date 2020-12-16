@@ -1,15 +1,15 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import React, { useContext } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
+import { useHistory, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 
-import { AppContext } from '../app/App'
-import ORDER from '../../operations/queries/OrderByRef'
-import TicketItem from '../ticketItem/TicketItem'
-import Tooltip from '../../lib/Tooltip'
 import Loader from '../../lib/Loading'
+import Tooltip from '../../lib/Tooltip'
+import ORDER from '../../operations/queries/OrderByRef'
+import { AppContext } from '../app/App'
 import Warning from '../ticketActions/Warning'
+import TicketItem from '../ticketItem/TicketItem'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -90,38 +90,38 @@ const OrderDetails: React.FC = () => {
   }: {
     data?: {
       order: {
+        owner: {
+          email: string
+          firstName: string
+          lastName: string
+        }
         summary: {
           ticketType: {
             name: string
           }
           tickets: number
         }
-        owner: {
-          firstName: string
-          lastName: string
-          email: string
-        }
         tickets: {
           edges: [
             {
               node: {
                 assignment: {
-                  state: string
                   assignee: {
+                    email: string
                     firstName: string
                     lastName: string
-                    email: string
                   }
+                  state: string
                 }
                 bookingRef: string
-                state: string
                 order: {
                   owner: {
+                    email: string
                     firstName: string
                     lastName: string
-                    email: string
                   }
                 }
+                state: string
                 ticketType: {
                   name: string
                 }
@@ -161,8 +161,8 @@ const OrderDetails: React.FC = () => {
             Manage Order/
             <Tooltip
               copyToClip
-              value={orderRef}
               title={<TextHighlight>{orderRef}</TextHighlight>}
+              value={orderRef}
             />
           </Heading>
         </TicketHeader>
@@ -194,11 +194,11 @@ const OrderDetails: React.FC = () => {
                 <Heading>Tickets</Heading>
                 {tickets.edges.map(({ node }) => (
                   <TicketItem
-                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
                     assignment={node.assignment}
                     bookingRef={node.bookingRef}
-                    ticketState={node.state}
+                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
                     orderOwner={node.order.owner}
+                    ticketState={node.state}
                     ticketTypeName={node.ticketType.name}
                   />
                 ))}

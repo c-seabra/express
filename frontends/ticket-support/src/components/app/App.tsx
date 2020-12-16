@@ -1,6 +1,6 @@
 import jwt from 'jwt-decode'
 import React, { createContext, useEffect, useState } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
@@ -32,11 +32,11 @@ const StyledSection = styled.section`
 `
 
 export type Account = {
-  id: string
   email: string
   firstName: string
-  lastName: string
+  id: string
   lastLoginTokenCreatedAt: string
+  lastName: string
 }
 
 export type Ticket = {
@@ -48,8 +48,8 @@ export type Ticket = {
   bookingRef: string
   id: string
   order: {
-    reference: string
     owner: Account
+    reference: string
   }
   state: string
   ticketType: {

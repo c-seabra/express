@@ -1,4 +1,3 @@
-
 import { gql } from '@apollo/client'
 
 export const TICKET_ACCEPT_MUTATION = gql`

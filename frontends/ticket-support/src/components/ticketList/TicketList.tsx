@@ -12,11 +12,11 @@ const TicketList: React.FC<{ list: Ticket[] | undefined }> = ({ list }) => {
     <>
       {list.map(ticket => (
         <TicketItem
-          handleOnClick={() => history.push(`tickets/${ticket.bookingRef}`)}
           assignment={ticket.assignment}
           bookingRef={ticket.bookingRef}
-          ticketState={ticket.state}
+          handleOnClick={() => history.push(`tickets/${ticket.bookingRef}`)}
           orderOwner={ticket.order.owner}
+          ticketState={ticket.state}
           ticketTypeName={ticket.ticketType.name}
         />
       ))}

@@ -1,17 +1,17 @@
 import { ApolloError, useQuery } from '@apollo/client'
-import React, { useContext, useEffect, useState } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import qs from 'qs'
+import React, { useContext, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useHistory, useLocation } from 'react-router-dom'
+import styled from 'styled-components'
 
+import Loader from '../../lib/Loading'
+import SearchIcon from '../../lib/svgs/search'
 import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
 import { AppContext, PageInfo, Ticket, TicketType } from '../app/App'
 import TicketList from '../ticketList/TicketList'
 import TicketDashboardHeader from './TicketDashboardHeader'
-import SearchIcon from '../../lib/svgs/search'
-import Loader from '../../lib/Loading'
 
 const TICKETS_PER_PAGE = 20
 
@@ -35,7 +35,8 @@ const SearchFilters = styled.div`
 const StyledLabel = styled.label`
   display: flex;
   flex-direction: column;
-  select, input {
+  select,
+  input {
     height: 2rem;
     width: 100%;
   }
@@ -48,8 +49,8 @@ const Search = styled(StyledLabel)`
     width: 20px;
     height: 20px;
     position: absolute;
-    left: .5rem;
-    top: .5rem;
+    left: 0.5rem;
+    top: 0.5rem;
   }
   input {
     padding-left: 2rem;
@@ -107,20 +108,24 @@ const PaginationButton = styled.button`
 `
 
 export enum TicketFilterStatus {
-  ASSIGNED = "Assigned",
-  UNASSIGNED = "Unassigned",
-  ACCEPTED = "Accepted",
-  VOID = "Void",
-  DUPLICATE = "Duplicate",
-  LOCKED = "Locked",
-  REJECTED = "Rejected",
-  CHECKED_IN = "Checked In",
+  ACCEPTED = 'Accepted',
+  ASSIGNED = 'Assigned',
+  CHECKED_IN = 'Checked In',
+  DUPLICATE = 'Duplicate',
+  LOCKED = 'Locked',
+  REJECTED = 'Rejected',
+  UNASSIGNED = 'Unassigned',
+  VOID = 'Void',
 }
 
 const filterEmptyStrings = (_: unknown, val: string) => val || undefined
 
 const createURL = (state: Record<string, unknown>) =>
-  `?${qs.stringify(state, { encodeValuesOnly: true, filter: filterEmptyStrings, skipNulls: true })}`
+  `?${qs.stringify(state, {
+    encodeValuesOnly: true,
+    filter: filterEmptyStrings,
+    skipNulls: true,
+  })}`
 
 const searchStateToUrl = ({
   pathname,
@@ -142,7 +147,7 @@ const TicketDashboard: React.FC = () => {
   const { conferenceSlug, token } = useContext(AppContext)
   const location = useLocation()
   const history = useHistory()
-  const pathname = location.pathname
+  const { pathname } = location
   const asPath = window.location.href
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [ticketStatusFilter, setTicketStatusFilter] = useState<string | undefined>()
@@ -175,7 +180,7 @@ const TicketDashboard: React.FC = () => {
   const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const element = e.currentTarget as HTMLInputElement
-      setSearchState({...searchState, search:element.value})
+      setSearchState({ ...searchState, search: element.value })
       setCursorStack([])
       setAfterCursor(undefined)
     }
@@ -187,20 +192,20 @@ const TicketDashboard: React.FC = () => {
     } else {
       setTicketStatusFilter(undefined)
     }
-    setSearchState({...searchState, ticketStatus:e.target.value})
+    setSearchState({ ...searchState, ticketStatus: e.target.value })
     setCursorStack([])
     setAfterCursor(undefined)
   }
 
   const handleTicketTypeFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const element = e.currentTarget as HTMLSelectElement
-    const ticketTypeIds = Array.from(element.selectedOptions, option => option.value);
+    const ticketTypeIds = Array.from(element.selectedOptions, option => option.value)
     if (ticketTypeIds.length > 0) {
       setTicketTypesFilter(ticketTypeIds)
     } else {
       setTicketTypesFilter(undefined)
     }
-    setSearchState({...searchState, ticketTypeIds:ticketTypeIds.toString()})
+    setSearchState({ ...searchState, ticketTypeIds: ticketTypeIds.toString() })
     setCursorStack([])
     setAfterCursor(undefined)
   }
@@ -209,13 +214,13 @@ const TicketDashboard: React.FC = () => {
     cursorStack.pop()
     const endCursor = cursorStack[cursorStack.length - 1]
     setAfterCursor(endCursor)
-    setSearchState({...searchState, page:endCursor})
+    setSearchState({ ...searchState, page: endCursor })
   }
 
   const nextPage = (endCursor: string) => {
     cursorStack.push(endCursor)
     setAfterCursor(endCursor)
-    setSearchState({...searchState, page:endCursor})
+    setSearchState({ ...searchState, page: endCursor })
   }
 
   const {
@@ -241,17 +246,19 @@ const TicketDashboard: React.FC = () => {
       token,
     },
     variables: {
-      searchQuery: searchState.search,
+      after: afterCursor,
       filter: {
         status: ticketStatusFilter,
-        ticketTypeIds: ticketTypesFilter
+        ticketTypeIds: ticketTypesFilter,
       },
       first: TICKETS_PER_PAGE,
-      after: afterCursor,
+      searchQuery: searchState.search,
     },
   })
 
-  const { data: ticketTypesData }: {
+  const {
+    data: ticketTypesData,
+  }: {
     data?: {
       ticketTypes: {
         edges: [
@@ -267,9 +274,12 @@ const TicketDashboard: React.FC = () => {
     context: {
       slug: conferenceSlug,
       token,
-    }
+    },
   })
-  const ticketTypes = ticketTypesData?.ticketTypes.edges.map(({ node: { id, name } }) => ({id, name}))
+  const ticketTypes = ticketTypesData?.ticketTypes.edges.map(({ node: { id, name } }) => ({
+    id,
+    name,
+  }))
 
   return (
     <div>
@@ -279,44 +289,72 @@ const TicketDashboard: React.FC = () => {
       <SearchFilters>
         <Search>
           <SearchIcon />
-            <input
-              placeholder="Search by name, reference or email of ticket or order"
-              type="text"
-              defaultValue={searchQuery}
-              onKeyDown={e => handleSearchKey(e)}
-              onChange={e => setSearchQuery(e.target.value)}
-            />
+          <input
+            defaultValue={searchQuery}
+            placeholder="Search by name, reference or email of ticket or order"
+            type="text"
+            onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={e => handleSearchKey(e)}
+          />
         </Search>
         <Filters>
           <Select>
             <span>Ticket status</span>
-            <select name="filter[status]" onChange={e => handleTicketStatusFilterChange(e)} value={ticketStatusFilter}>
+            <select
+              name="filter[status]"
+              value={ticketStatusFilter}
+              onChange={e => handleTicketStatusFilterChange(e)}
+            >
               <option value="">All</option>
               {Object.entries(TicketFilterStatus).map(([key, value]) => (
                 <option value={key}>{value}</option>
-                ))}
+              ))}
             </select>
           </Select>
-          {ticketTypes &&
+          {ticketTypes && (
             <MultiSelect>
               <span>Ticket types(ctrl/cmd + click to select/deselect)</span>
-                <select name="filter[status]" multiple onChange={e => handleTicketTypeFilterChange(e)} defaultValue={ticketTypesFilter as string[] || [''] as string[]}>
-                  { ticketTypes.map((ticketType) => (<option value={ticketType.id}>{ticketType.name}</option>)) }
-                </select>
+              <select
+                multiple
+                defaultValue={(ticketTypesFilter as string[]) || ([''] as string[])}
+                name="filter[status]"
+                onChange={e => handleTicketTypeFilterChange(e)}
+              >
+                {ticketTypes.map(ticketType => (
+                  <option value={ticketType.id}>{ticketType.name}</option>
+                ))}
+              </select>
             </MultiSelect>
-          }
+          )}
         </Filters>
       </SearchFilters>
       <StyledList>
         <TicketDashboardHeader />
         {loading && <Loader />}
         {error && error.message}
-        {!loading && !error && data?.tickets?.edges !== undefined && data?.tickets?.edges?.length > 0 && <TicketList list={data?.tickets?.edges?.map(node => node.node)} />}
+        {!loading &&
+          !error &&
+          data?.tickets?.edges !== undefined &&
+          data?.tickets?.edges?.length > 0 && (
+            <TicketList list={data?.tickets?.edges?.map(node => node.node)} />
+          )}
       </StyledList>
       {!loading && !error && (
         <Pagination>
-          <PaginationButton disabled={cursorStack.length <= 0} onClick={cursorStack.length > 0 ? () => previousPage() : ()=>{}}>Previous</PaginationButton>
-          <PaginationButton disabled={!data?.tickets?.pageInfo?.hasNextPage} onClick={data?.tickets?.pageInfo?.hasNextPage ? () => nextPage(data?.tickets?.pageInfo?.endCursor) : ()=>{}}>
+          <PaginationButton
+            disabled={cursorStack.length <= 0}
+            onClick={cursorStack.length > 0 ? () => previousPage() : () => {}}
+          >
+            Previous
+          </PaginationButton>
+          <PaginationButton
+            disabled={!data?.tickets?.pageInfo?.hasNextPage}
+            onClick={
+              data?.tickets?.pageInfo?.hasNextPage
+                ? () => nextPage(data?.tickets?.pageInfo?.endCursor)
+                : () => {}
+            }
+          >
             Next
           </PaginationButton>
         </Pagination>

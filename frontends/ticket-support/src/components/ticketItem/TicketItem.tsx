@@ -39,28 +39,27 @@ const TicketItem = ({
   ticketState,
   orderOwner,
   ticketTypeName,
-  handleOnClick
+  handleOnClick,
 }: {
   assignment?: {
-    state: string
     assignee?: {
+      email?: string
       firstName?: string
       lastName?: string
-      email?: string
     }
+    state: string
   }
   bookingRef: string
+  handleOnClick?: () => void
   orderOwner?: {
+    email?: string
     firstName?: string
     lastName?: string
-    email?: string
   }
   ticketState: string
   ticketTypeName: string
-  handleOnClick?: () => void
 }) => {
-
-  const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state as string
+  const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state
 
   return (
     <StyledListItem onClick={handleOnClick}>
@@ -70,14 +69,16 @@ const TicketItem = ({
         {assignment?.assignee?.firstName} {assignment?.assignee?.lastName}
       </Column>
       <Email>{assignment?.assignee?.email}</Email>
-      <Column><StatePlate state={assignmentState}/></Column>
-      <Column><StatePlate state={ticketState}/></Column>
+      <Column>
+        <StatePlate state={assignmentState} />
+      </Column>
+      <Column>
+        <StatePlate state={ticketState} />
+      </Column>
       <Column>
         {orderOwner?.firstName} {orderOwner?.lastName}
       </Column>
-      <Email>
-        {orderOwner?.email}
-      </Email>
+      <Email>{orderOwner?.email}</Email>
     </StyledListItem>
   )
 }
