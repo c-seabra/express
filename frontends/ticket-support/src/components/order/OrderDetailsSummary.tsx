@@ -1,18 +1,14 @@
-import { ApolloError, useQuery } from '@apollo/client'
-import React, { ReactElement, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 import Loader from '../../lib/Loading'
-import ORDER from '../../operations/queries/OrderByRef'
-import { AppContext } from '../app/App'
 import Warning from '../ticketActions/Warning'
 
 const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  max-width: 1440px;
+  // max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
   border-radius: 8px;
@@ -33,38 +29,21 @@ const StyledDefaultContainer = styled.div`
   display: flex;
 `
 
-const OrderDetailsSummary: ReactElement = () => {
-  // const { orderRef } = useParams<{ orderRef: string }>()
-  // const history = useHistory()
-  // const { conferenceSlug, token } = useContext(AppContext)
-  // const {
-  //   loading,
-  //   error,
-  //   data,
-  // }: OrderDetailsQuery = useQuery(ORDER, {
-  //   context: {
-  //     slug: conferenceSlug,
-  //     token,
-  //   },
-  //   variables: {
-  //     reference: orderRef,
-  //   },
-  // })
-  // const order = data?.order
-  // const owner = order?.owner
+export type OrderDetailsSummaryProps = {
+  error: boolean
+  loading: boolean
+  orderDetails?: any // mocked only
+  orderReference?: string
+  orderStatus?: string
+}
 
-  // Mocked version for now
-  const { loading, error, orderDetails } = {
-    error: false,
-    loading: false,
-    orderDetails: {
-      createdOn: {
-        label: 'Created On',
-        value: new Date(),
-      },
-    },
-  }
-
+const OrderDetailsSummary = ({
+  loading,
+  error,
+  orderReference,
+  orderStatus,
+  orderDetails,
+}: OrderDetailsSummaryProps): ReactElement<OrderDetailsSummaryProps> => {
   return (
     <>
       <StyledContainer>
@@ -82,7 +61,7 @@ const OrderDetailsSummary: ReactElement = () => {
             <StyledDefaultContainer>
               <StyledField>
                 <div>Order Reference #</div>
-                <input type="text" value={orderDetails.createdOn.value} />
+                <input type="text" value={orderReference} />
               </StyledField>
 
               <StyledField>
@@ -135,53 +114,3 @@ const OrderDetailsSummary: ReactElement = () => {
 }
 
 export default OrderDetailsSummary
-
-// Possible Bin
-
-// type OrderDetailsQuery {
-//     data?: {
-//       order: {
-//         owner: {
-//           email: string
-//           firstName: string
-//           lastName: string
-//         }
-//         summary: {
-//           ticketType: {
-//             name: string
-//           }
-//           tickets: number
-//         }
-//         tickets: {
-//           edges: [
-//             {
-//               node: {
-//                 assignment: {
-//                   assignee: {
-//                     email: string
-//                     firstName: string
-//                     lastName: string
-//                   }
-//                   state: string
-//                 }
-//                 bookingRef: string
-//                 order: {
-//                   owner: {
-//                     email: string
-//                     firstName: string
-//                     lastName: string
-//                   }
-//                 }
-//                 state: string
-//                 ticketType: {
-//                   name: string
-//                 }
-//               }
-//             }
-//           ]
-//         }
-//       }
-//     }
-//     error?: ApolloError
-//     loading?: boolean
-// }

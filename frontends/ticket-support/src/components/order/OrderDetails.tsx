@@ -148,6 +148,21 @@ const OrderDetails: React.FC = () => {
   const tickets = order?.tickets
   const owner = order?.owner
 
+  // // Mocked version for now
+  const { loading: mockedLoading, error: mockedError, orderDetails } = {
+    error: false,
+    loading: false,
+    orderDetails: {
+      orderReference: {
+        value: 'R0001111'
+      },
+      createdOn: {
+        label: 'Created On',
+        value: new Date(),
+      },
+    },
+  }
+
   return (
     <>
       <Helmet>
@@ -185,7 +200,12 @@ const OrderDetails: React.FC = () => {
             </div>
             <div>
               <hr />
-              <OrderDetailsSummary />
+              <OrderDetailsSummary
+                orderDetails
+                error={mockedError}
+                loading={mockedLoading}
+                orderReference={orderDetails.orderReference.value}
+              />
 
               {/*<Heading>Order summary details</Heading>*/}
               {/*<div>Order type: {order?.summary?.ticketType?.name}</div>*/}
