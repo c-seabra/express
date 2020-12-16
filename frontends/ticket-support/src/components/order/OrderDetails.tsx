@@ -169,13 +169,13 @@ const OrderDetails: React.FC = () => {
         value: 'ACTIVE',
       },
       name: {
-        value: 'aaaaaa',
+        value: owner?.firstName,
       },
       surname: {
-        value: 'AAAAA',
+        value: owner?.lastName,
       },
       email: {
-        value: 'AAA@gmail.com',
+        value: owner?.email,
       },
     },
   }
@@ -207,20 +207,20 @@ const OrderDetails: React.FC = () => {
         )}
         {!loading && !error && (
           <div>
-            <div>
-              <hr />
-              <Heading>Order owner details</Heading>
-              <div>
-                Owner: {owner?.firstName} {owner?.lastName}
-              </div>
-              <div>Owner email: {owner?.email}</div>
-            </div>
+            {/*<div>*/}
+            {/*  <hr />*/}
+            {/*  <Heading>Order owner details</Heading>*/}
+            {/*  <div>*/}
+            {/*    Owner: {owner?.firstName} {owner?.lastName}*/}
+            {/*  </div>*/}
+            {/*  <div>Owner email: {owner?.email}</div>*/}
+            {/*</div>*/}
             <div>
               <hr />
               <OrderDetailsSummary
-                orderDetails={orderDetails}
                 error={mockedError}
                 loading={mockedLoading}
+                orderDetails={orderDetails}
                 orderReference={orderDetails.orderReference.value}
                 orderStatus={orderDetails.status.value}
               />
