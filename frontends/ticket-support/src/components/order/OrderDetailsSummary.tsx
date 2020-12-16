@@ -81,7 +81,7 @@ const OrderDetailsSummary = ({
 
               <StyledField>
                 <div>Order Status:</div>
-                <input type="text" value={orderDetails.createdOn.value} />
+                <Badge>{orderStatus}</Badge>
               </StyledField>
             </StyledDefaultContainer>
 

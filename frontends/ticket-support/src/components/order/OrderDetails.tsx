@@ -154,11 +154,14 @@ const OrderDetails: React.FC = () => {
     loading: false,
     orderDetails: {
       orderReference: {
-        value: 'R0001111'
+        value: 'R0001111',
       },
       createdOn: {
         label: 'Created On',
         value: new Date(),
+      },
+      status: {
+        value: 'ACTIVE',
       },
     },
   }
@@ -205,6 +208,7 @@ const OrderDetails: React.FC = () => {
                 error={mockedError}
                 loading={mockedLoading}
                 orderReference={orderDetails.orderReference.value}
+                orderStatus={orderDetails.status.value}
               />
 
               {/*<Heading>Order summary details</Heading>*/}
