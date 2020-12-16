@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
-import { AppContext } from '../app/App'
 import Warning from './Warning'
 import Field from './Field'
+import { useAppContext } from '../app/AppContext'
 
 const Form = styled.form`
   display: flex;
@@ -30,7 +30,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
   ticketId,
   resetReassignment,
 }) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const [email, setEmail] = useState<string | undefined>()
   const [emailNotification, setEmailNotification] = useState(true)
   const [firstName, setFirstName] = useState<string | undefined>()
@@ -45,7 +45,12 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
   }
 
   useEffect(() => {
-    if (assignReason && confirm('Are you sure you want to reassign this ticket? This will have  implications in our systems and current assignee! Make sure you know what you are doing!')) {
+    if (
+      assignReason &&
+      confirm(
+        'Are you sure you want to reassign this ticket? This will have  implications in our systems and current assignee! Make sure you know what you are doing!'
+      )
+    ) {
       assign()
     }
   }, [assignReason])
@@ -55,8 +60,8 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
       slug: conferenceSlug,
       token,
       headers: {
-        'x-admin-reason': assignReason
-      }
+        'x-admin-reason': assignReason,
+      },
     },
     onCompleted: ({ ticketAssign }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
@@ -73,7 +78,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
       firstName,
       lastName,
       ticketId,
-      notify: emailNotification
+      notify: emailNotification,
     },
   })
 
@@ -84,7 +89,7 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
         onSubmit={e => {
           e.preventDefault()
           const reason = prompt('Please enter reason for this change(required)')
-          if(reason) {
+          if (reason) {
             setAssignReason(reason)
           } else {
             setError('Reason has to be provided')
@@ -100,11 +105,14 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
             name="emailNotification"
             type="checkbox"
             checked={emailNotification}
-            onChange={e => setEmailNotification(e.target.checked)} />
+            onChange={e => setEmailNotification(e.target.checked)}
+          />
         </div>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
-      <Warning>Email notifications will be sent to new assignee, old assignee and order owner</Warning>
+      <Warning>
+        Email notifications will be sent to new assignee, old assignee and order owner
+      </Warning>
     </div>
   )
 }

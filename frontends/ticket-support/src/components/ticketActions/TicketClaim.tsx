@@ -1,52 +1,54 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TICKET_ACCEPT_MUTATION } from '../../operations/mutations/TicketAccept'
-import { AppContext } from '../app/App'
 import { Button } from '../ticketDetails/TicketDetails'
 import Warning from './Warning'
+import { useAppContext } from '../app/AppContext'
 
-const TicketClaim = ({ ticketId } : { ticketId :string}) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+const TicketClaim = ({ ticketId }: { ticketId: string }) => {
+  const { conferenceSlug, token } = useAppContext()
   const [claimReason, setClaimReason] = useState<string>('')
   const [error, setError] = useState<string | undefined>()
   const [claimStatus, setClaimStatus] = useState({
     message: '',
-    type: ''
+    type: '',
   })
 
   useEffect(() => {
-    if(claimReason) {
+    if (claimReason) {
       ticketAccept({
         context: {
           token,
           slug: conferenceSlug,
           headers: {
-            'x-admin-reason': claimReason
-          }
+            'x-admin-reason': claimReason,
+          },
         },
         refetchQueries: ['TicketAuditTrail', 'Ticket'],
         variables: {
-          ticketId
-        }
+          ticketId,
+        },
       })
     }
   }, [claimReason])
 
   const [ticketAccept] = useMutation(TICKET_ACCEPT_MUTATION, {
-    onCompleted: ({ ticketAccept }: {
+    onCompleted: ({
+      ticketAccept,
+    }: {
       ticketAccept: {
-        userErrors: [{message: string}]
+        userErrors: [{ message: string }]
       }
     }) => {
       if (ticketAccept?.userErrors.length) {
         setClaimStatus({
           message: ticketAccept.userErrors[0].message,
-          type: 'ERROR'
+          type: 'ERROR',
         })
       } else {
         setClaimStatus({
           message: 'Auto claim was successful',
-          type: 'SUCCESS'
+          type: 'SUCCESS',
         })
         setError('')
       }
@@ -56,7 +58,7 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
 
   const claimTicket = () => {
     const reason = prompt('Please enter reason for this change(required)')
-    if(reason) {
+    if (reason) {
       setClaimReason(reason)
     } else {
       setError('Reason has to be provided')
@@ -67,7 +69,9 @@ const TicketClaim = ({ ticketId } : { ticketId :string}) => {
     <div>
       {error && <Warning>{error}</Warning>}
       {claimStatus.message}
-      <Button type="button" onClick={() => claimTicket()}>Auto claim</Button>
+      <Button type="button" onClick={() => claimTicket()}>
+        Auto claim
+      </Button>
     </div>
   )
 }

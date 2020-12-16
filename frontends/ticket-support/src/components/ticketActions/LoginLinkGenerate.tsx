@@ -1,14 +1,14 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext } from 'react'
+import React from 'react'
 
 import Tooltip from '../../lib/Tooltip'
 import MAGIC_LINK_GENERATE from '../../operations/mutations/LoginLinkGenerate'
-import { AppContext } from '../app/App'
 import { Account } from '../../lib/types'
 import { Button, TextHighlight } from '../order/OrderDetails'
+import { useAppContext } from '../app/AppContext'
 
 const LoginLinkGenerate = ({ account }: { account: Account }) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [generateLoginLink, { data, loading, error }] = useMutation(MAGIC_LINK_GENERATE)
   if (loading) return <p>Generating login link...</p>

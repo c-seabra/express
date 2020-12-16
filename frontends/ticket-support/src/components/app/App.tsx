@@ -1,5 +1,5 @@
 import jwt from 'jwt-decode'
-import React, { createContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
@@ -8,6 +8,7 @@ import OrderDetails from '../order/OrderDetails'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
 import TicketDetails from '../ticketDetails/TicketDetails'
+import AppContext from './AppContext'
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -28,8 +29,6 @@ const StlyedContainer = styled.section`
   margin: 0 auto;
   font-size: 16px;
 `
-
-export const AppContext = createContext<{ conferenceSlug?: string; token?: string }>({})
 
 const App = ({ token }: { token: string }) => {
   if (!token) return null

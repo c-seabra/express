@@ -1,13 +1,13 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import ASSIGNMENT_LOGIN_LINK from '../../operations/mutations/AssignmentLoginLinkRequest'
 
-import { AppContext } from '../app/App'
 import { Account } from '../../lib/types'
 import { Button, Text } from '../ticketDetails/TicketDetails'
+import { useAppContext } from '../app/AppContext'
 
 const LoginLinkRequest = ({ account }: { account: Account }) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const [lastLoginLinkRequestedAt, setLastLoginLinkRequestedAt] = useState<string>()
   const [loginLinkRequestReasonError, setLoginLinkRequestReasonError] = useState<string>()
 

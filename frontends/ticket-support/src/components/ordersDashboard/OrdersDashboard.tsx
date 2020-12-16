@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react'
+import React, { ReactElement } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
@@ -6,7 +6,7 @@ import Loader from '../../lib/Loading'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import ORDER_LIST from '../../operations/queries/OrderList'
 import { Order } from '../../lib/types'
-import { AppContext } from '../app/App'
+import { useAppContext } from '../app/AppContext'
 import OrdersDashboardHeader from './OrdersDashboardHeader'
 import Pagination from '../../lib/Pagination'
 import OrderItem from '../orderItem/OrderItem'
@@ -23,7 +23,7 @@ const StyledList = styled.ul`
 const ORDERS_PER_PAGE = 20
 
 const OrdersDashboard = (): ReactElement => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
 
   const context = {
     slug: conferenceSlug,

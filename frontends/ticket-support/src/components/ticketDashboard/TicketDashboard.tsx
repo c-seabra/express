@@ -1,13 +1,12 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import qs from 'qs'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import SearchIcon from '../../lib/svgs/search'
 import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
-import { AppContext } from '../app/App'
 import { Ticket, TicketType } from '../../lib/types'
 import TicketList from '../ticketList/TicketList'
 import TicketDashboardHeader from './TicketDashboardHeader'
@@ -21,6 +20,7 @@ import {
 } from './TicketDashboard.styled'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import Pagination from '../../lib/Pagination'
+import { useAppContext } from '../app/AppContext'
 
 const TICKETS_PER_PAGE = 20
 
@@ -57,7 +57,7 @@ const pathToSearchState = (path: string): Record<string, unknown> =>
   path.includes('?') ? qs.parse(path.substring(path.indexOf('?') + 1)) : {}
 
 const TicketDashboard: React.FC = () => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const location = useLocation()
   const history = useHistory()
   const { pathname } = location

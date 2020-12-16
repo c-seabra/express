@@ -25,6 +25,7 @@ const StyledListItem = styled.li`
   display: flex;
   padding: 1rem 0.75rem;
   background-color: gainsboro;
+  justify-content: space-between;
   &:nth-child(2n + 1) {
     background-color: #fff;
   }

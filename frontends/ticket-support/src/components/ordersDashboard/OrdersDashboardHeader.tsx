@@ -23,6 +23,7 @@ const StyledListItem = styled.li`
   margin: 0.5rem 0;
   padding: 0.75rem;
   background-color: gainsboro;
+  justify-content: space-between;
   &:nth-child(2n + 1) {
     background-color: white;
   }
@@ -35,8 +36,9 @@ const OrdersDashboardHeader = (): ReactElement => {
       <Column>Ticket Type</Column>
       <Column>Ticket Owner</Column>
       <Email>Email Used</Email>
-      <Column>Ticket Status</Column>
-      <Column>Order State</Column>
+      {/*  TODO - when fields are added, uncomment these columns */}
+      {/* <Column>Ticket Status</Column> */}
+      {/* <Column>Order State</Column> */}
     </StyledListItem>
   )
 }
