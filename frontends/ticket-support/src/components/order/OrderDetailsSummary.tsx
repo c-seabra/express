@@ -2,15 +2,13 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 import Loader from '../../lib/Loading'
-import Warning from '../ticketActions/Warning'
 import Badge from '../shared/Badge'
+import Warning from '../ticketActions/Warning'
 
 const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  // max-width: 1440px;
-  margin: 0 auto;
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid grey;
@@ -73,12 +71,12 @@ const OrderDetailsSummary = ({
 
               <StyledField>
                 <div>Last Updated On:</div>
-                <input type="text" value={orderDetails.createdOn.value} />
+                <input type="text" value={orderDetails.lastUpdatedOn.value} />
               </StyledField>
 
               <StyledField>
                 <div>Source of Sale:</div>
-                <input type="text" value={orderDetails.createdOn.value} />
+                <input type="text" value={orderDetails.sourceOfSale.value} />
               </StyledField>
 
               <StyledField>
@@ -95,17 +93,17 @@ const OrderDetailsSummary = ({
             <StyledDefaultContainer>
               <StyledField>
                 <div>First Name*:</div>
-                <input type="text" value={orderDetails.createdOn.value} />
+                <input type="text" value={orderDetails.name.value} />
               </StyledField>
 
               <StyledField>
                 <div>Last Name:</div>
-                <input type="text" value={orderDetails.createdOn.value} />
+                <input type="text" value={orderDetails.surname.value} />
               </StyledField>
 
               <StyledField>
                 <div>Email:</div>
-                <input type="text" value={orderDetails.createdOn.value} />
+                <input type="email" value={orderDetails.email.value} />
               </StyledField>
             </StyledDefaultContainer>
           </>

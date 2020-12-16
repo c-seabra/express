@@ -157,11 +157,25 @@ const OrderDetails: React.FC = () => {
         value: 'R0001111',
       },
       createdOn: {
-        label: 'Created On',
         value: new Date(),
+      },
+      lastUpdatedOn: {
+        value: new Date(),
+      },
+      sourceOfSale: {
+        value: 'Salesforce',
       },
       status: {
         value: 'ACTIVE',
+      },
+      name: {
+        value: 'aaaaaa',
+      },
+      surname: {
+        value: 'AAAAA',
+      },
+      email: {
+        value: 'AAA@gmail.com',
       },
     },
   }
