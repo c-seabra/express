@@ -204,7 +204,7 @@ const OrderDetails: React.FC = () => {
             <div>
               <hr />
               <OrderDetailsSummary
-                orderDetails
+                orderDetails={orderDetails}
                 error={mockedError}
                 loading={mockedLoading}
                 orderReference={orderDetails.orderReference.value}

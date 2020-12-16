@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import Loader from '../../lib/Loading'
 import Warning from '../ticketActions/Warning'
+import Badge from '../shared/Badge'
 
 const StyledContainer = styled.section`
   display: flex;
@@ -27,6 +28,7 @@ const StyledHeader = styled.div`
 
 const StyledDefaultContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `
 
 export type OrderDetailsSummaryProps = {
