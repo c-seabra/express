@@ -48,6 +48,7 @@ const usePaginatedQuery = <TData, key, TVariables, TContext = unknown>({
   const [isBackwardsDisabled, setBackwardsDisabled] = useState(true)
   const [pageInfo, setPageInfo] = useState<PageInfo>()
   const [results, setResults] = useState<TData[]>([])
+  const [currentPage, setCurrentPage] = useState<string>()
 
   useEffect(() => {
     if (data) {
@@ -67,6 +68,7 @@ const usePaginatedQuery = <TData, key, TVariables, TContext = unknown>({
 
       setCursorStack(prevState => [...prevState, endCursor])
       setAfterCursor(endCursor)
+      setCurrentPage(endCursor)
     }
   }
 
@@ -78,6 +80,7 @@ const usePaginatedQuery = <TData, key, TVariables, TContext = unknown>({
       return prevState
     })
     setAfterCursor(nextToLastItem)
+    setCurrentPage(nextToLastItem)
   }
 
   const resetPage = () => {
@@ -86,7 +89,7 @@ const usePaginatedQuery = <TData, key, TVariables, TContext = unknown>({
   }
 
   return {
-    currentPage: pageInfo?.endCursor,
+    currentPage,
     error,
     isBackwardsDisabled,
     isForwardDisabled,

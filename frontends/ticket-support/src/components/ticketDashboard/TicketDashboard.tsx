@@ -113,13 +113,15 @@ const TicketDashboard: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    setSearchState({ ...searchState, page: currentPage })
-  }, [currentPage, searchState])
+    if (currentPage) {
+      setSearchState({ ...searchState, page: currentPage })
+    }
+  }, [currentPage])
 
   useEffect(() => {
     const url = searchStateToUrl({ pathname, searchState })
     history.push(url)
-  }, [history, pathname, searchState])
+  }, [searchState])
 
   const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
