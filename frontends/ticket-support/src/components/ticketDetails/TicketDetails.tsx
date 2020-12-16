@@ -1,23 +1,23 @@
-import { ApolloError, useQuery } from '@apollo/client';
-import React, { useContext, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { useHistory, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import { ApolloError, useQuery } from '@apollo/client'
+import React, { useContext, useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { useHistory, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 
-import Loader from '../../lib/Loading';
-import Tooltip from '../../lib/Tooltip';
-import TICKET from '../../operations/queries/Ticket';
-import { AppContext, Ticket } from '../app/App';
-import AuditTrail from '../auditTrail/AuditTrail';
-import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate';
-import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate';
-import LoginLinkRequest from '../ticketActions/LoginLinkRequest';
-import TicketAssign from '../ticketActions/TicketAssign';
-import TicketClaim from '../ticketActions/TicketClaim';
-import TicketReject from '../ticketActions/TicketReject';
-import TicketUnlock from '../ticketActions/TicketUnlock';
-import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail';
-import StatePlate from '../ticketItem/StatePlate';
+import Loader from '../../lib/Loading'
+import Tooltip from '../../lib/Tooltip'
+import TICKET from '../../operations/queries/Ticket'
+import { AppContext, Ticket } from '../app/App'
+import AuditTrail from '../auditTrail/AuditTrail'
+import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
+import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
+import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
+import TicketAssign from '../ticketActions/TicketAssign'
+import TicketClaim from '../ticketActions/TicketClaim'
+import TicketReject from '../ticketActions/TicketReject'
+import TicketUnlock from '../ticketActions/TicketUnlock'
+import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
+import StatePlate from '../ticketItem/StatePlate'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -30,7 +30,7 @@ const StlyedContainer = styled.section`
     border-color: grey;
     margin: 1rem 0;
   }
-`;
+`
 
 const Heading = styled.div`
   border-radius: 8px;
@@ -44,7 +44,7 @@ const Heading = styled.div`
   span {
     color: #00ac93;
   }
-`;
+`
 
 export const Text = styled.div`
   border-radius: 8px;
@@ -55,12 +55,12 @@ export const Text = styled.div`
     color: #337ab7;
     margin: 0 0.25rem;
   }
-`;
+`
 
 const TextHighlight = styled.span`
   color: #337ab7;
   margin: 0 0.25rem;
-`;
+`
 
 export const Button = styled.button`
   margin: 0 0 1rem;
@@ -75,12 +75,12 @@ export const Button = styled.button`
     background-color: grey;
     color: white;
   }
-`;
+`
 const TicketHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`;
+`
 const TicketStatus = styled.div`
   display: flex;
   align-items: center;
@@ -90,20 +90,20 @@ const TicketStatus = styled.div`
   > span {
     margin-bottom: 0.25rem;
   }
-`;
+`
 const TicketStatusBar = styled.div`
   display: flex;
   align-items: center;
-`;
+`
 
 const ticketDetails: React.FC = () => {
-  const { bookingRef } = useParams<{ bookingRef: string }>();
-  const history = useHistory();
-  const { conferenceSlug, token } = useContext(AppContext);
-  const [reassignment, setReassignment] = useState(false);
-  const [loginEmailChange, setLoginEmailChange] = useState(false);
-  const [identityEmailChange, setIdentityEmailChange] = useState(false);
-  const [showAuditTrail, setShowAuditTrail] = useState(false);
+  const { bookingRef } = useParams<{ bookingRef: string }>()
+  const history = useHistory()
+  const { conferenceSlug, token } = useContext(AppContext)
+  const [reassignment, setReassignment] = useState(false)
+  const [loginEmailChange, setLoginEmailChange] = useState(false)
+  const [identityEmailChange, setIdentityEmailChange] = useState(false)
+  const [showAuditTrail, setShowAuditTrail] = useState(false)
 
   const {
     loading,
@@ -111,10 +111,10 @@ const ticketDetails: React.FC = () => {
     data,
   }: {
     data?: {
-      ticket: Ticket;
-    };
-    error?: ApolloError;
-    loading?: boolean;
+      ticket: Ticket
+    }
+    error?: ApolloError
+    loading?: boolean
   } = useQuery(TICKET, {
     context: {
       slug: conferenceSlug,
@@ -123,11 +123,11 @@ const ticketDetails: React.FC = () => {
     variables: {
       reference: bookingRef,
     },
-  });
+  })
 
-  const ticket = data?.ticket;
-  const assignment = ticket?.assignment;
-  const assignee = assignment?.assignee;
+  const ticket = data?.ticket
+  const assignment = ticket?.assignment
+  const assignee = assignment?.assignee
 
   return (
     <>
@@ -315,7 +315,7 @@ const ticketDetails: React.FC = () => {
         </StlyedContainer>
       )}
     </>
-  );
+  )
 }
 
-export default ticketDetails;
+export default ticketDetails

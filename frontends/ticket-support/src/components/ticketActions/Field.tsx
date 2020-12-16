@@ -1,5 +1,5 @@
-import React, { SetStateAction } from 'react';
-import styled from 'styled-components';
+import React, { SetStateAction } from 'react'
+import styled from 'styled-components'
 
 const StyledField = styled.label`
   display: flex;
@@ -13,7 +13,7 @@ const StyledField = styled.label`
   span {
     margin-bottom: 0.5rem;
   }
-`;
+`
 
 const Field = ({
   label,
@@ -22,11 +22,11 @@ const Field = ({
   onChange,
   required = false,
 }: {
-  fieldName: string;
-  fieldType?: string;
-  label?: string;
-  onChange: (val: string) => void;
-  required: boolean;
+  fieldName: string
+  fieldType?: string
+  label?: string
+  onChange: (val: string) => void
+  required: boolean
 }) => {
   return (
     <StyledField>
@@ -41,7 +41,7 @@ const Field = ({
         onChange={e => onChange(e.target.value)}
       />
     </StyledField>
-  );
+  )
 }
 
-export default Field;
+export default Field

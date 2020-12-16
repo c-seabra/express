@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
-import { Button } from '../ticketDetails/TicketDetails';
-import { Column, MediumColumn, WideColumn } from './AuditTrail';
+import { Button } from '../ticketDetails/TicketDetails'
+import { Column, MediumColumn, WideColumn } from './AuditTrail'
 
 const Trail = styled.div`
   font-size: 1rem;
@@ -12,7 +12,7 @@ const Trail = styled.div`
   &:nth-child(2n + 1) {
     background-color: #fff;
   }
-`;
+`
 
 const ChangesList = styled.div`
   &.active {
@@ -49,13 +49,13 @@ const ChangesList = styled.div`
     display: flex;
     flex-direction: column;
   }
-`;
-const ChangesListWrap = styled.div``;
+`
+const ChangesListWrap = styled.div``
 
 const Change = ({ title, values }: { title?: string; values: Array<string> | unknown }) => {
-  const val = Array.isArray(values) ? (values as Array<string>) : values;
-  const oldVal: string = Array.isArray(val) ? val?.[0] : '';
-  const newVal: string = Array.isArray(val) ? val?.[1] : '';
+  const val = Array.isArray(values) ? (values as Array<string>) : values
+  const oldVal: string = Array.isArray(val) ? val?.[0] : ''
+  const newVal: string = Array.isArray(val) ? val?.[1] : ''
   return (
     <div>
       <div>{title}</div>
@@ -63,7 +63,7 @@ const Change = ({ title, values }: { title?: string; values: Array<string> | unk
       <div>new value - {newVal || 'undefined'}</div>
       <hr />
     </div>
-  );
+  )
 }
 
 const AuditTrailItem = ({
@@ -78,18 +78,18 @@ const AuditTrailItem = ({
   },
 }: {
   trail: {
-    context?: string;
-    createdAt?: string;
-    event?: string;
-    itemType?: string;
-    objectChanges?: string;
-    reason?: string;
-    whodunnit?: string;
-  };
+    context?: string
+    createdAt?: string
+    event?: string
+    itemType?: string
+    objectChanges?: string
+    reason?: string
+    whodunnit?: string
+  }
 }) => {
-  const [openChangesLog, setOpenChangesLog] = useState(false);
-  const objectChanges = objectChangesString && JSON.parse(objectChangesString);
-  const context = contextString && JSON.parse(contextString);
+  const [openChangesLog, setOpenChangesLog] = useState(false)
+  const objectChanges = objectChangesString && JSON.parse(objectChangesString)
+  const context = contextString && JSON.parse(contextString)
 
   return (
     <Trail>
@@ -106,7 +106,7 @@ const AuditTrailItem = ({
             <div>
               <Button onClick={() => setOpenChangesLog(!openChangesLog)}>Close</Button>
               {Object.entries(objectChanges).map(([key, value]) => {
-                return <Change title={key} values={value} />;
+                return <Change title={key} values={value} />
               })}
               {context?.assignments && (
                 <div>
@@ -148,7 +148,7 @@ const AuditTrailItem = ({
         </ChangesListWrap>
       </MediumColumn>
     </Trail>
-  );
+  )
 }
 
-export default AuditTrailItem;
+export default AuditTrailItem

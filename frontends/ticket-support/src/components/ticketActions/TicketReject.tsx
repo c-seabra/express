@@ -1,20 +1,20 @@
-import { useMutation } from '@apollo/client';
-import React, { useContext, useEffect, useState } from 'react';
+import { useMutation } from '@apollo/client'
+import React, { useContext, useEffect, useState } from 'react'
 
-import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject';
-import { AppContext } from '../app/App';
-import { Button } from '../ticketDetails/TicketDetails';
-import Warning from './Warning';
+import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject'
+import { AppContext } from '../app/App'
+import { Button } from '../ticketDetails/TicketDetails'
+import Warning from './Warning'
 
 const TicketReject = ({ ticketId }: { ticketId: string }) => {
-  const { conferenceSlug, token } = useContext(AppContext);
-  const [rejectReason, setRejectReason] = useState<string>('');
-  const [error, setError] = useState<string | undefined>();
+  const { conferenceSlug, token } = useContext(AppContext)
+  const [rejectReason, setRejectReason] = useState<string>('')
+  const [error, setError] = useState<string | undefined>()
   const [rejectStatus, setRejectStatus] = useState({
     message: '',
     type: '',
-  });
-  const [emailNotification, setEmailNotification] = useState(true);
+  })
+  const [emailNotification, setEmailNotification] = useState(true)
 
   useEffect(() => {
     if (rejectReason) {
@@ -31,42 +31,42 @@ const TicketReject = ({ ticketId }: { ticketId: string }) => {
           notify: emailNotification,
           ticketId,
         },
-      });
+      })
     }
-  }, [rejectReason]);
+  }, [rejectReason])
 
   const [ticketReject] = useMutation(TICKET_REJECT_MUTATION, {
     onCompleted: ({
       ticketReject,
     }: {
       ticketReject: {
-        userErrors: [{ message: string }];
-      };
+        userErrors: [{ message: string }]
+      }
     }) => {
       if (ticketReject?.userErrors.length) {
         setRejectStatus({
           message: ticketReject.userErrors[0].message,
           type: 'ERROR',
-        });
+        })
       } else {
         setRejectStatus({
           message: 'Unassign/reject was successful',
           type: 'SUCCESS',
-        });
-        setError('');
+        })
+        setError('')
       }
     },
     refetchQueries: ['Ticket'],
-  });
+  })
 
   const rejectTicket = () => {
-    const reason = prompt('Please enter reason for this change(required)');
+    const reason = prompt('Please enter reason for this change(required)')
     if (reason) {
-      setRejectReason(reason);
+      setRejectReason(reason)
     } else {
-      setError('Reason has to be provided');
+      setError('Reason has to be provided')
     }
-  };
+  }
 
   return (
     <div>
@@ -95,7 +95,7 @@ const TicketReject = ({ ticketId }: { ticketId: string }) => {
                 'Are you sure you want to unassign/reject this ticket? This will have many implications to our systems and attendee! Make sure you are fully aware what this change does before executing it!'
               )
             ) {
-              rejectTicket();
+              rejectTicket()
             }
           }}
         >
@@ -103,7 +103,7 @@ const TicketReject = ({ ticketId }: { ticketId: string }) => {
         </Button>
       </div>
     </div>
-  );
+  )
 }
 
-export default TicketReject;
+export default TicketReject

@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import styled from 'styled-components';
+import React, { ReactElement } from 'react'
+import styled from 'styled-components'
 
 const StyledWarning = styled.div`
   font-style: italic;
@@ -11,14 +11,14 @@ const StyledWarning = styled.div`
     line-height: 1.25rem;
     color: #fff;
   }
-`;
+`
 
 const Warning = ({ children }: { children: ReactElement | string }) => {
   return (
     <StyledWarning>
       <span>{children}</span>
     </StyledWarning>
-  );
+  )
 }
 
-export default Warning;
+export default Warning

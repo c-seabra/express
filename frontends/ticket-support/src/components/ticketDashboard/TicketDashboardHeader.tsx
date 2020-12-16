@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -8,15 +8,15 @@ const ColumnStyles = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0 0.25rem;
-`;
+`
 const Column = styled(ColumnStyles)`
   width: 10%;
-`;
+`
 const Email = styled(ColumnStyles)`
   width: 20%;
   white-space: pre-wrap;
   word-wrap: break-word;
-`;
+`
 const StyledListItem = styled.li`
   font-size: 1rem;
   display: flex;
@@ -26,7 +26,7 @@ const StyledListItem = styled.li`
   &:nth-child(2n + 1) {
     background-color: white;
   }
-`;
+`
 
 const TicketListHeader: React.FC = () => {
   return (
@@ -40,7 +40,7 @@ const TicketListHeader: React.FC = () => {
       <Column>Ticket Owner</Column>
       <Email>Ticket Owner Email</Email>
     </StyledListItem>
-  );
+  )
 }
 
-export default TicketListHeader;
+export default TicketListHeader

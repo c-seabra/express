@@ -1,19 +1,19 @@
-import { useMutation } from '@apollo/client';
-import React, { useContext, useEffect, useState } from 'react';
+import { useMutation } from '@apollo/client'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { TICKET_ACCEPT_MUTATION } from '../../operations/mutations/TicketAccept';
-import { AppContext } from '../app/App';
-import { Button } from '../ticketDetails/TicketDetails';
-import Warning from './Warning';
+import { TICKET_ACCEPT_MUTATION } from '../../operations/mutations/TicketAccept'
+import { AppContext } from '../app/App'
+import { Button } from '../ticketDetails/TicketDetails'
+import Warning from './Warning'
 
 const TicketClaim = ({ ticketId }: { ticketId: string }) => {
-  const { conferenceSlug, token } = useContext(AppContext);
-  const [claimReason, setClaimReason] = useState<string>('');
-  const [error, setError] = useState<string | undefined>();
+  const { conferenceSlug, token } = useContext(AppContext)
+  const [claimReason, setClaimReason] = useState<string>('')
+  const [error, setError] = useState<string | undefined>()
   const [claimStatus, setClaimStatus] = useState({
     message: '',
     type: '',
-  });
+  })
 
   useEffect(() => {
     if (claimReason) {
@@ -29,42 +29,42 @@ const TicketClaim = ({ ticketId }: { ticketId: string }) => {
         variables: {
           ticketId,
         },
-      });
+      })
     }
-  }, [claimReason]);
+  }, [claimReason])
 
   const [ticketAccept] = useMutation(TICKET_ACCEPT_MUTATION, {
     onCompleted: ({
       ticketAccept,
     }: {
       ticketAccept: {
-        userErrors: [{ message: string }];
-      };
+        userErrors: [{ message: string }]
+      }
     }) => {
       if (ticketAccept?.userErrors.length) {
         setClaimStatus({
           message: ticketAccept.userErrors[0].message,
           type: 'ERROR',
-        });
+        })
       } else {
         setClaimStatus({
           message: 'Auto claim was successful',
           type: 'SUCCESS',
-        });
-        setError('');
+        })
+        setError('')
       }
     },
     refetchQueries: ['Ticket'],
-  });
+  })
 
   const claimTicket = () => {
-    const reason = prompt('Please enter reason for this change(required)');
+    const reason = prompt('Please enter reason for this change(required)')
     if (reason) {
-      setClaimReason(reason);
+      setClaimReason(reason)
     } else {
-      setError('Reason has to be provided');
+      setError('Reason has to be provided')
     }
-  };
+  }
 
   return (
     <div>
@@ -74,7 +74,7 @@ const TicketClaim = ({ ticketId }: { ticketId: string }) => {
         Auto claim
       </Button>
     </div>
-  );
+  )
 }
 
-export default TicketClaim;
+export default TicketClaim

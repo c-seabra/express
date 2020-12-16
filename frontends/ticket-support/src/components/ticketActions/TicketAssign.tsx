@@ -1,17 +1,17 @@
-import { useMutation } from '@apollo/client';
-import React, { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { useMutation } from '@apollo/client'
+import React, { useContext, useEffect, useState } from 'react'
+import styled from 'styled-components'
 
-import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign';
-import { AppContext } from '../app/App';
-import Field from './Field';
-import Warning from './Warning';
+import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
+import { AppContext } from '../app/App'
+import Field from './Field'
+import Warning from './Warning'
 
 const Form = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
+`
 
 const SubmitButton = styled.button`
   padding: 0.5rem;
@@ -25,25 +25,25 @@ const SubmitButton = styled.button`
     background-color: grey;
     color: white;
   }
-`;
+`
 
 const TicketAssign: React.FC<{ resetReassignment: (value: boolean) => void; ticketId: string }> = ({
   ticketId,
   resetReassignment,
 }) => {
-  const { conferenceSlug, token } = useContext(AppContext);
-  const [email, setEmail] = useState<string | undefined>();
-  const [emailNotification, setEmailNotification] = useState(true);
-  const [firstName, setFirstName] = useState<string | undefined>();
-  const [lastName, setLastName] = useState<string | undefined>();
-  const [assignReason, setAssignReason] = useState<string>('');
-  const [error, setError] = useState<string | undefined>();
+  const { conferenceSlug, token } = useContext(AppContext)
+  const [email, setEmail] = useState<string | undefined>()
+  const [emailNotification, setEmailNotification] = useState(true)
+  const [firstName, setFirstName] = useState<string | undefined>()
+  const [lastName, setLastName] = useState<string | undefined>()
+  const [assignReason, setAssignReason] = useState<string>('')
+  const [error, setError] = useState<string | undefined>()
 
   const assign = () => {
     if (firstName && email && assignReason) {
-      ticketAssignMutation();
+      ticketAssignMutation()
     }
-  };
+  }
 
   useEffect(() => {
     if (
@@ -52,9 +52,9 @@ const TicketAssign: React.FC<{ resetReassignment: (value: boolean) => void; tick
         'Are you sure you want to reassign this ticket? This will have  implications in our systems and current assignee! Make sure you know what you are doing!'
       )
     ) {
-      assign();
+      assign()
     }
-  }, [assignReason]);
+  }, [assignReason])
 
   const [ticketAssignMutation] = useMutation(TICKET_ASSIGN_MUTATION, {
     context: {
@@ -66,11 +66,11 @@ const TicketAssign: React.FC<{ resetReassignment: (value: boolean) => void; tick
     },
     onCompleted: ({ ticketAssign }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
-        resetReassignment(false);
-        setError('');
+        resetReassignment(false)
+        setError('')
       }
       if (ticketAssign?.userErrors.length) {
-        setError(ticketAssign.userErrors[0]?.message);
+        setError(ticketAssign.userErrors[0]?.message)
       }
     },
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
@@ -81,19 +81,19 @@ const TicketAssign: React.FC<{ resetReassignment: (value: boolean) => void; tick
       notify: emailNotification,
       ticketId,
     },
-  });
+  })
 
   return (
     <div>
       {error && <Warning>{error}</Warning>}
       <Form
         onSubmit={e => {
-          e.preventDefault();
-          const reason = prompt('Please enter reason for this change(required)');
+          e.preventDefault()
+          const reason = prompt('Please enter reason for this change(required)')
           if (reason) {
-            setAssignReason(reason);
+            setAssignReason(reason)
           } else {
-            setError('Reason has to be provided');
+            setError('Reason has to be provided')
           }
         }}
       >
@@ -115,7 +115,7 @@ const TicketAssign: React.FC<{ resetReassignment: (value: boolean) => void; tick
         Email notifications will be sent to new assignee, old assignee and order owner
       </Warning>
     </div>
-  );
+  )
 }
 
-export default TicketAssign;
+export default TicketAssign

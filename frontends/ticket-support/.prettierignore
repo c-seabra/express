@@ -4,4 +4,3 @@ yarn.lock
 yarn-error.log
 package-lock.json
 dist
-src/operations/**

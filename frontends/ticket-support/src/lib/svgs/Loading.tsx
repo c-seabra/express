@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Loading: React.FC = () => {
   return (
@@ -18,7 +18,7 @@ const Loading: React.FC = () => {
         />
       </g>
     </svg>
-  );
+  )
 }
 
-export default Loading;
+export default Loading

@@ -1,33 +1,33 @@
-import { useMutation } from '@apollo/client';
-import React, { useContext, useState } from 'react';
+import { useMutation } from '@apollo/client'
+import React, { useContext, useState } from 'react'
 
-import ASSIGNMENT_LOGIN_LINK from '../../operations/mutations/AssignmentLoginLinkRequest';
-import { Account, AppContext } from '../app/App';
-import { Button, Text } from '../ticketDetails/TicketDetails';
+import ASSIGNMENT_LOGIN_LINK from '../../operations/mutations/AssignmentLoginLinkRequest'
+import { Account, AppContext } from '../app/App'
+import { Button, Text } from '../ticketDetails/TicketDetails'
 
 const LoginLinkRequest = ({ account }: { account: Account }) => {
-  const { conferenceSlug, token } = useContext(AppContext);
-  const [lastLoginLinkRequestedAt, setLastLoginLinkRequestedAt] = useState<string>();
-  const [loginLinkRequestReasonError, setLoginLinkRequestReasonError] = useState<string>();
+  const { conferenceSlug, token } = useContext(AppContext)
+  const [lastLoginLinkRequestedAt, setLastLoginLinkRequestedAt] = useState<string>()
+  const [loginLinkRequestReasonError, setLoginLinkRequestReasonError] = useState<string>()
 
   const formatDateTime = (dateTime: string) => {
-    const formattedDateTime = new Date(dateTime);
-    return formattedDateTime.toString();
+    const formattedDateTime = new Date(dateTime)
+    return formattedDateTime.toString()
   }
 
   const [sendLoginLink] = useMutation(ASSIGNMENT_LOGIN_LINK, {
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
-  });
+  })
 
   if (
     account?.lastLoginTokenCreatedAt &&
     account?.lastLoginTokenCreatedAt != lastLoginLinkRequestedAt
   ) {
-    setLastLoginLinkRequestedAt(account.lastLoginTokenCreatedAt);
+    setLastLoginLinkRequestedAt(account.lastLoginTokenCreatedAt)
   }
 
   const sendAssignmentLoginLink = (email: string) => {
-    const reason = prompt('Please enter reason for this change(required)');
+    const reason = prompt('Please enter reason for this change(required)')
     if (reason) {
       sendLoginLink({
         context: {
@@ -40,11 +40,11 @@ const LoginLinkRequest = ({ account }: { account: Account }) => {
         variables: {
           email,
         },
-      });
+      })
     } else {
-      setLoginLinkRequestReasonError('Reason is required on this action.');
+      setLoginLinkRequestReasonError('Reason is required on this action.')
     }
-  };
+  }
 
   return (
     <>
@@ -65,14 +65,14 @@ const LoginLinkRequest = ({ account }: { account: Account }) => {
       <Button
         onClick={() => {
           if (confirm('Are you sure you want to send another login link to this assignee?')) {
-            sendAssignmentLoginLink(account.email);
+            sendAssignmentLoginLink(account.email)
           }
         }}
       >
         Send assignee login link email
       </Button>
     </>
-  );
+  )
 }
 
-export default LoginLinkRequest;
+export default LoginLinkRequest

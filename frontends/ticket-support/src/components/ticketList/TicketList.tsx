@@ -1,12 +1,12 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react'
+import { useHistory } from 'react-router-dom'
 
-import { Ticket } from '../app/App';
-import TicketItem from '../ticketItem/TicketItem';
+import { Ticket } from '../app/App'
+import TicketItem from '../ticketItem/TicketItem'
 
 const TicketList: React.FC<{ list: Ticket[] | undefined }> = ({ list }) => {
-  if (!list || list?.length < 0) return null;
-  const history = useHistory();
+  if (!list || list?.length < 0) return null
+  const history = useHistory()
 
   return (
     <>
@@ -21,7 +21,7 @@ const TicketList: React.FC<{ list: Ticket[] | undefined }> = ({ list }) => {
         />
       ))}
     </>
-  );
+  )
 }
 
-export default TicketList;
+export default TicketList
