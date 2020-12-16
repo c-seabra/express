@@ -12,15 +12,20 @@ export type Assignment = {
   state: string
 }
 
-export type Order = {
-  owner: Account
-  reference: string
-}
-
 export type TicketType = {
   description: string
   id: string
   name: string
+}
+
+export type OrderSummary = {
+  ticketType: TicketType
+}
+
+export type Order = {
+  owner: Account
+  reference: string
+  summary: OrderSummary
 }
 
 export type Ticket = {

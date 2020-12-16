@@ -6,6 +6,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 import withApollo from '../../lib/apollo/withApollo'
 import OrderDetails from '../order/OrderDetails'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
+import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
 import TicketDetails from '../ticketDetails/TicketDetails'
 
 const GlobalStyle = createGlobalStyle`
@@ -27,53 +28,6 @@ const StlyedContainer = styled.section`
   margin: 0 auto;
   font-size: 16px;
 `
-const StyledSection = styled.section`
-  padding: 1rem;
-`
-
-export type Account = {
-  id: string
-  email: string
-  firstName: string
-  lastName: string
-  lastLoginTokenCreatedAt: string
-}
-
-export type Ticket = {
-  assignment?: {
-    appLoginEmail: string
-    assignee: Account
-    state: string
-  }
-  bookingRef: string
-  id: string
-  order: {
-    reference: string
-    owner: Account
-  }
-  state: string
-  ticketType: {
-    name: string
-  }
-}
-
-export type TicketType = {
-  description: string
-  id: string
-  name: string
-}
-
-export type PageInfo = {
-  endCursor: string
-  hasNextPage: string
-  hasPreviousPage: string
-  startCursor: string
-}
-
-export type UserError = {
-  message: string
-  path: string
-}
 
 export const AppContext = createContext<{ conferenceSlug?: string; token?: string }>({})
 
@@ -101,14 +55,17 @@ const App = ({ token }: { token: string }) => {
         <GlobalStyle />
         <Router>
           <Switch>
+            <Route exact path="/">
+              <TicketDashboard />
+            </Route>
             <Route path="/tickets/:bookingRef">
               <TicketDetails />
             </Route>
             <Route path="/order/:orderRef">
               <OrderDetails />
             </Route>
-            <Route path="/">
-              <TicketDashboard />
+            <Route exact path="/orders">
+              <OrdersDashboard />
             </Route>
           </Switch>
         </Router>
