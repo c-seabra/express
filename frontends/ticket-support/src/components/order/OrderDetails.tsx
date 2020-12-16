@@ -10,6 +10,7 @@ import ORDER from '../../operations/queries/OrderByRef'
 import { AppContext } from '../app/App'
 import Warning from '../ticketActions/Warning'
 import TicketItem from '../ticketItem/TicketItem'
+import OrderDetailsSummary from './OrderDetailsSummary'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -184,9 +185,11 @@ const OrderDetails: React.FC = () => {
             </div>
             <div>
               <hr />
-              <Heading>Order summary details</Heading>
-              <div>Order type: {order?.summary?.ticketType?.name}</div>
-              <div>Number of tickets: {order?.summary?.tickets}</div>
+              <OrderDetailsSummary />
+
+              {/*<Heading>Order summary details</Heading>*/}
+              {/*<div>Order type: {order?.summary?.ticketType?.name}</div>*/}
+              {/*<div>Number of tickets: {order?.summary?.tickets}</div>*/}
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
