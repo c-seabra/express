@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  HttpLink,
-  InMemoryCache,
-} from '@apollo/client'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client'
 import fetch from 'isomorphic-unfetch'
 
 import { isBrowser, isServer } from './ssrMode'
@@ -11,12 +6,7 @@ import { isBrowser, isServer } from './ssrMode'
 export const GRAPHQL_API_URL = 'https://api.cilabs.com/catalyst'
 export const DEFAULT_CONFERENCE_SLUG = 'ws20'
 
-
-const constructContextHeaders = (
-  commonHeaders,
-  eventSlug,
-  token
-) => {
+const constructContextHeaders = (commonHeaders, eventSlug, token) => {
   const headers = {
     ...commonHeaders,
     'x-event-id': eventSlug,
@@ -30,7 +20,7 @@ const constructContextHeaders = (
 const createApolloClient = (initialState = {}) => {
   const setHeadersLink = new ApolloLink((operation, forward) => {
     const { headers, slug, token } = operation.getContext()
-    const eventSlug = (slug || DEFAULT_CONFERENCE_SLUG)
+    const eventSlug = slug || DEFAULT_CONFERENCE_SLUG
     const contextHeaders = constructContextHeaders(headers, eventSlug, token)
     operation.setContext({ headers: contextHeaders })
     return forward(operation)

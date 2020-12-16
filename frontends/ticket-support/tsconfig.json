@@ -2,11 +2,7 @@
   "compilerOptions": {
     "jsx": "react",
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "outDir": "dist",
     "skipLibCheck": true,
@@ -20,12 +16,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": [
-    "src/**/*",
-    "../../conferenceInput"
-  ],
-  "exclude": [
-    "src/index.js",
-    "src/lib/apollo/*.js"
-  ]
+  "include": ["src/**/*", "../../conferenceInput"],
+  "exclude": ["src/index.js", "src/lib/apollo/*.js"]
 }

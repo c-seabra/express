@@ -38,7 +38,11 @@ export enum TicketFilterStatus {
 const filterEmptyStrings = (_: unknown, val: string) => val || undefined
 
 const createURL = (state: Record<string, unknown>) =>
-  `?${qs.stringify(state, { encodeValuesOnly: true, filter: filterEmptyStrings, skipNulls: true })}`
+  `?${qs.stringify(state, {
+    encodeValuesOnly: true,
+    filter: filterEmptyStrings,
+    skipNulls: true,
+  })}`
 
 const searchStateToUrl = ({
   pathname,

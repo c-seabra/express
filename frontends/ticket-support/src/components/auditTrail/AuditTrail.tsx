@@ -1,9 +1,10 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import React from 'react'
-import TICKET_AUDIT_TRAIL from '../../operations/queries/AuditTrailByTicketId'
 import styled from 'styled-components'
-import AuditTrailItem from './AuditTrailItem'
+
 import Loader from '../../lib/Loading'
+import TICKET_AUDIT_TRAIL from '../../operations/queries/AuditTrailByTicketId'
+import AuditTrailItem from './AuditTrailItem'
 
 export type TrailVersion = {
   context?: string
@@ -17,14 +18,16 @@ export type TrailVersion = {
 }
 
 export type TicketTrail = {
-  versions?: [TrailVersion]
   assignments?: {
-    edges?: [{
-      node: {
-        versions: [TrailVersion]
+    edges?: [
+      {
+        node: {
+          versions: [TrailVersion]
+        }
       }
-    }]
+    ]
   }
+  versions?: [TrailVersion]
 }
 
 const TrailsList = styled.div`
@@ -56,7 +59,15 @@ export const WideColumn = styled(Column)`
   width: 25%;
 `
 
-const AuditTrail = ({bookingRef, conferenceSlug, token}: {bookingRef: string; conferenceSlug: string; token: string}) => {
+const AuditTrail = ({
+  bookingRef,
+  conferenceSlug,
+  token,
+}: {
+  bookingRef: string
+  conferenceSlug: string
+  token: string
+}) => {
   const {
     loading,
     error,
@@ -77,7 +88,12 @@ const AuditTrail = ({bookingRef, conferenceSlug, token}: {bookingRef: string; co
     },
   })
 
-  if (loading) return <div><Loader /></div>
+  if (loading)
+    return (
+      <div>
+        <Loader />
+      </div>
+    )
   if (error) return <div>{error}</div>
   if (data && data.ticket) {
     let trails: Array<TrailVersion> = []
@@ -87,12 +103,18 @@ const AuditTrail = ({bookingRef, conferenceSlug, token}: {bookingRef: string; co
     let assignmentTrailsVersions: Array<TrailVersion> = []
     if (assignmentsTrails) {
       for (let index = 0; index < assignmentsTrails.length; index++) {
-        const element = assignmentsTrails[index];
+        const element = assignmentsTrails[index]
         assignmentTrailsVersions = assignmentTrailsVersions.concat(element.node.versions)
       }
       trails = trails.concat(assignmentTrailsVersions)
     }
-    const orderedTrails = trails.sort((a,b) => (a.createdAt && b.createdAt && a.createdAt < b.createdAt) ? 1 : ((a.createdAt && b.createdAt && b.createdAt < a.createdAt) ? -1 : 0))
+    const orderedTrails = trails.sort((a, b) =>
+      a.createdAt && b.createdAt && a.createdAt < b.createdAt
+        ? 1
+        : a.createdAt && b.createdAt && b.createdAt < a.createdAt
+        ? -1
+        : 0
+    )
     if (!orderedTrails.length) return <div>No paper trail records at the moment.</div>
     return (
       <TrailsList>
@@ -105,9 +127,12 @@ const AuditTrail = ({bookingRef, conferenceSlug, token}: {bookingRef: string; co
           <WideColumn>Who</WideColumn>
           <Column>Changes</Column>
         </Trail>
-        {orderedTrails.map(trail => <AuditTrailItem key={trail.itemId} trail={trail} />)}
+        {orderedTrails.map(trail => (
+          <AuditTrailItem key={trail.itemId} trail={trail} />
+        ))}
       </TrailsList>
-    )}
+    )
+  }
   return <div>none</div>
 }
 

@@ -18,11 +18,11 @@ const TicketClaim = ({ ticketId }: { ticketId: string }) => {
     if (claimReason) {
       ticketAccept({
         context: {
-          token,
-          slug: conferenceSlug,
           headers: {
             'x-admin-reason': claimReason,
           },
+          slug: conferenceSlug,
+          token,
         },
         refetchQueries: ['TicketAuditTrail', 'Ticket'],
         variables: {

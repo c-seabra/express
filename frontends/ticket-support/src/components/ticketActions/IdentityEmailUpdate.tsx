@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+
 import IDENTITY_EMAIL_UPDATE from '../../operations/mutations/IdentityEmailUpdate'
 import { Account, UserError } from '../../lib/types'
 import { useAppContext } from '../app/AppContext'
@@ -67,11 +68,11 @@ const UpdateAppLoginEmail: React.FC<{
     if (reason) {
       identityEmailUpdate({
         context: {
-          slug: conferenceSlug,
-          token,
           headers: {
             'x-admin-reason': reason,
           },
+          slug: conferenceSlug,
+          token,
         },
       })
     } else {
@@ -131,7 +132,7 @@ const UpdateAppLoginEmail: React.FC<{
       >
         <Field>
           <span>Email:</span>
-          <input type="email" name="email" onChange={e => setEmail(e.target.value)} required />
+          <input required name="email" type="email" onChange={e => setEmail(e.target.value)} />
         </Field>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>

@@ -90,38 +90,38 @@ const OrderDetails: React.FC = () => {
   }: {
     data?: {
       order: {
+        owner: {
+          email: string
+          firstName: string
+          lastName: string
+        }
         summary: {
           ticketType: {
             name: string
           }
           tickets: number
         }
-        owner: {
-          firstName: string
-          lastName: string
-          email: string
-        }
         tickets: {
           edges: [
             {
               node: {
                 assignment: {
-                  state: string
                   assignee: {
+                    email: string
                     firstName: string
                     lastName: string
-                    email: string
                   }
+                  state: string
                 }
                 bookingRef: string
-                state: string
                 order: {
                   owner: {
+                    email: string
                     firstName: string
                     lastName: string
-                    email: string
                   }
                 }
+                state: string
                 ticketType: {
                   name: string
                 }
@@ -161,8 +161,8 @@ const OrderDetails: React.FC = () => {
             Manage Order/
             <Tooltip
               copyToClip
-              value={orderRef}
               title={<TextHighlight>{orderRef}</TextHighlight>}
+              value={orderRef}
             />
           </Heading>
         </TicketHeader>
@@ -194,11 +194,11 @@ const OrderDetails: React.FC = () => {
                 <Heading>Tickets</Heading>
                 {tickets.edges.map(({ node }) => (
                   <TicketItem
-                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
                     assignment={node.assignment}
                     bookingRef={node.bookingRef}
-                    ticketState={node.state}
+                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
                     orderOwner={node.order.owner}
+                    ticketState={node.state}
                     ticketTypeName={node.ticketType.name}
                   />
                 ))}

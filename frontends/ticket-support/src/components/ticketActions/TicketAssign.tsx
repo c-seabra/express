@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
 import Warning from './Warning'
 import Field from './Field'
@@ -26,7 +27,7 @@ const SubmitButton = styled.button`
   }
 `
 
-const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: boolean) => void }> = ({
+const TicketAssign: React.FC<{ resetReassignment: (value: boolean) => void; ticketId: string }> = ({
   ticketId,
   resetReassignment,
 }) => {
@@ -57,11 +58,11 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
 
   const [ticketAssignMutation] = useMutation(TICKET_ASSIGN_MUTATION, {
     context: {
-      slug: conferenceSlug,
-      token,
       headers: {
         'x-admin-reason': assignReason,
       },
+      slug: conferenceSlug,
+      token,
     },
     onCompleted: ({ ticketAssign }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
@@ -77,8 +78,8 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
       email,
       firstName,
       lastName,
-      ticketId,
       notify: emailNotification,
+      ticketId,
     },
   })
 
@@ -96,15 +97,15 @@ const TicketAssign: React.FC<{ ticketId: string; resetReassignment: (value: bool
           }
         }}
       >
-        <Field fieldName="firstName" label="First name" onChange={setFirstName} required />
-        <Field fieldName="lastName" label="Last name" onChange={setLastName} required />
-        <Field fieldType="email" label="Email" fieldName="email" onChange={setEmail} required />
+        <Field required fieldName="firstName" label="First name" onChange={setFirstName} />
+        <Field required fieldName="lastName" label="Last name" onChange={setLastName} />
+        <Field required fieldName="email" fieldType="email" label="Email" onChange={setEmail} />
         <div>
           <div>Send email notification to new and old assignee</div>
           <input
+            checked={emailNotification}
             name="emailNotification"
             type="checkbox"
-            checked={emailNotification}
             onChange={e => setEmailNotification(e.target.checked)}
           />
         </div>

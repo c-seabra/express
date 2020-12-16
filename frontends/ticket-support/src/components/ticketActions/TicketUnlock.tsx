@@ -23,11 +23,11 @@ const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
     if (claimReason) {
       unlockTicket({
         context: {
-          token,
-          slug: conferenceSlug,
           headers: {
             'x-admin-reason': claimReason,
           },
+          slug: conferenceSlug,
+          token,
         },
         refetchQueries: ['TicketAuditTrail', 'Ticket'],
         variables: {

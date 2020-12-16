@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useState, useEffect } from 'react'
+
 import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject'
 import { Button } from '../ticketDetails/TicketDetails'
 import Warning from './Warning'
@@ -19,16 +20,16 @@ const TicketReject = ({ ticketId }: { ticketId: string }) => {
     if (rejectReason) {
       ticketReject({
         context: {
-          token,
-          slug: conferenceSlug,
           headers: {
             'x-admin-reason': rejectReason,
           },
+          slug: conferenceSlug,
+          token,
         },
         refetchQueries: ['TicketAuditTrail', 'Ticket'],
         variables: {
-          ticketId,
           notify: emailNotification,
+          ticketId,
         },
       })
     }
@@ -81,9 +82,9 @@ const TicketReject = ({ ticketId }: { ticketId: string }) => {
         <div>
           <div>Send email notification to assignee</div>
           <input
+            checked={emailNotification}
             name="emailNotification"
             type="checkbox"
-            checked={emailNotification}
             onChange={e => setEmailNotification(e.target.checked)}
           />
         </div>

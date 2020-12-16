@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const TICKET_REJECT_MUTATION = gql`
   mutation TicketReject($ticketId: ID!) {
-    ticketReject(input:{ticketId:$ticketId}) {
+    ticketReject(input: { ticketId: $ticketId }) {
       ticket {
         state
         assignment {

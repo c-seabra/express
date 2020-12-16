@@ -32,11 +32,11 @@ const LoginLinkRequest = ({ account }: { account: Account }) => {
     if (reason) {
       sendLoginLink({
         context: {
-          token,
-          slug: conferenceSlug,
           headers: {
             'x-admin-reason': reason,
           },
+          slug: conferenceSlug,
+          token,
         },
         variables: {
           email,
@@ -56,7 +56,7 @@ const LoginLinkRequest = ({ account }: { account: Account }) => {
       )}
       <Text>
         <a
-          href={'https://metabase.cilabs.com/question/1184?email=' + account.email}
+          href={`https://metabase.cilabs.com/question/1184?email=${account.email}`}
           target="_blank"
         >
           Check Ticket Machine emails sent to assignee on metabase

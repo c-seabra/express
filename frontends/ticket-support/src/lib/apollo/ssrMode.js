@@ -6,6 +6,6 @@ const noopGetInitialProps = async () => {
   return { pageProps: {} }
 }
 
-export const disableStaticPageGeneration = (page) => {
+export const disableStaticPageGeneration = page => {
   page.getInitialProps = noopGetInitialProps
 }

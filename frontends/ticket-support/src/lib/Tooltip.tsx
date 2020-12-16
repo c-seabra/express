@@ -35,8 +35,17 @@ const StyledTooltip = styled.span`
   }
 `
 
-const Tooltip = ({copyToClip = true, title, content = "Click to copy", value = ''}: {value?: string; title: React.ReactNode; content?: string; copyToClip?: boolean}) => {
-
+const Tooltip = ({
+  copyToClip = true,
+  title,
+  content = 'Click to copy',
+  value = '',
+}: {
+  content?: string
+  copyToClip?: boolean
+  title: React.ReactNode
+  value?: string
+}) => {
   const copyToClipBoard = (copyMe: string) => {
     const textField = document.createElement('textarea')
     textField.innerText = copyMe

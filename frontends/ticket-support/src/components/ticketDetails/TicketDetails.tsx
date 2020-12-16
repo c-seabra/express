@@ -147,8 +147,8 @@ const ticketDetails: React.FC = () => {
               Manage Ticket/
               <Tooltip
                 copyToClip
-                value={bookingRef}
                 title={<TextHighlight>{bookingRef}</TextHighlight>}
+                value={bookingRef}
               />
             </Heading>
             <Heading>
@@ -162,11 +162,11 @@ const ticketDetails: React.FC = () => {
             <TicketStatusBar>
               <TicketStatus>
                 <span>Ticket status</span>
-                <StatePlate state={ticket?.state as string} />
+                <StatePlate state={ticket?.state} />
               </TicketStatus>
               <TicketStatus>
                 <span>Assignment status</span>
-                <StatePlate state={!assignment ? 'Unassigned' : (assignment?.state as string)} />
+                <StatePlate state={!assignment ? 'Unassigned' : assignment?.state} />
               </TicketStatus>
             </TicketStatusBar>
           </TicketHeader>
@@ -176,7 +176,7 @@ const ticketDetails: React.FC = () => {
               <>
                 <div>
                   <Heading>Assign ticket:</Heading>
-                  <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+                  <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} />
                 </div>
               </>
             )}
@@ -191,14 +191,14 @@ const ticketDetails: React.FC = () => {
                   Email:
                   <Tooltip
                     copyToClip
-                    value={assignee.email}
                     title={<TextHighlight>{assignee.email}</TextHighlight>}
+                    value={assignee.email}
                   />
                 </Text>
                 {ticket && reassignment && (
                   <div>
                     <Heading>Reassign ticket</Heading>
-                    <TicketAssign ticketId={ticket.id} resetReassignment={setReassignment} />
+                    <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} />
                   </div>
                 )}
                 {ticket.state !== 'VOID' && (
@@ -230,8 +230,8 @@ const ticketDetails: React.FC = () => {
                   Booking reference:
                   <Tooltip
                     copyToClip
-                    value={bookingRef}
                     title={<TextHighlight>{bookingRef}</TextHighlight>}
+                    value={bookingRef}
                   />
                 </Text>
                 {assignment?.state === 'ACCEPTED' && (
@@ -240,12 +240,12 @@ const ticketDetails: React.FC = () => {
                       App login email:
                       <Tooltip
                         copyToClip
-                        value={assignment?.appLoginEmail || assignee?.email}
                         title={
                           <TextHighlight>
                             {assignment?.appLoginEmail || assignee?.email}
                           </TextHighlight>
                         }
+                        value={assignment?.appLoginEmail || assignee?.email}
                       />
                     </Text>
                     {loginEmailChange && (
@@ -268,8 +268,8 @@ const ticketDetails: React.FC = () => {
                       Identity email:
                       <Tooltip
                         copyToClip
-                        value={assignee?.email}
                         title={<TextHighlight>{assignee?.email}</TextHighlight>}
+                        value={assignee?.email}
                       />
                     </Text>
                     {identityEmailChange && (
@@ -307,8 +307,8 @@ const ticketDetails: React.FC = () => {
               {showAuditTrail && (
                 <AuditTrail
                   bookingRef={bookingRef}
-                  token={token as string}
                   conferenceSlug={conferenceSlug as string}
+                  token={token as string}
                 />
               )}
             </div>
