@@ -153,14 +153,17 @@ const OrderDetails: React.FC = () => {
     error: false,
     loading: false,
     orderDetails: {
-      orderReference: {
-        value: 'R0001111',
+      email: {
+        value: owner?.email,
       },
-      createdOn: {
-        value: new Date(),
+      orderReference: {
+        value: orderRef,
       },
       lastUpdatedOn: {
-        value: new Date(),
+        value: new Date().toISOString(),
+      },
+      createdOn: {
+        value: new Date().toISOString(),
       },
       sourceOfSale: {
         value: 'Salesforce',
@@ -173,9 +176,6 @@ const OrderDetails: React.FC = () => {
       },
       surname: {
         value: owner?.lastName,
-      },
-      email: {
-        value: owner?.email,
       },
     },
   }
@@ -212,7 +212,11 @@ const OrderDetails: React.FC = () => {
               <OrderDetailsSummary
                 error={mockedError}
                 loading={mockedLoading}
-                orderDetails={orderDetails}
+                email={orderDetails.email.value}
+                name={orderDetails.name.value}
+                surname={orderDetails.surname.value}
+                lastUpdatedOn={orderDetails.lastUpdatedOn.value}
+                sourceOfSale={orderDetails.sourceOfSale.value}
                 orderReference={orderDetails.orderReference.value}
                 orderStatus={orderDetails.status.value}
               />

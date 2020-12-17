@@ -2,9 +2,8 @@ import { DateTime } from 'luxon'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-// import DateTime from 'luxon/src/datetime.js'
 import Loader from '../../lib/Loading'
-import Badge from '../shared/Badge'
+// import Badge from '../shared/Badge'
 import Warning from '../ticketActions/Warning'
 import { Button } from '../ticketDetails/TicketDetails'
 import StatePlate from '../ticketItem/StatePlate'
@@ -12,7 +11,6 @@ import StatePlate from '../ticketItem/StatePlate'
 // TODO PP: move to lib/utils
 const formatDefaultDate = (isoDate: string) => {
   const date = DateTime.fromISO(isoDate)
-  console.log(date)
   return date.toLocaleString(DateTime.DATETIME_MED)
 }
 
@@ -66,7 +64,7 @@ const StyledHeader = styled.div`
 
 const StyledInfoHeader = styled.span`
   font-weight: 500;
-  font-size: 18px;
+  font-size: 14px;
   color: #97b5e8; // TODO: add color constants, needs to be discussed
 
   // TODO PP: Move to some utility (s)css class eg. spacing--md
@@ -75,19 +73,30 @@ const StyledInfoHeader = styled.span`
 `
 
 export type OrderDetailsSummaryProps = {
+  createdOn: string
+  email?: string
   error: boolean
+  lastUpdatedOn: string
   loading: boolean
-  orderDetails?: any // mocked only
+  name?: string
   orderReference?: string
-  orderStatus?: string
+  orderStatus: string
+  sourceOfSale?: string
+  surname?: string
 }
 
 const OrderDetailsSummary = ({
   loading,
   error,
   orderReference,
+  createdOn,
+  lastUpdatedOn,
+  sourceOfSale,
+  name,
+  surname,
+  email,
+
   orderStatus,
-  orderDetails,
 }: OrderDetailsSummaryProps): ReactElement<OrderDetailsSummaryProps> => {
   return (
     <>
@@ -113,29 +122,25 @@ const OrderDetailsSummary = ({
             <StyledDefaultContainer>
               <StyledFieldContainer>
                 <span>Created On:</span>
-                <StyledField
-                  disabled
-                  type="text"
-                  value={formatDefaultDate(orderDetails.createdOn.value)}
-                />
+                <StyledField disabled type="text" value={formatDefaultDate(createdOn)} />
               </StyledFieldContainer>
 
               <StyledFieldContainer>
                 <span>Last Updated On:</span>
-                <StyledField disabled type="text" value={orderDetails.lastUpdatedOn.value} />
+                <StyledField disabled type="text" value={formatDefaultDate(lastUpdatedOn)} />
               </StyledFieldContainer>
             </StyledDefaultContainer>
 
             <StyledDefaultContainer>
               <StyledFieldContainer>
                 <span>Source of Sale:</span>
-                <StyledField disabled type="text" value={orderDetails.sourceOfSale.value} />
+                <StyledField disabled type="text" value={sourceOfSale} />
               </StyledFieldContainer>
 
               <StyledFieldContainer>
                 <span>Order Status:</span>
                 <StatePlate state={orderStatus} />
-                {/*<Badge>{orderStatus}</Badge>*/}
+                {/* <Badge>{orderStatus}</Badge> */}
               </StyledFieldContainer>
             </StyledDefaultContainer>
 
@@ -149,19 +154,19 @@ const OrderDetailsSummary = ({
             <StyledDefaultContainer>
               <StyledFieldContainer>
                 <span>First Name*:</span>
-                <StyledField disabled type="text" value={orderDetails.name.value} />
+                <StyledField disabled type="text" value={name} />
               </StyledFieldContainer>
 
               <StyledFieldContainer>
                 <span>Last Name:</span>
-                <StyledField disabled type="text" value={orderDetails.surname.value} />
+                <StyledField disabled type="text" value={surname} />
               </StyledFieldContainer>
             </StyledDefaultContainer>
 
             <StyledCenteredContainer>
               <StyledFieldContainer>
                 <span>Email:</span>
-                <StyledField disabled type="email" value={orderDetails.email.value} />
+                <StyledField disabled type="email" value={email} />
               </StyledFieldContainer>
 
               <Button>Edit</Button>
