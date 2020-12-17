@@ -1,12 +1,22 @@
+import { DateTime } from 'luxon'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
+// import DateTime from 'luxon/src/datetime.js'
 import Loader from '../../lib/Loading'
 import Badge from '../shared/Badge'
 import Warning from '../ticketActions/Warning'
 import { Button } from '../ticketDetails/TicketDetails'
 import StatePlate from '../ticketItem/StatePlate'
 
+// TODO PP: move to lib/utils
+const formatDefaultDate = (isoDate: string) => {
+  const date = DateTime.fromISO(isoDate)
+  console.log(date)
+  return date.toLocaleString(DateTime.DATETIME_MED)
+}
+
+// Containers
 const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
