@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Loader from '../../lib/Loading'
 import Badge from '../shared/Badge'
 import Warning from '../ticketActions/Warning'
+import StatePlate from '../ticketItem/StatePlate'
 
 const StyledContainer = styled.section`
   display: flex;
@@ -99,7 +100,8 @@ const OrderDetailsSummary = ({
 
               <StyledFieldContainer>
                 <span>Order Status:</span>
-                <Badge>{orderStatus}</Badge>
+                <StatePlate state={orderStatus} />
+                {/*<Badge>{orderStatus}</Badge>*/}
               </StyledFieldContainer>
             </StyledDefaultContainer>
 
