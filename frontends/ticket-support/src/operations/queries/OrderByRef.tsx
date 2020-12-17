@@ -3,6 +3,9 @@ import { gql } from '@apollo/client'
 export const ORDER = gql`
   query OrderByRef($reference: String!) {
     order(reference: $reference) {
+      completedAt
+      #      updatedAt
+      #      state
       owner {
         firstName
         lastName

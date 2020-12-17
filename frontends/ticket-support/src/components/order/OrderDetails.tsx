@@ -91,6 +91,7 @@ const OrderDetails: React.FC = () => {
   }: {
     data?: {
       order: {
+        completedAt: string
         owner: {
           email: string
           firstName: string
@@ -163,7 +164,7 @@ const OrderDetails: React.FC = () => {
         value: new Date().toISOString(),
       },
       createdOn: {
-        value: new Date().toISOString(),
+        value: order?.completedAt,
       },
       sourceOfSale: {
         value: 'Salesforce',
@@ -215,6 +216,7 @@ const OrderDetails: React.FC = () => {
                 email={orderDetails.email.value}
                 name={orderDetails.name.value}
                 surname={orderDetails.surname.value}
+                createdOn={orderDetails.createdOn.value}
                 lastUpdatedOn={orderDetails.lastUpdatedOn.value}
                 sourceOfSale={orderDetails.sourceOfSale.value}
                 orderReference={orderDetails.orderReference.value}
