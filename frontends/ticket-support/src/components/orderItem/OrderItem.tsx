@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Order } from '../../lib/types'
@@ -36,11 +36,11 @@ const StyledListItem = styled.li`
 `
 
 const OrderItem = ({ order }: { order: Order }): ReactElement => {
+  const history = useHistory()
+
   return (
-    <StyledListItem>
-      <Column>
-        <Link to={`/order/${order.reference}`}>{order.reference}</Link>
-      </Column>
+    <StyledListItem onClick={() => history.push(`/order/${order.reference}`)}>
+      <Column>{order.reference}</Column>
       <Column>{order.summary.ticketType.name}</Column>
       <Column>
         {order.owner.firstName} {order.owner.lastName}
