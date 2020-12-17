@@ -4,8 +4,8 @@ export const ORDER = gql`
   query OrderByRef($reference: String!) {
     order(reference: $reference) {
       completedAt
-      #      updatedAt
-      #      state
+      lastUpdatedAt
+      state
       owner {
         firstName
         lastName
