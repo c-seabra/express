@@ -15,19 +15,20 @@ const formatDefaultDate = (isoDate: string) => {
 }
 
 // Containers
-const StyledContainer = styled.section`
+const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 16px;
 
   // TODO PP: spacing needs to be evaluated as modifier to box
-  margin-bottom: 16px;
+  // margin-bottom: 16px;
 `
 
-const StyledFieldContainer = styled.div`
-  display: flex;
+const StyledGridContainer = styled.section`
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: auto 1fr auto 1fr;
+  grid-template-rows: auto auto auto auto;
   align-items: center;
-  font-size: 16px;
 
   margin-bottom: 16px;
 `
@@ -38,19 +39,6 @@ const StyledField = styled.input`
   border-radius: 8px;
   border: 1px solid #999;
   padding: 8px 16px;
-
-  // TODO PP: Move to some utility (s)css class eg. spacing--md
-  margin-left: 16px;
-  margin-right: 16px;
-`
-const StyledDefaultContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`
-
-const StyledCenteredContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
 `
 
 // Headers
@@ -70,6 +58,13 @@ const StyledInfoHeader = styled.span`
   // TODO PP: Move to some utility (s)css class eg. spacing--md
   // Cause: spacing needs to be evaluated as modifier to box otherwise style lost its ability to be reusable
   margin-bottom: 16px;
+`
+
+// Button
+const StyledButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `
 
 export type OrderDetailsSummaryProps = {
@@ -112,37 +107,24 @@ const OrderDetailsSummary = ({
 
         {!loading && !error && (
           <>
-            <StyledDefaultContainer>
-              <StyledFieldContainer>
-                <span>Order Reference #</span>
-                <StyledField disabled type="text" value={orderReference} />
-              </StyledFieldContainer>
-            </StyledDefaultContainer>
+            <StyledGridContainer>
+              <span>Order Reference</span>
+              <StyledField disabled type="text" value={orderReference} />
+              <span>&nbsp;</span>
+              <span>&nbsp;</span>
 
-            <StyledDefaultContainer>
-              <StyledFieldContainer>
-                <span>Created On:</span>
-                <StyledField disabled type="text" value={formatDefaultDate(createdOn)} />
-              </StyledFieldContainer>
+              <span>Created On:</span>
+              <StyledField disabled type="text" value={formatDefaultDate(createdOn)} />
 
-              <StyledFieldContainer>
-                <span>Last Updated On:</span>
-                <StyledField disabled type="text" value={formatDefaultDate(lastUpdatedOn)} />
-              </StyledFieldContainer>
-            </StyledDefaultContainer>
+              <span>Last Updated On:</span>
+              <StyledField disabled type="text" value={formatDefaultDate(lastUpdatedOn)} />
 
-            <StyledDefaultContainer>
-              <StyledFieldContainer>
-                <span>Source of Sale:</span>
-                <StyledField disabled type="text" value={sourceOfSale} />
-              </StyledFieldContainer>
+              <span>Source of Sale:</span>
+              <StyledField disabled type="text" value={sourceOfSale} />
 
-              <StyledFieldContainer>
-                <span>Order Status:</span>
-                <StatePlate state={orderStatus} />
-                {/* <Badge>{orderStatus}</Badge> */}
-              </StyledFieldContainer>
-            </StyledDefaultContainer>
+              <span>Order Status:</span>
+              <StatePlate state={orderStatus} />
+            </StyledGridContainer>
 
             <StyledHeader>
               Order Owner’s Details&nbsp;
@@ -151,26 +133,19 @@ const OrderDetailsSummary = ({
               </StyledInfoHeader>
             </StyledHeader>
 
-            <StyledDefaultContainer>
-              <StyledFieldContainer>
-                <span>First Name*:</span>
-                <StyledField disabled type="text" value={name} />
-              </StyledFieldContainer>
+            <StyledGridContainer>
+              <span>First Name:</span>
+              <StyledField disabled type="text" value={name} />
 
-              <StyledFieldContainer>
-                <span>Last Name:</span>
-                <StyledField disabled type="text" value={surname} />
-              </StyledFieldContainer>
-            </StyledDefaultContainer>
-
-            <StyledCenteredContainer>
-              <StyledFieldContainer>
-                <span>Email:</span>
-                <StyledField disabled type="email" value={email} />
-              </StyledFieldContainer>
-
-              <Button>Edit</Button>
-            </StyledCenteredContainer>
+              <span>Last Name*:</span>
+              <StyledField disabled type="text" value={surname} />
+              <span>Email*:</span>
+              <StyledField disabled type="email" value={email} />
+              <span>&nbsp;</span>
+              <StyledButtonContainer>
+                <Button>Edit</Button>
+              </StyledButtonContainer>
+            </StyledGridContainer>
           </>
         )}
       </StyledContainer>
