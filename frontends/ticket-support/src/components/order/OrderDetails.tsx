@@ -156,26 +156,26 @@ const OrderDetails: React.FC = () => {
     error: false,
     loading: false,
     orderDetails: {
+      createdOn: {
+        value: order?.completedAt,
+      },
       email: {
         value: owner?.email,
-      },
-      orderReference: {
-        value: orderRef,
       },
       lastUpdatedOn: {
         value: order?.lastUpdatedAt,
       },
-      createdOn: {
-        value: order?.completedAt,
-      },
-      sourceOfSale: {
-        value: 'Salesforce',
-      },
-      status: {
-        value: order?.state,
+      orderReference: {
+        value: orderRef,
       },
       name: {
         value: owner?.firstName,
+      },
+      sourceOfSale: {
+        value: 'no data', // e.g. Salesforce
+      },
+      status: {
+        value: order?.state,
       },
       surname: {
         value: owner?.lastName,
@@ -213,16 +213,16 @@ const OrderDetails: React.FC = () => {
             <div>
               <hr />
               <OrderDetailsSummary
-                error={mockedError}
-                loading={mockedLoading}
-                email={orderDetails.email.value}
-                name={orderDetails.name.value}
-                surname={orderDetails.surname.value}
                 createdOn={orderDetails.createdOn.value}
+                email={orderDetails.email.value}
+                error={mockedError}
                 lastUpdatedOn={orderDetails.lastUpdatedOn.value}
-                sourceOfSale={orderDetails.sourceOfSale.value}
+                loading={mockedLoading}
+                name={orderDetails.name.value}
                 orderReference={orderDetails.orderReference.value}
                 orderStatus={orderDetails.status.value}
+                sourceOfSale={orderDetails.sourceOfSale.value}
+                surname={orderDetails.surname.value}
               />
 
               <Heading>Order summary details</Heading>

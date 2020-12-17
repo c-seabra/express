@@ -9,7 +9,7 @@ import { Button } from '../ticketDetails/TicketDetails'
 import StatePlate from '../ticketItem/StatePlate'
 
 // TODO PP: move to lib/utils
-const formatDefaultDate = (isoDate: string) => {
+const formatDefaultDate = (isoDate: string): string => {
   const date = DateTime.fromISO(isoDate)
   return date.toLocaleString(DateTime.DATETIME_MED)
 }
@@ -18,9 +18,6 @@ const formatDefaultDate = (isoDate: string) => {
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
-
-  // TODO PP: spacing needs to be evaluated as modifier to box
-  // margin-bottom: 16px;
 `
 
 const StyledGridContainer = styled.section`
@@ -68,14 +65,14 @@ const StyledButtonContainer = styled.div`
 `
 
 export type OrderDetailsSummaryProps = {
-  createdOn: string
+  createdOn?: string
   email?: string
   error: boolean
-  lastUpdatedOn: string
+  lastUpdatedOn?: string
   loading: boolean
   name?: string
   orderReference?: string
-  orderStatus: string
+  orderStatus?: string
   sourceOfSale?: string
   surname?: string
 }
@@ -93,6 +90,8 @@ const OrderDetailsSummary = ({
 
   orderStatus,
 }: OrderDetailsSummaryProps): ReactElement<OrderDetailsSummaryProps> => {
+  const missingDataAbbr = 'MD'
+
   return (
     <>
       <StyledContainer>
@@ -114,16 +113,24 @@ const OrderDetailsSummary = ({
               <span>&nbsp;</span>
 
               <span>Created On:</span>
-              <StyledField disabled type="text" value={formatDefaultDate(createdOn)} />
+              <StyledField
+                disabled
+                type="text"
+                value={(createdOn && formatDefaultDate(createdOn)) || missingDataAbbr}
+              />
 
               <span>Last Updated On:</span>
-              <StyledField disabled type="text" value={formatDefaultDate(lastUpdatedOn)} />
+              <StyledField
+                disabled
+                type="text"
+                value={(lastUpdatedOn && formatDefaultDate(lastUpdatedOn)) || missingDataAbbr}
+              />
 
               <span>Source of Sale:</span>
               <StyledField disabled type="text" value={sourceOfSale} />
 
               <span>Order Status:</span>
-              <StatePlate state={orderStatus} />
+              <StatePlate state={orderStatus || missingDataAbbr} />
             </StyledGridContainer>
 
             <StyledHeader>
