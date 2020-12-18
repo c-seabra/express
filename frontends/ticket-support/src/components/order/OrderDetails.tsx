@@ -151,7 +151,6 @@ const OrderDetails: React.FC = () => {
   const tickets = order?.tickets
   const owner = order?.owner
 
-  // // Mocked version for now
   const { loading: mockedLoading, error: mockedError, orderDetails } = {
     error: false,
     loading: false,
@@ -172,7 +171,7 @@ const OrderDetails: React.FC = () => {
         value: owner?.firstName,
       },
       sourceOfSale: {
-        value: 'no data', // e.g. Salesforce
+        value: 'no data', // e.g. Salesforce (Mocked until integrated to SF)
       },
       status: {
         value: order?.state,
