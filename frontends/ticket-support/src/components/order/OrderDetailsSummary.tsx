@@ -1,19 +1,13 @@
-import { DateTime } from 'luxon'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
+import Input from '../../lib/components/atoms/Input'
 import Loader from '../../lib/Loading'
+import { formatDefaultDateTime } from '../../lib/utils/time'
 import Warning from '../ticketActions/Warning'
 import { Button } from '../ticketDetails/TicketDetails'
 import StatePlate from '../ticketItem/StatePlate'
-import Input from '../../lib/components/atoms/Input'
 // import Input from 'components' // TODO add default path to TS config
-
-// TODO PP: move to lib/utils
-const formatDefaultDate = (isoDate: string): string => {
-  const date = DateTime.fromISO(isoDate)
-  return date.toLocaleString(DateTime.DATETIME_MED)
-}
 
 // Containers
 const StyledContainer = styled.div`
@@ -30,7 +24,6 @@ const StyledGridContainer = styled.section`
 
   margin-bottom: 16px;
 `
-
 
 // Headers
 const StyledHeader = styled.div`
@@ -110,14 +103,14 @@ const OrderDetailsSummary = ({
               <Input
                 disabled
                 type="text"
-                value={(createdOn && formatDefaultDate(createdOn)) || missingDataAbbr}
+                value={(createdOn && formatDefaultDateTime(createdOn)) || missingDataAbbr}
               />
 
               <span>Last Updated On:</span>
               <Input
                 disabled
                 type="text"
-                value={(lastUpdatedOn && formatDefaultDate(lastUpdatedOn)) || missingDataAbbr}
+                value={(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) || missingDataAbbr}
               />
 
               <span>Source of Sale:</span>
