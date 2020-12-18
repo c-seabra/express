@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Order, OrderState } from '../../lib/types'
+import { Order, OrderState, TicketsSummary } from '../../lib/types'
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -15,6 +15,15 @@ const ColumnStyles = styled.div`
 const Column = styled(ColumnStyles)`
   width: 15%;
 `
+const TicketStatusesColumn = styled(Column)`
+  flex-direction: column;
+  font-size: 12px;
+
+  & > div {
+    margin-bottom: 4px;
+  }
+`
+
 const Email = styled(ColumnStyles)`
   width: 20%;
   white-space: pre-wrap;
@@ -63,19 +72,47 @@ const StateLabel = ({ state }: { state: OrderState }): ReactElement => {
   }
 }
 
+const getLabelFromTicketStatus = (label = '') =>
+  label.toLowerCase().replace('count', '').toUpperCase()
+
+const getTicketStatusesCount = (
+  ticketsSummary: TicketsSummary
+): { count: number; label: string }[] =>
+  Object.entries(ticketsSummary)
+    .flatMap(([key, value]) => {
+      if (key === '__typename') {
+        return []
+      }
+
+      return [
+        {
+          count: value,
+          label: getLabelFromTicketStatus(key),
+        },
+      ]
+    })
+    .sort((a, b) => b.count - a.count)
+
 const OrderItem = ({ order }: { order: Order }): ReactElement => {
   const history = useHistory()
+
+  const ticketStatuses = getTicketStatusesCount(order.ticketsSummary)
 
   return (
     <StyledListItem onClick={() => history.push(`/order/${order.reference}`)}>
       <Column>{order.reference}</Column>
-      <Column>{order.summary.ticketType.name}</Column>
+      <Column>{order.summary?.ticketType?.name}</Column>
       <Column>
-        {order.owner.firstName} {order.owner.lastName}
+        {order?.owner?.firstName} {order?.owner?.lastName}
       </Column>
-      <Email>{order.owner.email}</Email>
-      {/* TODO: add ticket status - number of assigned tickets / all tickets */}
-      {/* <Column>ticket status</Column> */}
+      <Email>{order.owner?.email}</Email>
+      <TicketStatusesColumn>
+        {ticketStatuses.map(({ count, label }) => (
+          <div key={label}>
+            {count} {label}
+          </div>
+        ))}
+      </TicketStatusesColumn>
       <Column>
         <StateLabel state={order.state} />
       </Column>

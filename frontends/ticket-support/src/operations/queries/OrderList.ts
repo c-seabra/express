@@ -17,6 +17,12 @@ const ORDER_LIST = gql`
           }
           state
           reference
+          ticketsSummary {
+            activeCount
+            checkedInCount
+            lockedCount
+            voidCount
+          }
           summary {
             ticketType {
               name
