@@ -1,4 +1,4 @@
-import { ApolloError, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import Loader from '../../lib/Loading'
 import Tooltip from '../../lib/Tooltip'
-import ORDER from '../../operations/queries/OrderByRef'
+import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 import TicketItem from '../ticketItem/TicketItem'
@@ -84,60 +84,7 @@ const OrderDetails: React.FC = () => {
   const history = useHistory()
   const { conferenceSlug, token } = useAppContext()
 
-  const {
-    loading,
-    error,
-    data,
-  }: {
-    data?: {
-      order: {
-        completedAt: string
-        lastUpdatedAt: string
-        owner: {
-          email: string
-          firstName: string
-          lastName: string
-        }
-        state: string
-        summary: {
-          ticketType: {
-            name: string
-          }
-          tickets: number
-        }
-        tickets: {
-          edges: [
-            {
-              node: {
-                assignment: {
-                  assignee: {
-                    email: string
-                    firstName: string
-                    lastName: string
-                  }
-                  state: string
-                }
-                bookingRef: string
-                order: {
-                  owner: {
-                    email: string
-                    firstName: string
-                    lastName: string
-                  }
-                }
-                state: string
-                ticketType: {
-                  name: string
-                }
-              }
-            }
-          ]
-        }
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(ORDER, {
+  const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
     context: {
       slug: conferenceSlug,
       token,
