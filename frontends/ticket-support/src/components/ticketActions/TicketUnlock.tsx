@@ -1,11 +1,11 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 import { useMutation } from '@apollo/client'
-import React, { FC, useContext, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import UNLOCK_MUTATION from '../../operations/mutations/TicketUnlock'
-import { AppContext } from '../app/App'
 import { Button } from '../ticketDetails/TicketDetails'
+import { useAppContext } from '../app/AppContext'
 import Warning from './Warning'
 
 interface IProps {
@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const TicketUnlock: FC<IProps> = ({ bookingRef }: IProps) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const [claimReason, setClaimReason] = useState<string>('')
   const [claimReasonError, setClaimReasonError] = useState<string>('')
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

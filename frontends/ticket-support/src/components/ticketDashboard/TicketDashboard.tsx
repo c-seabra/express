@@ -1,111 +1,28 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import qs from 'qs'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
 
-import Loader from '../../lib/Loading'
 import SearchIcon from '../../lib/svgs/search'
 import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
-import { AppContext, PageInfo, Ticket, TicketType } from '../app/App'
+import { Ticket, TicketType } from '../../lib/types'
 import TicketList from '../ticketList/TicketList'
 import TicketDashboardHeader from './TicketDashboardHeader'
+import {
+  Select,
+  Search,
+  SearchFilters,
+  Filters,
+  MultiSelect,
+  StyledList,
+} from './TicketDashboard.styled'
+import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
+import Pagination from '../../lib/Pagination'
+import { useAppContext } from '../app/AppContext'
 
 const TICKETS_PER_PAGE = 20
-
-const StyledList = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: hidden;
-  border-radius: 4px;
-  border: 1px solid grey;
-`
-
-const SearchFilters = styled.div`
-  display: flex;
-  padding-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const StyledLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-  select,
-  input {
-    height: 2rem;
-    width: 100%;
-  }
-`
-
-const Search = styled(StyledLabel)`
-  width: 30%;
-  position: relative;
-  svg {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    left: 0.5rem;
-    top: 0.5rem;
-  }
-  input {
-    padding-left: 2rem;
-    border: none;
-    border-bottom: 1px solid grey;
-  }
-`
-
-const Filters = styled.div`
-  display: flex;
-  align-items: flex-start;
-`
-
-const Select = styled(StyledLabel)`
-  margin-right: 1rem;
-  select {
-    padding-right: 1rem;
-  }
-`
-
-const MultiSelect = styled(StyledLabel)`
-  select {
-    height: 4rem;
-  }
-}
-`
-
-const Pagination = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-`
-
-const PaginationButton = styled.button`
-  margin: 1rem 0;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: none;
-  border: 1px solid grey;
-  background: white;
-  color: #000;
-  cursor: pointer;
-  margin: 0.5rem;
-  transition: all 0.3s;
-  &:hover {
-    background-color: grey;
-    color: white;
-  }
-  &:disabled {
-    background: white;
-    color: grey;
-    cursor: not-allowed;
-  }
-`
 
 export enum TicketFilterStatus {
   ACCEPTED = 'Accepted',
@@ -144,7 +61,7 @@ const pathToSearchState = (path: string): Record<string, unknown> =>
   path.includes('?') ? qs.parse(path.substring(path.indexOf('?') + 1)) : {}
 
 const TicketDashboard: React.FC = () => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const location = useLocation()
   const history = useHistory()
   const { pathname } = location
@@ -152,9 +69,38 @@ const TicketDashboard: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [ticketStatusFilter, setTicketStatusFilter] = useState<string | undefined>()
   const [ticketTypesFilter, setTicketTypesFilter] = useState<Array<string | undefined>>()
-  const [cursorStack, setCursorStack] = useState<Array<string>>([])
-  const [afterCursor, setAfterCursor] = useState<string | undefined>()
   const [searchState, setSearchState] = useState<Record<string, unknown>>(pathToSearchState(asPath))
+
+  const variables = {
+    filter: {
+      status: ticketStatusFilter,
+      ticketTypeIds: ticketTypesFilter,
+    },
+    first: TICKETS_PER_PAGE,
+    searchQuery: searchState.search,
+  }
+
+  const context = {
+    slug: conferenceSlug,
+    token,
+  }
+
+  const {
+    results,
+    currentPage,
+    error,
+    loading,
+    isForwardDisabled,
+    isBackwardsDisabled,
+    nextPage,
+    previousPage,
+    resetPage,
+  } = usePaginatedQuery<Ticket, 'tickets', typeof variables, typeof context>({
+    context,
+    initialPage: searchState?.page as string,
+    query: TICKET_LIST,
+    variables,
+  })
 
   useEffect(() => {
     if (searchState.search) setSearchQuery(searchState.search as string)
@@ -164,25 +110,24 @@ const TicketDashboard: React.FC = () => {
       const ticketTypeIdsArray = fixTypeTicketTypeIds.split(',')
       setTicketTypesFilter(ticketTypeIdsArray)
     }
-    if (searchState.page) setAfterCursor(searchState.page as string)
   }, [])
 
   useEffect(() => {
-    onSearchStateChange(searchState)
-  }, [searchState])
+    if (currentPage) {
+      setSearchState({ ...searchState, page: currentPage })
+    }
+  }, [currentPage])
 
-  const onSearchStateChange = (updatedSearchState: Record<string, unknown>) => {
-    const url = searchStateToUrl({ pathname, searchState: updatedSearchState })
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  useEffect(() => {
+    const url = searchStateToUrl({ pathname, searchState })
     history.push(url)
-  }
+  }, [searchState])
 
   const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const element = e.currentTarget as HTMLInputElement
       setSearchState({ ...searchState, search: element.value })
-      setCursorStack([])
-      setAfterCursor(undefined)
+      resetPage()
     }
   }
 
@@ -193,8 +138,7 @@ const TicketDashboard: React.FC = () => {
       setTicketStatusFilter(undefined)
     }
     setSearchState({ ...searchState, ticketStatus: e.target.value })
-    setCursorStack([])
-    setAfterCursor(undefined)
+    resetPage()
   }
 
   const handleTicketTypeFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -206,55 +150,8 @@ const TicketDashboard: React.FC = () => {
       setTicketTypesFilter(undefined)
     }
     setSearchState({ ...searchState, ticketTypeIds: ticketTypeIds.toString() })
-    setCursorStack([])
-    setAfterCursor(undefined)
+    resetPage()
   }
-
-  const previousPage = () => {
-    cursorStack.pop()
-    const endCursor = cursorStack[cursorStack.length - 1]
-    setAfterCursor(endCursor)
-    setSearchState({ ...searchState, page: endCursor })
-  }
-
-  const nextPage = (endCursor: string) => {
-    cursorStack.push(endCursor)
-    setAfterCursor(endCursor)
-    setSearchState({ ...searchState, page: endCursor })
-  }
-
-  const {
-    loading,
-    error,
-    data,
-  }: {
-    data?: {
-      tickets: {
-        edges: [
-          {
-            node: Ticket
-          }
-        ]
-        pageInfo: PageInfo
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(TICKET_LIST, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    variables: {
-      after: afterCursor,
-      filter: {
-        status: ticketStatusFilter,
-        ticketTypeIds: ticketTypesFilter,
-      },
-      first: TICKETS_PER_PAGE,
-      searchQuery: searchState.search,
-    },
-  })
 
   const {
     data: ticketTypesData,
@@ -294,7 +191,7 @@ const TicketDashboard: React.FC = () => {
             placeholder="Search by name, reference or email of ticket or order"
             type="text"
             onChange={e => setSearchQuery(e.target.value)}
-            onKeyDown={e => handleSearchKey(e)}
+            onKeyDown={handleSearchKey}
           />
         </Search>
         <Filters>
@@ -307,7 +204,9 @@ const TicketDashboard: React.FC = () => {
             >
               <option value="">All</option>
               {Object.entries(TicketFilterStatus).map(([key, value]) => (
-                <option value={key}>{value}</option>
+                <option key={key} value={key}>
+                  {value}
+                </option>
               ))}
             </select>
           </Select>
@@ -321,7 +220,9 @@ const TicketDashboard: React.FC = () => {
                 onChange={e => handleTicketTypeFilterChange(e)}
               >
                 {ticketTypes.map(ticketType => (
-                  <option value={ticketType.id}>{ticketType.name}</option>
+                  <option key={ticketType.id} value={ticketType.id}>
+                    {ticketType.name}
+                  </option>
                 ))}
               </select>
             </MultiSelect>
@@ -330,34 +231,15 @@ const TicketDashboard: React.FC = () => {
       </SearchFilters>
       <StyledList>
         <TicketDashboardHeader />
-        {loading && <Loader />}
-        {error && error.message}
-        {!loading &&
-          !error &&
-          data?.tickets?.edges !== undefined &&
-          data?.tickets?.edges?.length > 0 && (
-            <TicketList list={data?.tickets?.edges?.map(node => node.node)} />
-          )}
+        <TicketList error={error} list={results} loading={loading} />
       </StyledList>
       {!loading && !error && (
-        <Pagination>
-          <PaginationButton
-            disabled={cursorStack.length <= 0}
-            onClick={cursorStack.length > 0 ? () => previousPage() : () => {}}
-          >
-            Previous
-          </PaginationButton>
-          <PaginationButton
-            disabled={!data?.tickets?.pageInfo?.hasNextPage}
-            onClick={
-              data?.tickets?.pageInfo?.hasNextPage
-                ? () => nextPage(data?.tickets?.pageInfo?.endCursor)
-                : () => {}
-            }
-          >
-            Next
-          </PaginationButton>
-        </Pagination>
+        <Pagination
+          isForwardDisabled={isForwardDisabled}
+          isPreviousDisabled={isBackwardsDisabled}
+          nextPage={nextPage}
+          previousPage={previousPage}
+        />
       )}
     </div>
   )

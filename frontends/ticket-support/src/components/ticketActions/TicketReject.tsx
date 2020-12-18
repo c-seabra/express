@@ -1,13 +1,13 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject'
-import { AppContext } from '../app/App'
 import { Button } from '../ticketDetails/TicketDetails'
 import Warning from './Warning'
+import { useAppContext } from '../app/AppContext'
 
 const TicketReject = ({ ticketId }: { ticketId: string }) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const [rejectReason, setRejectReason] = useState<string>('')
   const [error, setError] = useState<string | undefined>()
   const [rejectStatus, setRejectStatus] = useState({

@@ -1,23 +1,24 @@
 import { ApolloError, useQuery } from '@apollo/client'
-import React, { useContext, useState } from 'react'
-import { Helmet } from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
 
-import Loader from '../../lib/Loading'
-import Tooltip from '../../lib/Tooltip'
-import TICKET from '../../operations/queries/Ticket'
-import { AppContext, Ticket } from '../app/App'
-import AuditTrail from '../auditTrail/AuditTrail'
-import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
-import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
-import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
-import TicketAssign from '../ticketActions/TicketAssign'
+import StatePlate from '../ticketItem/StatePlate'
 import TicketClaim from '../ticketActions/TicketClaim'
-import TicketReject from '../ticketActions/TicketReject'
+import TICKET from '../../operations/queries/Ticket'
+import { Ticket } from '../../lib/types'
+import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
+import TicketAssign from '../ticketActions/TicketAssign'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
-import StatePlate from '../ticketItem/StatePlate'
+import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
+import AuditTrail from '../auditTrail/AuditTrail'
+import Tooltip from '../../lib/Tooltip'
+import Loader from '../../lib/Loading'
+import TicketReject from '../ticketActions/TicketReject'
+import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
+import { useAppContext } from '../app/AppContext'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -99,7 +100,7 @@ const TicketStatusBar = styled.div`
 const ticketDetails: React.FC = () => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
   const history = useHistory()
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const [reassignment, setReassignment] = useState(false)
   const [loginEmailChange, setLoginEmailChange] = useState(false)
   const [identityEmailChange, setIdentityEmailChange] = useState(false)

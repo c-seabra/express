@@ -1,12 +1,14 @@
 import jwt from 'jwt-decode'
-import React, { createContext, useEffect, useState } from 'react'
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
 import OrderDetails from '../order/OrderDetails'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
+import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
 import TicketDetails from '../ticketDetails/TicketDetails'
+import AppContext from './AppContext'
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -27,55 +29,6 @@ const StlyedContainer = styled.section`
   margin: 0 auto;
   font-size: 16px;
 `
-const StyledSection = styled.section`
-  padding: 1rem;
-`
-
-export type Account = {
-  email: string
-  firstName: string
-  id: string
-  lastLoginTokenCreatedAt: string
-  lastName: string
-}
-
-export type Ticket = {
-  assignment?: {
-    appLoginEmail: string
-    assignee: Account
-    state: string
-  }
-  bookingRef: string
-  id: string
-  order: {
-    owner: Account
-    reference: string
-  }
-  state: string
-  ticketType: {
-    name: string
-  }
-}
-
-export type TicketType = {
-  description: string
-  id: string
-  name: string
-}
-
-export type PageInfo = {
-  endCursor: string
-  hasNextPage: string
-  hasPreviousPage: string
-  startCursor: string
-}
-
-export type UserError = {
-  message: string
-  path: string
-}
-
-export const AppContext = createContext<{ conferenceSlug?: string; token?: string }>({})
 
 const App = ({ token }: { token: string }) => {
   if (!token) return null
@@ -101,14 +54,17 @@ const App = ({ token }: { token: string }) => {
         <GlobalStyle />
         <Router>
           <Switch>
+            <Route exact path="/">
+              <TicketDashboard />
+            </Route>
             <Route path="/tickets/:bookingRef">
               <TicketDetails />
             </Route>
             <Route path="/order/:orderRef">
               <OrderDetails />
             </Route>
-            <Route path="/">
-              <TicketDashboard />
+            <Route exact path="/orders">
+              <OrdersDashboard />
             </Route>
           </Switch>
         </Router>

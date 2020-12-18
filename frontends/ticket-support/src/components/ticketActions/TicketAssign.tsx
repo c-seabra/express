@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
-import { AppContext } from '../app/App'
-import Field from './Field'
 import Warning from './Warning'
+import Field from './Field'
+import { useAppContext } from '../app/AppContext'
 
 const Form = styled.form`
   display: flex;
@@ -31,7 +31,7 @@ const TicketAssign: React.FC<{ resetReassignment: (value: boolean) => void; tick
   ticketId,
   resetReassignment,
 }) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const [email, setEmail] = useState<string | undefined>()
   const [emailNotification, setEmailNotification] = useState(true)
   const [firstName, setFirstName] = useState<string | undefined>()
