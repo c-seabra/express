@@ -51,7 +51,7 @@ const StyledButtonContainer = styled.div`
   justify-content: flex-end;
 `
 
-export type Props = {
+type Props = {
   createdOn?: string
   email?: string
   error: boolean
