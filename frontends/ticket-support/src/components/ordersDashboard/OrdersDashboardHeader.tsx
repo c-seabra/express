@@ -38,7 +38,7 @@ const OrdersDashboardHeader = (): ReactElement => {
       <Email>Email Used</Email>
       {/*  TODO - when fields are added, uncomment these columns */}
       {/* <Column>Ticket Status</Column> */}
-      {/* <Column>Order State</Column> */}
+      <Column>Order State</Column>
     </StyledListItem>
   )
 }

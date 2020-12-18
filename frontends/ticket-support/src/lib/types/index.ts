@@ -22,9 +22,15 @@ export type OrderSummary = {
   ticketType: TicketType
 }
 
+export enum OrderState {
+  ACTIVE = 'ACTIVE',
+  CANCELLED = 'CANCELLED',
+}
+
 export type Order = {
   owner: Account
   reference: string
+  state: OrderState
   summary: OrderSummary
 }
 

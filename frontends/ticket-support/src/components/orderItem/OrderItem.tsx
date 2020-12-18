@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Order } from '../../lib/types'
+import { Order, OrderState } from '../../lib/types'
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -35,6 +35,34 @@ const StyledListItem = styled.li`
   }
 `
 
+const State = styled.span`
+  border-radius: 8px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.825rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+`
+const ActiveState = styled(State)`
+  background-color: #00ac93;
+  color: #fff;
+`
+const CancelledState = styled(State)`
+  background-color: #ed1846;
+  color: #fff;
+`
+
+const StateLabel = ({ state }: { state: OrderState }): ReactElement => {
+  switch (state) {
+    case OrderState.ACTIVE:
+      return <ActiveState>{state}</ActiveState>
+    case OrderState.CANCELLED:
+      return <CancelledState>{state}</CancelledState>
+    default:
+      return <>{state}</>
+  }
+}
+
 const OrderItem = ({ order }: { order: Order }): ReactElement => {
   const history = useHistory()
 
@@ -48,8 +76,9 @@ const OrderItem = ({ order }: { order: Order }): ReactElement => {
       <Email>{order.owner.email}</Email>
       {/* TODO: add ticket status - number of assigned tickets / all tickets */}
       {/* <Column>ticket status</Column> */}
-      {/* TODO: add order status - ACTIVE/CANCELLED */}
-      {/* <Column>order state</Column> */}
+      <Column>
+        <StateLabel state={order.state} />
+      </Column>
     </StyledListItem>
   )
 }

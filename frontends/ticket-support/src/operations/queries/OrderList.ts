@@ -15,6 +15,7 @@ const ORDER_LIST = gql`
             lastName
             email
           }
+          state
           reference
           summary {
             ticketType {
