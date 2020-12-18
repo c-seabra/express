@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const StlyedContainer = styled.section`
+const StyledContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
@@ -50,7 +50,7 @@ const App = ({ token }: { token: string }) => {
         token,
       }}
     >
-      <StlyedContainer>
+      <StyledContainer>
         <GlobalStyle />
         <Router>
           <Switch>
@@ -68,7 +68,7 @@ const App = ({ token }: { token: string }) => {
             </Route>
           </Switch>
         </Router>
-      </StlyedContainer>
+      </StyledContainer>
     </AppContext.Provider>
   )
 }

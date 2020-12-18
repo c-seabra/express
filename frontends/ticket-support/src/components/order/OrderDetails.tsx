@@ -12,7 +12,7 @@ import Loader from '../../lib/Loading'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 
-const StlyedContainer = styled.section`
+const StyledContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
@@ -188,7 +188,7 @@ const OrderDetails: React.FC = () => {
       <Helmet>
         <title>Manage {orderRef} order - Ticket machine</title>
       </Helmet>
-      <StlyedContainer>
+      <StyledContainer>
         <TicketHeader>
           <Heading>
             <Button type="button" onClick={() => history.goBack()}>
@@ -247,7 +247,7 @@ const OrderDetails: React.FC = () => {
             )}
           </div>
         )}
-      </StlyedContainer>
+      </StyledContainer>
     </>
   )
 }
