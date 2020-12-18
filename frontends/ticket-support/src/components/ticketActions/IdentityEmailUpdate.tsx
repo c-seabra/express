@@ -1,9 +1,10 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import IDENTITY_EMAIL_UPDATE from '../../operations/mutations/IdentityEmailUpdate'
-import { Account, AppContext, UserError } from '../app/App'
+import { Account, UserError } from '../../lib/types'
+import { useAppContext } from '../app/AppContext'
 
 const Form = styled.form`
   display: flex;
@@ -58,7 +59,7 @@ const UpdateAppLoginEmail: React.FC<{
   accountId: string
   resetIdentityEmailChange: (value: boolean) => void
 }> = ({ accountId, resetIdentityEmailChange }) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const [email, setEmail] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>()
 

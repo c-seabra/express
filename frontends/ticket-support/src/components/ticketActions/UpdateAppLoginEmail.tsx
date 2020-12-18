@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import TICKET_LOGIN_UPDATE from '../../operations/mutations/UpdateLoginEmail'
-import { AppContext } from '../app/App'
+import { useAppContext } from '../app/AppContext'
 
 const Form = styled.form`
   display: flex;
@@ -58,7 +58,7 @@ const UpdateAppLoginEmail: React.FC<{
   bookingRef: string
   resetLoginEmailChange: (value: boolean) => void
 }> = ({ bookingRef, resetLoginEmailChange }) => {
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
   const [email, setEmail] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>()
 

@@ -1,15 +1,15 @@
 import { ApolloError, useQuery } from '@apollo/client'
-import React, { useContext } from 'react'
-import { Helmet } from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
+import React from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
 
-import Loader from '../../lib/Loading'
-import Tooltip from '../../lib/Tooltip'
 import ORDER from '../../operations/queries/OrderByRef'
-import { AppContext } from '../app/App'
-import Warning from '../ticketActions/Warning'
 import TicketItem from '../ticketItem/TicketItem'
+import Tooltip from '../../lib/Tooltip'
+import Loader from '../../lib/Loading'
+import { useAppContext } from '../app/AppContext'
+import Warning from '../ticketActions/Warning'
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -81,7 +81,7 @@ const TicketStatusBar = styled.div`
 const OrderDetails: React.FC = () => {
   const { orderRef } = useParams<{ orderRef: string }>()
   const history = useHistory()
-  const { conferenceSlug, token } = useContext(AppContext)
+  const { conferenceSlug, token } = useAppContext()
 
   const {
     loading,
