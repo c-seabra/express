@@ -24,7 +24,7 @@ export type BadgeProps = {
   label?: string
 }
 
-const Badge = ({
+export const Badge = ({
   color = 'fff',
   backgroundColor = '#000',
   children,
@@ -37,5 +37,3 @@ const Badge = ({
     </>
   )
 }
-
-export default Badge
