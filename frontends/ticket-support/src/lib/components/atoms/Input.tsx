@@ -9,10 +9,9 @@ const StyledInput = styled.input`
   padding: 8px 16px;
 `
 
-// export type InputProps = {
-// }
+type Props = React.InputHTMLAttributes<HTMLInputElement>
 
-const Input = ({ ...props }) => {
+const Input = ({ ...props }: Props) => {
   return <StyledInput {...props} />
 }
 
