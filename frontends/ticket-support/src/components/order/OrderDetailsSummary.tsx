@@ -51,7 +51,7 @@ const StyledButtonContainer = styled.div`
   justify-content: flex-end;
 `
 
-export type OrderDetailsSummaryProps = {
+export type Props = {
   createdOn?: string
   email?: string
   error: boolean
@@ -76,7 +76,7 @@ const OrderDetailsSummary = ({
   email,
 
   orderStatus,
-}: OrderDetailsSummaryProps): ReactElement<OrderDetailsSummaryProps> => {
+}: Props): ReactElement => {
   const missingDataAbbr = 'MD'
 
   return (
