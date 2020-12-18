@@ -1,16 +1,16 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import React from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
+import { useHistory, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 
-import ORDER from '../../operations/queries/OrderByRef'
-import TicketItem from '../ticketItem/TicketItem'
-import OrderDetailsSummary from './OrderDetailsSummary'
-import Tooltip from '../../lib/Tooltip'
 import Loader from '../../lib/Loading'
+import Tooltip from '../../lib/Tooltip'
+import ORDER from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
+import TicketItem from '../ticketItem/TicketItem'
+import OrderDetailsSummary from './OrderDetailsSummary'
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -93,12 +93,12 @@ const OrderDetails: React.FC = () => {
       order: {
         completedAt: string
         lastUpdatedAt: string
-        state: string
         owner: {
           email: string
           firstName: string
           lastName: string
         }
+        state: string
         summary: {
           ticketType: {
             name: string
@@ -164,11 +164,11 @@ const OrderDetails: React.FC = () => {
       lastUpdatedOn: {
         value: order?.lastUpdatedAt,
       },
-      orderReference: {
-        value: orderRef,
-      },
       name: {
         value: owner?.firstName,
+      },
+      orderReference: {
+        value: orderRef,
       },
       sourceOfSale: {
         value: 'no data', // e.g. Salesforce (Mocked until integrated to SF)
