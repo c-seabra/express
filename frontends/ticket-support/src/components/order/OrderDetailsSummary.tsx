@@ -3,10 +3,11 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 import Loader from '../../lib/Loading'
-// import Badge from '../shared/Badge'
 import Warning from '../ticketActions/Warning'
 import { Button } from '../ticketDetails/TicketDetails'
 import StatePlate from '../ticketItem/StatePlate'
+import Input from '../../lib/components/atoms/Input'
+// import Input from 'components' // TODO add default path to TS config
 
 // TODO PP: move to lib/utils
 const formatDefaultDate = (isoDate: string): string => {
@@ -30,13 +31,6 @@ const StyledGridContainer = styled.section`
   margin-bottom: 16px;
 `
 
-const StyledField = styled.input`
-  display: flex;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #999;
-  padding: 8px 16px;
-`
 
 // Headers
 const StyledHeader = styled.div`
@@ -108,26 +102,26 @@ const OrderDetailsSummary = ({
           <>
             <StyledGridContainer>
               <span>Order Reference</span>
-              <StyledField disabled type="text" value={orderReference} />
+              <Input disabled type="text" value={orderReference} />
               <span>&nbsp;</span>
               <span>&nbsp;</span>
 
               <span>Created On:</span>
-              <StyledField
+              <Input
                 disabled
                 type="text"
                 value={(createdOn && formatDefaultDate(createdOn)) || missingDataAbbr}
               />
 
               <span>Last Updated On:</span>
-              <StyledField
+              <Input
                 disabled
                 type="text"
                 value={(lastUpdatedOn && formatDefaultDate(lastUpdatedOn)) || missingDataAbbr}
               />
 
               <span>Source of Sale:</span>
-              <StyledField disabled type="text" value={sourceOfSale} />
+              <Input disabled type="text" value={sourceOfSale} />
 
               <span>Order Status:</span>
               <StatePlate state={orderStatus || missingDataAbbr} />
@@ -142,12 +136,12 @@ const OrderDetailsSummary = ({
 
             <StyledGridContainer>
               <span>First Name:</span>
-              <StyledField disabled type="text" value={name} />
+              <Input disabled type="text" value={name} />
 
               <span>Last Name*:</span>
-              <StyledField disabled type="text" value={surname} />
+              <Input disabled type="text" value={surname} />
               <span>Email*:</span>
-              <StyledField disabled type="email" value={email} />
+              <Input disabled type="email" value={email} />
               <span>&nbsp;</span>
               <StyledButtonContainer>
                 <Button>Edit</Button>
