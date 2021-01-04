@@ -1,5 +1,4 @@
 import { ApolloError, useQuery } from '@apollo/client'
-import qs from 'qs'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -21,6 +20,8 @@ import {
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import Pagination from '../../lib/Pagination'
 import { useAppContext } from '../app/AppContext'
+import { searchStateToUrl } from '../../lib/utils/url'
+import useSearchState, { SearchState } from '../../lib/hooks/useSearchState'
 
 const TICKETS_PER_PAGE = 20
 
@@ -35,41 +36,26 @@ export enum TicketFilterStatus {
   VOID = 'Void',
 }
 
-const filterEmptyStrings = (_: unknown, val: string) => val || undefined
-
-const createURL = (state: Record<string, unknown>) =>
-  `?${qs.stringify(state, {
-    encodeValuesOnly: true,
-    filter: filterEmptyStrings,
-    skipNulls: true,
-  })}`
-
-const searchStateToUrl = ({
-  pathname,
-  searchState,
-}: {
-  pathname: string
-  searchState: Record<string, unknown>
-}) =>
-  searchState !== null &&
-  typeof searchState === 'object' &&
-  Object.keys(searchState ?? {}).length > 0
-    ? `${pathname}${createURL(searchState)}`
-    : pathname
-
-const pathToSearchState = (path: string): Record<string, unknown> =>
-  path.includes('?') ? qs.parse(path.substring(path.indexOf('?') + 1)) : {}
-
 const TicketDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
   const location = useLocation()
   const history = useHistory()
   const { pathname } = location
-  const asPath = window.location.href
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [ticketStatusFilter, setTicketStatusFilter] = useState<string | undefined>()
   const [ticketTypesFilter, setTicketTypesFilter] = useState<Array<string | undefined>>()
-  const [searchState, setSearchState] = useState<Record<string, unknown>>(pathToSearchState(asPath))
+
+  const processInitialSearchState = (state: SearchState) => {
+    if (state.search) setSearchQuery(state.search as string)
+    if (state.ticketStatus) setTicketStatusFilter(state.ticketStatus as string)
+    if (state.ticketTypeIds) {
+      const fixTypeTicketTypeIds = state.ticketTypeIds as string
+      const ticketTypeIdsArray = fixTypeTicketTypeIds.split(',')
+      setTicketTypesFilter(ticketTypeIdsArray)
+    }
+  }
+
+  const { searchState, setSearchState } = useSearchState({ processInitialSearchState })
 
   const variables = {
     filter: {
@@ -101,16 +87,6 @@ const TicketDashboard: React.FC = () => {
     query: TICKET_LIST,
     variables,
   })
-
-  useEffect(() => {
-    if (searchState.search) setSearchQuery(searchState.search as string)
-    if (searchState.ticketStatus) setTicketStatusFilter(searchState.ticketStatus as string)
-    if (searchState.ticketTypeIds) {
-      const fixTypeTicketTypeIds = searchState.ticketTypeIds as string
-      const ticketTypeIdsArray = fixTypeTicketTypeIds.split(',')
-      setTicketTypesFilter(ticketTypeIdsArray)
-    }
-  }, [])
 
   useEffect(() => {
     if (currentPage) {

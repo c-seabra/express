@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ChangeEvent, ReactElement, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
@@ -11,6 +11,7 @@ import { useAppContext } from '../app/AppContext'
 import OrderItem from '../orderItem/OrderItem'
 import { Filters, Select, SearchFilters } from '../ticketDashboard/TicketDashboard.styled'
 import OrdersDashboardHeader from './OrdersDashboardHeader'
+import useSearchState, { SearchState } from '../../lib/hooks/useSearchState'
 
 const StyledList = styled.ul`
   margin: 0;
@@ -26,6 +27,11 @@ const ORDERS_PER_PAGE = 20
 const OrdersDashboard = (): ReactElement => {
   const { conferenceSlug, token } = useAppContext()
   const [orderStateFilter, setOrderStateFilter] = useState<string | undefined>()
+
+  const processInitialSearchState = (state: SearchState) => {
+    if (state.orderState) setOrderStateFilter(state.orderState as string)
+  }
+  const { searchState, setSearchState } = useSearchState({ processInitialSearchState })
 
   const context = {
     slug: conferenceSlug,
@@ -49,11 +55,29 @@ const OrdersDashboard = (): ReactElement => {
     isBackwardsDisabled,
     nextPage,
     previousPage,
+    currentPage,
   } = usePaginatedQuery<Order, 'orders', typeof variables, typeof context>({
     context,
+    initialPage: searchState?.page as string,
     query: ORDER_LIST,
     variables,
   })
+
+  useEffect(() => {
+    if (currentPage) {
+      setSearchState({ ...searchState, page: currentPage })
+    }
+  }, [currentPage])
+
+  const handleOrderStatusFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    if (event?.target?.value) {
+      setOrderStateFilter(event.target.value)
+    } else {
+      setOrderStateFilter(undefined)
+    }
+
+    setSearchState({ ...searchState, orderState: event.target.value })
+  }
 
   return (
     <div>
@@ -67,7 +91,7 @@ const OrdersDashboard = (): ReactElement => {
             <select
               name="filter[state]"
               value={orderStateFilter}
-              onChange={e => setOrderStateFilter(e?.target?.value)}
+              onChange={handleOrderStatusFilterChange}
             >
               <option value="">All</option>
               {Object.keys(OrderState).map(key => (
