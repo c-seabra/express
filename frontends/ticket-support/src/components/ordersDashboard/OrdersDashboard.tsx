@@ -1,15 +1,16 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
-import Loader from '../../lib/Loading'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
-import ORDER_LIST from '../../operations/queries/OrderList'
-import { Order } from '../../lib/types'
-import { useAppContext } from '../app/AppContext'
-import OrdersDashboardHeader from './OrdersDashboardHeader'
+import Loader from '../../lib/Loading'
 import Pagination from '../../lib/Pagination'
+import { Order, OrderState } from '../../lib/types'
+import ORDER_LIST from '../../operations/queries/OrderList'
+import { useAppContext } from '../app/AppContext'
 import OrderItem from '../orderItem/OrderItem'
+import { Filters, Select, SearchFilters } from '../ticketDashboard/TicketDashboard.styled'
+import OrdersDashboardHeader from './OrdersDashboardHeader'
 
 const StyledList = styled.ul`
   margin: 0;
@@ -24,13 +25,19 @@ const ORDERS_PER_PAGE = 20
 
 const OrdersDashboard = (): ReactElement => {
   const { conferenceSlug, token } = useAppContext()
+  const [orderStateFilter, setOrderStateFilter] = useState<string | undefined>()
 
   const context = {
     slug: conferenceSlug,
     token,
   }
 
+  const filter = {
+    status: orderStateFilter || undefined,
+  }
+
   const variables = {
+    filter,
     first: ORDERS_PER_PAGE,
   }
 
@@ -53,6 +60,25 @@ const OrdersDashboard = (): ReactElement => {
       <Helmet>
         <title>Orders list - Ticket machine</title>
       </Helmet>
+      <SearchFilters>
+        <Filters>
+          <Select>
+            <span>Order state</span>
+            <select
+              name="filter[state]"
+              value={orderStateFilter}
+              onChange={e => setOrderStateFilter(e?.target?.value)}
+            >
+              <option value="">All</option>
+              {Object.keys(OrderState).map(key => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+          </Select>
+        </Filters>
+      </SearchFilters>
       <StyledList>
         <OrdersDashboardHeader />
         {loading ? (
