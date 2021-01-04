@@ -1,8 +1,62 @@
-import { gql } from '@apollo/client'
+import { ApolloError, gql } from '@apollo/client'
 
-export const ORDER = gql`
+export type OrderByRefQuery = {
+  data?: {
+    order: {
+      completedAt: string
+      lastUpdatedAt: string
+      owner: {
+        email: string
+        firstName: string
+        lastName: string
+      }
+      state: string
+      summary: {
+        ticketType: {
+          name: string
+        }
+        tickets: number
+      }
+      tickets: {
+        edges: [
+          {
+            node: {
+              assignment: {
+                assignee: {
+                  email: string
+                  firstName: string
+                  lastName: string
+                }
+                state: string
+              }
+              bookingRef: string
+              order: {
+                owner: {
+                  email: string
+                  firstName: string
+                  lastName: string
+                }
+              }
+              state: string
+              ticketType: {
+                name: string
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+  error?: ApolloError
+  loading?: boolean
+}
+
+export const ORDER_QUERY = gql`
   query OrderByRef($reference: String!) {
     order(reference: $reference) {
+      completedAt
+      lastUpdatedAt
+      state
       owner {
         firstName
         lastName
@@ -54,4 +108,4 @@ export const ORDER = gql`
     }
   }
 `
-export default ORDER
+export default ORDER_QUERY

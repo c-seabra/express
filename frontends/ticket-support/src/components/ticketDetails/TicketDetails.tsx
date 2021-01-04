@@ -20,7 +20,7 @@ import TicketReject from '../ticketActions/TicketReject'
 import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
 import { useAppContext } from '../app/AppContext'
 
-const StlyedContainer = styled.section`
+const StyledContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
@@ -138,7 +138,7 @@ const ticketDetails: React.FC = () => {
       {loading && <Loader />}
       {error && <div>{error}</div>}
       {!loading && !error && ticket && (
-        <StlyedContainer>
+        <StyledContainer>
           <TicketHeader>
             <Heading>
               <Button type="button" onClick={() => history.goBack()}>
@@ -313,7 +313,7 @@ const ticketDetails: React.FC = () => {
               )}
             </div>
           </div>
-        </StlyedContainer>
+        </StyledContainer>
       )}
     </>
   )

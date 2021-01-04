@@ -1,17 +1,18 @@
-import { ApolloError, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import React from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
+import { useHistory, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 
-import ORDER from '../../operations/queries/OrderByRef'
-import TicketItem from '../ticketItem/TicketItem'
-import Tooltip from '../../lib/Tooltip'
 import Loader from '../../lib/Loading'
+import Tooltip from '../../lib/Tooltip'
+import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
+import TicketItem from '../ticketItem/TicketItem'
+import OrderDetailsSummary from './OrderDetailsSummary'
 
-const StlyedContainer = styled.section`
+const StyledContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
@@ -83,57 +84,7 @@ const OrderDetails: React.FC = () => {
   const history = useHistory()
   const { conferenceSlug, token } = useAppContext()
 
-  const {
-    loading,
-    error,
-    data,
-  }: {
-    data?: {
-      order: {
-        owner: {
-          email: string
-          firstName: string
-          lastName: string
-        }
-        summary: {
-          ticketType: {
-            name: string
-          }
-          tickets: number
-        }
-        tickets: {
-          edges: [
-            {
-              node: {
-                assignment: {
-                  assignee: {
-                    email: string
-                    firstName: string
-                    lastName: string
-                  }
-                  state: string
-                }
-                bookingRef: string
-                order: {
-                  owner: {
-                    email: string
-                    firstName: string
-                    lastName: string
-                  }
-                }
-                state: string
-                ticketType: {
-                  name: string
-                }
-              }
-            }
-          ]
-        }
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(ORDER, {
+  const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
     context: {
       slug: conferenceSlug,
       token,
@@ -147,12 +98,43 @@ const OrderDetails: React.FC = () => {
   const tickets = order?.tickets
   const owner = order?.owner
 
+  const { loading: mockedLoading, error: mockedError, orderDetails } = {
+    error: false,
+    loading: false,
+    orderDetails: {
+      createdOn: {
+        value: order?.completedAt,
+      },
+      email: {
+        value: owner?.email,
+      },
+      lastUpdatedOn: {
+        value: order?.lastUpdatedAt,
+      },
+      name: {
+        value: owner?.firstName,
+      },
+      orderReference: {
+        value: orderRef,
+      },
+      sourceOfSale: {
+        value: 'no data', // e.g. Salesforce (Mocked until integrated to SF)
+      },
+      status: {
+        value: order?.state,
+      },
+      surname: {
+        value: owner?.lastName,
+      },
+    },
+  }
+
   return (
     <>
       <Helmet>
         <title>Manage {orderRef} order - Ticket machine</title>
       </Helmet>
-      <StlyedContainer>
+      <StyledContainer>
         <TicketHeader>
           <Heading>
             <Button type="button" onClick={() => history.goBack()}>
@@ -176,14 +158,19 @@ const OrderDetails: React.FC = () => {
           <div>
             <div>
               <hr />
-              <Heading>Order owner details</Heading>
-              <div>
-                Owner: {owner?.firstName} {owner?.lastName}
-              </div>
-              <div>Owner email: {owner?.email}</div>
-            </div>
-            <div>
-              <hr />
+              <OrderDetailsSummary
+                createdOn={orderDetails.createdOn.value}
+                email={orderDetails.email.value}
+                error={mockedError}
+                lastUpdatedOn={orderDetails.lastUpdatedOn.value}
+                loading={mockedLoading}
+                name={orderDetails.name.value}
+                orderReference={orderDetails.orderReference.value}
+                orderStatus={orderDetails.status.value}
+                sourceOfSale={orderDetails.sourceOfSale.value}
+                surname={orderDetails.surname.value}
+              />
+
               <Heading>Order summary details</Heading>
               <div>Order type: {order?.summary?.ticketType?.name}</div>
               <div>Number of tickets: {order?.summary?.tickets}</div>
@@ -206,7 +193,7 @@ const OrderDetails: React.FC = () => {
             )}
           </div>
         )}
-      </StlyedContainer>
+      </StyledContainer>
     </>
   )
 }
