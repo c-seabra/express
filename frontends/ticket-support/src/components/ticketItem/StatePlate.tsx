@@ -5,8 +5,8 @@ import { Badge } from '../../lib/components'
 import Tooltip from '../../lib/Tooltip'
 
 const ActiveState = styled(Badge)`
-  background-color: #00ac93 !important;
-  color: #fff !important;
+  background-color: #00ac93;
+  color: #fff;
 `
 const UnassignedState = styled(Badge)`
   background-color: #ffb74c;
