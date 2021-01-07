@@ -38,11 +38,10 @@ type TooltipProps = {
   children?: React.ReactNode
   content?: string
   copyToClip?: boolean
-  // title: React.ReactNode
   value?: string
 }
 
-const Tooltip = ({
+export const Tooltip = ({
   copyToClip = true,
   content = 'Click to copy',
   value = '',
@@ -64,5 +63,3 @@ const Tooltip = ({
     </StyledTooltip>
   )
 }
-
-export default Tooltip

@@ -1,12 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Badge } from '../../lib/components'
-import Tooltip from '../../lib/Tooltip'
+import { Badge, Tooltip } from '../../lib/components'
 
 const ActiveState = styled(Badge)`
-  background-color: #00ac93;
-  color: #fff;
+  background-color: #eaf9ea;
+  color: #44c242;
 `
 const UnassignedState = styled(Badge)`
   background-color: #ffb74c;
@@ -31,54 +30,51 @@ const StatePlate = ({ state }: { state: string }) => {
       )
     case 'CHECKED_IN':
       return (
-        <Tooltip
-          content="Assignee has checked into the physical event"
-          title={<UnassignedState>Checked In</UnassignedState>}
-        />
+        <Tooltip content="Assignee has checked into the physical event">
+          <UnassignedState>Checked In</UnassignedState>
+        </Tooltip>
       )
     case 'LOCKED':
       return (
-        <Tooltip
-          content="Ticket is locked due to logging into our app"
-          title={<LockedState>Locked</LockedState>}
-        />
+        <Tooltip content="Ticket is locked due to logging into our app">
+          <LockedState>Locked</LockedState>
+        </Tooltip>
       )
     case 'VOID':
-      return <Tooltip content="Ticket is voided" title={<VoidState>Void</VoidState>} />
+      return (
+        <Tooltip content="Ticket is voided">
+          <VoidState>Void</VoidState>
+        </Tooltip>
+      )
     case 'ACCEPTED':
       return (
-        <Tooltip
-          content="Assignee has accepted(claimed) the ticket"
-          title={<ActiveState>Accepted</ActiveState>}
-        />
+        <Tooltip content="Assignee has accepted(claimed) the ticket">
+          <ActiveState>Accepted</ActiveState>
+        </Tooltip>
       )
     case 'DUPLICATE':
       return (
-        <Tooltip
-          content="This assignee has duplicate tickets assigned"
-          title={<UnassignedState>Duplicate</UnassignedState>}
-        />
+        <Tooltip content="This assignee has duplicate tickets assigned">
+          <UnassignedState>Duplicate</UnassignedState>
+        </Tooltip>
       )
     case 'PENDING':
       return (
-        <Tooltip
-          content="Assignment waiting for assignees engagement"
-          title={<UnassignedState>Pending</UnassignedState>}
-        />
+        <Tooltip content="Assignment waiting for assignees engagement">
+          <UnassignedState>Pending</UnassignedState>
+        </Tooltip>
       )
     case 'UNASSIGNED':
       return (
-        <Tooltip
-          content="This ticket hasn't yet been assigned"
-          title={<UnassignedState>Unassigned</UnassignedState>}
-        />
+        <Tooltip content="This ticket hasn't yet been assigned">
+          <UnassignedState>Unassigned</UnassignedState>
+        </Tooltip>
       )
     default:
       return (
-        <Tooltip
-          content={`This ticket is in ${state} state`}
-          title={<UnassignedState>{state}</UnassignedState>}
-        />
+        <Tooltip content={`This ticket is in ${state} state`}>
+          <UnassignedState>{state}</UnassignedState>
+        </Tooltip>
       )
   }
 }
