@@ -21,7 +21,6 @@ const Card = styled.div`
   width: 100%;
   border: 1px solid #dde0e5;
   border-radius: 0 0 4px 4px;
-
   border-top: none;
 `
 
