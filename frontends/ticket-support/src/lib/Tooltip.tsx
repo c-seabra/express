@@ -34,18 +34,20 @@ const StyledTooltip = styled.span`
     }
   }
 `
+type TooltipProps = {
+  children?: React.ReactNode
+  content?: string
+  copyToClip?: boolean
+  // title: React.ReactNode
+  value?: string
+}
 
 const Tooltip = ({
   copyToClip = true,
-  title,
   content = 'Click to copy',
   value = '',
-}: {
-  content?: string
-  copyToClip?: boolean
-  title: React.ReactNode
-  value?: string
-}) => {
+  children,
+}: TooltipProps) => {
   const copyToClipBoard = (copyMe: string) => {
     const textField = document.createElement('textarea')
     textField.innerText = copyMe
@@ -57,7 +59,7 @@ const Tooltip = ({
 
   return (
     <StyledTooltip onClick={copyToClip ? () => copyToClipBoard(value) : () => null}>
-      {title}
+      {children}
       <TooltipIndicator>{content}</TooltipIndicator>
     </StyledTooltip>
   )

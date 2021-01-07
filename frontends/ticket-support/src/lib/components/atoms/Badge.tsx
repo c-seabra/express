@@ -1,39 +1,20 @@
 import React, { ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 
-const StyledContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem 1rem;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid grey;
+const StyledContainer = styled.span`
+  font-size: 14px;
+  line-height: 24px;
+  padding: 4px 12px;
+  color: #fff;
   background-color: #000;
-`
-
-const StyledLabel = styled.label`
-  display: flex;
-  font-size: 12px;
-  background-color: #fff;
+  border-radius: 4px;
 `
 
 export type BadgeProps = {
-  backgroundColor?: string
   children?: ReactNode
-  color?: string
-  label?: string
+  restProps?: ReactNode
 }
 
-export const Badge = ({
-  color = 'fff',
-  backgroundColor = '#000',
-  children,
-}: BadgeProps): ReactElement<BadgeProps> => {
-  return (
-    <>
-      <StyledContainer>
-        <StyledLabel>{children}</StyledLabel>
-      </StyledContainer>
-    </>
-  )
+export const Badge = ({ children, restProps }: BadgeProps): ReactElement<BadgeProps> => {
+  return <StyledContainer ...restProps>{children}</StyledContainer>
 }
