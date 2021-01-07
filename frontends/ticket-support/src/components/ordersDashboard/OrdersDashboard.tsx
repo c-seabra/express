@@ -76,7 +76,7 @@ const OrdersDashboard = (): ReactElement => {
       setOrderStateFilter(undefined)
     }
 
-    setSearchState({ ...searchState, orderState: event.target.value })
+    setSearchState({ ...searchState, orderState: event?.target?.value })
   }
 
   return (
