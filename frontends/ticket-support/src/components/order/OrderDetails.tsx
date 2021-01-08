@@ -88,6 +88,10 @@ const TicketStatusBar = styled.div`
   align-items: center;
 `
 
+const SecondaryButtonWithSpacing = styled(SecondaryButton)`
+  margin-right: 16px;
+`
+
 const OrderDetails: React.FC = () => {
   const { orderRef } = useParams<{ orderRef: string }>()
   const history = useHistory()
@@ -167,7 +171,7 @@ const OrderDetails: React.FC = () => {
               <StyledRow>
                 <TextHeading>Order management</TextHeading>
                 <div>
-                  <SecondaryButton>Cancel order</SecondaryButton>
+                  <SecondaryButtonWithSpacing>Cancel order</SecondaryButtonWithSpacing>
                   <PrimaryButton disabled>Refund order</PrimaryButton>
                 </div>
               </StyledRow>
