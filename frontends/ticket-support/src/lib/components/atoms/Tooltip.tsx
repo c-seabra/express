@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const TooltipIndicator = styled.span`
@@ -34,18 +34,19 @@ const StyledTooltip = styled.span`
     }
   }
 `
-
-const Tooltip = ({
-  copyToClip = true,
-  title,
-  content = 'Click to copy',
-  value = '',
-}: {
+type TooltipProps = {
+  children?: ReactNode
   content?: string
   copyToClip?: boolean
-  title: React.ReactNode
   value?: string
-}) => {
+}
+
+export const Tooltip = ({
+  copyToClip = true,
+  content = 'Click to copy',
+  value = '',
+  children,
+}: TooltipProps) => {
   const copyToClipBoard = (copyMe: string) => {
     const textField = document.createElement('textarea')
     textField.innerText = copyMe
@@ -57,10 +58,8 @@ const Tooltip = ({
 
   return (
     <StyledTooltip onClick={copyToClip ? () => copyToClipBoard(value) : () => null}>
-      {title}
+      {children}
       <TooltipIndicator>{content}</TooltipIndicator>
     </StyledTooltip>
   )
 }
-
-export default Tooltip

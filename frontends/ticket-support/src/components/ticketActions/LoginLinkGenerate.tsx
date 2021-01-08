@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client'
 import React from 'react'
 
-import Tooltip from '../../lib/Tooltip'
-import MAGIC_LINK_GENERATE from '../../operations/mutations/LoginLinkGenerate'
+import { Tooltip } from '../../lib/components'
 import { Account } from '../../lib/types'
-import { Button, TextHighlight } from '../order/OrderDetails'
+import MAGIC_LINK_GENERATE from '../../operations/mutations/LoginLinkGenerate'
 import { useAppContext } from '../app/AppContext'
+import { Button, TextHighlight } from '../order/OrderDetails'
 
 const LoginLinkGenerate = ({ account }: { account: Account }) => {
   const { conferenceSlug, token } = useAppContext()
@@ -15,11 +15,9 @@ const LoginLinkGenerate = ({ account }: { account: Account }) => {
   if (error) return <p>Error generating login link. Reason {error.message}</p>
   if (data)
     return (
-      <Tooltip
-        copyToClip
-        title={<TextHighlight>Generated login link</TextHighlight>}
-        value={data.assignmentMagicLinkGenerate.loginLink}
-      />
+      <Tooltip copyToClip value={data.assignmentMagicLinkGenerate.loginLink}>
+        <TextHighlight>Generated login link</TextHighlight>
+      </Tooltip>
     )
 
   return (

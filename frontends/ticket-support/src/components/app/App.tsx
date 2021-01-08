@@ -12,14 +12,14 @@ import AppContext from './AppContext'
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: "Lato";
-    src: url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap')
+    font-family: "Inter";
+    src: url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,700;1,400&display=swap')
   }
   html {
     font-size: 16px;
   }
   body {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
 `
 
