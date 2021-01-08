@@ -8,12 +8,13 @@ const ActiveState = styled(Badge)`
   color: #44c242;
 `
 const UnassignedState = styled(Badge)`
-  background-color: #ffb74c;
-  color: #fff;
+  background-color: #f8ba26;
+  opacity: 0.2;
+  color: #f8ba26;
 `
 const VoidState = styled(Badge)`
-  background-color: #ed1846;
-  color: #fff;
+  background-color: #f14d4c;
+  color: #d8d8d8;
 `
 const LockedState = styled(Badge)`
   background-color: #0d153a;
