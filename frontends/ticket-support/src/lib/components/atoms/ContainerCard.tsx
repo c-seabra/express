@@ -34,7 +34,7 @@ const ChildrenWrapper = styled.div`
 `
 
 type ContainerCardProps = {
-  children?: ReactElement
+  children?: ReactElement | ReactElement[]
   className?: string
   color?: string
   title?: string
