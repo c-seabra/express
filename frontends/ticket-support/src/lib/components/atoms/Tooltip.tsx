@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const TooltipIndicator = styled.span`
@@ -35,7 +35,7 @@ const StyledTooltip = styled.span`
   }
 `
 type TooltipProps = {
-  children?: React.ReactNode
+  children?: ReactNode
   content?: string
   copyToClip?: boolean
   value?: string
