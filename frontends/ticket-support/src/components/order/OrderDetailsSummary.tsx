@@ -26,7 +26,7 @@ const StyledGridContainer = styled.section`
 // Headers
 const StyledHeader = styled.div`
   color: #0c1439;
-  font-family: 'Azo Sans';
+  font-family: 'azo-sans-web';
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.5px;
