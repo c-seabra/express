@@ -12,6 +12,8 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
+  box-sizing: border-box;
+
   font-family: 'azo-sans-web';
   font-size: 14px;
   font-weight: 300;
@@ -21,6 +23,10 @@ const StyledButton = styled.button`
   border-radius: 3px;
   border: 1px solid #0067e9;
   letter-spacing: 0;
+  transition: background-color 250ms ease-out, color 250ms ease-out, border-color 250ms ease-out;
+  color: #fff;
+  background-color: #000;
+  height: 50px;
 
   cursor: pointer;
 
@@ -29,8 +35,10 @@ const StyledButton = styled.button`
   }
 
   &:disabled {
-    // background: gray;
-    cursor: none;
+    background-color: #b8bbbf;
+    color: #c1c5c9;
+    border-color: #c1c5c9;
+    cursor: not-allowed;
     pointer-events: none;
   }
 `
@@ -42,7 +50,8 @@ export const PrimaryButton = styled(StyledButton)`
   &:hover,
   &:focus,
   &:active {
-    background-color: #0067e9;
+    border: 1px solid: #2269bf;
+    background-color: #2269bf;
   }
 `
 
@@ -55,12 +64,15 @@ export const SecondaryButton = styled(StyledButton)`
   &:active {
     background-color: #eee;
   }
+
+  &:disabled {
+    background-color: #dadee3;
+  }
 `
 
 type ButtonProps = {
   children?: ReactElement
   className?: string
-  // props: any // temp
 }
 
 type Props = ButtonProps | React.InputHTMLAttributes<HTMLButtonElement>

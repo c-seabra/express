@@ -172,6 +172,8 @@ const OrderDetails: React.FC = () => {
                 <TextHeading>Order management</TextHeading>
                 <div>
                   <SecondaryButtonWithSpacing>Cancel order</SecondaryButtonWithSpacing>
+                  <PrimaryButton>Refund order</PrimaryButton>
+                  <SecondaryButtonWithSpacing disabled>Cancel order</SecondaryButtonWithSpacing>
                   <PrimaryButton disabled>Refund order</PrimaryButton>
                 </div>
               </StyledRow>
