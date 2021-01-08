@@ -118,7 +118,7 @@ const OrderDetails: React.FC = () => {
         value: orderRef,
       },
       sourceOfSale: {
-        value: 'no data', // e.g. Salesforce (Mocked until integrated to SF)
+        value: 'No data', // e.g. Salesforce (Mocked until integrated to SF)
       },
       status: {
         value: order?.state,

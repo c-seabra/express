@@ -15,12 +15,10 @@ const StyledContainer = styled.div`
 
 const StyledGridContainer = styled.section`
   display: grid;
-  grid-gap: 16px;
-  grid-template-columns: auto 1fr auto 1fr;
-  grid-template-rows: auto auto auto auto;
+  grid-gap: 8px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 32px);
   align-items: center;
-
-  margin-bottom: 16px;
 `
 
 // Headers
@@ -33,12 +31,11 @@ const StyledHeader = styled.div`
   line-height: 32px;
 
   // TODO PP: spacing needs to be evaluated as modifier to box
-  margin-bottom: 16px;
+  margin-bottom: 40px;
 `
 
 const StyledLabel = styled.label`
   color: #c2c0c2;
-  font-family: 'Inter';
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0;
@@ -47,7 +44,6 @@ const StyledLabel = styled.label`
 
 const StyledValue = styled.p`
   color: #0c1439;
-  font-family: '.SF NS Display';
   font-size: 14px;
   letter-spacing: 0;
   line-height: 24;
@@ -78,7 +74,7 @@ const OrderDetailsSummary = ({
     <>
       <ContainerCard color="#654DA0">
         <StyledContainer>
-          <StyledHeader>Order Details</StyledHeader>
+          <StyledHeader>Order details</StyledHeader>
 
           {loading && <Loader />}
           {error && (
@@ -90,29 +86,23 @@ const OrderDetailsSummary = ({
           {!loading && !error && (
             <>
               <StyledGridContainer>
-                <StyledLabel>Order Reference #</StyledLabel>
+                <StyledLabel>Order reference #</StyledLabel>
+                <StyledLabel>Last updated</StyledLabel>
+                <StyledLabel>Date created</StyledLabel>
+                <StyledLabel>Source of sale</StyledLabel>
+                <StyledLabel>Order status</StyledLabel>
+
                 <StyledValue>#{orderReference}</StyledValue>
-                <span>&nbsp;</span>
-                <span>&nbsp;</span>
+                <StyledValue>
+                  {(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) || missingDataAbbr}
+                </StyledValue>
 
-                <Label>Created On:</Label>
-                <Input
-                  disabled
-                  type="text"
-                  value={(createdOn && formatDefaultDateTime(createdOn)) || missingDataAbbr}
-                />
+                <StyledValue>
+                  {(createdOn && formatDefaultDateTime(createdOn)) || missingDataAbbr}
+                </StyledValue>
 
-                <Label>Last Updated On:</Label>
-                <Input
-                  disabled
-                  type="text"
-                  value={(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) || missingDataAbbr}
-                />
+                <StyledValue>{sourceOfSale}</StyledValue>
 
-                <Label>Source of Sale:</Label>
-                <Input disabled type="text" value={sourceOfSale} />
-
-                <Label>Order Status:</Label>
                 <StatePlate state={orderStatus || missingDataAbbr} />
               </StyledGridContainer>
             </>
