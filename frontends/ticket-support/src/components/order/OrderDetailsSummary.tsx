@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-import { ContainerCard, Input, Label } from '../../lib/components'
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import Loader from '../../lib/Loading'
 import { formatDefaultDateTime } from '../../lib/utils/time'
 import Warning from '../ticketActions/Warning'
@@ -71,45 +71,43 @@ const OrderDetailsSummary = ({
   const missingDataAbbr = 'MD'
 
   return (
-    <>
-      <ContainerCard color="#654DA0">
-        <StyledContainer>
-          <StyledHeader>Order details</StyledHeader>
+    <ContainerCard color="#654DA0">
+      <StyledContainer>
+        <StyledHeader>Order details</StyledHeader>
 
-          {loading && <Loader />}
-          {error && (
-            <Warning>
-              <span>{error}</span>
-            </Warning>
-          )}
+        {loading && <Loader />}
+        {error && (
+          <Warning>
+            <span>{error}</span>
+          </Warning>
+        )}
 
-          {!loading && !error && (
-            <>
-              <StyledGridContainer>
-                <StyledLabel>Order reference #</StyledLabel>
-                <StyledLabel>Last updated</StyledLabel>
-                <StyledLabel>Date created</StyledLabel>
-                <StyledLabel>Source of sale</StyledLabel>
-                <StyledLabel>Order status</StyledLabel>
+        {!loading && !error && (
+          <>
+            <StyledGridContainer>
+              <StyledLabel>Order reference #</StyledLabel>
+              <StyledLabel>Last updated</StyledLabel>
+              <StyledLabel>Date created</StyledLabel>
+              <StyledLabel>Source of sale</StyledLabel>
+              <StyledLabel>Order status</StyledLabel>
 
-                <StyledValue>#{orderReference}</StyledValue>
-                <StyledValue>
-                  {(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) || missingDataAbbr}
-                </StyledValue>
+              <StyledValue>#{orderReference}</StyledValue>
+              <StyledValue>
+                {(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) || missingDataAbbr}
+              </StyledValue>
 
-                <StyledValue>
-                  {(createdOn && formatDefaultDateTime(createdOn)) || missingDataAbbr}
-                </StyledValue>
+              <StyledValue>
+                {(createdOn && formatDefaultDateTime(createdOn)) || missingDataAbbr}
+              </StyledValue>
 
-                <StyledValue>{sourceOfSale}</StyledValue>
+              <StyledValue>{sourceOfSale}</StyledValue>
 
-                <StatePlate state={orderStatus || missingDataAbbr} />
-              </StyledGridContainer>
-            </>
-          )}
-        </StyledContainer>
-      </ContainerCard>
-    </>
+              <StatePlate state={orderStatus || missingDataAbbr} />
+            </StyledGridContainer>
+          </>
+        )}
+      </StyledContainer>
+    </ContainerCard>
   )
 }
 

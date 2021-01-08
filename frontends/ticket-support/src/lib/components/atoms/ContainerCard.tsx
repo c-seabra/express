@@ -40,7 +40,7 @@ type ContainerCardProps = {
   title?: string
 }
 
-export const ContainerCard = ({
+const ContainerCard = ({
   children,
   color,
   className,
@@ -56,3 +56,5 @@ export const ContainerCard = ({
     </Container>
   )
 }
+
+export default ContainerCard
