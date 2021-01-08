@@ -11,6 +11,8 @@ import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 import TicketItem from '../ticketItem/TicketItem'
 import OrderDetailsSummary from './OrderDetailsSummary'
+import {Head} from "next/document";
+import {PrimaryButton, SecondaryButton} from "../../lib/components/atoms/Button";
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -74,6 +76,13 @@ const TicketHeader = styled.div`
   align-items: center;
   justify-content: space-between;
 `
+
+const StyledRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
 const TicketStatusBar = styled.div`
   display: flex;
   align-items: center;
@@ -155,6 +164,16 @@ const OrderDetails: React.FC = () => {
         {!loading && !error && (
           <div>
             <div>
+              <StyledRow>
+                <Heading>Order management</Heading>
+                <div>
+                  <SecondaryButton>Cancel order</SecondaryButton>
+                  <PrimaryButton disabled>Refund order</PrimaryButton>
+                  {/*<SecondaryButton disabled>Cancel order</SecondaryButton>*/}
+                  {/*<PrimaryButton disabled>Refund order</PrimaryButton>*/}
+                </div>
+              </StyledRow>
+
               <hr />
               <OrderDetailsSummary
                 createdOn={orderDetails.createdOn.value}
