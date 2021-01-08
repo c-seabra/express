@@ -15,7 +15,6 @@ const StyledButton = styled.button`
   font-family: 'azo-sans-web';
   font-size: 14px;
   font-weight: 300;
-  // line-height: 24px;
   text-align: center;
   min-width: 75px;
   padding: 8px 32px;
@@ -54,19 +53,19 @@ export const SecondaryButton = styled(StyledButton)`
   &:hover,
   &:focus,
   &:active {
-    background-color: #0067e9;
+    background-color: #eee;
   }
 `
 
 type ButtonProps = {
   children?: ReactElement
   className?: string
-  props: any // temp
+  // props: any // temp
 }
 
 type Props = ButtonProps | React.InputHTMLAttributes<HTMLButtonElement>
 
-const Button = ({ children }: Props, props): ReactElement => {
+const Button = ({ children }: Props, props: any): ReactElement => {
   return <button {...props}>{children}</button>
 }
 
