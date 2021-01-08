@@ -4,8 +4,8 @@ import { Helmet } from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import Loader from '../../lib/Loading'
 import { Tooltip } from '../../lib/components'
+import Loader from '../../lib/Loading'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
@@ -158,15 +158,12 @@ const OrderDetails: React.FC = () => {
               <hr />
               <OrderDetailsSummary
                 createdOn={orderDetails.createdOn.value}
-                email={orderDetails.email.value}
                 error={mockedError}
                 lastUpdatedOn={orderDetails.lastUpdatedOn.value}
                 loading={mockedLoading}
-                name={orderDetails.name.value}
                 orderReference={orderDetails.orderReference.value}
                 orderStatus={orderDetails.status.value}
                 sourceOfSale={orderDetails.sourceOfSale.value}
-                surname={orderDetails.surname.value}
               />
 
               <Heading>Order summary details</Heading>
