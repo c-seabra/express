@@ -14,9 +14,10 @@ import styled from 'styled-components'
 const StyledButton = styled.button`
   box-sizing: border-box;
 
-  font-family: 'azo-sans-web';
+  font-family: 'azo-sans-web', sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: normal;
+
   text-align: center;
   min-width: 75px;
   padding: 8px 32px;
@@ -35,8 +36,8 @@ const StyledButton = styled.button`
   }
 
   &:disabled {
-    background-color: #b8bbbf;
-    color: #c1c5c9;
+    background-color: #aaaaaa;
+    color: #7d7d7d;
     border-color: #c1c5c9;
     cursor: not-allowed;
     pointer-events: none;
@@ -47,9 +48,7 @@ export const PrimaryButton = styled(StyledButton)`
   color: #ffffff;
   background-color: #0067e9;
 
-  &:hover,
-  &:focus,
-  &:active {
+  &:hover {
     border: 1px solid: #2269bf;
     background-color: #2269bf;
   }
@@ -59,26 +58,21 @@ export const SecondaryButton = styled(StyledButton)`
   color: #0067e9;
   background-color: #ffffff;
 
-  &:hover,
-  &:focus,
-  &:active {
+  &:hover {
     background-color: #eee;
-  }
-
-  &:disabled {
-    background-color: #dadee3;
   }
 `
 
 type ButtonProps = {
   children?: ReactElement
   className?: string
+  type?: string
 }
 
 type Props = ButtonProps | React.InputHTMLAttributes<HTMLButtonElement>
 
 const Button = ({ children }: Props, props: any): ReactElement => {
-  return <button {...props}>{children}</button>
+  return <button {...props}>as{children}</button>
 }
 
 export default Button
