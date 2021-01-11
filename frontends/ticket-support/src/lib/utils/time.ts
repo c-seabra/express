@@ -9,5 +9,5 @@ import { DateTime } from 'luxon'
 
 export const formatDefaultDateTime = (isoDate: string): string => {
   const date = DateTime.fromISO(isoDate)
-  return date.toLocaleString(DateTime.DATETIME_MED)
+  return date.toLocaleString(DateTime.DATETIME_SHORT)
 }

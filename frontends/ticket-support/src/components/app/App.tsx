@@ -1,6 +1,7 @@
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
@@ -51,6 +52,9 @@ const App = ({ token }: { token: string }) => {
       }}
     >
       <StyledContainer>
+        <Helmet>
+          <link rel="stylesheet" href="https://use.typekit.net/vst7xer.css" />
+        </Helmet>
         <GlobalStyle />
         <Router>
           <Switch>

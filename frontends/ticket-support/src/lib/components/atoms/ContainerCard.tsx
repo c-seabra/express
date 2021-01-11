@@ -40,7 +40,12 @@ type ContainerCardProps = {
   title?: string
 }
 
-const ContainerCard = ({ children, color, className, title }: ContainerCardProps): ReactElement => {
+const ContainerCard = ({
+  children,
+  color,
+  className,
+  title,
+}: ContainerCardProps): ReactElement => {
   return (
     <Container className={className}>
       <ColorBar color={color} />
