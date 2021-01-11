@@ -5,11 +5,12 @@ import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Tooltip } from '../../lib/components'
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import Loader from '../../lib/Loading'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
-import TicketItem from '../ticketItem/TicketItem'
+import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
 
 const StyledContainer = styled.section`
@@ -59,7 +60,6 @@ export const Button = styled.button`
   margin: 0 0 1rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  border: none;
   border: 1px solid grey;
   background: white;
   cursor: pointer;
@@ -73,10 +73,6 @@ const TicketHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
-const TicketStatusBar = styled.div`
-  display: flex;
-  align-items: center;
 `
 
 const OrderDetails: React.FC = () => {
@@ -173,17 +169,9 @@ const OrderDetails: React.FC = () => {
             {tickets && tickets.edges?.length > 0 && (
               <div>
                 <hr />
-                <Heading>Tickets</Heading>
-                {tickets.edges.map(({ node }) => (
-                  <TicketItem
-                    assignment={node.assignment}
-                    bookingRef={node.bookingRef}
-                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
-                    orderOwner={node.order.owner}
-                    ticketState={node.state}
-                    ticketTypeName={node.ticketType.name}
-                  />
-                ))}
+                <ContainerCard color="#DF0079" title="Ticket information">
+                  <TicketList list={tickets.edges.map(({ node }) => node)} />
+                </ContainerCard>
               </div>
             )}
           </div>

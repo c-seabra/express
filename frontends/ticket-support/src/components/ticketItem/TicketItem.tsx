@@ -4,10 +4,8 @@ import styled from 'styled-components'
 import StatePlate from './StatePlate'
 
 const ColumnStyles = styled.div`
-  text-align: center;
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 0 0.25rem;
   word-break: break-word;
 `
@@ -20,18 +18,56 @@ const Email = styled(ColumnStyles)`
 `
 
 const StyledListItem = styled.li`
-  font-size: 1rem;
+  font-size: 0.85rem;
   display: flex;
   padding: 1rem 0.75rem;
-  background-color: gainsboro;
-  &:nth-child(2n + 1) {
-    background-color: #fff;
+  background-color: white;
+
+  border-bottom: 1px solid #dde0e5;
+
+  &:last-child {
+    border-bottom: none;
   }
+
   &:hover {
-    background-color: lightgrey;
+    background-color: #dde0e5;
     cursor: pointer;
   }
 `
+
+const ListHeaderItem = styled(StyledListItem)`
+  font-weight: 600;
+  text-align: center;
+
+  &:hover {
+    background-color: white;
+    cursor: initial;
+  }
+`
+
+const BadgeColumn = styled(Column)`
+  justify-content: center;
+`
+
+// The list header is kept here along with the ticket item
+// When columns displayed in the ticket item change,
+// it makes sense to also update the header and having both in one place
+// makes the process easier and forgetting more difficult
+export const TicketListHeader = () => {
+  return (
+    <ListHeaderItem>
+      <Column>Ticket reference</Column>
+      <Column>First name</Column>
+      <Column>Last name</Column>
+      <Column>Ticket Type</Column>
+      <Column>Assigned To</Column>
+      <Email>Email Used</Email>
+      <Column>Assignment Status</Column>
+      <BadgeColumn>Ticket Status</BadgeColumn>
+      <Email>Ticket Owner Email</Email>
+    </ListHeaderItem>
+  )
+}
 
 const TicketItem = ({
   assignment,
@@ -64,20 +100,19 @@ const TicketItem = ({
   return (
     <StyledListItem onClick={handleOnClick}>
       <Column>{bookingRef}</Column>
+      <Column>{orderOwner?.firstName}</Column>
+      <Column>{orderOwner?.lastName}</Column>
       <Column>{ticketTypeName}</Column>
       <Column>
         {assignment?.assignee?.firstName} {assignment?.assignee?.lastName}
       </Column>
       <Email>{assignment?.assignee?.email}</Email>
-      <Column>
+      <BadgeColumn>
         <StatePlate state={assignmentState} />
-      </Column>
-      <Column>
+      </BadgeColumn>
+      <BadgeColumn>
         <StatePlate state={ticketState} />
-      </Column>
-      <Column>
-        {orderOwner?.firstName} {orderOwner?.lastName}
-      </Column>
+      </BadgeColumn>
       <Email>{orderOwner?.email}</Email>
     </StyledListItem>
   )
