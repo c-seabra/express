@@ -12,6 +12,7 @@ import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
+import { Ticket } from '../../lib/types'
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -170,7 +171,7 @@ const OrderDetails: React.FC = () => {
               <div>
                 <hr />
                 <ContainerCard color="#DF0079" title="Ticket information">
-                  <TicketList list={tickets.edges.map(({ node }) => node)} />
+                  <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
                 </ContainerCard>
               </div>
             )}
