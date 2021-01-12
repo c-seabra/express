@@ -131,7 +131,7 @@ const OrderDetails: React.FC = () => {
         value: orderRef,
       },
       sourceOfSale: {
-        value: 'no data', // e.g. Salesforce (Mocked until integrated to SF)
+        value: 'No data', // e.g. Salesforce (Mocked until integrated to SF)
       },
       status: {
         value: order?.state,
@@ -181,15 +181,12 @@ const OrderDetails: React.FC = () => {
               <hr />
               <OrderDetailsSummary
                 createdOn={orderDetails.createdOn.value}
-                email={orderDetails.email.value}
                 error={mockedError}
                 lastUpdatedOn={orderDetails.lastUpdatedOn.value}
                 loading={mockedLoading}
-                name={orderDetails.name.value}
                 orderReference={orderDetails.orderReference.value}
                 orderStatus={orderDetails.status.value}
                 sourceOfSale={orderDetails.sourceOfSale.value}
-                surname={orderDetails.surname.value}
               />
 
               <Heading>Order summary details</Heading>
