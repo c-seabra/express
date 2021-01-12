@@ -164,7 +164,11 @@ const OrderDetails: React.FC = () => {
                 sourceOfSale={orderDetails.sourceOfSale.value}
               />
 
-              {/* <OrderOwnerDetails email={orderDetails.email} firstName={orderDetails.name} lastName={orderDetails.surname}> */}
+              <OrderOwnerDetails
+                email={orderDetails.email.value}
+                firstName={orderDetails.name.value}
+                lastName={orderDetails.surname.value}
+              />
 
               <OrderSummary
                 error={mockedError}
