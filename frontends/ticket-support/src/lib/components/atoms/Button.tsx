@@ -37,8 +37,7 @@ export const Button = styled.button`
     border: 1px solid: #2269bf;
     background-color: #2269bf;
   }
-
-
+  
   &:focus {
     outline: none;
   }
@@ -52,16 +51,6 @@ export const Button = styled.button`
   }
 `
 
-const PrimaryButton = styled(Button)`
-  color: #ffffff;
-  background-color: #0067e9;
-
-  &:hover {
-    border: 1px solid: #2269bf;
-    background-color: #2269bf;
-  }
-`
-
 export const SecondaryButton = styled(Button)`
   color: #0067e9;
   background-color: #ffffff;
@@ -71,17 +60,3 @@ export const SecondaryButton = styled(Button)`
     color: #ffffff;
   }
 `
-
-// type ButtonProps = {
-//   children?: ReactElement
-//   className?: string
-//   type?: string
-// }
-
-// type Props = ButtonProps | React.InputHTMLAttributes<HTMLButtonElement>
-//
-// const Button = ({ children }: Props, props: any): ReactElement => {
-//   return <button {...props}>as{children}</button>
-// }
-//
-// export default Button
