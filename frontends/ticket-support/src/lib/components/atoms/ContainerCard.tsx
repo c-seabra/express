@@ -22,6 +22,7 @@ const Card = styled.div`
   border: 1px solid #dde0e5;
   border-radius: 0 0 4px 4px;
   border-top: none;
+  background-color: #ffffff;
 `
 
 const Title = styled.div`

@@ -25,10 +25,9 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const StyledContainer = styled.section`
-  padding: 1rem;
-  max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
+  background-color: #f2f3f6;
 `
 
 const App = ({ token }: { token: string }) => {

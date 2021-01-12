@@ -21,12 +21,6 @@ const StyledContainer = styled.section`
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid grey;
-  hr {
-    border-color: grey;
-    margin: 1rem 0;
-  }
 `
 
 const Heading = styled.div`
