@@ -59,6 +59,10 @@ export const TextHighlight = styled.span`
   margin: 0 0.25rem;
 `
 
+const SpacingBottom = styled.div`
+  margin-bottom: 2.5rem;
+`
+
 export const Button = styled.button`
   margin: 0 0 1rem;
   padding: 0.5rem 1rem;
@@ -154,28 +158,34 @@ const OrderDetails: React.FC = () => {
         {!loading && !error && (
           <div>
             <div>
-              <OrderDetailsSummary
-                createdOn={orderDetails.createdOn.value}
-                error={mockedError}
-                lastUpdatedOn={orderDetails.lastUpdatedOn.value}
-                loading={mockedLoading}
-                orderReference={orderDetails.orderReference.value}
-                orderStatus={orderDetails.status.value}
-                sourceOfSale={orderDetails.sourceOfSale.value}
-              />
+              <SpacingBottom>
+                <OrderDetailsSummary
+                  createdOn={orderDetails.createdOn.value}
+                  error={mockedError}
+                  lastUpdatedOn={orderDetails.lastUpdatedOn.value}
+                  loading={mockedLoading}
+                  orderReference={orderDetails.orderReference.value}
+                  orderStatus={orderDetails.status.value}
+                  sourceOfSale={orderDetails.sourceOfSale.value}
+                />
+              </SpacingBottom>
 
-              <OrderOwnerDetails
-                email={orderDetails.email.value}
-                firstName={orderDetails.name.value}
-                lastName={orderDetails.surname.value}
-              />
+              <SpacingBottom>
+                <OrderOwnerDetails
+                  email={orderDetails.email.value}
+                  firstName={orderDetails.name.value}
+                  lastName={orderDetails.surname.value}
+                />
+              </SpacingBottom>
 
-              <OrderSummary
-                error={mockedError}
-                loading={mockedLoading}
-                orderType={order?.summary?.ticketType?.name}
-                purchasedTotal={order?.summary?.tickets}
-              />
+              <SpacingBottom>
+                <OrderSummary
+                  error={mockedError}
+                  loading={mockedLoading}
+                  orderType={order?.summary?.ticketType?.name}
+                  purchasedTotal={order?.summary?.tickets}
+                />
+              </SpacingBottom>
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
