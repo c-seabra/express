@@ -22,18 +22,6 @@ const StyledGridContainer = styled.section`
 `
 
 // Headers
-const StyledHeader = styled.div`
-  color: #0c1439;
-  font-family: 'azo-sans-web';
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.5px;
-  line-height: 32px;
-
-  // TODO PP: spacing needs to be evaluated as modifier to box
-  margin-bottom: 40px;
-`
-
 const StyledLabel = styled.label`
   color: #c2c0c2;
   font-size: 14px;
@@ -71,10 +59,8 @@ const OrderDetailsSummary = ({
   const missingDataAbbr = 'MD'
 
   return (
-    <ContainerCard color="#654DA0">
+    <ContainerCard color="#654DA0" title="Order details">
       <StyledContainer>
-        <StyledHeader>Order details</StyledHeader>
-
         {loading && <Loader />}
         {error && (
           <Warning>

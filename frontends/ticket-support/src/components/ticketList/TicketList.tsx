@@ -4,12 +4,12 @@ import { ApolloError } from '@apollo/client'
 
 import { Ticket } from '../../lib/types'
 import Loader from '../../lib/Loading'
-import TicketItem from '../ticketItem/TicketItem'
+import TicketItem, { TicketListHeader } from '../ticketItem/TicketItem'
 
 type TicketListProps = {
   error?: ApolloError
   list: Ticket[]
-  loading: boolean
+  loading?: boolean
 }
 
 const TicketList = ({ list = [], loading, error }: TicketListProps): ReactElement => {
@@ -25,12 +25,13 @@ const TicketList = ({ list = [], loading, error }: TicketListProps): ReactElemen
 
   return (
     <>
+      <TicketListHeader />
       {list.map(ticket => (
         <TicketItem
           key={ticket.bookingRef}
           assignment={ticket.assignment}
           bookingRef={ticket.bookingRef}
-          handleOnClick={() => history.push(`tickets/${ticket.bookingRef}`)}
+          handleOnClick={() => history.push(`/tickets/${ticket.bookingRef}`)}
           orderOwner={ticket.order.owner}
           ticketState={ticket.state}
           ticketTypeName={ticket.ticketType.name}
