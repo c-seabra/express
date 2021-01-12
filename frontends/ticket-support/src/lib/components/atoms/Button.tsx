@@ -13,13 +13,10 @@ import styled from 'styled-components'
 
 export const Button = styled.button`
   display: inline-flex;
-  box-sizing: border-box;
-
   font-family: 'azo-sans-web', sans-serif;
-  font-size: 14px;
-  font-weight: normal;
-
-  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 400;
+  justify-content: center;
   min-width: 75px;
   padding: 0 32px;
   border-radius: 3px;
@@ -43,8 +40,8 @@ export const Button = styled.button`
   }
 
   &:disabled {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #e0e1e2;
+    background-color: #cccccc;
+    color: #888888;
     border-color: #c1c5c9;
     cursor: not-allowed;
     pointer-events: none;
