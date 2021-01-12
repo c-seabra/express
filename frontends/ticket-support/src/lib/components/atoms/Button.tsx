@@ -12,6 +12,7 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
+  display: inline-flex;
   box-sizing: border-box;
 
   font-family: 'azo-sans-web', sans-serif;
@@ -20,11 +21,11 @@ const StyledButton = styled.button`
 
   text-align: center;
   min-width: 75px;
-  padding: 8px 32px;
+  padding: 0 32px;
   border-radius: 3px;
   border: 1px solid #0067e9;
   letter-spacing: 0;
-  transition: background-color 250ms ease-out, color 250ms ease-out, border-color 250ms ease-out;
+  transition: all 0.3s ease-out;
   color: #fff;
   background-color: #000;
   height: 50px;
