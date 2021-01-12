@@ -152,7 +152,6 @@ const OrderDetails: React.FC = () => {
         {!loading && !error && (
           <div>
             <div>
-              <hr />
               <OrderDetailsSummary
                 createdOn={orderDetails.createdOn.value}
                 error={mockedError}
@@ -169,7 +168,6 @@ const OrderDetails: React.FC = () => {
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <hr />
                 <ContainerCard color="#DF0079" title="Ticket information">
                   <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
                 </ContainerCard>
