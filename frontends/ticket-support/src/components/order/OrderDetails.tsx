@@ -7,12 +7,14 @@ import styled from 'styled-components'
 import { Tooltip } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import Loader from '../../lib/Loading'
+import { Ticket } from '../../lib/types'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
-import { Ticket } from '../../lib/types'
+import OrderOwnerDetails from './OrderOwnerDetails'
+import OrderSummary from './OrderSummary'
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -162,9 +164,14 @@ const OrderDetails: React.FC = () => {
                 sourceOfSale={orderDetails.sourceOfSale.value}
               />
 
-              <Heading>Order summary details</Heading>
-              <div>Order type: {order?.summary?.ticketType?.name}</div>
-              <div>Number of tickets: {order?.summary?.tickets}</div>
+              {/* <OrderOwnerDetails email={orderDetails.email} firstName={orderDetails.name} lastName={orderDetails.surname}> */}
+
+              <OrderSummary
+                error={mockedError}
+                loading={mockedLoading}
+                orderType={order?.summary?.ticketType?.name}
+                purchasedTotal={order?.summary?.tickets}
+              />
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
