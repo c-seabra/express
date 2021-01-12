@@ -5,7 +5,7 @@ import { Tooltip } from '../../lib/components'
 import { Account } from '../../lib/types'
 import MAGIC_LINK_GENERATE from '../../operations/mutations/LoginLinkGenerate'
 import { useAppContext } from '../app/AppContext'
-import { Button, TextHighlight } from '../order/OrderDetails'
+import { StyledButton, TextHighlight } from '../order/OrderDetails'
 
 const LoginLinkGenerate = ({ account }: { account: Account }) => {
   const { conferenceSlug, token } = useAppContext()
@@ -21,7 +21,7 @@ const LoginLinkGenerate = ({ account }: { account: Account }) => {
     )
 
   return (
-    <Button
+    <StyledButton
       style={{ cursor: 'pointer' }}
       type="button"
       onClick={async () => {
@@ -47,7 +47,7 @@ const LoginLinkGenerate = ({ account }: { account: Account }) => {
       }}
     >
       Generate login link
-    </Button>
+    </StyledButton>
   )
 }
 

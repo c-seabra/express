@@ -5,7 +5,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Tooltip } from '../../lib/components'
-import { PrimaryButton, SecondaryButton } from '../../lib/components/atoms/Button'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Loader from '../../lib/Loading'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
@@ -57,7 +57,7 @@ export const TextHighlight = styled.span`
   margin: 0 0.25rem;
 `
 
-export const Button = styled.button`
+export const StyledButton = styled.button`
   margin: 0 0 1rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -88,7 +88,7 @@ const TicketStatusBar = styled.div`
   align-items: center;
 `
 
-const SecondaryButtonWithSpacing = styled(SecondaryButton)`
+const ButtonWithSpacing = styled(Button)`
   margin-right: 16px;
 `
 
@@ -150,9 +150,7 @@ const OrderDetails: React.FC = () => {
       <StyledContainer>
         <TicketHeader>
           <Heading>
-            <Button type="button" onClick={() => history.goBack()}>
-              Back
-            </Button>
+            <Button onClick={() => history.goBack()}>Back</Button>
             Manage Order/
             <Tooltip copyToClip value={orderRef}>
               <TextHighlight>{orderRef}</TextHighlight>
@@ -171,10 +169,10 @@ const OrderDetails: React.FC = () => {
               <StyledRow>
                 <TextHeading>Order management</TextHeading>
                 <div>
-                  <SecondaryButtonWithSpacing>Cancel order</SecondaryButtonWithSpacing>
-                  <PrimaryButton>Refund order</PrimaryButton>
-                  <SecondaryButtonWithSpacing disabled>Cancel order</SecondaryButtonWithSpacing>
-                  <PrimaryButton disabled>Refund order</PrimaryButton>
+                  <ButtonWithSpacing disabled as={SecondaryButton}>
+                    Cancel order
+                  </ButtonWithSpacing>
+                  <Button disabled>Refund order</Button>
                 </div>
               </StyledRow>
 
