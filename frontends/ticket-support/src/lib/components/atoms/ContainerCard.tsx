@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Container = styled.div`
   display: flex;
@@ -12,16 +12,30 @@ const ColorBar = styled.div<{ color?: string }>`
   width: 100%;
   height: 25px;
   margin: 0;
-  background-color: ${props => props.color};
   border-radius: 4px 4px 0 0;
-  border: 1px solid ${props => props.color};
+  border: 1px solid #dde0e5;
+  border-bottom: none;
+
+  ${props =>
+    props.color &&
+    css`
+      background-color: ${props.color};
+      border: 1px solid ${props.color};
+    `}
 `
 
-const Card = styled.div`
+const Card = styled.div<{ isColorBar: boolean }>`
   width: 100%;
   border: 1px solid #dde0e5;
-  border-radius: 0 0 4px 4px;
-  border-top: none;
+  ${props =>
+    props.isColorBar
+      ? css`
+          border-radius: 0 0 4px 4px;
+          border-top: none;
+        `
+      : css`
+          border-radius: 4px;
+        `}
 `
 
 const Title = styled.div`
@@ -47,11 +61,17 @@ type ContainerCardProps = {
   title?: string
 }
 
+const response = {
+  assigned: {
+    count: 0,
+  },
+}
+
 const ContainerCard = ({ children, color, className, title }: ContainerCardProps): ReactElement => {
   return (
     <Container className={className}>
-      <ColorBar color={color} />
-      <Card>
+      {color && <ColorBar color={color} />}
+      <Card isColorBar={!!color}>
         <ChildrenWrapper>
           {title && <Title>{title}</Title>}
           {children}

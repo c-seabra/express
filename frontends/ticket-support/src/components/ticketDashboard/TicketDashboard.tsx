@@ -222,7 +222,7 @@ const TicketDashboard: React.FC = () => {
           )}
         </Filters>
       </SearchFilters>
-      <ContainerCard color="#654DA0">
+      <ContainerCard>
         <TicketList error={error} list={results} loading={loading} />
       </ContainerCard>
       {!loading && !error && (
