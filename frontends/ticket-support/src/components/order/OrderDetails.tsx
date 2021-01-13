@@ -112,30 +112,14 @@ const OrderDetails: React.FC = () => {
     error: false,
     loading: false,
     orderDetails: {
-      createdOn: {
-        value: order?.completedAt,
-      },
-      email: {
-        value: owner?.email,
-      },
-      lastUpdatedOn: {
-        value: order?.lastUpdatedAt,
-      },
-      name: {
-        value: owner?.firstName,
-      },
-      orderReference: {
-        value: orderRef,
-      },
-      sourceOfSale: {
-        value: missingDataAbbr, // e.g. Salesforce (Mocked until integrated to SF)
-      },
-      status: {
-        value: order?.state,
-      },
-      surname: {
-        value: owner?.lastName,
-      },
+      createdOn: order?.completedAt,
+      email: owner?.email,
+      lastUpdatedOn: order?.lastUpdatedAt,
+      name: owner?.firstName,
+      orderReference: orderRef,
+      sourceOfSale: missingDataAbbr, // e.g. Salesforce (Mocked until integrated to SF)
+      status: order?.state,
+      surname: owner?.lastName,
     },
     orderSummary: {
       billedAmount: '1234$',
@@ -186,21 +170,21 @@ const OrderDetails: React.FC = () => {
 
               <SpacingBottom>
                 <OrderDetailsSummary
-                  createdOn={orderDetails.createdOn.value}
+                  createdOn={orderDetails.createdOn}
                   error={mockedError}
-                  lastUpdatedOn={orderDetails.lastUpdatedOn.value}
+                  lastUpdatedOn={orderDetails.lastUpdatedOn}
                   loading={mockedLoading}
-                  orderReference={orderDetails.orderReference.value}
-                  orderStatus={orderDetails.status.value}
-                  sourceOfSale={orderDetails.sourceOfSale.value}
+                  orderReference={orderDetails.orderReference}
+                  orderStatus={orderDetails.status}
+                  sourceOfSale={orderDetails.sourceOfSale}
                 />
               </SpacingBottom>
 
               <SpacingBottom>
                 <OrderOwnerDetails
-                  email={orderDetails.email.value}
-                  firstName={orderDetails.name.value}
-                  lastName={orderDetails.surname.value}
+                  email={orderDetails.email}
+                  firstName={orderDetails.name}
+                  lastName={orderDetails.surname}
                 />
               </SpacingBottom>
 
