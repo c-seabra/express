@@ -5,6 +5,8 @@ import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Tooltip } from '../../lib/components'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
+import TextHeading from '../../lib/components/atoms/Heading'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import Loader from '../../lib/Loading'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
@@ -57,7 +59,7 @@ export const TextHighlight = styled.span`
   margin: 0 0.25rem;
 `
 
-export const Button = styled.button`
+export const StyledButton = styled.button`
   margin: 0 0 1rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -74,6 +76,16 @@ const TicketHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`
+
+const StyledRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const ButtonWithSpacing = styled(Button)`
+  margin-right: 16px;
 `
 
 const OrderDetails: React.FC = () => {
@@ -134,9 +146,7 @@ const OrderDetails: React.FC = () => {
       <StyledContainer>
         <TicketHeader>
           <Heading>
-            <Button type="button" onClick={() => history.goBack()}>
-              Back
-            </Button>
+            <Button onClick={history.goBack}>Back</Button>
             Manage Order/
             <Tooltip copyToClip value={orderRef}>
               <TextHighlight>{orderRef}</TextHighlight>
@@ -152,6 +162,16 @@ const OrderDetails: React.FC = () => {
         {!loading && !error && (
           <div>
             <div>
+              <StyledRow>
+                <TextHeading>Order management</TextHeading>
+                <div>
+                  <ButtonWithSpacing disabled as={SecondaryButton}>
+                    Cancel order
+                  </ButtonWithSpacing>
+                  <Button disabled>Refund order</Button>
+                </div>
+              </StyledRow>
+
               <hr />
               <OrderDetailsSummary
                 createdOn={orderDetails.createdOn.value}
