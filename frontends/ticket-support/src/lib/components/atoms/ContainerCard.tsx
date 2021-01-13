@@ -25,8 +25,15 @@ const Card = styled.div`
 `
 
 const Title = styled.div`
-  font-size: 1.2rem;
-  padding: 1rem;
+  color: #0c1439;
+  font-family: 'azo-sans-web';
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 32px;
+
+  // TODO PP: spacing needs to be evaluated as modifier to box
+  margin-bottom: 40px;
 `
 
 const ChildrenWrapper = styled.div`
@@ -34,7 +41,7 @@ const ChildrenWrapper = styled.div`
 `
 
 type ContainerCardProps = {
-  children?: ReactElement
+  children?: ReactElement | ReactElement[]
   className?: string
   color?: string
   title?: string
@@ -45,8 +52,10 @@ const ContainerCard = ({ children, color, className, title }: ContainerCardProps
     <Container className={className}>
       <ColorBar color={color} />
       <Card>
-        {title && <Title>{title}</Title>}
-        <ChildrenWrapper>{children}</ChildrenWrapper>
+        <ChildrenWrapper>
+          {title && <Title>{title}</Title>}
+          {children}
+        </ChildrenWrapper>
       </Card>
     </Container>
   )

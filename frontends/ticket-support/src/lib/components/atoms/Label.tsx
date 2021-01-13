@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledLabel = styled.label`
-  font-size: 16px;
+  font-size: 0.85rem;
 `
+
 const StyledAsterix = styled.span`
   color: #f00;
   font-size: 16px;
