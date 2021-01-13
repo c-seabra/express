@@ -34,7 +34,7 @@ const StyledListItem = styled.li`
   font-size: 0.85rem;
   display: flex;
   padding: 1rem 0.75rem;
-  background-color: white;
+  background-color: #fff;
 
   border-bottom: 1px solid #dde0e5;
 
@@ -56,15 +56,6 @@ const ListHeaderItem = styled(StyledListItem)`
     background-color: white;
     cursor: initial;
   }
-`
-
-const State = styled.span`
-  border-radius: 8px;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.825rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 `
 
 const ActiveState = styled(Badge)`

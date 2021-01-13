@@ -61,12 +61,6 @@ type ContainerCardProps = {
   title?: string
 }
 
-const response = {
-  assigned: {
-    count: 0,
-  },
-}
-
 const ContainerCard = ({ children, color, className, title }: ContainerCardProps): ReactElement => {
   return (
     <Container className={className}>
