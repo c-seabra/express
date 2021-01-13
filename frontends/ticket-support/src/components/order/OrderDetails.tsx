@@ -5,7 +5,9 @@ import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Tooltip } from '../../lib/components'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import TextHeading from '../../lib/components/atoms/Heading'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
@@ -57,7 +59,7 @@ const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
 
-export const Button = styled.button`
+export const StyledButton = styled.button`
   margin: 0 0 1rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -74,6 +76,16 @@ const TicketHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`
+
+const StyledRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const ButtonWithSpacing = styled(Button)`
+  margin-right: 16px;
 `
 
 const OrderDetails: React.FC = () => {
@@ -134,9 +146,7 @@ const OrderDetails: React.FC = () => {
       <StyledContainer>
         <TicketHeader>
           <Heading>
-            <Button type="button" onClick={() => history.goBack()}>
-              Back
-            </Button>
+            <Button onClick={history.goBack}>Back</Button>
             Manage Order/
             <Tooltip copyToClip value={orderRef}>
               <TextHighlight>{orderRef}</TextHighlight>
@@ -152,6 +162,18 @@ const OrderDetails: React.FC = () => {
         {!loading && !error && (
           <div>
             <div>
+              <SpacingBottom>
+                <StyledRow>
+                  <TextHeading>Order management</TextHeading>
+                  <div>
+                    <ButtonWithSpacing disabled as={SecondaryButton}>
+                      Cancel order
+                    </ButtonWithSpacing>
+                    <Button disabled>Refund order</Button>
+                  </div>
+                </StyledRow>
+              </SpacingBottom>
+
               <SpacingBottom>
                 <OrderDetailsSummary
                   createdOn={orderDetails.createdOn.value}
