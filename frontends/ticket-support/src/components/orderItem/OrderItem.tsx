@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Order, OrderState, TicketsSummary } from '../../lib/types'
+import { Badge } from '../../lib/components'
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -30,36 +31,54 @@ const Email = styled(ColumnStyles)`
 `
 
 const StyledListItem = styled.li`
-  font-size: 1rem;
+  font-size: 0.85rem;
   display: flex;
   padding: 1rem 0.75rem;
-  background-color: gainsboro;
-  justify-content: space-between;
-  &:nth-child(2n + 1) {
-    background-color: #fff;
+  background-color: #fff;
+
+  border-bottom: 1px solid #dde0e5;
+
+  &:last-child {
+    border-bottom: none;
   }
+
   &:hover {
-    background-color: lightgrey;
+    background-color: #dde0e5;
     cursor: pointer;
   }
 `
 
-const State = styled.span`
-  border-radius: 8px;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.825rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+const ListHeaderItem = styled(StyledListItem)`
+  font-weight: 600;
+  text-align: center;
+
+  &:hover {
+    background-color: white;
+    cursor: initial;
+  }
 `
-const ActiveState = styled(State)`
-  background-color: #00ac93;
-  color: #fff;
+
+const ActiveState = styled(Badge)`
+  background-color: #eaf9ea;
+  color: #44c242;
 `
-const CancelledState = styled(State)`
-  background-color: #ed1846;
-  color: #fff;
+const CancelledState = styled(Badge)`
+  background-color: #f14d4c;
+  color: #d8d8d8;
 `
+
+export const OrderListHeader = () => {
+  return (
+    <ListHeaderItem>
+      <Column>Order Reference</Column>
+      <Column>Ticket Type</Column>
+      <Column>Ticket Owner</Column>
+      <Email>Email Used</Email>
+      <Column>Ticket Status</Column>
+      <Column>Order State</Column>
+    </ListHeaderItem>
+  )
+}
 
 const StateLabel = ({ state }: { state: OrderState }): ReactElement => {
   switch (state) {
@@ -72,26 +91,34 @@ const StateLabel = ({ state }: { state: OrderState }): ReactElement => {
   }
 }
 
-const getLabelFromTicketStatus = (label = '') =>
-  label.toLowerCase().replace('count', '').toUpperCase()
-
 const getTicketStatusesCount = (
   ticketsSummary: TicketsSummary
-): { count: number; label: string }[] =>
-  Object.entries(ticketsSummary)
-    .flatMap(([key, value]) => {
-      if (key === '__typename') {
-        return []
-      }
+): { count: number; label: string }[] => {
+  if (!ticketsSummary) return []
 
-      return [
-        {
-          count: value,
-          label: getLabelFromTicketStatus(key),
-        },
-      ]
-    })
-    .sort((a, b) => b.count - a.count)
+  const { all } = ticketsSummary
+
+  const allStateCounts = {
+    accepted: all?.active?.assigned?.accepted?.count || 0,
+    checkedIn: all?.active?.assigned?.checkedIn?.count || 0,
+    duplicate: all?.active?.assigned?.duplicate?.count || 0,
+    locked: all?.active?.assigned?.locked?.count || 0,
+    neverAssigned: all?.active?.unassigned?.neverAssigned?.count || 0,
+    pending: all?.active?.assigned?.pending?.count || 0,
+    rejected: all?.active?.unassigned?.rejected?.count || 0,
+    void: all?.void?.count || 0,
+  }
+
+  return Object.entries(allStateCounts)
+    .map(([key, value]) => ({
+      count: value,
+      label: key
+        .split(/(?=[A-Z])/) // For object keys like `neverAssigned` to split at a capital letter
+        .join(' ')
+        .toUpperCase(),
+    }))
+    .filter(({ count }) => count)
+}
 
 const OrderItem = ({ order }: { order: Order }): ReactElement => {
   const history = useHistory()

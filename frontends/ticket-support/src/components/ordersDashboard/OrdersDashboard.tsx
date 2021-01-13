@@ -1,24 +1,13 @@
 import React, { ReactElement } from 'react'
 import { Helmet } from 'react-helmet'
-import styled from 'styled-components'
 
-import Loader from '../../lib/Loading'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import ORDER_LIST from '../../operations/queries/OrderList'
 import { Order } from '../../lib/types'
 import { useAppContext } from '../app/AppContext'
-import OrdersDashboardHeader from './OrdersDashboardHeader'
 import Pagination from '../../lib/Pagination'
-import OrderItem from '../orderItem/OrderItem'
-
-const StyledList = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: hidden;
-  border-radius: 4px;
-  border: 1px solid grey;
-`
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import OrderList from '../orderList/OrderList'
 
 const ORDERS_PER_PAGE = 20
 
@@ -53,15 +42,9 @@ const OrdersDashboard = (): ReactElement => {
       <Helmet>
         <title>Orders list - Ticket machine</title>
       </Helmet>
-      <StyledList>
-        <OrdersDashboardHeader />
-        {loading ? (
-          <Loader />
-        ) : (
-          results.map(result => <OrderItem key={result.reference} order={result} />)
-        )}
-        {error && error.message}
-      </StyledList>
+      <ContainerCard>
+        <OrderList error={error} list={results} loading={loading} />
+      </ContainerCard>
       {!loading && !error && (
         <Pagination
           isForwardDisabled={isForwardDisabled}

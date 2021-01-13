@@ -28,8 +28,31 @@ export enum OrderState {
   CANCELLED = 'CANCELLED',
 }
 
+type Count = {
+  count: number
+}
+
+type AssignedTickets = Count & {
+  accepted?: Count
+  checkedIn?: Count
+  duplicate?: Count
+  locked?: Count
+  pending?: Count
+}
+
+type UnassignedTickets = Count & {
+  neverAssigned?: Count
+  rejected?: Count
+}
+
 export type TicketsSummary = {
-  [k: string]: number
+  all: Count & {
+    active?: Count & {
+      assigned?: AssignedTickets
+      unassigned?: UnassignedTickets
+    }
+    void?: Count
+  }
 }
 
 export type Order = {
