@@ -122,7 +122,7 @@ const OrderDetails: React.FC = () => {
       surname: owner?.lastName,
     },
     orderSummary: {
-      billedAmount: '1234$',
+      billedAmount: missingDataAbbr,
       discountCodeApplied: missingDataAbbr, // Mocked until fully integrated with BE
       discountedAmount: missingDataAbbr, // Mocked until fully integrated with BE
       orderType: order?.summary?.ticketType?.name,

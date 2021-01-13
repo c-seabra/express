@@ -10,31 +10,31 @@ import StatePlate from '../ticketItem/StatePlate'
 // Containers
 const StyledContainer = styled.div`
   display: flex;
-  flex-direction: column;
 `
 
-const StyledGridContainer = styled.section`
-  display: grid;
-  grid-gap: 8px;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(2, 32px);
-  align-items: center;
+const StyledColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  margin-right: 4rem;
 `
 
 // Headers
 const StyledLabel = styled.label`
   color: #c2c0c2;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0;
-  line-height: 24px;
+  line-height: 1.5rem;
+
+  margin-bottom: 1rem;
 `
 
-const StyledValue = styled.p`
+const StyledValue = styled.span`
   color: #0c1439;
-  font-size: 14px;
+  font-size: 0.875rem;
   letter-spacing: 0;
-  line-height: 24;
+  line-height: 1.5rem;
 `
 
 type Props = {
@@ -53,10 +53,10 @@ const OrderSummary = ({
   loading,
   error,
   orderType,
-  purchasedTotal,
+  purchasedTotal, // Computed amount includes Sales Tax minus discount  applied)
   discountCodeApplied,
   discountedAmount,
-  salesTaxApplied,
+  salesTaxApplied, // percentage of tax applied and sales tax name . Example 23% VAT -  Web Summit ;  13% HST - Collision.
   ticketPrice,
   billedAmount,
 }: Props): ReactElement => {
@@ -72,24 +72,41 @@ const OrderSummary = ({
 
         {!loading && !error && (
           <>
-            <StyledGridContainer>
-              <StyledLabel>Ticket Type</StyledLabel>
-              <StyledLabel>Qty purchased</StyledLabel>
-              <StyledLabel>Discount Code applied</StyledLabel>
-              <StyledLabel>Discounted amount</StyledLabel>
-              <StyledLabel>Sales Tax Applied</StyledLabel>
-              <StyledLabel>Ticket Price ( incl. Tax)</StyledLabel> {/*: Price and currency */}
-              <StyledLabel>Billed Amount</StyledLabel>{' '}
-              {/*: Computed amount ( includes Sales Tax minus discount  applied) */}
-              <StyledValue>{orderType}</StyledValue>
-              <StyledValue>{purchasedTotal}</StyledValue>
-              <StyledValue>{discountCodeApplied}</StyledValue>
-              <StyledValue>{discountedAmount}</StyledValue>
-              {/* Sales Tax applied :  percentage of tax applied and sales tax name . Example 23% VAT -  Web Summit ;  13% HST - Collision. */}
-              <StyledValue>{salesTaxApplied}</StyledValue>
-              <StyledValue>{ticketPrice}</StyledValue>
-              <StyledValue>{billedAmount}</StyledValue>
-            </StyledGridContainer>
+            <StyledContainer>
+              <StyledColumnContainer>
+                <StyledLabel>Ticket Type</StyledLabel>
+                <StyledValue>{orderType}</StyledValue>
+              </StyledColumnContainer>
+              <StyledColumnContainer>
+                <StyledLabel>Qty purchased</StyledLabel>
+                <StyledValue>{purchasedTotal}</StyledValue>
+              </StyledColumnContainer>
+
+              <StyledColumnContainer>
+                <StyledLabel>Ticket Price (incl. Tax)</StyledLabel>
+                <StyledValue>{ticketPrice}</StyledValue>
+              </StyledColumnContainer>
+
+              <StyledColumnContainer>
+                <StyledLabel>Billed Amount</StyledLabel>
+                <StyledValue>{billedAmount}</StyledValue>
+              </StyledColumnContainer>
+
+              <StyledColumnContainer>
+                <StyledLabel>Discount Code applied</StyledLabel>
+                <StyledValue>{discountCodeApplied}</StyledValue>
+              </StyledColumnContainer>
+
+              <StyledColumnContainer>
+                <StyledLabel>Discounted amount</StyledLabel>
+                <StyledValue>{discountedAmount}</StyledValue>
+              </StyledColumnContainer>
+
+              <StyledColumnContainer>
+                <StyledLabel>Sales Tax Applied</StyledLabel>
+                <StyledValue>{salesTaxApplied}</StyledValue>
+              </StyledColumnContainer>
+            </StyledContainer>
           </>
         )}
       </StyledContainer>
