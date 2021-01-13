@@ -60,8 +60,6 @@ const OrderSummary = ({
   ticketPrice,
   billedAmount,
 }: Props): ReactElement => {
-  const missingDataAbbr = 'MD'
-
   return (
     <ContainerCard color="#008BEE" title="Order summary">
       <StyledContainer>

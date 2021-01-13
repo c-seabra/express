@@ -106,8 +106,9 @@ const OrderDetails: React.FC = () => {
   const order = data?.order
   const tickets = order?.tickets
   const owner = order?.owner
+  const missingDataAbbr = 'No data'
 
-  const { loading: mockedLoading, error: mockedError, orderDetails } = {
+  const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
     error: false,
     loading: false,
     orderDetails: {
@@ -127,7 +128,7 @@ const OrderDetails: React.FC = () => {
         value: orderRef,
       },
       sourceOfSale: {
-        value: 'No data', // e.g. Salesforce (Mocked until integrated to SF)
+        value: missingDataAbbr, // e.g. Salesforce (Mocked until integrated to SF)
       },
       status: {
         value: order?.state,
@@ -135,6 +136,15 @@ const OrderDetails: React.FC = () => {
       surname: {
         value: owner?.lastName,
       },
+    },
+    orderSummary: {
+      billedAmount: '1234$',
+      discountCodeApplied: missingDataAbbr, // Mocked until fully integrated with BE
+      discountedAmount: missingDataAbbr, // Mocked until fully integrated with BE
+      orderType: order?.summary?.ticketType?.name,
+      purchasedTotal: order?.summary?.tickets,
+      salesTaxApplied: missingDataAbbr, // Mocked until fully integrated with BE
+      ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
   }
 
@@ -196,10 +206,15 @@ const OrderDetails: React.FC = () => {
 
               <SpacingBottom>
                 <OrderSummary
+                  billedAmount={orderSummary.billedAmount}
+                  discountCodeApplied={orderSummary.discountCodeApplied}
+                  discountedAmount={orderSummary.discountedAmount}
                   error={mockedError}
                   loading={mockedLoading}
-                  orderType={order?.summary?.ticketType?.name}
-                  purchasedTotal={order?.summary?.tickets}
+                  orderType={orderSummary.orderType}
+                  purchasedTotal={orderSummary.purchasedTotal}
+                  salesTaxApplied={orderSummary.salesTaxApplied}
+                  ticketPrice={orderSummary.ticketPrice}
                 />
               </SpacingBottom>
             </div>
