@@ -18,10 +18,42 @@ const ORDER_LIST = gql`
           state
           reference
           ticketsSummary {
-            activeCount
-            checkedInCount
-            lockedCount
-            voidCount
+            all {
+              count
+              active {
+                count
+                assigned {
+                  count
+                  accepted {
+                    count
+                  }
+                  checkedIn {
+                    count
+                  }
+                  duplicate {
+                    count
+                  }
+                  locked {
+                    count
+                  }
+                  pending {
+                    count
+                  }
+                }
+                unassigned {
+                  count
+                  neverAssigned {
+                    count
+                  }
+                  rejected {
+                    count
+                  }
+                }
+              }
+              void {
+                count
+              }
+            }
           }
           summary {
             ticketType {
