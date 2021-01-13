@@ -82,6 +82,8 @@ const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  margin-top: 4rem;
 `
 
 const ButtonWithSpacing = styled(Button)`
