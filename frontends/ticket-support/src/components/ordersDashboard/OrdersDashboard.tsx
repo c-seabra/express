@@ -1,26 +1,15 @@
 import React, { ChangeEvent, ReactElement, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import styled from 'styled-components'
 
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
-import Loader from '../../lib/Loading'
 import Pagination from '../../lib/Pagination'
 import { Order, OrderState } from '../../lib/types'
 import ORDER_LIST from '../../operations/queries/OrderList'
 import { useAppContext } from '../app/AppContext'
-import OrderItem from '../orderItem/OrderItem'
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import OrderList from '../orderList/OrderList'
 import { Filters, Select, SearchFilters } from '../ticketDashboard/TicketDashboard.styled'
-import OrdersDashboardHeader from './OrdersDashboardHeader'
 import useSearchState, { SearchState } from '../../lib/hooks/useSearchState'
-
-const StyledList = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: hidden;
-  border-radius: 4px;
-  border: 1px solid grey;
-`
 
 const ORDERS_PER_PAGE = 20
 
@@ -103,15 +92,9 @@ const OrdersDashboard = (): ReactElement => {
           </Select>
         </Filters>
       </SearchFilters>
-      <StyledList>
-        <OrdersDashboardHeader />
-        {loading ? (
-          <Loader />
-        ) : (
-          results.map(result => <OrderItem key={result.reference} order={result} />)
-        )}
-        {error && error.message}
-      </StyledList>
+      <ContainerCard>
+        <OrderList error={error} list={results} loading={loading} />
+      </ContainerCard>
       {!loading && !error && (
         <Pagination
           isForwardDisabled={isForwardDisabled}

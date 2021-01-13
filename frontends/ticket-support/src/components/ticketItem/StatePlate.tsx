@@ -1,29 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Tooltip from '../../lib/Tooltip'
+import { Badge, Tooltip } from '../../lib/components'
 
-const State = styled.span`
-  border-radius: 8px;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.825rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+const ActiveState = styled(Badge)`
+  background-color: #eaf9ea;
+  color: #44c242;
 `
-const ActiveState = styled(State)`
-  background-color: #00ac93;
-  color: #fff;
+const UnassignedState = styled(Badge)`
+  background-color: #f8ba26;
+  opacity: 0.2;
+  color: #f8ba26;
 `
-const UnassignedState = styled(State)`
-  background-color: #ffb74c;
-  color: #fff;
+const VoidState = styled(Badge)`
+  background-color: #f14d4c;
+  color: #d8d8d8;
 `
-const VoidState = styled(State)`
-  background-color: #ed1846;
-  color: #fff;
-`
-const LockedState = styled(State)`
+const LockedState = styled(Badge)`
   background-color: #0d153a;
   color: #fff;
 `
@@ -32,61 +25,57 @@ const StatePlate = ({ state }: { state: string }) => {
   switch (state) {
     case 'ACTIVE':
       return (
-        <Tooltip
-          content="Ticket hasn't yet been used to login, attend physical event or been voided"
-          title={<ActiveState>Active</ActiveState>}
-        />
+        <Tooltip content="Ticket hasn't yet been used to login, attend physical event or been voided">
+          <ActiveState>Active</ActiveState>
+        </Tooltip>
       )
     case 'CHECKED_IN':
       return (
-        <Tooltip
-          content="Assignee has checked into the physical event"
-          title={<UnassignedState>Checked In</UnassignedState>}
-        />
+        <Tooltip content="Assignee has checked into the physical event">
+          <UnassignedState>Checked In</UnassignedState>
+        </Tooltip>
       )
     case 'LOCKED':
       return (
-        <Tooltip
-          content="Ticket is locked due to logging into our app"
-          title={<LockedState>Locked</LockedState>}
-        />
+        <Tooltip content="Ticket is locked due to logging into our app">
+          <LockedState>Locked</LockedState>
+        </Tooltip>
       )
     case 'VOID':
-      return <Tooltip content="Ticket is voided" title={<VoidState>Void</VoidState>} />
+      return (
+        <Tooltip content="Ticket is voided">
+          <VoidState>Void</VoidState>
+        </Tooltip>
+      )
     case 'ACCEPTED':
       return (
-        <Tooltip
-          content="Assignee has accepted(claimed) the ticket"
-          title={<ActiveState>Accepted</ActiveState>}
-        />
+        <Tooltip content="Assignee has accepted(claimed) the ticket">
+          <ActiveState>Accepted</ActiveState>
+        </Tooltip>
       )
     case 'DUPLICATE':
       return (
-        <Tooltip
-          content="This assignee has duplicate tickets assigned"
-          title={<UnassignedState>Duplicate</UnassignedState>}
-        />
+        <Tooltip content="This assignee has duplicate tickets assigned">
+          <UnassignedState>Duplicate</UnassignedState>
+        </Tooltip>
       )
     case 'PENDING':
       return (
-        <Tooltip
-          content="Assignment waiting for assignees engagement"
-          title={<UnassignedState>Pending</UnassignedState>}
-        />
+        <Tooltip content="Assignment waiting for assignees engagement">
+          <UnassignedState>Pending</UnassignedState>
+        </Tooltip>
       )
     case 'UNASSIGNED':
       return (
-        <Tooltip
-          content="This ticket hasn't yet been assigned"
-          title={<UnassignedState>Unassigned</UnassignedState>}
-        />
+        <Tooltip content="This ticket hasn't yet been assigned">
+          <UnassignedState>Unassigned</UnassignedState>
+        </Tooltip>
       )
     default:
       return (
-        <Tooltip
-          content={`This ticket is in ${state} state`}
-          title={<UnassignedState>{state}</UnassignedState>}
-        />
+        <Tooltip content={`This ticket is in ${state} state`}>
+          <UnassignedState>{state}</UnassignedState>
+        </Tooltip>
       )
   }
 }

@@ -8,20 +8,13 @@ import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
 import { Ticket, TicketType } from '../../lib/types'
 import TicketList from '../ticketList/TicketList'
-import TicketDashboardHeader from './TicketDashboardHeader'
-import {
-  Select,
-  Search,
-  SearchFilters,
-  Filters,
-  MultiSelect,
-  StyledList,
-} from './TicketDashboard.styled'
+import { Select, Search, SearchFilters, Filters, MultiSelect } from './TicketDashboard.styled'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import Pagination from '../../lib/Pagination'
 import { useAppContext } from '../app/AppContext'
 import { searchStateToUrl } from '../../lib/utils/url'
 import useSearchState, { SearchState } from '../../lib/hooks/useSearchState'
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
 
 const TICKETS_PER_PAGE = 20
 
@@ -205,10 +198,9 @@ const TicketDashboard: React.FC = () => {
           )}
         </Filters>
       </SearchFilters>
-      <StyledList>
-        <TicketDashboardHeader />
+      <ContainerCard>
         <TicketList error={error} list={results} loading={loading} />
-      </StyledList>
+      </ContainerCard>
       {!loading && !error && (
         <Pagination
           isForwardDisabled={isForwardDisabled}

@@ -4,13 +4,17 @@ import { Helmet } from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { Tooltip } from '../../lib/components'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
+import TextHeading from '../../lib/components/atoms/Heading'
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import Loader from '../../lib/Loading'
-import Tooltip from '../../lib/Tooltip'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
-import TicketItem from '../ticketItem/TicketItem'
+import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
+import { Ticket } from '../../lib/types'
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -55,11 +59,10 @@ export const TextHighlight = styled.span`
   margin: 0 0.25rem;
 `
 
-export const Button = styled.button`
+export const StyledButton = styled.button`
   margin: 0 0 1rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  border: none;
   border: 1px solid grey;
   background: white;
   cursor: pointer;
@@ -74,9 +77,15 @@ const TicketHeader = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-const TicketStatusBar = styled.div`
+
+const StyledRow = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+`
+
+const ButtonWithSpacing = styled(Button)`
+  margin-right: 16px;
 `
 
 const OrderDetails: React.FC = () => {
@@ -118,7 +127,7 @@ const OrderDetails: React.FC = () => {
         value: orderRef,
       },
       sourceOfSale: {
-        value: 'no data', // e.g. Salesforce (Mocked until integrated to SF)
+        value: 'No data', // e.g. Salesforce (Mocked until integrated to SF)
       },
       status: {
         value: order?.state,
@@ -137,15 +146,11 @@ const OrderDetails: React.FC = () => {
       <StyledContainer>
         <TicketHeader>
           <Heading>
-            <Button type="button" onClick={() => history.goBack()}>
-              Back
-            </Button>
+            <Button onClick={history.goBack}>Back</Button>
             Manage Order/
-            <Tooltip
-              copyToClip
-              title={<TextHighlight>{orderRef}</TextHighlight>}
-              value={orderRef}
-            />
+            <Tooltip copyToClip value={orderRef}>
+              <TextHighlight>{orderRef}</TextHighlight>
+            </Tooltip>
           </Heading>
         </TicketHeader>
         {loading && <Loader />}
@@ -157,18 +162,25 @@ const OrderDetails: React.FC = () => {
         {!loading && !error && (
           <div>
             <div>
+              <StyledRow>
+                <TextHeading>Order management</TextHeading>
+                <div>
+                  <ButtonWithSpacing disabled as={SecondaryButton}>
+                    Cancel order
+                  </ButtonWithSpacing>
+                  <Button disabled>Refund order</Button>
+                </div>
+              </StyledRow>
+
               <hr />
               <OrderDetailsSummary
                 createdOn={orderDetails.createdOn.value}
-                email={orderDetails.email.value}
                 error={mockedError}
                 lastUpdatedOn={orderDetails.lastUpdatedOn.value}
                 loading={mockedLoading}
-                name={orderDetails.name.value}
                 orderReference={orderDetails.orderReference.value}
                 orderStatus={orderDetails.status.value}
                 sourceOfSale={orderDetails.sourceOfSale.value}
-                surname={orderDetails.surname.value}
               />
 
               <Heading>Order summary details</Heading>
@@ -178,17 +190,9 @@ const OrderDetails: React.FC = () => {
             {tickets && tickets.edges?.length > 0 && (
               <div>
                 <hr />
-                <Heading>Tickets</Heading>
-                {tickets.edges.map(({ node }) => (
-                  <TicketItem
-                    assignment={node.assignment}
-                    bookingRef={node.bookingRef}
-                    handleOnClick={() => history.push(`/tickets/${node.bookingRef}`)}
-                    orderOwner={node.order.owner}
-                    ticketState={node.state}
-                    ticketTypeName={node.ticketType.name}
-                  />
-                ))}
+                <ContainerCard color="#DF0079" title="Ticket information">
+                  <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
+                </ContainerCard>
               </div>
             )}
           </div>

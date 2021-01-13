@@ -1,24 +1,24 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import React, { useState } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
+import { useHistory, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 
-import StatePlate from '../ticketItem/StatePlate'
-import TicketClaim from '../ticketActions/TicketClaim'
-import TICKET from '../../operations/queries/Ticket'
+import Loader from '../../lib/Loading'
+import { Tooltip } from '../../lib/components'
 import { Ticket } from '../../lib/types'
+import TICKET from '../../operations/queries/Ticket'
+import { useAppContext } from '../app/AppContext'
+import AuditTrail from '../auditTrail/AuditTrail'
 import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
+import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
+import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
 import TicketAssign from '../ticketActions/TicketAssign'
+import TicketClaim from '../ticketActions/TicketClaim'
+import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
-import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
-import AuditTrail from '../auditTrail/AuditTrail'
-import Tooltip from '../../lib/Tooltip'
-import Loader from '../../lib/Loading'
-import TicketReject from '../ticketActions/TicketReject'
-import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
-import { useAppContext } from '../app/AppContext'
+import StatePlate from '../ticketItem/StatePlate'
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -145,11 +145,9 @@ const ticketDetails: React.FC = () => {
                 Back
               </Button>
               Manage Ticket/
-              <Tooltip
-                copyToClip
-                title={<TextHighlight>{bookingRef}</TextHighlight>}
-                value={bookingRef}
-              />
+              <Tooltip copyToClip value={bookingRef}>
+                <TextHighlight>{bookingRef}</TextHighlight>
+              </Tooltip>
             </Heading>
             <Heading>
               <Button
@@ -189,11 +187,9 @@ const ticketDetails: React.FC = () => {
                 </Text>
                 <Text>
                   Email:
-                  <Tooltip
-                    copyToClip
-                    title={<TextHighlight>{assignee.email}</TextHighlight>}
-                    value={assignee.email}
-                  />
+                  <Tooltip copyToClip value={assignee.email}>
+                    <TextHighlight>{assignee.email}</TextHighlight>
+                  </Tooltip>
                 </Text>
                 {ticket && reassignment && (
                   <div>
@@ -228,25 +224,19 @@ const ticketDetails: React.FC = () => {
                 <Heading>Ticket access information</Heading>
                 <Text>
                   Booking reference:
-                  <Tooltip
-                    copyToClip
-                    title={<TextHighlight>{bookingRef}</TextHighlight>}
-                    value={bookingRef}
-                  />
+                  <Tooltip copyToClip value={bookingRef}>
+                    <TextHighlight>{bookingRef}</TextHighlight>
+                  </Tooltip>
                 </Text>
                 {assignment?.state === 'ACCEPTED' && (
                   <>
                     <Text>
                       App login email:
-                      <Tooltip
-                        copyToClip
-                        title={
-                          <TextHighlight>
-                            {assignment?.appLoginEmail || assignee?.email}
-                          </TextHighlight>
-                        }
-                        value={assignment?.appLoginEmail || assignee?.email}
-                      />
+                      <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
+                        <TextHighlight>
+                          {assignment?.appLoginEmail || assignee?.email}
+                        </TextHighlight>
+                      </Tooltip>
                     </Text>
                     {loginEmailChange && (
                       <UpdateAppLoginEmail
@@ -266,11 +256,9 @@ const ticketDetails: React.FC = () => {
                     <Heading>User account information</Heading>
                     <Text>
                       Identity email:
-                      <Tooltip
-                        copyToClip
-                        title={<TextHighlight>{assignee?.email}</TextHighlight>}
-                        value={assignee?.email}
-                      />
+                      <Tooltip copyToClip value={assignee?.email}>
+                        <TextHighlight>{assignee?.email}</TextHighlight>
+                      </Tooltip>
                     </Text>
                     {identityEmailChange && (
                       <IdentityEmailUpdate
