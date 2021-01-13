@@ -53,10 +53,10 @@ const OrderSummary = ({
   loading,
   error,
   orderType,
-  purchasedTotal, // Computed amount includes Sales Tax minus discount  applied)
+  purchasedTotal,
   discountCodeApplied,
   discountedAmount,
-  salesTaxApplied, // percentage of tax applied and sales tax name . Example 23% VAT -  Web Summit ;  13% HST - Collision.
+  salesTaxApplied,
   ticketPrice,
   billedAmount,
 }: Props): ReactElement => {
