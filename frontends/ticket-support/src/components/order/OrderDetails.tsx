@@ -6,27 +6,23 @@ import styled from 'styled-components'
 
 import { Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import TextHeading from '../../lib/components/atoms/Heading'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import TextHeading from '../../lib/components/atoms/Heading'
 import Loader from '../../lib/Loading'
+import { Ticket } from '../../lib/types'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
-import { Ticket } from '../../lib/types'
+import OrderOwnerDetails from './OrderOwnerDetails'
+import OrderSummary from './OrderSummary'
 
 const StyledContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid grey;
-  hr {
-    border-color: grey;
-    margin: 1rem 0;
-  }
 `
 
 const Heading = styled.div`
@@ -59,6 +55,10 @@ export const TextHighlight = styled.span`
   margin: 0 0.25rem;
 `
 
+const SpacingBottom = styled.div`
+  margin-bottom: 2.5rem;
+`
+
 export const StyledButton = styled.button`
   margin: 0 0 1rem;
   padding: 0.5rem 1rem;
@@ -82,6 +82,8 @@ const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  margin-top: 4rem;
 `
 
 const ButtonWithSpacing = styled(Button)`
@@ -106,35 +108,29 @@ const OrderDetails: React.FC = () => {
   const order = data?.order
   const tickets = order?.tickets
   const owner = order?.owner
+  const missingDataAbbr = 'No data'
 
-  const { loading: mockedLoading, error: mockedError, orderDetails } = {
+  const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
     error: false,
     loading: false,
     orderDetails: {
-      createdOn: {
-        value: order?.completedAt,
-      },
-      email: {
-        value: owner?.email,
-      },
-      lastUpdatedOn: {
-        value: order?.lastUpdatedAt,
-      },
-      name: {
-        value: owner?.firstName,
-      },
-      orderReference: {
-        value: orderRef,
-      },
-      sourceOfSale: {
-        value: 'No data', // e.g. Salesforce (Mocked until integrated to SF)
-      },
-      status: {
-        value: order?.state,
-      },
-      surname: {
-        value: owner?.lastName,
-      },
+      createdOn: order?.completedAt,
+      email: owner?.email,
+      lastUpdatedOn: order?.lastUpdatedAt,
+      name: owner?.firstName,
+      orderReference: orderRef,
+      sourceOfSale: missingDataAbbr, // e.g. Salesforce (Mocked until integrated to SF)
+      status: order?.state,
+      surname: owner?.lastName,
+    },
+    orderSummary: {
+      billedAmount: missingDataAbbr,
+      discountCodeApplied: missingDataAbbr, // Mocked until fully integrated with BE
+      discountedAmount: missingDataAbbr, // Mocked until fully integrated with BE
+      orderType: order?.summary?.ticketType?.name,
+      purchasedTotal: order?.summary?.tickets,
+      salesTaxApplied: missingDataAbbr, // Mocked until fully integrated with BE
+      ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
   }
 
@@ -162,34 +158,54 @@ const OrderDetails: React.FC = () => {
         {!loading && !error && (
           <div>
             <div>
-              <StyledRow>
-                <TextHeading>Order management</TextHeading>
-                <div>
-                  <ButtonWithSpacing disabled as={SecondaryButton}>
-                    Cancel order
-                  </ButtonWithSpacing>
-                  <Button disabled>Refund order</Button>
-                </div>
-              </StyledRow>
+              <SpacingBottom>
+                <StyledRow>
+                  <TextHeading>Order management</TextHeading>
+                  <div>
+                    <ButtonWithSpacing disabled as={SecondaryButton}>
+                      Cancel order
+                    </ButtonWithSpacing>
+                    <Button disabled>Refund order</Button>
+                  </div>
+                </StyledRow>
+              </SpacingBottom>
 
-              <hr />
-              <OrderDetailsSummary
-                createdOn={orderDetails.createdOn.value}
-                error={mockedError}
-                lastUpdatedOn={orderDetails.lastUpdatedOn.value}
-                loading={mockedLoading}
-                orderReference={orderDetails.orderReference.value}
-                orderStatus={orderDetails.status.value}
-                sourceOfSale={orderDetails.sourceOfSale.value}
-              />
+              <SpacingBottom>
+                <OrderDetailsSummary
+                  createdOn={orderDetails.createdOn}
+                  error={mockedError}
+                  lastUpdatedOn={orderDetails.lastUpdatedOn}
+                  loading={mockedLoading}
+                  orderReference={orderDetails.orderReference}
+                  orderStatus={orderDetails.status}
+                  sourceOfSale={orderDetails.sourceOfSale}
+                />
+              </SpacingBottom>
 
-              <Heading>Order summary details</Heading>
-              <div>Order type: {order?.summary?.ticketType?.name}</div>
-              <div>Number of tickets: {order?.summary?.tickets}</div>
+              <SpacingBottom>
+                <OrderOwnerDetails
+                  email={orderDetails.email}
+                  firstName={orderDetails.name}
+                  lastName={orderDetails.surname}
+                />
+              </SpacingBottom>
+
+              <SpacingBottom>
+                <OrderSummary
+                  billedAmount={orderSummary.billedAmount}
+                  discountCodeApplied={orderSummary.discountCodeApplied}
+                  discountedAmount={orderSummary.discountedAmount}
+                  error={mockedError}
+                  loading={mockedLoading}
+                  orderType={orderSummary.orderType}
+                  purchasedTotal={orderSummary.purchasedTotal}
+                  salesTaxApplied={orderSummary.salesTaxApplied}
+                  ticketPrice={orderSummary.ticketPrice}
+                />
+              </SpacingBottom>
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <hr />
                 <ContainerCard color="#DF0079" title="Ticket information">
                   <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
                 </ContainerCard>
