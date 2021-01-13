@@ -150,7 +150,7 @@ const OrderDetails: React.FC = () => {
       <StyledContainer>
         <TicketHeader>
           <Heading>
-            <Button onClick={() => history.goBack()}>Back</Button>
+            <Button onClick={history.goBack}>Back</Button>
             Manage Order/
             <Tooltip copyToClip value={orderRef}>
               <TextHighlight>{orderRef}</TextHighlight>
