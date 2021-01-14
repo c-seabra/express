@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 const ORDER_LIST = gql`
-  query($first: Int, $after: String) {
-    orders(first: $first, after: $after) {
+  query($first: Int, $after: String, $filter: OrderFilter) {
+    orders(first: $first, after: $after, filter: $filter) {
       edges {
         cursor
         node {

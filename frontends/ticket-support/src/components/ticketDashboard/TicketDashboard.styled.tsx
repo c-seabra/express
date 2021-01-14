@@ -1,12 +1,8 @@
 import styled from 'styled-components'
 
-export const StyledList = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: hidden;
-  border-radius: 4px;
-  border: 1px solid grey;
+export const DashboardContainer = styled.div`
+  max-width: 1440px;
+  margin: auto;
 `
 
 export const SearchFilters = styled.div`
@@ -14,6 +10,7 @@ export const SearchFilters = styled.div`
   padding-bottom: 1rem;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 1rem;
 `
 
 export const StyledLabel = styled.label`
