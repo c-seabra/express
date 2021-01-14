@@ -27,6 +27,7 @@ const ColorBar = styled.div<{ color?: string }>`
 const Card = styled.div<{ isColorBar: boolean }>`
   width: 100%;
   border: 1px solid #dde0e5;
+  background-color: #ffffff;
   ${props =>
     props.isColorBar
       ? css`
