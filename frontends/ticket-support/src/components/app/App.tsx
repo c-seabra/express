@@ -1,13 +1,14 @@
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
+import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import OrderDetails from '../order/OrderDetails'
-import TicketDashboard from '../ticketDashboard/TicketDashboard'
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
+import TicketDashboard from '../ticketDashboard/TicketDashboard'
 import TicketDetails from '../ticketDetails/TicketDetails'
 import AppContext from './AppContext'
 
@@ -44,35 +45,38 @@ const App = ({ token }: { token: string }) => {
   const [conferenceSlug, setConferenceSlug] = useState<string>()
 
   return (
-    <AppContext.Provider
-      value={{
-        conferenceSlug,
-        token,
-      }}
-    >
-      <StyledContainer>
-        <Helmet>
-          <link rel="stylesheet" href="https://use.typekit.net/vst7xer.css" />
-        </Helmet>
-        <GlobalStyle />
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <TicketDashboard />
-            </Route>
-            <Route path="/tickets/:bookingRef">
-              <TicketDetails />
-            </Route>
-            <Route path="/order/:orderRef">
-              <OrderDetails />
-            </Route>
-            <Route exact path="/orders">
-              <OrdersDashboard />
-            </Route>
-          </Switch>
-        </Router>
-      </StyledContainer>
-    </AppContext.Provider>
+    <>
+      <MainNavigation />
+      <AppContext.Provider
+        value={{
+          conferenceSlug,
+          token,
+        }}
+      >
+        <StyledContainer>
+          <Helmet>
+            <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+          </Helmet>
+          <GlobalStyle />
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <TicketDashboard />
+              </Route>
+              <Route path="/tickets/:bookingRef">
+                <TicketDetails />
+              </Route>
+              <Route path="/order/:orderRef">
+                <OrderDetails />
+              </Route>
+              <Route exact path="/orders">
+                <OrdersDashboard />
+              </Route>
+            </Switch>
+          </Router>
+        </StyledContainer>
+      </AppContext.Provider>
+    </>
   )
 }
 
