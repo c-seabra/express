@@ -8,7 +8,14 @@ import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
 import { Ticket, TicketType } from '../../lib/types'
 import TicketList from '../ticketList/TicketList'
-import { Select, Search, SearchFilters, Filters, MultiSelect } from './TicketDashboard.styled'
+import {
+  Select,
+  Search,
+  SearchFilters,
+  Filters,
+  MultiSelect,
+  DashboardContainer,
+} from './TicketDashboard.styled'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import Pagination from '../../lib/Pagination'
 import { useAppContext } from '../app/AppContext'
@@ -148,7 +155,7 @@ const TicketDashboard: React.FC = () => {
   }))
 
   return (
-    <div>
+    <DashboardContainer>
       <Helmet>
         <title>Tickets list - Ticket machine</title>
       </Helmet>
@@ -209,7 +216,7 @@ const TicketDashboard: React.FC = () => {
           previousPage={previousPage}
         />
       )}
-    </div>
+    </DashboardContainer>
   )
 }
 

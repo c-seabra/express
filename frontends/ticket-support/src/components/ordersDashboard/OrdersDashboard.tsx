@@ -8,8 +8,14 @@ import ORDER_LIST from '../../operations/queries/OrderList'
 import { useAppContext } from '../app/AppContext'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import OrderList from '../orderList/OrderList'
-import { Filters, Select, SearchFilters } from '../ticketDashboard/TicketDashboard.styled'
+import {
+  Filters,
+  Select,
+  SearchFilters,
+  DashboardContainer,
+} from '../ticketDashboard/TicketDashboard.styled'
 import useSearchState, { SearchState } from '../../lib/hooks/useSearchState'
+import TextHeading from '../../lib/components/atoms/Heading'
 
 const ORDERS_PER_PAGE = 20
 
@@ -69,11 +75,12 @@ const OrdersDashboard = (): ReactElement => {
   }
 
   return (
-    <div>
+    <DashboardContainer>
       <Helmet>
         <title>Orders list - Ticket machine</title>
       </Helmet>
       <SearchFilters>
+        <TextHeading>Manage orders</TextHeading>
         <Filters>
           <Select>
             <span>Order state</span>
@@ -103,7 +110,7 @@ const OrdersDashboard = (): ReactElement => {
           previousPage={previousPage}
         />
       )}
-    </div>
+    </DashboardContainer>
   )
 }
 
