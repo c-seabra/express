@@ -52,26 +52,30 @@ const App = ({ token }: { token: string }) => {
 
   return (
     <>
-      <StyledMainNavigationContainer>
-        <MainNavigation routes={ROUTES} />
-      </StyledMainNavigationContainer>
-      <AppContext.Provider
-        value={{
-          conferenceSlug,
-          token,
-        }}
-      >
-        <StyledContainer>
-          <Helmet>
-            <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          </Helmet>
-          <GlobalStyle />
-          <Router>
+      <Router>
+        <StyledMainNavigationContainer>
+          <MainNavigation routes={ROUTES} />
+        </StyledMainNavigationContainer>
+        <AppContext.Provider
+          value={{
+            conferenceSlug,
+            token,
+          }}
+        >
+          <StyledContainer>
+            <Helmet>
+              <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+              <link
+                href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                rel="stylesheet"
+              />
+            </Helmet>
+            <GlobalStyle />
             <Switch>
               <Route exact path="/">
                 <TicketDashboard />
               </Route>
+              {/* <Route path="ticket-administration/tickets/:bookingRef"> */}
               <Route path="/tickets/:bookingRef">
                 <TicketDetails />
               </Route>
@@ -82,9 +86,9 @@ const App = ({ token }: { token: string }) => {
                 <OrdersDashboard />
               </Route>
             </Switch>
-          </Router>
-        </StyledContainer>
-      </AppContext.Provider>
+          </StyledContainer>
+        </AppContext.Provider>
+      </Router>
     </>
   )
 }

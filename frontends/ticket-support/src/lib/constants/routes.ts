@@ -36,14 +36,18 @@ const ROUTES: Routes = {
     path: 'private-sales',
   },
   TICKET_ADMINISTRATION: {
+    hasChildren: true,
+    isActive: true,
+    meta: { description: 'Ticket administration' },
+    path: 'ticket-administration',
     children: [
       {
         meta: { description: 'Manage tickets' },
-        path: 'tickets',
+        path: '/tickets',
       },
       {
         meta: { description: 'Manage orders' },
-        path: 'orders',
+        path: '/orders',
       },
       {
         isActive: false,
@@ -56,10 +60,6 @@ const ROUTES: Routes = {
         path: 'cancellation-and-refunds',
       },
     ],
-    hasChildren: true,
-    isActive: true,
-    meta: { description: 'Ticket administration' },
-    path: 'ticket-administration',
   },
   REPORTS: {
     isActive: false,

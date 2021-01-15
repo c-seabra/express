@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react'
+import NavLink from 'react-router-dom/NavLink'
 import styled from 'styled-components'
 
 import { Route, Routes } from '../../constants/routes'
@@ -40,7 +41,7 @@ const StyledNavigation = styled.nav`
     display: flex;
 
     &:hover {
-      > .nav_submenu {
+      > .navigation_submenu {
         display: block;
       }
     }
@@ -55,7 +56,7 @@ const StyledDropbox = styled.div`
   border-radius: 2px;
 
   li {
-    padding: 4px 10px;
+    padding: 4px 30px 4px 10px;
 
     &:hover {
       background-color: #f2f3f6;
@@ -69,7 +70,7 @@ const StyledDropbox = styled.div`
 `
 
 type Props = {
-  children: ReactElement
+  children?: ReactElement
   routes?: Routes
 }
 
@@ -80,12 +81,14 @@ const MainNavigation = ({ routes, children }: Props) => {
         Object.values(routes).map((route: Route) => (
           <li key={route.path}>
             <a>{route?.meta?.description}</a>
-            <StyledDropbox className="nav_submenu">
+            <StyledDropbox className="navigation_submenu">
               {route.children &&
                 route.children?.length > 0 &&
                 route.children?.map((childRoute: Route) => (
                   <li key={childRoute.path}>
-                    <a>{childRoute?.meta?.description}</a>
+                    <NavLink activeClassName="active" to={childRoute.path}>
+                      {childRoute?.meta?.description}
+                    </NavLink>
                   </li>
                 ))}
             </StyledDropbox>
