@@ -32,8 +32,9 @@ const StyledContainer = styled.section`
   background-color: #f2f3f6;
 `
 
-const StyledMainNavigation = styled(MainNavigation)`
-  margin: 20px 0;
+const StyledMainNavigationContainer = styled.section`
+  margin: 20px auto;
+  max-width: 1440px;
 `
 
 const App = ({ token }: { token: string }) => {
@@ -51,7 +52,9 @@ const App = ({ token }: { token: string }) => {
 
   return (
     <>
-      <StyledMainNavigation routes={ROUTES} />
+      <StyledMainNavigationContainer>
+        <MainNavigation routes={ROUTES} />
+      </StyledMainNavigationContainer>
       <AppContext.Provider
         value={{
           conferenceSlug,
