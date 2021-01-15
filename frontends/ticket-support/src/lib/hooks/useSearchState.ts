@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { pathToSearchState, searchStateToUrl } from '../utils/url'
+import { pathToSearchState, SearchState, searchStateToUrl } from '../utils/url'
 
-export type SearchState = Record<string, unknown>
-
-type UseSearchStateArgs = {
-  processInitialSearchState?: (searchState: SearchState) => void
+type UseSearchStateArgs<T = SearchState> = {
+  processInitialSearchState?: (searchState: T) => void
 }
 
-const useSearchState = ({ processInitialSearchState }: UseSearchStateArgs) => {
+const useSearchState = <T = SearchState>({ processInitialSearchState }: UseSearchStateArgs<T>) => {
   const location = useLocation()
   const history = useHistory()
   const { pathname } = location
   const asPath = window.location.href
 
-  const [searchState, setSearchState] = useState<SearchState>(pathToSearchState(asPath))
+  const [searchState, setSearchState] = useState<T>(pathToSearchState(asPath) as T)
 
   useEffect(() => {
     if (processInitialSearchState) {
@@ -24,7 +22,8 @@ const useSearchState = ({ processInitialSearchState }: UseSearchStateArgs) => {
   }, [])
 
   useEffect(() => {
-    const url = searchStateToUrl({ pathname, searchState })
+    const state = (searchState as unknown) as SearchState
+    const url = searchStateToUrl({ pathname, searchState: state })
     history.push(url)
   }, [searchState])
 

@@ -13,20 +13,23 @@ import {
   Select,
   SearchFilters,
   DashboardContainer,
+  StyledSearchInput,
 } from '../ticketDashboard/TicketDashboard.styled'
-import useSearchState, { SearchState } from '../../lib/hooks/useSearchState'
+import useSearchState from '../../lib/hooks/useSearchState'
 import TextHeading from '../../lib/components/atoms/Heading'
 
 const ORDERS_PER_PAGE = 20
 
-const OrdersDashboard = (): ReactElement => {
+const useOrdersQuery = ({
+  initialPage,
+  searchQuery,
+  status,
+}: {
+  initialPage: string
+  searchQuery: string
+  status: string
+}) => {
   const { conferenceSlug, token } = useAppContext()
-  const [orderStateFilter, setOrderStateFilter] = useState<string | undefined>()
-
-  const processInitialSearchState = (state: SearchState) => {
-    if (state.orderState) setOrderStateFilter(state.orderState as string)
-  }
-  const { searchState, setSearchState } = useSearchState({ processInitialSearchState })
 
   const context = {
     slug: conferenceSlug,
@@ -34,13 +37,40 @@ const OrdersDashboard = (): ReactElement => {
   }
 
   const filter = {
-    status: orderStateFilter || undefined,
+    status,
   }
 
   const variables = {
     filter,
     first: ORDERS_PER_PAGE,
+    searchQuery,
   }
+
+  return usePaginatedQuery<Order, 'orders', typeof variables, typeof context>({
+    context,
+    initialPage,
+    query: ORDER_LIST,
+    variables,
+  })
+}
+
+type OrderSearchState = {
+  orderState: string
+  page: string
+  searchQuery: string
+}
+
+const OrdersDashboard = (): ReactElement => {
+  const [orderStateFilter, setOrderStateFilter] = useState<string | undefined>()
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const processInitialSearchState = (state: OrderSearchState) => {
+    if (state.orderState) setOrderStateFilter(state.orderState)
+    if (state.searchQuery) setSearchQuery(state.searchQuery)
+  }
+  const { searchState, setSearchState } = useSearchState<OrderSearchState>({
+    processInitialSearchState,
+  })
 
   const {
     loading,
@@ -51,11 +81,10 @@ const OrdersDashboard = (): ReactElement => {
     nextPage,
     previousPage,
     currentPage,
-  } = usePaginatedQuery<Order, 'orders', typeof variables, typeof context>({
-    context,
-    initialPage: searchState?.page as string,
-    query: ORDER_LIST,
-    variables,
+  } = useOrdersQuery({
+    initialPage: searchState.page,
+    searchQuery: searchState.searchQuery,
+    status: searchState.orderState,
   })
 
   useEffect(() => {
@@ -74,6 +103,14 @@ const OrdersDashboard = (): ReactElement => {
     setSearchState({ ...searchState, orderState: event?.target?.value })
   }
 
+  const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const element = e.currentTarget as HTMLInputElement
+      setSearchState({ ...searchState, searchQuery: element.value })
+      setSearchQuery(element.value)
+    }
+  }
+
   return (
     <DashboardContainer>
       <Helmet>
@@ -81,6 +118,14 @@ const OrdersDashboard = (): ReactElement => {
       </Helmet>
       <SearchFilters>
         <TextHeading>Manage orders</TextHeading>
+        <StyledSearchInput
+          defaultValue={searchQuery}
+          placeholder="Search by Order number, order owner’s name or email, company name."
+          type="text"
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          onKeyDown={handleSearchKey}
+        />
         <Filters>
           <Select>
             <span>Order state</span>

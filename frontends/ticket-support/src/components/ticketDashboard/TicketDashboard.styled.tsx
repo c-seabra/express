@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import SearchInput from '../../lib/components/molecules/SearchInput'
+
 export const DashboardContainer = styled.div`
   max-width: 1440px;
   margin: auto;
@@ -21,6 +23,13 @@ export const StyledLabel = styled.label`
     height: 2rem;
     width: 100%;
   }
+`
+
+// TODO-FONT To be removed once proper fonts are implemented
+// current font line height is wrong and forces a negative margin here for alignment
+export const StyledSearchInput = styled(SearchInput)`
+  margin-top: 24px;
+  margin-right: calc(2rem + 1px);
 `
 
 export const Search = styled(StyledLabel)`

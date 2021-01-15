@@ -1,5 +1,9 @@
 import qs from 'qs'
 
+export type SearchState = {
+  [key: string]: string
+}
+
 const filterEmptyStrings = (_: unknown, val: string) => val || undefined
 
 const createURL = (state: Record<string, unknown>) =>
@@ -14,7 +18,7 @@ export const searchStateToUrl = ({
   searchState,
 }: {
   pathname: string
-  searchState: Record<string, unknown>
+  searchState: SearchState
 }) =>
   searchState !== null &&
   typeof searchState === 'object' &&
