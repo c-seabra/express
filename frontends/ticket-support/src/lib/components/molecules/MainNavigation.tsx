@@ -92,6 +92,8 @@ const MainNavigation = ({ routes, children }: Props) => {
             {route.hasChildren && <span className="material-icons">keyboard_arrow_down</span>}
           </li>
         ))}
+
+      {!routes && { children }}
     </StyledNavigation>
   )
 }
