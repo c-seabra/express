@@ -42,10 +42,12 @@ const ROUTES: Routes = {
     path: 'tickets',
     children: [
       {
+        isActive: true,
         meta: { description: 'Manage tickets' },
         path: '/tickets',
       },
       {
+        isActive: true,
         meta: { description: 'Manage orders' },
         path: '/orders',
       },

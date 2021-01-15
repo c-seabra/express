@@ -58,8 +58,13 @@ const StyledDropbox = styled.div`
 
   a {
     &.active {
-      background-color: #f2f3f6;
+      background-color: #f2f3f6 !important;
       font-weight: 600;
+    }
+
+    &.disabled {
+      pointer-events: none;
+      color: gray;
     }
   }
 
@@ -87,7 +92,11 @@ const MainNavigation = ({ routes, children }: Props) => {
       {routes &&
         Object.values(routes).map((route: Route) => (
           <li key={route.path}>
-            <NavLink activeClassName="active" className={!route.isActive && 'disabled' || ''} to={route.path}>
+            <NavLink
+              activeClassName="active"
+              className={route.isActive ? '' : 'disabled'}
+              to={route.path}
+            >
               {route?.meta?.description}
             </NavLink>
             <StyledDropbox className="navigation_submenu">
@@ -95,7 +104,11 @@ const MainNavigation = ({ routes, children }: Props) => {
                 route.children?.length > 0 &&
                 route.children?.map((childRoute: Route) => (
                   <li key={childRoute.path}>
-                    <NavLink activeClassName="active" className={childRoute.isActive && 'disabled' || ''} to={childRoute.path}>
+                    <NavLink
+                      activeClassName="active"
+                      className={childRoute.isActive ? '' : 'disabled'}
+                      to={childRoute.path}
+                    >
                       {childRoute?.meta?.description}
                     </NavLink>
                   </li>
