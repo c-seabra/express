@@ -57,9 +57,13 @@ const StyledDropbox = styled.div`
   z-index: 10;
 
   a {
-    &.active {
-      background-color: #f2f3f6 !important;
+    padding: 4px 30px 4px 10px;
+    width: 100%;
+
+    &.active-dropdown {
+      background-color: #f2f3f6;
       font-weight: 600;
+      color: #0c1439;
     }
 
     &.disabled {
@@ -69,8 +73,6 @@ const StyledDropbox = styled.div`
   }
 
   li {
-    padding: 4px 30px 4px 10px;
-
     &:hover {
       background-color: #f2f3f6;
       font-size: 14px;
@@ -105,7 +107,7 @@ const MainNavigation = ({ routes, children }: Props) => {
                 route.children?.map((childRoute: Route) => (
                   <li key={childRoute.path}>
                     <NavLink
-                      activeClassName="active"
+                      activeClassName="active-dropdown"
                       className={childRoute.isActive ? '' : 'disabled'}
                       to={childRoute.path}
                     >
