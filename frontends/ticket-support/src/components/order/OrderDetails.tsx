@@ -108,7 +108,7 @@ const OrderDetails: React.FC = () => {
   const order = data?.order
   const tickets = order?.tickets
   const owner = order?.owner
-  const missingDataAbbr = 'No data'
+  const missingDataAbbr = 'N/A'
 
   const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
     error: false,
