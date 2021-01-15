@@ -206,7 +206,7 @@ const OrderDetails: React.FC = () => {
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <ContainerCard color="#DF0079" title="Ticket information">
+                <ContainerCard color="#DF0079" title="Ticket information" noPadding>
                   <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
                 </ContainerCard>
               </div>

@@ -51,23 +51,30 @@ const Title = styled.div`
   margin-bottom: 40px;
 `
 
-const ChildrenWrapper = styled.div`
+const ChildrenWrapper = styled.div<{ noPadding?: boolean }>`
   padding: 1rem 1.8rem 1.8rem;
+
+  ${props =>
+    props.noPadding &&
+    css`
+      padding: 0;
+    `}
 `
 
 type ContainerCardProps = {
   children?: ReactElement | ReactElement[]
   className?: string
   color?: string
+  noPadding?: boolean
   title?: string
 }
 
-const ContainerCard = ({ children, color, className, title }: ContainerCardProps): ReactElement => {
+const ContainerCard = ({ children, color, noPadding, className, title }: ContainerCardProps): ReactElement => {
   return (
     <Container className={className}>
       {color && <ColorBar color={color} />}
       <Card isColorBar={!!color}>
-        <ChildrenWrapper>
+        <ChildrenWrapper noPadding={noPadding}>
           {title && <Title>{title}</Title>}
           {children}
         </ChildrenWrapper>
