@@ -11,16 +11,19 @@ export type Route = {
 export type Routes = {
   [routeName: string]: Route
 }
-
+// Order is important here for rendering purpose
+// eslint-disable-next-line sort-keys
 const ROUTES: Routes = {
-  CUSTOMISATION: {
-    isActive: false,
-    meta: { description: 'Customisation' },
-    path: 'customisation',
-  },
   DASHBOARD: {
     isActive: false,
+    meta: { description: 'Dashboard' },
     path: 'dashboard',
+  },
+  TICKET_CONFIGURATION: {
+    hasChildren: true,
+    isActive: false,
+    meta: { description: 'Ticket configuration' },
+    path: 'ticket-configuration',
   },
   DISCOUNTS: {
     hasChildren: true,
@@ -33,11 +36,6 @@ const ROUTES: Routes = {
     isActive: false,
     meta: { description: 'Private sales' },
     path: 'private-sales',
-  },
-  REPORTS: {
-    isActive: false,
-    meta: { description: 'Reports' },
-    path: 'reports',
   },
   TICKET_ADMINISTRATION: {
     children: [
@@ -65,11 +63,15 @@ const ROUTES: Routes = {
     meta: { description: 'Ticket administration' },
     path: 'ticket-administration',
   },
-  TICKET_CONFIGURATION: {
-    hasChildren: true,
+  REPORTS: {
     isActive: false,
-    meta: { description: 'Ticket configuration' },
-    path: 'ticket-configuration',
+    meta: { description: 'Reports' },
+    path: 'reports',
+  },
+  CUSTOMISATION: {
+    isActive: false,
+    meta: { description: 'Customisation' },
+    path: 'customisation',
   },
 }
 
