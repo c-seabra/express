@@ -39,7 +39,7 @@ const ROUTES: Routes = {
     hasChildren: true,
     isActive: true,
     meta: { description: 'Ticket administration' },
-    path: 'ticket-administration',
+    path: 'tickets',
     children: [
       {
         meta: { description: 'Manage tickets' },

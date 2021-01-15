@@ -26,13 +26,13 @@ const StyledNavigation = styled.nav`
       transition: all 0.3s ease-out;
     }
 
-    &.active {
-      color: #0067e9;
-      font-weight: 600;
+    &.disabled {
+      pointer-events: none;
+      color: gray;
     }
 
-    &.inactive {
-      color: gray;
+    &.active {
+      color: #0067e9;
       font-weight: 600;
     }
   }
@@ -54,13 +54,20 @@ const StyledDropbox = styled.div`
   border: 1px solid #dbdfe6;
   background-color: white;
   border-radius: 2px;
+  z-index: 10;
+
+  a {
+    &.active {
+      background-color: #f2f3f6;
+      font-weight: 600;
+    }
+  }
 
   li {
     padding: 4px 30px 4px 10px;
 
     &:hover {
       background-color: #f2f3f6;
-      color: #0c1439;
       font-size: 14px;
       letter-spacing: 0;
       line-height: 30px;
@@ -80,13 +87,15 @@ const MainNavigation = ({ routes, children }: Props) => {
       {routes &&
         Object.values(routes).map((route: Route) => (
           <li key={route.path}>
-            <a>{route?.meta?.description}</a>
+            <NavLink activeClassName="active" className={!route.isActive && 'disabled' || ''} to={route.path}>
+              {route?.meta?.description}
+            </NavLink>
             <StyledDropbox className="navigation_submenu">
               {route.children &&
                 route.children?.length > 0 &&
                 route.children?.map((childRoute: Route) => (
                   <li key={childRoute.path}>
-                    <NavLink activeClassName="active" to={childRoute.path}>
+                    <NavLink activeClassName="active" className={childRoute.isActive && 'disabled' || ''} to={childRoute.path}>
                       {childRoute?.meta?.description}
                     </NavLink>
                   </li>
