@@ -16,7 +16,7 @@ import AppContext from './AppContext'
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: "Inter";
-    src: url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,700;1,400&display=swap')
+    src: url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap')
   }
   html {
     font-size: 16px;
