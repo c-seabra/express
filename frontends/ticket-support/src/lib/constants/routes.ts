@@ -26,13 +26,11 @@ const ROUTES: Routes = {
     path: 'ticket-configuration',
   },
   DISCOUNTS: {
-    hasChildren: true,
     isActive: false,
     meta: { description: 'Discounts' },
     path: 'discounts',
   },
   PRIVATE_SALES: {
-    hasChildren: true,
     isActive: false,
     meta: { description: 'Private sales' },
     path: 'private-sales',
@@ -40,20 +38,20 @@ const ROUTES: Routes = {
   TICKET_ADMINISTRATION: {
     children: [
       {
-        isActive: true,
         meta: { description: 'Manage tickets' },
         path: 'tickets',
       },
       {
-        isActive: true,
         meta: { description: 'Manage orders' },
         path: 'orders',
       },
       {
+        isActive: false,
         meta: { description: 'Upgrade' },
         path: 'upgrade',
       },
       {
+        isActive: false,
         meta: { description: 'Cancellation and refunds' },
         path: 'cancellation-and-refunds',
       },
