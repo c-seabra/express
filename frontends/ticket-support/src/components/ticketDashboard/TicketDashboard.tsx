@@ -3,25 +3,24 @@ import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import SearchIcon from '../../lib/svgs/search'
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import SearchInput from '../../lib/components/molecules/SearchInput'
+import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
+import useSearchState from '../../lib/hooks/useSearchState'
+import Pagination from '../../lib/Pagination'
+import { Ticket, TicketType } from '../../lib/types'
+import { searchStateToUrl } from '../../lib/utils/url'
 import TICKET_LIST from '../../operations/queries/TicketList'
 import TICKET_TYPES from '../../operations/queries/TickeTypes'
-import { Ticket, TicketType } from '../../lib/types'
+import { useAppContext } from '../app/AppContext'
 import TicketList from '../ticketList/TicketList'
 import {
-  Select,
-  Search,
-  SearchFilters,
+  DashboardContainer,
   Filters,
   MultiSelect,
-  DashboardContainer,
+  SearchFilters,
+  Select,
 } from './TicketDashboard.styled'
-import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
-import Pagination from '../../lib/Pagination'
-import { useAppContext } from '../app/AppContext'
-import { searchStateToUrl } from '../../lib/utils/url'
-import useSearchState, { SearchState } from '../../lib/hooks/useSearchState'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
 
 const TICKETS_PER_PAGE = 20
 
@@ -36,6 +35,48 @@ export enum TicketFilterStatus {
   VOID = 'Void',
 }
 
+const useTicketsQuery = ({
+  initialPage,
+  searchQuery,
+  ticketStatusFilter,
+  ticketTypesFilter,
+}: {
+  initialPage: string
+  searchQuery: string
+  ticketStatusFilter?: string
+  ticketTypesFilter?: (string | undefined)[]
+}) => {
+  const { conferenceSlug, token } = useAppContext()
+
+  const variables = {
+    filter: {
+      status: ticketStatusFilter,
+      ticketTypeIds: ticketTypesFilter,
+    },
+    first: TICKETS_PER_PAGE,
+    searchQuery,
+  }
+
+  const context = {
+    slug: conferenceSlug,
+    token,
+  }
+
+  return usePaginatedQuery<Ticket, 'tickets', typeof variables, typeof context>({
+    context,
+    initialPage,
+    query: TICKET_LIST,
+    variables,
+  })
+}
+
+type TicketSearchState = {
+  page: string
+  search: string
+  ticketStatus: string
+  ticketTypeIds: string
+}
+
 const TicketDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
   const location = useLocation()
@@ -45,31 +86,19 @@ const TicketDashboard: React.FC = () => {
   const [ticketStatusFilter, setTicketStatusFilter] = useState<string | undefined>()
   const [ticketTypesFilter, setTicketTypesFilter] = useState<Array<string | undefined>>()
 
-  const processInitialSearchState = (state: SearchState) => {
-    if (state.search) setSearchQuery(state.search as string)
-    if (state.ticketStatus) setTicketStatusFilter(state.ticketStatus as string)
+  const processInitialSearchState = (state: TicketSearchState) => {
+    if (state.search) setSearchQuery(state.search)
+    if (state.ticketStatus) setTicketStatusFilter(state.ticketStatus)
     if (state.ticketTypeIds) {
-      const fixTypeTicketTypeIds = state.ticketTypeIds as string
+      const fixTypeTicketTypeIds = state.ticketTypeIds
       const ticketTypeIdsArray = fixTypeTicketTypeIds.split(',')
       setTicketTypesFilter(ticketTypeIdsArray)
     }
   }
 
-  const { searchState, setSearchState } = useSearchState({ processInitialSearchState })
-
-  const variables = {
-    filter: {
-      status: ticketStatusFilter,
-      ticketTypeIds: ticketTypesFilter,
-    },
-    first: TICKETS_PER_PAGE,
-    searchQuery: searchState.search,
-  }
-
-  const context = {
-    slug: conferenceSlug,
-    token,
-  }
+  const { searchState, setSearchState } = useSearchState<TicketSearchState>({
+    processInitialSearchState,
+  })
 
   const {
     results,
@@ -81,11 +110,11 @@ const TicketDashboard: React.FC = () => {
     nextPage,
     previousPage,
     resetPage,
-  } = usePaginatedQuery<Ticket, 'tickets', typeof variables, typeof context>({
-    context,
-    initialPage: searchState?.page as string,
-    query: TICKET_LIST,
-    variables,
+  } = useTicketsQuery({
+    initialPage: searchState.page,
+    searchQuery: searchState.search,
+    ticketStatusFilter,
+    ticketTypesFilter,
   })
 
   useEffect(() => {
@@ -160,16 +189,13 @@ const TicketDashboard: React.FC = () => {
         <title>Tickets list - Ticket machine</title>
       </Helmet>
       <SearchFilters>
-        <Search>
-          <SearchIcon />
-          <input
-            defaultValue={searchQuery}
-            placeholder="Search by name, reference or email of ticket or order"
-            type="text"
-            onChange={e => setSearchQuery(e.target.value)}
-            onKeyDown={handleSearchKey}
-          />
-        </Search>
+        <SearchInput
+          defaultValue={searchQuery}
+          placeholder="Search by name, reference or email of ticket or order"
+          type="text"
+          onChange={e => setSearchQuery(e.target.value)}
+          onKeyDown={handleSearchKey}
+        />
         <Filters>
           <Select>
             <span>Ticket status</span>
