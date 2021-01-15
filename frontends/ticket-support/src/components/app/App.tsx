@@ -32,6 +32,10 @@ const StyledContainer = styled.section`
   background-color: #f2f3f6;
 `
 
+const StyledMainNavigation = styled(MainNavigation)`
+  margin: 0 20px;
+`
+
 const App = ({ token }: { token: string }) => {
   if (!token) return null
   const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
@@ -47,7 +51,7 @@ const App = ({ token }: { token: string }) => {
 
   return (
     <>
-      <MainNavigation routes={ROUTES} />
+      <StyledMainNavigation routes={ROUTES} />
       <AppContext.Provider
         value={{
           conferenceSlug,
