@@ -8,17 +8,25 @@ const StyledNavigation = styled.nav`
   list-style: none;
 
   > :not(:first-child) {
-    margin-left: 1rem;
+    margin-left: 2rem;
   }
 
   a {
+    color: #0c1439;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
     font-weight: 300;
-    color: gray;
     text-decoration: none;
-    font-size: 1.25rem;
+
     &.active {
-      color: blue;
+      color: #0067e9;
+      font-weight: 600;
     }
+  }
+
+  li {
+    display: flex;
   }
 `
 
@@ -33,6 +41,7 @@ const MainNavigation = ({ routes }: Props) => {
         Object.values(routes).map((route: Route) => (
           <li key={route.path}>
             <a>{route?.meta?.description}</a>
+            {route.hasChildren && <span className="material-icons">keyboard_arrow_down</span>}
           </li>
         ))}
     </StyledNavigation>

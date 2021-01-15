@@ -33,7 +33,7 @@ const StyledContainer = styled.section`
 `
 
 const StyledMainNavigation = styled(MainNavigation)`
-  margin: 0 20px;
+  margin: 20px 0;
 `
 
 const App = ({ token }: { token: string }) => {
@@ -61,6 +61,7 @@ const App = ({ token }: { token: string }) => {
         <StyledContainer>
           <Helmet>
             <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
           </Helmet>
           <GlobalStyle />
           <Router>
