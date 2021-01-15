@@ -1,21 +1,17 @@
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
 import OrderDetails from '../order/OrderDetails'
-import TicketDashboard from '../ticketDashboard/TicketDashboard'
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
+import TicketDashboard from '../ticketDashboard/TicketDashboard'
 import TicketDetails from '../ticketDetails/TicketDetails'
 import AppContext from './AppContext'
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: "Inter";
-    src: url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,700;1,400&display=swap')
-  }
   html {
     font-size: 16px;
   }
@@ -52,7 +48,12 @@ const App = ({ token }: { token: string }) => {
     >
       <StyledContainer>
         <Helmet>
-          <link rel="stylesheet" href="https://use.typekit.net/vst7xer.css" />
+          <link href="https://fonts.gstatic.com" rel="preconnect" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300...700&display=swap"
+            rel="stylesheet"
+          />
+          <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
         </Helmet>
         <GlobalStyle />
         <Router>
