@@ -6,6 +6,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
+import ROUTES from '../../lib/constants/routes'
 import OrderDetails from '../order/OrderDetails'
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
@@ -46,7 +47,7 @@ const App = ({ token }: { token: string }) => {
 
   return (
     <>
-      <MainNavigation />
+      <MainNavigation routes={ROUTES} />
       <AppContext.Provider
         value={{
           conferenceSlug,

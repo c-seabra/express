@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Route, Routes } from '../../constants/routes'
+
 const StyledNavigation = styled.nav`
   display: flex;
   list-style: none;
@@ -12,6 +14,7 @@ const StyledNavigation = styled.nav`
   a {
     font-weight: 300;
     color: gray;
+    text-decoration: none;
     font-size: 1.25rem;
     &.active {
       color: blue;
@@ -19,15 +22,19 @@ const StyledNavigation = styled.nav`
   }
 `
 
-const MainNavigation = props => {
+type Props = {
+  routes: Routes
+}
+
+const MainNavigation = ({ routes }: Props) => {
   return (
-    <StyledNavigation {...props}>
-      <li>
-        <a href="/tickets">Tickets</a>
-      </li>
-      <li>
-        <a href="/orders">Orders</a>
-      </li>
+    <StyledNavigation>
+      {routes &&
+        Object.values(routes).map((route: Route) => (
+          <li key={route.path}>
+            <a>{route?.meta?.description}</a>
+          </li>
+        ))}
     </StyledNavigation>
   )
 }
