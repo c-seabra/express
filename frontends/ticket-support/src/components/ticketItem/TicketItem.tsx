@@ -22,6 +22,7 @@ const StyledListItem = styled.li`
   display: flex;
   padding: 1rem 0.75rem;
   background-color: white;
+  color: #0c1439;
 
   border-bottom: 1px solid #dde0e5;
 
