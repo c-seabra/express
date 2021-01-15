@@ -39,13 +39,18 @@ const Card = styled.div<{ isColorBar: boolean }>`
         `}
 `
 
-const Title = styled.div`
+const Title = styled.div<{ noPadding?: boolean }>`
   color: #0c1439;
   font-family: 'azo-sans-web';
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.5px;
   line-height: 32px;
+  ${props =>
+    props.noPadding &&
+    css`
+      padding: 1rem 1.8rem 0;
+    `}
 
   // TODO PP: spacing needs to be evaluated as modifier to box
   margin-bottom: 40px;
@@ -69,13 +74,19 @@ type ContainerCardProps = {
   title?: string
 }
 
-const ContainerCard = ({ children, color, noPadding, className, title }: ContainerCardProps): ReactElement => {
+const ContainerCard = ({
+  children,
+  color,
+  noPadding,
+  className,
+  title,
+}: ContainerCardProps): ReactElement => {
   return (
     <Container className={className}>
       {color && <ColorBar color={color} />}
       <Card isColorBar={!!color}>
         <ChildrenWrapper noPadding={noPadding}>
-          {title && <Title>{title}</Title>}
+          {title && <Title noPadding={noPadding}>{title}</Title>}
           {children}
         </ChildrenWrapper>
       </Card>

@@ -20,7 +20,7 @@ const Email = styled(ColumnStyles)`
 const StyledListItem = styled.li`
   font-size: 0.85rem;
   display: flex;
-  padding: 1rem 0.75rem;
+  padding: 1rem 1.5rem;
   background-color: white;
   color: #0c1439;
 
