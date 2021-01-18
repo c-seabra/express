@@ -23,7 +23,8 @@ export const Button = styled.button`
   border: 1px solid #0067e9;
   letter-spacing: 0;
   transition: all 0.3s ease-out;
-  height: 50px;
+  line-height: 24px;
+  height: 36px;
 
   cursor: pointer;
 
