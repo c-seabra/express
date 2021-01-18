@@ -1,22 +1,23 @@
-import React, { ChangeEvent, ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
+import CategoryList, { CategoryItem } from '../../lib/components/atoms/CategoryList'
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import TextHeading from '../../lib/components/atoms/Heading'
+import PopupButton from '../../lib/components/molecules/PopupButton'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
+import useSearchState from '../../lib/hooks/useSearchState'
 import Pagination from '../../lib/Pagination'
 import { Order, OrderState } from '../../lib/types'
 import ORDER_LIST from '../../operations/queries/OrderList'
 import { useAppContext } from '../app/AppContext'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import OrderList from '../orderList/OrderList'
 import {
-  Filters,
-  Select,
-  SearchFilters,
   DashboardContainer,
+  FiltersSearchContainer,
+  SearchFilters,
   StyledSearchInput,
 } from '../ticketDashboard/TicketDashboard.styled'
-import useSearchState from '../../lib/hooks/useSearchState'
-import TextHeading from '../../lib/components/atoms/Heading'
 
 const ORDERS_PER_PAGE = 20
 
@@ -27,7 +28,7 @@ const useOrdersQuery = ({
 }: {
   initialPage: string
   searchQuery: string
-  status: string
+  status?: string
 }) => {
   const { conferenceSlug, token } = useAppContext()
 
@@ -55,19 +56,18 @@ const useOrdersQuery = ({
 }
 
 type OrderSearchState = {
-  orderState: string
+  orderState?: string
   page: string
   searchQuery: string
 }
 
 const OrdersDashboard = (): ReactElement => {
-  const [orderStateFilter, setOrderStateFilter] = useState<string | undefined>()
   const [searchQuery, setSearchQuery] = useState('')
 
   const processInitialSearchState = (state: OrderSearchState) => {
-    if (state.orderState) setOrderStateFilter(state.orderState)
     if (state.searchQuery) setSearchQuery(state.searchQuery)
   }
+
   const { searchState, setSearchState } = useSearchState<OrderSearchState>({
     processInitialSearchState,
   })
@@ -93,14 +93,25 @@ const OrdersDashboard = (): ReactElement => {
     }
   }, [currentPage])
 
-  const handleOrderStatusFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    if (event?.target?.value) {
-      setOrderStateFilter(event.target.value)
-    } else {
-      setOrderStateFilter(undefined)
-    }
+  const orderStatusOptions = [
+    ...Object.keys(OrderState).map(key => ({
+      isSelected: key === searchState.orderState,
+      label: key.charAt(0).toUpperCase() + key.slice(1).toLowerCase(),
+      value: key,
+    })),
+    { isSelected: false, label: 'All', value: 'all' },
+  ]
 
-    setSearchState({ ...searchState, orderState: event?.target?.value })
+  const handleOrderStatusFilterChange = ({ isSelected, value }: CategoryItem) => {
+    if (!isSelected) {
+      if (value === 'all') {
+        setSearchState({ ...searchState, orderState: undefined })
+      } else {
+        setSearchState({ ...searchState, orderState: value })
+      }
+    } else {
+      setSearchState({ ...searchState, orderState: undefined })
+    }
   }
 
   const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -118,31 +129,24 @@ const OrdersDashboard = (): ReactElement => {
       </Helmet>
       <SearchFilters>
         <TextHeading>Manage orders</TextHeading>
-        <StyledSearchInput
-          defaultValue={searchQuery}
-          placeholder="Search by Order number, order owner’s name or email, company name."
-          type="text"
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-          onKeyDown={handleSearchKey}
-        />
-        <Filters>
-          <Select>
-            <span>Order state</span>
-            <select
-              name="filter[state]"
-              value={orderStateFilter}
-              onChange={handleOrderStatusFilterChange}
-            >
-              <option value="">All</option>
-              {Object.keys(OrderState).map(key => (
-                <option key={key} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select>
-          </Select>
-        </Filters>
+        <FiltersSearchContainer>
+          <StyledSearchInput
+            defaultValue={searchQuery}
+            placeholder="Search by Order number, order owner’s name or email, company name."
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={handleSearchKey}
+          />
+          <PopupButton buttonText="Filters">
+            <CategoryList
+              headerColor="#CB1977"
+              items={orderStatusOptions}
+              title="Order status"
+              onSingleClick={handleOrderStatusFilterChange}
+            />
+          </PopupButton>
+        </FiltersSearchContainer>
       </SearchFilters>
       <ContainerCard>
         <OrderList error={error} list={results} loading={loading} />

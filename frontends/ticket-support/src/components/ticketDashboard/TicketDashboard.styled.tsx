@@ -25,11 +25,24 @@ export const StyledLabel = styled.label`
   }
 `
 
+export const FiltersSearchContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  & > div {
+    margin-left: 1rem;
+  }
+`
+
 // TODO-FONT To be removed once proper fonts are implemented
 // current font line height is wrong and forces a negative margin here for alignment
 export const StyledSearchInput = styled(SearchInput)`
+  // Remove these offsets
   margin-top: 24px;
   margin-right: calc(2rem + 1px);
+
+  width: 450px;
 `
 
 export const Search = styled(StyledLabel)`
