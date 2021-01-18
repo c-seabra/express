@@ -231,7 +231,7 @@ const TicketDashboard: React.FC = () => {
           )}
         </Filters>
       </SearchFilters>
-      <ContainerCard>
+      <ContainerCard noPadding>
         <TicketList error={error} list={results} loading={loading} />
       </ContainerCard>
       {!loading && !error && (

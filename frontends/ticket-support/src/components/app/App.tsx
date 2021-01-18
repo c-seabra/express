@@ -14,10 +14,6 @@ import TicketDetails from '../ticketDetails/TicketDetails'
 import AppContext from './AppContext'
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: "Inter";
-    src: url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap')
-  }
   html {
     font-size: 16px;
   }
@@ -64,7 +60,13 @@ const App = ({ token }: { token: string }) => {
         >
           <StyledContainer>
             <Helmet>
+              <link href="https://fonts.gstatic.com" rel="preconnect" />
+              <link
+                href="https://fonts.googleapis.com/css2?family=Inter:wght@300...700&display=swap"
+                rel="stylesheet"
+              />
               <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+
               <link
                 href="https://fonts.googleapis.com/icon?family=Material+Icons"
                 rel="stylesheet"
