@@ -28,7 +28,8 @@ export const StyledLabel = styled.label`
 export const FiltersSearchContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: flex-end;
+  margin-right: 4px;
 
   & > div {
     margin-left: 1rem;

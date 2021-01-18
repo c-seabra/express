@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet'
 
 import CategoryList, { CategoryItem } from '../../lib/components/atoms/CategoryList'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import FilterButton from '../../lib/components/atoms/FilterButton'
 import TextHeading from '../../lib/components/atoms/Heading'
 import PopupButton from '../../lib/components/molecules/PopupButton'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
@@ -138,7 +139,7 @@ const OrdersDashboard = (): ReactElement => {
             onChange={e => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKey}
           />
-          <PopupButton buttonText="Filters">
+          <PopupButton renderButton={props => <FilterButton {...props} />}>
             <CategoryList
               headerColor="#CB1977"
               items={orderStatusOptions}

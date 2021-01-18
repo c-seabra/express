@@ -12,17 +12,19 @@ const Container = styled.div`
 type PopupButtonProps = {
   buttonText?: string
   children?: ReactElement | ReactElement[] | string
-  customButton?: ReactElement
+  renderButton?: ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => ReactElement
 }
 
-const PopupButton = ({ buttonText, customButton, children }: PopupButtonProps) => {
+const PopupButton = ({ buttonText, renderButton, children }: PopupButtonProps) => {
   const [isOpen, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const togglePopup = () => setOpen(p => !p)
+
   return (
     <Container ref={containerRef}>
-      {customButton || (
-        <Button type="button" onClick={() => setOpen(p => !p)}>
+      {!renderButton || renderButton({ isOpen, onClick: togglePopup }) || (
+        <Button type="button" onClick={togglePopup}>
           {buttonText}
         </Button>
       )}
