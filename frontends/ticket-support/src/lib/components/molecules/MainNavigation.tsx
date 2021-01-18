@@ -39,6 +39,7 @@ const StyledNavigation = styled.nav`
 
   li {
     display: flex;
+    position: relative;
 
     &:hover {
       > .navigation_submenu {
@@ -50,7 +51,7 @@ const StyledNavigation = styled.nav`
 const StyledDropbox = styled.div`
   display: none;
   position: absolute;
-  top: 45px;
+  top: 24px;
   border: 1px solid #dbdfe6;
   background-color: white;
   border-radius: 2px;
