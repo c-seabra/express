@@ -47,53 +47,48 @@ const App = ({ token }: { token: string }) => {
   const [conferenceSlug, setConferenceSlug] = useState<string>()
 
   return (
-    <>
-      <Router>
-        <StyledMainNavigationContainer>
-          <MainNavigation routes={ROUTES} />
-        </StyledMainNavigationContainer>
-        <AppContext.Provider
-          value={{
-            conferenceSlug,
-            token,
-          }}
-        >
-          <StyledContainer>
-            <Helmet>
-              <link href="https://fonts.gstatic.com" rel="preconnect" />
-              <link
-                href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-                rel="stylesheet"
-              />
-              <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+    <Router>
+      <StyledMainNavigationContainer>
+        <MainNavigation routes={ROUTES} />
+      </StyledMainNavigationContainer>
+      <AppContext.Provider
+        value={{
+          conferenceSlug,
+          token,
+        }}
+      >
+        <StyledContainer>
+          <Helmet>
+            <link href="https://fonts.gstatic.com" rel="preconnect" />
+            <link
+              href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet"
+            />
+            <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
 
-              <link
-                href="https://fonts.googleapis.com/icon?family=Material+Icons"
-                rel="stylesheet"
-              />
-            </Helmet>
-            <GlobalStyle />
-            <Switch>
-              <Route exact path="/">
-                <Redirect to="/tickets" />
-              </Route>
-              <Route path="/tickets">
-                <TicketDashboard />
-              </Route>
-              <Route path="/ticket/:bookingRef">
-                <TicketDetails />
-              </Route>
-              <Route path="/order/:orderRef">
-                <OrderDetails />
-              </Route>
-              <Route exact path="/orders">
-                <OrdersDashboard />
-              </Route>
-            </Switch>
-          </StyledContainer>
-        </AppContext.Provider>
-      </Router>
-    </>
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+          </Helmet>
+          <GlobalStyle />
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/tickets" />
+            </Route>
+            <Route path="/tickets">
+              <TicketDashboard />
+            </Route>
+            <Route path="/ticket/:bookingRef">
+              <TicketDetails />
+            </Route>
+            <Route path="/order/:orderRef">
+              <OrderDetails />
+            </Route>
+            <Route exact path="/orders">
+              <OrdersDashboard />
+            </Route>
+          </Switch>
+        </StyledContainer>
+      </AppContext.Provider>
+    </Router>
   )
 }
 
