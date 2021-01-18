@@ -29,6 +29,7 @@ export const Search = styled(StyledLabel)`
     padding-left: 2rem;
     border: 1px solid #dcdfe5;
     border-radius: 4px;
+    font-weight: 300;
   }
 `
 
