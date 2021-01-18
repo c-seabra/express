@@ -31,7 +31,7 @@ const TicketList = ({ list = [], loading, error }: TicketListProps): ReactElemen
           key={ticket.bookingRef}
           assignment={ticket.assignment}
           bookingRef={ticket.bookingRef}
-          handleOnClick={() => history.push(`/tickets/${ticket.bookingRef}`)}
+          handleOnClick={() => history.push(`/ticket/${ticket.bookingRef}`)}
           orderOwner={ticket.order.owner}
           ticketState={ticket.state}
           ticketTypeName={ticket.ticketType.name}

@@ -12,6 +12,12 @@ const ColumnStyles = styled.div`
 const Column = styled(ColumnStyles)`
   width: 10%;
 `
+
+const TicketReference = styled(ColumnStyles)`
+  width: 10%;
+  color: #0067e9;
+`
+
 const Email = styled(ColumnStyles)`
   width: 20%;
   white-space: pre-wrap;
@@ -20,8 +26,9 @@ const Email = styled(ColumnStyles)`
 const StyledListItem = styled.li`
   font-size: 0.85rem;
   display: flex;
-  padding: 1rem 0.75rem;
+  padding: 1rem 1.5rem;
   background-color: white;
+  color: #0c1439;
 
   border-bottom: 1px solid #dde0e5;
 
@@ -99,7 +106,7 @@ const TicketItem = ({
 
   return (
     <StyledListItem onClick={handleOnClick}>
-      <Column>{bookingRef}</Column>
+      <TicketReference>{bookingRef}</TicketReference>
       <Column>{orderOwner?.firstName}</Column>
       <Column>{orderOwner?.lastName}</Column>
       <Column>{ticketTypeName}</Column>
