@@ -144,7 +144,7 @@ const OrdersDashboard = (): ReactElement => {
           </Select>
         </Filters>
       </SearchFilters>
-      <ContainerCard>
+      <ContainerCard noPadding>
         <OrderList error={error} list={results} loading={loading} />
       </ContainerCard>
       {!loading && !error && (
