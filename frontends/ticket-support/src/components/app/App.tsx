@@ -74,13 +74,10 @@ const App = ({ token }: { token: string }) => {
             </Helmet>
             <GlobalStyle />
             <Switch>
-              <Route exact path="/">
-                <Redirect to="/tickets" />
-              </Route>
               <Route path="/tickets">
                 <TicketDashboard />
               </Route>
-              <Route path="/tickets/:bookingRef">
+              <Route path="/ticket/:bookingRef">
                 <TicketDetails />
               </Route>
               <Route path="/order/:orderRef">
