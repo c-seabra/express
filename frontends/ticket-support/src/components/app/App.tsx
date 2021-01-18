@@ -1,10 +1,12 @@
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
+import MainNavigation from '../../lib/components/molecules/MainNavigation'
+import ROUTES from '../../lib/constants/routes'
 import OrderDetails from '../order/OrderDetails'
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
@@ -26,6 +28,11 @@ const StyledContainer = styled.section`
   background-color: #f2f3f6;
 `
 
+const StyledMainNavigationContainer = styled.section`
+  margin: 20px auto;
+  max-width: 1440px;
+`
+
 const App = ({ token }: { token: string }) => {
   if (!token) return null
   const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
@@ -40,28 +47,36 @@ const App = ({ token }: { token: string }) => {
   const [conferenceSlug, setConferenceSlug] = useState<string>()
 
   return (
-    <AppContext.Provider
-      value={{
-        conferenceSlug,
-        token,
-      }}
-    >
-      <StyledContainer>
-        <Helmet>
-          <link href="https://fonts.gstatic.com" rel="preconnect" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300...700&display=swap"
-            rel="stylesheet"
-          />
-          <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
-        </Helmet>
-        <GlobalStyle />
-        <Router>
+    <Router>
+      <StyledMainNavigationContainer>
+        <MainNavigation routes={ROUTES} />
+      </StyledMainNavigationContainer>
+      <AppContext.Provider
+        value={{
+          conferenceSlug,
+          token,
+        }}
+      >
+        <StyledContainer>
+          <Helmet>
+            <link href="https://fonts.gstatic.com" rel="preconnect" />
+            <link
+              href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet"
+            />
+            <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+          </Helmet>
+          <GlobalStyle />
           <Switch>
             <Route exact path="/">
+              <Redirect to="/tickets" />
+            </Route>
+            <Route path="/tickets">
               <TicketDashboard />
             </Route>
-            <Route path="/tickets/:bookingRef">
+            <Route path="/ticket/:bookingRef">
               <TicketDetails />
             </Route>
             <Route path="/order/:orderRef">
@@ -71,9 +86,9 @@ const App = ({ token }: { token: string }) => {
               <OrdersDashboard />
             </Route>
           </Switch>
-        </Router>
-      </StyledContainer>
-    </AppContext.Provider>
+        </StyledContainer>
+      </AppContext.Provider>
+    </Router>
   )
 }
 
