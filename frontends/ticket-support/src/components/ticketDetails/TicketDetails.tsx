@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Tooltip } from '../../lib/components'
+import { Input, Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
@@ -52,6 +52,11 @@ const StyledRow = styled.div`
 
 const RowContainer = styled.div`
   display: flex;
+`
+
+const ContainerCardInner = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 const TicketDetailsActions = styled.div`
@@ -217,21 +222,31 @@ const ticketDetails: React.FC = () => {
               {/*    </div> */}
               {/*  </> */}
               {/* )} */}
+              <ContainerCardInner>
+                <p>There is a little line below this heading that explains what you can put here</p>
 
-              {assignee && (
-                <>
-                  <StyledLabel>Assignment dashboard login link</StyledLabel>
-                  {/*<LoginLinkRequest account={assignee} />*/}
+                <StyledLabel>Unique user identifier</StyledLabel>
+                <Input value="dylan.hodge@websummit.net" />
 
-                  {/*<StyledLabel>Assignment dashboard login link generate</StyledLabel>*/}
-                  {/*<LoginLinkGenerate account={assignee} />*/}
+                <StyledLabel>App login email</StyledLabel>
+                <Input value="dylan.hodge@websummit.net" />
 
-                  {/*<Button as={SecondaryButton}>Generate login link</Button>*/}
-                  <LoginLinkGenerate account={assignee} />
+                {assignee && (
+                  <>
+                    <StyledLabel>Assignment dashboard login link</StyledLabel>
+                    {/* <LoginLinkRequest account={assignee} /> */}
 
-                  <Button as={SecondaryButton}>Send assignee login link email</Button>
-                </>
-              )}
+                    {/* <StyledLabel>Assignment dashboard login link generate</StyledLabel> */}
+                    {/* <LoginLinkGenerate account={assignee} /> */}
+
+                    {/* <Button as={SecondaryButton}>Generate login link</Button> */}
+                    <RowContainer>
+                      <LoginLinkGenerate account={assignee} />
+                      <Button as={SecondaryButton}>Send assignee login link email</Button>
+                    </RowContainer>
+                  </>
+                )}
+              </ContainerCardInner>
             </ContainerCard>
           </RowContainer>
         </PageContainer>
