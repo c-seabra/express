@@ -1,4 +1,3 @@
-import { ApolloError, useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -7,11 +6,11 @@ import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import SearchInput from '../../lib/components/molecules/SearchInput'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
+import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery'
 import Pagination from '../../lib/Pagination'
-import { Ticket, TicketType } from '../../lib/types'
+import { Ticket } from '../../lib/types'
 import { searchStateToUrl } from '../../lib/utils/url'
 import TICKET_LIST from '../../operations/queries/TicketList'
-import TICKET_TYPES from '../../operations/queries/TickeTypes'
 import { useAppContext } from '../app/AppContext'
 import TicketList from '../ticketList/TicketList'
 import {
@@ -78,7 +77,6 @@ type TicketSearchState = {
 }
 
 const TicketDashboard: React.FC = () => {
-  const { conferenceSlug, token } = useAppContext()
   const location = useLocation()
   const history = useHistory()
   const { pathname } = location
@@ -158,30 +156,7 @@ const TicketDashboard: React.FC = () => {
     resetPage()
   }
 
-  const {
-    data: ticketTypesData,
-  }: {
-    data?: {
-      ticketTypes: {
-        edges: [
-          {
-            node: TicketType
-          }
-        ]
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(TICKET_TYPES, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-  })
-  const ticketTypes = ticketTypesData?.ticketTypes.edges.map(({ node: { id, name } }) => ({
-    id,
-    name,
-  }))
+  const ticketTypes = useTicketTypesQuery()
 
   return (
     <DashboardContainer>

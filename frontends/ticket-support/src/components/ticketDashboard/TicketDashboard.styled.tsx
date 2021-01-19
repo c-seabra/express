@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { CategoryListContainer } from '../../lib/components/molecules/CategoryList'
 import SearchInput from '../../lib/components/molecules/SearchInput'
 
 export const DashboardContainer = styled.div`
@@ -78,5 +79,17 @@ export const Select = styled(StyledLabel)`
 export const MultiSelect = styled(StyledLabel)`
   select {
     height: 4rem;
+  }
+`
+
+export const PopupFiltersContainer = styled.div`
+  display: flex;
+
+  ${CategoryListContainer} {
+    margin-right: 0.6rem;
+  }
+
+  &:last-child {
+    margin-right: 0;
   }
 `

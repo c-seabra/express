@@ -1,10 +1,9 @@
 import React, { ReactElement, useState } from 'react'
 import styled from 'styled-components'
 
-const List = styled.div<{ headerColor?: string }>`
+export const CategoryListContainer = styled.div<{ headerColor?: string }>`
   display: flex;
   flex-direction: column;
-  width: 125px;
   font-size: 14px;
 
   & > button {
@@ -43,16 +42,20 @@ const Header = styled.div<{ headerColor?: string }>`
 const useCategoryList = ({
   isMultiSelect = false,
   items = [],
+  onMultiClick = () => null,
+  onSingleClick = () => null,
 }: {
   isMultiSelect?: boolean
   items: CategoryItem[]
+  onMultiClick?: (selectedItems: CategoryItem[]) => void
+  onSingleClick?: (item: CategoryItem) => void
 }) => {
   const [controlledItems, setControlledItems] = useState(items)
 
   const toggleItem = (selectedItem: CategoryItem) => {
     if (isMultiSelect) {
-      setControlledItems(prevState =>
-        prevState.map(item => {
+      setControlledItems(prevState => {
+        const newState = prevState.map(item => {
           if (item.value === selectedItem.value) {
             return {
               ...item,
@@ -62,15 +65,20 @@ const useCategoryList = ({
 
           return item
         })
-      )
+        onMultiClick(newState)
+        return newState
+      })
     } else {
       setControlledItems(prevState =>
         prevState.map(item => {
           if (item.value === selectedItem.value) {
-            return {
+            const newItem = {
               ...item,
               isSelected: !item.isSelected,
             }
+
+            onSingleClick(newItem)
+            return newItem
           }
 
           return {
@@ -107,31 +115,27 @@ const CategoryList = ({
   onSingleClick = () => null,
   title = '',
 }: CategoryListProps): ReactElement => {
-  const { controlledItems, toggleItem } = useCategoryList({ isMultiSelect, items })
-
-  const handleClick = (item: CategoryItem) => {
-    toggleItem(item)
-    if (isMultiSelect) {
-      onMultiClick(controlledItems)
-    } else {
-      onSingleClick(item)
-    }
-  }
+  const { controlledItems, toggleItem } = useCategoryList({
+    isMultiSelect,
+    items,
+    onMultiClick,
+    onSingleClick,
+  })
 
   return (
-    <List headerColor={headerColor}>
+    <CategoryListContainer headerColor={headerColor}>
       <Header headerColor={headerColor}>{title}</Header>
       {controlledItems.map(item => (
         <button
           key={item.value}
           data-is-selected={item.isSelected}
           type="button"
-          onClick={() => handleClick(item)}
+          onClick={() => toggleItem(item)}
         >
           {item.label}
         </button>
       ))}
-    </List>
+    </CategoryListContainer>
   )
 }
 

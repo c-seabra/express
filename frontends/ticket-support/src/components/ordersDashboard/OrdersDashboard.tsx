@@ -8,6 +8,7 @@ import CategoryList, { CategoryItem } from '../../lib/components/molecules/Categ
 import PopupButton from '../../lib/components/molecules/PopupButton'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
+import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery'
 import Pagination from '../../lib/Pagination'
 import { Order, OrderState } from '../../lib/types'
 import ORDER_LIST from '../../operations/queries/OrderList'
@@ -16,6 +17,7 @@ import OrderList from '../orderList/OrderList'
 import {
   DashboardContainer,
   FiltersSearchContainer,
+  PopupFiltersContainer,
   SearchFilters,
   StyledSearchInput,
 } from '../ticketDashboard/TicketDashboard.styled'
@@ -26,10 +28,12 @@ const useOrdersQuery = ({
   initialPage,
   searchQuery,
   status,
+  ticketTypeIds,
 }: {
   initialPage: string
-  searchQuery: string
+  searchQuery?: string
   status?: string
+  ticketTypeIds?: string[]
 }) => {
   const { conferenceSlug, token } = useAppContext()
 
@@ -40,6 +44,7 @@ const useOrdersQuery = ({
 
   const filter = {
     status,
+    ticketTypeIds,
   }
 
   const variables = {
@@ -59,14 +64,20 @@ const useOrdersQuery = ({
 type OrderSearchState = {
   orderState?: string
   page: string
-  searchQuery: string
+  searchQuery?: string
+  ticketTypeIds?: string
 }
 
 const OrdersDashboard = (): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('')
+  const [ticketTypesFilter, setTicketTypesFilter] = useState<string[]>()
 
   const processInitialSearchState = (state: OrderSearchState) => {
     if (state.searchQuery) setSearchQuery(state.searchQuery)
+    if (state.ticketTypeIds) {
+      const ticketTypeIdsArray = state.ticketTypeIds.split(',')
+      setTicketTypesFilter(ticketTypeIdsArray)
+    }
   }
 
   const { searchState, setSearchState } = useSearchState<OrderSearchState>({
@@ -86,6 +97,7 @@ const OrdersDashboard = (): ReactElement => {
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
     status: searchState.orderState,
+    ticketTypeIds: ticketTypesFilter,
   })
 
   useEffect(() => {
@@ -106,21 +118,38 @@ const OrdersDashboard = (): ReactElement => {
   const handleOrderStatusFilterChange = ({ isSelected, value }: CategoryItem) => {
     if (!isSelected) {
       if (value === 'all') {
-        setSearchState({ ...searchState, orderState: undefined })
+        setSearchState(prevState => ({ ...prevState, orderState: undefined }))
       } else {
-        setSearchState({ ...searchState, orderState: value })
+        setSearchState(prevState => ({ ...prevState, orderState: value }))
       }
     } else {
-      setSearchState({ ...searchState, orderState: undefined })
+      setSearchState(prevState => ({ ...prevState, orderState: undefined }))
     }
   }
 
   const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const element = e.currentTarget as HTMLInputElement
-      setSearchState({ ...searchState, searchQuery: element.value })
+      setSearchState(prevState => ({ ...prevState, searchQuery: element.value }))
       setSearchQuery(element.value)
     }
+  }
+
+  const ticketTypes = useTicketTypesQuery()
+
+  const ticketTypesOptions: CategoryItem[] = ticketTypes.map(({ id, name }) => ({
+    isSelected: ticketTypesFilter?.some(selectedId => id === selectedId),
+    label: name,
+    value: `${id}`,
+  }))
+
+  const handleTicketTypeFilterChange = (selectedItems: CategoryItem[]) => {
+    const selectedTicketTypes = selectedItems
+      .filter(({ isSelected }) => isSelected)
+      .map(({ value }) => value)
+
+    setSearchState(prevState => ({ ...prevState, ticketTypeIds: selectedTicketTypes.join(',') }))
+    setTicketTypesFilter(selectedTicketTypes)
   }
 
   return (
@@ -140,12 +169,21 @@ const OrdersDashboard = (): ReactElement => {
             onKeyDown={handleSearchKey}
           />
           <PopupButton renderButton={props => <FilterButton {...props} />}>
-            <CategoryList
-              headerColor="#CB1977"
-              items={orderStatusOptions}
-              title="Order status"
-              onSingleClick={handleOrderStatusFilterChange}
-            />
+            <PopupFiltersContainer>
+              <CategoryList
+                isMultiSelect
+                headerColor="#654DA0"
+                items={ticketTypesOptions}
+                title="Ticket type"
+                onMultiClick={handleTicketTypeFilterChange}
+              />
+              <CategoryList
+                headerColor="#CB1977"
+                items={orderStatusOptions}
+                title="Order status"
+                onSingleClick={handleOrderStatusFilterChange}
+              />
+            </PopupFiltersContainer>
           </PopupButton>
         </FiltersSearchContainer>
       </SearchFilters>

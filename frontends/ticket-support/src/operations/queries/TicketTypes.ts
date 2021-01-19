@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const TICKET_TYPES = gql`
+const TICKET_TYPES = gql`
   query {
     ticketTypes {
       edges {

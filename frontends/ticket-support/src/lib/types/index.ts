@@ -13,7 +13,7 @@ export type Assignment = {
 }
 
 export type TicketType = {
-  description: string
+  description?: string
   id: string
   name: string
 }
