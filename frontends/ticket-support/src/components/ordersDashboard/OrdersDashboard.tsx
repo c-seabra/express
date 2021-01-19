@@ -1,10 +1,10 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
-import CategoryList, { CategoryItem } from '../../lib/components/atoms/CategoryList'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import FilterButton from '../../lib/components/atoms/FilterButton'
 import TextHeading from '../../lib/components/atoms/Heading'
+import CategoryList, { CategoryItem } from '../../lib/components/molecules/CategoryList'
 import PopupButton from '../../lib/components/molecules/PopupButton'
 import usePaginatedQuery from '../../lib/hooks/usePaginatedQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
