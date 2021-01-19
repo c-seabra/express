@@ -15,10 +15,6 @@ const VoidState = styled(Badge)`
   background-color: #f14d4c;
   color: #d8d8d8;
 `
-const LockedState = styled(Badge)`
-  background-color: #0d153a;
-  color: #fff;
-`
 
 const StatePlate = ({ state }: { state: string }) => {
   switch (state) {
@@ -37,7 +33,7 @@ const StatePlate = ({ state }: { state: string }) => {
     case 'LOCKED':
       return (
         <Tooltip content="Ticket is locked due to logging into our app">
-          <LockedState>Locked</LockedState>
+          <ActiveState>Locked</ActiveState>
         </Tooltip>
       )
     case 'VOID':
