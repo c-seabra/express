@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { SVGProps } from 'react'
 
-// import logo from './logo.svg'
+import LogoImage from '../../svgs/Logo'
 
-// const Logo = props => <img alt="Logo" {...props} src={logo} />
-const Logo = props => <img alt="Ticket Machine Logo" {...props} />
+const Logo = (props: SVGProps<SVGSVGElement>) => <LogoImage {...props} />
 
 export default Logo
