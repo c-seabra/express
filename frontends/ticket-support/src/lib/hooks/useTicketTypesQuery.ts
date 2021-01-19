@@ -1,7 +1,7 @@
 import { ApolloError, useQuery } from '@apollo/client'
 
 import { useAppContext } from '../../components/app/AppContext'
-import TICKET_TYPES from '../../operations/queries/TickeTypes'
+import TICKET_TYPES from '../../operations/queries/TicketTypes'
 import { TicketType } from '../types'
 
 const useTicketTypesQuery = (): TicketType[] => {

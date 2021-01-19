@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react'
 import styled from 'styled-components'
 
-const List = styled.div<{ headerColor?: string }>`
+export const CategoryListContainer = styled.div<{ headerColor?: string }>`
   display: flex;
   flex-direction: column;
   font-size: 14px;
@@ -123,7 +123,7 @@ const CategoryList = ({
   })
 
   return (
-    <List headerColor={headerColor}>
+    <CategoryListContainer headerColor={headerColor}>
       <Header headerColor={headerColor}>{title}</Header>
       {controlledItems.map(item => (
         <button
@@ -135,7 +135,7 @@ const CategoryList = ({
           {item.label}
         </button>
       ))}
-    </List>
+    </CategoryListContainer>
   )
 }
 
