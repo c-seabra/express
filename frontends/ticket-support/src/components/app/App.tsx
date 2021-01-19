@@ -1,10 +1,11 @@
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, NavLink, Redirect, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
+import Logo from '../../lib/components/atoms/Logo'
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import ROUTES from '../../lib/constants/routes'
 import OrderDetails from '../order/OrderDetails'
@@ -33,6 +34,12 @@ const StyledMainNavigationContainer = styled.section`
   max-width: 1440px;
 `
 
+const StyledMainHeader = styled.section`
+  display: flex;
+  margin: 20px auto;
+  max-width: 1440px;
+`
+
 const App = ({ token }: { token: string }) => {
   if (!token) return null
   const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
@@ -48,6 +55,11 @@ const App = ({ token }: { token: string }) => {
 
   return (
     <Router>
+      <StyledMainHeader>
+        <NavLink to="/">
+          <Logo />
+        </NavLink>
+      </StyledMainHeader>
       <StyledMainNavigationContainer>
         <MainNavigation routes={ROUTES} />
       </StyledMainNavigationContainer>
