@@ -38,12 +38,20 @@ const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
 
+const SpacingBottomSm = styled.div`
+  margin-bottom: 1rem;
+`
+
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   margin-top: 4rem;
+`
+
+const RowContainer = styled.div`
+  display: flex;
 `
 
 const TicketDetailsActions = styled.div`
@@ -58,11 +66,9 @@ const TicketDetailsActions = styled.div`
   }
 `
 
-const StyledContainerCard = styled(ContainerCard)`
-  //display: flex;
-  //flex-direction: column;
-  //margin-bottom: 20px;
-  padding: 32px;
+const TicketActionsContainerCard = styled(ContainerCard)`
+  margin-right: 60px;
+  max-width: 300px;
 `
 
 const StyledPairContainer = styled.span`
@@ -95,6 +101,10 @@ const StyledInnerContainerCard = styled.span`
 
 const StyledInnerContainerCardWithBorder = styled(StyledInnerContainerCard)`
   border-bottom: 1px solid #dcdfe5;
+`
+
+const PrimaryButton = styled(Button)`
+  width: 100%;
 `
 
 const TicketHeader = styled.div`
@@ -166,40 +176,42 @@ const ticketDetails: React.FC = () => {
             </StyledRow>
           </SpacingBottom>
 
-          <StyledContainerCard noPadding>
-            <StyledInnerContainerCardWithBorder>
-              <StyledPairContainer>
-                <StyledLabel>Ticket reference</StyledLabel>
-                <StyledValue>{bookingRef}</StyledValue>
-              </StyledPairContainer>
+          <RowContainer>
+            <TicketActionsContainerCard noPadding>
+              <StyledInnerContainerCardWithBorder>
+                <StyledPairContainer>
+                  <StyledLabel>Ticket reference</StyledLabel>
+                  <StyledValue>{bookingRef}</StyledValue>
+                </StyledPairContainer>
 
-              <StyledPairContainer>
-                <StyledLabel>Ticket type</StyledLabel>
-                <StyledValue>{ticket?.ticketType?.name}</StyledValue>
-              </StyledPairContainer>
+                <StyledPairContainer>
+                  <StyledLabel>Ticket type</StyledLabel>
+                  <StyledValue>{ticket?.ticketType?.name}</StyledValue>
+                </StyledPairContainer>
 
-              <StyledPairContainer>
-                <StyledLabel>Ticket status</StyledLabel>
-                <StatePlate state={ticket?.state} />
-              </StyledPairContainer>
-            </StyledInnerContainerCardWithBorder>
+                <StyledPairContainer>
+                  <StyledLabel>Ticket status</StyledLabel>
+                  <StatePlate state={ticket?.state} />
+                </StyledPairContainer>
+              </StyledInnerContainerCardWithBorder>
 
-            <StyledInnerContainerCard>
-              <SpacingBottom>
-                <Button>Reassign</Button>
-              </SpacingBottom>
+              <StyledInnerContainerCard>
+                <SpacingBottomSm>
+                  <PrimaryButton>Reassign</PrimaryButton>
+                </SpacingBottomSm>
 
-              <SpacingBottom>
-                <Button>Unassign</Button>
-              </SpacingBottom>
+                <SpacingBottomSm>
+                  <PrimaryButton>Unassign</PrimaryButton>
+                </SpacingBottomSm>
 
-              <Button as={SecondaryButton}>Load history changes</Button>
-            </StyledInnerContainerCard>
-          </StyledContainerCard>
+                <Button as={SecondaryButton}>Load history changes</Button>
+              </StyledInnerContainerCard>
+            </TicketActionsContainerCard>
 
-          <ContainerCard title="User account details">
-            <TicketDetailsActions>test</TicketDetailsActions>
-          </ContainerCard>
+            <ContainerCard title="User account details">
+              <TicketDetailsActions>test</TicketDetailsActions>
+            </ContainerCard>
+          </RowContainer>
         </PageContainer>
       )}
     </>
