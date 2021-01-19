@@ -1,9 +1,9 @@
+import { ApolloError } from '@apollo/client'
 import React, { ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
-import { ApolloError } from '@apollo/client'
 
-import { Ticket } from '../../lib/types'
 import Loader from '../../lib/Loading'
+import { Ticket } from '../../lib/types'
 import TicketItem, { TicketListHeader } from '../ticketItem/TicketItem'
 
 type TicketListProps = {
