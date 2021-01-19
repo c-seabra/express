@@ -42,6 +42,10 @@ const SpacingBottomSm = styled.div`
   margin-bottom: 1rem;
 `
 
+const SpacingRightSm = styled.div`
+  margin-right: 1rem;
+`
+
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
@@ -225,23 +229,30 @@ const ticketDetails: React.FC = () => {
               <ContainerCardInner>
                 <p>There is a little line below this heading that explains what you can put here</p>
 
-                <StyledLabel>Unique user identifier</StyledLabel>
-                <Input value="dylan.hodge@websummit.net" />
+                <SpacingBottom>
+                  <StyledLabel>Unique user identifier</StyledLabel>
+                  <Input disabled value="dylan.hodge@websummit.net" />
+                </SpacingBottom>
 
-                <StyledLabel>App login email</StyledLabel>
-                <Input value="dylan.hodge@websummit.net" />
+                <SpacingBottom>
+                  <StyledLabel>App login email</StyledLabel>
+                  <Input disabled value="dylan.hodge@websummit.net" />
+                </SpacingBottom>
 
                 {assignee && (
                   <>
-                    <StyledLabel>Assignment dashboard login link</StyledLabel>
-                    {/* <LoginLinkRequest account={assignee} /> */}
-
+                    <SpacingBottomSm>
+                      <StyledLabel>Assignment dashboard login link</StyledLabel>
+                      {/* <LoginLinkRequest account={assignee} /> */}
+                    </SpacingBottomSm>
                     {/* <StyledLabel>Assignment dashboard login link generate</StyledLabel> */}
                     {/* <LoginLinkGenerate account={assignee} /> */}
 
                     {/* <Button as={SecondaryButton}>Generate login link</Button> */}
                     <RowContainer>
-                      <LoginLinkGenerate account={assignee} />
+                      <SpacingRightSm>
+                        <LoginLinkGenerate account={assignee} />
+                      </SpacingRightSm>
                       <Button as={SecondaryButton}>Send assignee login link email</Button>
                     </RowContainer>
                   </>
