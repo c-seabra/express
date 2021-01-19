@@ -80,3 +80,15 @@ export const MultiSelect = styled(StyledLabel)`
     height: 4rem;
   }
 `
+
+export const PopupFiltersContainer = styled.div`
+  display: flex;
+
+  & > * {
+    margin-right: 0.6rem;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+`

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const TICKET_LIST = gql`
+const TICKET_LIST = gql`
   query($filter: TicketFilter, $searchQuery: String, $first: Int, $after: String) {
     tickets(filter: $filter, searchQuery: $searchQuery, first: $first, after: $after) {
       edges {
