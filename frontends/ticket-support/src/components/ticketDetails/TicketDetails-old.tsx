@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Tooltip } from '../../lib/components'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Loader from '../../lib/Loading'
@@ -21,7 +22,6 @@ import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import StatePlate from '../ticketItem/StatePlate'
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 
 // --- new ---
 

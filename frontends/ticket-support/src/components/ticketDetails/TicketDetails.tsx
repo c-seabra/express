@@ -209,7 +209,29 @@ const ticketDetails: React.FC = () => {
             </TicketActionsContainerCard>
 
             <ContainerCard title="User account details">
-              <TicketDetailsActions>test</TicketDetailsActions>
+              {/* {ticket && ticket.state !== 'VOID' && !assignment && ( */}
+              {/*  <> */}
+              {/*    <div> */}
+              {/*      <Heading>Assign ticket:</Heading> */}
+              {/*      <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} /> */}
+              {/*    </div> */}
+              {/*  </> */}
+              {/* )} */}
+
+              {assignee && (
+                <>
+                  <StyledLabel>Assignment dashboard login link</StyledLabel>
+                  {/*<LoginLinkRequest account={assignee} />*/}
+
+                  {/*<StyledLabel>Assignment dashboard login link generate</StyledLabel>*/}
+                  {/*<LoginLinkGenerate account={assignee} />*/}
+
+                  {/*<Button as={SecondaryButton}>Generate login link</Button>*/}
+                  <LoginLinkGenerate account={assignee} />
+
+                  <Button as={SecondaryButton}>Send assignee login link email</Button>
+                </>
+              )}
             </ContainerCard>
           </RowContainer>
         </PageContainer>
