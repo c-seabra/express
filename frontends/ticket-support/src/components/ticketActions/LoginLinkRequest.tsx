@@ -1,10 +1,24 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
-import ASSIGNMENT_LOGIN_LINK from '../../operations/mutations/AssignmentLoginLinkRequest'
+import styled from 'styled-components'
 
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import { Account } from '../../lib/types'
-import { Button, Text } from '../ticketDetails/TicketDetails'
+import ASSIGNMENT_LOGIN_LINK from '../../operations/mutations/AssignmentLoginLinkRequest'
 import { useAppContext } from '../app/AppContext'
+
+export const Text = styled.div`
+  opacity: 0.5;
+  color: #07143e;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 17px;
+
+  a {
+    color: #337ab7;
+    margin: 0 0.25rem;
+  }
+`
 
 const LoginLinkRequest = ({ account }: { account: Account }) => {
   const { conferenceSlug, token } = useAppContext()
@@ -64,6 +78,7 @@ const LoginLinkRequest = ({ account }: { account: Account }) => {
       </Text>
       {loginLinkRequestReasonError && <Text>You must provide a reason for requesting a link</Text>}
       <Button
+        as={SecondaryButton}
         onClick={() => {
           if (confirm('Are you sure you want to send another login link to this assignee?')) {
             sendAssignmentLoginLink(account.email)
