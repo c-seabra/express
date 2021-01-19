@@ -22,6 +22,7 @@ import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import StatePlate from '../ticketItem/StatePlate'
+import { Text } from './TicketDetails-old'
 
 // --- new ---
 
@@ -76,7 +77,7 @@ const TicketDetailsActions = styled.div`
 `
 
 const TicketActionsContainerCard = styled(ContainerCard)`
-  margin-right: 60px;
+  margin-right: 3.75rem;
   max-width: 300px;
 `
 
@@ -134,6 +135,11 @@ const TicketStatus = styled.div`
 const TicketStatusBar = styled.div`
   display: flex;
   align-items: center;
+`
+
+const TextHighlight = styled.span`
+  color: #337ab7;
+  margin: 0 0.25rem;
 `
 
 const ticketDetails: React.FC = () => {
@@ -236,19 +242,38 @@ const ticketDetails: React.FC = () => {
 
                 <SpacingBottom>
                   <StyledLabel>App login email</StyledLabel>
-                  <Input disabled value="dylan.hodge@websummit.net" />
+                  <Input disabled value={assignment?.appLoginEmail || assignee?.email} />
+
+                  {assignment?.state === 'ACCEPTED' && (
+                    <>
+                      <Text>
+                        App login email:
+                        <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
+                          <TextHighlight>
+                            {assignment?.appLoginEmail || assignee?.email}
+                          </TextHighlight>
+                        </Tooltip>
+                      </Text>
+                      {loginEmailChange && (
+                        <UpdateAppLoginEmail
+                          bookingRef={bookingRef}
+                          resetLoginEmailChange={setLoginEmailChange}
+                        />
+                      )}
+                      <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                        {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
+                      </Button>
+                    </>
+                  )}
                 </SpacingBottom>
 
                 {assignee && (
                   <>
                     <SpacingBottomSm>
                       <StyledLabel>Assignment dashboard login link</StyledLabel>
-                      {/* <LoginLinkRequest account={assignee} /> */}
+                      <LoginLinkRequest account={assignee} />
                     </SpacingBottomSm>
-                    {/* <StyledLabel>Assignment dashboard login link generate</StyledLabel> */}
-                    {/* <LoginLinkGenerate account={assignee} /> */}
 
-                    {/* <Button as={SecondaryButton}>Generate login link</Button> */}
                     <RowContainer>
                       <SpacingRightSm>
                         <LoginLinkGenerate account={assignee} />
