@@ -17,6 +17,7 @@ import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
 import OrderOwnerDetails from './OrderOwnerDetails'
 import OrderSummary from './OrderSummary'
+import Breadcrumbs from "../../lib/components/molecules/Breadcrumbs";
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -140,15 +141,18 @@ const OrderDetails: React.FC = () => {
         <title>Manage {orderRef} order - Ticket machine</title>
       </Helmet>
       <StyledContainer>
-        <TicketHeader>
-          <Heading>
-            <Button onClick={history.goBack}>Back</Button>
-            Manage Order/
-            <Tooltip copyToClip value={orderRef}>
-              <TextHighlight>{orderRef}</TextHighlight>
-            </Tooltip>
-          </Heading>
-        </TicketHeader>
+        <Breadcrumbs routes={[]}>
+
+        </Breadcrumbs>
+        {/*<TicketHeader>*/}
+        {/*  <Heading>*/}
+        {/*    <Button onClick={history.goBack}>Back</Button>*/}
+        {/*    Manage Order/*/}
+        {/*    <Tooltip copyToClip value={orderRef}>*/}
+        {/*      <TextHighlight>{orderRef}</TextHighlight>*/}
+        {/*    </Tooltip>*/}
+        {/*  </Heading>*/}
+        {/*</TicketHeader>*/}
         {loading && <Loader />}
         {error && (
           <Warning>
