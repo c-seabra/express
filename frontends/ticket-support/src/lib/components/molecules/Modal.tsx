@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useState } from 'react'
+import React, { ReactElement } from 'react'
 import * as ReactModal from 'react-modal'
 import styled from 'styled-components'
 
@@ -34,18 +34,20 @@ type ModalProps = {
   children?: ReactElement | ReactElement[] | string
   isOpen: boolean
   onRequestClose: () => void
+  withoutDefaultActions?: boolean
 }
 
-const Modal = ({ isOpen, onRequestClose, children }: ModalProps) => {
-
+const Modal = ({ isOpen, onRequestClose, withoutDefaultActions = false, children }: ModalProps) => {
   return (
     <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
       <ModalContainer>
-        <ExitActionContainer>
-          <ExitIcon className="material-icons" onClick={onRequestClose}>
-            close
-          </ExitIcon>
-        </ExitActionContainer>
+        {withoutDefaultActions && (
+          <ExitActionContainer>
+            <ExitIcon className="material-icons" onClick={onRequestClose}>
+              close
+            </ExitIcon>
+          </ExitActionContainer>
+        )}
         {children}
       </ModalContainer>
     </ReactModal>
