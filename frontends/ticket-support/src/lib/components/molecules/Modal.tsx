@@ -33,7 +33,7 @@ const ExitIcon = styled.span`
 type ModalProps = {
   children?: ReactElement | ReactElement[] | string
   isOpen: boolean
-  onRequestClose: any
+  onRequestClose: () => void
 }
 
 const Modal = ({ isOpen, onRequestClose, children }: ModalProps) => {
