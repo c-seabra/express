@@ -122,7 +122,7 @@ const TicketDashboard = (): ReactElement => {
               <CategoryList
                 headerColor="#CB1977"
                 items={ticketStatusOptions}
-                title="Order status"
+                title="Ticket status"
                 onSingleClick={handleTicketStatusFilterChange}
               />
             </PopupFiltersContainer>
