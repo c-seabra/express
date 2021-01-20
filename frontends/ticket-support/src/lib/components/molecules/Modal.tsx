@@ -1,5 +1,5 @@
 import React, { ReactElement, useRef, useState } from 'react'
-import ReactModal from 'react-modal'
+import * as ReactModal from 'react-modal'
 import styled from 'styled-components'
 
 const customStyles = {
@@ -10,6 +10,9 @@ const customStyles = {
     right: 'auto',
     top: '50%',
     transform: 'translate(-50%, -50%)',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
 }
 
@@ -24,24 +27,27 @@ type ModalProps = {
   children?: ReactElement | ReactElement[] | string
 }
 
-const Modal = ({ children }: ModalProps) => {
+const Modal = ({ setOpenfromexternal, children }: ModalProps) => {
   const [isOpen, setOpen] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-
   const togglePopup = () => setOpen(p => !p)
+  const close = () => setOpen(p => false)
+
 
   return (
-    <div>
-      <button onClick={togglePopup}>Open Modal</button>
-      <ReactModal
-        contentLabel="Example Modal"
+    <>
+        <button onClick={togglePopup}>open</button>
+
+        <ReactModal
         isOpen={isOpen}
         style={customStyles}
         onRequestClose={togglePopup}
       >
-        {children}
+        <>
+          <button onClick={close}>x</button>
+          {children}
+        </>
       </ReactModal>
-    </div>
+    </>
   )
 }
 
