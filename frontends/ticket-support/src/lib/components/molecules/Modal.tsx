@@ -16,36 +16,39 @@ const customStyles = {
   },
 }
 
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-// ReactModal.setAppElement('#yourAppElement')
-// const Container = styled.div`
-//   display: flex;
-//   justify-content: flex-end;
-// `
+const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const ExitActionContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
 
 type ModalProps = {
   children?: ReactElement | ReactElement[] | string
+  isOpen: boolean
 }
 
-const Modal = ({ setOpenfromexternal, children }: ModalProps) => {
-  const [isOpen, setOpen] = useState(false)
+const Modal = ({ isOpen, children }: ModalProps) => {
+  const [_isOpen, setOpen] = useState(false)
   const togglePopup = () => setOpen(p => !p)
-  const close = () => setOpen(p => false)
-
+  const close = () => setOpen(false)
 
   return (
     <>
-        <button onClick={togglePopup}>open</button>
+      <button onClick={togglePopup}>open</button>
 
-        <ReactModal
-        isOpen={isOpen}
-        style={customStyles}
-        onRequestClose={togglePopup}
-      >
-        <>
-          <button onClick={close}>x</button>
+      <ReactModal isOpen={_isOpen} style={customStyles} onRequestClose={togglePopup}>
+        <ModalContainer>
+          <ExitActionContainer>
+            <span className="material-icons" onClick={close}>
+              close
+            </span>
+          </ExitActionContainer>
           {children}
-        </>
+        </ModalContainer>
       </ReactModal>
     </>
   )
