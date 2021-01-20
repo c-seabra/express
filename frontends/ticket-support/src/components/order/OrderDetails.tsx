@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, {useState} from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -135,6 +135,11 @@ const OrderDetails: React.FC = () => {
     },
   }
 
+  const [isModalOpen, setModalOpen] = useState(false)
+  const closeModal = () => setModalOpen(false)
+  const openModal = () => setModalOpen(true)
+
+
   return (
     <>
       <Helmet>
@@ -163,10 +168,11 @@ const OrderDetails: React.FC = () => {
                 <StyledRow>
                   <TextHeading>Order management</TextHeading>
                   <div>
-                    <ButtonWithSpacing as={SecondaryButton} onClick={() => {}}>
+                    <ButtonWithSpacing as={SecondaryButton} onClick={openModal}>
                       TEST MODAL
                     </ButtonWithSpacing>
-                    <Modal>
+                    <Modal
+                        isOpen={isModalOpen} onRequestClose={closeModal}>
                       test children
                     </Modal>
                     <ButtonWithSpacing disabled as={SecondaryButton}>

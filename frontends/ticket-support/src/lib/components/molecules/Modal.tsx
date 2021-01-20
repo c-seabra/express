@@ -29,28 +29,22 @@ const ExitActionContainer = styled.div`
 type ModalProps = {
   children?: ReactElement | ReactElement[] | string
   isOpen: boolean
+  onRequestClose: any
 }
 
-const Modal = ({ isOpen, children }: ModalProps) => {
-  const [_isOpen, setOpen] = useState(false)
-  const togglePopup = () => setOpen(p => !p)
-  const close = () => setOpen(false)
+const Modal = ({ isOpen, onRequestClose, children }: ModalProps) => {
 
   return (
-    <>
-      <button onClick={togglePopup}>open</button>
-
-      <ReactModal isOpen={_isOpen} style={customStyles} onRequestClose={togglePopup}>
-        <ModalContainer>
-          <ExitActionContainer>
-            <span className="material-icons" onClick={close}>
-              close
-            </span>
-          </ExitActionContainer>
-          {children}
-        </ModalContainer>
-      </ReactModal>
-    </>
+    <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
+      <ModalContainer>
+        <ExitActionContainer>
+          <span className="material-icons" onClick={onRequestClose}>
+            close
+          </span>
+        </ExitActionContainer>
+        {children}
+      </ModalContainer>
+    </ReactModal>
   )
 }
 
