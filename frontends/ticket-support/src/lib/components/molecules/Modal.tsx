@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import * as ReactModal from 'react-modal'
+import ReactModal from 'react-modal'
 import styled from 'styled-components'
 
 const customStyles = {
