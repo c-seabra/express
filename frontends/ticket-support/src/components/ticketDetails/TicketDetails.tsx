@@ -220,6 +220,20 @@ const ticketDetails: React.FC = () => {
                 </SpacingBottomSm>
 
                 <Button as={SecondaryButton}>Load history changes</Button>
+
+                <div>
+                  <p>History changes</p>
+                  <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
+                    {showAuditTrail ? 'Hide' : 'Load History Changes'}
+                  </Button>
+                  {showAuditTrail && (
+                    <AuditTrail
+                      bookingRef={bookingRef}
+                      conferenceSlug={conferenceSlug as string}
+                      token={token as string}
+                    />
+                  )}
+                </div>
               </StyledInnerContainerCard>
             </TicketActionsContainerCard>
 
