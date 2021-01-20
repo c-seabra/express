@@ -17,6 +17,7 @@ import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
 import OrderOwnerDetails from './OrderOwnerDetails'
 import OrderSummary from './OrderSummary'
+import Modal from '../../lib/components/molecules/Modal'
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -162,6 +163,12 @@ const OrderDetails: React.FC = () => {
                 <StyledRow>
                   <TextHeading>Order management</TextHeading>
                   <div>
+                    <ButtonWithSpacing as={SecondaryButton} onClick={() => {}}>
+                      TEST MODAL
+                    </ButtonWithSpacing>
+                    <Modal>
+                      test children
+                    </Modal>
                     <ButtonWithSpacing disabled as={SecondaryButton}>
                       Cancel order
                     </ButtonWithSpacing>
