@@ -41,7 +41,7 @@ const Modal = ({ isOpen, onRequestClose, withoutDefaultActions = false, children
   return (
     <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
       <ModalContainer>
-        {withoutDefaultActions && (
+        {!withoutDefaultActions && (
           <ExitActionContainer>
             <ExitIcon className="material-icons" onClick={onRequestClose}>
               close
