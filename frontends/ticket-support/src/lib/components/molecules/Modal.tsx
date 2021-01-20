@@ -26,6 +26,10 @@ const ExitActionContainer = styled.div`
   justify-content: flex-end;
 `
 
+const ExitIcon = styled.span`
+  cursor: pointer;
+`
+
 type ModalProps = {
   children?: ReactElement | ReactElement[] | string
   isOpen: boolean
@@ -38,9 +42,9 @@ const Modal = ({ isOpen, onRequestClose, children }: ModalProps) => {
     <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
       <ModalContainer>
         <ExitActionContainer>
-          <span className="material-icons" onClick={onRequestClose}>
+          <ExitIcon className="material-icons" onClick={onRequestClose}>
             close
-          </span>
+          </ExitIcon>
         </ExitActionContainer>
         {children}
       </ModalContainer>
