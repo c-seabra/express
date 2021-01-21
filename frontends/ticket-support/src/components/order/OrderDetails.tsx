@@ -8,6 +8,7 @@ import { Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
+import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
@@ -17,13 +18,17 @@ import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
 import OrderOwnerDetails from './OrderOwnerDetails'
 import OrderSummary from './OrderSummary'
-import Breadcrumbs from "../../lib/components/molecules/Breadcrumbs";
 
-const StyledContainer = styled.section`
+const PageContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
+`
+
+const BreadcrumbsContainer = styled(Breadcrumbs)`
+  display: flex;
+  margin: 20px 0;
 `
 
 const Heading = styled.div`
@@ -135,24 +140,27 @@ const OrderDetails: React.FC = () => {
     },
   }
 
+  const testB: Breadcrumb[] = [
+    {
+      label: 'Web Summit 2021', // TODO get event name
+      redirectUrl: '/',
+    },
+    {
+      label: 'Orders',
+      redirectUrl: '/orders',
+    },
+    {
+      label: `Order ${orderRef}`,
+    },
+  ]
+
   return (
     <>
       <Helmet>
         <title>Manage {orderRef} order - Ticket machine</title>
       </Helmet>
-      <StyledContainer>
-        <Breadcrumbs routes={[]}>
-
-        </Breadcrumbs>
-        {/*<TicketHeader>*/}
-        {/*  <Heading>*/}
-        {/*    <Button onClick={history.goBack}>Back</Button>*/}
-        {/*    Manage Order/*/}
-        {/*    <Tooltip copyToClip value={orderRef}>*/}
-        {/*      <TextHighlight>{orderRef}</TextHighlight>*/}
-        {/*    </Tooltip>*/}
-        {/*  </Heading>*/}
-        {/*</TicketHeader>*/}
+      <PageContainer>
+        <BreadcrumbsContainer routes={testB} />
         {loading && <Loader />}
         {error && (
           <Warning>
@@ -210,14 +218,14 @@ const OrderDetails: React.FC = () => {
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <ContainerCard color="#DF0079" title="Ticket information" noPadding>
+                <ContainerCard noPadding color="#DF0079" title="Ticket information">
                   <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
                 </ContainerCard>
               </div>
             )}
           </div>
         )}
-      </StyledContainer>
+      </PageContainer>
     </>
   )
 }
