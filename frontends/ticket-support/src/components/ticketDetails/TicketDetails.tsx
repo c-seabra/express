@@ -8,6 +8,7 @@ import { Input, Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
+import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
 import TICKET from '../../operations/queries/Ticket'
@@ -35,6 +36,11 @@ const PageContainer = styled.div`
   flex-direction: column;
 `
 
+const BreadcrumbsContainer = styled.div`
+  display: flex;
+  margin: 20px 0 4px;
+`
+
 const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
@@ -51,8 +57,6 @@ const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  margin-top: 4rem;
 `
 
 const RowContainer = styled.div`
@@ -174,6 +178,23 @@ const ticketDetails: React.FC = () => {
   const ticket = data?.ticket
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
+  const breadcrumbsRoutes: Breadcrumb[] = [
+    {
+      label: 'Web Summit 2020', // TODO get event name
+      redirectUrl: '/',
+    },
+    {
+      label: 'Orders',
+      redirectUrl: '/orders',
+    },
+    {
+      label: 'Order',
+      redirectUrl: '/order',
+    },
+    {
+      label: `Ticket ${bookingRef}`,
+    },
+  ]
 
   return (
     <>
@@ -185,6 +206,10 @@ const ticketDetails: React.FC = () => {
       {error && <div>{error}</div>}
       {!loading && !error && ticket && (
         <PageContainer>
+          <BreadcrumbsContainer>
+            <Breadcrumbs routes={breadcrumbsRoutes} />
+          </BreadcrumbsContainer>
+
           <SpacingBottom>
             <StyledRow>
               <TextHeading>Manage tickets</TextHeading>
