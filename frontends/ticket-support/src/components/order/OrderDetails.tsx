@@ -8,6 +8,7 @@ import { Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
+import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
@@ -18,25 +19,16 @@ import OrderDetailsSummary from './OrderDetailsSummary'
 import OrderOwnerDetails from './OrderOwnerDetails'
 import OrderSummary from './OrderSummary'
 
-const StyledContainer = styled.section`
+const PageContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
 `
 
-const Heading = styled.div`
-  border-radius: 8px;
-  padding-top: 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  font-weight: bold;
-  button {
-    margin-right: 1rem;
-  }
-  span {
-    color: #00ac93;
-  }
+const BreadcrumbsContainer = styled.div`
+  display: flex;
+  margin: 20px 0 4px;
 `
 
 export const Text = styled.div`
@@ -72,18 +64,11 @@ export const StyledButton = styled.button`
     color: white;
   }
 `
-const TicketHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
 
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  margin-top: 4rem;
 `
 
 const ButtonWithSpacing = styled(Button)`
@@ -134,21 +119,30 @@ const OrderDetails: React.FC = () => {
     },
   }
 
+  const breadcrumbsRoutes: Breadcrumb[] = [
+    {
+      label: 'Web Summit 2021', // TODO get event name
+      redirectUrl: '/',
+    },
+    {
+      label: 'Orders',
+      redirectUrl: '/orders',
+    },
+    {
+      label: `Order ${orderRef}`,
+    },
+  ]
+
   return (
     <>
       <Helmet>
         <title>Manage {orderRef} order - Ticket machine</title>
       </Helmet>
-      <StyledContainer>
-        <TicketHeader>
-          <Heading>
-            <Button onClick={history.goBack}>Back</Button>
-            Manage Order/
-            <Tooltip copyToClip value={orderRef}>
-              <TextHighlight>{orderRef}</TextHighlight>
-            </Tooltip>
-          </Heading>
-        </TicketHeader>
+      <PageContainer>
+        <BreadcrumbsContainer>
+          <Breadcrumbs routes={breadcrumbsRoutes} />
+        </BreadcrumbsContainer>
+        {/*<BreadcrumbsContainer routes={breadcrumbsRoutes} />*/}
         {loading && <Loader />}
         {error && (
           <Warning>
@@ -206,14 +200,14 @@ const OrderDetails: React.FC = () => {
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <ContainerCard color="#DF0079" title="Ticket information" noPadding>
+                <ContainerCard noPadding color="#DF0079" title="Ticket information">
                   <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
                 </ContainerCard>
               </div>
             )}
           </div>
         )}
-      </StyledContainer>
+      </PageContainer>
     </>
   )
 }
