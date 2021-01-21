@@ -6,12 +6,8 @@ const StyledContainer = styled.nav`
   display: flex;
   list-style: none;
 
-  > :not(:first-child) {
-    margin-left: 2rem;
-  }
-
   a {
-    color: #0c1439;
+    color: #7e8496;
     font-size: 14px;
     letter-spacing: 0;
     line-height: 24px;
@@ -29,22 +25,15 @@ const StyledContainer = styled.nav`
       color: gray;
     }
 
-    &.active {
-      color: #0067e9;
-      font-weight: 600;
-    }
+    //&.active {
+    //  color: #0067e9;
+    //}
   }
+`
 
-  li {
-    display: flex;
-    position: relative;
-
-    &:hover {
-      > .navigation_submenu {
-        display: block;
-      }
-    }
-  }
+const SeparatorContainer = styled.span`
+  margin: 0 16px;
+  color: #7e8496;
 `
 
 type Props = {
@@ -72,9 +61,7 @@ const Breadcrumbs = ({ routes, children }: Props) => {
               {route?.label}
             </NavLink>
 
-            {Object.values(routes).length !== index - 1 && (
-              <span className="material-icons">keyboard_arrow_right</span>
-            )}
+            {routes.length - 1 !== index && <SeparatorContainer>/</SeparatorContainer>}
           </li>
         ))}
 
