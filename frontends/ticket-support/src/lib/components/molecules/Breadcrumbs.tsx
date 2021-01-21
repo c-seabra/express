@@ -42,7 +42,6 @@ type Props = {
 }
 
 export type Breadcrumb = {
-  isActive?: boolean
   label?: string
   redirectUrl?: string
 }
@@ -55,7 +54,7 @@ const Breadcrumbs = ({ routes, children }: Props) => {
           <li key={`b_id-${index}`}>
             <NavLink
               activeClassName="active"
-              className={route.isActive ? '' : 'disabled'}
+              className={route.redirectUrl ? '' : 'disabled'}
               to={route.redirectUrl || '/'}
             >
               {route?.label}
