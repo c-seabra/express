@@ -72,6 +72,17 @@ export type Ticket = {
   ticketType: Pick<TicketType, 'name'>
 }
 
+export enum TicketStatus {
+  ACCEPTED = 'Accepted',
+  ASSIGNED = 'Assigned',
+  CHECKED_IN = 'Checked In',
+  DUPLICATE = 'Duplicate',
+  LOCKED = 'Locked',
+  REJECTED = 'Rejected',
+  UNASSIGNED = 'Unassigned',
+  VOID = 'Void',
+}
+
 export type PageInfo = {
   endCursor: string
   hasNextPage: string
