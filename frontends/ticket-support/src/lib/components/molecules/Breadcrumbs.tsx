@@ -52,33 +52,13 @@ type Props = {
   routes?: Breadcrumb[]
 }
 
-type Breadcrumb = {
+export type Breadcrumb = {
   isActive?: boolean
   label?: string
   redirectUrl?: string
 }
 
-const testB: Breadcrumb[] = [
-  {
-    isActive: true,
-    label: 'WebSummmit',
-    redirectUrl: 'test',
-  },
-
-  {
-    isActive: true,
-    label: 'WebSummmit',
-    redirectUrl: 'test',
-  },
-
-  {
-    isActive: true,
-    label: 'WebSummmit',
-    redirectUrl: 'test',
-  },
-]
-
-const Breadcrumbs = ({ routes = testB, children }: Props) => {
+const Breadcrumbs = ({ routes, children }: Props) => {
   return (
     <StyledContainer>
       {routes &&
