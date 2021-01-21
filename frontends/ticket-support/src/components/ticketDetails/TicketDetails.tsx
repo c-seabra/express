@@ -212,7 +212,7 @@ const ticketDetails: React.FC = () => {
 
           <SpacingBottom>
             <StyledRow>
-              <TextHeading>Manage tickets</TextHeading>
+              <TextHeading>Manage ticket</TextHeading>
             </StyledRow>
           </SpacingBottom>
 
