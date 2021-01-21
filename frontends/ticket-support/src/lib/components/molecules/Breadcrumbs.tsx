@@ -24,10 +24,6 @@ const StyledContainer = styled.nav`
       pointer-events: none;
       color: gray;
     }
-
-    //&.active {
-    //  color: #0067e9;
-    //}
   }
 `
 

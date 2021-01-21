@@ -26,23 +26,9 @@ const PageContainer = styled.section`
   font-size: 16px;
 `
 
-const BreadcrumbsContainer = styled(Breadcrumbs)`
+const BreadcrumbsContainer = styled.div`
   display: flex;
-  margin: 20px 0;
-`
-
-const Heading = styled.div`
-  border-radius: 8px;
-  padding-top: 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  font-weight: bold;
-  button {
-    margin-right: 1rem;
-  }
-  span {
-    color: #00ac93;
-  }
+  margin: 20px 0 4px;
 `
 
 export const Text = styled.div`
@@ -78,18 +64,11 @@ export const StyledButton = styled.button`
     color: white;
   }
 `
-const TicketHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
 
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  margin-top: 4rem;
 `
 
 const ButtonWithSpacing = styled(Button)`
@@ -140,7 +119,7 @@ const OrderDetails: React.FC = () => {
     },
   }
 
-  const testB: Breadcrumb[] = [
+  const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Web Summit 2021', // TODO get event name
       redirectUrl: '/',
@@ -160,7 +139,10 @@ const OrderDetails: React.FC = () => {
         <title>Manage {orderRef} order - Ticket machine</title>
       </Helmet>
       <PageContainer>
-        <BreadcrumbsContainer routes={testB} />
+        <BreadcrumbsContainer>
+          <Breadcrumbs routes={breadcrumbsRoutes} />
+        </BreadcrumbsContainer>
+        {/*<BreadcrumbsContainer routes={breadcrumbsRoutes} />*/}
         {loading && <Loader />}
         {error && (
           <Warning>
