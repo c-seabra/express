@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import React, { useState, useEffect } from 'react'
 
 import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject'
-import { Button } from '../ticketDetails/TicketDetails'
+import { Button } from '../../lib/components/atoms/Button'
 import Warning from './Warning'
 import { useAppContext } from '../app/AppContext'
 
