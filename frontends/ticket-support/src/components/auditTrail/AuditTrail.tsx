@@ -2,6 +2,7 @@ import { ApolloError, useQuery } from '@apollo/client'
 import React from 'react'
 import styled from 'styled-components'
 
+import Heading from '../../lib/components/atoms/Heading'
 import Loader from '../../lib/Loading'
 import TICKET_AUDIT_TRAIL from '../../operations/queries/AuditTrailByTicketId'
 import AuditTrailItem from './AuditTrailItem'
@@ -30,9 +31,20 @@ export type TicketTrail = {
   versions?: [TrailVersion]
 }
 
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const TableHeaderLabel = styled.span`
+  color: #0c1439;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+`
+
 const TrailsList = styled.div`
-  border: 1px solid grey;
-  border-radius: 8px;
   overflow: hidden;
   margin: 1rem 0;
 `
@@ -113,20 +125,41 @@ const AuditTrail = ({
         {!orderedTrails.length && <div>No paper trail records at the moment.</div>}
         {error && <div>{error}</div>}
         {loading && <Loader />}
-        <TrailsList>
-          <Trail>
-            <MediumColumn>Created at</MediumColumn>
-            <Column>Type</Column>
-            <Column>Event</Column>
-            <Column>Intent</Column>
-            <Column>Reason</Column>
-            <WideColumn>Who</WideColumn>
-            <Column>Changes</Column>
-          </Trail>
-          {orderedTrails.map(trail => (
-            <AuditTrailItem key={trail.itemId} trail={trail} />
-          ))}
-        </TrailsList>
+
+        <StyledContainer>
+          <Heading>History changes</Heading>
+          <p>There is a little line below this heading that explains what you can put here</p>
+          <TrailsList>
+            <Trail>
+              <MediumColumn>
+                <TableHeaderLabel>Logged at</TableHeaderLabel>
+              </MediumColumn>
+              <Column>
+                <TableHeaderLabel>Type</TableHeaderLabel>
+              </Column>
+              <Column>
+                <TableHeaderLabel>Event</TableHeaderLabel>
+              </Column>
+              <Column>
+                <TableHeaderLabel>Intent</TableHeaderLabel>
+              </Column>
+              <Column>
+                <TableHeaderLabel>Reason</TableHeaderLabel>
+              </Column>
+              <WideColumn>
+                {' '}
+                <TableHeaderLabel>Owner</TableHeaderLabel>
+              </WideColumn>
+              <Column>
+                {' '}
+                <TableHeaderLabel>Changes</TableHeaderLabel>
+              </Column>
+            </Trail>
+            {orderedTrails.map(trail => (
+              <AuditTrailItem key={trail.itemId} trail={trail} />
+            ))}
+          </TrailsList>
+        </StyledContainer>
       </>
     )
   }
