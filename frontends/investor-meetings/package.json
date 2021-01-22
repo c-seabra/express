@@ -26,6 +26,7 @@
     "@types/react-dom": "^16.9.6",
     "@types/systemjs": "^6.1.0",
     "@types/webpack-env": "^1.15.1",
+    "@graphql-typed-document-node/core": "^3.1.0",
     "babel-plugin-styled-components": "^1.11.1",
     "circular-dependency-plugin": "^5.2.2",
     "isomorphic-unfetch": "^3.1.0",
@@ -34,7 +35,9 @@
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.2.0",
+    "single-spa-react": "^3.2.0",
     "styled-components": "^5.2.1",
+    "systemjs-webpack-interop": "^2.3.4",
     "ts-loader": "^8.0.11"
   },
   "devDependencies": {
@@ -103,8 +106,6 @@
     "react": "^16.13.0",
     "react-apollo": "^4.0.0-beta.1",
     "react-dom": "^16.13.0",
-    "single-spa-react": "^3.2.0",
-    "systemjs-webpack-interop": "^2.1.2",
     "ts-config-single-spa": "^1.7.0",
     "typescript": "^3.8.3",
     "webpack": "^4.41.2",
