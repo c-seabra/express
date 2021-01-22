@@ -36,33 +36,31 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `
 
-const TableHeaderLabel = styled.span`
+const DefaultText = styled.span`
   color: #0c1439;
   font-size: 14px;
-  font-weight: 600;
   letter-spacing: 0;
   line-height: 24px;
 `
 
-const TrailsList = styled.div`
+const TableHeaderLabel = styled(DefaultText)`
+  font-weight: 600;
+`
+
+const Table = styled.div`
   overflow: hidden;
   margin: 1rem 0;
 `
-const Trail = styled.div`
-  font-size: 1rem;
+const TableHeader = styled.div`
   display: flex;
   padding: 1rem 0.75rem;
-  background-color: gainsboro;
-  &:nth-child(2n + 1) {
-    background-color: #fff;
-  }
 `
 export const Column = styled.div`
-  width: 10%;
-  padding: 0 0.25rem;
-  word-break: break-word;
+  width: 20%;
   display: flex;
   align-items: center;
+  padding: 0 0.25rem;
+  word-break: break-word;
 `
 export const MediumColumn = styled(Column)`
   width: 15%;
@@ -126,34 +124,25 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
         <StyledContainer>
           <Heading>History changes</Heading>
           <p>There is a little line below this heading that explains what you can put here</p>
-          <TrailsList>
-            <Trail>
-              <MediumColumn>
+          <Table>
+            <TableHeader>
+              <WideColumn>
                 <TableHeaderLabel>Logged at</TableHeaderLabel>
-              </MediumColumn>
+              </WideColumn>
               <Column>
                 <TableHeaderLabel>Type</TableHeaderLabel>
-              </Column>
-              <Column>
-                <TableHeaderLabel>Event</TableHeaderLabel>
-              </Column>
-              <Column>
-                <TableHeaderLabel>Intent</TableHeaderLabel>
-              </Column>
-              <Column>
-                <TableHeaderLabel>Reason</TableHeaderLabel>
               </Column>
               <WideColumn>
                 <TableHeaderLabel>Owner</TableHeaderLabel>
               </WideColumn>
               <Column>
-                <TableHeaderLabel>Changes</TableHeaderLabel>
+                <TableHeaderLabel>Reason</TableHeaderLabel>
               </Column>
-            </Trail>
+            </TableHeader>
             {orderedTrails.map(trail => (
               <AuditTrailItem key={trail.itemId} trail={trail} />
             ))}
-          </TrailsList>
+          </Table>
         </StyledContainer>
       </>
     )

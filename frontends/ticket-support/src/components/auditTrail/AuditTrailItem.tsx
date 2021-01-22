@@ -2,17 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { Button } from '../../lib/components/atoms/Button'
-
 import { Column, MediumColumn, WideColumn } from './AuditTrail'
 
 const Trail = styled.div`
-  font-size: 1rem;
   display: flex;
   padding: 1rem 0.75rem;
-  background-color: gainsboro;
-  &:nth-child(2n + 1) {
-    background-color: #fff;
-  }
+  border-bottom: 1px solid #dcdfe5;
 `
 
 const ChangesList = styled.div`
@@ -96,58 +91,56 @@ const AuditTrailItem = ({
     <Trail>
       <MediumColumn>{createdAt}</MediumColumn>
       <Column>{itemType}</Column>
-      <Column>{event}</Column>
-      <Column>unknown</Column>
-      <Column>{reason || 'No reason given'}</Column>
       <WideColumn>{whodunnit}</WideColumn>
-      <MediumColumn>
-        <ChangesListWrap>
-          <Button onClick={() => setOpenChangesLog(!openChangesLog)}>See changes</Button>
-          <ChangesList className={openChangesLog ? 'active' : ''}>
-            <div>
-              <Button onClick={() => setOpenChangesLog(!openChangesLog)}>Close</Button>
-              {Object.entries(objectChanges).map(([key, value]) => {
-                return <Change title={key} values={value} />
-              })}
-              {context?.assignments && (
-                <div>
-                  <div>
-                    Assignee name - {context.assignments.current?.assignee_name || 'undefined'}
-                    <br />
-                    Assignee email - {context.assignments.current?.assignee_email || 'undefined'}
-                  </div>
-                  <div>
-                    Assigner name - {context.assignments.current?.assigner_name || 'undefined'}
-                    <br />
-                    Assigner email - {context.assignments.current?.assigner_email || 'undefined'}
-                  </div>
-                  <div>
-                    Previous Assignee name -{' '}
-                    {context.assignments.previous?.assignee_name || 'undefined'}
-                    <br />
-                    Previous Assignee email -{' '}
-                    {context.assignments.previous?.assignee_email || 'undefined'}
-                  </div>
-                  <div>
-                    Previous Assigner name -{' '}
-                    {context.assignments.previous?.assigner_name || 'undefined'}
-                    <br />
-                    Previous Assigner email -{' '}
-                    {context.assignments.previous?.assigner_email || 'undefined'}
-                  </div>
-                </div>
-              )}
-              {context?.assigne && (
-                <div>
-                  <div>Previous assignee - {context.assignee.previous_assignee || 'undefined'}</div>
-                  <div>Assigner - {context.assignee.assigner || 'undefined'}</div>
-                  <div>New Assignee - {context.assignee.assignee || 'undefined'}</div>
-                </div>
-              )}
-            </div>
-          </ChangesList>
-        </ChangesListWrap>
-      </MediumColumn>
+      <Column>{reason || 'No reason given'}</Column>
+      {/*<MediumColumn>*/}
+      {/*  <ChangesListWrap>*/}
+      {/*    <Button onClick={() => setOpenChangesLog(!openChangesLog)}>See changes</Button>*/}
+      {/*    <ChangesList className={openChangesLog ? 'active' : ''}>*/}
+      {/*      <div>*/}
+      {/*        <Button onClick={() => setOpenChangesLog(!openChangesLog)}>Close</Button>*/}
+      {/*        {Object.entries(objectChanges).map(([key, value]) => {*/}
+      {/*          return <Change title={key} values={value} />*/}
+      {/*        })}*/}
+      {/*        {context?.assignments && (*/}
+      {/*          <div>*/}
+      {/*            <div>*/}
+      {/*              Assignee name - {context.assignments.current?.assignee_name || 'undefined'}*/}
+      {/*              <br />*/}
+      {/*              Assignee email - {context.assignments.current?.assignee_email || 'undefined'}*/}
+      {/*            </div>*/}
+      {/*            <div>*/}
+      {/*              Assigner name - {context.assignments.current?.assigner_name || 'undefined'}*/}
+      {/*              <br />*/}
+      {/*              Assigner email - {context.assignments.current?.assigner_email || 'undefined'}*/}
+      {/*            </div>*/}
+      {/*            <div>*/}
+      {/*              Previous Assignee name -{' '}*/}
+      {/*              {context.assignments.previous?.assignee_name || 'undefined'}*/}
+      {/*              <br />*/}
+      {/*              Previous Assignee email -{' '}*/}
+      {/*              {context.assignments.previous?.assignee_email || 'undefined'}*/}
+      {/*            </div>*/}
+      {/*            <div>*/}
+      {/*              Previous Assigner name -{' '}*/}
+      {/*              {context.assignments.previous?.assigner_name || 'undefined'}*/}
+      {/*              <br />*/}
+      {/*              Previous Assigner email -{' '}*/}
+      {/*              {context.assignments.previous?.assigner_email || 'undefined'}*/}
+      {/*            </div>*/}
+      {/*          </div>*/}
+      {/*        )}*/}
+      {/*        {context?.assigne && (*/}
+      {/*          <div>*/}
+      {/*            <div>Previous assignee - {context.assignee.previous_assignee || 'undefined'}</div>*/}
+      {/*            <div>Assigner - {context.assignee.assigner || 'undefined'}</div>*/}
+      {/*            <div>New Assignee - {context.assignee.assignee || 'undefined'}</div>*/}
+      {/*          </div>*/}
+      {/*        )}*/}
+      {/*      </div>*/}
+      {/*    </ChangesList>*/}
+      {/*  </ChangesListWrap>*/}
+      {/*</MediumColumn>*/}
     </Trail>
   )
 }
