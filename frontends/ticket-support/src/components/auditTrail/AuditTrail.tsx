@@ -88,13 +88,6 @@ const AuditTrail = ({
     },
   })
 
-  if (loading)
-    return (
-      <div>
-        <Loader />
-      </div>
-    )
-  if (error) return <div>{error}</div>
   if (data && data.ticket) {
     let trails: Array<TrailVersion> = []
     const ticketTrails = data.ticket.versions
@@ -115,22 +108,26 @@ const AuditTrail = ({
         ? -1
         : 0
     )
-    if (!orderedTrails.length) return <div>No paper trail records at the moment.</div>
     return (
-      <TrailsList>
-        <Trail>
-          <MediumColumn>Created at</MediumColumn>
-          <Column>Type</Column>
-          <Column>Event</Column>
-          <Column>Intent</Column>
-          <Column>Reason</Column>
-          <WideColumn>Who</WideColumn>
-          <Column>Changes</Column>
-        </Trail>
-        {orderedTrails.map(trail => (
-          <AuditTrailItem key={trail.itemId} trail={trail} />
-        ))}
-      </TrailsList>
+      <>
+        {!orderedTrails.length && <div>No paper trail records at the moment.</div>}
+        {error && <div>{error}</div>}
+        {loading && <Loader />}
+        <TrailsList>
+          <Trail>
+            <MediumColumn>Created at</MediumColumn>
+            <Column>Type</Column>
+            <Column>Event</Column>
+            <Column>Intent</Column>
+            <Column>Reason</Column>
+            <WideColumn>Who</WideColumn>
+            <Column>Changes</Column>
+          </Trail>
+          {orderedTrails.map(trail => (
+            <AuditTrailItem key={trail.itemId} trail={trail} />
+          ))}
+        </TrailsList>
+      </>
     )
   }
   return <div>none</div>
