@@ -7,7 +7,7 @@ require('dotenv').config()
 
 const config = {
   entry: {
-    investorMeetings: './src/index.js',
+    investorPortal: './src/index.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -84,7 +84,7 @@ module.exports = (env, argv) => {
       new HtmlWebPackPlugin({
         template: 'template.html',
         filename: './index.html',
-        title: 'investorMeetings',
+        title: 'investorPortal',
         token: process.env.TOKEN,
         env: process.env.ENV,
       }),

@@ -1,5 +1,5 @@
 {
-  "name": "@WebSummit/investor-meetings",
+  "name": "@WebSummit/investor-portal",
   "scripts": {
     "analyze": "webpack --mode=production --env.analyze=true",
     "build": "webpack --mode=production",
