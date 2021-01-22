@@ -62,7 +62,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({bookingRef, first
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
-                    bookingReference: bookingRef
+                    bookingReference: bookingRef ? bookingRef.toUpperCase() : undefined
                   }
                 ]
               }

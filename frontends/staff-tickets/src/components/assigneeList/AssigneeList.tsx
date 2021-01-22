@@ -17,17 +17,17 @@ const AssigneeList: React.FC<{list: TicketList}> = ({list}) => {
   return (
     <StyledList>
       <AssigneeListHeader />
-      {list.map(({firstName, lastName, email, bookingRef = '???'}) => {
+      {list.map(({firstName, lastName, email, bookingRef }) => {
         if (!bookingRef && !email) return (
           <AssigneeItem
-            bookingRef={bookingRef}
+            bookingRef={bookingRef || '???'}
             firstName={firstName}
             lastName={lastName}
             email={email}
             status={{message: 'Not enough information provided', type: 'ERROR'}}
           />
         )
-        return <AssigneeItemProvider key={bookingRef} bookingRef={bookingRef.toUpperCase()} firstName={firstName} lastName={lastName} email={email} />
+        return <AssigneeItemProvider key={bookingRef} bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} />
       })}
     </StyledList>
   )
