@@ -9,6 +9,7 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import Modal from '../../lib/components/molecules/Modal'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
 import TICKET from '../../operations/queries/Ticket'
@@ -153,7 +154,7 @@ const ticketDetails: React.FC = () => {
   const [reassignment, setReassignment] = useState(false)
   const [loginEmailChange, setLoginEmailChange] = useState(false)
   const [identityEmailChange, setIdentityEmailChange] = useState(false)
-  const [showAuditTrail, setShowAuditTrail] = useState(false)
+  // const [showAuditTrail, setShowAuditTrail] = useState(false)
 
   const {
     loading,
@@ -195,6 +196,9 @@ const ticketDetails: React.FC = () => {
       label: `Ticket ${bookingRef}`,
     },
   ]
+  const [isHistoryModalOpen, setHistoryModalOpen] = useState(false)
+  const closeHistoryModal = () => setHistoryModalOpen(false)
+  const openHistoryModal = () => setHistoryModalOpen(true)
 
   return (
     <>
@@ -239,26 +243,19 @@ const ticketDetails: React.FC = () => {
                 <SpacingBottomSm>
                   <PrimaryButton>Reassign</PrimaryButton>
                 </SpacingBottomSm>
-
                 <SpacingBottomSm>
                   <PrimaryButton>Unassign</PrimaryButton>
                 </SpacingBottomSm>
-
-                <Button as={SecondaryButton}>Load history changes</Button>
-
-                <div>
-                  <p>History changes</p>
-                  <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
-                    {showAuditTrail ? 'Hide' : 'Load History Changes'}
-                  </Button>
-                  {showAuditTrail && (
-                    <AuditTrail
-                      bookingRef={bookingRef}
-                      conferenceSlug={conferenceSlug as string}
-                      token={token as string}
-                    />
-                  )}
-                </div>
+                <Modal isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
+                  <AuditTrail
+                    bookingRef={bookingRef}
+                    conferenceSlug={conferenceSlug as string}
+                    token={token as string}
+                  />
+                </Modal>
+                <Button as={SecondaryButton} onClick={openHistoryModal}>
+                  Load history changes
+                </Button>
               </StyledInnerContainerCard>
             </TicketActionsContainerCard>
 
