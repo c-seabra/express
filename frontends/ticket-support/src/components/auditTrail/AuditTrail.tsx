@@ -71,26 +71,22 @@ export const WideColumn = styled(Column)`
   width: 25%;
 `
 
-const AuditTrail = ({
-  bookingRef,
-  conferenceSlug,
-  token,
-}: {
+type TicketTrailResponse = {
+  data?: {
+    ticket: TicketTrail
+  }
+  error?: ApolloError
+  loading?: boolean
+}
+
+type AuditTrailProps = {
   bookingRef: string
   conferenceSlug: string
   token: string
-}) => {
-  const {
-    loading,
-    error,
-    data,
-  }: {
-    data?: {
-      ticket: TicketTrail
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(TICKET_AUDIT_TRAIL, {
+}
+
+const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
+  const queryOptions = {
     context: {
       slug: conferenceSlug,
       token,
@@ -98,7 +94,8 @@ const AuditTrail = ({
     variables: {
       reference: bookingRef,
     },
-  })
+  }
+  const { loading, error, data }: TicketTrailResponse = useQuery(TICKET_AUDIT_TRAIL, queryOptions)
 
   if (data && data.ticket) {
     let trails: Array<TrailVersion> = []
@@ -147,11 +144,9 @@ const AuditTrail = ({
                 <TableHeaderLabel>Reason</TableHeaderLabel>
               </Column>
               <WideColumn>
-                {' '}
                 <TableHeaderLabel>Owner</TableHeaderLabel>
               </WideColumn>
               <Column>
-                {' '}
                 <TableHeaderLabel>Changes</TableHeaderLabel>
               </Column>
             </Trail>
