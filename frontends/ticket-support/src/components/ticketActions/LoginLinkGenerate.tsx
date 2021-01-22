@@ -6,6 +6,7 @@ import { Account } from '../../lib/types'
 import MAGIC_LINK_GENERATE from '../../operations/mutations/LoginLinkGenerate'
 import { useAppContext } from '../app/AppContext'
 import { StyledButton, TextHighlight } from '../order/OrderDetails'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 
 const LoginLinkGenerate = ({ account }: { account: Account }) => {
   const { conferenceSlug, token } = useAppContext()
@@ -21,8 +22,8 @@ const LoginLinkGenerate = ({ account }: { account: Account }) => {
     )
 
   return (
-    <StyledButton
-      style={{ cursor: 'pointer' }}
+    <Button
+      as={SecondaryButton}
       type="button"
       onClick={async () => {
         // eslint-disable-next-line no-alert
@@ -47,7 +48,7 @@ const LoginLinkGenerate = ({ account }: { account: Account }) => {
       }}
     >
       Generate login link
-    </StyledButton>
+    </Button>
   )
 }
 

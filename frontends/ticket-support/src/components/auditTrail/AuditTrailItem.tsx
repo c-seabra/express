@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../ticketDetails/TicketDetails'
+import { Button } from '../../lib/components/atoms/Button'
+
 import { Column, MediumColumn, WideColumn } from './AuditTrail'
 
 const Trail = styled.div`

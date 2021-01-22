@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client'
 import React, { FC, useEffect, useState } from 'react'
 
 import UNLOCK_MUTATION from '../../operations/mutations/TicketUnlock'
-import { Button } from '../ticketDetails/TicketDetails'
+import { Button } from '../../lib/components/atoms/Button'
 import { useAppContext } from '../app/AppContext'
 import Warning from './Warning'
 
