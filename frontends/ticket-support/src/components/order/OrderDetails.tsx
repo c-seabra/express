@@ -77,7 +77,6 @@ const ButtonWithSpacing = styled(Button)`
 
 const OrderDetails: React.FC = () => {
   const { orderRef } = useParams<{ orderRef: string }>()
-  const history = useHistory()
   const { conferenceSlug, token } = useAppContext()
 
   const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
@@ -142,7 +141,6 @@ const OrderDetails: React.FC = () => {
         <BreadcrumbsContainer>
           <Breadcrumbs routes={breadcrumbsRoutes} />
         </BreadcrumbsContainer>
-        {/*<BreadcrumbsContainer routes={breadcrumbsRoutes} />*/}
         {loading && <Loader />}
         {error && (
           <Warning>
