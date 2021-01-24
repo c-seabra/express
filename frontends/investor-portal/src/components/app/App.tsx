@@ -6,6 +6,7 @@ import withApollo from '../../lib/apollo/withApollo'
 import AttendeeControlPanel from '../attendeeControlPanel/AttendeeControlPanel'
 import LandingPageSelection from '../landingPageSelection/LandingPageSelection'
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard'
+import AppContext from './AppContext'
 
 const App = ({ token }: { token: string }) => {
   const [conferenceSlug, setConferenceSlug] = useState<string>()
@@ -22,18 +23,24 @@ const App = ({ token }: { token: string }) => {
 
   return (
     <Router>
-      <Switch>
-        <Route exact path="/">
-          <LandingPageSelection />
-        </Route>
-        <Route path="/settings">
-          {conferenceSlug}
-          <SettingsDashboard />
-        </Route>
-        <Route path="/attendee">
-          <AttendeeControlPanel />
-        </Route>
-      </Switch>
+      <AppContext.Provider
+        value={{
+          conferenceSlug,
+          token,
+        }}
+      >
+        <Switch>
+          <Route exact path="/">
+            <LandingPageSelection />
+          </Route>
+          <Route path="/settings">
+            <SettingsDashboard />
+          </Route>
+          <Route path="/attendee">
+            <AttendeeControlPanel />
+          </Route>
+        </Switch>
+      </AppContext.Provider>
     </Router>
   )
 }
