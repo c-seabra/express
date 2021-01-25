@@ -26,7 +26,7 @@ const DetailContainer = styled.div`
   flex-direction: column;
 
   margin-bottom: 16px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }

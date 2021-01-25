@@ -50,8 +50,9 @@ const TableHeaderLabel = styled(DefaultText)`
 `
 
 const Table = styled.div`
-  overflow: hidden;
   margin: 1rem 0;
+  overflow-y: auto;
+  height: 80vh;
 `
 const TableHeader = styled.div`
   display: flex;
