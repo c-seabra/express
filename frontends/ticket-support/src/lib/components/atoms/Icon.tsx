@@ -1,13 +1,11 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const StyledIcon = styled.span`
   cursor: pointer;
 `
 
-type Props = React.BaseHTMLAttributes<HTMLSpanElement> & {
-  children: ReactElement | string
-}
+type Props = React.BaseHTMLAttributes<HTMLSpanElement>
 
 const Icon = ({ children, ...props }: Props) => {
   return (
