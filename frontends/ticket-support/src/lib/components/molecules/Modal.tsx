@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react'
 import ReactModal from 'react-modal'
 import styled from 'styled-components'
+import Icon from "../atoms/Icon";
 
 const customStyles = {
   content: {
@@ -26,10 +27,6 @@ const ExitActionContainer = styled.div`
   justify-content: flex-end;
 `
 
-const ExitIcon = styled.span`
-  cursor: pointer;
-`
-
 type ModalProps = {
   children?: ReactElement | ReactElement[] | string
   isOpen: boolean
@@ -37,15 +34,13 @@ type ModalProps = {
   withoutDefaultActions?: boolean
 }
 
-const Modal = ({ isOpen, onRequestClose, withoutDefaultActions = false, children }: ModalProps) => {
+const Modal = ({ isOpen, onRequestClose, withoutDefaultActions = false, noPadding = false, children }: ModalProps) => {
   return (
     <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
       <ModalContainer>
         {!withoutDefaultActions && (
           <ExitActionContainer>
-            <ExitIcon className="material-icons" onClick={onRequestClose}>
-              close
-            </ExitIcon>
+            <Icon onClick={onRequestClose}>close</Icon>
           </ExitActionContainer>
         )}
         {children}
