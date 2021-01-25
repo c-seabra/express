@@ -5,7 +5,7 @@ const StyledIcon = styled.span`
   cursor: pointer;
 `
 
-type Props = React.InputHTMLAttributes<HTMLLabelElement> & {
+type Props = React.BaseHTMLAttributes<HTMLSpanElement> & {
   children: ReactElement | string
 }
 
