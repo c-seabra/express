@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../../lib/components/atoms/Button'
 import { Column, MediumColumn, TrailVersion, WideColumn } from './AuditTrail'
 
 const DataRow = styled.div`
@@ -35,7 +34,6 @@ const AuditTrailItem = ({
     context: contextString,
     createdAt,
     itemType,
-    event,
     reason,
     whodunnit,
     objectChanges: objectChangesString,
@@ -50,10 +48,10 @@ const AuditTrailItem = ({
   return (
     <>
       <DataRow onClick={setOpenChangesLog}>
-        <MediumColumn>{createdAt}</MediumColumn>
+        <WideColumn>{createdAt}</WideColumn>
         <Column>{itemType}</Column>
         <WideColumn>{whodunnit}</WideColumn>
-        <Column>{reason || 'No reason given'}</Column>
+        <WideColumn>{reason || 'No reason given'}</WideColumn>
       </DataRow>
 
       {openDetailsRow && (

@@ -58,16 +58,16 @@ const TableHeader = styled.div`
   padding: 1rem 0.75rem;
 `
 export const Column = styled.div`
-  width: 20%;
+  width: 25%;
   display: flex;
   align-items: center;
   padding: 0 0.25rem;
   word-break: break-word;
 `
-export const MediumColumn = styled(Column)`
-  width: 15%;
-`
 export const WideColumn = styled(Column)`
+  width: 20%;
+`
+export const XlColumn = styled(Column)`
   width: 25%;
 `
 
@@ -134,9 +134,9 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
             <WideColumn>
               <TableHeaderLabel>Owner</TableHeaderLabel>
             </WideColumn>
-            <Column>
+            <WideColumn>
               <TableHeaderLabel>Reason</TableHeaderLabel>
-            </Column>
+            </WideColumn>
           </TableHeader>
 
           {!orderedTrails.length && <div>No paper trail records at the moment.</div>}
