@@ -6,7 +6,7 @@ const StyledIcon = styled.span`
 `
 
 type Props = React.InputHTMLAttributes<HTMLLabelElement> & {
-  children: ReactElement
+  children: ReactElement | string
 }
 
 const Icon = ({ children, ...props }: Props) => {
