@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react'
 import ReactModal from 'react-modal'
 import styled from 'styled-components'
-import Icon from "../atoms/Icon";
+
+import Icon from '../atoms/Icon'
 
 const customStyles = {
   content: {
@@ -34,7 +35,7 @@ type ModalProps = {
   withoutDefaultActions?: boolean
 }
 
-const Modal = ({ isOpen, onRequestClose, withoutDefaultActions = false, noPadding = false, children }: ModalProps) => {
+const Modal = ({ isOpen, onRequestClose, withoutDefaultActions = false, children }: ModalProps) => {
   return (
     <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
       <ModalContainer>
