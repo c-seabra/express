@@ -151,59 +151,6 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
       </StyledContainer>
     </>
   )
-  // if (data && data.ticket) {
-  //   let trails: Array<TrailVersion> = []
-  //   const ticketTrails = data.ticket.versions
-  //   if (ticketTrails) trails = trails.concat(ticketTrails)
-  //   const assignmentsTrails = data.ticket.assignments?.edges
-  //   let assignmentTrailsVersions: Array<TrailVersion> = []
-  //   if (assignmentsTrails) {
-  //     for (let index = 0; index < assignmentsTrails.length; index++) {
-  //       const element = assignmentsTrails[index]
-  //       assignmentTrailsVersions = assignmentTrailsVersions.concat(element.node.versions)
-  //     }
-  //     trails = trails.concat(assignmentTrailsVersions)
-  //   }
-  //   const orderedTrails = trails.sort((a, b) =>
-  //     a.createdAt && b.createdAt && a.createdAt < b.createdAt
-  //       ? 1
-  //       : a.createdAt && b.createdAt && b.createdAt < a.createdAt
-  //       ? -1
-  //       : 0
-  //   )
-  //   return (
-  //     <>
-  //       {!orderedTrails.length && <div>No paper trail records at the moment.</div>}
-  //       {error && <div>{error}</div>}
-  //       {loading && <Loader />}
-  //
-  //       <StyledContainer>
-  //         <Heading>History changes</Heading>
-  //         <p>There is a little line below this heading that explains what you can put here</p>
-  //         <Table>
-  //           <TableHeader>
-  //             <WideColumn>
-  //               <TableHeaderLabel>Logged at</TableHeaderLabel>
-  //             </WideColumn>
-  //             <Column>
-  //               <TableHeaderLabel>Type</TableHeaderLabel>
-  //             </Column>
-  //             <WideColumn>
-  //               <TableHeaderLabel>Owner</TableHeaderLabel>
-  //             </WideColumn>
-  //             <Column>
-  //               <TableHeaderLabel>Reason</TableHeaderLabel>
-  //             </Column>
-  //           </TableHeader>
-  //           {orderedTrails.map(trail => (
-  //             <AuditTrailItem key={trail.itemId} trail={trail} />
-  //           ))}
-  //         </Table>
-  //       </StyledContainer>
-  //     </>
-  //   )
-  // }
-  // return <div>none</div>
 }
 
 export default AuditTrail
