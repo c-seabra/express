@@ -2,6 +2,8 @@ import React, { ReactElement, useState } from 'react'
 import ReactModal from 'react-modal'
 import styled from 'styled-components'
 
+import Icon from '../atoms/Icon'
+
 const customStyles = {
   content: {
     bottom: 'auto',
@@ -77,9 +79,7 @@ const Modal = ({
           {title && <ModalTitle>{title}</ModalTitle>}
           {!withoutDefaultActions && (
             <ExitActionContainer>
-              <ExitIcon className="material-icons" onClick={onRequestClose}>
-                close
-              </ExitIcon>
+              <Icon onClick={onRequestClose}>close</Icon>
             </ExitActionContainer>
           )}
         </ModalHeader>

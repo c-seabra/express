@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Route, Routes } from '../../constants/routes'
+import Icon from '../atoms/Icon'
 
 const StyledNavigation = styled.nav`
   display: flex;
@@ -117,7 +118,7 @@ const MainNavigation = ({ routes, children }: Props) => {
                   </li>
                 ))}
             </StyledDropbox>
-            {route.hasChildren && <span className="material-icons">keyboard_arrow_down</span>}
+            {route.hasChildren && <Icon>keyboard_arrow_down</Icon>}
           </li>
         ))}
 
