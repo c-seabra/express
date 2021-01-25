@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import Icon from '../../lib/components/atoms/Icon'
 import { Column, TrailVersion, WideColumn } from './AuditTrail'
 
 const DataRow = styled.div`
@@ -20,15 +21,15 @@ const DetailsRow = styled.div`
   background-color: #f7f9fa;
 `
 
-const DetailsContainer = styled.div`
-  display: flex;
-`
-
 const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
 
   margin-bottom: 16px;
+`
+
+const DetailContainerAligned = styled(DetailContainer)`
+  align-content: center;
 `
 
 const DetailValue = styled.span`
@@ -82,6 +83,7 @@ const AuditTrailItem = ({
   const [openDetailsRow, setOpenChangesLog] = useState(false)
   const objectChanges = objectChangesString && JSON.parse(objectChangesString)
   const context = contextString && JSON.parse(contextString)
+  const noDataLabel = 'undefined'
 
   return (
     <>
@@ -94,44 +96,60 @@ const AuditTrailItem = ({
 
       {openDetailsRow && (
         <DetailsRow>
-          {Object.entries(objectChanges).map(([key, value]) => {
-            return <Change title={key} values={value} />
-          })}
+          <DetailContainer>
+            {Object.entries(objectChanges).map(([key, value]) => {
+              return <Change title={key} values={value} />
+            })}
+          </DetailContainer>
           {context?.assignments && (
-            <DetailsContainer>
-              <DetailContainer>
-                Assignee name - {context.assignments.current?.assignee_name || 'undefined'}
-                <br />
-                Assignee email - {context.assignments.current?.assignee_email || 'undefined'}
-              </DetailContainer>
-              <DetailContainer>
-                Assigner name - {context.assignments.current?.assigner_name || 'undefined'}
-                <br />
-                Assigner email - {context.assignments.current?.assigner_email || 'undefined'}
-              </DetailContainer>
+            <DetailContainer>
+              <DetailContainerAligned>
+                <DetailLabel>Assignee name</DetailLabel>
 
-              <div>
-                Previous Assignee name -{' '}
-                {context.assignments.previous?.assignee_name || 'undefined'}
-                <br />
-                Previous Assignee email -{' '}
-                {context.assignments.previous?.assignee_email || 'undefined'}
-              </div>
-              <div>
-                Previous Assigner name -{' '}
-                {context.assignments.previous?.assigner_name || 'undefined'}
-                <br />
-                Previous Assigner email -{' '}
-                {context.assignments.previous?.assigner_email || 'undefined'}
-              </div>
-            </DetailsContainer>
+                <DetailValue>
+                  {context.assignments.previous?.assignee_name || noDataLabel}
+                  <Icon>arrow_forward</Icon>{' '}
+                  {context.assignments.current?.assignee_name || noDataLabel}{' '}
+                </DetailValue>
+              </DetailContainerAligned>
+
+              <DetailContainerAligned>
+                <DetailLabel>Assignee email</DetailLabel>
+
+                <DetailValue>
+                  {context.assignments.previous?.assignee_email || noDataLabel}
+                  <Icon>arrow_forward</Icon>{' '}
+                  {context.assignments.current?.assignee_email || noDataLabel}
+                </DetailValue>
+              </DetailContainerAligned>
+
+              <DetailContainerAligned>
+                <DetailLabel>Assigneer name</DetailLabel>
+
+                <DetailValue>
+                  {context.assignments.previous?.assigneer_name || noDataLabel}
+                  <Icon>arrow_forward</Icon>{' '}
+                  {context.assignments.current?.assigneer_name || noDataLabel}{' '}
+                </DetailValue>
+              </DetailContainerAligned>
+
+              <DetailContainerAligned>
+                <DetailLabel>Assigneer email</DetailLabel>
+
+                <DetailValue>
+                  {context.assignments.previous?.assigneer_email || noDataLabel}
+                  <Icon>arrow_forward</Icon>{' '}
+                  {context.assignments.current?.assigneer_email || noDataLabel}
+                </DetailValue>
+              </DetailContainerAligned>
+            </DetailContainer>
           )}
           {context?.assigne && (
-            <div>
-              <div>Previous assignee - {context.assignee.previous_assignee || 'undefined'}</div>
-              <div>Assigner - {context.assignee.assigner || 'undefined'}</div>
-              <div>New Assignee - {context.assignee.assignee || 'undefined'}</div>
-            </div>
+            <DetailContainer>
+              <div>Previous assignee - {context.assignee.previous_assignee || noDataLabel}</div>
+              <div>Assigner - {context.assignee.assigner || noDataLabel}</div>
+              <div>New Assignee - {context.assignee.assignee || noDataLabel}</div>
+            </DetailContainer>
           )}
         </DetailsRow>
       )}
