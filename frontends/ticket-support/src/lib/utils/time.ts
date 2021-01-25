@@ -11,3 +11,8 @@ export const formatDefaultDateTime = (isoDate: string): string => {
   const date = DateTime.fromISO(isoDate)
   return date.toLocaleString(DateTime.DATETIME_SHORT)
 }
+
+export const formatDateTime = (dateTime: string) => {
+  const formattedDateTime = new Date(dateTime)
+  return formattedDateTime.toString()
+}
