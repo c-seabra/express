@@ -26,6 +26,10 @@ const DetailContainer = styled.div`
   flex-direction: column;
 
   margin-bottom: 16px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
 `
 
 const DetailContainerAligned = styled(DetailContainer)`
@@ -51,6 +55,11 @@ const DetailLabel = styled(DetailValue)`
 
 const DetailLabelCapitalized = styled(DetailLabel)`
   text-transform: capitalize;
+`
+
+const DetailValueCentered = styled(DetailValue)`
+  display: flex;
+  align-items: center;
 `
 
 const Change = ({ title, values }: { title?: string; values: Array<string> | unknown }) => {
@@ -106,11 +115,11 @@ const AuditTrailItem = ({
               <DetailContainerAligned>
                 <DetailLabel>Assignee name</DetailLabel>
 
-                <DetailValue>
+                <DetailValueCentered>
                   {context.assignments.previous?.assignee_name || noDataLabel}
                   <Icon color="#3BB273">arrow_forward</Icon>{' '}
                   {context.assignments.current?.assignee_name || noDataLabel}{' '}
-                </DetailValue>
+                </DetailValueCentered>
               </DetailContainerAligned>
 
               <DetailContainerAligned>
@@ -126,21 +135,21 @@ const AuditTrailItem = ({
               <DetailContainerAligned>
                 <DetailLabel>Assigneer name</DetailLabel>
 
-                <DetailValue>
+                <DetailValueCentered>
                   {context.assignments.previous?.assigneer_name || noDataLabel}
                   <Icon color="#3BB273">arrow_forward</Icon>{' '}
                   {context.assignments.current?.assigneer_name || noDataLabel}{' '}
-                </DetailValue>
+                </DetailValueCentered>
               </DetailContainerAligned>
 
               <DetailContainerAligned>
                 <DetailLabel>Assigneer email</DetailLabel>
 
-                <DetailValue>
+                <DetailValueCentered>
                   {context.assignments.previous?.assigneer_email || noDataLabel}
                   <Icon color="#3BB273">arrow_forward</Icon>{' '}
                   {context.assignments.current?.assigneer_email || noDataLabel}
-                </DetailValue>
+                </DetailValueCentered>
               </DetailContainerAligned>
             </DetailContainer>
           )}
