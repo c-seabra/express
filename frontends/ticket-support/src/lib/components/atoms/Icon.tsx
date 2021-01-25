@@ -1,15 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-const StyledIcon = styled.span`
+const StyledIcon = styled.span<{ color?: string }>`
   cursor: pointer;
+
+  ${props =>
+    props.color &&
+    css`
+      color: ${props.color};
+    `}
 `
 
-type Props = React.BaseHTMLAttributes<HTMLSpanElement>
+type Props = React.BaseHTMLAttributes<HTMLSpanElement> & {
+  color?: string
+}
 
-const Icon = ({ children, ...props }: Props) => {
+const Icon = ({ color, children, ...props }: Props) => {
   return (
-    <StyledIcon className="material-icons" {...props}>
+    <StyledIcon className="material-icons" color={color} {...props}>
       {children}
     </StyledIcon>
   )

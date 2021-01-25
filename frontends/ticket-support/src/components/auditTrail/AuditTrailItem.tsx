@@ -108,7 +108,7 @@ const AuditTrailItem = ({
 
                 <DetailValue>
                   {context.assignments.previous?.assignee_name || noDataLabel}
-                  <Icon>arrow_forward</Icon>{' '}
+                  <Icon color="#3BB273">arrow_forward</Icon>{' '}
                   {context.assignments.current?.assignee_name || noDataLabel}{' '}
                 </DetailValue>
               </DetailContainerAligned>
@@ -118,7 +118,7 @@ const AuditTrailItem = ({
 
                 <DetailValue>
                   {context.assignments.previous?.assignee_email || noDataLabel}
-                  <Icon>arrow_forward</Icon>{' '}
+                  <Icon color="#3BB273">arrow_forward</Icon>{' '}
                   {context.assignments.current?.assignee_email || noDataLabel}
                 </DetailValue>
               </DetailContainerAligned>
@@ -128,7 +128,7 @@ const AuditTrailItem = ({
 
                 <DetailValue>
                   {context.assignments.previous?.assigneer_name || noDataLabel}
-                  <Icon>arrow_forward</Icon>{' '}
+                  <Icon color="#3BB273">arrow_forward</Icon>{' '}
                   {context.assignments.current?.assigneer_name || noDataLabel}{' '}
                 </DetailValue>
               </DetailContainerAligned>
@@ -138,7 +138,7 @@ const AuditTrailItem = ({
 
                 <DetailValue>
                   {context.assignments.previous?.assigneer_email || noDataLabel}
-                  <Icon>arrow_forward</Icon>{' '}
+                  <Icon color="#3BB273">arrow_forward</Icon>{' '}
                   {context.assignments.current?.assigneer_email || noDataLabel}
                 </DetailValue>
               </DetailContainerAligned>
