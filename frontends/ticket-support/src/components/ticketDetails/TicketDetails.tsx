@@ -4,12 +4,8 @@ import { Helmet } from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Input, Tooltip } from '../../lib/components'
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import TextHeading from '../../lib/components/atoms/Heading'
-import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import Loader from '../../lib/Loading'
+import { Tooltip } from '../../lib/components'
 import { Ticket } from '../../lib/types'
 import TICKET from '../../operations/queries/Ticket'
 import { useAppContext } from '../app/AppContext'
@@ -23,104 +19,64 @@ import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import StatePlate from '../ticketItem/StatePlate'
-import { Text } from './TicketDetails-old'
 
-// --- new ---
-
-const PageContainer = styled.div`
+const StyledContainer = styled.section`
+  padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-
-  display: flex;
-  flex-direction: column;
-`
-
-const BreadcrumbsContainer = styled.div`
-  display: flex;
-  margin: 20px 0 4px;
-`
-
-const SpacingBottom = styled.div`
-  margin-bottom: 2.5rem;
-`
-
-const SpacingBottomSm = styled.div`
-  margin-bottom: 1rem;
-`
-
-const SpacingRightSm = styled.div`
-  margin-right: 1rem;
-`
-
-const StyledRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const RowContainer = styled.div`
-  display: flex;
-`
-
-const ContainerCardInner = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const TicketDetailsActions = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
-
-  & > div {
-    min-width: 30%;
-    margin-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid grey;
+  hr {
+    border-color: grey;
+    margin: 1rem 0;
   }
 `
 
-const TicketActionsContainerCard = styled(ContainerCard)`
-  margin-right: 3.75rem;
-  max-width: 300px;
+const Heading = styled.div`
+  border-radius: 8px;
+  padding-top: 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: bold;
+  button {
+    margin-right: 1rem;
+  }
+  span {
+    color: #00ac93;
+  }
 `
 
-const StyledPairContainer = styled.span`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+export const Text = styled.div`
+  border-radius: 8px;
+  padding: 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  a {
+    color: #337ab7;
+    margin: 0 0.25rem;
+  }
 `
 
-const StyledLabel = styled.span`
-  color: #959aaa;
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0;
-  line-height: 24px;
+const TextHighlight = styled.span`
+  color: #337ab7;
+  margin: 0 0.25rem;
 `
 
-const StyledValue = styled.span`
-  color: #0c1439;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 24px;
+export const Button = styled.button`
+  margin: 0 0 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  border: 1px solid grey;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    background-color: grey;
+    color: white;
+  }
 `
-
-const StyledInnerContainerCard = styled.span`
-  display: flex;
-  flex-direction: column;
-  padding: 32px;
-`
-
-const StyledInnerContainerCardWithBorder = styled(StyledInnerContainerCard)`
-  border-bottom: 1px solid #dcdfe5;
-`
-
-const PrimaryButton = styled(Button)`
-  width: 100%;
-`
-
 const TicketHeader = styled.div`
   display: flex;
   align-items: center;
@@ -139,11 +95,6 @@ const TicketStatus = styled.div`
 const TicketStatusBar = styled.div`
   display: flex;
   align-items: center;
-`
-
-const TextHighlight = styled.span`
-  color: #337ab7;
-  margin: 0 0.25rem;
 `
 
 const ticketDetails: React.FC = () => {
@@ -178,155 +129,181 @@ const ticketDetails: React.FC = () => {
   const ticket = data?.ticket
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
-  const breadcrumbsRoutes: Breadcrumb[] = [
-    {
-      label: 'Web Summit 2020', // TODO get event name
-      redirectUrl: '/',
-    },
-    {
-      label: 'Orders',
-      redirectUrl: '/orders',
-    },
-    {
-      label: 'Order',
-      redirectUrl: '/order',
-    },
-    {
-      label: `Ticket ${bookingRef}`,
-    },
-  ]
 
   return (
-    <>
-      <Helmet>
-        <title>Manage {bookingRef} ticket - Ticket machine</title>
-      </Helmet>
+      <>
+        <Helmet>
+          <title>Manage {bookingRef} ticket - Ticket machine</title>
+        </Helmet>
+        {loading && <Loader />}
+        {error && <div>{error}</div>}
+        {!loading && !error && ticket && (
+            <StyledContainer>
+              <TicketHeader>
+                <Heading>
+                  <Button type="button" onClick={() => history.goBack()}>
+                    Back
+                  </Button>
+                  Manage Ticket/
+                  <Tooltip copyToClip value={bookingRef}>
+                    <TextHighlight>{bookingRef}</TextHighlight>
+                  </Tooltip>
+                </Heading>
+                <Heading>
+                  <Button
+                      type="button"
+                      onClick={() => history.push(`/order/${ticket.order.reference}`)}
+                  >
+                    Order Details
+                  </Button>
+                </Heading>
+                <TicketStatusBar>
+                  <TicketStatus>
+                    <span>Ticket status</span>
+                    <StatePlate state={ticket?.state} />
+                  </TicketStatus>
+                  <TicketStatus>
+                    <span>Assignment status</span>
+                    <StatePlate state={!assignment ? 'Unassigned' : assignment?.state} />
+                  </TicketStatus>
+                </TicketStatusBar>
+              </TicketHeader>
+              <div>
+                <hr />
+                {ticket && ticket.state !== 'VOID' && !assignment && (
+                    <>
+                      <div>
+                        <Heading>Assign ticket:</Heading>
+                        <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} />
+                      </div>
+                    </>
+                )}
 
-      {loading && <Loader />}
-      {error && <div>{error}</div>}
-      {!loading && !error && ticket && (
-        <PageContainer>
-          <BreadcrumbsContainer>
-            <Breadcrumbs routes={breadcrumbsRoutes} />
-          </BreadcrumbsContainer>
+                {assignee && (
+                    <div>
+                      <Heading>Assignee details</Heading>
+                      <Text>
+                        Name: {assignee.firstName} {assignee.lastName}
+                      </Text>
+                      <Text>
+                        Email:
+                        <Tooltip copyToClip value={assignee.email}>
+                          <TextHighlight>{assignee.email}</TextHighlight>
+                        </Tooltip>
+                      </Text>
+                      {ticket && reassignment && (
+                          <div>
+                            <Heading>Reassign ticket</Heading>
+                            <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} />
+                          </div>
+                      )}
+                      {ticket.state !== 'VOID' && (
+                          <Button onClick={() => setReassignment(!reassignment)}>
+                            {reassignment ? 'Cancel' : 'Reassign'}
+                          </Button>
+                      )}
+                      {ticket.state !== 'VOID' &&
+                      (assignment?.state === 'ACCEPTED' || assignment?.state === 'PENDING') && (
+                          <div>
+                            <TicketReject ticketId={ticket.id} />
+                          </div>
+                      )}
 
-          <SpacingBottom>
-            <StyledRow>
-              <TextHeading>Manage ticket</TextHeading>
-            </StyledRow>
-          </SpacingBottom>
+                      <hr />
 
-          <RowContainer>
-            <TicketActionsContainerCard noPadding>
-              <StyledInnerContainerCardWithBorder>
-                <StyledPairContainer>
-                  <StyledLabel>Ticket reference</StyledLabel>
-                  <StyledValue>{bookingRef}</StyledValue>
-                </StyledPairContainer>
+                      <Heading>Assignment dashboard login link</Heading>
+                      <LoginLinkRequest account={assignee} />
 
-                <StyledPairContainer>
-                  <StyledLabel>Ticket type</StyledLabel>
-                  <StyledValue>{ticket?.ticketType?.name}</StyledValue>
-                </StyledPairContainer>
+                      <hr />
 
-                <StyledPairContainer>
-                  <StyledLabel>Ticket status</StyledLabel>
-                  <StatePlate state={ticket?.state} />
-                </StyledPairContainer>
-              </StyledInnerContainerCardWithBorder>
+                      <Heading>Assignment dashboard login link generate</Heading>
+                      <LoginLinkGenerate account={assignee} />
 
-              <StyledInnerContainerCard>
-                <SpacingBottomSm>
-                  <PrimaryButton>Reassign</PrimaryButton>
-                </SpacingBottomSm>
+                      <hr />
 
-                <SpacingBottomSm>
-                  <PrimaryButton>Unassign</PrimaryButton>
-                </SpacingBottomSm>
+                      <Heading>Ticket access information</Heading>
+                      <Text>
+                        Booking reference:
+                        <Tooltip copyToClip value={bookingRef}>
+                          <TextHighlight>{bookingRef}</TextHighlight>
+                        </Tooltip>
+                      </Text>
+                      {assignment?.state === 'ACCEPTED' && (
+                          <>
+                            <Text>
+                              App login email:
+                              <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
+                                <TextHighlight>
+                                  {assignment?.appLoginEmail || assignee?.email}
+                                </TextHighlight>
+                              </Tooltip>
+                            </Text>
+                            {loginEmailChange && (
+                                <UpdateAppLoginEmail
+                                    bookingRef={bookingRef}
+                                    resetLoginEmailChange={setLoginEmailChange}
+                                />
+                            )}
+                            <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                              {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
+                            </Button>
+                          </>
+                      )}
 
-                <Button as={SecondaryButton}>Load history changes</Button>
-
+                      {assignee && (
+                          <>
+                            <hr />
+                            <Heading>User account information</Heading>
+                            <Text>
+                              Identity email:
+                              <Tooltip copyToClip value={assignee?.email}>
+                                <TextHighlight>{assignee?.email}</TextHighlight>
+                              </Tooltip>
+                            </Text>
+                            {identityEmailChange && (
+                                <IdentityEmailUpdate
+                                    accountId={assignee?.id}
+                                    resetIdentityEmailChange={setIdentityEmailChange}
+                                />
+                            )}
+                            <Button onClick={() => setIdentityEmailChange(!identityEmailChange)}>
+                              {identityEmailChange ? 'Cancel' : 'Update Identity Email'}
+                            </Button>
+                          </>
+                      )}
+                    </div>
+                )}
+                {(assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID') ||
+                ticket.state === 'LOCKED' ? (
+                    <div>
+                      <hr />
+                      <Heading>Ticket operation</Heading>
+                      {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
+                      {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
+                          <div>
+                            <TicketClaim ticketId={ticket.id} />
+                          </div>
+                      )}
+                    </div>
+                ) : null}
                 <div>
-                  <p>History changes</p>
+                  <hr />
+                  <Heading>History changes</Heading>
                   <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
                     {showAuditTrail ? 'Hide' : 'Load History Changes'}
                   </Button>
                   {showAuditTrail && (
-                    <AuditTrail
-                      bookingRef={bookingRef}
-                      conferenceSlug={conferenceSlug as string}
-                      token={token as string}
-                    />
+                      <AuditTrail
+                          bookingRef={bookingRef}
+                          conferenceSlug={conferenceSlug as string}
+                          token={token as string}
+                      />
                   )}
                 </div>
-              </StyledInnerContainerCard>
-            </TicketActionsContainerCard>
-
-            <ContainerCard title="User account details">
-              {/* {ticket && ticket.state !== 'VOID' && !assignment && ( */}
-              {/*  <> */}
-              {/*    <div> */}
-              {/*      <Heading>Assign ticket:</Heading> */}
-              {/*      <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} /> */}
-              {/*    </div> */}
-              {/*  </> */}
-              {/* )} */}
-              <ContainerCardInner>
-                <p>There is a little line below this heading that explains what you can put here</p>
-
-                <SpacingBottom>
-                  <StyledLabel>Unique user identifier</StyledLabel>
-                  <Input disabled value="dylan.hodge@websummit.net" />
-                </SpacingBottom>
-
-                <SpacingBottom>
-                  <StyledLabel>App login email</StyledLabel>
-                  <Input disabled value={assignment?.appLoginEmail || assignee?.email} />
-
-                  {assignment?.state === 'ACCEPTED' && (
-                    <>
-                      <Text>
-                        App login email:
-                        <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
-                          <TextHighlight>
-                            {assignment?.appLoginEmail || assignee?.email}
-                          </TextHighlight>
-                        </Tooltip>
-                      </Text>
-                      {loginEmailChange && (
-                        <UpdateAppLoginEmail
-                          bookingRef={bookingRef}
-                          resetLoginEmailChange={setLoginEmailChange}
-                        />
-                      )}
-                      <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                        {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
-                      </Button>
-                    </>
-                  )}
-                </SpacingBottom>
-
-                {assignee && (
-                  <>
-                    <SpacingBottomSm>
-                      <StyledLabel>Assignment dashboard login link</StyledLabel>
-                      <LoginLinkRequest account={assignee} />
-                    </SpacingBottomSm>
-
-                    <RowContainer>
-                      <SpacingRightSm>
-                        <LoginLinkGenerate account={assignee} />
-                      </SpacingRightSm>
-                      <Button as={SecondaryButton}>Send assignee login link email</Button>
-                    </RowContainer>
-                  </>
-                )}
-              </ContainerCardInner>
-            </ContainerCard>
-          </RowContainer>
-        </PageContainer>
-      )}
-    </>
+              </div>
+            </StyledContainer>
+        )}
+      </>
   )
 }
 
