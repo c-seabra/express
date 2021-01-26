@@ -13,6 +13,8 @@ const DataRow = styled.div`
   font-size: 14px;
   letter-spacing: 0;
   line-height: 24px;
+
+  cursor: pointer;
 `
 
 const DetailsRow = styled.div`
