@@ -135,13 +135,13 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
               <TableHeaderLabel>Logged at</TableHeaderLabel>
             </Column>
             <Column width="15%">
-              <TableHeaderLabel>Type</TableHeaderLabel>
+              <TableHeaderLabel>Type of change</TableHeaderLabel>
             </Column>
             <Column width="40%">
-              <TableHeaderLabel>Owner</TableHeaderLabel>
+              <TableHeaderLabel>Initiated by</TableHeaderLabel>
             </Column>
             <Column width="25%">
-              <TableHeaderLabel>Reason</TableHeaderLabel>
+              <TableHeaderLabel>Reason for change</TableHeaderLabel>
             </Column>
           </TableHeader>
 
