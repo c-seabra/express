@@ -1,9 +1,3 @@
-export type Event = {
-  id: string
-  name: string
-  slug: string
-}
-
 export type PageInfo = {
   endCursor: string
   hasNextPage: string
