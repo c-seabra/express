@@ -57,6 +57,8 @@ const Table = styled.div`
 const TableHeader = styled.div`
   display: flex;
   padding: 1rem 0.75rem;
+  border-top: 1px solid #dcdfe5;
+  border-bottom: 1px solid #dcdfe5;
 `
 export const Column = styled.div`
   width: 25%;
