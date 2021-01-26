@@ -18,8 +18,6 @@ export type TrailVersion = {
   whodunnit?: string
 }
 
-
-
 export type TicketTrail = {
   assignments?: {
     edges?: [
@@ -52,7 +50,8 @@ const TableHeaderLabel = styled(DefaultText)`
 const Table = styled.div`
   margin: 1rem 0;
   overflow-y: auto;
-  height: 80vh;
+  min-width: 70vw;
+  height: 60vh;
 `
 const TableHeader = styled.div`
   display: flex;
@@ -60,8 +59,8 @@ const TableHeader = styled.div`
   border-top: 1px solid #dcdfe5;
   border-bottom: 1px solid #dcdfe5;
 `
-export const Column = styled.div`
-  width: 25%;
+export const Column = styled.div<{ width?: string }>`
+  width: ${props => (props.width ? props.width : '25%')};
   display: flex;
   align-items: center;
   padding: 0 0.25rem;
@@ -132,18 +131,18 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
         </LeftSpacing>
         <Table>
           <TableHeader>
-            <WideColumn>
+            <Column width="20%">
               <TableHeaderLabel>Logged at</TableHeaderLabel>
-            </WideColumn>
-            <Column>
+            </Column>
+            <Column width="15%">
               <TableHeaderLabel>Type</TableHeaderLabel>
             </Column>
-            <WideColumn>
+            <Column width="40%">
               <TableHeaderLabel>Owner</TableHeaderLabel>
-            </WideColumn>
-            <WideColumn>
+            </Column>
+            <Column width="25%">
               <TableHeaderLabel>Reason</TableHeaderLabel>
-            </WideColumn>
+            </Column>
           </TableHeader>
 
           {!orderedTrails.length && <div>No paper trail records at the moment.</div>}

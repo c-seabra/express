@@ -15,6 +15,10 @@ const DataRow = styled.div`
   line-height: 24px;
 
   cursor: pointer;
+
+  &:hover {
+    background-color: #dadada;
+  }
 `
 
 const DetailsRow = styled.div`
@@ -28,6 +32,10 @@ const DetailContainer = styled.div`
   flex-direction: column;
 
   margin-bottom: 16px;
+
+  &:first-child {
+    margin-right: 6.25rem;
+  }
 
   &:last-child {
     margin-bottom: 0;
@@ -43,8 +51,6 @@ const DetailValue = styled.span`
   font-size: 14px;
   letter-spacing: 0;
   line-height: 24px;
-
-  margin-right: 100px;
 
   &:last-child {
     margin-right: 0;
@@ -62,6 +68,14 @@ const DetailLabelCapitalized = styled(DetailLabel)`
 const DetailValueCentered = styled(DetailValue)`
   display: flex;
   align-items: center;
+`
+
+const IconWithSpacing = styled(Icon)`
+  margin: 0 8px;
+`
+
+const BlueValue = styled.span`
+  color: #0067e9;
 `
 
 const Change = ({ title, values }: { title?: string; values: Array<string> | unknown }) => {
@@ -99,10 +113,12 @@ const AuditTrailItem = ({
   return (
     <>
       <DataRow onClick={setOpenChangesLog}>
-        <WideColumn>{createdAt}</WideColumn>
-        <Column>{itemType}</Column>
-        <WideColumn>{whodunnit}</WideColumn>
-        <WideColumn>{reason || 'No reason given'}</WideColumn>
+        <Column width="20%">
+          <BlueValue>{createdAt}</BlueValue>
+        </Column>
+        <Column width="15%">{itemType}</Column>
+        <Column width="40%">{whodunnit}</Column>
+        <Column width="25%">{reason || 'No reason given'}</Column>
       </DataRow>
 
       {openDetailsRow && (
@@ -119,8 +135,10 @@ const AuditTrailItem = ({
 
                 <DetailValueCentered>
                   {context.assignments.previous?.assignee_name || noDataLabel}
-                  <Icon color="#3BB273">arrow_forward</Icon>{' '}
-                  {context.assignments.current?.assignee_name || noDataLabel}{' '}
+                  <IconWithSpacing>
+                    <Icon color="#3BB273">arrow_forward</Icon>
+                  </IconWithSpacing>
+                  {context.assignments.current?.assignee_name || noDataLabel}
                 </DetailValueCentered>
               </DetailContainerAligned>
 
@@ -129,7 +147,9 @@ const AuditTrailItem = ({
 
                 <DetailValue>
                   {context.assignments.previous?.assignee_email || noDataLabel}
-                  <Icon color="#3BB273">arrow_forward</Icon>{' '}
+                  <IconWithSpacing>
+                    <Icon color="#3BB273">arrow_forward</Icon>
+                  </IconWithSpacing>
                   {context.assignments.current?.assignee_email || noDataLabel}
                 </DetailValue>
               </DetailContainerAligned>
@@ -139,8 +159,10 @@ const AuditTrailItem = ({
 
                 <DetailValueCentered>
                   {context.assignments.previous?.assigneer_name || noDataLabel}
-                  <Icon color="#3BB273">arrow_forward</Icon>{' '}
-                  {context.assignments.current?.assigneer_name || noDataLabel}{' '}
+                  <IconWithSpacing>
+                    <Icon color="#3BB273">arrow_forward</Icon>
+                  </IconWithSpacing>
+                  {context.assignments.current?.assigneer_name || noDataLabel}
                 </DetailValueCentered>
               </DetailContainerAligned>
 
@@ -149,7 +171,9 @@ const AuditTrailItem = ({
 
                 <DetailValueCentered>
                   {context.assignments.previous?.assigneer_email || noDataLabel}
-                  <Icon color="#3BB273">arrow_forward</Icon>{' '}
+                  <IconWithSpacing>
+                    <Icon color="#3BB273">arrow_forward</Icon>
+                  </IconWithSpacing>
                   {context.assignments.current?.assigneer_email || noDataLabel}
                 </DetailValueCentered>
               </DetailContainerAligned>
