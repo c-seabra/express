@@ -36,24 +36,11 @@ const SendLoginLinkModal = ({
   isOpen,
   ...props
 }: SendLoginLinkModalProps) => {
-  const [isConfirmed, setConfirmed] = useState(false)
   const [reasonForChange, setReasonForChange] = useState('')
-
-  const cancelAction = () => {
-    setConfirmed(false)
-    onRequestClose()
-  }
-
-  const renderConfirmActionFooter = () => (
-    <ModalFooter>
-      <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
-      <Button onClick={() => setConfirmed(true)}>Confirm</Button>
-    </ModalFooter>
-  )
 
   const renderSendEmailActionFooter = () => (
     <ModalFooter>
-      <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
+      <StyledSecondaryButton onClick={onRequestClose}>Cancel</StyledSecondaryButton>
       <Button
         disabled={!reasonForChange}
         onClick={() => {
@@ -61,7 +48,7 @@ const SendLoginLinkModal = ({
           onRequestClose()
         }}
       >
-        Send
+        Confirm
       </Button>
     </ModalFooter>
   )
@@ -69,21 +56,17 @@ const SendLoginLinkModal = ({
   return (
     <Modal
       isOpen={isOpen}
-      renderFooter={isConfirmed ? renderSendEmailActionFooter : renderConfirmActionFooter}
+      renderFooter={renderSendEmailActionFooter}
       title="Send assignee login link email"
-      onRequestClose={cancelAction}
+      onRequestClose={onRequestClose}
       {...props}
     >
       <SendLinkModalContent>
-        {isConfirmed ? (
-          <StyledLabeledInput
-            label="Please enter a reason for this change (required)"
-            value={reasonForChange}
-            onChange={e => setReasonForChange(e.target.value)}
-          />
-        ) : (
-          'Are you sure you want to send another login link to this assignee?'
-        )}
+        <StyledLabeledInput
+          label="Please enter a reason for this change (required)"
+          value={reasonForChange}
+          onChange={e => setReasonForChange(e.target.value)}
+        />
       </SendLinkModalContent>
     </Modal>
   )
