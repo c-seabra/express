@@ -246,7 +246,7 @@ const ticketDetails: React.FC = () => {
                 <SpacingBottomSm>
                   <PrimaryButton>Unassign</PrimaryButton>
                 </SpacingBottomSm>
-                <Modal isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
+                <Modal noPadding isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
                   <AuditTrail
                     bookingRef={bookingRef}
                     conferenceSlug={conferenceSlug as string}

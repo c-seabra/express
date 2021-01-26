@@ -4,20 +4,6 @@ import styled from 'styled-components'
 
 import Icon from '../atoms/Icon'
 
-const customStyles = {
-  content: {
-    bottom: 'auto',
-    left: '50%',
-    marginRight: '-50%',
-    right: 'auto',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-  },
-}
-
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,11 +17,33 @@ const ExitActionContainer = styled.div`
 type ModalProps = {
   children?: ReactElement | ReactElement[] | string
   isOpen: boolean
+  noPadding?: boolean
   onRequestClose: () => void
   withoutDefaultActions?: boolean
 }
 
-const Modal = ({ isOpen, onRequestClose, withoutDefaultActions = false, children }: ModalProps) => {
+const Modal = ({
+  isOpen,
+  onRequestClose,
+  withoutDefaultActions = false,
+  noPadding = false,
+  children,
+}: ModalProps) => {
+  const customStyles = {
+    content: {
+      bottom: 'auto',
+      left: '50%',
+      marginRight: '-50%',
+      padding: noPadding ? '0' : '16px',
+      right: 'auto',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+    },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    },
+  }
+
   return (
     <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
       <ModalContainer>
