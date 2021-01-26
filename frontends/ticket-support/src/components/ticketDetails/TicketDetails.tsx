@@ -1,5 +1,5 @@
 import { ApolloError, useQuery } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -15,17 +15,26 @@ import TICKET from '../../operations/queries/Ticket'
 import { useAppContext } from '../app/AppContext'
 import AuditTrail from '../auditTrail/AuditTrail'
 import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
+import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
-import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketClaim from '../ticketActions/TicketClaim'
 import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import StatePlate from '../ticketItem/StatePlate'
-import { Text } from './TicketDetails-old'
 
 // --- new ---
+const Text = styled.div`
+  border-radius: 8px;
+  padding: 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  a {
+    color: #337ab7;
+    margin: 0 0.25rem;
+  }
+`
 
 const PageContainer = styled.div`
   max-width: 1440px;
@@ -92,7 +101,7 @@ const StyledPairContainer = styled.span`
 `
 
 const StyledLabel = styled.span`
-  color: #959aaa;
+  color: #091a46;
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 0;
@@ -146,7 +155,7 @@ const TextHighlight = styled.span`
   margin: 0 0.25rem;
 `
 
-const ticketDetails: React.FC = () => {
+const TicketDetails = (): ReactElement => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
   const history = useHistory()
   const { conferenceSlug, token } = useAppContext()
@@ -310,15 +319,8 @@ const ticketDetails: React.FC = () => {
                   <>
                     <SpacingBottomSm>
                       <StyledLabel>Assignment dashboard login link</StyledLabel>
-                      <LoginLinkRequest account={assignee} />
+                      <LoginLinkActions assignee={assignee} />
                     </SpacingBottomSm>
-
-                    <RowContainer>
-                      <SpacingRightSm>
-                        <LoginLinkGenerate account={assignee} />
-                      </SpacingRightSm>
-                      <Button as={SecondaryButton}>Send assignee login link email</Button>
-                    </RowContainer>
                   </>
                 )}
               </ContainerCardInner>
@@ -330,4 +332,4 @@ const ticketDetails: React.FC = () => {
   )
 }
 
-export default ticketDetails
+export default TicketDetails

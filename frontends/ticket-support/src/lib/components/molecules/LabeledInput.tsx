@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+
 import { Input, Label } from '..'
 
 const InputContainer = styled.div`
@@ -16,9 +17,9 @@ type LabeledInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string
 }
 
-const LabeledInput = ({ label, ...props }: LabeledInputProps) => {
+const LabeledInput = ({ label, className, ...props }: LabeledInputProps) => {
   return (
-    <InputContainer>
+    <InputContainer className={className}>
       <Label>{label}</Label>
       <Input {...props} />
     </InputContainer>
