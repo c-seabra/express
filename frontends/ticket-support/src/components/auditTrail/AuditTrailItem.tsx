@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import Icon from '../../lib/components/atoms/Icon'
 import { Column, TrailVersion } from './AuditTrail'
+import {formatDefaultDateTime} from "../../lib/utils/time";
 
 const DataRow = styled.div`
   display: flex;
@@ -82,13 +83,13 @@ const Change = ({ title, values }: { title?: string; values: Array<string> | unk
   const val = Array.isArray(values) ? (values as Array<string>) : values
   const oldVal: string = Array.isArray(val) ? val?.[0] : ''
   const newVal: string = Array.isArray(val) ? val?.[1] : ''
-  const noDataLabel = 'undefined'
+  const noDataLabel = '-'
 
   return (
     <DetailContainer>
       <DetailLabelCapitalized>{title}</DetailLabelCapitalized>
-      <DetailValue>old value - {oldVal || noDataLabel}</DetailValue>
-      <DetailValue>new value - {newVal || noDataLabel}</DetailValue>
+      <DetailValue>last value - {oldVal || noDataLabel}</DetailValue>
+      <DetailValue>updated value - {newVal || noDataLabel}</DetailValue>
     </DetailContainer>
   )
 }
@@ -108,14 +109,14 @@ const AuditTrailItem = ({
   const [openDetailsRow, setOpenChangesLog] = useState(false)
   const objectChanges = objectChangesString && JSON.parse(objectChangesString)
   const context = contextString && JSON.parse(contextString)
-  const noDataLabel = 'undefined'
+  const noDataLabel = '-'
   const setDetailsVisibility = () => setOpenChangesLog(!openDetailsRow)
 
   return (
     <>
       <DataRow onClick={setDetailsVisibility}>
         <Column width="20%">
-          <BlueValue>{createdAt}</BlueValue>
+          <BlueValue>{formatDefaultDateTime(createdAt as string)}</BlueValue>
         </Column>
         <Column width="15%">{itemType}</Column>
         <Column width="40%">{whodunnit}</Column>
@@ -132,7 +133,7 @@ const AuditTrailItem = ({
           {context?.assignments && (
             <DetailContainer>
               <DetailContainerAligned>
-                <DetailLabel>Assignee name</DetailLabel>
+                <DetailLabel>Assignee name change</DetailLabel>
 
                 <DetailValueCentered>
                   {context.assignments.previous?.assignee_name || noDataLabel}
@@ -144,7 +145,7 @@ const AuditTrailItem = ({
               </DetailContainerAligned>
 
               <DetailContainerAligned>
-                <DetailLabel>Assignee email</DetailLabel>
+                <DetailLabel>Assignee email change</DetailLabel>
 
                 <DetailValue>
                   {context.assignments.previous?.assignee_email || noDataLabel}
@@ -156,7 +157,7 @@ const AuditTrailItem = ({
               </DetailContainerAligned>
 
               <DetailContainerAligned>
-                <DetailLabel>Assigneer name</DetailLabel>
+                <DetailLabel>Assigneer name change</DetailLabel>
 
                 <DetailValueCentered>
                   {context.assignments.previous?.assigneer_name || noDataLabel}
@@ -168,7 +169,7 @@ const AuditTrailItem = ({
               </DetailContainerAligned>
 
               <DetailContainerAligned>
-                <DetailLabel>Assigneer email</DetailLabel>
+                <DetailLabel>Assigneer email change</DetailLabel>
 
                 <DetailValueCentered>
                   {context.assignments.previous?.assigneer_email || noDataLabel}
