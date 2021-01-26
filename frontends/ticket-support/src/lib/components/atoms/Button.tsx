@@ -8,7 +8,6 @@
  *  disabled, hovered
  */
 
-import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 export const Button = styled.button`
@@ -17,6 +16,7 @@ export const Button = styled.button`
   font-size: 0.875rem;
   font-weight: 400;
   justify-content: center;
+  align-items: center;
   min-width: 75px;
   padding: 0 32px;
   border-radius: 3px;
@@ -32,10 +32,10 @@ export const Button = styled.button`
   background-color: #0067e9;
 
   &:hover {
-    border: 1px solid: #2269bf;
+    border: 1px solid #2269bf;
     background-color: #2269bf;
   }
-  
+
   &:focus {
     outline: none;
   }

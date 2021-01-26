@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const TICKET = gql`
+const TICKET = gql`
   query Ticket($reference: String!) {
     ticket(reference: $reference) {
       id
