@@ -127,7 +127,7 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
           <Heading>History changes</Heading>
         </LeftSpacing>
         <LeftSpacing>
-          <p>There is a little line below this heading that explains what you can put here</p>
+          <p>Detail log of all changes made to the ticket.</p>
         </LeftSpacing>
         <Table>
           <TableHeader>

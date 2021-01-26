@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import Icon from '../../lib/components/atoms/Icon'
-import { Column, TrailVersion, WideColumn } from './AuditTrail'
+import { Column, TrailVersion } from './AuditTrail'
 
 const DataRow = styled.div`
   display: flex;
@@ -109,10 +109,11 @@ const AuditTrailItem = ({
   const objectChanges = objectChangesString && JSON.parse(objectChangesString)
   const context = contextString && JSON.parse(contextString)
   const noDataLabel = 'undefined'
+  const setDetailsVisibility = () => setOpenChangesLog(!openDetailsRow)
 
   return (
     <>
-      <DataRow onClick={setOpenChangesLog}>
+      <DataRow onClick={setDetailsVisibility}>
         <Column width="20%">
           <BlueValue>{createdAt}</BlueValue>
         </Column>
@@ -125,7 +126,7 @@ const AuditTrailItem = ({
         <DetailsRow>
           <DetailContainer>
             {Object.entries(objectChanges).map(([key, value]) => {
-              return <Change title={key} values={value} />
+              return <Change key={key} title={key} values={value} />
             })}
           </DetailContainer>
           {context?.assignments && (
