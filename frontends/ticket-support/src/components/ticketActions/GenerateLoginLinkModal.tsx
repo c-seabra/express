@@ -15,7 +15,15 @@ const StyledSecondaryButton = styled(SecondaryButton)`
 `
 
 const InputContainer = styled.div`
-  padding: 1rem 0;
+  padding: 2rem 0;
+  height: 50px;
+  width: 450px;
+  font-size: 0.85rem;
+  font-weight: 400;
+`
+
+const StyledLabeledInput = styled(LabeledInput)`
+  width: 100%;
 `
 
 type GenerateLoginLinkModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
@@ -52,7 +60,7 @@ const GenerateLoginLinkModal = ({
       onRequestClose={onRequestClose}
     >
       <InputContainer>
-        <LabeledInput
+        <StyledLabeledInput
           label="Please enter a reason for this change (required)"
           value={reasonForChange}
           onChange={e => setReasonForChange(e.target.value)}
