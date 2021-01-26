@@ -9,9 +9,10 @@ const ModalContainer = styled.div`
   flex-direction: column;
 `
 
-const ExitActionContainer = styled.div`
+const ExitActionContainer = styled.div<{ noPadding?: boolean }>`
   display: flex;
   justify-content: flex-end;
+  padding: ${props => (props.noPadding ? '16px' : '0')}; // Adjust only action header when no padding 
 `
 
 type ModalProps = {
@@ -48,7 +49,7 @@ const Modal = ({
     <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
       <ModalContainer>
         {!withoutDefaultActions && (
-          <ExitActionContainer>
+          <ExitActionContainer noPadding={noPadding}>
             <Icon onClick={onRequestClose}>close</Icon>
           </ExitActionContainer>
         )}

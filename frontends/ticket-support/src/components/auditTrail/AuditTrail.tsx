@@ -70,8 +70,8 @@ export const Column = styled.div`
 export const WideColumn = styled(Column)`
   width: 20%;
 `
-export const XlColumn = styled(Column)`
-  width: 25%;
+export const LeftSpacing = styled.div`
+  padding-left: 16px;
 `
 
 type TicketTrailResponse = {
@@ -124,8 +124,12 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
   return (
     <>
       <StyledContainer>
-        <Heading>History changes</Heading>
-        <p>There is a little line below this heading that explains what you can put here</p>
+        <LeftSpacing>
+          <Heading>History changes</Heading>
+        </LeftSpacing>
+        <LeftSpacing>
+          <p>There is a little line below this heading that explains what you can put here</p>
+        </LeftSpacing>
         <Table>
           <TableHeader>
             <WideColumn>
