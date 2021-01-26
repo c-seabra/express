@@ -3,9 +3,16 @@ import { ApolloError, gql } from '@apollo/client'
 export type EventQuery = {
   data?: {
     event: {
-      id: string
-      name: string
-      slug: string
+      configuration: {
+        investorMeetingsConfigurations: {
+          defaultStartupSelections: number
+          meetingsPerSession: number
+          notifyOfficeHoursInvitees: number
+          sessionDuration: number
+          startupPortalOpeningAt: Date
+          startupSelectionDeadline: Date
+        }
+      }
     }
   }
   error?: ApolloError
@@ -15,9 +22,16 @@ export type EventQuery = {
 export const EVENT_QUERY = gql`
   query {
     event {
-      id
-      name
-      slug
+      configuration {
+        investorMeetingsConfigurations {
+          defaultStartupSelections
+          meetingsPerSession
+          notifyOfficeHoursInvitees
+          sessionDuration
+          startupPortalOpeningAt
+          startupSelectionDeadline
+        }
+      }
     }
   }
 `
