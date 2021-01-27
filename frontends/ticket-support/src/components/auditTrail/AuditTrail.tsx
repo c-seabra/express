@@ -109,13 +109,14 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
     }
     trails = trails.concat(assignmentTrailsVersions)
   }
-  const orderedTrails = trails.sort((a, b) =>
-    a.createdAt && b.createdAt && a.createdAt < b.createdAt
-      ? 1
-      : a.createdAt && b.createdAt && b.createdAt < a.createdAt
-        ? -1
-        : 0
-  )
+
+  const orderedTrails = trails.sort((a, b) => {
+    if (a.createdAt && b.createdAt) {
+      return b.createdAt.localeCompare(a.createdAt)
+    }
+
+    return 0
+  })
 
   return (
     <>
