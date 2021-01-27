@@ -9,7 +9,7 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
-import Modal from '../../lib/components/molecules/Modal'
+import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
 import TICKET from '../../operations/queries/Ticket'
@@ -205,10 +205,12 @@ const TicketDetails = (): ReactElement => {
       label: `Ticket ${bookingRef}`,
     },
   ]
-  const [isHistoryModalOpen, setHistoryModalOpen] = useState(false)
-  const closeHistoryModal = () => setHistoryModalOpen(false)
-  const openHistoryModal = () => setHistoryModalOpen(true)
-
+  const {
+    isOpen: isHistoryModalOpen,
+    openModal: openHistoryModal,
+    closeModal: closeHistoryModal,
+  } = useModalState()
+  
   return (
     <>
       <Helmet>
