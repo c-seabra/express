@@ -84,10 +84,12 @@ const Change = ({ title, values }: { title?: string; values: Array<string> | unk
   const oldVal: string = Array.isArray(val) ? val?.[0] : ''
   const newVal: string = Array.isArray(val) ? val?.[1] : ''
   const noDataLabel = '-'
+  const formattedTitle = title?.replace(/_/g, ' ')
+
 
   return (
     <DetailContainer>
-      <DetailLabelCapitalized>{title}</DetailLabelCapitalized>
+      <DetailLabelCapitalized>{formattedTitle}</DetailLabelCapitalized>
       <DetailValue>last value - {oldVal || noDataLabel}</DetailValue>
       <DetailValue>updated value - {newVal || noDataLabel}</DetailValue>
     </DetailContainer>
