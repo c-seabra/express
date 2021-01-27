@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import Icon from '../../lib/components/atoms/Icon'
+import { formatDefaultDateTime } from '../../lib/utils/time'
 import { Column, TrailVersion } from './AuditTrail'
-import {formatDefaultDateTime} from "../../lib/utils/time";
 
 const DataRow = styled.div`
   display: flex;
@@ -86,13 +86,41 @@ const Change = ({ title, values }: { title?: string; values: Array<string> | unk
   const noDataLabel = '-'
   const formattedTitle = title?.replace(/_/g, ' ')
 
-
   return (
     <DetailContainer>
       <DetailLabelCapitalized>{formattedTitle}</DetailLabelCapitalized>
       <DetailValue>last value - {oldVal || noDataLabel}</DetailValue>
       <DetailValue>updated value - {newVal || noDataLabel}</DetailValue>
     </DetailContainer>
+  )
+}
+
+type DetailChangeProps = {
+  current: any
+  label: string
+  prev: any
+}
+const DetailChange = ({ label, prev, current }: DetailChangeProps) => {
+  const noDataLabel = '-'
+
+  return (
+    <DetailContainerAligned>
+      <DetailLabel>{label}</DetailLabel>
+
+      <DetailValueCentered>
+        {!prev && !current && <span>{noDataLabel}</span>}
+
+        {(prev || current) && (
+          <>
+            {prev || noDataLabel}
+            <IconWithSpacing>
+              <Icon color="#3BB273">arrow_forward</Icon>
+            </IconWithSpacing>
+            {current || noDataLabel}
+          </>
+        )}
+      </DetailValueCentered>
+    </DetailContainerAligned>
   )
 }
 
@@ -134,53 +162,29 @@ const AuditTrailItem = ({
           </DetailContainer>
           {context?.assignments && (
             <DetailContainer>
-              <DetailContainerAligned>
-                <DetailLabel>Assignee name change</DetailLabel>
+              <DetailChange
+                current={context.assignments.current?.assignee_name}
+                label="Assignee name change"
+                prev={context.assignments.previous?.assignee_name}
+              />
 
-                <DetailValueCentered>
-                  {context.assignments.previous?.assignee_name || noDataLabel}
-                  <IconWithSpacing>
-                    <Icon color="#3BB273">arrow_forward</Icon>
-                  </IconWithSpacing>
-                  {context.assignments.current?.assignee_name || noDataLabel}
-                </DetailValueCentered>
-              </DetailContainerAligned>
+              <DetailChange
+                current={context.assignments.current?.assignee_email}
+                label="Assignee email change"
+                prev={context.assignments.previous?.assignee_email}
+              />
 
-              <DetailContainerAligned>
-                <DetailLabel>Assignee email change</DetailLabel>
+              <DetailChange
+                current={context.assignments.current?.assigneer_name}
+                label="Assigneer name change"
+                prev={context.assignments.previous?.assigneer_name}
+              />
 
-                <DetailValue>
-                  {context.assignments.previous?.assignee_email || noDataLabel}
-                  <IconWithSpacing>
-                    <Icon color="#3BB273">arrow_forward</Icon>
-                  </IconWithSpacing>
-                  {context.assignments.current?.assignee_email || noDataLabel}
-                </DetailValue>
-              </DetailContainerAligned>
-
-              <DetailContainerAligned>
-                <DetailLabel>Assigneer name change</DetailLabel>
-
-                <DetailValueCentered>
-                  {context.assignments.previous?.assigneer_name || noDataLabel}
-                  <IconWithSpacing>
-                    <Icon color="#3BB273">arrow_forward</Icon>
-                  </IconWithSpacing>
-                  {context.assignments.current?.assigneer_name || noDataLabel}
-                </DetailValueCentered>
-              </DetailContainerAligned>
-
-              <DetailContainerAligned>
-                <DetailLabel>Assigneer email change</DetailLabel>
-
-                <DetailValueCentered>
-                  {context.assignments.previous?.assigneer_email || noDataLabel}
-                  <IconWithSpacing>
-                    <Icon color="#3BB273">arrow_forward</Icon>
-                  </IconWithSpacing>
-                  {context.assignments.current?.assigneer_email || noDataLabel}
-                </DetailValueCentered>
-              </DetailContainerAligned>
+              <DetailChange
+                current={context.assignments.current?.assigneer_email}
+                label="Assigneer email change"
+                prev={context.assignments.previous?.assigneer_email}
+              />
             </DetailContainer>
           )}
           {context?.assigne && (
