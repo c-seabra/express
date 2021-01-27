@@ -73,6 +73,7 @@ const DetailValueCentered = styled(DetailValue)`
 
 const IconWithSpacing = styled(Icon)`
   margin: 0 8px;
+  height: 19px;
 `
 
 const BlueValue = styled.span`
@@ -114,7 +115,7 @@ const DetailChange = ({ label, prev, current }: DetailChangeProps) => {
           <>
             {prev || noDataLabel}
             <IconWithSpacing>
-              <Icon color="#3BB273">arrow_forward</Icon>
+              <Icon color="#3BB273" size="15px">arrow_forward</Icon>
             </IconWithSpacing>
             {current || noDataLabel}
           </>
