@@ -210,7 +210,7 @@ const TicketDetails = (): ReactElement => {
     openModal: openHistoryModal,
     closeModal: closeHistoryModal,
   } = useModalState()
-  
+
   return (
     <>
       <Helmet>

@@ -92,10 +92,6 @@ const DynamicChange = ({ title, values }: { title: string; values: Array<string>
   const noDataLabel = '-'
   const formattedTitle = normalize(title)
 
-  console.log(` --- ${title}   --- `)
-  console.log(prev, formattedPrev)
-  console.log('curr', current, formattedCurrent)
-
   return (
     <DetailContainer>
       <DetailLabelCapitalized>{formattedTitle}</DetailLabelCapitalized>

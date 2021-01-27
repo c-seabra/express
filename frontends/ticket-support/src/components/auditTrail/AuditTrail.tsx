@@ -117,7 +117,6 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
         : 0
   )
 
-  console.log(orderedTrails)
   return (
     <>
       <StyledContainer>
