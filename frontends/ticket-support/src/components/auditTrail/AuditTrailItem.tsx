@@ -85,16 +85,23 @@ const normalize = (value: string): string => {
 
 const DynamicChange = ({ title, values }: { title: string; values: Array<string> | unknown }) => {
   const val = Array.isArray(values) ? (values as Array<string>) : values
-  const oldVal: string = Array.isArray(val) ? val?.[0] : ''
-  const newVal: string = Array.isArray(val) ? val?.[1] : ''
+  const prev: string = Array.isArray(val) ? val?.[0] : ''
+  const current: string = Array.isArray(val) ? val?.[1] : ''
   const noDataLabel = '-'
   const formattedTitle = normalize(title)
 
   return (
     <DetailContainer>
       <DetailLabelCapitalized>{formattedTitle}</DetailLabelCapitalized>
-      <DetailValue>last value - {oldVal || noDataLabel}</DetailValue>
-      <DetailValue>updated value - {newVal || noDataLabel}</DetailValue>
+
+      {(!prev || prev === '') && current && <DetailValue>{current || noDataLabel}</DetailValue>}
+
+      {prev && current && prev !== '' && current !== '' && (
+        <>
+          <DetailValue>last value - {prev || noDataLabel}</DetailValue>
+          <DetailValue>updated value - {current || noDataLabel}</DetailValue>
+        </>
+      )}
     </DetailContainer>
   )
 }
