@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const TICKET_ASSIGN_MUTATION = gql`
+const TICKET_ASSIGN_MUTATION = gql`
   mutation TicketAssign($firstName: String!, $lastName: String, $email: String!, $ticketId: ID!) {
     ticketAssign(
       input: { firstName: $firstName, lastName: $lastName, email: $email, ticketId: $ticketId }
