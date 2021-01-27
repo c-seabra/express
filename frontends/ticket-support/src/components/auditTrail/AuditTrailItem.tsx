@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import Icon from '../../lib/components/atoms/Icon'
-import { formatDefaultDateTime } from '../../lib/utils/time'
+import { formatDefaultDateTime, isIsoDate } from '../../lib/utils/time'
 import { Column, TrailVersion } from './AuditTrail'
 
 const DataRow = styled.div`
@@ -87,19 +87,29 @@ const DynamicChange = ({ title, values }: { title: string; values: Array<string>
   const val = Array.isArray(values) ? (values as Array<string>) : values
   const prev: string = Array.isArray(val) ? val?.[0] : ''
   const current: string = Array.isArray(val) ? val?.[1] : ''
+  const formattedPrev = isIsoDate(prev) ? formatDefaultDateTime(prev) : prev
+  const formattedCurrent = isIsoDate(current) ? formatDefaultDateTime(current) : current
   const noDataLabel = '-'
   const formattedTitle = normalize(title)
+
+  console.log(` --- ${title}   --- `)
+  console.log(prev, formattedPrev)
+  console.log('curr', current, formattedCurrent)
 
   return (
     <DetailContainer>
       <DetailLabelCapitalized>{formattedTitle}</DetailLabelCapitalized>
 
-      {(!prev || prev === '') && current && <DetailValue>{current || noDataLabel}</DetailValue>}
+      {!prev && !current && <DetailValue>{noDataLabel}</DetailValue>}
+
+      {prev && !current && <DetailValue>{formattedPrev}</DetailValue>}
+
+      {!prev && current && current !== '' && <DetailValue>{formattedCurrent}</DetailValue>}
 
       {prev && current && prev !== '' && current !== '' && (
         <>
-          <DetailValue>last value - {prev || noDataLabel}</DetailValue>
-          <DetailValue>updated value - {current || noDataLabel}</DetailValue>
+          <DetailValue>last value - {formattedPrev}</DetailValue>
+          <DetailValue>updated value - {formattedCurrent}</DetailValue>
         </>
       )}
     </DetailContainer>
