@@ -67,9 +67,6 @@ export const Column = styled.div<{ width?: string }>`
   padding: 0 0.25rem;
   word-break: break-word;
 `
-export const WideColumn = styled(Column)`
-  width: 20%;
-`
 export const LeftSpacing = styled.div`
   padding-left: 16px;
 `
