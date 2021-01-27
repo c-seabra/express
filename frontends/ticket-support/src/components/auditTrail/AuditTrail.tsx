@@ -48,10 +48,11 @@ const TableHeaderLabel = styled(DefaultText)`
 `
 
 const Table = styled.div`
-  margin: 1rem 0;
+  margin: 1rem 0 0;
   overflow-y: auto;
   min-width: 70vw;
-  height: 60vh;
+  max-height: 75vh;
+  height: auto;
 `
 const TableHeader = styled.div`
   display: flex;
