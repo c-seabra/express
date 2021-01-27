@@ -163,7 +163,6 @@ const TicketDetails = (): ReactElement => {
   const [reassignment, setReassignment] = useState(false)
   const [loginEmailChange, setLoginEmailChange] = useState(false)
   const [identityEmailChange, setIdentityEmailChange] = useState(false)
-  // const [showAuditTrail, setShowAuditTrail] = useState(false)
 
   const {
     loading,
