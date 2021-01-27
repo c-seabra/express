@@ -79,13 +79,16 @@ const IconWithSpacing = styled(Icon)`
 const BlueValue = styled.span`
   color: #0067e9;
 `
+const normalize = (value: string): string => {
+  return value.toLowerCase().replace(/_/g, ' ')
+}
 
-const Change = ({ title, values }: { title?: string; values: Array<string> | unknown }) => {
+const DynamicChange = ({ title, values }: { title: string; values: Array<string> | unknown }) => {
   const val = Array.isArray(values) ? (values as Array<string>) : values
   const oldVal: string = Array.isArray(val) ? val?.[0] : ''
   const newVal: string = Array.isArray(val) ? val?.[1] : ''
   const noDataLabel = '-'
-  const formattedTitle = title?.replace(/_/g, ' ')
+  const formattedTitle = normalize(title)
 
   return (
     <DetailContainer>
@@ -96,12 +99,12 @@ const Change = ({ title, values }: { title?: string; values: Array<string> | unk
   )
 }
 
-type DetailChangeProps = {
+type InlineChangeProps = {
   current: any
   label: string
   prev: any
 }
-const DetailChange = ({ label, prev, current }: DetailChangeProps) => {
+const InlineChange = ({ label, prev, current }: InlineChangeProps) => {
   const noDataLabel = '-'
 
   return (
@@ -115,7 +118,9 @@ const DetailChange = ({ label, prev, current }: DetailChangeProps) => {
           <>
             {prev || noDataLabel}
             <IconWithSpacing>
-              <Icon color="#3BB273" size="15px">arrow_forward</Icon>
+              <Icon color="#3BB273" size="15px">
+                arrow_forward
+              </Icon>
             </IconWithSpacing>
             {current || noDataLabel}
           </>
@@ -158,30 +163,30 @@ const AuditTrailItem = ({
         <DetailsRow>
           <DetailContainer>
             {Object.entries(objectChanges).map(([key, value]) => {
-              return <Change key={key} title={key} values={value} />
+              return <DynamicChange key={key} title={key} values={value} />
             })}
           </DetailContainer>
           {context?.assignments && (
             <DetailContainer>
-              <DetailChange
+              <InlineChange
                 current={context.assignments.current?.assignee_name}
                 label="Assignee name change"
                 prev={context.assignments.previous?.assignee_name}
               />
 
-              <DetailChange
+              <InlineChange
                 current={context.assignments.current?.assignee_email}
                 label="Assignee email change"
                 prev={context.assignments.previous?.assignee_email}
               />
 
-              <DetailChange
+              <InlineChange
                 current={context.assignments.current?.assigneer_name}
                 label="Assigneer name change"
                 prev={context.assignments.previous?.assigneer_name}
               />
 
-              <DetailChange
+              <InlineChange
                 current={context.assignments.current?.assigneer_email}
                 label="Assigneer email change"
                 prev={context.assignments.previous?.assigneer_email}
