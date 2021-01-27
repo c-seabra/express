@@ -89,20 +89,22 @@ const DynamicChange = ({ title, values }: { title: string; values: Array<string>
   const current: string = Array.isArray(val) ? val?.[1] : ''
   const formattedPrev = isIsoDate(prev) ? formatDefaultDateTime(prev) : prev
   const formattedCurrent = isIsoDate(current) ? formatDefaultDateTime(current) : current
-  const noDataLabel = '-'
   const formattedTitle = normalize(title)
 
   return (
     <DetailContainer>
       <DetailLabelCapitalized>{formattedTitle}</DetailLabelCapitalized>
 
-      {!prev && !current && <DetailValue>{noDataLabel}</DetailValue>}
+      {prev && isIsoDate(prev) && !current && <DetailValue>{formattedPrev}</DetailValue>}
 
-      {prev && !current && <DetailValue>{formattedPrev}</DetailValue>}
+      {!prev && current && isIsoDate(current) && <DetailValue>{formattedCurrent}</DetailValue>}
 
-      {!prev && current && current !== '' && <DetailValue>{formattedCurrent}</DetailValue>}
+      {/* old date and new exists get latest */}
+      {prev && isIsoDate(prev) && current && isIsoDate(current) && (
+        <DetailValue>{formattedCurrent}</DetailValue>
+      )}
 
-      {prev && current && prev !== '' && current !== '' && (
+      {!prev && current && !isIsoDate(current) && (
         <>
           <DetailValue>last value - {formattedPrev}</DetailValue>
           <DetailValue>updated value - {formattedCurrent}</DetailValue>
@@ -143,6 +145,10 @@ const InlineChange = ({ label, prev, current }: InlineChangeProps) => {
   )
 }
 
+type AuditTrail = {
+  trail: TrailVersion
+}
+
 const AuditTrailItem = ({
   trail: {
     context: contextString,
@@ -152,14 +158,12 @@ const AuditTrailItem = ({
     whodunnit,
     objectChanges: objectChangesString,
   },
-}: {
-  trail: TrailVersion
-}) => {
-  const [openDetailsRow, setOpenChangesLog] = useState(false)
+}: AuditTrail) => {
+  const [openDetailsRow, setOpenDetailsRow] = useState(false)
   const objectChanges = objectChangesString && JSON.parse(objectChangesString)
   const context = contextString && JSON.parse(contextString)
-  const noDataLabel = '-'
-  const setDetailsVisibility = () => setOpenChangesLog(!openDetailsRow)
+  const noDataLabel = 'no value'
+  const setDetailsVisibility = () => setOpenDetailsRow(!openDetailsRow)
 
   return (
     <>
@@ -194,15 +198,15 @@ const AuditTrailItem = ({
               />
 
               <InlineChange
-                current={context.assignments.current?.assigneer_name}
+                current={context.assignments.current?.assigner_name}
                 label="Assigneer name change"
-                prev={context.assignments.previous?.assigneer_name}
+                prev={context.assignments.previous?.assigner_name}
               />
 
               <InlineChange
-                current={context.assignments.current?.assigneer_email}
+                current={context.assignments.current?.assigner_email}
                 label="Assigneer email change"
-                prev={context.assignments.previous?.assigneer_email}
+                prev={context.assignments.previous?.assigner_email}
               />
             </DetailContainer>
           )}
