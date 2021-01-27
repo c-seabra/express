@@ -73,7 +73,7 @@ const DetailValueCentered = styled(DetailValue)`
 
 const IconWithSpacing = styled(Icon)`
   margin: 0 8px;
-  height: 19px;
+  height: 18px;
 `
 
 const BlueValue = styled.span`
