@@ -60,14 +60,7 @@ type TicketUnlockModalProps = {
   ticket: Ticket
 }
 
-// const assignSchema = Yup.object().shape({
-//   email: Yup.string().email('Invalid email').required('Required'),
-//   firstName: Yup.string().required('Required'),
-//   lastName: Yup.string(),
-// })
-
 const confirmSchema = Yup.object().shape({
-  // notify: Yup.boolean().required('Required'),
   reason: Yup.string().required('Required'),
 })
 
