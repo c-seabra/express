@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import * as Yup from 'yup'
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import CheckboxField from '../../lib/components/molecules/CheckboxField'
 import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import useUnlockTicketMutation from '../../lib/hooks/useUnlockTicketMutation'
@@ -64,7 +63,7 @@ const assignSchema = Yup.object().shape({
 })
 
 const confirmSchema = Yup.object().shape({
-  notify: Yup.boolean().required('Required'),
+  // notify: Yup.boolean().required('Required'),
   reason: Yup.string().required('Required'),
 })
 
@@ -150,12 +149,12 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
                   Are you sure you want to unlock ticket {ticket.bookingRef}?
                 </ConfirmationText>
                 <TextInputField required label="Specify a reason for the unlocking" name="reason" />
-                {values.notify && (
-                  <WarningMessage>
-                    Email notifications will be sent to the new assignee, old assignee, and order
-                    owner
-                  </WarningMessage>
-                )}
+                {/*{values.notify && (*/}
+                {/*  <WarningMessage>*/}
+                {/*    Email notifications will be sent to the new assignee, old assignee, and order*/}
+                {/*    owner*/}
+                {/*  </WarningMessage>*/}
+                {/*)}*/}
               </StyledForm>
             )
           }}
