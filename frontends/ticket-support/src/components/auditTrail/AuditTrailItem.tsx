@@ -79,6 +79,15 @@ const IconWithSpacing = styled(Icon)`
 const BlueValue = styled.span`
   color: #0067e9;
 `
+const StyleTable = styled.table`
+  border: 1px solid #dcdfe5;
+  border-collapse: collapse;
+
+  td {
+    border: 1px solid #dcdfe5;
+    padding: 4px;
+  }
+`
 const normalize = (value: string): string => {
   return value.toLowerCase().replace(/_/g, ' ')
 }
@@ -89,28 +98,28 @@ const DynamicChange = ({ title, values }: { title: string; values: Array<string>
   const current: string = Array.isArray(val) ? val?.[1] : ''
   const noDataLabel = 'no value'
   const formattedPrev = isIsoDate(prev) ? formatDefaultDateTime(prev) : prev || noDataLabel
-  const formattedCurrent = isIsoDate(current) ? formatDefaultDateTime(current) : current || noDataLabel
+  const formattedCurrent = isIsoDate(current)
+    ? formatDefaultDateTime(current)
+    : current || noDataLabel
   const formattedTitle = normalize(title)
 
   return (
     <DetailContainer>
       <DetailLabelCapitalized>{formattedTitle}</DetailLabelCapitalized>
-
-      {prev && isIsoDate(prev) && !current && <DetailValue>{formattedPrev}</DetailValue>}
-
-      {!prev && current && isIsoDate(current) && <DetailValue>{formattedCurrent}</DetailValue>}
-
-      {/* old date and new exists get latest */}
-      {prev && isIsoDate(prev) && current && isIsoDate(current) && (
-        <DetailValue>{formattedCurrent}</DetailValue>
-      )}
-
-      {!prev && current && !isIsoDate(current) && (
-        <>
-          <DetailValue>last value - {formattedPrev}</DetailValue>
-          <DetailValue>updated value - {formattedCurrent}</DetailValue>
-        </>
-      )}
+      <>
+        <DetailValue>
+          <StyleTable>
+            <tr>
+              <td>last value</td>
+              <td>{formattedPrev || noDataLabel}</td>
+            </tr>
+            <tr>
+              <td>updated value</td>
+              <td>{formattedCurrent || noDataLabel}</td>
+            </tr>
+          </StyleTable>
+        </DetailValue>
+      </>
     </DetailContainer>
   )
 }
