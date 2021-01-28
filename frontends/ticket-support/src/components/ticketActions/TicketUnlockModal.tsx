@@ -140,8 +140,10 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
             return (
               <StyledForm>
                 <ConfirmationText>
-                  <span>Are you sure you want to unlock ticket</span>
-                  <StyledSpan>{ticket.bookingRef}</StyledSpan>?
+                  <span>
+                    Are you sure you want to unlock ticket{' '}
+                    <StyledSpan>{ticket.bookingRef}</StyledSpan>?
+                  </span>
                 </ConfirmationText>
                 <TextInputField required label="Specify a reason for the unlocking" name="reason" />
                 <WarningMessage>
