@@ -1,4 +1,7 @@
+import 'react-json-pretty/themes/acai.css'
+
 import React, { useState } from 'react'
+import JSONPretty from 'react-json-pretty'
 import styled from 'styled-components'
 
 import Icon from '../../lib/components/atoms/Icon'
@@ -79,10 +82,21 @@ const IconWithSpacing = styled(Icon)`
 const BlueValue = styled.span`
   color: #0067e9;
 `
+const StyledCode = styled.div`
+  //font-size: 14px;
+  //font-family: 'Courier New';
+  //word-wrap: break-word;
+  //white-space: pre-wrap;
+  //max-width: 50%;
+  .json-pretty {
+    overflow: auto;
+    max-width: 800px;
+  }
+`
 
 const Subheading = styled(DetailLabel)`
   font-size: 18px;
-  border-bottom: 1px solid #dcdfe5; 
+  border-bottom: 1px solid #dcdfe5;
   margin-bottom: 16px;
 `
 
@@ -164,18 +178,18 @@ const InlineChange = ({ label, prev, current }: InlineChangeProps) => {
 
 type AuditTrail = {
   trail: TrailVersion
+  // props: unknown
 }
 
-const AuditTrailItem = ({
-  trail: {
+const AuditTrailItem = ({ trail }: AuditTrail) => {
+  const {
     context: contextString,
     createdAt,
     itemType,
     reason,
     whodunnit,
     objectChanges: objectChangesString,
-  },
-}: AuditTrail) => {
+  } = trail
   const [openDetailsRow, setOpenDetailsRow] = useState(false)
   const objectChanges = objectChangesString && JSON.parse(objectChangesString)
   const context = contextString && JSON.parse(contextString)
@@ -189,55 +203,65 @@ const AuditTrailItem = ({
           <BlueValue>{formatDefaultDateTime(createdAt as string)}</BlueValue>
         </Column>
         <Column width="15%">{itemType}</Column>
-        <Column width="15%">{'N/A'}</Column>
+        <Column width="15%">N/A</Column>
         <Column width="25%">{whodunnit}</Column>
         <Column width="25%">{reason || 'No reason given'}</Column>
       </DataRow>
 
       {openDetailsRow && (
-        <DetailsRow>
-          <DetailContainer>
-            <Subheading>List of all changes</Subheading>
-            {Object.entries(objectChanges).map(([key, value]) => {
-              return <DynamicChange key={key} title={key} values={value} />
-            })}
-          </DetailContainer>
-          {context?.assignments && (
+        <>
+          <DetailsRow>
             <DetailContainer>
-              <Subheading>Extra context</Subheading>
-              <InlineChange
-                current={context.assignments.current?.assignee_name}
-                label="Assignee name change"
-                prev={context.assignments.previous?.assignee_name}
-              />
-
-              <InlineChange
-                current={context.assignments.current?.assignee_email}
-                label="Assignee email change"
-                prev={context.assignments.previous?.assignee_email}
-              />
-
-              <InlineChange
-                current={context.assignments.current?.assigner_name}
-                label="Assigneer name change"
-                prev={context.assignments.previous?.assigner_name}
-              />
-
-              <InlineChange
-                current={context.assignments.current?.assigner_email}
-                label="Assigneer email change"
-                prev={context.assignments.previous?.assigner_email}
-              />
+              <Subheading>List of all changes</Subheading>
+              {Object.entries(objectChanges).map(([key, value]) => {
+                return <DynamicChange key={key} title={key} values={value} />
+              })}
             </DetailContainer>
-          )}
-          {context?.assigne && (
+            {context?.assignments && (
+              <DetailContainer>
+                <Subheading>Extra context</Subheading>
+                <InlineChange
+                  current={context.assignments.current?.assignee_name}
+                  label="Assignee name change"
+                  prev={context.assignments.previous?.assignee_name}
+                />
+
+                <InlineChange
+                  current={context.assignments.current?.assignee_email}
+                  label="Assignee email change"
+                  prev={context.assignments.previous?.assignee_email}
+                />
+
+                <InlineChange
+                  current={context.assignments.current?.assigner_name}
+                  label="Assigneer name change"
+                  prev={context.assignments.previous?.assigner_name}
+                />
+
+                <InlineChange
+                  current={context.assignments.current?.assigner_email}
+                  label="Assigneer email change"
+                  prev={context.assignments.previous?.assigner_email}
+                />
+              </DetailContainer>
+            )}
+            {context?.assigne && (
+              <DetailContainer>
+                <div>Previous assignee - {context.assignee.previous_assignee || noDataLabel}</div>
+                <div>Assigner - {context.assignee.assigner || noDataLabel}</div>
+                <div>New Assignee - {context.assignee.assignee || noDataLabel}</div>
+              </DetailContainer>
+            )}
+          </DetailsRow>
+          <DetailsRow>
             <DetailContainer>
-              <div>Previous assignee - {context.assignee.previous_assignee || noDataLabel}</div>
-              <div>Assigner - {context.assignee.assigner || noDataLabel}</div>
-              <div>New Assignee - {context.assignee.assignee || noDataLabel}</div>
+              <Subheading>Backend response</Subheading>
+              <StyledCode>
+                <JSONPretty className="json-pretty" data={trail} />
+              </StyledCode>
             </DetailContainer>
-          )}
-        </DetailsRow>
+          </DetailsRow>
+        </>
       )}
     </>
   )
