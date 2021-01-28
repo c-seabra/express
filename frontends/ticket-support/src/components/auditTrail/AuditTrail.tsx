@@ -138,10 +138,10 @@ const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
             <Column width="15%">
               <TableHeaderLabel>What&apos;s changed</TableHeaderLabel>
             </Column>
-            <Column width="25%">
+            <Column width="30%">
               <TableHeaderLabel>Initiated by</TableHeaderLabel>
             </Column>
-            <Column width="25%">
+            <Column width="20%">
               <TableHeaderLabel>Reason for change</TableHeaderLabel>
             </Column>
           </TableHeader>
