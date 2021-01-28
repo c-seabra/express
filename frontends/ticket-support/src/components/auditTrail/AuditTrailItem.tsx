@@ -79,6 +79,13 @@ const IconWithSpacing = styled(Icon)`
 const BlueValue = styled.span`
   color: #0067e9;
 `
+
+const Subheading = styled(DetailLabel)`
+  font-size: 18px;
+  border-bottom: 1px solid #dcdfe5; 
+  margin-bottom: 16px;
+`
+
 const StyleTable = styled.table`
   border: 1px solid #dcdfe5;
   border-collapse: collapse;
@@ -190,12 +197,14 @@ const AuditTrailItem = ({
       {openDetailsRow && (
         <DetailsRow>
           <DetailContainer>
+            <Subheading>List of all changes</Subheading>
             {Object.entries(objectChanges).map(([key, value]) => {
               return <DynamicChange key={key} title={key} values={value} />
             })}
           </DetailContainer>
           {context?.assignments && (
             <DetailContainer>
+              <Subheading>Extra context</Subheading>
               <InlineChange
                 current={context.assignments.current?.assignee_name}
                 label="Assignee name change"
