@@ -14,7 +14,6 @@ import styled from 'styled-components'
 
 const Heading = styled.h1`
   color: #0c1439;
-  font-family: 'azo-sans-web';
   font-size: 24px;
   font-weight: 500;
   letter-spacing: 0;

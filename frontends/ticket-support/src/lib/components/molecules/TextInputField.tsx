@@ -3,7 +3,6 @@ import React, { HTMLProps } from 'react'
 import styled, { css } from 'styled-components'
 
 const FieldContainer = styled.div`
-  font-family: 'azo-sans-web', sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 85px;

@@ -30,7 +30,6 @@ const ModalHeader = styled.div`
 
 const ModalTitle = styled.div`
   display: flex;
-  font-family: 'azo-sans-web';
   font-size: 1.2rem;
 `
 
@@ -38,10 +37,6 @@ const ExitActionContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-`
-
-const ExitIcon = styled.span`
-  cursor: pointer;
 `
 
 export const useModalState = ({ initialState = false }: { initialState?: boolean } = {}) => {
