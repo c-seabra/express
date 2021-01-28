@@ -87,8 +87,9 @@ const DynamicChange = ({ title, values }: { title: string; values: Array<string>
   const val = Array.isArray(values) ? (values as Array<string>) : values
   const prev: string = Array.isArray(val) ? val?.[0] : ''
   const current: string = Array.isArray(val) ? val?.[1] : ''
-  const formattedPrev = isIsoDate(prev) ? formatDefaultDateTime(prev) : prev
-  const formattedCurrent = isIsoDate(current) ? formatDefaultDateTime(current) : current
+  const noDataLabel = 'no value'
+  const formattedPrev = isIsoDate(prev) ? formatDefaultDateTime(prev) : prev || noDataLabel
+  const formattedCurrent = isIsoDate(current) ? formatDefaultDateTime(current) : current || noDataLabel
   const formattedTitle = normalize(title)
 
   return (
@@ -120,7 +121,7 @@ type InlineChangeProps = {
   prev: any
 }
 const InlineChange = ({ label, prev, current }: InlineChangeProps) => {
-  const noDataLabel = '-'
+  const noDataLabel = 'no value'
 
   return (
     <DetailContainerAligned>
