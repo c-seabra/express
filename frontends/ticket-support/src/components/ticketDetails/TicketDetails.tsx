@@ -263,7 +263,7 @@ const TicketDetails = (): ReactElement => {
                   <StyledLabel>Ticket status</StyledLabel>
                   <StatePlate state={ticket?.state} />
                   <Link onClick={openTicketUnlockModal}>Unlock ticket</Link>
-                  <TicketAssignModal
+                  <TicketUnlockModal
                     closeModal={closeTicketUnlockModal}
                     isOpen={isTicketUnlockModalOpen}
                     ticket={ticket}
@@ -274,7 +274,7 @@ const TicketDetails = (): ReactElement => {
               <StyledInnerContainerCard>
                 <SpacingBottomSm>
                   <PrimaryButton onClick={openTicketAssignModal}>Reassign</PrimaryButton>
-                  <TicketUnlockModal
+                  <TicketAssignModal
                     closeModal={closeTicketAssignModal}
                     isOpen={isTicketAssignModalOpen}
                     ticket={ticket}

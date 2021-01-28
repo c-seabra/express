@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
-import useUnlockTicketMutation from '../../lib/hooks/useUnlockTicketMutation'
+import useUnlockTicketMutation from '../../lib/hooks/useTicketUnlockMutation'
 import { Ticket } from '../../lib/types'
 
 const ModalFooter = styled.div`
@@ -56,11 +56,11 @@ type TicketUnlockModalProps = {
   ticket: Ticket
 }
 
-const assignSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string(),
-})
+// const assignSchema = Yup.object().shape({
+//   email: Yup.string().email('Invalid email').required('Required'),
+//   firstName: Yup.string().required('Required'),
+//   lastName: Yup.string(),
+// })
 
 const confirmSchema = Yup.object().shape({
   // notify: Yup.boolean().required('Required'),
@@ -126,7 +126,7 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
           }}
           validateOnBlur={false}
           validateOnChange={false}
-          validationSchema={isFirstStepFilled ? confirmSchema : assignSchema}
+          validationSchema={confirmSchema}
           onSubmit={async values => {
             if (isFirstStepFilled) {
               await unlockTicket({ ...values, ticketId: ticket.id })
