@@ -182,7 +182,8 @@ const AuditTrailItem = ({
           <BlueValue>{formatDefaultDateTime(createdAt as string)}</BlueValue>
         </Column>
         <Column width="15%">{itemType}</Column>
-        <Column width="40%">{whodunnit}</Column>
+        <Column width="15%">{'N/A'}</Column>
+        <Column width="25%">{whodunnit}</Column>
         <Column width="25%">{reason || 'No reason given'}</Column>
       </DataRow>
 
