@@ -41,7 +41,6 @@ const Card = styled.div<{ isColorBar: boolean }>`
 
 const Title = styled.div<{ noPadding?: boolean }>`
   color: #0c1439;
-  font-family: 'azo-sans-web';
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.5px;
@@ -50,7 +49,7 @@ const Title = styled.div<{ noPadding?: boolean }>`
     props.noPadding &&
     css`
       padding: 1rem 1.8rem 0;
-    `}
+    `};
 
   // TODO PP: spacing needs to be evaluated as modifier to box
   margin-bottom: 40px;

@@ -23,7 +23,8 @@ const ModalHeader = styled.div<{ title?: string }>`
 
 const ModalTitle = styled.div`
   display: flex;
-  font-family: 'azo-sans-web';
+  justify-content: flex-end;
+  align-items: center;
   font-size: 1.2rem;
 `
 

@@ -19,6 +19,7 @@ import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
 import TicketAssign from '../ticketActions/TicketAssign'
+import TicketAssignModal from '../ticketActions/TicketAssignModal'
 import TicketClaim from '../ticketActions/TicketClaim'
 import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
@@ -163,6 +164,17 @@ const TicketDetails = (): ReactElement => {
   const [reassignment, setReassignment] = useState(false)
   const [loginEmailChange, setLoginEmailChange] = useState(false)
   const [identityEmailChange, setIdentityEmailChange] = useState(false)
+  const [showAuditTrail, setShowAuditTrail] = useState(false)
+  const {
+    openModal: openTicketAssignModal,
+    isOpen: isTicketAssignModalOpen,
+    closeModal: closeTicketAssignModal,
+  } = useModalState()
+  const {
+    isOpen: isHistoryModalOpen,
+    openModal: openHistoryModal,
+    closeModal: closeHistoryModal,
+  } = useModalState()
 
   const {
     loading,
@@ -204,11 +216,6 @@ const TicketDetails = (): ReactElement => {
       label: `Ticket ${bookingRef}`,
     },
   ]
-  const {
-    isOpen: isHistoryModalOpen,
-    openModal: openHistoryModal,
-    closeModal: closeHistoryModal,
-  } = useModalState()
 
   return (
     <>
@@ -251,7 +258,12 @@ const TicketDetails = (): ReactElement => {
 
               <StyledInnerContainerCard>
                 <SpacingBottomSm>
-                  <PrimaryButton>Reassign</PrimaryButton>
+                  <PrimaryButton onClick={openTicketAssignModal}>Reassign</PrimaryButton>
+                  <TicketAssignModal
+                    closeModal={closeTicketAssignModal}
+                    isOpen={isTicketAssignModalOpen}
+                    ticket={ticket}
+                  />
                 </SpacingBottomSm>
                 <SpacingBottomSm>
                   <PrimaryButton>Unassign</PrimaryButton>
