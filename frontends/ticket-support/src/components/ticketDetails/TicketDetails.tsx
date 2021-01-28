@@ -20,6 +20,7 @@ import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
 import TicketAssign from '../ticketActions/TicketAssign'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
+import TicketUnlockModal from '../ticketActions/TicketUnlockModal'
 import TicketClaim from '../ticketActions/TicketClaim'
 import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
@@ -170,6 +171,11 @@ const TicketDetails = (): ReactElement => {
     isOpen: isTicketAssignModalOpen,
     closeModal: closeTicketAssignModal,
   } = useModalState()
+  const {
+    openModal: openTicketUnlockModal,
+    isOpen: isTicketUnlockModalOpen,
+    closeModal: closeTicketUnlockModal,
+  } = useModalState()
 
   const {
     loading,
@@ -248,6 +254,8 @@ const TicketDetails = (): ReactElement => {
                 <StyledPairContainer>
                   <StyledLabel>Ticket status</StyledLabel>
                   <StatePlate state={ticket?.state} />
+                  <a onClick={openTicketUnlockModal}>Unlock ticket</a>
+
                 </StyledPairContainer>
               </StyledInnerContainerCardWithBorder>
 
