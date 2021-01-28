@@ -12,7 +12,6 @@ import styled from 'styled-components'
 
 export const Button = styled.button`
   display: inline-flex;
-  font-family: 'azo-sans-web', sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   justify-content: center;
