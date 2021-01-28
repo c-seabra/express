@@ -116,7 +116,7 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
       key={isOpen.toString()}
       isOpen={isOpen}
       renderFooter={isFirstStepFilled ? renderConfirmAssignFooter : renderTicketAssignFooter}
-      title="Reassign ticket"
+      title="Unlock ticket"
       onRequestClose={handleClose}
     >
       <ContentContainer>
@@ -128,13 +128,9 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            if (isFirstStepFilled) {
-              await unlockTicket({ ...values, ticketId: ticket.id })
+            await unlockTicket({ ...values, ticketId: ticket.id })
 
-              handleClose()
-            } else {
-              setFirstStepFilled(true)
-            }
+            handleClose()
           }}
         >
           {({ submitForm, resetForm, values }) => {
@@ -149,12 +145,12 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
                   Are you sure you want to unlock ticket {ticket.bookingRef}?
                 </ConfirmationText>
                 <TextInputField required label="Specify a reason for the unlocking" name="reason" />
-                {/*{values.notify && (*/}
-                {/*  <WarningMessage>*/}
-                {/*    Email notifications will be sent to the new assignee, old assignee, and order*/}
-                {/*    owner*/}
-                {/*  </WarningMessage>*/}
-                {/*)}*/}
+                {/* {values.notify && ( */}
+                {/*  <WarningMessage> */}
+                {/*    Email notifications will be sent to the new assignee, old assignee, and order */}
+                {/*    owner */}
+                {/*  </WarningMessage> */}
+                {/* )} */}
               </StyledForm>
             )
           }}
