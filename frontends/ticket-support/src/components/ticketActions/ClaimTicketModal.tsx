@@ -4,9 +4,11 @@ import styled from 'styled-components'
 import * as Yup from 'yup'
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import { InfoMessage } from '../../lib/components/atoms/Messages'
+import { WarningMessage } from '../../lib/components/atoms/Messages'
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
+import useClaimTicketMutation from '../../lib/hooks/useClaimTicketMutation'
+import { Ticket } from '../../lib/types'
 
 const ModalFooter = styled.div`
   display: flex;
@@ -21,20 +23,29 @@ const StyledForm = styled(Form)`
   width: 450px;
   padding: 1rem 0;
 `
+const ConfirmationText = styled.div`
+  display: flex;
+  font-size: 1rem;
+  font-weight: 400;
+  padding-bottom: 2rem;
+  color: #07143e;
 
-const generateLinkSchema = Yup.object().shape({
+  span {
+    font-weight: 600;
+    color: #0067e9;
+  }
+`
+
+type ClaimTicketModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
+  ticket: Ticket
+}
+
+const claimTicketSchema = Yup.object().shape({
   reason: Yup.string().required('Required'),
 })
 
-type GenerateLoginLinkModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
-  generateLink: (reason: string) => void
-}
-
-const GenerateLoginLinkModal = ({
-  isOpen,
-  onRequestClose,
-  generateLink,
-}: GenerateLoginLinkModalProps) => {
+const ClaimTicketModal = ({ ticket, isOpen, onRequestClose }: ClaimTicketModalProps) => {
+  const { claimTicket } = useClaimTicketMutation({ ticketId: ticket.id })
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void
@@ -54,7 +65,7 @@ const GenerateLoginLinkModal = ({
   const renderLoginLinkModalFooter = () => (
     <ModalFooter>
       <StyledSecondaryButton onClick={handleClose}>Cancel</StyledSecondaryButton>
-      <Button onClick={formControls?.boundSubmit}>Generate</Button>
+      <Button onClick={formControls?.boundSubmit}>Claim ticket</Button>
     </ModalFooter>
   )
 
@@ -62,7 +73,7 @@ const GenerateLoginLinkModal = ({
     <Modal
       isOpen={isOpen}
       renderFooter={renderLoginLinkModalFooter}
-      title="Generate login link"
+      title="Claim ticket"
       onRequestClose={onRequestClose}
     >
       <Formik
@@ -71,9 +82,9 @@ const GenerateLoginLinkModal = ({
         }}
         validateOnBlur={false}
         validateOnChange={false}
-        validationSchema={generateLinkSchema}
-        onSubmit={values => {
-          generateLink(values.reason)
+        validationSchema={claimTicketSchema}
+        onSubmit={async ({ reason }) => {
+          await claimTicket(reason)
           handleClose()
         }}
       >
@@ -85,14 +96,19 @@ const GenerateLoginLinkModal = ({
 
           return (
             <StyledForm>
+              <ConfirmationText>
+                Are you sure you want to&nbsp;<span>claim</span>&nbsp;ticket&nbsp;
+                <span>{ticket.bookingRef}</span>?
+              </ConfirmationText>
               <TextInputField
                 required
                 label="Please enter a reason for this change"
                 name="reason"
               />
-              <InfoMessage>
-                The generated link can be copied by hovering over the "Generated Login Link" text.
-              </InfoMessage>
+              <WarningMessage>
+                This will reset the ticket assignment and the previous ticket holder will lose
+                access to the ticket. They will be notified by email.
+              </WarningMessage>
             </StyledForm>
           )
         }}
@@ -101,4 +117,4 @@ const GenerateLoginLinkModal = ({
   )
 }
 
-export default GenerateLoginLinkModal
+export default ClaimTicketModal
