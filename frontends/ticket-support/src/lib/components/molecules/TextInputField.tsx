@@ -22,6 +22,7 @@ const Label = styled.div<{ required?: boolean }>`
       }
     `}
 `
+
 const StyledInput = styled.input<{ isError?: boolean }>`
   font-size: 14px;
   font-weight: 300;

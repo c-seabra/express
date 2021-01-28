@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import * as Yup from 'yup'
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
+import CheckboxField from '../../lib/components/molecules/CheckboxField'
 import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import useAssignTicketMutation from '../../lib/hooks/useTicketAssignMutation'
@@ -63,6 +64,7 @@ const assignSchema = Yup.object().shape({
 })
 
 const confirmSchema = Yup.object().shape({
+  notify: Yup.boolean().required('Required'),
   reason: Yup.string().required('Required'),
 })
 
@@ -124,6 +126,7 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
             email: '',
             firstName: '',
             lastName: '',
+            notify: false,
             reason: '',
           }}
           validateOnBlur={false}
@@ -131,15 +134,15 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
           validationSchema={isFirstStepFilled ? confirmSchema : assignSchema}
           onSubmit={async values => {
             if (isFirstStepFilled) {
-              await assignTicket({ ...values, notify: true, ticketId: ticket.id })
+              await assignTicket({ ...values, ticketId: ticket.id })
 
               handleClose()
+            } else {
+              setFirstStepFilled(true)
             }
-
-            setFirstStepFilled(true)
           }}
         >
-          {({ submitForm, resetForm }) => {
+          {({ submitForm, resetForm, values }) => {
             // Binding submit form to submit programmatically from outside the <Formik> component
             if (!formControls) {
               setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
@@ -157,10 +160,17 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
                       label="Specify a reason for the reassignment"
                       name="reason"
                     />
-                    <WarningMessage>
-                      Email notifications will be sent to the new assignee, old assignee, and order
-                      owner
-                    </WarningMessage>
+                    <CheckboxField
+                      required
+                      label="Send email notification to new and old assignee"
+                      name="notify"
+                    />
+                    {values.notify && (
+                      <WarningMessage>
+                        Email notifications will be sent to the new assignee, old assignee, and
+                        order owner
+                      </WarningMessage>
+                    )}
                   </>
                 ) : (
                   <>

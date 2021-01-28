@@ -15,9 +15,9 @@ type TicketAssignData = {
 type AssignTicketsArgs = {
   email: string
   firstName: string
-  lastName: string
-  notify: boolean
-  reason?: string
+  lastName?: string
+  notify?: boolean
+  reason: string
   ticketId: string
 }
 
@@ -38,18 +38,16 @@ const useAssignTicketMutation = () => {
   })
 
   const assignTicket = async ({ reason, ...variables }: AssignTicketsArgs) => {
-    if (reason) {
-      await assignTicketMutation({
-        context: {
-          headers: {
-            'x-admin-reason': reason,
-          },
-          slug: conferenceSlug,
-          token,
+    await assignTicketMutation({
+      context: {
+        headers: {
+          'x-admin-reason': reason,
         },
-        variables,
-      })
-    }
+        slug: conferenceSlug,
+        token,
+      },
+      variables,
+    })
   }
 
   return {
