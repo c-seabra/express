@@ -25,6 +25,10 @@ export const TICKET_AUDIT_TRAIL = gql`
               context
               reason
               createdAt
+              sourceLocation
+              id
+              command
+              object
             }
           }
         }
