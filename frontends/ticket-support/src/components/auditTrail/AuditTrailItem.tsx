@@ -83,11 +83,6 @@ const BlueValue = styled.span`
   color: #0067e9;
 `
 const StyledCode = styled.div`
-  //font-size: 14px;
-  //font-family: 'Courier New';
-  //word-wrap: break-word;
-  //white-space: pre-wrap;
-  //max-width: 50%;
   .json-pretty {
     overflow: auto;
     max-width: 800px;
@@ -113,15 +108,29 @@ const normalize = (value: string): string => {
   return value.toLowerCase().replace(/_/g, ' ')
 }
 
+const getFormattedValue = (
+  value: boolean | string,
+  defaultValue = 'no value'
+): boolean | string => {
+  // Deduce a type
+  if (typeof value === 'boolean') {
+    return value ? 'Yes' : 'No' || defaultValue
+  }
+
+  if (isIsoDate(value)) {
+    return formatDefaultDateTime(value)
+  }
+
+  return defaultValue
+}
+
 const DynamicChange = ({ title, values }: { title: string; values: Array<string> | unknown }) => {
   const val = Array.isArray(values) ? (values as Array<string>) : values
   const prev: string = Array.isArray(val) ? val?.[0] : ''
   const current: string = Array.isArray(val) ? val?.[1] : ''
   const noDataLabel = 'no value'
-  const formattedPrev = isIsoDate(prev) ? formatDefaultDateTime(prev) : prev || noDataLabel
-  const formattedCurrent = isIsoDate(current)
-    ? formatDefaultDateTime(current)
-    : current || noDataLabel
+  const formattedPrev = getFormattedValue(prev)
+  const formattedCurrent = getFormattedValue(current)
   const formattedTitle = normalize(title)
 
   return (
