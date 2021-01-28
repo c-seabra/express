@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
+import STATIC_MESSAGES from '../../lib/constants/messages'
 import useUnlockTicketMutation from '../../lib/hooks/useTicketUnlockMutation'
 import { Ticket } from '../../lib/types'
 
@@ -61,7 +62,7 @@ type TicketUnlockModalProps = {
 }
 
 const confirmSchema = Yup.object().shape({
-  reason: Yup.string().required('Required'),
+  reason: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 })
 
 const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProps) => {
