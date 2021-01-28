@@ -50,6 +50,10 @@ const StyledForm = styled(Form)`
   }
 `
 
+const StyledSpan = styled.span`
+  font-weight: 600;
+`
+
 type TicketUnlockModalProps = {
   closeModal: () => void
   isOpen: boolean
@@ -142,15 +146,14 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
             return (
               <StyledForm>
                 <ConfirmationText>
-                  Are you sure you want to unlock ticket {ticket.bookingRef}?
+                  <span>Are you sure you want to unlock ticket</span>
+                  <StyledSpan>{ticket.bookingRef}</StyledSpan>?
                 </ConfirmationText>
                 <TextInputField required label="Specify a reason for the unlocking" name="reason" />
-                {/* {values.notify && ( */}
-                {/*  <WarningMessage> */}
-                {/*    Email notifications will be sent to the new assignee, old assignee, and order */}
-                {/*    owner */}
-                {/*  </WarningMessage> */}
-                {/* )} */}
+                <WarningMessage>
+                  This will reset the ticket assignment and the previous ticket holder will lose
+                  access to the ticket. They will be notified by email.
+                </WarningMessage>
               </StyledForm>
             )
           }}
