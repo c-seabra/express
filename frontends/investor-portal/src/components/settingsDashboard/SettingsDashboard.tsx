@@ -1,8 +1,8 @@
 import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { Button } from '../../lib/components'
 
+import { Button } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Loader from '../../lib/Loading'
@@ -11,11 +11,7 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
-import {
-  ConfigurationPanel,
-  PageContainer,
-  SpacingBottom,
-} from './SettingsDashboard.styled'
+import { ConfigurationPanel, PageContainer, SpacingBottom } from './SettingsDashboard.styled'
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -141,9 +137,7 @@ const SettingsDashboard: React.FC = () => {
                 }}
               />
               <div>
-                <Button onClick={submitSettings}>
-                  Save
-                </Button>
+                <Button onClick={submitSettings}>Save</Button>
               </div>
             </ConfigurationPanel>
           </SpacingBottom>
