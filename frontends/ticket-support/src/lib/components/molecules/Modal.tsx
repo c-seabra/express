@@ -57,7 +57,7 @@ export type ModalProps = {
   onRequestClose: () => void
   renderFooter?: () => ReactElement
   title?: string
-  withDefaultFooter?: boolean,
+  withDefaultFooter?: boolean
   withoutDefaultActions?: boolean
 }
 
