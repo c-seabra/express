@@ -19,8 +19,6 @@ import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
 import TicketReject from '../ticketActions/TicketReject'
-import TicketUnlock from '../ticketActions/TicketUnlock'
-import TicketUnlockModal from '../ticketActions/TicketUnlockModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import TicketStateActions from './TicketStateActions'
 
