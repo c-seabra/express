@@ -11,7 +11,7 @@ declare module 'react-simple-snackbar' {
     | 'bottom-center'
     | 'bottom-right'
 
-  type SnackbarOptions = {
+  export type SnackbarOptions = {
     closeStyle?: CSSProperties
     position?: SnackbarPosition
     style?: CSSProperties
