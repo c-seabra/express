@@ -1376,7 +1376,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.12.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
   integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
@@ -10082,7 +10082,15 @@ react-side-effect@^2.1.0:
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.1.tgz#66c5701c3e7560ab4822a4ee2742dee215d72eb3"
   integrity sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==
 
-react-transition-group@^4.4.0:
+react-simple-snackbar@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/react-simple-snackbar/-/react-simple-snackbar-1.1.10.tgz#e3fcacb040ce905b390b413822172691968bdf0f"
+  integrity sha512-doN5IULuUwJraNVwgMICjzueODYgOvI1GhoSw7W4gmyF6KUXp+uv7KnpFv8oEyz4tr0XBmpdO/AK1/M1PmJmUg==
+  dependencies:
+    "@babel/runtime" "^7.7.6"
+    react-transition-group "^4.3.0"
+
+react-transition-group@^4.3.0, react-transition-group@^4.4.0:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
   integrity sha512-Djqr7OQ2aPUiYurhPalTrVy9ddmFCCzwhqQmtN+J3+3DzLO209Fdr70QrN8Z3DsglWql6iY1lDWAfpFiBtuKGw==
