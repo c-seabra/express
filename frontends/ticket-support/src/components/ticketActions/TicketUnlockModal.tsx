@@ -126,7 +126,7 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            await unlockTicket({ ...values, ticketId: ticket.id })
+            await unlockTicket({ ...values, bookingRef: ticket.id })
 
             handleClose()
           }}

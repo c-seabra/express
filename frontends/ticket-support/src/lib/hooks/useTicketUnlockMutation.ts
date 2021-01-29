@@ -13,12 +13,8 @@ type TicketUnlockResponse = {
 }
 
 type UnlockTicketsArgs = {
-  email: string
-  firstName: string
-  lastName?: string
-  notify?: boolean
   reason: string
-  ticketId: string
+  bookingRef: string
 }
 
 const useUnlockTicketMutation = () => {
@@ -37,7 +33,7 @@ const useUnlockTicketMutation = () => {
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
   })
 
-  const unlockTicket = async ({ reason, ...variables }: UnlockTicketsArgs) => {
+  const unlockTicket = async ({ reason, bookingRef }: UnlockTicketsArgs) => {
     await unclockTicketMutation({
       context: {
         headers: {
@@ -46,7 +42,10 @@ const useUnlockTicketMutation = () => {
         slug: conferenceSlug,
         token,
       },
-      variables,
+      refetchQueries: ['TicketAuditTrail', 'Ticket'],
+      variables: {
+        input: { reference: bookingRef },
+      },
     })
   }
 

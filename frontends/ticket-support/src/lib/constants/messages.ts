@@ -1,5 +1,9 @@
+export type StaticMessage = {
+  [messageName: string]: string
+}
+
 export type StaticMessages = {
-  [messageName: string]: any
+  [messageGroup: string]: StaticMessage
 }
 
 const STATIC_MESSAGES: StaticMessages = Object.freeze({
