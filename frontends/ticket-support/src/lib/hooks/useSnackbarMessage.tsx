@@ -1,9 +1,8 @@
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import ErrorIcon from '@material-ui/icons/Error'
-import InfoIcon from '@material-ui/icons/Info'
 import React, { ReactElement } from 'react'
 import { useSnackbar } from 'react-simple-snackbar'
 import styled from 'styled-components'
+
+import Icon from '../components/atoms/Icon'
 
 type SnackbarType = 'info' | 'success' | 'error'
 
@@ -37,12 +36,12 @@ const SnackbarNode = styled.div`
 const SnackbarIcon = ({ snackbarType }: { snackbarType: SnackbarType }): ReactElement => {
   switch (snackbarType) {
     case 'error':
-      return <ErrorIcon />
+      return <Icon>error</Icon>
     case 'success':
-      return <CheckCircleIcon />
+      return <Icon>check_circle</Icon>
     case 'info':
     default:
-      return <InfoIcon />
+      return <Icon>info</Icon>
   }
 }
 
