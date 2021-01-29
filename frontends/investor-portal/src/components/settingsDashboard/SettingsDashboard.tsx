@@ -21,6 +21,7 @@ const SettingsDashboard: React.FC = () => {
   const [sponsorLogoUrl, setSponsorLogoUrl] = useState<string | undefined>()
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
   const [mutationError, setMutationError] = useState<string | undefined>()
+  const [file, setFile] = useState<File | undefined>()
 
   const {
     data,
@@ -80,6 +81,7 @@ const SettingsDashboard: React.FC = () => {
       investorMeetingsDefaultStartupSelections: defaultStartupSelections,
       investorMeetingsMeetingsPerSession: meetingsPerSession,
       investorMeetingsSessionDuration: sessionDuration,
+      investorMeetingsSponsorLogo: file
     },
   })
 
@@ -125,8 +127,8 @@ const SettingsDashboard: React.FC = () => {
                 type="file"
                 accept="image/svg+xml"
                 onChange={e => {
-                  debugger
                   setSponsorLogoUrl(URL.createObjectURL(e.target.files[0]))
+                  setFile(e.target.files[0])
                 }}
               />
               <LabeledInput

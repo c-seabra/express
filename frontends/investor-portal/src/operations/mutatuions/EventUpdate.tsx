@@ -5,6 +5,7 @@ export const EVENT_UPDATE_MUTATION = gql`
     $investorMeetingsDefaultStartupSelections: Int!
     $investorMeetingsMeetingsPerSession: Int!
     $investorMeetingsSessionDuration: Int!
+    $investorMeetingsSponsorLogo: Upload
   ) {
     eventUpdate(
       input: {
@@ -12,6 +13,7 @@ export const EVENT_UPDATE_MUTATION = gql`
           investorMeetingsDefaultStartupSelections: $investorMeetingsDefaultStartupSelections
           investorMeetingsMeetingsPerSession: $investorMeetingsMeetingsPerSession
           investorMeetingsSessionDuration: $investorMeetingsSessionDuration
+          investorMeetingsSponsorLogo: $investorMeetingsSponsorLogo
         }
       }
     ) {
