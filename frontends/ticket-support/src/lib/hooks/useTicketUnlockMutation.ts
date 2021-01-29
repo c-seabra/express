@@ -42,7 +42,6 @@ const useUnlockTicketMutation = () => {
         slug: conferenceSlug,
         token,
       },
-      refetchQueries: ['TicketAuditTrail', 'Ticket'],
       variables: {
         input: { reference: bookingRef },
       },
