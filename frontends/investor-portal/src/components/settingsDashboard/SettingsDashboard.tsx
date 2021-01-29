@@ -29,7 +29,7 @@ const SettingsDashboard: React.FC = () => {
     data?: {
       event: {
         configuration: {
-          investorMeetingsConfigurations: {
+          investorMeetingConfiguration: {
             defaultStartupSelections: number
             meetingsPerSession: number
             sessionDuration: number
@@ -49,12 +49,12 @@ const SettingsDashboard: React.FC = () => {
   useEffect(() => {
     if (data) {
       setDefaultStartupSelections(
-        data?.event.configuration.investorMeetingsConfigurations.defaultStartupSelections
+        data?.event.configuration.investorMeetingConfiguration.defaultStartupSelections
       )
       setMeetingsPerSession(
-        data?.event.configuration.investorMeetingsConfigurations.meetingsPerSession
+        data?.event.configuration.investorMeetingConfiguration.meetingsPerSession
       )
-      setSessionDuration(data?.event.configuration.investorMeetingsConfigurations.sessionDuration)
+      setSessionDuration(data?.event.configuration.investorMeetingConfiguration.sessionDuration)
     }
   }, [data])
 
@@ -68,7 +68,9 @@ const SettingsDashboard: React.FC = () => {
         setMutationSuccessMessage(eventUpdate?.successMessage)
         setMutationError('')
       }
-      if (eventUpdate?.userErrors.length) setMutationError(eventUpdate?.userErrors[0]?.message)
+      if (eventUpdate?.userErrors.length) {
+        setMutationError(eventUpdate?.userErrors[0])
+      }
     },
     refetchQueries: ['EventQuery'],
     variables: {

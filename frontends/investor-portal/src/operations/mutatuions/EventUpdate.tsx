@@ -8,7 +8,7 @@ export const EVENT_UPDATE_MUTATION = gql`
   ) {
     eventUpdate(
       input: {
-        investorMeetingsConfigurations: {
+        investorMeetingConfiguration: {
           investorMeetingsDefaultStartupSelections: $investorMeetingsDefaultStartupSelections
           investorMeetingsMeetingsPerSession: $investorMeetingsMeetingsPerSession
           investorMeetingsSessionDuration: $investorMeetingsSessionDuration
