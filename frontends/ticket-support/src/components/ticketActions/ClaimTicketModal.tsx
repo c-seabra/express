@@ -1,23 +1,13 @@
 import { Form, Formik } from 'formik'
-import React, { FormEvent, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import { WarningMessage } from '../../lib/components/atoms/Messages'
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import useClaimTicketMutation from '../../lib/hooks/useClaimTicketMutation'
 import { Ticket } from '../../lib/types'
-
-const ModalFooter = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const StyledSecondaryButton = styled(SecondaryButton)`
-  margin-right: 8px;
-`
 
 const StyledForm = styled(Form)`
   width: 450px;
@@ -46,36 +36,9 @@ const claimTicketSchema = Yup.object().shape({
 
 const ClaimTicketModal = ({ ticket, isOpen, onRequestClose }: ClaimTicketModalProps) => {
   const { claimTicket } = useClaimTicketMutation({ ticketId: ticket.id })
-  const [formControls, setFormControls] = useState<
-    | {
-        boundReset?: () => void
-        boundSubmit?: (event?: FormEvent) => void
-      }
-    | undefined
-  >()
-
-  const handleClose = () => {
-    if (formControls?.boundReset) {
-      formControls.boundReset()
-    }
-
-    onRequestClose()
-  }
-
-  const renderLoginLinkModalFooter = () => (
-    <ModalFooter>
-      <StyledSecondaryButton onClick={handleClose}>Cancel</StyledSecondaryButton>
-      <Button onClick={formControls?.boundSubmit}>Claim ticket</Button>
-    </ModalFooter>
-  )
 
   return (
-    <Modal
-      isOpen={isOpen}
-      renderFooter={renderLoginLinkModalFooter}
-      title="Claim ticket"
-      onRequestClose={onRequestClose}
-    >
+    <Modal withDefaultFooter isOpen={isOpen} title="Claim ticket" onRequestClose={onRequestClose}>
       <Formik
         initialValues={{
           reason: '',
@@ -83,35 +46,23 @@ const ClaimTicketModal = ({ ticket, isOpen, onRequestClose }: ClaimTicketModalPr
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={claimTicketSchema}
-        onSubmit={async ({ reason }) => {
+        onSubmit={async ({ reason }, { resetForm }) => {
           await claimTicket(reason)
-          handleClose()
+          resetForm()
         }}
       >
-        {({ submitForm, resetForm }) => {
-          // Binding submit form to submit programmatically from outside the <Formik> component
-          if (!formControls) {
-            setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
-          }
-
-          return (
-            <StyledForm>
-              <ConfirmationText>
-                Are you sure you want to&nbsp;<span>claim</span>&nbsp;ticket&nbsp;
-                <span>{ticket.bookingRef}</span>?
-              </ConfirmationText>
-              <TextInputField
-                required
-                label="Please enter a reason for this change"
-                name="reason"
-              />
-              <WarningMessage>
-                This will reset the ticket assignment and the previous ticket holder will lose
-                access to the ticket. They will be notified by email.
-              </WarningMessage>
-            </StyledForm>
-          )
-        }}
+        <StyledForm>
+          <ConfirmationText>
+            Are you sure you want to&nbsp;<span>claim</span>&nbsp;ticket&nbsp;
+            <span>{ticket.bookingRef}</span>?
+          </ConfirmationText>
+          <TextInputField required label="Please enter a reason for this change" name="reason" />
+          <WarningMessage>
+            This will reset the ticket assignment and the previous ticket holder will lose access to
+            the ticket. They will be notified by email.
+          </WarningMessage>
+          <Modal.DefaultFooter submitText="Claim ticket" onCancelClick={onRequestClose} />
+        </StyledForm>
       </Formik>
     </Modal>
   )
