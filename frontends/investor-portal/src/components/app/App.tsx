@@ -8,6 +8,7 @@ import withApollo from '../../lib/apollo/withApollo'
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import ROUTES from '../../lib/constants/routes'
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard'
+import InvestorsDashboard from '../investorsDashboard/InvestorsDashboard'
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard'
 import AppContext from './AppContext'
 
@@ -79,6 +80,9 @@ const App = ({ token }: { token: string }) => {
             </Route>
             <Route path="/settings">
               <SettingsDashboard />
+            </Route>
+            <Route path="/investors">
+              <InvestorsDashboard />
             </Route>
           </Switch>
         </StyledContainer>
