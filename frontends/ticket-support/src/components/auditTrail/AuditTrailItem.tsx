@@ -104,8 +104,27 @@ const StyleTable = styled.table`
     padding: 4px;
   }
 `
+
+// Types
+type AuditTrail = {
+  trail: TrailVersion
+}
+
+type InlineChangeProps = {
+  current: any
+  label: string
+  prev: any
+}
+
+// Helpers
 const normalize = (value: string): string => {
   return value.toLowerCase().replace(/_/g, ' ')
+}
+
+const mapChange = (trail: TrailVersion): boolean | string => {
+  // TODO Deduce a action
+
+  return 'N/A'
 }
 
 const getFormattedValue = (
@@ -154,11 +173,6 @@ const DynamicChange = ({ title, values }: { title: string; values: Array<string>
   )
 }
 
-type InlineChangeProps = {
-  current: any
-  label: string
-  prev: any
-}
 const InlineChange = ({ label, prev, current }: InlineChangeProps) => {
   const noDataLabel = 'no value'
 
@@ -185,11 +199,6 @@ const InlineChange = ({ label, prev, current }: InlineChangeProps) => {
   )
 }
 
-type AuditTrail = {
-  trail: TrailVersion
-  // props: unknown
-}
-
 const AuditTrailItem = ({ trail }: AuditTrail) => {
   const {
     context: contextString,
@@ -202,6 +211,7 @@ const AuditTrailItem = ({ trail }: AuditTrail) => {
   const [openDetailsRow, setOpenDetailsRow] = useState(false)
   const objectChanges = objectChangesString && JSON.parse(objectChangesString)
   const context = contextString && JSON.parse(contextString)
+  const mappedChange = mapChange(trail)
   const noDataLabel = 'no value'
   const setDetailsVisibility = () => setOpenDetailsRow(!openDetailsRow)
 
@@ -212,7 +222,7 @@ const AuditTrailItem = ({ trail }: AuditTrail) => {
           <BlueValue>{formatDefaultDateTime(createdAt as string)}</BlueValue>
         </Column>
         <Column width="15%">{itemType}</Column>
-        <Column width="15%">N/A</Column>
+        <Column width="15%">{mappedChange}</Column>
         <Column width="30%">{whodunnit}</Column>
         <Column width="20%">{reason || 'No reason given'}</Column>
       </DataRow>
