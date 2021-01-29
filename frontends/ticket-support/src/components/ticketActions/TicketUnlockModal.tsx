@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import * as Yup from 'yup'
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
+import { WarningMessage } from '../../lib/components/atoms/Messages'
 import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
@@ -24,16 +25,6 @@ const ContentContainer = styled.div`
   width: 450px;
   font-size: 0.85rem;
   font-weight: 400;
-`
-
-const WarningMessage = styled.div`
-  border-radius: 4px;
-  background-color: rgb(225, 85, 84, 0.8);
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 400;
-  padding: 0.8rem;
-  margin-bottom: 16px;
 `
 
 const ConfirmationText = styled.div`
