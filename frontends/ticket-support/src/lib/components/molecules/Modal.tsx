@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from 'react'
 import ReactModal from 'react-modal'
 import styled from 'styled-components'
 
+import { Button, SecondaryButton } from '../atoms/Button'
 import Icon from '../atoms/Icon'
 
 const ModalContainer = styled.div`
@@ -46,18 +47,57 @@ export type ModalProps = {
   onRequestClose: () => void
   renderFooter?: () => ReactElement
   title?: string
+  withDefaultFooter?: boolean
   withoutDefaultActions?: boolean
 }
 
+const ModalFooter = styled.div`
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+`
+
+const StyledSecondaryButton = styled(SecondaryButton)`
+  margin-right: 8px;
+`
+
+type FooterProps = {
+  cancelText?: string
+  onCancelClick?: () => void
+  onSubmitClick?: () => void
+  submitText?: string
+}
+
+const DefaultModalFooter = ({
+  onSubmitClick,
+  submitText = 'Submit',
+  onCancelClick,
+  cancelText = 'Cancel',
+}: FooterProps) => (
+  <ModalFooter>
+    <StyledSecondaryButton onClick={onCancelClick}>{cancelText}</StyledSecondaryButton>
+    <Button type="submit" onClick={onSubmitClick}>
+      {submitText}
+    </Button>
+  </ModalFooter>
+)
+
+const DefaultFooterSpacer = styled.div`
+  width: 100%;
+  height: 2rem;
+`
+
 const Modal = ({
   title,
-  renderFooter,
-
   isOpen,
   onRequestClose,
   withoutDefaultActions = false,
   noPadding = false,
   children,
+  renderFooter,
+  withDefaultFooter = false,
 }: ModalProps) => {
   const customStyles = {
     content: {
@@ -86,10 +126,13 @@ const Modal = ({
           )}
         </ModalHeader>
         {children}
-        {renderFooter && renderFooter()}
+        {withDefaultFooter && <DefaultFooterSpacer />}
+        {!withDefaultFooter && renderFooter && renderFooter()}
       </ModalContainer>
     </ReactModal>
   )
 }
+
+Modal.DefaultFooter = DefaultModalFooter
 
 export default Modal

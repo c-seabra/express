@@ -17,14 +17,11 @@ import { useAppContext } from '../app/AppContext'
 import AuditTrail from '../auditTrail/AuditTrail'
 import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import LoginLinkActions from '../ticketActions/LoginLinkActions'
-import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
-import TicketAssign from '../ticketActions/TicketAssign'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
-import TicketClaim from '../ticketActions/TicketClaim'
 import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
-import StatePlate from '../ticketItem/StatePlate'
+import TicketStateActions from './TicketStateActions'
 
 // --- new ---
 const Text = styled.div`
@@ -251,8 +248,7 @@ const TicketDetails = (): ReactElement => {
                 </StyledPairContainer>
 
                 <StyledPairContainer>
-                  <StyledLabel>Ticket status</StyledLabel>
-                  <StatePlate state={ticket?.state} />
+                  <TicketStateActions ticket={ticket} />
                 </StyledPairContainer>
               </StyledInnerContainerCardWithBorder>
 
