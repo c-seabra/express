@@ -38,6 +38,7 @@
     "react-helmet": "^6.1.0",
     "react-modal": "^3.12.1",
     "react-router-dom": "^5.2.0",
+    "react-simple-snackbar": "^1.1.10",
     "styled-components": "^5.2.1",
     "ts-loader": "^8.0.11",
     "yup": "^0.32.8"

@@ -17,7 +17,7 @@
     "isolatedModules": true
   },
   "typeRoots": [
-    "node_modules/@types",
+    "node_modules/@types"
   ],
   "include": ["src/**/*", "../../conferenceInput"],
   "exclude": ["src/index.js", "src/lib/apollo/*.js"]
