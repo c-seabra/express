@@ -61,6 +61,7 @@ export const SecondaryButton = styled(Button)`
 export const TextButton = styled(SecondaryButton)`
   border: none;
   background-color: white;
+  padding: 0;
 
   &:hover {
     background-color: white;

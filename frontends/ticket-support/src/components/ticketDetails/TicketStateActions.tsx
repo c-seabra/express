@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { TextButton } from '../../lib/components/atoms/Button'
+import Icon from '../../lib/components/atoms/Icon'
 import { useModalState } from '../../lib/components/molecules/Modal'
 import { Ticket } from '../../lib/types'
 import ClaimTicketModal from '../ticketActions/ClaimTicketModal'
@@ -24,6 +25,15 @@ const StateActionContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+
+const StyledTest = styled.span`
+  height: 19px;
+  margin-right: 8px;
+
+  .material-icons {
+    font-size: 16px;
+  }
 `
 
 type TicketStateActionsProps = {
@@ -49,7 +59,12 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
     case 'LOCKED':
       return (
         <>
-          <TextButton onClick={openTicketUnlockModal}>Unlock ticket</TextButton>
+          <TextButton onClick={openTicketUnlockModal}>
+            <StyledTest>
+              <Icon>lock_open</Icon>
+            </StyledTest>
+            Unlock ticket
+          </TextButton>
           <TicketUnlockModal
             closeModal={closeTicketUnlockModal}
             isOpen={isTicketUnlockModalOpen}
