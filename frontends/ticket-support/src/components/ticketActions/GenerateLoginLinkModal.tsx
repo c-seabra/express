@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import * as Yup from 'yup'
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
+import { InfoMessage } from '../../lib/components/atoms/Messages'
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 
@@ -19,16 +20,6 @@ const StyledSecondaryButton = styled(SecondaryButton)`
 const StyledForm = styled(Form)`
   width: 450px;
   padding: 1rem 0;
-`
-
-const InfoMessage = styled.div`
-  border-radius: 4px;
-  background-color: rgba(0, 103, 233, 0.7);
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 400;
-  padding: 0.8rem;
-  margin-bottom: 16px;
 `
 
 const generateLinkSchema = Yup.object().shape({

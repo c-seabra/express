@@ -1,5 +1,5 @@
 export type StaticMessages = {
-  [routeName: string]: string
+  [messageName: string]: any
 }
 
 const STATIC_MESSAGES: StaticMessages = Object.freeze({

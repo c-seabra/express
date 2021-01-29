@@ -17,15 +17,12 @@ import { useAppContext } from '../app/AppContext'
 import AuditTrail from '../auditTrail/AuditTrail'
 import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import LoginLinkActions from '../ticketActions/LoginLinkActions'
-import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
-import TicketAssign from '../ticketActions/TicketAssign'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
-import TicketClaim from '../ticketActions/TicketClaim'
 import TicketReject from '../ticketActions/TicketReject'
 import TicketUnlock from '../ticketActions/TicketUnlock'
 import TicketUnlockModal from '../ticketActions/TicketUnlockModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
-import StatePlate from '../ticketItem/StatePlate'
+import TicketStateActions from './TicketStateActions'
 
 // --- new ---
 const Text = styled.div`
@@ -36,14 +33,6 @@ const Text = styled.div`
   a {
     color: #337ab7;
     margin: 0 0.25rem;
-  }
-`
-
-const Link = styled.a`
-  font-size: 1rem;
-  font-weight: 400;
-  a {
-    color: #337ab7;
   }
 `
 
@@ -179,11 +168,6 @@ const TicketDetails = (): ReactElement => {
     isOpen: isTicketAssignModalOpen,
     closeModal: closeTicketAssignModal,
   } = useModalState()
-  const {
-    openModal: openTicketUnlockModal,
-    isOpen: isTicketUnlockModalOpen,
-    closeModal: closeTicketUnlockModal,
-  } = useModalState()
 
   const {
     loading,
@@ -260,14 +244,7 @@ const TicketDetails = (): ReactElement => {
                 </StyledPairContainer>
 
                 <StyledPairContainer>
-                  <StyledLabel>Ticket status</StyledLabel>
-                  <StatePlate state={ticket?.state} />
-                  <Link onClick={openTicketUnlockModal}>Unlock ticket</Link>
-                  <TicketUnlockModal
-                    closeModal={closeTicketUnlockModal}
-                    isOpen={isTicketUnlockModalOpen}
-                    ticket={ticket}
-                  />
+                  <TicketStateActions ticket={ticket} />
                 </StyledPairContainer>
               </StyledInnerContainerCardWithBorder>
 
