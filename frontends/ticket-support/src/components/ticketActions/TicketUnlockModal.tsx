@@ -99,12 +99,12 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            await unlockTicket({ ...values, bookingRef: ticket.id })
+            await unlockTicket({ bookingRef: ticket.bookingRef, reason: values?.reason })
 
             handleClose()
           }}
         >
-          {({ submitForm, resetForm, values }) => {
+          {({ submitForm, resetForm }) => {
             // Binding submit form to submit programmatically from outside the <Formik> component
             if (!formControls) {
               setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
