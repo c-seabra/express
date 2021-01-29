@@ -127,8 +127,8 @@ const SettingsDashboard: React.FC = () => {
                 type="file"
                 accept="image/svg+xml"
                 onChange={e => {
-                  setSponsorLogoUrl(URL.createObjectURL(e.target.files[0]))
-                  setFile(e.target.files[0])
+                  setSponsorLogoUrl(URL.createObjectURL(e.target.files![0]))
+                  setFile(e.target.files![0])
                 }}
               />
               <LabeledInput
