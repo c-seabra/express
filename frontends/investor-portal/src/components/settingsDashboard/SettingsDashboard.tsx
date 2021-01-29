@@ -72,9 +72,9 @@ const SettingsDashboard: React.FC = () => {
     },
     refetchQueries: ['EventQuery'],
     variables: {
-      investorMeetingsDefaultStartupSelections: parseInt(defaultStartupSelections, 10),
-      investorMeetingsMeetingsPerSession: parseInt(meetingsPerSession, 10),
-      investorMeetingsSessionDuration: parseInt(sessionDuration, 10),
+      investorMeetingsDefaultStartupSelections: defaultStartupSelections,
+      investorMeetingsMeetingsPerSession: meetingsPerSession,
+      investorMeetingsSessionDuration: sessionDuration,
     },
   })
 
