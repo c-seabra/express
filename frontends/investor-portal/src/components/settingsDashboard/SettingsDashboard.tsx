@@ -11,13 +11,14 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
-import { ConfigurationPanel, PageContainer, SpacingBottom } from './SettingsDashboard.styled'
+import { ConfigurationPanel, PageContainer, SpacingBottom, Logo } from './SettingsDashboard.styled'
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
   const [defaultStartupSelections, setDefaultStartupSelections] = useState<number | undefined>()
   const [meetingsPerSession, setMeetingsPerSession] = useState<number | undefined>()
   const [sessionDuration, setSessionDuration] = useState<number | undefined>()
+  const [sponsorLogoUrl, setSponsorLogoUrl] = useState<string | undefined>()
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
   const [mutationError, setMutationError] = useState<string | undefined>()
 
@@ -33,6 +34,7 @@ const SettingsDashboard: React.FC = () => {
             defaultStartupSelections: number
             meetingsPerSession: number
             sessionDuration: number
+            sponsorLogoUrl: string
           }
         }
       }
@@ -55,6 +57,7 @@ const SettingsDashboard: React.FC = () => {
         data?.event.configuration.investorMeetingConfiguration.meetingsPerSession
       )
       setSessionDuration(data?.event.configuration.investorMeetingConfiguration.sessionDuration)
+      setSponsorLogoUrl(data?.event.configuration.investorMeetingConfiguration.sponsorLogoUrl)
     }
   }, [data])
 
@@ -114,6 +117,18 @@ const SettingsDashboard: React.FC = () => {
                 submitSettings()
               }}
             >
+
+              <Logo src={sponsorLogoUrl} />
+              <LabeledInput
+                defaultValue={sponsorLogoUrl}
+                label="Sponsor logo"
+                type="file"
+                accept="image/svg+xml"
+                onChange={e => {
+                  debugger
+                  setSponsorLogoUrl(URL.createObjectURL(e.target.files[0]))
+                }}
+              />
               <LabeledInput
                 defaultValue={defaultStartupSelections}
                 label="Default startup selections"
