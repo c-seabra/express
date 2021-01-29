@@ -27,7 +27,7 @@ const StateActionContainer = styled.div`
   align-items: center;
 `
 
-const StyledTest = styled.span`
+const StyledWrapper = styled.span`
   height: 19px;
   margin-right: 8px;
 
@@ -60,9 +60,9 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
       return (
         <>
           <TextButton onClick={openTicketUnlockModal}>
-            <StyledTest>
+            <StyledWrapper>
               <Icon>lock_open</Icon>
-            </StyledTest>
+            </StyledWrapper>
             Unlock ticket
           </TextButton>
           <TicketUnlockModal
