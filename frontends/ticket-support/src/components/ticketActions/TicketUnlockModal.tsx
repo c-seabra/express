@@ -58,7 +58,6 @@ const confirmSchema = Yup.object().shape({
 
 const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProps) => {
   const { unlockTicket } = useUnlockTicketMutation()
-  const [isFirstStepFilled, setFirstStepFilled] = useState(false)
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void
@@ -72,31 +71,14 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
       formControls.boundReset()
     }
 
-    setFirstStepFilled(false)
     setFormControls(undefined)
-
     closeModal()
   }
 
-  const renderTicketAssignFooter = () => (
+  const renderFooter = () => (
     <ModalFooter>
       <StyledSecondaryButton onClick={handleClose}>Cancel</StyledSecondaryButton>
       <Button onClick={formControls?.boundSubmit}>Unlock ticket</Button>
-    </ModalFooter>
-  )
-
-  const renderConfirmAssignFooter = () => (
-    <ModalFooter>
-      <StyledSecondaryButton onClick={handleClose}>Cancel</StyledSecondaryButton>
-      <Button
-        onClick={() => {
-          if (formControls?.boundSubmit && formControls?.boundReset) {
-            formControls.boundSubmit()
-          }
-        }}
-      >
-        Confirm
-      </Button>
     </ModalFooter>
   )
 
@@ -104,7 +86,7 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
     <Modal
       key={isOpen.toString()}
       isOpen={isOpen}
-      renderFooter={isFirstStepFilled ? renderConfirmAssignFooter : renderTicketAssignFooter}
+      renderFooter={renderFooter}
       title="Unlock ticket"
       onRequestClose={handleClose}
     >
