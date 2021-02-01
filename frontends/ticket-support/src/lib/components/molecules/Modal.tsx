@@ -5,39 +5,28 @@ import styled from 'styled-components'
 import { Button, SecondaryButton } from '../atoms/Button'
 import Icon from '../atoms/Icon'
 
-const customStyles = {
-  content: {
-    bottom: 'auto',
-    left: '50%',
-    marginRight: '-50%',
-    right: 'auto',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-  },
-}
-
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const ModalHeader = styled.div`
+const ExitActionContainer = styled.div<{ noPadding?: boolean }>`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  padding: ${props =>
+    props.noPadding ? '16px' : '0'}; // Adjust only action header when no padding
+`
+
+const ModalHeader = styled.div<{ title?: string }>`
+  display: flex;
+  justify-content: ${props => (props.title ? 'space-between' : 'flex-end')};
 `
 
 const ModalTitle = styled.div`
   display: flex;
-  font-size: 1.2rem;
-`
-
-const ExitActionContainer = styled.div`
-  display: flex;
   justify-content: flex-end;
   align-items: center;
+  font-size: 1.2rem;
 `
 
 export const useModalState = ({ initialState = false }: { initialState?: boolean } = {}) => {
@@ -54,6 +43,7 @@ export const useModalState = ({ initialState = false }: { initialState?: boolean
 export type ModalProps = {
   children?: ReactElement | ReactElement[] | string
   isOpen: boolean
+  noPadding?: boolean
   onRequestClose: () => void
   renderFooter?: () => ReactElement
   title?: string
@@ -100,21 +90,37 @@ const DefaultFooterSpacer = styled.div`
 `
 
 const Modal = ({
+  title,
   isOpen,
   onRequestClose,
-  title,
   withoutDefaultActions = false,
+  noPadding = false,
   children,
   renderFooter,
   withDefaultFooter = false,
 }: ModalProps) => {
+  const customStyles = {
+    content: {
+      bottom: 'auto',
+      left: '50%',
+      marginRight: '-50%',
+      padding: noPadding ? '0' : '16px',
+      right: 'auto',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+    },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    },
+  }
+
   return (
     <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
       <ModalContainer>
-        <ModalHeader>
+        <ModalHeader title={title}>
           {title && <ModalTitle>{title}</ModalTitle>}
           {!withoutDefaultActions && (
-            <ExitActionContainer>
+            <ExitActionContainer noPadding={noPadding}>
               <Icon onClick={onRequestClose}>close</Icon>
             </ExitActionContainer>
           )}
