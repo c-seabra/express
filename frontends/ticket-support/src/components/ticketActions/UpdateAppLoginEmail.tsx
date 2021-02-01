@@ -40,9 +40,9 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
   const cancelAction = () => {
     setEditMode(false)
   }
-  // const saveAction = () => {
-  //   setEditMode()
-  // }
+  const editAction = () => {
+    setEditMode(true)
+  }
   const saveAction = () => {
     openModal()
   }
@@ -51,7 +51,12 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
     <>
       <StyledLabel>App login email</StyledLabel>
       <SpacingBottomXs>
-        <EditableInput editModeOn={editMode} placeholder="Type email" value={email || 'N/A'} />
+        <EditableInput
+          editModeOn={editMode}
+          placeholder="Type email"
+          value={email || 'N/A'}
+          onEdit={editAction}
+        />
       </SpacingBottomXs>
       {editMode && (
         <>

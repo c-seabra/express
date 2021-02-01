@@ -1,4 +1,4 @@
-import React, { HTMLProps, useState } from 'react'
+import React, { HTMLProps } from 'react'
 import styled from 'styled-components'
 
 import Icon from '../atoms/Icon'
@@ -50,7 +50,11 @@ const StyledActionsText = styled.span`
   line-height: 24px;
 `
 
-type EditableInputProps = HTMLProps<HTMLInputElement> & { className?: string; editModeOn?: boolean }
+type EditableInputProps = HTMLProps<HTMLInputElement> & {
+  className?: string
+  editModeOn?: boolean
+  onEdit: void
+}
 
 const EditableInput = ({
   className,
@@ -60,26 +64,21 @@ const EditableInput = ({
   editModeOn = false,
   onChange,
   onKeyDown,
+  onEdit,
   ...props
 }: EditableInputProps) => {
-  const [editMode, setEditMode] = useState(editModeOn)
-  const toggle = () => setEditMode(!editMode)
-
-  const onEdit = () => {
-    toggle()
-  }
   return (
-    <EditInput className={className} editMode={editMode}>
+    <EditInput className={className} editMode={editModeOn}>
       <Input
         {...{
           placeholder,
           value,
         }}
-        disabled={!editMode}
+        disabled={!editModeOn}
         {...props}
       />
       <StyledActions onClick={onEdit}>
-        {!editMode && (
+        {!editModeOn && (
           <>
             <IconWrapper>
               <Icon>mode</Icon>

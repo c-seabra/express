@@ -30,7 +30,7 @@ const PageContainer = styled.div`
 
 const BreadcrumbsContainer = styled.div`
   display: flex;
-  margin: 20px 0 4px;
+  margin: 20px 0 16px;
 `
 
 const SpacingBottom = styled.div`
