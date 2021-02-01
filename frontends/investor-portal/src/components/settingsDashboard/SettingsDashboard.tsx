@@ -11,7 +11,7 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
-import { ConfigurationPanel, PageContainer, SpacingBottom, Logo } from './SettingsDashboard.styled'
+import { ConfigurationPanel, PageContainer, SpacingBottom, SponsorLogo } from './SettingsDashboard.styled'
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -48,6 +48,11 @@ const SettingsDashboard: React.FC = () => {
       token,
     },
   })
+
+  const handleUpload = (file?: File) => {
+    setSponsorLogoUrl(URL.createObjectURL(file))
+    setFile(file)
+  }
 
   useEffect(() => {
     if (data) {
@@ -120,16 +125,13 @@ const SettingsDashboard: React.FC = () => {
               }}
             >
 
-              <Logo src={sponsorLogoUrl} />
+              <SponsorLogo src={sponsorLogoUrl} />
               <LabeledInput
                 defaultValue={sponsorLogoUrl}
                 label="Sponsor logo"
                 type="file"
                 accept="image/svg+xml"
-                onChange={e => {
-                  setSponsorLogoUrl(URL.createObjectURL(e.target.files![0]))
-                  setFile(e.target.files![0])
-                }}
+                onChange={e => { handleUpload(e.target.files![0]) }}
               />
               <LabeledInput
                 defaultValue={defaultStartupSelections}

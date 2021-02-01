@@ -23,7 +23,7 @@ export const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
 
-export const Logo = styled.img`
+export const SponsorLogo = styled.img`
     width: 50%;
     height: 300px;
     margin: 15px;
