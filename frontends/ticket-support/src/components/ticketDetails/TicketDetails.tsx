@@ -1,7 +1,6 @@
-import { ApolloError, useQuery } from '@apollo/client'
 import React, { ReactElement, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Input, Tooltip } from '../../lib/components'
@@ -10,16 +9,13 @@ import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import { useModalState } from '../../lib/components/molecules/Modal'
+import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
-import { Ticket } from '../../lib/types'
-import TICKET from '../../operations/queries/Ticket'
 import { useAppContext } from '../app/AppContext'
 import AuditTrail from '../auditTrail/AuditTrail'
-import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
 import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
-import TicketReject from '../ticketActions/TicketReject'
-import TicketUnlock from '../ticketActions/TicketUnlock'
+import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import TicketStateActions from './TicketStateActions'
 
@@ -57,10 +53,6 @@ const SpacingBottomSm = styled.div`
   margin-bottom: 1rem;
 `
 
-const SpacingRightSm = styled.div`
-  margin-right: 1rem;
-`
-
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
@@ -74,18 +66,6 @@ const RowContainer = styled.div`
 const ContainerCardInner = styled.div`
   display: flex;
   flex-direction: column;
-`
-
-const TicketDetailsActions = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
-
-  & > div {
-    min-width: 30%;
-    margin-bottom: 8px;
-  }
 `
 
 const TicketActionsContainerCard = styled(ContainerCard)`
@@ -129,26 +109,6 @@ const PrimaryButton = styled(Button)`
   width: 100%;
 `
 
-const TicketHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-const TicketStatus = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  font-size: 0.85rem;
-  margin-right: 0.75rem;
-  > span {
-    margin-bottom: 0.25rem;
-  }
-`
-const TicketStatusBar = styled.div`
-  display: flex;
-  align-items: center;
-`
-
 const TextHighlight = styled.span`
   color: #337ab7;
   margin: 0 0.25rem;
@@ -156,39 +116,22 @@ const TextHighlight = styled.span`
 
 const TicketDetails = (): ReactElement => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
-  const history = useHistory()
   const { conferenceSlug, token } = useAppContext()
-  const [reassignment, setReassignment] = useState(false)
   const [loginEmailChange, setLoginEmailChange] = useState(false)
-  const [identityEmailChange, setIdentityEmailChange] = useState(false)
   const [showAuditTrail, setShowAuditTrail] = useState(false)
   const {
     openModal: openTicketAssignModal,
     isOpen: isTicketAssignModalOpen,
     closeModal: closeTicketAssignModal,
   } = useModalState()
-
   const {
-    loading,
-    error,
-    data,
-  }: {
-    data?: {
-      ticket: Ticket
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(TICKET, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    variables: {
-      reference: bookingRef,
-    },
-  })
+    openModal: openUnassignTicketModal,
+    isOpen: isUnassignTicketModalOpen,
+    closeModal: closeUnassignTicketModal,
+  } = useModalState()
 
-  const ticket = data?.ticket
+  const { loading, error, ticket } = useSingleTicketQuery({ reference: bookingRef })
+
   const assignment = ticket?.assignment
   const assignee = assignment?.assignee
   const breadcrumbsRoutes: Breadcrumb[] = [
@@ -258,7 +201,12 @@ const TicketDetails = (): ReactElement => {
                 </SpacingBottomSm>
 
                 <SpacingBottomSm>
-                  <PrimaryButton>Unassign</PrimaryButton>
+                  <PrimaryButton onClick={openUnassignTicketModal}>Unassign</PrimaryButton>
+                  <UnassignTicketModal
+                    isOpen={isUnassignTicketModalOpen}
+                    ticket={ticket}
+                    onRequestClose={closeUnassignTicketModal}
+                  />
                 </SpacingBottomSm>
 
                 <Button as={SecondaryButton}>Load history changes</Button>
@@ -280,14 +228,6 @@ const TicketDetails = (): ReactElement => {
             </TicketActionsContainerCard>
 
             <ContainerCard title="User account details">
-              {/* {ticket && ticket.state !== 'VOID' && !assignment && ( */}
-              {/*  <> */}
-              {/*    <div> */}
-              {/*      <Heading>Assign ticket:</Heading> */}
-              {/*      <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} /> */}
-              {/*    </div> */}
-              {/*  </> */}
-              {/* )} */}
               <ContainerCardInner>
                 <p>There is a little line below this heading that explains what you can put here</p>
 

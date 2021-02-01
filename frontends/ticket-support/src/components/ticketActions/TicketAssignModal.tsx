@@ -19,11 +19,15 @@ const ContentContainer = styled.div`
 
 const ConfirmationText = styled.div`
   display: flex;
-  flex-direction: column;
   font-size: 1rem;
   font-weight: 400;
   padding-bottom: 2rem;
   color: #07143e;
+
+  span {
+    font-weight: 600;
+    color: #0067e9;
+  }
 `
 
 const StyledForm = styled(Form)`
@@ -45,7 +49,7 @@ const assignSchema = Yup.object().shape({
 })
 
 const confirmSchema = Yup.object().shape({
-  notify: Yup.boolean().required('Required'),
+  notify: Yup.boolean(),
   reason: Yup.string().required('Required'),
 })
 
@@ -94,7 +98,8 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
               {isFirstStepFilled ? (
                 <>
                   <ConfirmationText>
-                    Are you sure you want to reassign ticket {ticket.bookingRef}?
+                    Are you sure you want to&nbsp;<span>reassign</span>&nbsp;ticket&nbsp;
+                    <span>{ticket.bookingRef}</span>?
                   </ConfirmationText>
                   <TextInputField
                     required
@@ -102,7 +107,6 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
                     name="reason"
                   />
                   <CheckboxField
-                    required
                     label="Send email notification to new and old assignee"
                     name="notify"
                   />
