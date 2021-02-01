@@ -47,6 +47,7 @@ const StyledSpan = styled.span`
 `
 
 const StyledWarningMessage = styled(WarningMessage)`
+  background-color: #f8ba26;
   margin-bottom: 4rem;
 `
 
@@ -116,8 +117,9 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
                 </ConfirmationText>
                 <TextInputField required label="Specify a reason for the unlocking" name="reason" />
                 <StyledWarningMessage>
-                  This will reset the ticket assignment and the previous ticket holder will lose
-                  access to the ticket. They will be notified by email.
+                  <StyledSpan>Warning:</StyledSpan> Please be aware that this action shall unlock
+                  the ticket. The ticket will automatically get locked once user logs into the any
+                  of the conference apps.
                 </StyledWarningMessage>
                 <Modal.DefaultFooter submitText="Unlock ticket" onCancelClick={handleClose} />
               </StyledForm>
