@@ -3,13 +3,11 @@ import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Input, Tooltip } from '../../lib/components'
+import { Input } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
-import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
-import EditableInput from '../../lib/components/molecules/EditableInput'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
@@ -20,18 +18,6 @@ import TicketAssignModal from '../ticketActions/TicketAssignModal'
 import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import TicketStateActions from './TicketStateActions'
-
-// --- new ---
-const Text = styled.div`
-  border-radius: 8px;
-  padding: 0.25rem;
-  font-size: 1rem;
-  font-weight: 400;
-  a {
-    color: #337ab7;
-    margin: 0 0.25rem;
-  }
-`
 
 const PageContainer = styled.div`
   max-width: 1440px;
@@ -143,8 +129,8 @@ const TicketDetails = (): ReactElement => {
   } = useModalState()
 
   const { loading, error, ticket } = useSingleTicketQuery({ reference: bookingRef })
-
   const assignment = ticket?.assignment
+  const orderRef = ticket?.order?.reference || ''
   const assignee = assignment?.assignee
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -156,8 +142,8 @@ const TicketDetails = (): ReactElement => {
       redirectUrl: '/orders',
     },
     {
-      label: 'Order',
-      redirectUrl: '/order',
+      label: `Order ${orderRef}`,
+      redirectUrl: `/order/${orderRef}`,
     },
     {
       label: `Ticket ${bookingRef}`,
@@ -246,7 +232,6 @@ const TicketDetails = (): ReactElement => {
                     <UpdateAppLoginEmail
                       bookingRef={bookingRef}
                       email={assignment?.appLoginEmail || assignee?.email}
-                      resetLoginEmailChange={setLoginEmailChange}
                     />
                   )}
                 </SpacingBottom>
