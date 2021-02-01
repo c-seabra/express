@@ -11,6 +11,7 @@ export type EventQuery = {
           sessionDuration: number
           startupPortalOpeningAt: Date
           startupSelectionDeadline: Date
+          sponsorLogoUrl: String
         }
       }
     }
@@ -30,6 +31,7 @@ export const EVENT_QUERY = gql`
           sessionDuration
           startupPortalOpeningAt
           startupSelectionDeadline
+          sponsorLogoUrl
         }
       }
     }

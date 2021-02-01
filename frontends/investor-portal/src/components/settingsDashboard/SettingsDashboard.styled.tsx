@@ -22,3 +22,10 @@ export const ConfigurationPanel = styled.form`
 export const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
+
+export const SponsorLogo = styled.img`
+    width: 50%;
+    height: 300px;
+    margin: 15px;
+`;
+
