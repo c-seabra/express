@@ -10,7 +10,7 @@ type ClaimTicketMutationArgs = {
 const useClaimTicketMutation = ({ ticketId }: ClaimTicketMutationArgs) => {
   const { conferenceSlug, token } = useAppContext()
 
-  const [claimTicketMutation] = useMutation(TICKET_ACCEPT_MUTATION, {})
+  const [claimTicketMutation] = useMutation(TICKET_ACCEPT_MUTATION)
 
   const claimTicket = async (reason: string) => {
     await claimTicketMutation({

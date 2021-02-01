@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 
-import { WarningMessage } from '../../lib/components/atoms/Messages'
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import useClaimTicketMutation from '../../lib/hooks/useClaimTicketMutation'
@@ -57,10 +56,6 @@ const ClaimTicketModal = ({ ticket, isOpen, onRequestClose }: ClaimTicketModalPr
             <span>{ticket.bookingRef}</span>?
           </ConfirmationText>
           <TextInputField required label="Please enter a reason for this change" name="reason" />
-          <WarningMessage>
-            This will reset the ticket assignment and the previous ticket holder will lose access to
-            the ticket. They will be notified by email.
-          </WarningMessage>
           <Modal.DefaultFooter submitText="Claim ticket" onCancelClick={onRequestClose} />
         </StyledForm>
       </Formik>
