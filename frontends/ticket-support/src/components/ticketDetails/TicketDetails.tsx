@@ -8,6 +8,7 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import EditableInput from '../../lib/components/molecules/EditableInput'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
@@ -237,7 +238,8 @@ const TicketDetails = (): ReactElement => {
 
                 <SpacingBottom>
                   <StyledLabel>App login email</StyledLabel>
-                  <Input disabled value={assignment?.appLoginEmail || assignee?.email} />
+                  {/* <Input disabled value={assignment?.appLoginEmail || assignee?.email} /> */}
+                  <EditableInput disabled value={assignment?.appLoginEmail || assignee?.email} />
 
                   {assignment?.state === 'ACCEPTED' && (
                     <>
