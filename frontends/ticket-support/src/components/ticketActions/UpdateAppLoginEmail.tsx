@@ -6,7 +6,6 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import EditableInput from '../../lib/components/molecules/EditableInput'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
-import TICKET_LOGIN_UPDATE from '../../operations/mutations/UpdateLoginEmail'
 import { useAppContext } from '../app/AppContext'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
 
@@ -36,6 +35,7 @@ type UpdateAppLoginEmailProps = {
 const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) => {
   const { conferenceSlug, token } = useAppContext()
   const { isOpen, openModal, closeModal } = useModalState()
+
   const cancelAction = () => {}
   const saveAction = () => {}
 
@@ -43,7 +43,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
     <>
       <StyledLabel>App login email</StyledLabel>
       <SpacingBottomXs>
-        <EditableInput disabled value={email || 'N/A'} />
+        <EditableInput placeholder="Type email" value={email || 'N/A'} />
       </SpacingBottomXs>
       <SpacingBottomXs>
         <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
@@ -59,7 +59,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
         <StyledActions>
           <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
           <Button onClick={saveAction}>Save</Button>
-          <Modal isOpen={false} onRequestClose={null} />
+          <Modal isOpen={isOpen} onRequestClose={closeModal} />
         </StyledActions>
       </SpacingBottom>
     </>
@@ -67,23 +67,3 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
 }
 
 export default UpdateAppLoginEmail
-
-// <>
-// <Text>
-// App login email:
-//     <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
-//       <TextHighlight>
-//         {assignment?.appLoginEmail || assignee?.email}
-//       </TextHighlight>
-//     </Tooltip>
-// </Text>
-// {loginEmailChange && (
-// <UpdateAppLoginEmail
-// bookingRef={bookingRef}
-// resetLoginEmailChange={setLoginEmailChange}
-// />
-// )}
-// <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-// {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
-// </Button>
-// </>

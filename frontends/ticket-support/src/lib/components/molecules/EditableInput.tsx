@@ -1,9 +1,9 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react'
+import React, { HTMLProps, useState } from 'react'
 import styled from 'styled-components'
 
 import Icon from '../atoms/Icon'
 
-const EditInput = styled.div<{ disabled: boolean }>`
+const EditInput = styled.div<{ editModeOn?: boolean }>`
   display: flex;
   border: 1px solid #dcdfe5;
   border-radius: 2px;
@@ -15,11 +15,11 @@ const EditInput = styled.div<{ disabled: boolean }>`
     font-weight: 300;
     background-color: #fff;
     border: none;
-    color: ${props => (props.disabled ? 'rgba(#07143e, 0.5)' : '#07143e')};
+    color: ${props => (props.editModeOn ? 'rgba(#07143e, 0.5)' : '#07143e')};
     font-size: 16px;
     letter-spacing: 0;
     line-height: 20px;
-    
+
     &:focus {
       outline: none;
     }
@@ -49,26 +49,26 @@ const StyledActionsText = styled.span`
   line-height: 24px;
 `
 
-type EditableInputProps = DetailedHTMLProps<
-  InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
-> & { className?: string }
+type EditableInputProps = HTMLProps<HTMLInputElement> & { className?: string; editModeOn?: boolean }
 
 const EditableInput = ({
   className,
   defaultValue,
   placeholder,
   value,
-  disabled,
+  editModeOn = false,
   onChange,
   onKeyDown,
   ...props
 }: EditableInputProps) => {
+  const [editMode, setEditMode] = useState(editModeOn)
+  const toggle = () => setEditMode(!editMode)
+
   const onEdit = () => {
-    console.log('editeee')
+    toggle()
   }
   return (
-    <EditInput className={className} disabled={disabled}>
+    <EditInput className={className} editMode={editMode}>
       <input
         {...{
           defaultValue,
@@ -77,13 +77,18 @@ const EditableInput = ({
           placeholder,
           value,
         }}
+        disabled={!editMode}
         {...props}
       />
       <StyledActions onClick={onEdit}>
-        <IconWrapper>
-          <Icon>mode</Icon>
-        </IconWrapper>
-        <StyledActionsText>Edit</StyledActionsText>
+        {!editMode && (
+          <>
+            <IconWrapper>
+              <Icon>mode</Icon>
+            </IconWrapper>
+            <StyledActionsText>Edit</StyledActionsText>
+          </>
+        )}
       </StyledActions>
     </EditInput>
   )
