@@ -5,17 +5,18 @@ import styled from 'styled-components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import EditableInput from '../../lib/components/molecules/EditableInput'
-import { useModalState } from '../../lib/components/molecules/Modal'
+import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import TICKET_LOGIN_UPDATE from '../../operations/mutations/UpdateLoginEmail'
 import { useAppContext } from '../app/AppContext'
+import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
 
 const StyledActions = styled.span`
   display: flex;
   justify-content: flex-end;
+`
 
-  & > * {
-    margin-right: 16px;
-  }
+const StyledSecondaryButton = styled(SecondaryButton)`
+  margin-right: 16px;
 `
 
 const StyledLabel = styled.span`
@@ -26,18 +27,6 @@ const StyledLabel = styled.span`
   line-height: 24px;
 `
 
-const SpacingBottom = styled.div`
-  margin-bottom: 2.5rem;
-`
-
-const SpacingBottomSm = styled.div`
-  margin-bottom: 1rem;
-`
-
-const SpacingBottomXs = styled.div`
-  margin-bottom: 0.5rem;
-`
-
 type UpdateAppLoginEmailProps = {
   bookingRef?: string // TODO Switch to required
   email?: string
@@ -46,13 +35,9 @@ type UpdateAppLoginEmailProps = {
 
 const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) => {
   const { conferenceSlug, token } = useAppContext()
-
   const { isOpen, openModal, closeModal } = useModalState()
-  const {
-    openModal: openAppLoginModal,
-    isOpen: isAppLoginModalOpen,
-    closeModal: closeAppLoginModal,
-  } = useModalState()
+  const cancelAction = () => {}
+  const saveAction = () => {}
 
   return (
     <>
@@ -72,8 +57,9 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
       </SpacingBottomXs>
       <SpacingBottom>
         <StyledActions>
-          <SecondaryButton>Cancel</SecondaryButton>
-          <Button>Save</Button>
+          <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
+          <Button onClick={saveAction}>Save</Button>
+          <Modal isOpen={false} onRequestClose={null} />
         </StyledActions>
       </SpacingBottom>
     </>
