@@ -46,6 +46,10 @@ const StyledSpan = styled.span`
   font-weight: 600;
 `
 
+const StyledWarningMessage = styled(WarningMessage)`
+  margin-bottom: 4rem;
+`
+
 type TicketUnlockModalProps = {
   closeModal: () => void
   isOpen: boolean
@@ -75,18 +79,10 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
     closeModal()
   }
 
-  const renderFooter = () => (
-    <ModalFooter>
-      <StyledSecondaryButton onClick={handleClose}>Cancel</StyledSecondaryButton>
-      <Button onClick={formControls?.boundSubmit}>Unlock ticket</Button>
-    </ModalFooter>
-  )
-
   return (
     <Modal
       key={isOpen.toString()}
       isOpen={isOpen}
-      renderFooter={renderFooter}
       title="Unlock ticket"
       onRequestClose={handleClose}
     >
@@ -119,10 +115,11 @@ const TicketUnlockModal = ({ isOpen, closeModal, ticket }: TicketUnlockModalProp
                   </span>
                 </ConfirmationText>
                 <TextInputField required label="Specify a reason for the unlocking" name="reason" />
-                <WarningMessage>
+                <StyledWarningMessage>
                   This will reset the ticket assignment and the previous ticket holder will lose
                   access to the ticket. They will be notified by email.
-                </WarningMessage>
+                </StyledWarningMessage>
+                <Modal.DefaultFooter submitText="Unlock ticket" onCancelClick={handleClose} />
               </StyledForm>
             )
           }}
