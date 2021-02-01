@@ -39,16 +39,16 @@ const BoxIcon = ({ boxType }: { boxType: BoxType }): ReactElement => {
 
 type BoxMessageProps = {
   backgroundColor: string
+  children?: ReactElement
   color: string
-  text: string
   type: BoxType
 }
 
-const BoxMessage = ({ type, text, color, backgroundColor }: BoxMessageProps) => {
+const BoxMessage = ({ type, color, backgroundColor, children }: BoxMessageProps) => {
   return (
     <BoxNode backgroundColor={backgroundColor} color={color}>
       <BoxIcon boxType={type} />
-      <StyledMessage>{text}</StyledMessage>
+      <StyledMessage>{children}</StyledMessage>
     </BoxNode>
   )
 }

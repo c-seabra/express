@@ -248,13 +248,12 @@ const TicketDetails = (): ReactElement => {
                     <EditableInput disabled value={assignment?.appLoginEmail || assignee?.email} />
                   </SpacingBottomXs>
                   <SpacingBottomXs>
-                    <BoxMessage
-                      backgroundColor="#F7F7F7"
-                      color="#E15554"
-                      text="This email will be used to login to apps and for further conference specific communications
-                  Change this only if you know how it/'s going to reflect our systems!"
-                      type="error"
-                    />
+                    <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
+                      This email will be used to login to apps and for further conference specific
+                      communications
+                      <br />
+                      Change this only if you know how it&apos;s going to reflect our systems!
+                    </BoxMessage>
                   </SpacingBottomXs>
                   <SpacingBottom>
                     <Button>Save</Button>
