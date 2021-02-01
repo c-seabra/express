@@ -242,43 +242,12 @@ const TicketDetails = (): ReactElement => {
                 </SpacingBottom>
 
                 <SpacingBottom>
-                  <StyledLabel>App login email</StyledLabel>
-                  {/* <Input disabled value={assignment?.appLoginEmail || assignee?.email} /> */}
-                  <SpacingBottomXs>
-                    <EditableInput disabled value={assignment?.appLoginEmail || assignee?.email} />
-                  </SpacingBottomXs>
-                  <SpacingBottomXs>
-                    <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
-                      This email will be used to login to apps and for further conference specific
-                      communications
-                      <br />
-                      Change this only if you know how it&apos;s going to reflect our systems!
-                    </BoxMessage>
-                  </SpacingBottomXs>
-                  <SpacingBottom>
-                    <Button>Save</Button>
-                  </SpacingBottom>
-
                   {assignment?.state === 'ACCEPTED' && (
-                    <>
-                      <Text>
-                        App login email:
-                        <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
-                          <TextHighlight>
-                            {assignment?.appLoginEmail || assignee?.email}
-                          </TextHighlight>
-                        </Tooltip>
-                      </Text>
-                      {loginEmailChange && (
-                        <UpdateAppLoginEmail
-                          bookingRef={bookingRef}
-                          resetLoginEmailChange={setLoginEmailChange}
-                        />
-                      )}
-                      <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                        {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
-                      </Button>
-                    </>
+                    <UpdateAppLoginEmail
+                      bookingRef={bookingRef}
+                      email={assignment?.appLoginEmail || assignee?.email}
+                      resetLoginEmailChange={setLoginEmailChange}
+                    />
                   )}
                 </SpacingBottom>
 
