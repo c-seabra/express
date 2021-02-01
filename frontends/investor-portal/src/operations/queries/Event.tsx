@@ -4,7 +4,7 @@ export type EventQuery = {
   data?: {
     event: {
       configuration: {
-        investorMeetingsConfigurations: {
+        investorMeetingConfiguration: {
           defaultStartupSelections: number
           meetingsPerSession: number
           notifyOfficeHoursInvitees: number
@@ -23,7 +23,7 @@ export const EVENT_QUERY = gql`
   query {
     event {
       configuration {
-        investorMeetingsConfigurations {
+        investorMeetingConfiguration {
           defaultStartupSelections
           meetingsPerSession
           notifyOfficeHoursInvitees
