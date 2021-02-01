@@ -2,9 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { TextButton } from '../../lib/components/atoms/Button'
+import Icon from '../../lib/components/atoms/Icon'
 import { useModalState } from '../../lib/components/molecules/Modal'
 import { Ticket } from '../../lib/types'
 import ClaimTicketModal from '../ticketActions/ClaimTicketModal'
+import TicketUnlockModal from '../ticketActions/TicketUnlockModal'
 import StatePlate from '../ticketItem/StatePlate'
 
 const TicketStateContainer = styled.div``
@@ -25,12 +27,26 @@ const StateActionContainer = styled.div`
   align-items: center;
 `
 
+const StyledWrapper = styled.span`
+  height: 19px;
+  margin-right: 8px;
+
+  .material-icons {
+    font-size: 16px;
+  }
+`
+
 type TicketStateActionsProps = {
   ticket: Ticket
 }
 
 const TicketAction = ({ ticket }: { ticket: Ticket }) => {
   const { isOpen, openModal, closeModal } = useModalState()
+  const {
+    openModal: openTicketUnlockModal,
+    isOpen: isTicketUnlockModalOpen,
+    closeModal: closeTicketUnlockModal,
+  } = useModalState()
 
   switch (ticket?.state) {
     case 'PENDING':
@@ -38,6 +54,22 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
         <>
           <TextButton onClick={openModal}>Claim ticket</TextButton>
           <ClaimTicketModal isOpen={isOpen} ticket={ticket} onRequestClose={closeModal} />
+        </>
+      )
+    case 'LOCKED':
+      return (
+        <>
+          <TextButton onClick={openTicketUnlockModal}>
+            <StyledWrapper>
+              <Icon>lock_open</Icon>
+            </StyledWrapper>
+            Unlock ticket
+          </TextButton>
+          <TicketUnlockModal
+            closeModal={closeTicketUnlockModal}
+            isOpen={isTicketUnlockModalOpen}
+            ticket={ticket}
+          />
         </>
       )
     default:
