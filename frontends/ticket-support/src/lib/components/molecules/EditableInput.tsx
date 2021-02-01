@@ -2,13 +2,14 @@ import React, { HTMLProps, useState } from 'react'
 import styled from 'styled-components'
 
 import Icon from '../atoms/Icon'
+import { Input } from '../atoms/Input'
 
 const EditInput = styled.div<{ editModeOn?: boolean }>`
   display: flex;
   border: 1px solid #dcdfe5;
   border-radius: 2px;
   font-size: 16px;
-  padding: 10px 14px;
+  padding-right: 24px;
 
   input {
     flex: 1;
@@ -69,11 +70,8 @@ const EditableInput = ({
   }
   return (
     <EditInput className={className} editMode={editMode}>
-      <input
+      <Input
         {...{
-          defaultValue,
-          onChange,
-          onKeyDown,
           placeholder,
           value,
         }}

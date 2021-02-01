@@ -35,33 +35,45 @@ type UpdateAppLoginEmailProps = {
 const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) => {
   const { conferenceSlug, token } = useAppContext()
   const { isOpen, openModal, closeModal } = useModalState()
+  const [editMode, setEditMode] = useState(false)
 
-  const cancelAction = () => {}
-  const saveAction = () => {}
+  const cancelAction = () => {
+    setEditMode(false)
+  }
+  // const saveAction = () => {
+  //   setEditMode()
+  // }
+  const saveAction = () => {
+    openModal()
+  }
 
   return (
     <>
       <StyledLabel>App login email</StyledLabel>
       <SpacingBottomXs>
-        <EditableInput placeholder="Type email" value={email || 'N/A'} />
+        <EditableInput editModeOn={editMode} placeholder="Type email" value={email || 'N/A'} />
       </SpacingBottomXs>
-      <SpacingBottomXs>
-        <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
-          <>
-            This email will be used to login to apps and for further conference specific
-            communications
-            <br />
-            Change this only if you know how it&apos;s going to reflect our systems!
-          </>
-        </BoxMessage>
-      </SpacingBottomXs>
-      <SpacingBottom>
-        <StyledActions>
-          <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
-          <Button onClick={saveAction}>Save</Button>
-          <Modal isOpen={isOpen} onRequestClose={closeModal} />
-        </StyledActions>
-      </SpacingBottom>
+      {editMode && (
+        <>
+          <SpacingBottomXs>
+            <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
+              <>
+                This email will be used to login to apps and for further conference specific
+                communications
+                <br />
+                Change this only if you know how it&apos;s going to reflect our systems!
+              </>
+            </BoxMessage>
+          </SpacingBottomXs>
+          <SpacingBottom>
+            <StyledActions>
+              <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
+              <Button onClick={saveAction}>Save</Button>
+              <Modal isOpen={isOpen} onRequestClose={closeModal} />
+            </StyledActions>
+          </SpacingBottom>
+        </>
+      )}
     </>
   )
 }
