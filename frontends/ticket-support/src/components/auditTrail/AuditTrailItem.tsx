@@ -96,11 +96,9 @@ const Subheading = styled(DetailLabel)`
 `
 
 const StyleTable = styled.table`
-  border: 1px solid #dcdfe5;
   border-collapse: collapse;
 
   td {
-    border: 1px solid #dcdfe5;
     padding: 4px;
   }
 `
