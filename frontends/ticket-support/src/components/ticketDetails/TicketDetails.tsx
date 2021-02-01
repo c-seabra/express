@@ -7,6 +7,7 @@ import { Input, Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
+import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import EditableInput from '../../lib/components/molecules/EditableInput'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
@@ -52,6 +53,10 @@ const SpacingBottom = styled.div`
 
 const SpacingBottomSm = styled.div`
   margin-bottom: 1rem;
+`
+
+const SpacingBottomXs = styled.div`
+  margin-bottom: 0.5rem;
 `
 
 const StyledRow = styled.div`
@@ -239,7 +244,21 @@ const TicketDetails = (): ReactElement => {
                 <SpacingBottom>
                   <StyledLabel>App login email</StyledLabel>
                   {/* <Input disabled value={assignment?.appLoginEmail || assignee?.email} /> */}
-                  <EditableInput disabled value={assignment?.appLoginEmail || assignee?.email} />
+                  <SpacingBottomXs>
+                    <EditableInput disabled value={assignment?.appLoginEmail || assignee?.email} />
+                  </SpacingBottomXs>
+                  <SpacingBottomXs>
+                    <BoxMessage
+                      backgroundColor="#F7F7F7"
+                      color="#E15554"
+                      text="This email will be used to login to apps and for further conference specific communications
+                  Change this only if you know how it/'s going to reflect our systems!"
+                      type="error"
+                    />
+                  </SpacingBottomXs>
+                  <SpacingBottom>
+                    <Button>Save</Button>
+                  </SpacingBottom>
 
                   {assignment?.state === 'ACCEPTED' && (
                     <>
