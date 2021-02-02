@@ -1,8 +1,5 @@
-import React, { ReactElement } from 'react'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
 import styled from 'styled-components'
-
-import { Investor } from '../../lib/types'
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -33,16 +30,25 @@ const StyledListItem = styled.li`
   }
 `
 
-const InvestorItem = ({ investor }: { investor: Investor }): ReactElement => {
-  const history = useHistory()
+const ListHeaderItem = styled(StyledListItem)`
+  font-weight: 600;
+  text-align: center;
+  margin-top: 1rem;
 
+  &:hover {
+    background-color: white;
+    cursor: initial;
+  }
+`
+
+const InvestorListHeader = () => {
   return (
-    <StyledListItem onClick={() => history.push(`/investor/${investor.id}`)}>
-      <Column>{investor.id}</Column>
-      <Column>{investor.name}</Column>
-      <Column>{investor.pendingSelectionCount}</Column>
-    </StyledListItem>
+    <ListHeaderItem>
+      <Column>ID</Column>
+      <Column>Name</Column>
+      <Column>Pending selections</Column>
+    </ListHeaderItem>
   )
 }
 
-export default InvestorItem
+export default InvestorListHeader

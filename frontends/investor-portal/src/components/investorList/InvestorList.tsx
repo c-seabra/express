@@ -2,7 +2,8 @@ import React, { ReactElement } from 'react'
 import { ApolloError } from '@apollo/client'
 
 import { Investor } from '../../lib/types'
-import InvestorItem, { InvestorListHeader } from '../investorItem/InvestorItem'
+import InvestorItem from '../investorItem/InvestorItem'
+import InvestorListHeader from '../investorListHeader/InvestorListHeader'
 import Loader from '../../lib/Loading'
 
 type InvestorListProps = {
