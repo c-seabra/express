@@ -12,6 +12,7 @@ import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
 import { ConfigurationPanel, PageContainer, SpacingBottom, SponsorLogo } from './SettingsDashboard.styled'
+import InvestorSessions from './InvestorSessions'
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -164,6 +165,7 @@ const SettingsDashboard: React.FC = () => {
           </SpacingBottom>
         </ContainerCard>
       </PageContainer>
+      <InvestorSessions/>
     </>
   )
 }
