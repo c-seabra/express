@@ -1,14 +1,15 @@
+import { Formik } from 'formik'
 import React, { ReactElement, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Input } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
+import TextInputField from '../../lib/components/molecules/TextInputField'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
 import { useAppContext } from '../app/AppContext'
@@ -149,7 +150,7 @@ const TicketDetails = (): ReactElement => {
       label: `Ticket ${bookingRef}`,
     },
   ]
-
+  console.log('ticket', ticket)
   return (
     <>
       <Helmet>
@@ -220,12 +221,22 @@ const TicketDetails = (): ReactElement => {
 
             <ContainerCard title="User account details">
               <ContainerCardInner>
-                <p>There is a little line below this heading that explains what you can put here</p>
-
-                <SpacingBottom>
-                  <StyledLabel>Unique user identifier</StyledLabel>
-                  <Input disabled value="dylan.hodge@websummit.net" />
-                </SpacingBottom>
+                {assignment && assignment.assignee && (
+                  <SpacingBottom>
+                    <StyledLabel>Unique user identifier</StyledLabel>
+                    <Formik
+                      initialValues={{ uniqueEmail: assignment.assignee?.email }}
+                      onSubmit={async values => {
+                        console.log(values)
+                      }}
+                    >
+                      <TextInputField
+                        disabled
+                        name="uniqueEmail"
+                      />
+                    </Formik>
+                  </SpacingBottom>
+                )}
 
                 <SpacingBottom>
                   {assignment?.state === 'ACCEPTED' && (
