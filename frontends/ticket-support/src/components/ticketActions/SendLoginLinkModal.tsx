@@ -1,18 +1,10 @@
-import React, { useState } from 'react'
+import { Form, Formik } from 'formik'
+import React from 'react'
 import styled from 'styled-components'
+import * as Yup from 'yup'
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal'
-
-const ModalFooter = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const StyledSecondaryButton = styled(SecondaryButton)`
-  margin-right: 8px;
-`
+import TextInputField from '../../lib/components/molecules/TextInputField'
 
 const SendLinkModalContent = styled.div`
   padding: 2rem 0;
@@ -22,9 +14,9 @@ const SendLinkModalContent = styled.div`
   font-weight: 400;
 `
 
-const StyledLabeledInput = styled(LabeledInput)`
-  width: 100%;
-`
+const sendLoginLinkSchema = Yup.object().shape({
+  reason: Yup.string().required('Required'),
+})
 
 type SendLoginLinkModalProps = Omit<ModalProps, 'title' | 'renderFooter'> & {
   sendLink: (reason: string) => void
@@ -36,37 +28,32 @@ const SendLoginLinkModal = ({
   isOpen,
   ...props
 }: SendLoginLinkModalProps) => {
-  const [reasonForChange, setReasonForChange] = useState('')
-
-  const renderSendEmailActionFooter = () => (
-    <ModalFooter>
-      <StyledSecondaryButton onClick={onRequestClose}>Cancel</StyledSecondaryButton>
-      <Button
-        disabled={!reasonForChange}
-        onClick={() => {
-          sendLink(reasonForChange)
-          onRequestClose()
-        }}
-      >
-        Confirm
-      </Button>
-    </ModalFooter>
-  )
-
   return (
     <Modal
+      withDefaultFooter
       isOpen={isOpen}
-      renderFooter={renderSendEmailActionFooter}
       title="Send assignee login link email"
       onRequestClose={onRequestClose}
       {...props}
     >
       <SendLinkModalContent>
-        <StyledLabeledInput
-          label="Please enter a reason for this change (required)"
-          value={reasonForChange}
-          onChange={e => setReasonForChange(e.target.value)}
-        />
+        <Formik
+          initialValues={{
+            reason: '',
+          }}
+          validateOnBlur={false}
+          validateOnChange={false}
+          validationSchema={sendLoginLinkSchema}
+          onSubmit={values => {
+            sendLink(values.reason)
+            onRequestClose()
+          }}
+        >
+          <Form>
+            <TextInputField required label="Please enter a reason for this change" name="reason" />
+            <Modal.DefaultFooter submitText="Confirm" />
+          </Form>
+        </Formik>
       </SendLinkModalContent>
     </Modal>
   )
