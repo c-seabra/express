@@ -33,6 +33,7 @@ const useUpdateLoginMutation = () => {
         errorSnackbar('Updating login email failed')
       }
     },
+    onError: (error) => errorSnackbar(error.message),
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
   })
 
