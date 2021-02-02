@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import { Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 
@@ -36,6 +36,10 @@ type UpdateAppLoginEmailProps = {
   // resetLoginEmailChange: (value: boolean) => void
 }
 
+const confirmSchema = Yup.object().shape({
+  email: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+})
+
 const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) => {
   const { conferenceSlug, token } = useAppContext()
   const { isOpen, openModal, closeModal } = useModalState()
@@ -51,9 +55,13 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
     openModal()
   }
 
-  const confirmSchema = Yup.object().shape({
-    email: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  })
+  const [formControls, setFormControls] = useState<
+    | {
+        boundReset?: () => void
+        boundSubmit?: (event?: FormEvent) => void
+      }
+    | undefined
+  >()
 
   return (
     <>
@@ -69,42 +77,52 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
           console.log('onSubmitParent', values)
         }}
       >
-        <>
-          <TextInputField
-            required
-            editModeOn={editMode}
-            name="email"
-            placeholder="Type email"
-            value={email || 'N/A'}
-            onEdit={editAction}
-          />
-          {editMode && (
+        {({ submitForm, resetForm }) => {
+          // Binding submit form to submit programmatically from outside the <Formik> component
+            console.log('formControls', formControls)
+          if (!formControls) {
+            setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
+          }
+
+          return (
             <>
-              <SpacingBottomXs>
-                <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
-                  <>
-                    This email will be used to login to apps and for further conference specific
-                    communications
-                    <br />
-                    Change this only if you know how it&apos;s going to reflect our systems!
-                  </>
-                </BoxMessage>
-              </SpacingBottomXs>
-              <SpacingBottom>
-                <StyledActions>
-                  <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
-                  <Button onClick={saveAction}>Save</Button>
-                  <Modal isOpen={isOpen} onRequestClose={closeModal} />
-                  <UpdateAppLoginEmailModal
-                    closeModal={closeModal}
-                    email="testy@testy"
-                    isOpen={isOpen}
-                  />
-                </StyledActions>
-              </SpacingBottom>
+              <TextInputField
+                required
+                editModeOn={editMode}
+                name="email"
+                placeholder="Type email"
+                value={email || 'N/A'}
+                onEdit={editAction}
+              />
+              {editMode && (
+                <>
+                  <SpacingBottomXs>
+                    <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
+                      <>
+                        This email will be used to login to apps and for further conference specific
+                        communications
+                        <br />
+                        Change this only if you know how it&apos;s going to reflect our systems!
+                      </>
+                    </BoxMessage>
+                  </SpacingBottomXs>
+                  <SpacingBottom>
+                    <StyledActions>
+                      <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
+                      <Button onClick={saveAction}>Save</Button>
+                      <Modal isOpen={isOpen} onRequestClose={closeModal} />
+                      <UpdateAppLoginEmailModal
+                        closeModal={closeModal}
+                        email={email || 'N/A'}
+                        isOpen={isOpen}
+                      />
+                    </StyledActions>
+                  </SpacingBottom>
+                </>
+              )}
             </>
-          )}
-        </>
+          )
+        }}
       </Formik>
     </>
   )
