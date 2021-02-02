@@ -1,21 +1,11 @@
 import { Form, Formik } from 'formik'
-import React, { FormEvent, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import { InfoMessage } from '../../lib/components/atoms/Messages'
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
-
-const ModalFooter = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const StyledSecondaryButton = styled(SecondaryButton)`
-  margin-right: 8px;
-`
 
 const StyledForm = styled(Form)`
   width: 450px;
@@ -35,33 +25,10 @@ const GenerateLoginLinkModal = ({
   onRequestClose,
   generateLink,
 }: GenerateLoginLinkModalProps) => {
-  const [formControls, setFormControls] = useState<
-    | {
-        boundReset?: () => void
-        boundSubmit?: (event?: FormEvent) => void
-      }
-    | undefined
-  >()
-
-  const handleClose = () => {
-    if (formControls?.boundReset) {
-      formControls.boundReset()
-    }
-
-    onRequestClose()
-  }
-
-  const renderLoginLinkModalFooter = () => (
-    <ModalFooter>
-      <StyledSecondaryButton onClick={handleClose}>Cancel</StyledSecondaryButton>
-      <Button onClick={formControls?.boundSubmit}>Generate</Button>
-    </ModalFooter>
-  )
-
   return (
     <Modal
+      withDefaultFooter
       isOpen={isOpen}
-      renderFooter={renderLoginLinkModalFooter}
       title="Generate login link"
       onRequestClose={onRequestClose}
     >
@@ -74,28 +41,17 @@ const GenerateLoginLinkModal = ({
         validationSchema={generateLinkSchema}
         onSubmit={values => {
           generateLink(values.reason)
-          handleClose()
+          onRequestClose()
         }}
       >
-        {({ submitForm, resetForm }) => {
-          // Binding submit form to submit programmatically from outside the <Formik> component
-          if (!formControls) {
-            setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
-          }
-
-          return (
-            <StyledForm>
-              <TextInputField
-                required
-                label="Please enter a reason for this change"
-                name="reason"
-              />
-              <InfoMessage>
-                The generated link can be copied by hovering over the "Generated Login Link" text.
-              </InfoMessage>
-            </StyledForm>
-          )
-        }}
+        <StyledForm>
+          <TextInputField required label="Please enter a reason for this change" name="reason" />
+          <InfoMessage>
+            The generated link can be copied by hovering over the &quot;Generated Login Link&quot;
+            text.
+          </InfoMessage>
+          <Modal.DefaultFooter submitText="Generate" />
+        </StyledForm>
       </Formik>
     </Modal>
   )
