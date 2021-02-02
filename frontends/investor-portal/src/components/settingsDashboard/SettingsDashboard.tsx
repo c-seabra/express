@@ -68,9 +68,9 @@ const SettingsDashboard: React.FC = () => {
     setFile(file)
   }
 
-  const usableDateString = (dateString?: string) => {
-    if (dateString === undefined) {
-      return null
+  const usableDateString = (dateString: string | undefined) => {
+    if (dateString === undefined || dateString === null) {
+      return undefined
     }
 
     let str = dateString
