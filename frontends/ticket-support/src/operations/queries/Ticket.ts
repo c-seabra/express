@@ -32,6 +32,17 @@ const TICKET = gql`
           email
           firstName
           lastName
+          bio
+          city
+          companyName
+          companySizeId
+          email
+          gender
+          industryId
+          jobTitle
+          phoneNumber
+          marketingConsent
+          personalisationConsent
           lastLoginTokenCreatedAt
         }
       }

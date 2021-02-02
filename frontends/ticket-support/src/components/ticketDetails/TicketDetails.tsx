@@ -17,6 +17,7 @@ import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
 import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
+import UserProfileInformation from '../userProfileInformation/UserProfileInformation'
 import TicketStateActions from './TicketStateActions'
 
 // --- new ---
@@ -112,6 +113,17 @@ const PrimaryButton = styled(Button)`
 const TextHighlight = styled.span`
   color: #337ab7;
   margin: 0 0.25rem;
+`
+
+const AccountDetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 780px;
+  width: 100%;
+
+  & > div {
+    margin-bottom: 1rem;
+  }
 `
 
 const TicketDetails = (): ReactElement => {
@@ -226,52 +238,57 @@ const TicketDetails = (): ReactElement => {
               </StyledInnerContainerCard>
             </TicketActionsContainerCard>
 
-            <ContainerCard title="User account details">
-              <ContainerCardInner>
-                <p>There is a little line below this heading that explains what you can put here</p>
+            <AccountDetailsContainer>
+              <ContainerCard title="User account details">
+                <ContainerCardInner>
+                  <p>
+                    There is a little line below this heading that explains what you can put here
+                  </p>
 
-                <SpacingBottom>
-                  <StyledLabel>Unique user identifier</StyledLabel>
-                  <Input disabled value="dylan.hodge@websummit.net" />
-                </SpacingBottom>
+                  <SpacingBottom>
+                    <StyledLabel>Unique user identifier</StyledLabel>
+                    <Input disabled value="dylan.hodge@websummit.net" />
+                  </SpacingBottom>
 
-                <SpacingBottom>
-                  <StyledLabel>App login email</StyledLabel>
-                  <Input disabled value={assignment?.appLoginEmail || assignee?.email} />
+                  <SpacingBottom>
+                    <StyledLabel>App login email</StyledLabel>
+                    <Input disabled value={assignment?.appLoginEmail || assignee?.email} />
 
-                  {assignment?.state === 'ACCEPTED' && (
+                    {assignment?.state === 'ACCEPTED' && (
+                      <>
+                        <Text>
+                          App login email:
+                          <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
+                            <TextHighlight>
+                              {assignment?.appLoginEmail || assignee?.email}
+                            </TextHighlight>
+                          </Tooltip>
+                        </Text>
+                        {loginEmailChange && (
+                          <UpdateAppLoginEmail
+                            bookingRef={bookingRef}
+                            resetLoginEmailChange={setLoginEmailChange}
+                          />
+                        )}
+                        <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
+                          {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
+                        </Button>
+                      </>
+                    )}
+                  </SpacingBottom>
+
+                  {assignee && (
                     <>
-                      <Text>
-                        App login email:
-                        <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
-                          <TextHighlight>
-                            {assignment?.appLoginEmail || assignee?.email}
-                          </TextHighlight>
-                        </Tooltip>
-                      </Text>
-                      {loginEmailChange && (
-                        <UpdateAppLoginEmail
-                          bookingRef={bookingRef}
-                          resetLoginEmailChange={setLoginEmailChange}
-                        />
-                      )}
-                      <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                        {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
-                      </Button>
+                      <SpacingBottomSm>
+                        <StyledLabel>Assignment dashboard login link</StyledLabel>
+                        <LoginLinkActions assignee={assignee} />
+                      </SpacingBottomSm>
                     </>
                   )}
-                </SpacingBottom>
-
-                {assignee && (
-                  <>
-                    <SpacingBottomSm>
-                      <StyledLabel>Assignment dashboard login link</StyledLabel>
-                      <LoginLinkActions assignee={assignee} />
-                    </SpacingBottomSm>
-                  </>
-                )}
-              </ContainerCardInner>
-            </ContainerCard>
+                </ContainerCardInner>
+              </ContainerCard>
+              <UserProfileInformation account={assignee} />
+            </AccountDetailsContainer>
           </RowContainer>
         </PageContainer>
       )}

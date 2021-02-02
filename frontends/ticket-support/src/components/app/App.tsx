@@ -19,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-size: 16px;
   }
-  body {
+  body, input, textarea, select {
     font-family: 'Inter', sans-serif;
   }
 `
