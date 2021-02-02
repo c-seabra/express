@@ -84,7 +84,6 @@ const UpdateAppLoginEmailModal = ({
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            console.log('onSubmit', values, bookingRef)
             await updateLogin({
               bookingRef,
               email: values?.email,

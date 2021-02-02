@@ -26,9 +26,7 @@ const useUpdateLoginMutation = () => {
 
   const [updateLoginMutation] = useMutation<UpdateLoginResponse>(TICKET_LOGIN_UPDATE, {
     onCompleted: ({ assignmentTicketLoginUpdate }) => {
-      console.log('onCompleted', assignmentTicketLoginUpdate)
       if (assignmentTicketLoginUpdate?.ticket?.assignment?.assignee) {
-        // resetLoginEmailChange(false)
         successSnackbar('Login email updated')
       }
       if (assignmentTicketLoginUpdate?.userErrors?.length) {

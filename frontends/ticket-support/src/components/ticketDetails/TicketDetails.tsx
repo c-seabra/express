@@ -162,7 +162,7 @@ const TicketDetails = (): ReactElement => {
       label: `Ticket ${bookingRef}`,
     },
   ]
-  console.log('ticket', ticket)
+
   return (
     <>
       <Helmet>
