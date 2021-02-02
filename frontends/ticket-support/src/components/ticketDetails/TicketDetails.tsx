@@ -222,7 +222,7 @@ const TicketDetails = (): ReactElement => {
             <ContainerCard title="User account details">
               <ContainerCardInner>
                 {assignment && assignment.assignee && (
-                  <SpacingBottom>
+                  <>
                     <StyledLabel>Unique user identifier</StyledLabel>
                     <Formik
                       initialValues={{ uniqueEmail: assignment.assignee?.email }}
@@ -232,17 +232,15 @@ const TicketDetails = (): ReactElement => {
                     >
                       <TextInputField disabled name="uniqueEmail" />
                     </Formik>
-                  </SpacingBottom>
+                  </>
                 )}
 
-                <SpacingBottom>
-                  {assignment?.state === 'ACCEPTED' && (
-                    <UpdateAppLoginEmail
-                      bookingRef={bookingRef}
-                      email={assignment?.appLoginEmail || assignee?.email}
-                    />
-                  )}
-                </SpacingBottom>
+                {assignment?.state === 'ACCEPTED' && (
+                  <UpdateAppLoginEmail
+                    bookingRef={bookingRef}
+                    email={assignment?.appLoginEmail || assignee?.email}
+                  />
+                )}
 
                 {assignee && (
                   <>
