@@ -76,7 +76,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
               <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
               <Button onClick={saveAction}>Save</Button>
               <Modal isOpen={isOpen} onRequestClose={closeModal} />
-              <UpdateAppLoginEmailModal closeModal={closeModal} isOpen={isOpen} />
+              <UpdateAppLoginEmailModal closeModal={closeModal} isOpen={isOpen} email={'testy@testy'} />
             </StyledActions>
           </SpacingBottom>
         </>

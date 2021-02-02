@@ -8,6 +8,7 @@ import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import useUpdateLoginMutation from '../../lib/hooks/useUpdateAppLoginEmail'
+import { SpacingBottom } from '../templates/Spacing'
 
 const ContentContainer = styled.div`
   padding: 2rem 0;
@@ -33,6 +34,7 @@ const StyledForm = styled(Form)`
 
 type AppLoginEmailModalProps = {
   closeModal: () => void
+  email: string
   isOpen: boolean
 }
 
@@ -40,7 +42,7 @@ const confirmSchema = Yup.object().shape({
   reason: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 })
 
-const UpdateAppLoginEmailModal = ({ isOpen, closeModal }: AppLoginEmailModalProps) => {
+const UpdateAppLoginEmailModal = ({ isOpen, closeModal, email }: AppLoginEmailModalProps) => {
   const { updateLogin } = useUpdateLoginMutation()
   const [formControls, setFormControls] = useState<
     | {
@@ -69,13 +71,14 @@ const UpdateAppLoginEmailModal = ({ isOpen, closeModal }: AppLoginEmailModalProp
       <ContentContainer>
         <Formik
           initialValues={{
+            email,
             reason: '',
           }}
           validateOnBlur={false}
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            console.log('onSubmit', onSubmit)
+            console.log('onSubmit', values)
             // await updateLogin({ bookingRef: ticket.bookingRef, reason: values?.reason })
 
             handleClose()
@@ -88,21 +91,27 @@ const UpdateAppLoginEmailModal = ({ isOpen, closeModal }: AppLoginEmailModalProp
             }
 
             return (
-              <StyledForm>
-                <ConfirmationText>
-                  <span>Are you sure you want to change app login email?</span>
-                </ConfirmationText>
-                <TextInputField required label="Specify a reason for the unlocking" name="reason" />
-                <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
-                  <>
-                    This email will be used to login to apps and for further conference specific
-                    communications
-                    <br />
-                    Change this only if you know how it&apos;s going to reflect our systems!
-                  </>
-                </BoxMessage>
-                <Modal.DefaultFooter submitText="Update app login" onCancelClick={handleClose} />
-              </StyledForm>
+              <SpacingBottom>
+                <StyledForm>
+                  <ConfirmationText>
+                    <span>Are you sure you want to change app login email?</span>
+                  </ConfirmationText>
+                  <TextInputField
+                    required
+                    label="Specify a reason for the unlocking"
+                    name="reason"
+                  />
+                  <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
+                    <>
+                      This email will be used to login to apps and for further conference specific
+                      communications
+                      <br />
+                      Change this only if you know how it&apos;s going to reflect our systems!
+                    </>
+                  </BoxMessage>
+                  <Modal.DefaultFooter submitText="Update app login" onCancelClick={handleClose} />
+                </StyledForm>
+              </SpacingBottom>
             )
           }}
         </Formik>
