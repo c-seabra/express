@@ -1,5 +1,4 @@
-import { useMutation } from '@apollo/client'
-import { Formik } from 'formik'
+import { Form, Formik } from 'formik'
 import React, { FormEvent, useState } from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
@@ -9,7 +8,6 @@ import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
-import { useAppContext } from '../app/AppContext'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
 import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal'
 
@@ -31,17 +29,14 @@ const StyledLabel = styled.span`
 `
 
 type UpdateAppLoginEmailProps = {
-  bookingRef?: string // TODO Switch to required
   email?: string
-  // resetLoginEmailChange: (value: boolean) => void
 }
 
 const confirmSchema = Yup.object().shape({
-  email: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  email: Yup.string().email('Invalid email').required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 })
 
-const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) => {
-  const { conferenceSlug, token } = useAppContext()
+const UpdateAppLoginEmail = ({ email }: UpdateAppLoginEmailProps) => {
   const { isOpen, openModal, closeModal } = useModalState()
   const [editMode, setEditMode] = useState(false)
 
@@ -66,6 +61,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
   return (
     <>
       <StyledLabel>App login email</StyledLabel>
+
       <Formik
         initialValues={{
           email,
@@ -73,19 +69,18 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}
-        onSubmit={async values => {
+        onSubmit={values => {
           console.log('onSubmitParent', values)
         }}
       >
         {({ submitForm, resetForm }) => {
           // Binding submit form to submit programmatically from outside the <Formik> component
-            console.log('formControls', formControls)
           if (!formControls) {
             setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
           }
 
           return (
-            <>
+            <Form>
               <TextInputField
                 required
                 editModeOn={editMode}
@@ -108,8 +103,17 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
                   </SpacingBottomXs>
                   <SpacingBottom>
                     <StyledActions>
-                      <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
-                      <Button onClick={saveAction}>Save</Button>
+                      <StyledSecondaryButton
+                        onClick={() => {
+                          resetForm()
+                          cancelAction()
+                        }}
+                      >
+                        Cancel
+                      </StyledSecondaryButton>
+                      <Button type="submit" onClick={saveAction}>
+                        Save
+                      </Button>
                       <Modal isOpen={isOpen} onRequestClose={closeModal} />
                       <UpdateAppLoginEmailModal
                         closeModal={closeModal}
@@ -120,7 +124,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
                   </SpacingBottom>
                 </>
               )}
-            </>
+            </Form>
           )
         }}
       </Formik>
