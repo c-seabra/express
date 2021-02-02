@@ -37,7 +37,7 @@ const InputContainer = styled.div<{ editModeOn?: boolean }>`
     font-weight: 300;
     background-color: #fff;
     border: none;
-    color: ${props => (props.editModeOn ? 'rgba(#07143e, 0.5)' : '#07143e')};
+    color: ${props => (props.editModeOn ? 'rgba(7, 20, 62, 0.5)' : '#07143e')};
     font-size: 16px;
     letter-spacing: 0;
     line-height: 20px;
@@ -103,12 +103,12 @@ const TextInputField = ({
   placeholder,
   editModeOn = false,
   onEdit,
-  disabled = false,
+  disabled,
 }: TextInputFieldProps) => {
   return (
     <FieldContainer>
       {label && <Label required={required}>{label}</Label>}
-      <InputContainer>
+      <InputContainer editModeOn={(onEdit && !editModeOn) || disabled}>
         <Field className={className} name={name} required={required} type="text">
           {({ meta, field }: FieldProps) => (
             <StyledInput

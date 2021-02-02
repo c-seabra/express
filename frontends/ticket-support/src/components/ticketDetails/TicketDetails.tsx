@@ -227,13 +227,10 @@ const TicketDetails = (): ReactElement => {
                     <Formik
                       initialValues={{ uniqueEmail: assignment.assignee?.email }}
                       onSubmit={async values => {
-                        console.log(values)
+                        // TODO will be moved to different component
                       }}
                     >
-                      <TextInputField
-                        disabled
-                        name="uniqueEmail"
-                      />
+                      <TextInputField disabled name="uniqueEmail" />
                     </Formik>
                   </SpacingBottom>
                 )}
