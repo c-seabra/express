@@ -64,7 +64,7 @@ const InvestorTable = (): ReactElement => {
         <FiltersSearchContainer>
           <StyledSearchInput
             defaultValue={searchQuery}
-            placeholder="Search by Order number, order owner’s name or email, company name."
+            placeholder="Search by Investor name."
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}

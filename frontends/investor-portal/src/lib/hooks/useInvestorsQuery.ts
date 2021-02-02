@@ -3,11 +3,11 @@ import { INVESTORS_LIST } from '../../operations/queries/Investors'
 import { Investor } from '../types'
 import usePaginatedQuery from './usePaginatedQuery'
 
-const ORDERS_PER_PAGE = 5
+const INVESTORS_PER_PAGE = 5
 
 const useInvestorsQuery = ({
   initialPage,
-  perPage = ORDERS_PER_PAGE,
+  perPage = INVESTORS_PER_PAGE,
   searchQuery,
   status,
   ticketTypeIds = [],
