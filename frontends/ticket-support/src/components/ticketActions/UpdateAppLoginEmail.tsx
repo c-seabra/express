@@ -8,6 +8,7 @@ import EditableInput from '../../lib/components/molecules/EditableInput'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import { useAppContext } from '../app/AppContext'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
+import UpdateAppLoginEmailModal from "./UpdateAppLoginEmailModal";
 
 const StyledActions = styled.span`
   display: flex;
@@ -75,6 +76,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
               <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
               <Button onClick={saveAction}>Save</Button>
               <Modal isOpen={isOpen} onRequestClose={closeModal} />
+              <UpdateAppLoginEmailModal closeModal={closeModal} isOpen={isOpen} />
             </StyledActions>
           </SpacingBottom>
         </>
