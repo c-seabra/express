@@ -15,6 +15,7 @@ const ContentContainer = styled.div`
   width: 450px;
   font-size: 0.85rem;
   font-weight: 400;
+  min-width: 600px;
 `
 
 const ConfirmationText = styled.div`
