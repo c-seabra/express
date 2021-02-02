@@ -30,7 +30,20 @@ export const SponsorLogo = styled.img`
 `;
 
 export const FormArea = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   width: 100%;
   border-top: 1px solid gray;
+
+  & > h2 {
+    min-width: 100%;
+    margin-bottom: 8px;
+  }
+
+  & > div {
+    min-width: 40%;
+    margin-bottom: 8px;
+  }
 `;
 
