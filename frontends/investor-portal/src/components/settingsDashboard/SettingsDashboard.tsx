@@ -1,6 +1,8 @@
 import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import moment from 'moment';
+import 'moment-timezone';
 
 import { Button } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
@@ -11,17 +13,26 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
-import { ConfigurationPanel, PageContainer, SpacingBottom, SponsorLogo } from './SettingsDashboard.styled'
+import {
+  ConfigurationPanel,
+  FormArea,
+  PageContainer,
+  SpacingBottom,
+  SponsorLogo
+} from './SettingsDashboard.styled'
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
   const [defaultStartupSelections, setDefaultStartupSelections] = useState<number | undefined>()
+  const [eventTimezone, setEventTimezone] = useState<string | undefined>()
+  const [file, setFile] = useState<File | undefined>()
   const [meetingsPerSession, setMeetingsPerSession] = useState<number | undefined>()
   const [sessionDuration, setSessionDuration] = useState<number | undefined>()
   const [sponsorLogoUrl, setSponsorLogoUrl] = useState<string | undefined>()
+  const [startupPortalOpeningAt, setStartupPortalOpeningAt] = useState<string | undefined>()
+  const [startupSelectionDeadline, setStartupSelectionDeadline] = useState<string | undefined>()
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
   const [mutationError, setMutationError] = useState<string | undefined>()
-  const [file, setFile] = useState<File | undefined>()
 
   const {
     data,
@@ -30,12 +41,15 @@ const SettingsDashboard: React.FC = () => {
   }: {
     data?: {
       event: {
+        timezone: string
         configuration: {
           investorMeetingConfiguration: {
             defaultStartupSelections: number
             meetingsPerSession: number
             sessionDuration: number
             sponsorLogoUrl: string
+            startupPortalOpeningAt: string
+            startupSelectionDeadline: string
           }
         }
       }
@@ -54,16 +68,33 @@ const SettingsDashboard: React.FC = () => {
     setFile(file)
   }
 
+  const usableDateString = (dateString?: string) => {
+    if (dateString === undefined) {
+      return null
+    }
+
+    let str = dateString
+    return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
+  }
+
+  const styledDateForMutation = (dateString?: string) => {
+    if (dateString === undefined) {
+      return null
+    }
+    return moment(dateString).tz(eventTimezone, true).format()
+  }
+
   useEffect(() => {
     if (data) {
-      setDefaultStartupSelections(
-        data?.event.configuration.investorMeetingConfiguration.defaultStartupSelections
-      )
-      setMeetingsPerSession(
-        data?.event.configuration.investorMeetingConfiguration.meetingsPerSession
-      )
-      setSessionDuration(data?.event.configuration.investorMeetingConfiguration.sessionDuration)
-      setSponsorLogoUrl(data?.event.configuration.investorMeetingConfiguration.sponsorLogoUrl)
+      setEventTimezone(data?.event.timezone)
+      const configuration = data?.event.configuration.investorMeetingConfiguration
+      setDefaultStartupSelections(configuration.defaultStartupSelections)
+      setMeetingsPerSession(configuration.meetingsPerSession)
+      setSessionDuration(configuration.sessionDuration)
+      setSponsorLogoUrl(configuration.sponsorLogoUrl)
+
+      setStartupPortalOpeningAt(usableDateString(configuration.startupPortalOpeningAt))
+      setStartupSelectionDeadline(usableDateString(configuration.startupSelectionDeadline))
     }
   }, [data])
 
@@ -86,7 +117,9 @@ const SettingsDashboard: React.FC = () => {
       investorMeetingsDefaultStartupSelections: defaultStartupSelections,
       investorMeetingsMeetingsPerSession: meetingsPerSession,
       investorMeetingsSessionDuration: sessionDuration,
-      investorMeetingsSponsorLogo: file
+      investorMeetingsSponsorLogo: file,
+      investorMeetingsStartupPortalOpeningAt: styledDateForMutation(startupPortalOpeningAt),
+      investorMeetingsStartupSelectionDeadline: styledDateForMutation(startupSelectionDeadline)
     },
   })
 
@@ -124,7 +157,6 @@ const SettingsDashboard: React.FC = () => {
                 submitSettings()
               }}
             >
-
               <SponsorLogo src={sponsorLogoUrl} />
               <LabeledInput
                 defaultValue={sponsorLogoUrl}
@@ -157,6 +189,24 @@ const SettingsDashboard: React.FC = () => {
                   setMeetingsPerSession(parseInt(e.target.value, 10))
                 }}
               />
+              <FormArea>
+                <h2>Startup portal dates</h2>
+                <LabeledInput
+                  defaultValue={startupPortalOpeningAt}
+                  label="Startup Portal Opening At"
+                  type="datetime-local"
+                  onChange={e => {setStartupPortalOpeningAt(e.target.value)}}
+                />
+              </FormArea>
+              <FormArea>
+                <h2>Investor portal dates</h2>
+                <LabeledInput
+                  defaultValue={startupSelectionDeadline}
+                  label="Startup Selection Deadline"
+                  type="datetime-local"
+                  onChange={e => {setStartupSelectionDeadline(e.target.value)}}
+                />
+              </FormArea>
               <div>
                 <Button onClick={submitSettings}>Save</Button>
               </div>

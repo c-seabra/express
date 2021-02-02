@@ -29,3 +29,8 @@ export const SponsorLogo = styled.img`
     margin: 15px;
 `;
 
+export const FormArea = styled.div`
+  width: 100%;
+  border-top: 1px solid gray;
+`;
+

@@ -3,6 +3,7 @@ import { ApolloError, gql } from '@apollo/client'
 export type EventQuery = {
   data?: {
     event: {
+      timezone: string
       configuration: {
         investorMeetingConfiguration: {
           defaultStartupSelections: number
@@ -23,6 +24,7 @@ export type EventQuery = {
 export const EVENT_QUERY = gql`
   query {
     event {
+      timezone
       configuration {
         investorMeetingConfiguration {
           defaultStartupSelections
