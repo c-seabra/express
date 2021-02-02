@@ -1,9 +1,19 @@
 export type Account = {
+  bio?: string
+  city?: string
+  companyName?: string
+  companySizeId?: string
   email: string
   firstName: string
+  gender?: string
   id: string
+  industryId?: string
+  jobTitle?: string
   lastLoginTokenCreatedAt: string
   lastName: string
+  marketingConsent?: 'Yes' | 'No'
+  personalisationConsent?: 'Yes' | 'No'
+  phoneNumber?: string
 }
 
 export type Assignment = {
@@ -93,4 +103,18 @@ export type PageInfo = {
 export type UserError = {
   message: string
   path: string
+}
+
+type EventDataOption = {
+  id: string
+  name: string
+}
+
+export type EventData = {
+  companySizes: EventDataOption[]
+  id: string
+  industries: EventDataOption[]
+  name?: string
+  passportRequired: boolean
+  slug: string
 }

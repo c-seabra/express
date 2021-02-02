@@ -18,6 +18,7 @@ import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
 import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
+import UserProfileInformation from '../userProfileInformation/UserProfileInformation'
 import TicketStateActions from './TicketStateActions'
 
 const PageContainer = styled.div`
@@ -105,6 +106,17 @@ const PrimaryButton = styled(Button)`
 const TextHighlight = styled.span`
   color: #337ab7;
   margin: 0 0.25rem;
+`
+
+const AccountDetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 780px;
+  width: 100%;
+
+  & > div {
+    margin-bottom: 1rem;
+  }
 `
 
 const TicketDetails = (): ReactElement => {
@@ -219,36 +231,39 @@ const TicketDetails = (): ReactElement => {
               </StyledInnerContainerCard>
             </TicketActionsContainerCard>
 
-            <ContainerCard title="User account details">
-              <ContainerCardInner>
-                {assignment && assignment.assignee && (
-                  <>
-                    <StyledLabel>Unique user identifier</StyledLabel>
-                    <Formik
-                      initialValues={{ uniqueEmail: assignment.assignee?.email }}
-                      onSubmit={async values => {
-                        // TODO will be moved to different component
-                      }}
-                    >
-                      <TextInputField disabled name="uniqueEmail" />
-                    </Formik>
-                  </>
-                )}
+            <AccountDetailsContainer>
+              <ContainerCard title="User account details">
+                <ContainerCardInner>
+                  {assignment && assignment.assignee && (
+                    <>
+                      <StyledLabel>Unique user identifier</StyledLabel>
+                      <Formik
+                        initialValues={{ uniqueEmail: assignment.assignee?.email }}
+                        onSubmit={async values => {
+                          // TODO will be moved to different component
+                        }}
+                      >
+                        <TextInputField disabled name="uniqueEmail" />
+                      </Formik>
+                    </>
+                  )}
 
-                {assignment?.state === 'ACCEPTED' && (
-                  <UpdateAppLoginEmail email={assignment?.appLoginEmail || assignee?.email} />
-                )}
+                  {assignment?.state === 'ACCEPTED' && (
+                    <UpdateAppLoginEmail email={assignment?.appLoginEmail || assignee?.email} />
+                  )}
 
-                {assignee && (
-                  <>
-                    <SpacingBottomSm>
-                      <StyledLabel>Assignment dashboard login link</StyledLabel>
-                      <LoginLinkActions assignee={assignee} />
-                    </SpacingBottomSm>
-                  </>
-                )}
-              </ContainerCardInner>
-            </ContainerCard>
+                  {assignee && (
+                    <>
+                      <SpacingBottomSm>
+                        <StyledLabel>Assignment dashboard login link</StyledLabel>
+                        <LoginLinkActions assignee={assignee} />
+                      </SpacingBottomSm>
+                    </>
+                  )}
+                </ContainerCardInner>
+              </ContainerCard>
+              <UserProfileInformation account={assignee} />
+            </AccountDetailsContainer>
           </RowContainer>
         </PageContainer>
       )}

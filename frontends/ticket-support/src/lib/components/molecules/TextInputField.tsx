@@ -106,13 +106,14 @@ const TextInputField = ({
   disabled,
 }: TextInputFieldProps) => {
   return (
-    <FieldContainer>
+    <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
       <InputContainer editModeOn={(onEdit && !editModeOn) || disabled}>
-        <Field className={className} name={name} required={required} type="text">
+        <Field name={name} required={required}>
           {({ meta, field }: FieldProps) => (
             <StyledInput
               isError={meta.touched && !!meta.error}
+              type="text"
               {...field}
               disabled={(onEdit && !editModeOn) || disabled}
               placeholder={placeholder}
