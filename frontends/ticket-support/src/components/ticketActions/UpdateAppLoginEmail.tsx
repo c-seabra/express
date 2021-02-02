@@ -1,14 +1,17 @@
 import { useMutation } from '@apollo/client'
+import { Formik } from 'formik'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import * as Yup from 'yup'
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import BoxMessage from '../../lib/components/molecules/BoxMessage'
-import EditableInput from '../../lib/components/molecules/EditableInput'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
+import TextInputField from '../../lib/components/molecules/TextInputField'
+import STATIC_MESSAGES from '../../lib/constants/messages'
 import { useAppContext } from '../app/AppContext'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
-import UpdateAppLoginEmailModal from "./UpdateAppLoginEmailModal";
+import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal'
 
 const StyledActions = styled.span`
   display: flex;
@@ -48,16 +51,34 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
     openModal()
   }
 
+  const confirmSchema = Yup.object().shape({
+    email: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  })
+
   return (
     <>
       <StyledLabel>App login email</StyledLabel>
       <SpacingBottomXs>
-        <EditableInput
-          editModeOn={editMode}
-          placeholder="Type email"
-          value={email || 'N/A'}
-          onEdit={editAction}
-        />
+        <Formik
+          initialValues={{
+            email,
+          }}
+          validateOnBlur={false}
+          validateOnChange={false}
+          validationSchema={confirmSchema}
+          onSubmit={async values => {
+            console.log('onSubmitParent', values)
+          }}
+        >
+          <TextInputField
+            required
+            editModeOn={editMode}
+            name="email"
+            placeholder="Type email"
+            value={email || 'N/A'}
+            onEdit={editAction}
+          />
+        </Formik>
       </SpacingBottomXs>
       {editMode && (
         <>
@@ -76,7 +97,11 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
               <StyledSecondaryButton onClick={cancelAction}>Cancel</StyledSecondaryButton>
               <Button onClick={saveAction}>Save</Button>
               <Modal isOpen={isOpen} onRequestClose={closeModal} />
-              <UpdateAppLoginEmailModal closeModal={closeModal} isOpen={isOpen} email={'testy@testy'} />
+              <UpdateAppLoginEmailModal
+                closeModal={closeModal}
+                email="testy@testy"
+                isOpen={isOpen}
+              />
             </StyledActions>
           </SpacingBottom>
         </>
