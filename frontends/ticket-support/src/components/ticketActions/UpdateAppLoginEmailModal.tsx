@@ -98,7 +98,7 @@ const UpdateAppLoginEmailModal = ({ isOpen, closeModal, email }: AppLoginEmailMo
                   </ConfirmationText>
                   <TextInputField
                     required
-                    label="Specify a reason for the unlocking"
+                    label="Specify a reason for updating email"
                     name="reason"
                   />
                   <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
