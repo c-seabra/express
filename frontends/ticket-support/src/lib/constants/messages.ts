@@ -8,6 +8,7 @@ export type StaticMessages = {
 
 const STATIC_MESSAGES: StaticMessages = Object.freeze({
   VALIDATION: {
+    EMAIL: 'Invalid email',
     REQUIRED: 'Required',
   },
 })

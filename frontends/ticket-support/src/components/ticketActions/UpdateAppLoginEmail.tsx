@@ -29,14 +29,17 @@ const StyledLabel = styled.span`
 `
 
 type UpdateAppLoginEmailProps = {
-  email?: string
+  bookingRef: string
+  email: string
 }
 
 const confirmSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  email: Yup.string()
+    .email(STATIC_MESSAGES.VALIDATION.EMAIL)
+    .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 })
 
-const UpdateAppLoginEmail = ({ email }: UpdateAppLoginEmailProps) => {
+const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) => {
   const { isOpen, openModal, closeModal } = useModalState()
   const [editMode, setEditMode] = useState(false)
 
@@ -48,6 +51,11 @@ const UpdateAppLoginEmail = ({ email }: UpdateAppLoginEmailProps) => {
   }
   const saveAction = () => {
     openModal()
+  }
+
+  const closeModalAndCancel = () => {
+    closeModal()
+    cancelAction()
   }
 
   const [formControls, setFormControls] = useState<
@@ -69,12 +77,11 @@ const UpdateAppLoginEmail = ({ email }: UpdateAppLoginEmailProps) => {
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}
-        onSubmit={(values, helpers) => {
-          console.log('onSubmitParent', values, helpers)
+        onSubmit={() => {
           saveAction()
         }}
       >
-        {({ submitForm, resetForm }) => {
+        {({ values, submitForm, resetForm }) => {
           // Binding submit form to submit programmatically from outside the <Formik> component
           if (!formControls) {
             setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
@@ -115,8 +122,9 @@ const UpdateAppLoginEmail = ({ email }: UpdateAppLoginEmailProps) => {
                       <Button type="submit">Save</Button>
                       <Modal isOpen={isOpen} onRequestClose={closeModal} />
                       <UpdateAppLoginEmailModal
-                        closeModal={closeModal}
-                        email={email || 'N/A'}
+                        bookingRef={bookingRef}
+                        closeModal={closeModalAndCancel}
+                        email={values.email || 'N/A'}
                         isOpen={isOpen}
                       />
                     </StyledActions>

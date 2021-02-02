@@ -249,7 +249,10 @@ const TicketDetails = (): ReactElement => {
                   )}
 
                   {assignment?.state === 'ACCEPTED' && (
-                    <UpdateAppLoginEmail email={assignment?.appLoginEmail || assignee?.email} />
+                    <UpdateAppLoginEmail
+                      bookingRef={bookingRef}
+                      email={assignment?.appLoginEmail || assignee?.email}
+                    />
                   )}
 
                   {assignee && (

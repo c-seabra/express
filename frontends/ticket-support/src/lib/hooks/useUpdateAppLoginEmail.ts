@@ -7,7 +7,7 @@ import { Ticket, UserError } from '../types'
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage'
 
 type UpdateLoginResponse = {
-  response: {
+  assignmentTicketLoginUpdate: {
     ticket: Ticket
     userErrors: UserError[]
   }
@@ -15,28 +15,30 @@ type UpdateLoginResponse = {
 
 type UpdateLoginTicketsArgs = {
   bookingRef: string
+  email: string
   reason: string
 }
 
 const useUpdateLoginMutation = () => {
   const { conferenceSlug, token } = useAppContext()
-  const [error, setError] = useState('')
-  const snackbar = useSuccessSnackbar()
-  const errSnackbar = useErrorSnackbar()
+  const successSnackbar = useSuccessSnackbar()
+  const errorSnackbar = useErrorSnackbar()
 
   const [updateLoginMutation] = useMutation<UpdateLoginResponse>(TICKET_LOGIN_UPDATE, {
-    onCompleted: ({ response }) => {
-      snackbar('Login email updated')
-
-      if (response?.userErrors.length) {
-        setError(response.userErrors[0]?.message)
-        errSnackbar('Updating Login email  failed')
+    onCompleted: ({ assignmentTicketLoginUpdate }) => {
+      console.log('onCompleted', assignmentTicketLoginUpdate)
+      if (assignmentTicketLoginUpdate?.ticket?.assignment?.assignee) {
+        // resetLoginEmailChange(false)
+        successSnackbar('Login email updated')
+      }
+      if (assignmentTicketLoginUpdate?.userErrors?.length) {
+        errorSnackbar('Updating login email failed')
       }
     },
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
   })
 
-  const updateLogin = async ({ reason, bookingRef }: UpdateLoginTicketsArgs) => {
+  const updateLogin = async ({ reason, bookingRef, email }: UpdateLoginTicketsArgs) => {
     await updateLoginMutation({
       context: {
         headers: {
@@ -46,13 +48,13 @@ const useUpdateLoginMutation = () => {
         token,
       },
       variables: {
-        input: { reference: bookingRef },
+        appLoginEmail: email,
+        bookingRef,
       },
     })
   }
 
   return {
-    error,
     updateLogin,
   }
 }

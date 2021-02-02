@@ -33,6 +33,7 @@ const StyledForm = styled(Form)`
 `
 
 type AppLoginEmailModalProps = {
+  bookingRef: string
   closeModal: () => void
   email: string
   isOpen: boolean
@@ -42,7 +43,12 @@ const confirmSchema = Yup.object().shape({
   reason: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 })
 
-const UpdateAppLoginEmailModal = ({ isOpen, closeModal, email }: AppLoginEmailModalProps) => {
+const UpdateAppLoginEmailModal = ({
+  isOpen,
+  closeModal,
+  email,
+  bookingRef,
+}: AppLoginEmailModalProps) => {
   const { updateLogin } = useUpdateLoginMutation()
   const [formControls, setFormControls] = useState<
     | {
@@ -78,8 +84,12 @@ const UpdateAppLoginEmailModal = ({ isOpen, closeModal, email }: AppLoginEmailMo
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            console.log('onSubmit', values)
-            // await updateLogin({ bookingRef: ticket.bookingRef, reason: values?.reason })
+            console.log('onSubmit', values, bookingRef)
+            await updateLogin({
+              bookingRef,
+              email: values?.email,
+              reason: values?.reason,
+            })
 
             handleClose()
           }}
