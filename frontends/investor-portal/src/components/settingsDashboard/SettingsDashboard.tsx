@@ -124,14 +124,15 @@ const SettingsDashboard: React.FC = () => {
                 submitSettings()
               }}
             >
-
               <SponsorLogo src={sponsorLogoUrl} />
               <LabeledInput
                 defaultValue={sponsorLogoUrl}
                 label="Sponsor logo"
                 type="file"
                 accept="image/svg+xml"
-                onChange={e => { handleUpload(e.target.files![0]) }}
+                onChange={e => {
+                  handleUpload(e.target.files![0])
+                }}
               />
               <LabeledInput
                 defaultValue={defaultStartupSelections}

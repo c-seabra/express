@@ -9,9 +9,9 @@ export type EventQuery = {
           meetingsPerSession: number
           notifyOfficeHoursInvitees: number
           sessionDuration: number
+          sponsorLogoUrl: string
           startupPortalOpeningAt: Date
           startupSelectionDeadline: Date
-          sponsorLogoUrl: String
         }
       }
     }
