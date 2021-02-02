@@ -24,7 +24,7 @@ const Label = styled.div<{ required?: boolean }>`
     `}
 `
 
-const StyledInput = styled.textarea<{ fieldHeight?: string; isError?: boolean }>`
+const StyledTextarea = styled.textarea<{ fieldHeight?: string; isError?: boolean }>`
   font-size: 14px;
   font-weight: 300;
   border: 1px solid ${props => (props.isError ? '#e15554' : '#dcdfe5')};
@@ -35,6 +35,7 @@ const StyledInput = styled.textarea<{ fieldHeight?: string; isError?: boolean }>
   box-sizing: border-box;
   width: 100%;
   color: #07143e;
+  resize: none;
 
   ${props =>
     props.fieldHeight &&
@@ -49,6 +50,20 @@ const Error = styled.div`
   margin-top: 4px;
 `
 
+const TextAreaContainer = styled.div`
+  position: relative;
+  width: 100%;
+`
+
+const LengthCounter = styled.div`
+  font-size: 0.8rem;
+  color: #07143e;
+  opacity: 0.5;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+`
+
 type TextInputFieldProps = HTMLProps<HTMLInputElement> & {
   fieldHeight?: string
   name: string
@@ -61,18 +76,27 @@ const TextAreaField = ({
   required,
   placeholder,
   fieldHeight = '150px',
+  maxLength,
 }: TextInputFieldProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
       <Field name={name} required={required}>
-        {({ meta, field }: FieldProps) => (
-          <StyledInput
-            fieldHeight={fieldHeight}
-            isError={meta.touched && !!meta.error}
-            {...field}
-            placeholder={placeholder}
-          />
+        {({ meta, field }: FieldProps<string>) => (
+          <TextAreaContainer>
+            <StyledTextarea
+              fieldHeight={fieldHeight}
+              isError={meta.touched && !!meta.error}
+              maxLength={maxLength}
+              {...field}
+              placeholder={placeholder}
+            />
+            {maxLength && field?.value && (
+              <LengthCounter>
+                {field.value.length}/{maxLength}
+              </LengthCounter>
+            )}
+          </TextAreaContainer>
         )}
       </Field>
       <ErrorMessage name={name} render={message => <Error>{message}</Error>} />
