@@ -6,6 +6,7 @@ const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 85px;
+  padding-bottom: 1.8rem;
 `
 
 const Label = styled.div<{ required?: boolean }>`
@@ -23,16 +24,23 @@ const Label = styled.div<{ required?: boolean }>`
     `}
 `
 
-const StyledInput = styled.input<{ isError?: boolean }>`
+const StyledInput = styled.textarea<{ fieldHeight?: string; isError?: boolean }>`
   font-size: 14px;
   font-weight: 300;
   border: 1px solid ${props => (props.isError ? '#e15554' : '#dcdfe5')};
   border-radius: 4px;
   min-height: 40px;
   padding-left: 1rem;
+  padding-top: 1rem;
   box-sizing: border-box;
   width: 100%;
   color: #07143e;
+
+  ${props =>
+    props.fieldHeight &&
+    css`
+      height: ${props.fieldHeight};
+    `};
 `
 
 const Error = styled.div`
@@ -42,18 +50,26 @@ const Error = styled.div`
 `
 
 type TextInputFieldProps = HTMLProps<HTMLInputElement> & {
+  fieldHeight?: string
   name: string
 }
 
-const TextInputField = ({ className, label, name, required, placeholder }: TextInputFieldProps) => {
+const TextAreaField = ({
+  className,
+  label,
+  name,
+  required,
+  placeholder,
+  fieldHeight = '150px',
+}: TextInputFieldProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
       <Field name={name} required={required}>
         {({ meta, field }: FieldProps) => (
           <StyledInput
+            fieldHeight={fieldHeight}
             isError={meta.touched && !!meta.error}
-            type="text"
             {...field}
             placeholder={placeholder}
           />
@@ -64,4 +80,4 @@ const TextInputField = ({ className, label, name, required, placeholder }: TextI
   )
 }
 
-export default TextInputField
+export default TextAreaField

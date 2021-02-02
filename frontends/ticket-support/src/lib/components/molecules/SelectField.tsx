@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, FieldProps } from 'formik'
-import React, { HTMLProps } from 'react'
+import React from 'react'
 import styled, { css } from 'styled-components'
 
 const FieldContainer = styled.div`
@@ -23,7 +23,7 @@ const Label = styled.div<{ required?: boolean }>`
     `}
 `
 
-const StyledInput = styled.input<{ isError?: boolean }>`
+const StyledSelect = styled.select<{ isError?: boolean }>`
   font-size: 14px;
   font-weight: 300;
   border: 1px solid ${props => (props.isError ? '#e15554' : '#dcdfe5')};
@@ -41,22 +41,40 @@ const Error = styled.div`
   margin-top: 4px;
 `
 
-type TextInputFieldProps = HTMLProps<HTMLInputElement> & {
-  name: string
+type SelectFieldOption = {
+  label: string
+  value: string
 }
 
-const TextInputField = ({ className, label, name, required, placeholder }: TextInputFieldProps) => {
+type SelectFieldProps = {
+  className?: string
+  label?: string
+  name: string
+  options?: SelectFieldOption[]
+  placeholder?: string
+  required?: boolean
+}
+
+const SelectField = ({
+  className,
+  name,
+  label,
+  placeholder,
+  options = [],
+  required = false,
+}: SelectFieldProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
       <Field name={name} required={required}>
         {({ meta, field }: FieldProps) => (
-          <StyledInput
-            isError={meta.touched && !!meta.error}
-            type="text"
-            {...field}
-            placeholder={placeholder}
-          />
+          <StyledSelect isError={meta.touched && !!meta.error} {...field} placeholder={placeholder}>
+            {options.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </StyledSelect>
         )}
       </Field>
       <ErrorMessage name={name} render={message => <Error>{message}</Error>} />
@@ -64,4 +82,4 @@ const TextInputField = ({ className, label, name, required, placeholder }: TextI
   )
 }
 
-export default TextInputField
+export default SelectField
