@@ -72,13 +72,12 @@ const SettingsDashboard: React.FC = () => {
     if (dateString === undefined || dateString === null) {
       return undefined
     }
-
     let str = dateString
     return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
   }
 
   const styledDateForMutation = (dateString?: string) => {
-    if (dateString === undefined) {
+    if (dateString === undefined || dateString === "") {
       return null
     }
     return moment(dateString).tz(eventTimezone, true).format()
@@ -192,7 +191,7 @@ const SettingsDashboard: React.FC = () => {
               <FormArea>
                 <h2>Startup portal dates</h2>
                 <LabeledInput
-                  defaultValue={startupPortalOpeningAt}
+                  value={startupPortalOpeningAt}
                   label="Startup Portal Opening At"
                   type="datetime-local"
                   onChange={e => {setStartupPortalOpeningAt(e.target.value)}}
@@ -201,7 +200,7 @@ const SettingsDashboard: React.FC = () => {
               <FormArea>
                 <h2>Investor portal dates</h2>
                 <LabeledInput
-                  defaultValue={startupSelectionDeadline}
+                  value={startupSelectionDeadline}
                   label="Startup Selection Deadline"
                   type="datetime-local"
                   onChange={e => {setStartupSelectionDeadline(e.target.value)}}
