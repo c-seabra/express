@@ -30,7 +30,7 @@ const StyledLabel = styled.span`
 
 type UpdateAppLoginEmailProps = {
   bookingRef: string
-  email: string
+  email?: string
 }
 
 const confirmSchema = Yup.object().shape({
