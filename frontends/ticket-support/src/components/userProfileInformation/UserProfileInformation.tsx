@@ -78,6 +78,9 @@ const getInitialValues = (account: Account) => {
   }
 }
 
+// This is for now consistent with Omnia however, it should be expanded for inclusivity
+const genderOptions = ['', 'Male', 'Female'].map(gender => ({ label: gender, value: gender }))
+
 type UserProfileInformationProps = {
   account?: Account
 }
@@ -114,7 +117,7 @@ const UserProfileInformation = ({ account }: UserProfileInformationProps) => {
             </Row>
             <Row>
               <TextInputField label="Phone number" name="phoneNumber" />
-              <TextInputField label="Gender" name="gender" />
+              <SelectField label="Gender" name="gender" options={genderOptions} />
             </Row>
             <Row>
               <TextInputField label="City" name="city" />
@@ -125,7 +128,7 @@ const UserProfileInformation = ({ account }: UserProfileInformationProps) => {
               <SelectField label="Industry" name="industryId" options={industryOptions} />
             </Row>
             <TextInputField required label="Job title" name="jobTitle" />
-            <TextAreaField label="Bio" name="bio" />
+            <TextAreaField label="Bio" maxLength={255} name="bio" />
             <ButtonRow>
               <SecondaryButton
                 type="button"
