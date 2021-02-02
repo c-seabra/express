@@ -69,8 +69,9 @@ const UpdateAppLoginEmail = ({ email }: UpdateAppLoginEmailProps) => {
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}
-        onSubmit={values => {
-          console.log('onSubmitParent', values)
+        onSubmit={(values, helpers) => {
+          console.log('onSubmitParent', values, helpers)
+          saveAction()
         }}
       >
         {({ submitForm, resetForm }) => {
@@ -111,9 +112,7 @@ const UpdateAppLoginEmail = ({ email }: UpdateAppLoginEmailProps) => {
                       >
                         Cancel
                       </StyledSecondaryButton>
-                      <Button type="submit" onClick={saveAction}>
-                        Save
-                      </Button>
+                      <Button type="submit">Save</Button>
                       <Modal isOpen={isOpen} onRequestClose={closeModal} />
                       <UpdateAppLoginEmailModal
                         closeModal={closeModal}
