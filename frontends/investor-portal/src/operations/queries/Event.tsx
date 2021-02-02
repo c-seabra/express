@@ -11,6 +11,7 @@ export type EventQuery = {
           notifyOfficeHoursInvitees: number
           sessionDuration: number
           startupPortalOpeningAt: Date
+          startupPortalClosingAt: Date
           startupSelectionDeadline: Date
           sponsorLogoUrl: String
         }
@@ -32,6 +33,7 @@ export const EVENT_QUERY = gql`
           notifyOfficeHoursInvitees
           sessionDuration
           startupPortalOpeningAt
+          startupPortalClosingAt
           startupSelectionDeadline
           sponsorLogoUrl
         }

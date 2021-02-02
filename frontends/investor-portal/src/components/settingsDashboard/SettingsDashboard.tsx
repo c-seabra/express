@@ -30,6 +30,7 @@ const SettingsDashboard: React.FC = () => {
   const [sessionDuration, setSessionDuration] = useState<number | undefined>()
   const [sponsorLogoUrl, setSponsorLogoUrl] = useState<string | undefined>()
   const [startupPortalOpeningAt, setStartupPortalOpeningAt] = useState<string | undefined>()
+  const [startupPortalClosingAt, setStartupPortalClosingAt] = useState<string | undefined>()
   const [startupSelectionDeadline, setStartupSelectionDeadline] = useState<string | undefined>()
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
   const [mutationError, setMutationError] = useState<string | undefined>()
@@ -49,6 +50,7 @@ const SettingsDashboard: React.FC = () => {
             sessionDuration: number
             sponsorLogoUrl: string
             startupPortalOpeningAt: string
+            startupPortalClosingAt: string
             startupSelectionDeadline: string
           }
         }
@@ -93,6 +95,7 @@ const SettingsDashboard: React.FC = () => {
       setSponsorLogoUrl(configuration.sponsorLogoUrl)
 
       setStartupPortalOpeningAt(usableDateString(configuration.startupPortalOpeningAt))
+      setStartupPortalClosingAt(usableDateString(configuration.startupPortalClosingAt))
       setStartupSelectionDeadline(usableDateString(configuration.startupSelectionDeadline))
     }
   }, [data])
@@ -118,6 +121,7 @@ const SettingsDashboard: React.FC = () => {
       investorMeetingsSessionDuration: sessionDuration,
       investorMeetingsSponsorLogo: file,
       investorMeetingsStartupPortalOpeningAt: styledDateForMutation(startupPortalOpeningAt),
+      investorMeetingsStartupPortalClosingAt: styledDateForMutation(startupPortalClosingAt),
       investorMeetingsStartupSelectionDeadline: styledDateForMutation(startupSelectionDeadline)
     },
   })
@@ -195,6 +199,12 @@ const SettingsDashboard: React.FC = () => {
                   label="Startup Portal Opening At"
                   type="datetime-local"
                   onChange={e => {setStartupPortalOpeningAt(e.target.value)}}
+                />
+                <LabeledInput
+                  value={startupPortalClosingAt}
+                  label="Startup Portal Closing At"
+                  type="datetime-local"
+                  onChange={e => {setStartupPortalClosingAt(e.target.value)}}
                 />
               </FormArea>
               <FormArea>
