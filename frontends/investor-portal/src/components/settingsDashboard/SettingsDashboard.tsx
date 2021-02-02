@@ -164,8 +164,8 @@ const SettingsDashboard: React.FC = () => {
             </ConfigurationPanel>
           </SpacingBottom>
         </ContainerCard>
+        <InvestorSessions/>
       </PageContainer>
-      <InvestorSessions/>
     </>
   )
 }

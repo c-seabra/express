@@ -29,3 +29,13 @@ export const SponsorLogo = styled.img`
     margin: 15px;
 `;
 
+export const InvestorSessionsForm = styled.form`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  & > div {
+    min-width: 30%;
+    margin-bottom: 30px;
+  }
+`;

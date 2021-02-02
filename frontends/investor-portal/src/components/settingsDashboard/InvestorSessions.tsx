@@ -4,17 +4,20 @@ import moment from 'moment';
 import 'moment-timezone';
 
 import { Button } from '../../lib/components'
-import INVESTOR_SESSIONS_UPDATE_MUTATION from '../../operations/mutatuions/InvestorSessionsUpdate'
+import ContainerCard from '../../lib/components/atoms/ContainerCard'
+
+import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutatuions/InvestorSessionsCreate'
 import { useAppContext } from '../app/AppContext'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
+import { InvestorSessionsForm, ConfigurationPanel, PageContainer, SpacingBottom, SponsorLogo } from './SettingsDashboard.styled'
 
 
 const InvestorSessions: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
 
-  const [startDate, setStartDate] = useState<string | undefined>()
-  const [endDate, setEndDate] = useState<string | undefined>()
+  const [startsAt, setStartsAt] = useState<string | undefined>()
+  const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
   const [mutationError, setMutationError] = useState<string | undefined>()
@@ -37,63 +40,66 @@ const InvestorSessions: React.FC = () => {
 
 
   useEffect(() => {
-    setStartDate(usableDateString(startDate))
-    setEndDate(usableDateString(endDate))
+    setStartsAt(usableDateString(startsAt))
+    setEndsAt(usableDateString(endsAt))
     setCount(count)
   },[])
 
-  const [investorSessionsUpdateMutation] = useMutation(INVESTOR_SESSIONS_UPDATE_MUTATION, {
+  const [investorSessionsCreateMutation] = useMutation(INVESTOR_SESSIONS_CREATE_MUTATION, {
     context: {
       slug: conferenceSlug,
       token,
     },
-    onCompleted: ({ investorSessionsUpdate }) => {
-      if (investorSessionsUpdate?.successMessage.length) {
-        setMutationSuccessMessage(investorSessionsUpdate?.successMessage)
+    onCompleted: ({ investorSessionsCreate }) => {
+      if (investorSessionsCreate?.successMessage.length) {
+        setMutationSuccessMessage(investorSessionsCreate?.successMessage)
         setMutationError('')
       }
-      if (investorSessionsUpdate?.userErrors.length) {
-        setMutationError(investorSessionsUpdate?.userErrors[0])
+      if (investorSessionsCreate?.userErrors.length) {
+        setMutationError(investorSessionsCreate?.userErrors[0])
       }
     },
     variables: {
-      investorSessionsStartDate: startDate,
-      investorSessionsEndDate: endDate,
+      investorSessionsStartsAt: startsAt,
+      investorSessionsEndsAt: endsAt,
       investorSessionsCount: count
     },
   })
 
   const submitForm = () => {
-    investorSessionsUpdateMutation()
+    investorSessionsCreateMutation()
   }
 
   return (
-    <div>
-                <h2>session dates</h2>
-                <LabeledInput
-                  defaultValue={startDate}
-                  label="session starts"
-                  type="datetime-local"
-                  onChange={e => {setStartDate(e.target.value)}}
-                />
-
-                <LabeledInput
-                  defaultValue={endDate}
-                  label="session ends"
-                  type="datetime-local"
-                  onChange={e => {setEndDate(e.target.value)}}
-                />
-
-                <LabeledInput
-                  defaultValue={count}
-                  label="count"
-                  type="number"
-                  onChange={e => {setCount(parseInt(e.target.value))}}
-              />
-      <div>
-        <Button onClick={submitForm}>ADD SESSION</Button>
-      </div>
-    </div>
+    <>
+      <ContainerCard color="#f6b826" title="Session Settings">
+        <SpacingBottom>
+          <InvestorSessionsForm>
+            <LabeledInput
+              defaultValue={startsAt}
+              label="Starting Time"
+              type="datetime-local"
+              onChange={e => {setStartsAt(e.target.value)}}
+            />
+            <LabeledInput
+              defaultValue={endsAt}
+              label="Ending Time"
+              type="datetime-local"
+              onChange={e => {setEndsAt(e.target.value)}}
+            />
+            <LabeledInput
+              defaultValue={count}
+              label="How many sessions in this block?"
+              type="number"
+              onChange={e => {setCount(parseInt(e.target.value))}}
+            />
+          </InvestorSessionsForm>
+          <div>
+            <Button onClick={submitForm}>Add Session</Button>
+          </div>
+        </SpacingBottom>
+      </ContainerCard>
+    </>
   )
 }
 
