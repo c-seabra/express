@@ -24,7 +24,7 @@ import {
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
   const [defaultStartupSelections, setDefaultStartupSelections] = useState<number | undefined>()
-  const [eventTimezone, setEventTimezone] = useState<string | undefined>()
+  const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
   const [file, setFile] = useState<File | undefined>()
   const [meetingsPerSession, setMeetingsPerSession] = useState<number | undefined>()
   const [sessionDuration, setSessionDuration] = useState<number | undefined>()
