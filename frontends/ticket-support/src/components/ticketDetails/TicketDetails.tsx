@@ -238,6 +238,7 @@ const TicketDetails = (): ReactElement => {
                     <>
                       <StyledLabel>Unique user identifier</StyledLabel>
                       <Formik
+                        enableReinitialize
                         initialValues={{ uniqueEmail: assignment.assignee?.email }}
                         onSubmit={async values => {
                           // TODO will be moved to different component
