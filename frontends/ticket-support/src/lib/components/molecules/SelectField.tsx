@@ -24,10 +24,10 @@ const Label = styled.div<{ required?: boolean }>`
 `
 
 const StyledSelect = styled.select<{ isError?: boolean }>`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 300;
   border: 1px solid ${props => (props.isError ? '#e15554' : '#dcdfe5')};
-  border-radius: 4px;
+  border-radius: 2px;
   min-height: 40px;
   padding-left: 1rem;
   box-sizing: border-box;
