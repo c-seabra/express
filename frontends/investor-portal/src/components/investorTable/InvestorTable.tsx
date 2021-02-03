@@ -15,6 +15,7 @@ import {
 type InvestorSearchState = {
   page: string
   searchQuery?: string
+  type: string
 }
 
 const InvestorTable = (): ReactElement => {
@@ -40,6 +41,7 @@ const InvestorTable = (): ReactElement => {
   } = useInvestorsQuery({
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
+    type: searchState.type,
   })
 
   useEffect(() => {
