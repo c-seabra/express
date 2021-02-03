@@ -28,3 +28,21 @@ export const SponsorLogo = styled.img`
   height: 300px;
   margin: 15px;
 `
+
+export const FormArea = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: float-left;
+  width: 100%;
+
+  & > h2 {
+    min-width: 100%;
+    margin-bottom: 8px;
+  }
+
+  & > div {
+    min-width: 30%;
+    margin-right: 1%;
+    margin-bottom: 8px;
+  }
+`
