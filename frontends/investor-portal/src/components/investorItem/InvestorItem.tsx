@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
+import ListItem from '../../lib/components/atoms/ListItem.styled'
 import { Investor } from '../../lib/types'
-import ListItem from './ListItem.styled'
 
 const ColumnStyles = styled.div`
   text-align: center;
