@@ -74,7 +74,7 @@ const App = ({ token }: { token: string }) => {
           </Helmet>
           <GlobalStyle />
           <Switch>
-            <Route exact path="/dashboard">
+            <Route exact path="/">
               <AttendanceDashboard />
             </Route>
             <Route path="/settings">
