@@ -202,6 +202,7 @@ const SettingsDashboard: React.FC = () => {
                 />
                 <LabeledInput
                   value={startupPortalClosingAt}
+                  min={startupPortalOpeningAt}
                   label="Startup Portal Closing At"
                   type="datetime-local"
                   onChange={e => {setStartupPortalClosingAt(e.target.value)}}
