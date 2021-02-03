@@ -138,7 +138,7 @@ const getFormattedValue = (
     return formatDefaultDateTime(value)
   }
 
-  return defaultValue
+  return value || defaultValue
 }
 
 const DynamicChange = ({ title, values }: { title: string; values: Array<string> | unknown }) => {
