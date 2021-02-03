@@ -16,7 +16,7 @@ const ROUTES: Routes = {
   DASHBOARD: {
     isActive: true,
     meta: { description: 'Dashboard' },
-    path: 'dashboard',
+    path: '/',
   },
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
   SETTINGS_ADMIN: {
