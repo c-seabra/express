@@ -24,7 +24,7 @@ const SessionsSummary = ({ investorSessionsSummary }: SessionsSummaryProps): Rea
                 {moment(item?.endsAt).format('HH:mm')}
               </span>
               <span>
-                {item.claimed} / {item.count}
+                {item.claimed} claimed out of {item.count}
               </span>
             </StyledColumnContainer>
           ))}
