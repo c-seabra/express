@@ -32,9 +32,8 @@ export const SponsorLogo = styled.img`
 export const FormArea = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: float-left;
   width: 100%;
-  border-top: 1px solid gray;
 
   & > h2 {
     min-width: 100%;
@@ -42,7 +41,8 @@ export const FormArea = styled.div`
   }
 
   & > div {
-    min-width: 40%;
+    min-width: 30%;
+    margin-right: 1%;
     margin-bottom: 8px;
   }
 `

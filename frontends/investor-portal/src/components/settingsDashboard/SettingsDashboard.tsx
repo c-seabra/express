@@ -184,34 +184,48 @@ const SettingsDashboard: React.FC = () => {
                     handleUpload(e.target.files?.[0])
                   }}
                 />
-                <LabeledInput
-                  defaultValue={defaultStartupSelections}
-                  label="Default startup selections"
-                  type="number"
-                  onChange={e => {
-                    setDefaultStartupSelections(parseInt(e.target.value, 10))
-                  }}
-                />
-                <LabeledInput
-                  defaultValue={sessionDuration}
-                  label="Investor session duration (minutes)"
-                  type="number"
-                  onChange={e => {
-                    setSessionDuration(parseInt(e.target.value, 10))
-                  }}
-                />
-                <LabeledInput
-                  defaultValue={meetingsPerSession}
-                  label="Startup meetings per investor session"
-                  type="number"
-                  onChange={e => {
-                    setMeetingsPerSession(parseInt(e.target.value, 10))
-                  }}
-                />
+                <FormArea>
+                  <h2>Session settings</h2>
+                  <LabeledInput
+                    defaultValue={sessionDuration}
+                    label="Sessions duration (min)"
+                    type="number"
+                    onChange={e => {
+                      setSessionDuration(parseInt(e.target.value, 10))
+                    }}
+                  />
+                  <LabeledInput
+                    defaultValue={meetingsPerSession}
+                    label="Meetings per session"
+                    type="number"
+                    onChange={e => {
+                      setMeetingsPerSession(parseInt(e.target.value, 10))
+                    }}
+                  />
+                  <LabeledInput
+                    defaultValue={defaultStartupSelections}
+                    label="Minimum startup selections"
+                    type="number"
+                    onChange={e => {
+                      setDefaultStartupSelections(parseInt(e.target.value, 10))
+                    }}
+                  />
+                </FormArea>
+                <FormArea>
+                  <h2>Investor portal dates</h2>
+                  <LabeledInput
+                    label="Startup submissions deadline"
+                    type="datetime-local"
+                    value={startupSelectionDeadline}
+                    onChange={e => {
+                      setStartupSelectionDeadline(e.target.value)
+                    }}
+                  />
+                </FormArea>
                 <FormArea>
                   <h2>Startup portal dates</h2>
                   <LabeledInput
-                    label="Startup Portal Opening At"
+                    label="Startup Portal opening at"
                     type="datetime-local"
                     value={startupPortalOpeningAt}
                     onChange={e => {
@@ -219,23 +233,12 @@ const SettingsDashboard: React.FC = () => {
                     }}
                   />
                   <LabeledInput
-                    label="Startup Portal Closing At"
+                    label="Startup Portal closing at"
                     min={startupPortalOpeningAt}
                     type="datetime-local"
                     value={startupPortalClosingAt}
                     onChange={e => {
                       setStartupPortalClosingAt(e.target.value)
-                    }}
-                  />
-                </FormArea>
-                <FormArea>
-                  <h2>Investor portal dates</h2>
-                  <LabeledInput
-                    label="Startup Selection Deadline"
-                    type="datetime-local"
-                    value={startupSelectionDeadline}
-                    onChange={e => {
-                      setStartupSelectionDeadline(e.target.value)
                     }}
                   />
                 </FormArea>
