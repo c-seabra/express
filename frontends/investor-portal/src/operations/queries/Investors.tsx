@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const INVESTORS_LIST = gql`
-  query($first: Int, $filter: AttendanceFilter, $after: String) {
-    attendances(first: $first, filter: $filter, after: $after) {
+  query($first: Int, $filter: AttendanceFilter, $after: String, $searchQuery: String) {
+    attendances(first: $first, filter: $filter, after: $after, searchQuery: $searchQuery) {
       edges {
         cursor
         node {
