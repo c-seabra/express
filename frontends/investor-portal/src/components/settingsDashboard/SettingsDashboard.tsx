@@ -11,7 +11,13 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
-import { ConfigurationPanel, PageContainer, SpacingBottom, SponsorLogo } from './SettingsDashboard.styled'
+import SessionsSummary from './SessionsSummary'
+import {
+  ConfigurationPanel,
+  PageContainer,
+  SpacingBottom,
+  SponsorLogo,
+} from './SettingsDashboard.styled'
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -67,6 +73,8 @@ const SettingsDashboard: React.FC = () => {
     }
   }, [data])
 
+  const investorSessionsSummary = data?.event.investorSessionsSummary
+
   const [eventUpdateMutuation] = useMutation(EVENT_UPDATE_MUTATION, {
     context: {
       slug: conferenceSlug,
@@ -116,54 +124,59 @@ const SettingsDashboard: React.FC = () => {
             <span>{mutationSuccessMessage}</span>
           </Success>
         )}
-        <ContainerCard color="#00AFA9" title="Conference settings">
-          <SpacingBottom>
-            <ConfigurationPanel
-              onSubmit={e => {
-                e.preventDefault()
-                submitSettings()
-              }}
-            >
-              <SponsorLogo src={sponsorLogoUrl} />
-              <LabeledInput
-                defaultValue={sponsorLogoUrl}
-                label="Sponsor logo"
-                type="file"
-                accept="image/svg+xml"
-                onChange={e => {
-                  handleUpload(e.target.files![0])
+        <SpacingBottom>
+          <ContainerCard color="#00AFA9" title="Conference settings">
+            <SpacingBottom>
+              <ConfigurationPanel
+                onSubmit={e => {
+                  e.preventDefault()
+                  submitSettings()
                 }}
-              />
-              <LabeledInput
-                defaultValue={defaultStartupSelections}
-                label="Default startup selections"
-                type="number"
-                onChange={e => {
-                  setDefaultStartupSelections(parseInt(e.target.value, 10))
-                }}
-              />
-              <LabeledInput
-                defaultValue={sessionDuration}
-                label="Investor session duration (minutes)"
-                type="number"
-                onChange={e => {
-                  setSessionDuration(parseInt(e.target.value, 10))
-                }}
-              />
-              <LabeledInput
-                defaultValue={meetingsPerSession}
-                label="Startup meetings per investor session"
-                type="number"
-                onChange={e => {
-                  setMeetingsPerSession(parseInt(e.target.value, 10))
-                }}
-              />
-              <div>
-                <Button onClick={submitSettings}>Save</Button>
-              </div>
-            </ConfigurationPanel>
-          </SpacingBottom>
-        </ContainerCard>
+              >
+                <SponsorLogo src={sponsorLogoUrl} />
+                <LabeledInput
+                  defaultValue={sponsorLogoUrl}
+                  label="Sponsor logo"
+                  type="file"
+                  accept="image/svg+xml"
+                  onChange={e => {
+                    handleUpload(e.target.files?.[0])
+                  }}
+                />
+                <LabeledInput
+                  defaultValue={defaultStartupSelections}
+                  label="Default startup selections"
+                  type="number"
+                  onChange={e => {
+                    setDefaultStartupSelections(parseInt(e.target.value, 10))
+                  }}
+                />
+                <LabeledInput
+                  defaultValue={sessionDuration}
+                  label="Investor session duration (minutes)"
+                  type="number"
+                  onChange={e => {
+                    setSessionDuration(parseInt(e.target.value, 10))
+                  }}
+                />
+                <LabeledInput
+                  defaultValue={meetingsPerSession}
+                  label="Startup meetings per investor session"
+                  type="number"
+                  onChange={e => {
+                    setMeetingsPerSession(parseInt(e.target.value, 10))
+                  }}
+                />
+                <div>
+                  <Button onClick={submitSettings}>Save</Button>
+                </div>
+              </ConfigurationPanel>
+            </SpacingBottom>
+          </ContainerCard>
+        </SpacingBottom>
+        {investorSessionsSummary?.length && (
+          <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
+        )}
       </PageContainer>
     </>
   )
