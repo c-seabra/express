@@ -14,6 +14,7 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
+import SessionsSummary from './SessionsSummary'
 import {
   ConfigurationPanel,
   FormArea,
@@ -54,6 +55,14 @@ const SettingsDashboard: React.FC = () => {
             startupSelectionDeadline: string
           }
         }
+        investorSessionsSummary: [
+          {
+            claimed: number
+            count: number
+            endsAt: string
+            startsAt: string
+          }
+        ]
         timezone: string
       }
     }
@@ -101,6 +110,8 @@ const SettingsDashboard: React.FC = () => {
     }
   }, [data])
 
+  const investorSessionsSummary = data?.event.investorSessionsSummary
+
   const [eventUpdateMutuation] = useMutation(EVENT_UPDATE_MUTATION, {
     context: {
       slug: conferenceSlug,
@@ -121,6 +132,7 @@ const SettingsDashboard: React.FC = () => {
       investorMeetingsMeetingsPerSession: meetingsPerSession,
       investorMeetingsSessionDuration: sessionDuration,
       investorMeetingsSponsorLogo: file,
+
       investorMeetingsStartupPortalClosingAt: styledDateForMutation(startupPortalClosingAt),
       investorMeetingsStartupPortalOpeningAt: styledDateForMutation(startupPortalOpeningAt),
       investorMeetingsStartupSelectionDeadline: styledDateForMutation(startupSelectionDeadline),
@@ -153,85 +165,90 @@ const SettingsDashboard: React.FC = () => {
             <span>{mutationSuccessMessage}</span>
           </Success>
         )}
-        <ContainerCard color="#00AFA9" title="Conference settings">
-          <SpacingBottom>
-            <ConfigurationPanel
-              onSubmit={e => {
-                e.preventDefault()
-                submitSettings()
-              }}
-            >
-              <SponsorLogo src={sponsorLogoUrl} />
-              <LabeledInput
-                accept="image/svg+xml"
-                defaultValue={sponsorLogoUrl}
-                label="Sponsor logo"
-                type="file"
-                onChange={e => {
-                  handleUpload(e.target.files![0])
+        <SpacingBottom>
+          <ContainerCard color="#00AFA9" title="Conference settings">
+            <SpacingBottom>
+              <ConfigurationPanel
+                onSubmit={e => {
+                  e.preventDefault()
+                  submitSettings()
                 }}
-              />
-              <LabeledInput
-                defaultValue={defaultStartupSelections}
-                label="Default startup selections"
-                type="number"
-                onChange={e => {
-                  setDefaultStartupSelections(parseInt(e.target.value, 10))
-                }}
-              />
-              <LabeledInput
-                defaultValue={sessionDuration}
-                label="Investor session duration (minutes)"
-                type="number"
-                onChange={e => {
-                  setSessionDuration(parseInt(e.target.value, 10))
-                }}
-              />
-              <LabeledInput
-                defaultValue={meetingsPerSession}
-                label="Startup meetings per investor session"
-                type="number"
-                onChange={e => {
-                  setMeetingsPerSession(parseInt(e.target.value, 10))
-                }}
-              />
-              <FormArea>
-                <h2>Startup portal dates</h2>
+              >
+                <SponsorLogo src={sponsorLogoUrl} />
                 <LabeledInput
-                  label="Startup Portal Opening At"
-                  type="datetime-local"
-                  value={startupPortalOpeningAt}
+                  accept="image/svg+xml"
+                  defaultValue={sponsorLogoUrl}
+                  label="Sponsor logo"
+                  type="file"
                   onChange={e => {
-                    setStartupPortalOpeningAt(e.target.value)
+                    handleUpload(e.target.files?.[0])
                   }}
                 />
                 <LabeledInput
-                  label="Startup Portal Closing At"
-                  min={startupPortalOpeningAt}
-                  type="datetime-local"
-                  value={startupPortalClosingAt}
+                  defaultValue={defaultStartupSelections}
+                  label="Default startup selections"
+                  type="number"
                   onChange={e => {
-                    setStartupPortalClosingAt(e.target.value)
+                    setDefaultStartupSelections(parseInt(e.target.value, 10))
                   }}
                 />
-              </FormArea>
-              <FormArea>
-                <h2>Investor portal dates</h2>
                 <LabeledInput
-                  label="Startup Selection Deadline"
-                  type="datetime-local"
-                  value={startupSelectionDeadline}
+                  defaultValue={sessionDuration}
+                  label="Investor session duration (minutes)"
+                  type="number"
                   onChange={e => {
-                    setStartupSelectionDeadline(e.target.value)
+                    setSessionDuration(parseInt(e.target.value, 10))
                   }}
                 />
-              </FormArea>
-              <div>
-                <Button onClick={submitSettings}>Save</Button>
-              </div>
-            </ConfigurationPanel>
-          </SpacingBottom>
-        </ContainerCard>
+                <LabeledInput
+                  defaultValue={meetingsPerSession}
+                  label="Startup meetings per investor session"
+                  type="number"
+                  onChange={e => {
+                    setMeetingsPerSession(parseInt(e.target.value, 10))
+                  }}
+                />
+                <FormArea>
+                  <h2>Startup portal dates</h2>
+                  <LabeledInput
+                    label="Startup Portal Opening At"
+                    type="datetime-local"
+                    value={startupPortalOpeningAt}
+                    onChange={e => {
+                      setStartupPortalOpeningAt(e.target.value)
+                    }}
+                  />
+                  <LabeledInput
+                    label="Startup Portal Closing At"
+                    min={startupPortalOpeningAt}
+                    type="datetime-local"
+                    value={startupPortalClosingAt}
+                    onChange={e => {
+                      setStartupPortalClosingAt(e.target.value)
+                    }}
+                  />
+                </FormArea>
+                <FormArea>
+                  <h2>Investor portal dates</h2>
+                  <LabeledInput
+                    label="Startup Selection Deadline"
+                    type="datetime-local"
+                    value={startupSelectionDeadline}
+                    onChange={e => {
+                      setStartupSelectionDeadline(e.target.value)
+                    }}
+                  />
+                </FormArea>
+                <div>
+                  <Button onClick={submitSettings}>Save</Button>
+                </div>
+              </ConfigurationPanel>
+            </SpacingBottom>
+          </ContainerCard>
+        </SpacingBottom>
+        {investorSessionsSummary?.length && (
+          <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
+        )}
       </PageContainer>
     </>
   )

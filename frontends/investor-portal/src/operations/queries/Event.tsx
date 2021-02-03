@@ -10,12 +10,21 @@ export type EventQuery = {
           meetingsPerSession: number
           notifyOfficeHoursInvitees: number
           sessionDuration: number
+          sponsorLogoUrl: string
           startupPortalOpeningAt: Date
           startupPortalClosingAt: Date
           startupSelectionDeadline: Date
-          sponsorLogoUrl: String
         }
       }
+      investorSessionsSummary: [
+        {
+          available: number
+          claimed: number
+          count: number
+          endsAt: string
+          startsAt: string
+        }
+      ]
     }
   }
   error?: ApolloError
@@ -37,6 +46,13 @@ export const EVENT_QUERY = gql`
           startupSelectionDeadline
           sponsorLogoUrl
         }
+      }
+      investorSessionsSummary {
+        available
+        claimed
+        count
+        endsAt
+        startsAt
       }
     }
   }
