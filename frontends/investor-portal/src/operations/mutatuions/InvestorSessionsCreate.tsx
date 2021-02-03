@@ -2,9 +2,9 @@ import { gql } from '@apollo/client'
 
 export const INVESTOR_SESSIONS_CREATE_MUTATION = gql`
   mutation investorSessionsCreate(
-    $investorSessionsStartsAt: ISO8601DateTime
-    $investorSessionsEndsAt: ISO8601DateTime
-    $investorSessionsCount: Int
+    $investorSessionsStartsAt: ISO8601DateTime!
+    $investorSessionsEndsAt: ISO8601DateTime!
+    $investorSessionsCount: Int!
   ) {
     investorSessionsCreate(
       input: {

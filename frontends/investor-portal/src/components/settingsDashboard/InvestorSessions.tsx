@@ -14,6 +14,7 @@ import { InvestorSessionsForm, SpacingBottom } from './SettingsDashboard.styled'
 
 const InvestorSessions: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
+  const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
   const [startsAt, setStartsAt] = useState<string | undefined>()
   const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
@@ -26,6 +27,13 @@ const InvestorSessions: React.FC = () => {
     }
     let str = dateString
     return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
+  }
+
+  const styledDateForMutation = (dateString?: string) => {
+    if (dateString === undefined || dateString === '') {
+      return null
+    }
+    return moment(dateString).tz(eventTimezone, true).format()
   }
 
   useEffect(() => {
@@ -49,8 +57,8 @@ const InvestorSessions: React.FC = () => {
       }
     },
     variables: {
-      investorSessionsStartsAt: startsAt,
-      investorSessionsEndsAt: endsAt,
+      investorSessionsStartsAt: styledDateForMutation(startsAt),
+      investorSessionsEndsAt: styledDateForMutation(endsAt),
       investorSessionsCount: count
     },
   })
