@@ -97,16 +97,16 @@ const SettingsDashboard: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setEventTimezone(data?.event.timezone)
-      const configuration = data?.event.configuration.investorMeetingConfiguration
-      setDefaultStartupSelections(configuration.defaultStartupSelections)
-      setMeetingsPerSession(configuration.meetingsPerSession)
-      setSessionDuration(configuration.sessionDuration)
-      setSponsorLogoUrl(configuration.sponsorLogoUrl)
+      setEventTimezone(data?.event.timezone || 'Europe/Dublin')
+      const configurations = data?.event.configuration.investorMeetingConfiguration
+      setDefaultStartupSelections(configurations.defaultStartupSelections)
+      setMeetingsPerSession(configurations.meetingsPerSession)
+      setSessionDuration(configurations.sessionDuration)
+      setSponsorLogoUrl(configurations.sponsorLogoUrl)
 
-      setStartupPortalOpeningAt(usableDateString(configuration.startupPortalOpeningAt))
-      setStartupPortalClosingAt(usableDateString(configuration.startupPortalClosingAt))
-      setStartupSelectionDeadline(usableDateString(configuration.startupSelectionDeadline))
+      setStartupPortalOpeningAt(usableDateString(configurations.startupPortalOpeningAt))
+      setStartupPortalClosingAt(usableDateString(configurations.startupPortalClosingAt))
+      setStartupSelectionDeadline(usableDateString(configurations.startupSelectionDeadline))
     }
   }, [data])
 
