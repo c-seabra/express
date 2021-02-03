@@ -1,21 +1,19 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import 'moment-timezone';
 
 import { Button } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
-
 import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutatuions/InvestorSessionsCreate'
 import { useAppContext } from '../app/AppContext'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
-import { InvestorSessionsForm, ConfigurationPanel, PageContainer, SpacingBottom, SponsorLogo } from './SettingsDashboard.styled'
-
+import Warning from '../settingsActions/Warning'
+import Success from '../settingsActions/Success'
+import { InvestorSessionsForm, SpacingBottom } from './SettingsDashboard.styled'
 
 const InvestorSessions: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
-  const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
-
   const [startsAt, setStartsAt] = useState<string | undefined>()
   const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
@@ -26,18 +24,9 @@ const InvestorSessions: React.FC = () => {
     if (dateString === undefined || dateString === null) {
       return undefined
     }
-
     let str = dateString
     return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
   }
-
-  const styledDateForMutation = (dateString?: string) => {
-    if (dateString === undefined) {
-      return null
-    }
-    return moment(dateString).tz(eventTimezone, true).format()
-  }
-
 
   useEffect(() => {
     setStartsAt(usableDateString(startsAt))
@@ -72,17 +61,28 @@ const InvestorSessions: React.FC = () => {
 
   return (
     <>
+      {mutationError && (
+        <Warning>
+          <span>{mutationError}</span>
+        </Warning>
+      )}
+      {mutationSuccessMessage && (
+        <Success>
+          <span>{mutationSuccessMessage}</span>
+        </Success>
+      )}
       <ContainerCard color="#f6b826" title="Session Settings">
         <SpacingBottom>
           <InvestorSessionsForm>
             <LabeledInput
-              defaultValue={startsAt}
+              value={startsAt}
               label="Starting Time"
               type="datetime-local"
               onChange={e => {setStartsAt(e.target.value)}}
             />
             <LabeledInput
-              defaultValue={endsAt}
+              value={endsAt}
+              min={startsAt}
               label="Ending Time"
               type="datetime-local"
               onChange={e => {setEndsAt(e.target.value)}}
