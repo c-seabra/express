@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import ListItem from '../investorItem/ListItem.styled'
+import ListItem from '../../lib/components/atoms/ListItem.styled'
 
 const ColumnStyles = styled.div`
   text-align: center;
