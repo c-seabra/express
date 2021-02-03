@@ -78,7 +78,6 @@ const UpdateAppLoginEmailModal = ({
       <ContentContainer>
         <Formik
           initialValues={{
-            email,
             reason: '',
           }}
           validateOnBlur={false}
@@ -87,7 +86,7 @@ const UpdateAppLoginEmailModal = ({
           onSubmit={async values => {
             await updateLogin({
               bookingRef,
-              email: values?.email,
+              email,
               reason: values?.reason,
             })
 
