@@ -6,11 +6,7 @@ import useInvestorsQuery from '../../lib/hooks/useInvestorsQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
 import Pagination from '../../lib/Pagination'
 import InvestorList from '../investorList/InvestorList'
-import {
-  FiltersSearchContainer,
-  SearchFilters,
-  StyledSearchInput,
-} from './InvestorTable.styled'
+import { FiltersSearchContainer, SearchFilters, StyledSearchInput } from './InvestorTable.styled'
 
 type InvestorSearchState = {
   page: string
@@ -58,7 +54,6 @@ const InvestorTable = (): ReactElement => {
     }
   }
 
-  console.log('data', results)
   return (
     <>
       <SearchFilters>
