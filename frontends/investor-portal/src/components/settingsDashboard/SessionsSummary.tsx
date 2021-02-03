@@ -2,11 +2,11 @@ import moment from 'moment'
 import React, { ReactElement } from 'react'
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import { InvestorSessionSummary } from '../../lib/types'
+import { InvestorSessionsSummary } from '../../lib/types'
 import { SpacingBottom, StyledColumnContainer, StyledGridContainer } from './SessionsSummary.styled'
 
 type SessionsSummaryProps = {
-  investorSessionsSummary: InvestorSessionSummary
+  investorSessionsSummary: InvestorSessionsSummary
 }
 
 const SessionsSummary = ({ investorSessionsSummary }: SessionsSummaryProps): ReactElement => {
