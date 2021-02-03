@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import { useState } from 'react'
 
 import { useAppContext } from '../../components/app/AppContext'
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign'
 import { Ticket, UserError } from '../types'
+import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage'
 
 type TicketAssignData = {
   ticketAssign: {
@@ -23,17 +23,18 @@ type AssignTicketsArgs = {
 
 const useAssignTicketMutation = () => {
   const { conferenceSlug, token } = useAppContext()
-  const [error, setError] = useState('')
+  const success = useSuccessSnackbar()
+  const error = useErrorSnackbar()
 
   const [assignTicketMutation] = useMutation<TicketAssignData>(TICKET_ASSIGN_MUTATION, {
     onCompleted: ({ ticketAssign }) => {
-      if (ticketAssign?.ticket?.assignment?.assignee) {
-        setError('')
-      }
-      if (ticketAssign?.userErrors.length) {
-        setError(ticketAssign.userErrors[0]?.message)
+      if (ticketAssign?.userErrors[0]) {
+        error(ticketAssign?.userErrors[0].message)
+      } else {
+        success('Ticket reassigned successfully')
       }
     },
+    onError: e => error(e.message),
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
   })
 
