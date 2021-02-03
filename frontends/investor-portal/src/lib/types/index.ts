@@ -20,3 +20,14 @@ export interface Investor {
   id: string
   pendingSelectionCount: number
 }
+
+export interface AttendanceAppearanceSelection {
+  appearance: {
+    company: {
+      name: string
+    }
+  }
+  createdAt: string
+  id: string
+  status: string
+}
