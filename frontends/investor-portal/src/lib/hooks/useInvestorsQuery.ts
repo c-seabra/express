@@ -3,20 +3,19 @@ import { INVESTORS_LIST } from '../../operations/queries/Investors'
 import { Investor } from '../types'
 import usePaginatedQuery from './usePaginatedQuery'
 
-const ORDERS_PER_PAGE = 5
+const INVESTORS_PER_PAGE = 5
+const INVESTORS_TYPE = 'INVESTOR'
 
 const useInvestorsQuery = ({
   initialPage,
-  perPage = ORDERS_PER_PAGE,
+  perPage = INVESTORS_PER_PAGE,
   searchQuery,
-  status,
-  ticketTypeIds = [],
+  type = INVESTORS_TYPE,
 }: {
   initialPage: string
   perPage?: number
   searchQuery?: string
-  status?: string
-  ticketTypeIds?: string[]
+  type?: string
 }) => {
   const { conferenceSlug, token } = useAppContext()
 
@@ -25,10 +24,7 @@ const useInvestorsQuery = ({
     token,
   }
 
-  const filter = {
-    status,
-    ticketTypeIds: ticketTypeIds?.length > 0 ? ticketTypeIds : undefined,
-  }
+  const filter = { type }
 
   const variables = {
     filter,

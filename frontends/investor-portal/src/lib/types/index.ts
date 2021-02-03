@@ -10,11 +10,6 @@ export type UserError = {
   path: string
 }
 
-export enum AttendeeTypes {
-  INVESTOR = 'Investor',
-  SPEAKER = 'Speaker',
-}
-
 export interface Investor {
   name: string
   id: string
