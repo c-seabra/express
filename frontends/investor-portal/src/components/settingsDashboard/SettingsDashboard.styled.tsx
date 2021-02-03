@@ -24,8 +24,7 @@ export const SpacingBottom = styled.div`
 `
 
 export const SponsorLogo = styled.img`
-    width: 50%;
-    height: 300px;
-    margin: 15px;
-`;
-
+  width: 50%;
+  height: 300px;
+  margin: 15px;
+`
