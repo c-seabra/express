@@ -70,13 +70,15 @@ type UseSnackbarMessageArgs = {
 const useSnackbarMessage = ({ type }: UseSnackbarMessageArgs) => {
   const options = getSnackbarOptions(type)
   const [openSnackbar] = useSnackbar(options)
+  const duration = 10000
 
   return (text: string) => {
     openSnackbar(
       <SnackbarNode>
         <SnackbarIcon snackbarType={type} />
         <div>{text}</div>
-      </SnackbarNode>
+      </SnackbarNode>,
+      duration
     )
   }
 }

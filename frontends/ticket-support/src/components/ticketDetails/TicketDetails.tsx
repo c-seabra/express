@@ -1,14 +1,15 @@
+import { Formik } from 'formik'
 import React, { ReactElement, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Input, Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
+import TextInputField from '../../lib/components/molecules/TextInputField'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
 import { useAppContext } from '../app/AppContext'
@@ -19,18 +20,6 @@ import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import UserProfileInformation from '../userProfileInformation/UserProfileInformation'
 import TicketStateActions from './TicketStateActions'
-
-// --- new ---
-const Text = styled.div`
-  border-radius: 8px;
-  padding: 0.25rem;
-  font-size: 1rem;
-  font-weight: 400;
-  a {
-    color: #337ab7;
-    margin: 0 0.25rem;
-  }
-`
 
 const PageContainer = styled.div`
   max-width: 1440px;
@@ -43,7 +32,7 @@ const PageContainer = styled.div`
 
 const BreadcrumbsContainer = styled.div`
   display: flex;
-  margin: 20px 0 4px;
+  margin: 20px 0 16px;
 `
 
 const SpacingBottom = styled.div`
@@ -52,6 +41,10 @@ const SpacingBottom = styled.div`
 
 const SpacingBottomSm = styled.div`
   margin-bottom: 1rem;
+`
+
+const SpacingBottomXs = styled.div`
+  margin-bottom: 0.5rem;
 `
 
 const StyledRow = styled.div`
@@ -149,8 +142,8 @@ const TicketDetails = (): ReactElement => {
   } = useModalState()
 
   const { loading, error, ticket } = useSingleTicketQuery({ reference: bookingRef })
-
   const assignment = ticket?.assignment
+  const orderRef = ticket?.order?.reference || ''
   const assignee = assignment?.assignee
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -162,8 +155,8 @@ const TicketDetails = (): ReactElement => {
       redirectUrl: '/orders',
     },
     {
-      label: 'Order',
-      redirectUrl: '/order',
+      label: `Order ${orderRef}`,
+      redirectUrl: `/order/${orderRef}`,
     },
     {
       label: `Ticket ${bookingRef}`,
@@ -241,41 +234,26 @@ const TicketDetails = (): ReactElement => {
             <AccountDetailsContainer>
               <ContainerCard title="User account details">
                 <ContainerCardInner>
-                  <p>
-                    There is a little line below this heading that explains what you can put here
-                  </p>
+                  {assignment && assignment.assignee && (
+                    <>
+                      <StyledLabel>Unique user identifier</StyledLabel>
+                      <Formik
+                        initialValues={{ uniqueEmail: assignment.assignee?.email }}
+                        onSubmit={async values => {
+                          // TODO will be moved to different component
+                        }}
+                      >
+                        <TextInputField disabled name="uniqueEmail" />
+                      </Formik>
+                    </>
+                  )}
 
-                  <SpacingBottom>
-                    <StyledLabel>Unique user identifier</StyledLabel>
-                    <Input disabled value="dylan.hodge@websummit.net" />
-                  </SpacingBottom>
-
-                  <SpacingBottom>
-                    <StyledLabel>App login email</StyledLabel>
-                    <Input disabled value={assignment?.appLoginEmail || assignee?.email} />
-
-                    {assignment?.state === 'ACCEPTED' && (
-                      <>
-                        <Text>
-                          App login email:
-                          <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
-                            <TextHighlight>
-                              {assignment?.appLoginEmail || assignee?.email}
-                            </TextHighlight>
-                          </Tooltip>
-                        </Text>
-                        {loginEmailChange && (
-                          <UpdateAppLoginEmail
-                            bookingRef={bookingRef}
-                            resetLoginEmailChange={setLoginEmailChange}
-                          />
-                        )}
-                        <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                          {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
-                        </Button>
-                      </>
-                    )}
-                  </SpacingBottom>
+                  {assignment?.state === 'ACCEPTED' && (
+                    <UpdateAppLoginEmail
+                      bookingRef={bookingRef}
+                      email={assignment?.appLoginEmail || assignee?.email}
+                    />
+                  )}
 
                   {assignee && (
                     <>
