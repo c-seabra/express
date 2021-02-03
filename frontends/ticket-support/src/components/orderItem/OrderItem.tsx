@@ -130,11 +130,12 @@ const OrderItem = ({ order }: { order: Order }): ReactElement => {
   const history = useHistory()
 
   const assignedTicketsCount = getTicketStatusesCount(order.ticketsSummary)
+  const ticketCount = order.ticketsSummary?.all?.count
 
   return (
     <StyledListItem onClick={() => history.push(`/order/${order.reference}`)}>
       <Column>{order.reference}</Column>
-      <Column>{order.summary?.ticketType?.name}</Column>
+      <Column>{order.summary?.ticketType?.name || ticketCount > 0 && `${ticketCount} mixed tickets` }</Column>
       <Column>
         {order?.owner?.firstName} {order?.owner?.lastName}
       </Column>
