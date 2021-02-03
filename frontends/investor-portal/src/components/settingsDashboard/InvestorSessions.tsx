@@ -48,12 +48,13 @@ const InvestorSessions: React.FC = () => {
       token,
     },
     onCompleted: ({ investorSessionsCreate }) => {
-      if (investorSessionsCreate?.successMessage.length) {
+      const success = investorSessionsCreate?.successMessage
+      if (success !== null) {
         setMutationSuccessMessage(investorSessionsCreate?.successMessage)
         setMutationError('')
       }
       if (investorSessionsCreate?.userErrors.length) {
-        setMutationError(investorSessionsCreate?.userErrors[0])
+        setMutationError(investorSessionsCreate?.userErrors[0].message)
       }
     },
     variables: {
