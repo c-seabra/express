@@ -66,6 +66,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
       <StyledLabel>App login email</StyledLabel>
 
       <Formik
+        enableReinitialize
         initialValues={{
           email,
         }}
