@@ -52,12 +52,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
   const saveAction = () => {
     openModal()
   }
-
-  const closeModalAndCancel = () => {
-    closeModal()
-    cancelAction()
-  }
-
+  
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void
@@ -123,7 +118,11 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
                       <Modal isOpen={isOpen} onRequestClose={closeModal} />
                       <UpdateAppLoginEmailModal
                         bookingRef={bookingRef}
-                        closeModal={closeModalAndCancel}
+                        closeModal={() => {
+                          closeModal()
+                          cancelAction()
+                          resetForm()
+                        }}
                         email={values.email || 'N/A'}
                         isOpen={isOpen}
                       />
