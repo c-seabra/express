@@ -1,8 +1,9 @@
+import 'moment-timezone'
+
 import { ApolloError, useMutation, useQuery } from '@apollo/client'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import moment from 'moment';
-import 'moment-timezone';
 
 import { Button } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
@@ -18,7 +19,7 @@ import {
   FormArea,
   PageContainer,
   SpacingBottom,
-  SponsorLogo
+  SponsorLogo,
 } from './SettingsDashboard.styled'
 
 const SettingsDashboard: React.FC = () => {
@@ -42,18 +43,18 @@ const SettingsDashboard: React.FC = () => {
   }: {
     data?: {
       event: {
-        timezone: string
         configuration: {
           investorMeetingConfiguration: {
             defaultStartupSelections: number
             meetingsPerSession: number
             sessionDuration: number
             sponsorLogoUrl: string
-            startupPortalOpeningAt: string
             startupPortalClosingAt: string
+            startupPortalOpeningAt: string
             startupSelectionDeadline: string
           }
         }
+        timezone: string
       }
     }
     error?: ApolloError
@@ -65,21 +66,21 @@ const SettingsDashboard: React.FC = () => {
     },
   })
 
-  const handleUpload = (file?: File) => {
-    setSponsorLogoUrl(URL.createObjectURL(file))
-    setFile(file)
+  const handleUpload = (uploadedFile?: File) => {
+    setSponsorLogoUrl(URL.createObjectURL(uploadedFile))
+    setFile(uploadedFile)
   }
 
   const usableDateString = (dateString: string | undefined) => {
     if (dateString === undefined || dateString === null) {
       return undefined
     }
-    let str = dateString
+    const str = dateString
     return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
   }
 
   const styledDateForMutation = (dateString?: string) => {
-    if (dateString === undefined || dateString === "") {
+    if (dateString === undefined || dateString === '') {
       return null
     }
     return moment(dateString).tz(eventTimezone, true).format()
@@ -120,9 +121,9 @@ const SettingsDashboard: React.FC = () => {
       investorMeetingsMeetingsPerSession: meetingsPerSession,
       investorMeetingsSessionDuration: sessionDuration,
       investorMeetingsSponsorLogo: file,
-      investorMeetingsStartupPortalOpeningAt: styledDateForMutation(startupPortalOpeningAt),
       investorMeetingsStartupPortalClosingAt: styledDateForMutation(startupPortalClosingAt),
-      investorMeetingsStartupSelectionDeadline: styledDateForMutation(startupSelectionDeadline)
+      investorMeetingsStartupPortalOpeningAt: styledDateForMutation(startupPortalOpeningAt),
+      investorMeetingsStartupSelectionDeadline: styledDateForMutation(startupSelectionDeadline),
     },
   })
 
@@ -162,11 +163,13 @@ const SettingsDashboard: React.FC = () => {
             >
               <SponsorLogo src={sponsorLogoUrl} />
               <LabeledInput
+                accept="image/svg+xml"
                 defaultValue={sponsorLogoUrl}
                 label="Sponsor logo"
                 type="file"
-                accept="image/svg+xml"
-                onChange={e => { handleUpload(e.target.files![0]) }}
+                onChange={e => {
+                  handleUpload(e.target.files![0])
+                }}
               />
               <LabeledInput
                 defaultValue={defaultStartupSelections}
@@ -195,26 +198,32 @@ const SettingsDashboard: React.FC = () => {
               <FormArea>
                 <h2>Startup portal dates</h2>
                 <LabeledInput
-                  value={startupPortalOpeningAt}
                   label="Startup Portal Opening At"
                   type="datetime-local"
-                  onChange={e => {setStartupPortalOpeningAt(e.target.value)}}
+                  value={startupPortalOpeningAt}
+                  onChange={e => {
+                    setStartupPortalOpeningAt(e.target.value)
+                  }}
                 />
                 <LabeledInput
-                  value={startupPortalClosingAt}
-                  min={startupPortalOpeningAt}
                   label="Startup Portal Closing At"
+                  min={startupPortalOpeningAt}
                   type="datetime-local"
-                  onChange={e => {setStartupPortalClosingAt(e.target.value)}}
+                  value={startupPortalClosingAt}
+                  onChange={e => {
+                    setStartupPortalClosingAt(e.target.value)
+                  }}
                 />
               </FormArea>
               <FormArea>
                 <h2>Investor portal dates</h2>
                 <LabeledInput
-                  value={startupSelectionDeadline}
                   label="Startup Selection Deadline"
                   type="datetime-local"
-                  onChange={e => {setStartupSelectionDeadline(e.target.value)}}
+                  value={startupSelectionDeadline}
+                  onChange={e => {
+                    setStartupSelectionDeadline(e.target.value)
+                  }}
                 />
               </FormArea>
               <div>
