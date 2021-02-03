@@ -44,6 +44,14 @@ const SettingsDashboard: React.FC = () => {
             sponsorLogoUrl: string
           }
         }
+        investorSessionsSummary: [
+          {
+            claimed: number
+            count: number
+            endsAt: string
+            startsAt: string
+          }
+        ]
       }
     }
     error?: ApolloError
@@ -94,7 +102,7 @@ const SettingsDashboard: React.FC = () => {
       investorMeetingsDefaultStartupSelections: defaultStartupSelections,
       investorMeetingsMeetingsPerSession: meetingsPerSession,
       investorMeetingsSessionDuration: sessionDuration,
-      investorMeetingsSponsorLogo: file
+      investorMeetingsSponsorLogo: file,
     },
   })
 

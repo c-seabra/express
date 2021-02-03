@@ -14,6 +14,15 @@ export type EventQuery = {
           startupSelectionDeadline: Date
         }
       }
+      investorSessionsSummary: [
+        {
+          available: number
+          claimed: number
+          count: number
+          endsAt: string
+          startsAt: string
+        }
+      ]
     }
   }
   error?: ApolloError
@@ -33,6 +42,13 @@ export const EVENT_QUERY = gql`
           startupSelectionDeadline
           sponsorLogoUrl
         }
+      }
+      investorSessionsSummary {
+        available
+        claimed
+        count
+        endsAt
+        startsAt
       }
     }
   }
