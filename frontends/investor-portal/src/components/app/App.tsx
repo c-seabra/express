@@ -1,7 +1,7 @@
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
@@ -46,7 +46,7 @@ const App = ({ token }: { token: string }) => {
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug)
-  }, [token, tokenPayload.conf_slug])
+  }, [token])
 
   if (!token) return null
 
@@ -75,6 +75,9 @@ const App = ({ token }: { token: string }) => {
           <GlobalStyle />
           <Switch>
             <Route exact path="/">
+              <Redirect to="/settings" />
+            </Route>
+            <Route path="/dashboard">
               <AttendanceDashboard />
             </Route>
             <Route path="/settings">
