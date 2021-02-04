@@ -84,7 +84,6 @@ const UpdateUniqueUserIdentifierModal = ({
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            console.log(values, accountId, email)
             await updateUniqueUserIdentifier({
               accountId,
               email,
