@@ -15,7 +15,6 @@ import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
-import SessionsSummary from './SessionsSummary'
 import {
   ConfigurationPanel,
   FormArea,
@@ -110,8 +109,6 @@ const SettingsDashboard: React.FC = () => {
       setStartupSelectionDeadline(usableDateString(configurations.startupSelectionDeadline))
     }
   }, [data])
-
-  const investorSessionsSummary = data?.event.investorSessionsSummary
 
   const [eventUpdateMutuation] = useMutation(EVENT_UPDATE_MUTATION, {
     context: {
@@ -253,9 +250,6 @@ const SettingsDashboard: React.FC = () => {
         <SpacingBottom>
           <InvestorSessionsCreateForm />
         </SpacingBottom>
-        {investorSessionsSummary?.length && (
-          <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
-        )}
       </PageContainer>
     </>
   )

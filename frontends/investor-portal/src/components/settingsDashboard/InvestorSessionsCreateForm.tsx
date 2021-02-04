@@ -12,7 +12,8 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
-import { FormArea, SpacingBottom } from './SettingsDashboard.styled'
+import SessionsSummary from './SessionsSummary'
+import { AddButton, BorderBottom, FormArea, SpacingBottom } from './SettingsDashboard.styled'
 
 const InvestorSessionsCreateForm: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -84,6 +85,8 @@ const InvestorSessionsCreateForm: React.FC = () => {
     setCount(count)
   }, [])
 
+  const investorSessionsSummary = data?.event.investorSessionsSummary
+
   const [investorSessionsCreateMutation] = useMutation(INVESTOR_SESSIONS_CREATE_MUTATION, {
     context: {
       slug: conferenceSlug,
@@ -124,39 +127,44 @@ const InvestorSessionsCreateForm: React.FC = () => {
           <span>{mutationSuccessMessage}</span>
         </Success>
       )}
-      <ContainerCard color="#f6b826" title="Session Settings">
-        <SpacingBottom>
-          <FormArea>
-            <LabeledInput
-              label="Starting Time"
-              type="datetime-local"
-              value={startsAt}
-              onChange={e => {
-                setStartsAt(e.target.value)
-              }}
-            />
-            <LabeledInput
-              label="Ending Time"
-              min={startsAt}
-              type="datetime-local"
-              value={endsAt}
-              onChange={e => {
-                setEndsAt(e.target.value)
-              }}
-            />
-            <LabeledInput
-              defaultValue={count}
-              label="How many sessions in this block?"
-              type="number"
-              onChange={e => {
-                setCount(parseInt(e.target.value))
-              }}
-            />
-          </FormArea>
-          <div>
-            <Button onClick={submitForm}>Add Session</Button>
-          </div>
-        </SpacingBottom>
+      <ContainerCard color="#4688D9" title="Add Sessions">
+        <BorderBottom>
+          <SpacingBottom>
+            <FormArea>
+              <LabeledInput
+                label="Starting Time"
+                type="datetime-local"
+                value={startsAt}
+                onChange={e => {
+                  setStartsAt(e.target.value)
+                }}
+              />
+              <LabeledInput
+                label="Ending Time"
+                min={startsAt}
+                type="datetime-local"
+                value={endsAt}
+                onChange={e => {
+                  setEndsAt(e.target.value)
+                }}
+              />
+              <LabeledInput
+                defaultValue={count}
+                label="How many sessions in this block?"
+                type="number"
+                onChange={e => {
+                  setCount(parseInt(e.target.value))
+                }}
+              />
+            </FormArea>
+            <AddButton>
+              <Button onClick={submitForm}>Add Session</Button>
+            </AddButton>
+          </SpacingBottom>
+        </BorderBottom>
+        {investorSessionsSummary?.length && (
+          <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
+        )}
       </ContainerCard>
     </>
   )

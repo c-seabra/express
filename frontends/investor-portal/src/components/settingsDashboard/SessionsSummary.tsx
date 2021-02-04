@@ -11,26 +11,22 @@ type SessionsSummaryProps = {
 
 const SessionsSummary = ({ investorSessionsSummary }: SessionsSummaryProps): ReactElement => {
   return (
-    <ContainerCard color="#654DA0" title="Investor sessions summary">
-      <SpacingBottom>
-        <StyledGridContainer>
-          {investorSessionsSummary?.map((item, i) => (
-            <StyledColumnContainer
-              key={i}
-              className={item.claimed === item.count ? 'full' : 'available'}
-            >
-              <span>
-                {moment(item?.startsAt).format('dddd')}: {moment(item?.startsAt).format('HH:mm')} -{' '}
-                {moment(item?.endsAt).format('HH:mm')}
-              </span>
-              <span>
-                {item.claimed} claimed out of {item.count}
-              </span>
-            </StyledColumnContainer>
-          ))}
-        </StyledGridContainer>
-      </SpacingBottom>
-    </ContainerCard>
+    <StyledGridContainer>
+      {investorSessionsSummary?.map((item, i) => (
+        <StyledColumnContainer
+          key={i}
+          className={item.claimed === item.count ? 'full' : 'available'}
+        >
+          <span>
+            {moment(item?.startsAt).format('dddd')}: {moment(item?.startsAt).format('HH:mm')} -{' '}
+            {moment(item?.endsAt).format('HH:mm')}
+          </span>
+          <span>
+            {item.claimed} claimed out of {item.count}
+          </span>
+        </StyledColumnContainer>
+      ))}
+    </StyledGridContainer>
   )
 }
 
