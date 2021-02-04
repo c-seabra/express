@@ -1,18 +1,15 @@
-import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import useSingleOrderQuery from '../../lib/hooks/useSingleOrderQuery'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
-import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
-import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
@@ -75,24 +72,13 @@ const ButtonWithSpacing = styled(Button)`
   margin-right: 16px;
 `
 
+const missingDataAbbr = 'N/A'
+
 const OrderDetails: React.FC = () => {
   const { orderRef } = useParams<{ orderRef: string }>()
-  const { conferenceSlug, token } = useAppContext()
+  const { loading, error, order } = useSingleOrderQuery({ orderRef })
 
-  const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    variables: {
-      reference: orderRef,
-    },
-  })
-
-  const order = data?.order
-  const tickets = order?.tickets
-  const owner = order?.owner
-  const missingDataAbbr = 'N/A'
+  const { tickets, owner } = order || {}
 
   const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
     error: false,

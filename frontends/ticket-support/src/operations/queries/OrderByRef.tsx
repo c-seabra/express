@@ -51,7 +51,7 @@ export type OrderByRefQuery = {
   loading?: boolean
 }
 
-export const ORDER_QUERY = gql`
+const ORDER_QUERY = gql`
   query OrderByRef($reference: String!) {
     order(reference: $reference) {
       completedAt
