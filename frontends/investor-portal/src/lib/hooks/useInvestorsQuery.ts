@@ -4,7 +4,7 @@ import { Investor } from '../types'
 import usePaginatedQuery from './usePaginatedQuery'
 
 const INVESTORS_PER_PAGE = 5
-const INVESTORS_TYPE = 'INVESTOR'
+const INVESTORS_TYPE = undefined //'INVESTOR'
 
 const useInvestorsQuery = ({
   initialPage,
