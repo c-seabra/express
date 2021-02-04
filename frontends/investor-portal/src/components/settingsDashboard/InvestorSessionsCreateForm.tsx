@@ -1,6 +1,6 @@
 import 'moment-timezone'
 
-import { useMutation, useQuery } from '@apollo/client'
+import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
