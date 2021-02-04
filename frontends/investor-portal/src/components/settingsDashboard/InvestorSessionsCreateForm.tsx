@@ -13,7 +13,7 @@ import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
 import { FormArea, SpacingBottom } from './SettingsDashboard.styled'
 
-const InvestorSessions: React.FC = () => {
+const InvestorSessionsCreateForm: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
   const [eventTimezone] = useState<string>('Europe/Dublin')
   const [startsAt, setStartsAt] = useState<string | undefined>()
@@ -119,4 +119,4 @@ const InvestorSessions: React.FC = () => {
   )
 }
 
-export default InvestorSessions
+export default InvestorSessionsCreateForm
