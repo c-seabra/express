@@ -103,19 +103,22 @@ const UpdateUniqueUserIdentifierModal = ({
               <SpacingBottom>
                 <StyledForm>
                   <ConfirmationText>
-                    <span>Are you sure you want to change unique user identifier?</span>
+                    <span>Are you sure you want to change the unique user identifier?</span>
                   </ConfirmationText>
                   <TextInputField
                     required
-                    label="Specify a reason for updating email"
+                    label="Specify a reason for updating this email"
                     name="reason"
                   />
                   <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
                     <>
-                      This email will be used to identify the assignee. An App login email
-                      distinctly set for a ticket will not be effected, however all other
-                      identifications by this email will be updated.
-                      <br /> Change this only if you know how it&pos;s going to reflect our systems!
+                      This email is used as an user account email (unique user identifier). Changing
+                      this field will impact their profile data, calendar events and any associated
+                      event related associations. Going forward logging into Ticket Dashboard will
+                      use this new user account email.
+                      <br />
+                      This change will however not impact the App login email which is used to log
+                      into our conference apps.{' '}
                     </>
                   </BoxMessage>
                   <Modal.DefaultFooter
