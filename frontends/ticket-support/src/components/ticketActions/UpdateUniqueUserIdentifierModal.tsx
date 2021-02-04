@@ -33,7 +33,7 @@ const StyledForm = styled(Form)`
   }
 `
 
-type AppLoginEmailModalProps = {
+type UserIdentifierModalProps = {
   bookingRef: string
   closeModal: () => void
   email: string
@@ -49,7 +49,7 @@ const UpdateUniqueUserIdentifierModal = ({
   closeModal,
   email,
   bookingRef,
-}: AppLoginEmailModalProps) => {
+}: UserIdentifierModalProps) => {
   // const { updateUniqueUserIdentifier } = useUpdateUniqueUserIdentifierMutation()
   const [formControls, setFormControls] = useState<
     | {

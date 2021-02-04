@@ -10,6 +10,7 @@ import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
 import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal'
+import UpdateUniqueUserIdentifierModal from "./UpdateUniqueUserIdentifierModal";
 
 const StyledActions = styled.span`
   display: flex;
@@ -117,7 +118,7 @@ const UpdateUniqueUserIdentifier = ({ email, bookingRef }: UpdateUniqueUserIdent
                       </StyledSecondaryButton>
                       <Button type="submit">Save</Button>
                       <Modal isOpen={isOpen} onRequestClose={closeModal} />
-                      <UpdateAppLoginEmailModal
+                      <UpdateUniqueUserIdentifierModal
                         bookingRef={bookingRef}
                         closeModal={() => {
                           closeModal()
