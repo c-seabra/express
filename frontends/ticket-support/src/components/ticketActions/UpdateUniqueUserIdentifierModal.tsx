@@ -84,11 +84,12 @@ const UpdateUniqueUserIdentifierModal = ({
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            // await updateUniqueUserIdentifier({
-            //   accountId,
-            //   email,
-            //   reason: values?.reason,
-            // })
+            console.log(values, accountId, email)
+            await updateUniqueUserIdentifier({
+              accountId,
+              email,
+              reason: values?.reason,
+            })
 
             handleClose()
           }}
