@@ -7,7 +7,7 @@ require('dotenv').config()
 
 const config = {
   entry: {
-    bulkAssign: './src/index.js',
+    staffTickets: './src/index.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -86,7 +86,7 @@ module.exports = (env, argv) => {
       new HtmlWebPackPlugin({
         template: 'template.html',
         filename: './index.html',
-        title: 'bulkAssign',
+        title: 'staffTickets',
         token: process.env.TOKEN,
         env: process.env.ENV
       })
