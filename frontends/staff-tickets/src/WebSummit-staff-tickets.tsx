@@ -2,7 +2,7 @@ import './set-public-path'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import singleSpaReact from 'single-spa-react'
-import App from './components/app/App'
+import App, {Conference} from './components/app/App'
 
 
 /*
@@ -1581,12 +1581,32 @@ const staffList = {
   }
 }
 
+const ws20: Conference = {
+  slug: 'ws20',
+  storeId: '22d0f54a-35ef-4dcc-a2b3-1e6c8f99a41f',
+  staffProductId: '56ba3c20-ee93-4aa7-8400-2ffc22f36a92',
+  guestProductId: '65e53977-9efa-4937-bdf7-340a8a131862',
+}
+
+const tfh20: Conference = {
+  slug: 'tfh20',
+  storeId: '7ada51b5-eed4-44f9-852c-9ef5b20e16a1',
+  staffProductId: 'daa9e08b-409c-4ce2-9c45-f220d33101c1'
+}
+
+const sandboxApiUrl = 'https://catalyst.cluster.cilabs.net/graphql'
+const prodApiUrl = 'https://api.cilabs.com/catalyst'
 
 const lifecycles = singleSpaReact({
   React,
   ReactDOM,
   rootComponent: (props) => (
-    <App {...props} token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdG9yZXMiLCJhdWQiOiJzdG9yZXMiLCJpYXQiOjE2MDU3MDc0NzI1ODMsInVzZXIiOiIyNWUyNTQxMy02YzYyLTQxMjgtODE3Mi05YzMzODk1MzIzZDEifQ.eBA8ghlkT8Res0kkWIE2eh5_s4erbvRW05PpPM5spjU" staffList={staffList}/>
+    <App {...props}
+         token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdG9yZXMiLCJhdWQiOiJzdG9yZXMiLCJpYXQiOjE2MDU3MDc0NzI1ODMsInVzZXIiOiIyNWUyNTQxMy02YzYyLTQxMjgtODE3Mi05YzMzODk1MzIzZDEifQ.eBA8ghlkT8Res0kkWIE2eh5_s4erbvRW05PpPM5spjU"
+         staffList={staffList}
+         conference={tfh20}
+         apiURL={sandboxApiUrl}
+    />
   )
 })
 

@@ -1,9 +1,10 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useState } from 'react'
 import styled from 'styled-components'
 
 import AssigneeList from '../assigneeList/AssigneeList'
-import withApollo from '../../lib/apollo/withApollo'
 import Form from '../form/Form'
+import {ApolloProvider} from "@apollo/client";
+import initApollo from "../../lib/apollo/apolloClient";
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -28,28 +29,48 @@ export type TicketList = Array<Staff>
 export type SetTicketList = (tickets: TicketList) => void
 export type Ticket = Staff
 
+export type Conference = {
+  slug: string;
+  storeId?: string;
+  staffProductId?: string;
+  guestProductId?: string;
+}
 
-export const AppContext = createContext<{ticketsList?: TicketList; setTicketsList?: SetTicketList; conferenceSlug: string; token: string, staffList: StaffList, adminEmail: string}>({
-  conferenceSlug: '',
+export type StaffTicketContext = {
+  ticketsList?: TicketList;
+  setTicketsList?: SetTicketList;
+  conference: Conference;
+  token: string;
+  staffList: StaffList;
+  apiURL: string;
+}
+
+export const AppContext = createContext<StaffTicketContext>({
+  conference: {
+    slug: '',
+  },
   token: '',
   staffList: {},
-  adminEmail: ''
+  apiURL: '',
 })
 
-const App = ({token, staffList, slug, email}:{token:string, staffList: StaffList, slug: string, email: string}) => {
+const App = ({token, staffList, conference, apiURL}:StaffTicketContext) => {
   if (!token) return null
 
   const [ticketsList, setTicketList] = useState<TicketList>()
 
+  const apolloClient = initApollo(apiURL);
+
   return (
+    <ApolloProvider client={apolloClient}>
     <AppContext.Provider
       value={{
         token,
-        adminEmail: email,
         ticketsList: ticketsList,
         setTicketsList: setTicketList,
-        conferenceSlug: slug,
-        staffList: staffList
+        conference: conference,
+        staffList: staffList,
+        apiURL: apiURL,
       }}
     >
       <StlyedContainer>
@@ -62,7 +83,9 @@ const App = ({token, staffList, slug, email}:{token:string, staffList: StaffList
         </StyledSection>
       </StlyedContainer>
     </AppContext.Provider>
-  )
+    </ApolloProvider>
+      )
+
 }
 
-export default withApollo(App)
+export default App
