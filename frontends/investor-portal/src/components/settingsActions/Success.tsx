@@ -6,7 +6,7 @@ const StyledSuccess = styled.div`
   font-size: 0.8em;
   margin-bottom: 0.5rem;
   span {
-    background: #3CB371;
+    background: #3cb371;
     padding: 0.25rem;
     line-height: 1.25rem;
     color: #fff;

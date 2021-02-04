@@ -1,154 +1,286 @@
+import 'react-json-pretty/themes/acai.css'
+
 import React, { useState } from 'react'
+import JSONPretty from 'react-json-pretty'
 import styled from 'styled-components'
 
-import { Button } from '../../lib/components/atoms/Button'
+import Icon from '../../lib/components/atoms/Icon'
+import { formatDefaultDateTime, isIsoDate } from '../../lib/utils/time'
+import { Column, TrailVersion } from './AuditTrail'
 
-import { Column, MediumColumn, WideColumn } from './AuditTrail'
-
-const Trail = styled.div`
-  font-size: 1rem;
+const DataRow = styled.div`
   display: flex;
   padding: 1rem 0.75rem;
-  background-color: gainsboro;
-  &:nth-child(2n + 1) {
-    background-color: #fff;
+  border-bottom: 1px solid #dcdfe5;
+
+  color: #0c1439;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 24px;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #dadada;
   }
 `
 
-const ChangesList = styled.div`
-  &.active {
-    opacity: 1;
-    top: 0;
-    left: 0;
-  }
-  opacity: 0;
-  position: fixed;
-  background: white;
-  top: -9999px;
-  left: -9999px;
-  z-index: 100;
+const DetailsRow = styled.div`
+  display: flex;
+  padding: 1rem 1.25rem;
+  background-color: #f7f9fa;
+`
+
+const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.5);
-  button {
-    align-self: flex-end;
+
+  margin-bottom: 16px;
+
+  &:first-child {
+    margin-right: 6.25rem;
   }
-  & > div {
-    max-width: 600px;
-    max-height: 70%;
-    overflow-x: auto;
-    background: white;
-    padding: 1rem;
-    border: 1px solid grey;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
+
+  &:last-child {
+    margin-bottom: 0;
   }
 `
-const ChangesListWrap = styled.div``
 
-const Change = ({ title, values }: { title?: string; values: Array<string> | unknown }) => {
+const DetailContainerAligned = styled(DetailContainer)`
+  align-content: center;
+`
+
+const DetailValue = styled.span`
+  color: #0c1439;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 24px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+`
+
+const DetailLabel = styled(DetailValue)`
+  font-weight: 600;
+`
+
+const DetailLabelCapitalized = styled(DetailLabel)`
+  text-transform: capitalize;
+`
+
+const DetailValueCentered = styled(DetailValue)`
+  display: flex;
+  align-items: center;
+`
+
+const IconWithSpacing = styled(Icon)`
+  margin: 0 8px;
+  height: 18px;
+`
+
+const BlueValue = styled.span`
+  color: #0067e9;
+`
+const StyledCode = styled.div`
+  .json-pretty {
+    overflow: auto;
+    max-width: 800px;
+  }
+`
+
+const Subheading = styled(DetailLabel)`
+  font-size: 18px;
+  border-bottom: 1px solid #dcdfe5;
+  margin-bottom: 16px;
+`
+
+const StyleTable = styled.table`
+  border-collapse: collapse;
+
+  td {
+    padding: 4px;
+  }
+`
+
+// Types
+type AuditTrail = {
+  trail: TrailVersion
+}
+
+type InlineChangeProps = {
+  current: any
+  label: string
+  prev: any
+}
+
+// Helpers
+const normalize = (value: string): string => {
+  return value.toLowerCase().replace(/_/g, ' ')
+}
+
+const mapChange = (trail: TrailVersion): boolean | string => {
+  // TODO Deduce a action
+
+  return 'N/A'
+}
+
+const getFormattedValue = (
+  value: boolean | string,
+  defaultValue = 'no value'
+): boolean | string => {
+  // Deduce a type
+  if (typeof value === 'boolean') {
+    return value ? 'Yes' : 'No' || defaultValue
+  }
+
+  if (isIsoDate(value)) {
+    return formatDefaultDateTime(value)
+  }
+
+  return value || defaultValue
+}
+
+const DynamicChange = ({ title, values }: { title: string; values: Array<string> | unknown }) => {
   const val = Array.isArray(values) ? (values as Array<string>) : values
-  const oldVal: string = Array.isArray(val) ? val?.[0] : ''
-  const newVal: string = Array.isArray(val) ? val?.[1] : ''
+  const prev: string = Array.isArray(val) ? val?.[0] : ''
+  const current: string = Array.isArray(val) ? val?.[1] : ''
+  const noDataLabel = 'no value'
+  const formattedPrev = getFormattedValue(prev)
+  const formattedCurrent = getFormattedValue(current)
+  const formattedTitle = normalize(title)
+
   return (
-    <div>
-      <div>{title}</div>
-      <div>old value - {oldVal || 'undefined'}</div>
-      <div>new value - {newVal || 'undefined'}</div>
-      <hr />
-    </div>
+    <DetailContainer>
+      <DetailLabelCapitalized>{formattedTitle}</DetailLabelCapitalized>
+      <>
+        <DetailValue>
+          <StyleTable>
+            <tr>
+              <td>last value</td>
+              <td>{formattedPrev || noDataLabel}</td>
+            </tr>
+            <tr>
+              <td>updated value</td>
+              <td>{formattedCurrent || noDataLabel}</td>
+            </tr>
+          </StyleTable>
+        </DetailValue>
+      </>
+    </DetailContainer>
   )
 }
 
-const AuditTrailItem = ({
-  trail: {
+const InlineChange = ({ label, prev, current }: InlineChangeProps) => {
+  const noDataLabel = 'no value'
+
+  return (
+    <DetailContainerAligned>
+      <DetailLabel>{label}</DetailLabel>
+
+      <DetailValueCentered>
+        {!prev && !current && <span>{noDataLabel}</span>}
+
+        {(prev || current) && (
+          <>
+            {prev || noDataLabel}
+            <IconWithSpacing>
+              <Icon color="#3BB273" size="15px">
+                arrow_forward
+              </Icon>
+            </IconWithSpacing>
+            {current || noDataLabel}
+          </>
+        )}
+      </DetailValueCentered>
+    </DetailContainerAligned>
+  )
+}
+
+const AuditTrailItem = ({ trail }: AuditTrail) => {
+  const {
     context: contextString,
     createdAt,
     itemType,
-    event,
     reason,
     whodunnit,
     objectChanges: objectChangesString,
-  },
-}: {
-  trail: {
-    context?: string
-    createdAt?: string
-    event?: string
-    itemType?: string
-    objectChanges?: string
-    reason?: string
-    whodunnit?: string
-  }
-}) => {
-  const [openChangesLog, setOpenChangesLog] = useState(false)
+  } = trail
+  const [openDetailsRow, setOpenDetailsRow] = useState(false)
   const objectChanges = objectChangesString && JSON.parse(objectChangesString)
   const context = contextString && JSON.parse(contextString)
+  const mappedChange = mapChange(trail)
+  const noDataLabel = 'no value'
+  const setDetailsVisibility = () => setOpenDetailsRow(!openDetailsRow)
 
   return (
-    <Trail>
-      <MediumColumn>{createdAt}</MediumColumn>
-      <Column>{itemType}</Column>
-      <Column>{event}</Column>
-      <Column>unknown</Column>
-      <Column>{reason || 'No reason given'}</Column>
-      <WideColumn>{whodunnit}</WideColumn>
-      <MediumColumn>
-        <ChangesListWrap>
-          <Button onClick={() => setOpenChangesLog(!openChangesLog)}>See changes</Button>
-          <ChangesList className={openChangesLog ? 'active' : ''}>
-            <div>
-              <Button onClick={() => setOpenChangesLog(!openChangesLog)}>Close</Button>
+    <>
+      <DataRow onClick={setDetailsVisibility}>
+        <Column width="20%">
+          <BlueValue>{formatDefaultDateTime(createdAt as string)}</BlueValue>
+        </Column>
+        <Column width="15%">{itemType}</Column>
+        <Column width="15%">{mappedChange}</Column>
+        <Column width="30%">{whodunnit}</Column>
+        <Column width="20%">{reason || 'No reason given'}</Column>
+      </DataRow>
+
+      {openDetailsRow && (
+        <>
+          <DetailsRow>
+            <DetailContainer>
+              <Subheading>List of all changes</Subheading>
               {Object.entries(objectChanges).map(([key, value]) => {
-                return <Change title={key} values={value} />
+                return <DynamicChange key={key} title={key} values={value} />
               })}
-              {context?.assignments && (
-                <div>
-                  <div>
-                    Assignee name - {context.assignments.current?.assignee_name || 'undefined'}
-                    <br />
-                    Assignee email - {context.assignments.current?.assignee_email || 'undefined'}
-                  </div>
-                  <div>
-                    Assigner name - {context.assignments.current?.assigner_name || 'undefined'}
-                    <br />
-                    Assigner email - {context.assignments.current?.assigner_email || 'undefined'}
-                  </div>
-                  <div>
-                    Previous Assignee name -{' '}
-                    {context.assignments.previous?.assignee_name || 'undefined'}
-                    <br />
-                    Previous Assignee email -{' '}
-                    {context.assignments.previous?.assignee_email || 'undefined'}
-                  </div>
-                  <div>
-                    Previous Assigner name -{' '}
-                    {context.assignments.previous?.assigner_name || 'undefined'}
-                    <br />
-                    Previous Assigner email -{' '}
-                    {context.assignments.previous?.assigner_email || 'undefined'}
-                  </div>
-                </div>
-              )}
-              {context?.assigne && (
-                <div>
-                  <div>Previous assignee - {context.assignee.previous_assignee || 'undefined'}</div>
-                  <div>Assigner - {context.assignee.assigner || 'undefined'}</div>
-                  <div>New Assignee - {context.assignee.assignee || 'undefined'}</div>
-                </div>
-              )}
-            </div>
-          </ChangesList>
-        </ChangesListWrap>
-      </MediumColumn>
-    </Trail>
+            </DetailContainer>
+            {context?.assignments && (
+              <DetailContainer>
+                <Subheading>Extra context</Subheading>
+                <InlineChange
+                  current={context.assignments.current?.assignee_name}
+                  label="Assignee name change"
+                  prev={context.assignments.previous?.assignee_name}
+                />
+
+                <InlineChange
+                  current={context.assignments.current?.assignee_email}
+                  label="Assignee email change"
+                  prev={context.assignments.previous?.assignee_email}
+                />
+
+                <InlineChange
+                  current={context.assignments.current?.assigner_name}
+                  label="Assigneer name change"
+                  prev={context.assignments.previous?.assigner_name}
+                />
+
+                <InlineChange
+                  current={context.assignments.current?.assigner_email}
+                  label="Assigneer email change"
+                  prev={context.assignments.previous?.assigner_email}
+                />
+              </DetailContainer>
+            )}
+            {context?.assigne && (
+              <DetailContainer>
+                <div>Previous assignee - {context.assignee.previous_assignee || noDataLabel}</div>
+                <div>Assigner - {context.assignee.assigner || noDataLabel}</div>
+                <div>New Assignee - {context.assignee.assignee || noDataLabel}</div>
+              </DetailContainer>
+            )}
+          </DetailsRow>
+          <DetailsRow>
+            <DetailContainer>
+              <Subheading>Backend response</Subheading>
+              <StyledCode>
+                <JSONPretty className="json-pretty" data={trail} />
+              </StyledCode>
+            </DetailContainer>
+          </DetailsRow>
+        </>
+      )}
+    </>
   )
 }
 

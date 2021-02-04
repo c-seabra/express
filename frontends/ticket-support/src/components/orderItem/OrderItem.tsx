@@ -135,7 +135,9 @@ const OrderItem = ({ order }: { order: Order }): ReactElement => {
   return (
     <StyledListItem onClick={() => history.push(`/order/${order.reference}`)}>
       <Column>{order.reference}</Column>
-      <Column>{order.summary?.ticketType?.name || ticketCount > 0 && `${ticketCount} mixed tickets` }</Column>
+      <Column>
+        {order.summary?.ticketType?.name || (ticketCount > 0 && `${ticketCount} mixed tickets`)}
+      </Column>
       <Column>
         {order?.owner?.firstName} {order?.owner?.lastName}
       </Column>
