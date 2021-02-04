@@ -31,7 +31,10 @@ const useUpdateUniqueUserIdentifierMutation = () => {
           successSnackbar('Unique user identifier updated')
         }
         if (assignmentAccountUpdate?.userErrors?.length) {
-          errorSnackbar('Updating unique user identifier failed')
+          const msg = assignmentAccountUpdate?.userErrors[0]?.message
+          const defaultMsg = 'Updating unique user identifier failed'
+
+          errorSnackbar(msg || defaultMsg)
         }
       },
       onError: error => errorSnackbar(error.message),
