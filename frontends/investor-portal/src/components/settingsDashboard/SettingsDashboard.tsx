@@ -250,10 +250,12 @@ const SettingsDashboard: React.FC = () => {
             </SpacingBottom>
           </ContainerCard>
         </SpacingBottom>
+        <SpacingBottom>
+          <InvestorSessions />
+        </SpacingBottom>
         {investorSessionsSummary?.length && (
           <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
         )}
-        <InvestorSessions/>
       </PageContainer>
     </>
   )

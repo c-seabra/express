@@ -1,20 +1,21 @@
+import 'moment-timezone'
+
 import { useMutation } from '@apollo/client'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import moment from 'moment';
-import 'moment-timezone';
 
 import { Button } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
 import { useAppContext } from '../app/AppContext'
-import LabeledInput from '../../lib/components/molecules/LabeledInput'
-import Warning from '../settingsActions/Warning'
 import Success from '../settingsActions/Success'
+import Warning from '../settingsActions/Warning'
 import { FormArea, SpacingBottom } from './SettingsDashboard.styled'
 
 const InvestorSessions: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
-  const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
+  const [eventTimezone] = useState<string>('Europe/Dublin')
   const [startsAt, setStartsAt] = useState<string | undefined>()
   const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
@@ -25,7 +26,7 @@ const InvestorSessions: React.FC = () => {
     if (dateString === undefined || dateString === null) {
       return undefined
     }
-    let str = dateString
+    const str = dateString
     return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
   }
 
@@ -40,7 +41,7 @@ const InvestorSessions: React.FC = () => {
     setStartsAt(usableDateString(startsAt))
     setEndsAt(usableDateString(endsAt))
     setCount(count)
-  },[])
+  }, [])
 
   const [investorSessionsCreateMutation] = useMutation(INVESTOR_SESSIONS_CREATE_MUTATION, {
     context: {
@@ -58,9 +59,9 @@ const InvestorSessions: React.FC = () => {
       }
     },
     variables: {
-      investorSessionsStartsAt: styledDateForMutation(startsAt),
+      investorSessionsCount: count,
       investorSessionsEndsAt: styledDateForMutation(endsAt),
-      investorSessionsCount: count
+      investorSessionsStartsAt: styledDateForMutation(startsAt),
     },
   })
 
@@ -84,23 +85,29 @@ const InvestorSessions: React.FC = () => {
         <SpacingBottom>
           <FormArea>
             <LabeledInput
-              value={startsAt}
               label="Starting Time"
               type="datetime-local"
-              onChange={e => {setStartsAt(e.target.value)}}
+              value={startsAt}
+              onChange={e => {
+                setStartsAt(e.target.value)
+              }}
             />
             <LabeledInput
-              value={endsAt}
-              min={startsAt}
               label="Ending Time"
+              min={startsAt}
               type="datetime-local"
-              onChange={e => {setEndsAt(e.target.value)}}
+              value={endsAt}
+              onChange={e => {
+                setEndsAt(e.target.value)
+              }}
             />
             <LabeledInput
               defaultValue={count}
               label="How many sessions in this block?"
               type="number"
-              onChange={e => {setCount(parseInt(e.target.value))}}
+              onChange={e => {
+                setCount(parseInt(e.target.value))
+              }}
             />
           </FormArea>
           <div>
