@@ -1,7 +1,7 @@
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
@@ -74,7 +74,7 @@ const App = ({ token }: { token: string }) => {
           </Helmet>
           <GlobalStyle />
           <Switch>
-            <Route exact path="/dashboard">
+            <Route exact path="/">
               <AttendanceDashboard />
             </Route>
             <Route path="/settings">

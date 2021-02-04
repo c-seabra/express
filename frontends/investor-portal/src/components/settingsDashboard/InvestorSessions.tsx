@@ -5,12 +5,12 @@ import 'moment-timezone';
 
 import { Button } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutatuions/InvestorSessionsCreate'
+import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
 import { useAppContext } from '../app/AppContext'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Warning from '../settingsActions/Warning'
 import Success from '../settingsActions/Success'
-import { InvestorSessionsForm, SpacingBottom } from './SettingsDashboard.styled'
+import { FormArea, SpacingBottom } from './SettingsDashboard.styled'
 
 const InvestorSessions: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -82,7 +82,7 @@ const InvestorSessions: React.FC = () => {
       )}
       <ContainerCard color="#f6b826" title="Session Settings">
         <SpacingBottom>
-          <InvestorSessionsForm>
+          <FormArea>
             <LabeledInput
               value={startsAt}
               label="Starting Time"
@@ -102,7 +102,7 @@ const InvestorSessions: React.FC = () => {
               type="number"
               onChange={e => {setCount(parseInt(e.target.value))}}
             />
-          </InvestorSessionsForm>
+          </FormArea>
           <div>
             <Button onClick={submitForm}>Add Session</Button>
           </div>
