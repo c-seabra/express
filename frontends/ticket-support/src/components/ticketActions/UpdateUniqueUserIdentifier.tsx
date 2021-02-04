@@ -9,7 +9,6 @@ import EditableTextInputField from '../../lib/components/molecules/EditableTextI
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
-import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal'
 import UpdateUniqueUserIdentifierModal from './UpdateUniqueUserIdentifierModal'
 
 const StyledActions = styled.span`
