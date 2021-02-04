@@ -41,6 +41,7 @@ export const FiltersSearchContainer = styled.div`
 // current font line height is wrong and forces a negative margin here for alignment
 export const StyledSearchInput = styled(SearchInput)`
   // Remove these offsets
+  margin-left: 8px;
   margin-top: 24px;
   margin-right: calc(2rem + 1px);
 

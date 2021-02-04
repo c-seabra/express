@@ -16,13 +16,37 @@ const Column = styled(ColumnStyles)`
   width: 15%;
 `
 
-const AttendanceItem = ({ attendance }: { attendance: Attendance }): ReactElement => {
+const NarrowColumn = styled(ColumnStyles)`
+  width: 3%;
+`
+
+const AttendanceItem = ({
+  attendance,
+  isChecked,
+  onCheckboxChange,
+}: {
+  attendance: Attendance
+  isChecked: boolean
+  onCheckboxChange: (e: React.FormEvent<HTMLInputElement>) => void
+}): ReactElement => {
   const history = useHistory()
 
+  console.log('checkbox', isChecked)
   return (
-    <ListItem onClick={() => history.push(`/dashboard/${attendance.id}`)}>
-      <Column>{attendance.id}</Column>
-      <Column>{attendance.name}</Column>
+    <ListItem>
+      <NarrowColumn>
+        <input
+          checked={isChecked}
+          name="select"
+          type="checkbox"
+          value={attendance.id}
+          onChange={onCheckboxChange}
+        />
+      </NarrowColumn>
+      <Column onClick={() => history.push(`/attendance/${attendance.id}`)}>{attendance.id}</Column>
+      <Column onClick={() => history.push(`/attendance/${attendance.id}`)}>
+        {attendance.name}
+      </Column>
       <Column>{attendance.pendingSelectionCount}</Column>
     </ListItem>
   )
