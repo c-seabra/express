@@ -237,7 +237,7 @@ const TicketDetails = (): ReactElement => {
                 <ContainerCardInner>
                   {assignment && assignment.assignee && (
                     <UpdateUniqueUserIdentifier
-                      bookingRef={bookingRef}
+                      accountId={assignment.assignee.id}
                       email={assignment.assignee?.email}
                     />
                   )}

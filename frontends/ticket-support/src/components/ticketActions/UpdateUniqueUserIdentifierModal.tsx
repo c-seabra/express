@@ -7,7 +7,7 @@ import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
-import useUpdateLoginMutation from '../../lib/hooks/useUpdateAppLoginEmail'
+import useUpdateUniqueUserIdentifierMutation from '../../lib/hooks/useUpdateUniqueUserIdentifier'
 import { SpacingBottom } from '../templates/Spacing'
 
 const ContentContainer = styled.div`
@@ -34,7 +34,7 @@ const StyledForm = styled(Form)`
 `
 
 type UserIdentifierModalProps = {
-  bookingRef: string
+  accountId: string
   closeModal: () => void
   email: string
   isOpen: boolean
@@ -48,9 +48,9 @@ const UpdateUniqueUserIdentifierModal = ({
   isOpen,
   closeModal,
   email,
-  bookingRef,
+  accountId,
 }: UserIdentifierModalProps) => {
-  // const { updateUniqueUserIdentifier } = useUpdateUniqueUserIdentifierMutation()
+  const { updateUniqueUserIdentifier } = useUpdateUniqueUserIdentifierMutation()
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void
@@ -85,7 +85,7 @@ const UpdateUniqueUserIdentifierModal = ({
           validationSchema={confirmSchema}
           onSubmit={async values => {
             // await updateUniqueUserIdentifier({
-            //   bookingRef,
+            //   accountId,
             //   email,
             //   reason: values?.reason,
             // })

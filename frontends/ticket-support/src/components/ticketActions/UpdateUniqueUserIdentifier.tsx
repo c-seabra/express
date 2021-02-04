@@ -10,7 +10,7 @@ import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
 import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal'
-import UpdateUniqueUserIdentifierModal from "./UpdateUniqueUserIdentifierModal";
+import UpdateUniqueUserIdentifierModal from './UpdateUniqueUserIdentifierModal'
 
 const StyledActions = styled.span`
   display: flex;
@@ -30,7 +30,7 @@ const StyledLabel = styled.span`
 `
 
 type UpdateUniqueUserIdentifierProps = {
-  bookingRef: string
+  accountId: string
   email?: string
 }
 
@@ -40,7 +40,7 @@ const confirmSchema = Yup.object().shape({
     .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 })
 
-const UpdateUniqueUserIdentifier = ({ email, bookingRef }: UpdateUniqueUserIdentifierProps) => {
+const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdentifierProps) => {
   const { isOpen, openModal, closeModal } = useModalState()
   const [editMode, setEditMode] = useState(false)
 
@@ -120,7 +120,7 @@ const UpdateUniqueUserIdentifier = ({ email, bookingRef }: UpdateUniqueUserIdent
                       <Button type="submit">Save</Button>
                       <Modal isOpen={isOpen} onRequestClose={closeModal} />
                       <UpdateUniqueUserIdentifierModal
-                        bookingRef={bookingRef}
+                        accountId={accountId}
                         closeModal={() => {
                           closeModal()
                           cancelAction()
