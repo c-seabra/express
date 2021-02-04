@@ -25,9 +25,9 @@ const Label = styled.div<{ required?: boolean }>`
     `}
 `
 
-const InputContainer = styled.div<{ editModeOn?: boolean }>`
+const InputContainer = styled.div<{ editModeOn?: boolean; isError?: boolean }>`
   display: flex;
-  border: 1px solid #dcdfe5;
+  border: 1px solid ${props => (props.isError ? '#e15554' : '#dcdfe5')};
   border-radius: 2px;
   font-size: 16px;
   padding-right: 24px;
@@ -48,10 +48,9 @@ const InputContainer = styled.div<{ editModeOn?: boolean }>`
   }
 `
 
-const StyledInput = styled.input<{ isError?: boolean }>`
+const StyledInput = styled.input`
   font-size: 14px;
   font-weight: 300;
-  border: 1px solid ${props => (props.isError ? '#e15554' : '#dcdfe5')};
   border-radius: 4px;
   min-height: 40px;
   padding-left: 1rem;
@@ -108,27 +107,29 @@ const TextInputField = ({
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
-      <InputContainer editModeOn={(onEdit && !editModeOn) || disabled}>
-        <Field name={name} required={required}>
-          {({ meta, field }: FieldProps) => (
+      <Field name={name} required={required}>
+        {({ meta, field }: FieldProps) => (
+          <InputContainer
+            editModeOn={(onEdit && !editModeOn) || disabled}
+            isError={meta.touched && !!meta.error}
+          >
             <StyledInput
-              isError={meta.touched && !!meta.error}
               type="text"
               {...field}
               disabled={(onEdit && !editModeOn) || disabled}
               placeholder={placeholder}
             />
-          )}
-        </Field>
-        {onEdit && !editModeOn && (
-          <StyledActions onClick={onEdit}>
-            <IconWrapper>
-              <Icon>mode</Icon>
-            </IconWrapper>
-            <StyledActionsText>Edit</StyledActionsText>
-          </StyledActions>
+            {onEdit && !editModeOn && (
+              <StyledActions onClick={onEdit}>
+                <IconWrapper>
+                  <Icon>mode</Icon>
+                </IconWrapper>
+                <StyledActionsText>Edit</StyledActionsText>
+              </StyledActions>
+            )}
+          </InputContainer>
         )}
-      </InputContainer>
+      </Field>
       <ErrorMessage name={name} render={message => <Error>{message}</Error>} />
     </FieldContainer>
   )
