@@ -38,6 +38,8 @@ const StyledMainHeader = styled.section`
 `
 
 const App = ({ token }: { token: string }) => {
+  if (!token) return null
+
   const [conferenceSlug, setConferenceSlug] = useState<string>()
   const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
     conf_slug: string
@@ -47,8 +49,6 @@ const App = ({ token }: { token: string }) => {
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug)
   }, [token])
-
-  if (!token) return null
 
   return (
     <Router>
@@ -77,11 +77,11 @@ const App = ({ token }: { token: string }) => {
             <Route exact path="/">
               <Redirect to="/settings" />
             </Route>
-            <Route path="/dashboard">
-              <AttendanceDashboard />
-            </Route>
             <Route path="/settings">
               <SettingsDashboard />
+            </Route>
+            <Route path="/dashboard">
+              <AttendanceDashboard />
             </Route>
           </Switch>
         </StyledContainer>
