@@ -112,10 +112,10 @@ const UpdateUniqueUserIdentifierModal = ({
                   />
                   <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
                     <>
-                      This email will be used to login to apps and for further conference specific
-                      communications
-                      <br />
-                      Change this only if you know how it&apos;s going to reflect our systems!
+                      This email will be used to identify the assignee. An App login email
+                      distinctly set for a ticket will not be effected, however all other
+                      identifications by this email will be updated.
+                      <br /> Change this only if you know how it&pos;s going to reflect our systems!
                     </>
                   </BoxMessage>
                   <Modal.DefaultFooter
