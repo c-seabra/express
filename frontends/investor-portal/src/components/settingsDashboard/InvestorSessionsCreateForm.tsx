@@ -1,6 +1,6 @@
 import 'moment-timezone'
 
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
@@ -8,6 +8,7 @@ import { Button } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
+import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
@@ -21,6 +22,45 @@ const InvestorSessionsCreateForm: React.FC = () => {
   const [count, setCount] = useState<number | undefined>()
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
   const [mutationError, setMutationError] = useState<string | undefined>()
+
+  const {
+    data,
+    error,
+    loading,
+    refetch,
+  }: {
+    data?: {
+      event: {
+        configuration: {
+          investorMeetingConfiguration: {
+            defaultStartupSelections: number
+            meetingsPerSession: number
+            sessionDuration: number
+            sponsorLogoUrl: string
+            startupPortalClosingAt: string
+            startupPortalOpeningAt: string
+            startupSelectionDeadline: string
+          }
+        }
+        investorSessionsSummary: [
+          {
+            claimed: number
+            count: number
+            endsAt: string
+            startsAt: string
+          }
+        ]
+        timezone: string
+      }
+    }
+    error?: ApolloError
+    loading?: boolean
+  } = useQuery(EVENT_QUERY, {
+    context: {
+      slug: conferenceSlug,
+      token,
+    },
+  })
 
   const usableDateString = (dateString: string | undefined) => {
     if (dateString === undefined || dateString === null) {
@@ -38,6 +78,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
   }
 
   useEffect(() => {
+    refetch()
     setStartsAt(usableDateString(startsAt))
     setEndsAt(usableDateString(endsAt))
     setCount(count)
@@ -58,6 +99,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
         setMutationError(investorSessionsCreate?.userErrors[0].message)
       }
     },
+    refetchQueries: ['EventQuery'],
     variables: {
       investorSessionsCount: count,
       investorSessionsEndsAt: styledDateForMutation(endsAt),
@@ -67,6 +109,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
 
   const submitForm = () => {
     investorSessionsCreateMutation()
+    refetch()
   }
 
   return (
