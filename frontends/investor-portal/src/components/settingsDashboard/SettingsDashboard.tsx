@@ -249,7 +249,7 @@ const SettingsDashboard: React.FC = () => {
         </SpacingBottom>
         <ContainerCard color="#4688D9" title="Add Sessions">
           <SpacingBottom>
-            <InvestorSessionsCreateForm />
+            <InvestorSessionsCreateForm timezone={eventTimezone} />
           </SpacingBottom>
         </ContainerCard>
       </PageContainer>

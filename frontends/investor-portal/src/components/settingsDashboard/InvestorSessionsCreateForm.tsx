@@ -14,9 +14,13 @@ import Warning from '../settingsActions/Warning'
 import SessionsSummary from './SessionsSummary'
 import { AddButton, BorderBottom, FormArea, SpacingBottom } from './SettingsDashboard.styled'
 
-const InvestorSessionsCreateForm: React.FC = () => {
+type InvestorSessionsCreateFormType = {
+  timezone: string
+}
+
+const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({ timezone }) => {
   const { conferenceSlug, token } = useAppContext()
-  const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
+  const [eventTimezone] = useState<string>(timezone)
   const [startsAt, setStartsAt] = useState<string | undefined>()
   const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
@@ -77,7 +81,6 @@ const InvestorSessionsCreateForm: React.FC = () => {
   }
 
   useEffect(() => {
-    setEventTimezone(data?.event.timezone || 'Europe/Dublin')
     setStartsAt(usableDateString(startsAt))
     setEndsAt(usableDateString(endsAt))
     setCount(count)
