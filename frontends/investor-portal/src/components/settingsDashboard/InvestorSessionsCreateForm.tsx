@@ -161,7 +161,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
           </AddButton>
         </SpacingBottom>
       </BorderBottom>
-      {investorSessionsSummary?.length && (
+      {investorSessionsSummary && (
         <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
       )}
     </>
