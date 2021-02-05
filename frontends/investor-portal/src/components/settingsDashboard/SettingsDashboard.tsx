@@ -247,9 +247,11 @@ const SettingsDashboard: React.FC = () => {
             </SpacingBottom>
           </ContainerCard>
         </SpacingBottom>
-        <SpacingBottom>
-          <InvestorSessionsCreateForm />
-        </SpacingBottom>
+        <ContainerCard color="#4688D9" title="Add Sessions">
+          <SpacingBottom>
+            <InvestorSessionsCreateForm />
+          </SpacingBottom>
+        </ContainerCard>
       </PageContainer>
     </>
   )

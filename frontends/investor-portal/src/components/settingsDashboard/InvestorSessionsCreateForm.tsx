@@ -128,45 +128,43 @@ const InvestorSessionsCreateForm: React.FC = () => {
           <span>{mutationSuccessMessage}</span>
         </Success>
       )}
-      <ContainerCard color="#4688D9" title="Add Sessions">
-        <BorderBottom>
-          <SpacingBottom>
-            <FormArea>
-              <LabeledInput
-                label="Starting Time"
-                type="datetime-local"
-                value={startsAt}
-                onChange={e => {
-                  setStartsAt(e.target.value)
-                }}
-              />
-              <LabeledInput
-                label="Ending Time"
-                min={startsAt}
-                type="datetime-local"
-                value={endsAt}
-                onChange={e => {
-                  setEndsAt(e.target.value)
-                }}
-              />
-              <LabeledInput
-                defaultValue={count}
-                label="How many sessions in this block?"
-                type="number"
-                onChange={e => {
-                  setCount(parseInt(e.target.value))
-                }}
-              />
-            </FormArea>
-            <AddButton>
-              <Button onClick={submitForm}>Add Session</Button>
-            </AddButton>
-          </SpacingBottom>
-        </BorderBottom>
-        {investorSessionsSummary?.length && (
-          <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
-        )}
-      </ContainerCard>
+      <BorderBottom>
+        <SpacingBottom>
+          <FormArea>
+            <LabeledInput
+              label="Starting Time"
+              type="datetime-local"
+              value={startsAt}
+              onChange={e => {
+                setStartsAt(e.target.value)
+              }}
+            />
+            <LabeledInput
+              label="Ending Time"
+              min={startsAt}
+              type="datetime-local"
+              value={endsAt}
+              onChange={e => {
+                setEndsAt(e.target.value)
+              }}
+            />
+            <LabeledInput
+              defaultValue={count}
+              label="How many sessions in this block?"
+              type="number"
+              onChange={e => {
+                setCount(parseInt(e.target.value))
+              }}
+            />
+          </FormArea>
+          <AddButton>
+            <Button onClick={submitForm}>Add Session</Button>
+          </AddButton>
+        </SpacingBottom>
+      </BorderBottom>
+      {investorSessionsSummary?.length && (
+        <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
+      )}
     </>
   )
 }
