@@ -13,12 +13,12 @@ import Warning from '../settingsActions/Warning'
 import { AddButton, BorderBottom, FormArea, SpacingBottom } from './SettingsDashboard.styled'
 
 type InvestorSessionsCreateFormType = {
-  onCreate: any
+  refetchSessions: any
   timeZone: string
 }
 
 const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
-  onCreate,
+  refetchSessions,
   timeZone,
 }) => {
   const { conferenceSlug, token } = useAppContext()
@@ -45,7 +45,7 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
       const success = investorSessionsCreate?.successMessage
       if (success !== null) {
         setMutationSuccessMessage(investorSessionsCreate?.successMessage)
-        onCreate()
+        refetchSessions()
         setMutationError('')
       }
       if (investorSessionsCreate?.userErrors.length) {

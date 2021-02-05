@@ -256,7 +256,10 @@ const SettingsDashboard: React.FC = () => {
         </SpacingBottom>
         <ContainerCard color="#4688D9" title="Add Sessions">
           <SpacingBottom>
-            <InvestorSessionsCreateForm timeZone={eventTimezone} onCreate={() => refetch()} />
+            <InvestorSessionsCreateForm
+              refetchSessions={() => refetch()}
+              timeZone={eventTimezone}
+            />
             {investorSessionsSummary?.length && (
               <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
             )}
