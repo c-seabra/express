@@ -5,7 +5,6 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
 import { Button } from '../../lib/components'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
 import EVENT_QUERY from '../../operations/queries/Event'
@@ -26,8 +25,6 @@ const InvestorSessionsCreateForm: React.FC = () => {
 
   const {
     data,
-    error,
-    loading,
     refetch,
   }: {
     data?: {
@@ -56,6 +53,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
     }
     error?: ApolloError
     loading?: boolean
+    refetch?: any
   } = useQuery(EVENT_QUERY, {
     context: {
       slug: conferenceSlug,
@@ -79,7 +77,6 @@ const InvestorSessionsCreateForm: React.FC = () => {
   }
 
   useEffect(() => {
-    refetch()
     setEventTimezone(data?.event.timezone || 'Europe/Dublin')
     setStartsAt(usableDateString(startsAt))
     setEndsAt(usableDateString(endsAt))
@@ -113,7 +110,9 @@ const InvestorSessionsCreateForm: React.FC = () => {
 
   const submitForm = () => {
     investorSessionsCreateMutation()
-    refetch()
+    setTimeout(() => {
+      refetch()
+    }, 500)
   }
 
   return (
