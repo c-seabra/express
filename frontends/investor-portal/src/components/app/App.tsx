@@ -1,7 +1,7 @@
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
@@ -38,6 +38,8 @@ const StyledMainHeader = styled.section`
 `
 
 const App = ({ token }: { token: string }) => {
+  if (!token) return null
+
   const [conferenceSlug, setConferenceSlug] = useState<string>()
   const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
     conf_slug: string
@@ -46,9 +48,7 @@ const App = ({ token }: { token: string }) => {
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug)
-  }, [token, tokenPayload.conf_slug])
-
-  if (!token) return null
+  }, [token])
 
   return (
     <Router>
@@ -74,11 +74,14 @@ const App = ({ token }: { token: string }) => {
           </Helmet>
           <GlobalStyle />
           <Switch>
-            <Route exact path="/dashboard">
-              <AttendanceDashboard />
+            <Route exact path="/">
+              <Redirect to="/settings" />
             </Route>
             <Route path="/settings">
               <SettingsDashboard />
+            </Route>
+            <Route path="/dashboard">
+              <AttendanceDashboard />
             </Route>
           </Switch>
         </StyledContainer>

@@ -1,144 +1,141 @@
-import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import { Form, Formik } from 'formik'
+import React, { FormEvent, useState } from 'react'
 import styled from 'styled-components'
+import * as Yup from 'yup'
 
-import TICKET_LOGIN_UPDATE from '../../operations/mutations/UpdateLoginEmail'
-import { useAppContext } from '../app/AppContext'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
+import BoxMessage from '../../lib/components/molecules/BoxMessage'
+import Modal, { useModalState } from '../../lib/components/molecules/Modal'
+import TextInputField from '../../lib/components/molecules/TextInputField'
+import STATIC_MESSAGES from '../../lib/constants/messages'
+import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
+import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal'
 
-const Form = styled.form`
+const StyledActions = styled.span`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-const FormWrap = styled.div`
-  margin-bottom: 1rem;
+  justify-content: flex-end;
 `
 
-// TODO PP: refactor to TextField
-export const Field = styled.label`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-right: 1rem;
-  margin-bottom: 0.5rem;
-  input {
-    cursor: pointer;
-  }
-  span {
-    margin-bottom: 0.5rem;
-  }
+const StyledSecondaryButton = styled(SecondaryButton)`
+  margin-right: 16px;
 `
 
-const SubmitButton = styled.button`
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: none;
-  border: 1px solid grey;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    background-color: grey;
-    color: white;
-  }
+const StyledLabel = styled.span`
+  color: #091a46;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 24px;
 `
 
-const Warning = styled.div`
-  font-style: italic;
-  font-size: 0.8em;
-  margin-bottom: 0.5rem;
-  span {
-    background: #ed1846;
-    padding: 0.25rem;
-    line-height: 1.25rem;
-    color: #fff;
-  }
-`
-
-const UpdateAppLoginEmail: React.FC<{
+type UpdateAppLoginEmailProps = {
   bookingRef: string
-  resetLoginEmailChange: (value: boolean) => void
-}> = ({ bookingRef, resetLoginEmailChange }) => {
-  const { conferenceSlug, token } = useAppContext()
-  const [email, setEmail] = useState<string | undefined>()
-  const [error, setError] = useState<string | undefined>()
+  email?: string
+}
 
-  const updateLoginEmail = () => {
-    const reason = prompt('Please enter reason for this change(required)')
-    if (reason) {
-      ticketLoginUpdate({
-        context: {
-          headers: {
-            'x-admin-reason': reason,
-          },
-          slug: conferenceSlug,
-          token,
-        },
-      })
-    } else {
-      setError('Reason is required for this action')
-    }
+const confirmSchema = Yup.object().shape({
+  email: Yup.string()
+    .email(STATIC_MESSAGES.VALIDATION.EMAIL)
+    .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+})
+
+const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) => {
+  const { isOpen, openModal, closeModal } = useModalState()
+  const [editMode, setEditMode] = useState(false)
+
+  const cancelAction = () => {
+    setEditMode(false)
   }
-
-  const [ticketLoginUpdate, { error: mutationError }] = useMutation(TICKET_LOGIN_UPDATE, {
-    onCompleted: ({ assignmentTicketLoginUpdate }) => {
-      if (assignmentTicketLoginUpdate?.ticket?.assignment?.assignee) {
-        resetLoginEmailChange(false)
-        setError('')
+  const editAction = () => {
+    setEditMode(true)
+  }
+  const saveAction = () => {
+    openModal()
+  }
+  
+  const [formControls, setFormControls] = useState<
+    | {
+        boundReset?: () => void
+        boundSubmit?: (event?: FormEvent) => void
       }
-      if (assignmentTicketLoginUpdate?.userErrors?.length) {
-        setError(assignmentTicketLoginUpdate.userErrors[0])
-      }
-    },
-    refetchQueries: ['TicketAuditTrail', 'Ticket'],
-    variables: {
-      appLoginEmail: email,
-      bookingRef,
-    },
-  })
+    | undefined
+  >()
 
   return (
-    <FormWrap>
-      {error && (
-        <Warning>
-          <span>{error}</span>
-        </Warning>
-      )}
-      {mutationError && (
-        <Warning>
-          <span>{mutationError.message}</span>
-        </Warning>
-      )}
-      <Form
-        onSubmit={e => {
-          e.preventDefault()
-          if (email) {
-            if (
-              confirm(
-                'Are you sure you want to change App Login Email for this ticket? This will have many implications in our systems! Make sure you know what you are doing!'
-              )
-            ) {
-              updateLoginEmail()
-            }
-          } else {
-            setError('Email field value incorrect')
-          }
+    <>
+      <StyledLabel>App login email</StyledLabel>
+
+      <Formik
+        enableReinitialize
+        initialValues={{
+          email,
+        }}
+        validateOnBlur={false}
+        validateOnChange={false}
+        validationSchema={confirmSchema}
+        onSubmit={() => {
+          saveAction()
         }}
       >
-        <Field>
-          <span>Email:</span>
-          <input required name="email" type="email" onChange={e => setEmail(e.target.value)} />
-        </Field>
-        <SubmitButton type="submit">Submit</SubmitButton>
-      </Form>
-      <Warning>
-        <span>
-          This email will be used to login to apps and for further conference specific
-          communications.
-          <br /> Change this only if you know how it's going to reflect our systems!
-        </span>
-      </Warning>
-    </FormWrap>
+        {({ values, submitForm, resetForm }) => {
+          // Binding submit form to submit programmatically from outside the <Formik> component
+          if (!formControls) {
+            setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
+          }
+
+          return (
+            <Form>
+              <TextInputField
+                required
+                editModeOn={editMode}
+                name="email"
+                placeholder="Type email"
+                value={email || 'N/A'}
+                onEdit={editAction}
+              />
+              {editMode && (
+                <>
+                  <SpacingBottomXs>
+                    <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
+                      <>
+                        This email will be used to login to apps and for further conference specific
+                        communications
+                        <br />
+                        Change this only if you know how it&apos;s going to reflect our systems!
+                      </>
+                    </BoxMessage>
+                  </SpacingBottomXs>
+                  <SpacingBottom>
+                    <StyledActions>
+                      <StyledSecondaryButton
+                        onClick={() => {
+                          resetForm()
+                          cancelAction()
+                        }}
+                      >
+                        Cancel
+                      </StyledSecondaryButton>
+                      <Button type="submit">Save</Button>
+                      <Modal isOpen={isOpen} onRequestClose={closeModal} />
+                      <UpdateAppLoginEmailModal
+                        bookingRef={bookingRef}
+                        closeModal={() => {
+                          closeModal()
+                          cancelAction()
+                          resetForm()
+                        }}
+                        email={values.email || 'N/A'}
+                        isOpen={isOpen}
+                      />
+                    </StyledActions>
+                  </SpacingBottom>
+                </>
+              )}
+            </Form>
+          )
+        }}
+      </Formik>
+    </>
   )
 }
 

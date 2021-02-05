@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title><%= JSON.stringify(htmlWebpackPlugin.options.title) %></title>
+</head>
+
+<body>
+    <div id="notifications"></div>
+</body>
+<script>
+    const { token } = <%= JSON.stringify(htmlWebpackPlugin.options) %>
+    const props = {
+        token,
+    }
+    const { ReactDOM, React, StaffTickets } = frontends.staffTickets
+    ReactDOM.render(
+        React.createElement(StaffTickets, props),
+        document.getElementById('notifications')
+    )
+</script>
+
+</html>
