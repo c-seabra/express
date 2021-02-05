@@ -1,17 +1,15 @@
 import 'moment-timezone'
 
-import { ApolloError, useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
 import { Button } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import sessionCreateMutation from '../../operations/mutations/InvestorSessionsCreate'
-import eventQuery from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
-import SessionsSummary from './SessionsSummary'
 import { AddButton, BorderBottom, FormArea, SpacingBottom } from './SettingsDashboard.styled'
 
 type InvestorSessionsCreateFormType = {
@@ -27,66 +25,12 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({ 
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
   const [mutationError, setMutationError] = useState<string | undefined>()
 
-  const {
-    data,
-    refetch,
-  }: {
-    data?: {
-      event: {
-        configuration: {
-          investorMeetingConfiguration: {
-            defaultStartupSelections: number
-            meetingsPerSession: number
-            sessionDuration: number
-            sponsorLogoUrl: string
-            startupPortalClosingAt: string
-            startupPortalOpeningAt: string
-            startupSelectionDeadline: string
-          }
-        }
-        investorSessionsSummary: [
-          {
-            claimed: number
-            count: number
-            endsAt: string
-            startsAt: string
-          }
-        ]
-        timezone: string
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
-    refetch?: any
-  } = useQuery(eventQuery, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-  })
-
-  const usableDateString = (dateString: string | undefined) => {
-    if (dateString === undefined || dateString === null) {
-      return undefined
-    }
-    const str = dateString
-    return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
-  }
-
   const styledDateForMutation = (dateString?: string) => {
     if (dateString === undefined || dateString === '') {
       return null
     }
     return moment(dateString).tz(eventTimezone, true).format()
   }
-
-  useEffect(() => {
-    setStartsAt(usableDateString(startsAt))
-    setEndsAt(usableDateString(endsAt))
-    setCount(count)
-  }, [data])
-
-  const investorSessionsSummary = data?.event.investorSessionsSummary
 
   const [investorSessionsCreateMutation] = useMutation(sessionCreateMutation, {
     context: {
@@ -113,9 +57,6 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({ 
 
   const submitForm = () => {
     investorSessionsCreateMutation()
-    setTimeout(() => {
-      refetch()
-    }, 500)
   }
 
   return (
@@ -164,9 +105,6 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({ 
           </AddButton>
         </SpacingBottom>
       </BorderBottom>
-      {investorSessionsSummary && (
-        <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
-      )}
     </>
   )
 }
