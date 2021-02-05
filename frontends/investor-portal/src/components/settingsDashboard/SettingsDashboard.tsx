@@ -14,6 +14,7 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
+import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
 import SessionsSummary from './SessionsSummary'
 import {
   ConfigurationPanel,
@@ -248,6 +249,9 @@ const SettingsDashboard: React.FC = () => {
               </ConfigurationPanel>
             </SpacingBottom>
           </ContainerCard>
+        </SpacingBottom>
+        <SpacingBottom>
+          <InvestorSessionsCreateForm />
         </SpacingBottom>
         {investorSessionsSummary?.length && (
           <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
