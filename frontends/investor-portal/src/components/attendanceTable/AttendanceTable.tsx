@@ -2,26 +2,26 @@ import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react'
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
-import useInvestorsQuery from '../../lib/hooks/useInvestorsQuery'
+import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
 import Pagination from '../../lib/Pagination'
-import InvestorList from '../investorList/InvestorList'
-import { FiltersSearchContainer, SearchFilters, StyledSearchInput } from './InvestorTable.styled'
+import AttendanceList from '../attendanceList/AttendanceList'
+import { FiltersSearchContainer, SearchFilters, StyledSearchInput } from './AttendanceTable.styled'
 
-type InvestorSearchState = {
+type AttendanceSearchState = {
   page: string
   searchQuery?: string
   type: string
 }
 
-const InvestorTable = (): ReactElement => {
+const AttendanceTable = (): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('')
 
-  const processInitialSearchState = (state: InvestorSearchState) => {
+  const processInitialSearchState = (state: AttendanceSearchState) => {
     if (state.searchQuery) setSearchQuery(state.searchQuery)
   }
 
-  const { searchState, setSearchState } = useSearchState<InvestorSearchState>({
+  const { searchState, setSearchState } = useSearchState<AttendanceSearchState>({
     processInitialSearchState,
   })
 
@@ -34,7 +34,7 @@ const InvestorTable = (): ReactElement => {
     isBackwardsDisabled,
     nextPage,
     previousPage,
-  } = useInvestorsQuery({
+  } = useAttendancesQuery({
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
     type: searchState.type,
@@ -61,7 +61,7 @@ const InvestorTable = (): ReactElement => {
         <FiltersSearchContainer>
           <StyledSearchInput
             defaultValue={searchQuery}
-            placeholder="Search by Investor name."
+            placeholder="Search by Attendance name."
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
@@ -70,7 +70,7 @@ const InvestorTable = (): ReactElement => {
         </FiltersSearchContainer>
       </SearchFilters>
       <ContainerCard noPadding>
-        <InvestorList error={error} list={results} loading={loading} />
+        <AttendanceList error={error} list={results} loading={loading} />
       </ContainerCard>
       {!loading && !error && (
         <Pagination
@@ -84,4 +84,4 @@ const InvestorTable = (): ReactElement => {
   )
 }
 
-export default InvestorTable
+export default AttendanceTable

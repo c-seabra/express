@@ -10,8 +10,8 @@ export type UserError = {
   path: string
 }
 
-export interface Investor {
-  name: string
+export interface Attendance {
   id: string
+  name: string
   pendingSelectionCount: number
 }

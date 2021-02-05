@@ -1,14 +1,14 @@
 import { useAppContext } from '../../components/app/AppContext'
 import ATTENDANCES_LIST from '../../operations/queries/Attendances'
-import { Investor } from '../types'
+import { Attendance } from '../types'
 import usePaginatedQuery from './usePaginatedQuery'
 
-const INVESTORS_PER_PAGE = 5
+const ATTENDANCES_PER_PAGE = 5
 const INVESTORS_TYPE = 'INVESTOR'
 
-const useInvestorsQuery = ({
+const useAttendancesQuery = ({
   initialPage,
-  perPage = INVESTORS_PER_PAGE,
+  perPage = ATTENDANCES_PER_PAGE,
   searchQuery,
   type = INVESTORS_TYPE,
 }: {
@@ -32,7 +32,7 @@ const useInvestorsQuery = ({
     searchQuery,
   }
 
-  return usePaginatedQuery<Investor, 'investors', typeof variables, typeof context>({
+  return usePaginatedQuery<Attendance, 'attendances', typeof variables, typeof context>({
     context,
     initialPage,
     query: ATTENDANCES_LIST,
@@ -40,4 +40,4 @@ const useInvestorsQuery = ({
   })
 }
 
-export default useInvestorsQuery
+export default useAttendancesQuery

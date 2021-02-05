@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 import { Helmet } from 'react-helmet'
 
-import InvestorTable from '../investorTable/InvestorTable'
+import AttendanceTable from '../attendanceTable/AttendanceTable'
 import DashboardContainer from './AttendanceDashboard.styled'
 
 const AttendanceDashboard = (): ReactElement => {
@@ -10,7 +10,7 @@ const AttendanceDashboard = (): ReactElement => {
       <Helmet>
         <title>Attendance control panel</title>
       </Helmet>
-      <InvestorTable />
+      <AttendanceTable />
     </DashboardContainer>
   )
 }

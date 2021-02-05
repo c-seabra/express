@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import ListItem from '../../lib/components/atoms/ListItem.styled'
-import { Investor } from '../../lib/types'
+import { Attendance } from '../../lib/types'
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -16,16 +16,16 @@ const Column = styled(ColumnStyles)`
   width: 15%;
 `
 
-const InvestorItem = ({ investor }: { investor: Investor }): ReactElement => {
+const AttendanceItem = ({ attendance }: { attendance: Attendance }): ReactElement => {
   const history = useHistory()
 
   return (
-    <ListItem onClick={() => history.push(`/investor/${investor.id}`)}>
-      <Column>{investor.id}</Column>
-      <Column>{investor.name}</Column>
-      <Column>{investor.pendingSelectionCount}</Column>
+    <ListItem onClick={() => history.push(`/attendance/${attendance.id}`)}>
+      <Column>{attendance.id}</Column>
+      <Column>{attendance.name}</Column>
+      <Column>{attendance.pendingSelectionCount}</Column>
     </ListItem>
   )
 }
 
-export default InvestorItem
+export default AttendanceItem

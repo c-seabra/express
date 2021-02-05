@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { CategoryListContainer } from '../../lib/components/molecules/CategoryList'
+import { CategoryListContainer } from '../../lib/components/molecules/CategoryList.styled'
 import SearchInput from '../../lib/components/molecules/SearchInput'
 
 export const DashboardContainer = styled.div`
