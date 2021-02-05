@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet'
 
 import { Button } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Loader from '../../lib/Loading'
 import EVENT_UPDATE_MUTATION from '../../operations/mutations/EventUpdate'
@@ -176,10 +177,10 @@ const SettingsDashboard: React.FC = () => {
                 }}
               >
                 <SponsorLogo src={sponsorLogoUrl} />
-                <LabeledInput
+                <LabeledFileInput
                   accept="image/svg+xml"
                   defaultValue={sponsorLogoUrl}
-                  label="Sponsor logo"
+                  label="Upload a SVG file"
                   type="file"
                   onChange={e => {
                     handleUpload(e.target.files?.[0])

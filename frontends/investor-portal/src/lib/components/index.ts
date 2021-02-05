@@ -5,5 +5,6 @@
  */
 
 export { Button } from './atoms/Button'
+export { default as FileInput } from './atoms/FileInput'
 export { Input } from './atoms/Input'
 export { Label } from './atoms/Label'
