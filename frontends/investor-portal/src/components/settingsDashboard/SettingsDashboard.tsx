@@ -171,7 +171,7 @@ const SettingsDashboard: React.FC = () => {
           </Success>
         )}
         <SpacingBottom>
-          <ContainerCard color="#00AFA9" title="Conference settings">
+          <ContainerCard color="#00AFA9" title="Investor portal settings">
             <SpacingBottom>
               <ConfigurationPanel
                 onSubmit={e => {
@@ -254,7 +254,7 @@ const SettingsDashboard: React.FC = () => {
             </SpacingBottom>
           </ContainerCard>
         </SpacingBottom>
-        <ContainerCard color="#4688D9" title="Add Sessions">
+        <ContainerCard color="#4688D9" title="Sessions">
           <SpacingBottom>
             <InvestorSessionsCreateForm
               refetchSessions={() => refetch()}
