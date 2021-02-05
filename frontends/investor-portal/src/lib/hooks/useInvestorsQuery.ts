@@ -1,10 +1,10 @@
 import { useAppContext } from '../../components/app/AppContext'
-import { INVESTORS_LIST } from '../../operations/queries/Investors'
+import ATTENDANCES_LIST from '../../operations/queries/Attendances'
 import { Investor } from '../types'
 import usePaginatedQuery from './usePaginatedQuery'
 
 const INVESTORS_PER_PAGE = 5
-const INVESTORS_TYPE = undefined //'INVESTOR'
+const INVESTORS_TYPE = 'INVESTOR'
 
 const useInvestorsQuery = ({
   initialPage,
@@ -35,7 +35,7 @@ const useInvestorsQuery = ({
   return usePaginatedQuery<Investor, 'investors', typeof variables, typeof context>({
     context,
     initialPage,
-    query: INVESTORS_LIST,
+    query: ATTENDANCES_LIST,
     variables,
   })
 }

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const INVESTORS_LIST = gql`
+const ATTENDANCES_LIST = gql`
   query($first: Int, $filter: AttendanceFilter, $after: String, $searchQuery: String) {
     attendances(first: $first, filter: $filter, after: $after, searchQuery: $searchQuery) {
       edges {
@@ -20,3 +20,5 @@ export const INVESTORS_LIST = gql`
     }
   }
 `
+
+export default ATTENDANCES_LIST
