@@ -42,6 +42,7 @@ const SettingsDashboard: React.FC = () => {
     data,
     error,
     loading,
+    refetch,
   }: {
     data?: {
       event: {
@@ -69,6 +70,7 @@ const SettingsDashboard: React.FC = () => {
     }
     error?: ApolloError
     loading?: boolean
+    refetch?: any
   } = useQuery(eventQuery, {
     context: {
       slug: conferenceSlug,
@@ -252,7 +254,7 @@ const SettingsDashboard: React.FC = () => {
         </SpacingBottom>
         <ContainerCard color="#4688D9" title="Add Sessions">
           <SpacingBottom>
-            <InvestorSessionsCreateForm timezone={eventTimezone} />
+            <InvestorSessionsCreateForm timezone={eventTimezone} onCreate={() => refetch()} />
             {investorSessionsSummary?.length && (
               <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
             )}

@@ -2,7 +2,7 @@ import 'moment-timezone'
 
 import { useMutation } from '@apollo/client'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { Button } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
@@ -13,10 +13,14 @@ import Warning from '../settingsActions/Warning'
 import { AddButton, BorderBottom, FormArea, SpacingBottom } from './SettingsDashboard.styled'
 
 type InvestorSessionsCreateFormType = {
+  onCreate: any
   timezone: string
 }
 
-const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({ timezone }) => {
+const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
+  onCreate,
+  timezone,
+}) => {
   const { conferenceSlug, token } = useAppContext()
   const [eventTimezone] = useState<string>(timezone)
   const [startsAt, setStartsAt] = useState<string | undefined>()
@@ -41,13 +45,13 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({ 
       const success = investorSessionsCreate?.successMessage
       if (success !== null) {
         setMutationSuccessMessage(investorSessionsCreate?.successMessage)
+        onCreate()
         setMutationError('')
       }
       if (investorSessionsCreate?.userErrors.length) {
         setMutationError(investorSessionsCreate?.userErrors[0].message)
       }
     },
-    refetchQueries: ['EventQuery'],
     variables: {
       investorSessionsCount: count,
       investorSessionsEndsAt: styledDateForMutation(endsAt),
