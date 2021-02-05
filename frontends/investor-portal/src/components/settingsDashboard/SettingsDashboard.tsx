@@ -65,7 +65,9 @@ const SettingsDashboard: React.FC = () => {
             startsAt: string
           }
         ]
-        timezone: string
+        timeZone: {
+          ianaName: string
+        }
       }
     }
     error?: ApolloError
@@ -100,7 +102,7 @@ const SettingsDashboard: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setEventTimezone(data?.event.timezone || 'Europe/Dublin')
+      setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
       const configurations = data?.event.configuration.investorMeetingConfiguration
       setDefaultStartupSelections(configurations.defaultStartupSelections)
       setMeetingsPerSession(configurations.meetingsPerSession)
@@ -254,7 +256,7 @@ const SettingsDashboard: React.FC = () => {
         </SpacingBottom>
         <ContainerCard color="#4688D9" title="Add Sessions">
           <SpacingBottom>
-            <InvestorSessionsCreateForm timezone={eventTimezone} onCreate={() => refetch()} />
+            <InvestorSessionsCreateForm timeZone={eventTimezone} onCreate={() => refetch()} />
             {investorSessionsSummary?.length && (
               <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
             )}

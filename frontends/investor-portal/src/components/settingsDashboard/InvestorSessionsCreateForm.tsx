@@ -14,15 +14,15 @@ import { AddButton, BorderBottom, FormArea, SpacingBottom } from './SettingsDash
 
 type InvestorSessionsCreateFormType = {
   onCreate: any
-  timezone: string
+  timeZone: string
 }
 
 const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
   onCreate,
-  timezone,
+  timeZone,
 }) => {
   const { conferenceSlug, token } = useAppContext()
-  const [eventTimezone] = useState<string>(timezone)
+  const [eventTimezone] = useState<string>(timeZone)
   const [startsAt, setStartsAt] = useState<string | undefined>()
   const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
