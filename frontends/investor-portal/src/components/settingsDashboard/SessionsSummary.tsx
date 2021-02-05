@@ -1,9 +1,8 @@
 import moment from 'moment'
 import React, { ReactElement } from 'react'
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import { InvestorSessionsSummary } from '../../lib/types'
-import { SpacingBottom, StyledColumnContainer, StyledGridContainer } from './SessionsSummary.styled'
+import { StyledColumnContainer, StyledGridContainer } from './SessionsSummary.styled'
 
 type SessionsSummaryProps = {
   investorSessionsSummary: InvestorSessionsSummary

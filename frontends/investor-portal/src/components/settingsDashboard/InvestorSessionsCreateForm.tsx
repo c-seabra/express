@@ -17,7 +17,7 @@ import { AddButton, BorderBottom, FormArea, SpacingBottom } from './SettingsDash
 
 const InvestorSessionsCreateForm: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
-  const [eventTimezone] = useState<string>('Europe/Dublin')
+  const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
   const [startsAt, setStartsAt] = useState<string | undefined>()
   const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
@@ -80,10 +80,11 @@ const InvestorSessionsCreateForm: React.FC = () => {
 
   useEffect(() => {
     refetch()
+    setEventTimezone(data?.event.timezone || 'Europe/Dublin')
     setStartsAt(usableDateString(startsAt))
     setEndsAt(usableDateString(endsAt))
     setCount(count)
-  }, [])
+  }, [data])
 
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
