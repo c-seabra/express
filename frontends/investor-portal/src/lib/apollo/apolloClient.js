@@ -4,8 +4,8 @@ import fetch from 'isomorphic-unfetch'
 
 import { isBrowser, isServer } from './ssrMode'
 
-export const GRAPHQL_API_URL = 'https://api.cilabs.com/catalyst'
-export const DEFAULT_CONFERENCE_SLUG = 'ws20'
+export const GRAPHQL_API_URL = 'http://localhost:3000/graphql'
+export const DEFAULT_CONFERENCE_SLUG = 'cc20'
 
 const constructContextHeaders = (commonHeaders, eventSlug, token) => {
   const headers = {
