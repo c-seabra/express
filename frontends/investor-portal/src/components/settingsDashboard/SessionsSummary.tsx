@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { ReactElement } from 'react'
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import { ContainerCard } from '../../lib/components'
 import { InvestorSessionsSummary } from '../../lib/types'
 import { SpacingBottom, StyledColumnContainer, StyledGridContainer } from './SessionsSummary.styled'
 

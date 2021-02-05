@@ -17,7 +17,7 @@ type Props = React.InputHTMLAttributes<HTMLLabelElement> & {
   withAsterix?: boolean
 }
 
-export const Label = ({ withAsterix = false, ...props }: Props) => {
+const Label = ({ withAsterix = false, ...props }: Props) => {
   return (
     <span>
       <StyledLabel {...props} />
@@ -25,3 +25,5 @@ export const Label = ({ withAsterix = false, ...props }: Props) => {
     </span>
   )
 }
+
+export default Label
