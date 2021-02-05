@@ -10,6 +10,7 @@ import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
+import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
 import { useAppContext } from '../app/AppContext'
@@ -122,8 +123,6 @@ const AccountDetailsContainer = styled.div`
 const TicketDetails = (): ReactElement => {
   const { bookingRef } = useParams<{ bookingRef: string }>()
   const { conferenceSlug, token } = useAppContext()
-  const [loginEmailChange, setLoginEmailChange] = useState(false)
-  const [showAuditTrail, setShowAuditTrail] = useState(false)
   const {
     openModal: openTicketAssignModal,
     isOpen: isTicketAssignModalOpen,
@@ -145,9 +144,10 @@ const TicketDetails = (): ReactElement => {
   const assignment = ticket?.assignment
   const orderRef = ticket?.order?.reference || ''
   const assignee = assignment?.assignee
+  const { event } = useEventDataQuery()
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
-      label: 'Web Summit 2020', // TODO get event name
+      label: event?.name || 'Home',
       redirectUrl: '/',
     },
     {

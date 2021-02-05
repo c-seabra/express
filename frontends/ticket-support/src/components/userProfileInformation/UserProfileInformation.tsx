@@ -78,8 +78,16 @@ const getInitialValues = (account: Account) => {
   }
 }
 
+const blankOption = {
+  label: '',
+  value: 'null',
+}
+
 // This is for now consistent with Omnia however, it should be expanded for inclusivity
-const genderOptions = ['', 'Male', 'Female'].map(gender => ({ label: gender, value: gender }))
+const genderOptions = [
+  blankOption,
+  ...['Male', 'Female'].map(gender => ({ label: gender, value: gender })),
+]
 
 type UserProfileInformationProps = {
   account?: Account
@@ -90,10 +98,13 @@ const UserProfileInformation = ({ account }: UserProfileInformationProps) => {
   const { updateProfile } = useProfileAdminUpdateMutation({ accountId: account?.id })
   if (!account) return null
 
-  const industryOptions = event?.industries?.map(industry => ({
-    label: industry.name,
-    value: industry.id,
-  }))
+  const industryOptions = [
+    blankOption,
+    ...(event?.industries?.map(industry => ({
+      label: industry.name,
+      value: industry.id,
+    })) || []),
+  ]
 
   const companySizeOptions = event?.companySizes?.map(companySize => ({
     label: companySize.name,

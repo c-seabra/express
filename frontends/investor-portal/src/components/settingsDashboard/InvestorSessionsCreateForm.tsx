@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react'
 
 import { Button } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
-import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
-import EVENT_QUERY from '../../operations/queries/Event'
+import sessionCreateMutation from '../../operations/mutations/InvestorSessionsCreate'
+import eventQuery from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
@@ -54,7 +54,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
     error?: ApolloError
     loading?: boolean
     refetch?: any
-  } = useQuery(EVENT_QUERY, {
+  } = useQuery(eventQuery, {
     context: {
       slug: conferenceSlug,
       token,
@@ -85,7 +85,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
 
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
-  const [investorSessionsCreateMutation] = useMutation(INVESTOR_SESSIONS_CREATE_MUTATION, {
+  const [investorSessionsCreateMutation] = useMutation(sessionCreateMutation, {
     context: {
       slug: conferenceSlug,
       token,

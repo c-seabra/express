@@ -5,12 +5,12 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
-import { Button } from '../../lib/components'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import { Button, ContainerCard } from '../../lib/components'
+import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Loader from '../../lib/Loading'
-import EVENT_UPDATE_MUTATION from '../../operations/mutations/EventUpdate'
-import EVENT_QUERY from '../../operations/queries/Event'
+import eventUpdateMutation from '../../operations/mutations/EventUpdate'
+import eventQuery from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
@@ -68,7 +68,7 @@ const SettingsDashboard: React.FC = () => {
     }
     error?: ApolloError
     loading?: boolean
-  } = useQuery(EVENT_QUERY, {
+  } = useQuery(eventQuery, {
     context: {
       slug: conferenceSlug,
       token,
@@ -110,7 +110,7 @@ const SettingsDashboard: React.FC = () => {
     }
   }, [data])
 
-  const [eventUpdateMutuation] = useMutation(EVENT_UPDATE_MUTATION, {
+  const [eventUpdateMutuation] = useMutation(eventUpdateMutation, {
     context: {
       slug: conferenceSlug,
       token,
@@ -173,10 +173,10 @@ const SettingsDashboard: React.FC = () => {
                 }}
               >
                 <SponsorLogo src={sponsorLogoUrl} />
-                <LabeledInput
+                <LabeledFileInput
                   accept="image/svg+xml"
                   defaultValue={sponsorLogoUrl}
-                  label="Sponsor logo"
+                  label="Upload a SVG file"
                   type="file"
                   onChange={e => {
                     handleUpload(e.target.files?.[0])
