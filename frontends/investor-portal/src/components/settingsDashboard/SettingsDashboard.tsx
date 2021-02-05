@@ -9,8 +9,8 @@ import { Button, ContainerCard } from '../../lib/components'
 import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Loader from '../../lib/Loading'
-import eventUpdateMutation from '../../operations/mutations/EventUpdate'
-import eventQuery from '../../operations/queries/Event'
+import EVENT_UPDATE_MUTATION from '../../operations/mutations/EventUpdate'
+import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
@@ -69,7 +69,7 @@ const SettingsDashboard: React.FC = () => {
     }
     error?: ApolloError
     loading?: boolean
-  } = useQuery(eventQuery, {
+  } = useQuery(EVENT_QUERY, {
     context: {
       slug: conferenceSlug,
       token,
@@ -113,7 +113,7 @@ const SettingsDashboard: React.FC = () => {
 
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
-  const [eventUpdateMutuation] = useMutation(eventUpdateMutation, {
+  const [eventUpdateMutuation] = useMutation(EVENT_UPDATE_MUTATION, {
     context: {
       slug: conferenceSlug,
       token,

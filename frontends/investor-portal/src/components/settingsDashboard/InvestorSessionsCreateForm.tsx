@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Button, ContainerCard } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
-import sessionCreateMutation from '../../operations/mutations/InvestorSessionsCreate'
+import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
@@ -42,7 +42,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
     setCount(count)
   }, [])
 
-  const [investorSessionsCreateMutation] = useMutation(sessionCreateMutation, {
+  const [investorSessionsCreateMutation] = useMutation(INVESTOR_SESSIONS_CREATE_MUTATION, {
     context: {
       slug: conferenceSlug,
       token,
