@@ -195,7 +195,7 @@ const SettingsDashboard: React.FC = () => {
                     label="Sessions duration (min)"
                     type="number"
                     onChange={e => {
-                      setSessionDuration(parseInt(e.target.value, 10))
+                      setSessionDuration(+e.target.value)
                     }}
                   />
                   <LabeledInput
@@ -203,7 +203,7 @@ const SettingsDashboard: React.FC = () => {
                     label="Meetings per session"
                     type="number"
                     onChange={e => {
-                      setMeetingsPerSession(parseInt(e.target.value, 10))
+                      setMeetingsPerSession(+e.target.value)
                     }}
                   />
                   <LabeledInput
@@ -211,7 +211,7 @@ const SettingsDashboard: React.FC = () => {
                     label="Minimum startup selections"
                     type="number"
                     onChange={e => {
-                      setDefaultStartupSelections(parseInt(e.target.value, 10))
+                      setDefaultStartupSelections(+e.target.value)
                     }}
                   />
                 </FormArea>
