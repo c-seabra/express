@@ -10,7 +10,7 @@ import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/Invest
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
-import { FormArea, SpacingBottom } from './SettingsDashboard.styled'
+import { SpacingBottom, StyledGridContainer } from './InvestorSessionsCreateForm.styled'
 
 const InvestorSessionsCreateForm: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -82,7 +82,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
       )}
       <ContainerCard color="#f6b826" title="Session Settings">
         <SpacingBottom>
-          <FormArea>
+          <StyledGridContainer>
             <LabeledInput
               label="Starting Time"
               type="datetime-local"
@@ -105,13 +105,13 @@ const InvestorSessionsCreateForm: React.FC = () => {
               label="How many sessions in this block?"
               type="number"
               onChange={e => {
-                setCount(parseInt(e.target.value))
+                setCount(+e.target.value)
               }}
             />
-          </FormArea>
-          <div>
-            <Button onClick={submitForm}>Add Session</Button>
-          </div>
+            <Button className="align-right" onClick={submitForm}>
+              Add Session
+            </Button>
+          </StyledGridContainer>
         </SpacingBottom>
       </ContainerCard>
     </>
