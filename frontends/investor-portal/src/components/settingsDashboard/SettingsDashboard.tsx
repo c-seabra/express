@@ -175,24 +175,27 @@ const SettingsDashboard: React.FC = () => {
                   submitSettings()
                 }}
               >
-                <SponsorLogo src={sponsorLogoUrl} />
-                <LabeledFileInput
-                  accept="image/svg+xml"
-                  defaultValue={sponsorLogoUrl}
-                  label="Upload a SVG file"
-                  type="file"
-                  onChange={e => {
-                    handleUpload(e.target.files?.[0])
-                  }}
-                />
                 <FormArea>
-                  <h2>Session settings</h2>
+                  <SponsorLogo src={sponsorLogoUrl} />
+                  <LabeledFileInput
+                    accept="image/svg+xml"
+                    className="file-input"
+                    defaultValue={sponsorLogoUrl}
+                    label="Upload a SVG file"
+                    type="file"
+                    onChange={e => {
+                      handleUpload(e.target.files?.[0])
+                    }}
+                  />
+                </FormArea>
+                <FormArea>
+                  <h3 className="heading">Session settings</h3>
                   <LabeledInput
                     defaultValue={sessionDuration}
                     label="Sessions duration (min)"
                     type="number"
                     onChange={e => {
-                      setSessionDuration(parseInt(e.target.value, 10))
+                      setSessionDuration(+e.target.value)
                     }}
                   />
                   <LabeledInput
@@ -200,7 +203,7 @@ const SettingsDashboard: React.FC = () => {
                     label="Meetings per session"
                     type="number"
                     onChange={e => {
-                      setMeetingsPerSession(parseInt(e.target.value, 10))
+                      setMeetingsPerSession(+e.target.value)
                     }}
                   />
                   <LabeledInput
@@ -208,12 +211,12 @@ const SettingsDashboard: React.FC = () => {
                     label="Minimum startup selections"
                     type="number"
                     onChange={e => {
-                      setDefaultStartupSelections(parseInt(e.target.value, 10))
+                      setDefaultStartupSelections(+e.target.value)
                     }}
                   />
                 </FormArea>
                 <FormArea>
-                  <h2>Investor portal dates</h2>
+                  <h3 className="heading">Investor portal dates</h3>
                   <LabeledInput
                     label="Startup submissions deadline"
                     type="datetime-local"
@@ -223,8 +226,8 @@ const SettingsDashboard: React.FC = () => {
                     }}
                   />
                 </FormArea>
-                <FormArea>
-                  <h2>Startup portal dates</h2>
+                <FormArea className="space-around">
+                  <h3 className="heading">Startup portal dates</h3>
                   <LabeledInput
                     label="Startup Portal opening at"
                     type="datetime-local"
@@ -243,9 +246,11 @@ const SettingsDashboard: React.FC = () => {
                     }}
                   />
                 </FormArea>
-                <div>
-                  <Button onClick={submitSettings}>Save</Button>
-                </div>
+                <FormArea>
+                  <Button className="align-right" onClick={submitSettings}>
+                    Save
+                  </Button>
+                </FormArea>
               </ConfigurationPanel>
             </SpacingBottom>
           </ContainerCard>

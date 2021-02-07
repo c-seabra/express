@@ -3,7 +3,6 @@ import { ApolloError, gql } from '@apollo/client'
 export type EventQuery = {
   data?: {
     event: {
-      timezone: string
       configuration: {
         investorMeetingConfiguration: {
           defaultStartupSelections: number
@@ -11,8 +10,8 @@ export type EventQuery = {
           notifyOfficeHoursInvitees: number
           sessionDuration: number
           sponsorLogoUrl: string
-          startupPortalOpeningAt: Date
           startupPortalClosingAt: Date
+          startupPortalOpeningAt: Date
           startupSelectionDeadline: Date
         }
       }
@@ -25,6 +24,7 @@ export type EventQuery = {
           startsAt: string
         }
       ]
+      timezone: string
     }
   }
   error?: ApolloError
