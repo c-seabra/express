@@ -60,9 +60,7 @@ export const FormArea = styled.div`
     }
   }
 `
-export const AddButton = styled.div`
-  float: right;
-`
+
 export const BorderBottom = styled.div`
   border-bottom: solid;
   border-bottom-width: thin;
