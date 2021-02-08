@@ -15,6 +15,7 @@ import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
+import SessionsSummary from './SessionsSummary'
 import {
   ConfigurationPanel,
   FormArea,
@@ -41,6 +42,7 @@ const SettingsDashboard: React.FC = () => {
     data,
     error,
     loading,
+    refetch,
   }: {
     data?: {
       event: {
@@ -63,11 +65,14 @@ const SettingsDashboard: React.FC = () => {
             startsAt: string
           }
         ]
-        timezone: string
+        timeZone: {
+          ianaName: string
+        }
       }
     }
     error?: ApolloError
     loading?: boolean
+    refetch?: any
   } = useQuery(EVENT_QUERY, {
     context: {
       slug: conferenceSlug,
@@ -97,7 +102,7 @@ const SettingsDashboard: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setEventTimezone(data?.event.timezone || 'Europe/Dublin')
+      setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
       const configurations = data?.event.configuration.investorMeetingConfiguration
       setDefaultStartupSelections(configurations.defaultStartupSelections)
       setMeetingsPerSession(configurations.meetingsPerSession)
@@ -109,6 +114,8 @@ const SettingsDashboard: React.FC = () => {
       setStartupSelectionDeadline(usableDateString(configurations.startupSelectionDeadline))
     }
   }, [data])
+
+  const investorSessionsSummary = data?.event.investorSessionsSummary
 
   const [eventUpdateMutuation] = useMutation(EVENT_UPDATE_MUTATION, {
     context: {
@@ -164,7 +171,7 @@ const SettingsDashboard: React.FC = () => {
           </Success>
         )}
         <SpacingBottom>
-          <ContainerCard color="#00AFA9" title="Conference settings">
+          <ContainerCard color="#00AFA9" title="Investor portal settings">
             <SpacingBottom>
               <ConfigurationPanel
                 onSubmit={e => {
@@ -252,9 +259,15 @@ const SettingsDashboard: React.FC = () => {
             </SpacingBottom>
           </ContainerCard>
         </SpacingBottom>
-        <ContainerCard color="#4688D9" title="Add Sessions">
+        <ContainerCard color="#4688D9" title="Sessions">
           <SpacingBottom>
-            <InvestorSessionsCreateForm />
+            <InvestorSessionsCreateForm
+              refetchSessions={() => refetch()}
+              timeZone={eventTimezone}
+            />
+            {investorSessionsSummary?.length && (
+              <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
+            )}
           </SpacingBottom>
         </ContainerCard>
       </PageContainer>
