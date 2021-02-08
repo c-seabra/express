@@ -9,6 +9,8 @@ export const StyledGridContainer = styled.section`
   grid-gap: 1rem;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
 `
 
 export const StyledColumnContainer = styled.div`

@@ -1,7 +1,7 @@
 import jwt from 'jwt-decode'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
@@ -31,24 +31,13 @@ const StyledMainNavigationContainer = styled.section`
   max-width: 1440px;
 `
 
-const StyledMainHeader = styled.section`
-  display: flex;
-  margin: 20px auto;
-  max-width: 1440px;
-`
-
 const App = ({ token }: { token: string }) => {
-  const [conferenceSlug, setConferenceSlug] = useState<string>()
+  if (!token) return null
+
   const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
     conf_slug: string
     email: string
   }
-
-  useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug)
-  }, [token, tokenPayload.conf_slug])
-
-  if (!token) return null
 
   return (
     <Router>
@@ -57,7 +46,7 @@ const App = ({ token }: { token: string }) => {
       </StyledMainNavigationContainer>
       <AppContext.Provider
         value={{
-          conferenceSlug,
+          conferenceSlug: tokenPayload.conf_slug,
           token,
         }}
       >
@@ -75,10 +64,13 @@ const App = ({ token }: { token: string }) => {
           <GlobalStyle />
           <Switch>
             <Route exact path="/">
-              <AttendanceDashboard />
+              <Redirect to="/settings" />
             </Route>
             <Route path="/settings">
               <SettingsDashboard />
+            </Route>
+            <Route path="/dashboard">
+              <AttendanceDashboard />
             </Route>
           </Switch>
         </StyledContainer>

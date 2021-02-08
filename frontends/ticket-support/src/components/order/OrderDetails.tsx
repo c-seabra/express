@@ -9,6 +9,7 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
@@ -117,10 +118,10 @@ const OrderDetails: React.FC = () => {
       ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
   }
-
+  const { event } = useEventDataQuery()
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
-      label: 'Web Summit 2021', // TODO get event name
+      label: event?.name || 'Home',
       redirectUrl: '/',
     },
     {

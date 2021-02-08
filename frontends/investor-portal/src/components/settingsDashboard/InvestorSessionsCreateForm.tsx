@@ -11,8 +11,9 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
+import { SpacingBottom, StyledGridContainer } from './InvestorSessionsCreateForm.styled'
 import SessionsSummary from './SessionsSummary'
-import { AddButton, BorderBottom, FormArea, SpacingBottom } from './SettingsDashboard.styled'
+import { BorderBottom } from './SettingsDashboard.styled'
 
 const InvestorSessionsCreateForm: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -129,7 +130,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
       )}
       <BorderBottom>
         <SpacingBottom>
-          <FormArea>
+          <StyledGridContainer>
             <LabeledInput
               label="Starting Time"
               type="datetime-local"
@@ -152,13 +153,13 @@ const InvestorSessionsCreateForm: React.FC = () => {
               label="How many sessions in this block?"
               type="number"
               onChange={e => {
-                setCount(parseInt(e.target.value))
+                setCount(+e.target.value)
               }}
             />
-          </FormArea>
-          <AddButton>
-            <Button onClick={submitForm}>Add Session</Button>
-          </AddButton>
+            <Button className="align-right" onClick={submitForm}>
+              Add Session
+            </Button>
+          </StyledGridContainer>
         </SpacingBottom>
       </BorderBottom>
       {investorSessionsSummary && (
