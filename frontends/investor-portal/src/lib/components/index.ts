@@ -5,8 +5,14 @@
  */
 
 export { default as Button } from './atoms/Button'
+export { default as Badge } from './atoms/Badge'
 export { default as ContainerCard } from './atoms/ContainerCard'
 export { default as FileInput } from './atoms/FileInput'
+export { default as Heading } from './atoms/Heading'
 export { default as Icon } from './atoms/Icon'
 export { default as Input } from './atoms/Input'
 export { default as Label } from './atoms/Label'
+export { default as ListItem } from './atoms/ListItem'
+export { default as Logo } from './atoms/Logo'
+export { default as PopupModal } from './atoms/PopupModal'
+export { default as Tooltip } from './atoms/Tooltip'

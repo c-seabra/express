@@ -18,3 +18,9 @@ export type UserError = {
   message: string
   path: string
 }
+
+export type Attendance = {
+  id: string
+  name: string
+  pendingSelectionCount: number
+}
