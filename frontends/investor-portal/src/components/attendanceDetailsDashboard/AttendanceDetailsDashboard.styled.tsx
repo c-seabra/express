@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import { CategoryListContainer } from '../../lib/components/molecules/CategoryList.styled'
-
 export const DashboardDetailsContainer = styled.div`
   max-width: 1440px;
   margin: auto;
