@@ -20,18 +20,25 @@ export type UserError = {
 }
 
 export interface Attendance {
+  attendanceAppearanceSelections?: {
+    edges: [{ node: AttendanceAppearanceSelection }]
+  }
   id: string
   name: string
   pendingSelectionCount: number
 }
 
 export interface AttendanceAppearanceSelection {
-  appearance: {
-    company: {
-      name: string
-    }
-  }
-  createdAt: string
+  appearance: Appearance
   id: string
   status: string
+  updatedAt: string
+}
+
+export interface Appearance {
+  company: Company
+}
+
+export interface Company {
+  name: string
 }

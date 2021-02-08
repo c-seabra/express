@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 
 import { Label } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import { AttendanceAppearanceSelection } from '../../lib/types'
+import { Attendance } from '../../lib/types'
 import { ATTENDANCE_DETAILS_QUERY } from '../../operations/queries/AttendanceDetails'
 import { useAppContext } from '../app/AppContext'
 import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection/AttendanceAppearanceSelectionList'
@@ -21,12 +21,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
     loading,
   }: {
     data?: {
-      attendance: {
-        attendanceAppearanceSelections: {
-          edges: [{ node: AttendanceAppearanceSelection }]
-        }
-        name: string
-      }
+      attendance: Attendance
     }
     error?: ApolloError
     loading?: boolean
@@ -41,7 +36,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
   })
 
   const selections =
-    data?.attendance.attendanceAppearanceSelections.edges.flatMap(edge => edge.node) || []
+    data?.attendance.attendanceAppearanceSelections?.edges.flatMap(edge => edge.node) || []
   return (
     <DashboardDetailsContainer>
       <Helmet>

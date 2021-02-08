@@ -3,9 +3,8 @@ import React, { ReactElement } from 'react'
 
 import Loader from '../../lib/Loading'
 import { AttendanceAppearanceSelection } from '../../lib/types'
-import AttendanceAppearanceSelectionItem, {
-  AttendanceAppearanceSelectionListHeader,
-} from './AttendanceAppearanceSelectionItem'
+import AttendanceAppearanceSelectionItem from './AttendanceAppearanceSelectionItem'
+import AttendanceAppearanceSelectionListHeader from './AttendanceAppearanceSelectionListHeader'
 
 type AtendanceAppearanceSelectionListProps = {
   error?: ApolloError
