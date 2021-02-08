@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 
 import { Label } from '../../lib/components'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import { Attendance } from '../../lib/types'
+import { Attendance, AttendanceAppearanceSelection } from '../../lib/types'
 import { ATTENDANCE_DETAILS_QUERY } from '../../operations/queries/AttendanceDetails'
 import { useAppContext } from '../app/AppContext'
 import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection'
@@ -35,8 +35,9 @@ const AttendanceDetailsDashboard = (): ReactElement => {
     },
   })
 
-  const selections =
+  const selections: AttendanceAppearanceSelection[] =
     data?.attendance.attendanceAppearanceSelections?.edges.flatMap(edge => edge.node) || []
+
   return (
     <DashboardDetailsContainer>
       <Helmet>

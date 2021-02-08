@@ -7,6 +7,7 @@ const ColumnStyles = styled.div`
   padding: 0 0.25rem;
   word-break: break-word;
 `
+
 const Column = styled(ColumnStyles)`
   width: 25%;
 `

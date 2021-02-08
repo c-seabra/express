@@ -23,21 +23,3 @@ export const Select = styled(StyledLabel)`
     padding-right: 1rem;
   }
 `
-
-export const MultiSelect = styled(StyledLabel)`
-  select {
-    height: 4rem;
-  }
-`
-
-export const PopupFiltersContainer = styled.div`
-  display: flex;
-
-  ${CategoryListContainer} {
-    margin-right: 0.6rem;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-`
