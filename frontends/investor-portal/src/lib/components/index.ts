@@ -4,7 +4,7 @@
  * Note: More advance import solution could be provided e.g. https://github.com/diegohaz/arc/blob/master/src-example/components/index.js
  */
 
-export { default as Button } from './atoms/Button'
+export { default as Button, SecondaryButton, DestructiveButton } from './atoms/Button'
 export { default as Badge } from './atoms/Badge'
 export { default as ContainerCard } from './atoms/ContainerCard'
 export { default as FileInput } from './atoms/FileInput'

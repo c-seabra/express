@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import ListItem from '../../lib/components/atoms/ListItem.styled'
+import { ListItem } from '../../lib/components'
 
 const ListHeaderItem = styled(ListItem)`
   font-weight: 600;

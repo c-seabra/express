@@ -9,9 +9,7 @@ export const ATTENDANCE_DETAILS_QUERY = gql`
           node {
             id
             status
-            createdAt
             updatedAt
-            submittedAt
             appearance {
               id
               company {

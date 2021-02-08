@@ -19,7 +19,7 @@ export type UserError = {
   path: string
 }
 
-export type Attendance  = {
+export type Attendance = {
   attendanceAppearanceSelections?: {
     edges: [{ node: AttendanceAppearanceSelection }]
   }

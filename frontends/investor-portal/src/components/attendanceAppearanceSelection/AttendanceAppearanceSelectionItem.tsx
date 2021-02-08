@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 
-import { DestructiveButton, SecondaryButton } from '../../lib/components/atoms/Button'
-import ListItem from '../../lib/components/atoms/ListItem.styled'
+import { DestructiveButton, ListItem, SecondaryButton } from '../../lib/components'
 import { AttendanceAppearanceSelection } from '../../lib/types'
 import Column from './AttendanceAppearanceSelectionColumn.styled'
 
