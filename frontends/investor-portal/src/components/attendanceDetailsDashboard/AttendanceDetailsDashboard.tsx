@@ -8,7 +8,7 @@ import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import { Attendance } from '../../lib/types'
 import { ATTENDANCE_DETAILS_QUERY } from '../../operations/queries/AttendanceDetails'
 import { useAppContext } from '../app/AppContext'
-import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection/AttendanceAppearanceSelectionList'
+import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection'
 import { DashboardDetailsContainer } from './AttendanceDetailsDashboard.styled'
 
 const AttendanceDetailsDashboard = (): ReactElement => {
