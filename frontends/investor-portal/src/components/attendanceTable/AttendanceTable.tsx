@@ -1,7 +1,6 @@
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react'
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import TextHeading from '../../lib/components/atoms/Heading'
+import { ContainerCard, Heading } from '../../lib/components'
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
 import Pagination from '../../lib/Pagination'
@@ -57,7 +56,7 @@ const AttendanceTable = (): ReactElement => {
   return (
     <>
       <SearchFilters>
-        <TextHeading>Attendance area</TextHeading>
+        <Heading>Attendance area</Heading>
         <FiltersSearchContainer>
           <StyledSearchInput
             defaultValue={searchQuery}

@@ -1,8 +1,7 @@
 import React, { ReactElement, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../atoms/Button'
-import PopupModal from '../atoms/PopupModal'
+import { Button, PopupModal } from '..'
 
 const Container = styled.div`
   display: flex;

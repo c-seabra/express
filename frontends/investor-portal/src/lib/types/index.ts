@@ -19,7 +19,7 @@ export type UserError = {
   path: string
 }
 
-export interface Attendance {
+export type Attendance = {
   id: string
   name: string
   pendingSelectionCount: number

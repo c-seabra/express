@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
-import ListItem from '../../lib/components/atoms/ListItem.styled'
+import { ListItem } from '../../lib/components'
 import { Attendance } from '../../lib/types'
 
 const ColumnStyles = styled.div`

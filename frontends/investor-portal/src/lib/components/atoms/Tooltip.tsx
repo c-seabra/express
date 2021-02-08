@@ -41,7 +41,7 @@ type TooltipProps = {
   value?: string
 }
 
-export const Tooltip = ({
+const Tooltip = ({
   copyToClip = true,
   content = 'Click to copy',
   value = '',
@@ -63,3 +63,5 @@ export const Tooltip = ({
     </StyledTooltip>
   )
 }
+
+export default Tooltip
