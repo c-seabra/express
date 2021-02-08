@@ -34,7 +34,7 @@ export type EventQuery = {
 }
 
 export const EVENT_QUERY = gql`
-  query {
+  query EventQuery {
     event {
       configuration {
         investorMeetingConfiguration {
