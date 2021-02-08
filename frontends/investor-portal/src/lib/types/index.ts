@@ -19,7 +19,7 @@ export type UserError = {
   path: string
 }
 
-export interface Attendance {
+export type Attendance  = {
   attendanceAppearanceSelections?: {
     edges: [{ node: AttendanceAppearanceSelection }]
   }
@@ -28,17 +28,17 @@ export interface Attendance {
   pendingSelectionCount: number
 }
 
-export interface AttendanceAppearanceSelection {
+export type AttendanceAppearanceSelection = {
   appearance: Appearance
   id: string
   status: string
   updatedAt: string
 }
 
-export interface Appearance {
+export type Appearance = {
   company: Company
 }
 
-export interface Company {
+export type Company = {
   name: string
 }

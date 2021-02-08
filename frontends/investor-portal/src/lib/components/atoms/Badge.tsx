@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Badge = styled.span`
+const Badge = styled.span`
   font-size: 14px;
   font-weight: 300;
   line-height: 24px;
@@ -10,3 +10,5 @@ export const Badge = styled.span`
   border-radius: 4px;
   min-width: 75px;
 `
+
+export default Badge

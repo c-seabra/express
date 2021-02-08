@@ -5,8 +5,8 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
-import { Button } from '../../lib/components'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import { Button, ContainerCard } from '../../lib/components'
+import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Loader from '../../lib/Loading'
 import EVENT_UPDATE_MUTATION from '../../operations/mutations/EventUpdate'
@@ -42,6 +42,7 @@ const SettingsDashboard: React.FC = () => {
     data,
     error,
     loading,
+    refetch,
   }: {
     data?: {
       event: {
@@ -64,11 +65,14 @@ const SettingsDashboard: React.FC = () => {
             startsAt: string
           }
         ]
-        timezone: string
+        timeZone: {
+          ianaName: string
+        }
       }
     }
     error?: ApolloError
     loading?: boolean
+    refetch?: any
   } = useQuery(EVENT_QUERY, {
     context: {
       slug: conferenceSlug,
@@ -98,7 +102,7 @@ const SettingsDashboard: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setEventTimezone(data?.event.timezone || 'Europe/Dublin')
+      setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
       const configurations = data?.event.configuration.investorMeetingConfiguration
       setDefaultStartupSelections(configurations.defaultStartupSelections)
       setMeetingsPerSession(configurations.meetingsPerSession)
@@ -167,7 +171,7 @@ const SettingsDashboard: React.FC = () => {
           </Success>
         )}
         <SpacingBottom>
-          <ContainerCard color="#00AFA9" title="Conference settings">
+          <ContainerCard color="#00AFA9" title="Investor portal settings">
             <SpacingBottom>
               <ConfigurationPanel
                 onSubmit={e => {
@@ -175,24 +179,27 @@ const SettingsDashboard: React.FC = () => {
                   submitSettings()
                 }}
               >
-                <SponsorLogo src={sponsorLogoUrl} />
-                <LabeledInput
-                  accept="image/svg+xml"
-                  defaultValue={sponsorLogoUrl}
-                  label="Sponsor logo"
-                  type="file"
-                  onChange={e => {
-                    handleUpload(e.target.files?.[0])
-                  }}
-                />
                 <FormArea>
-                  <h2>Session settings</h2>
+                  <SponsorLogo src={sponsorLogoUrl} />
+                  <LabeledFileInput
+                    accept="image/svg+xml"
+                    className="file-input"
+                    defaultValue={sponsorLogoUrl}
+                    label="Upload a SVG file"
+                    type="file"
+                    onChange={e => {
+                      handleUpload(e.target.files?.[0])
+                    }}
+                  />
+                </FormArea>
+                <FormArea>
+                  <h3 className="heading">Session settings</h3>
                   <LabeledInput
                     defaultValue={sessionDuration}
                     label="Sessions duration (min)"
                     type="number"
                     onChange={e => {
-                      setSessionDuration(parseInt(e.target.value, 10))
+                      setSessionDuration(+e.target.value)
                     }}
                   />
                   <LabeledInput
@@ -200,7 +207,7 @@ const SettingsDashboard: React.FC = () => {
                     label="Meetings per session"
                     type="number"
                     onChange={e => {
-                      setMeetingsPerSession(parseInt(e.target.value, 10))
+                      setMeetingsPerSession(+e.target.value)
                     }}
                   />
                   <LabeledInput
@@ -208,12 +215,12 @@ const SettingsDashboard: React.FC = () => {
                     label="Minimum startup selections"
                     type="number"
                     onChange={e => {
-                      setDefaultStartupSelections(parseInt(e.target.value, 10))
+                      setDefaultStartupSelections(+e.target.value)
                     }}
                   />
                 </FormArea>
                 <FormArea>
-                  <h2>Investor portal dates</h2>
+                  <h3 className="heading">Investor portal dates</h3>
                   <LabeledInput
                     label="Startup submissions deadline"
                     type="datetime-local"
@@ -223,8 +230,8 @@ const SettingsDashboard: React.FC = () => {
                     }}
                   />
                 </FormArea>
-                <FormArea>
-                  <h2>Startup portal dates</h2>
+                <FormArea className="space-around">
+                  <h3 className="heading">Startup portal dates</h3>
                   <LabeledInput
                     label="Startup Portal opening at"
                     type="datetime-local"
@@ -243,19 +250,26 @@ const SettingsDashboard: React.FC = () => {
                     }}
                   />
                 </FormArea>
-                <div>
-                  <Button onClick={submitSettings}>Save</Button>
-                </div>
+                <FormArea>
+                  <Button className="align-right" onClick={submitSettings}>
+                    Save
+                  </Button>
+                </FormArea>
               </ConfigurationPanel>
             </SpacingBottom>
           </ContainerCard>
         </SpacingBottom>
-        <SpacingBottom>
-          <InvestorSessionsCreateForm />
-        </SpacingBottom>
-        {investorSessionsSummary?.length && (
-          <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
-        )}
+        <ContainerCard color="#4688D9" title="Sessions">
+          <SpacingBottom>
+            <InvestorSessionsCreateForm
+              refetchSessions={() => refetch()}
+              timeZone={eventTimezone}
+            />
+            {investorSessionsSummary?.length && (
+              <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
+            )}
+          </SpacingBottom>
+        </ContainerCard>
       </PageContainer>
     </>
   )

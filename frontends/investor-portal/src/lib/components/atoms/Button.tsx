@@ -68,3 +68,4 @@ export const DestructiveButton = styled(Button)`
     color: #ffffff;
   }
 `
+export default Button
