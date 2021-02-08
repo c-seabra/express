@@ -2,32 +2,33 @@ import 'moment-timezone'
 
 import { useMutation } from '@apollo/client'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import { Button, ContainerCard } from '../../lib/components'
+import { Button } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
 import { SpacingBottom, StyledGridContainer } from './InvestorSessionsCreateForm.styled'
+import { BorderBottom } from './SettingsDashboard.styled'
 
-const InvestorSessionsCreateForm: React.FC = () => {
+type InvestorSessionsCreateFormType = {
+  refetchSessions: any
+  timeZone: string
+}
+
+const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
+  refetchSessions,
+  timeZone,
+}) => {
   const { conferenceSlug, token } = useAppContext()
-  const [eventTimezone] = useState<string>('Europe/Dublin')
+  const [eventTimezone] = useState<string>(timeZone)
   const [startsAt, setStartsAt] = useState<string | undefined>()
   const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
   const [mutationError, setMutationError] = useState<string | undefined>()
-
-  const usableDateString = (dateString: string | undefined) => {
-    if (dateString === undefined || dateString === null) {
-      return undefined
-    }
-    const str = dateString
-    return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
-  }
 
   const styledDateForMutation = (dateString?: string) => {
     if (dateString === undefined || dateString === '') {
@@ -35,12 +36,6 @@ const InvestorSessionsCreateForm: React.FC = () => {
     }
     return moment(dateString).tz(eventTimezone, true).format()
   }
-
-  useEffect(() => {
-    setStartsAt(usableDateString(startsAt))
-    setEndsAt(usableDateString(endsAt))
-    setCount(count)
-  }, [])
 
   const [investorSessionsCreateMutation] = useMutation(INVESTOR_SESSIONS_CREATE_MUTATION, {
     context: {
@@ -51,6 +46,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
       const success = investorSessionsCreate?.successMessage
       if (success !== null) {
         setMutationSuccessMessage(investorSessionsCreate?.successMessage)
+        refetchSessions()
         setMutationError('')
       }
       if (investorSessionsCreate?.userErrors.length) {
@@ -80,7 +76,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
           <span>{mutationSuccessMessage}</span>
         </Success>
       )}
-      <ContainerCard color="#f6b826" title="Session Settings">
+      <BorderBottom>
         <SpacingBottom>
           <StyledGridContainer>
             <LabeledInput
@@ -113,7 +109,7 @@ const InvestorSessionsCreateForm: React.FC = () => {
             </Button>
           </StyledGridContainer>
         </SpacingBottom>
-      </ContainerCard>
+      </BorderBottom>
     </>
   )
 }

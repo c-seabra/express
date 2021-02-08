@@ -24,7 +24,9 @@ export type EventQuery = {
           startsAt: string
         }
       ]
-      timezone: string
+      timeZone: {
+        ianaName: string
+      }
     }
   }
   error?: ApolloError
@@ -34,7 +36,6 @@ export type EventQuery = {
 export const EVENT_QUERY = gql`
   query {
     event {
-      timezone
       configuration {
         investorMeetingConfiguration {
           defaultStartupSelections
@@ -53,6 +54,9 @@ export const EVENT_QUERY = gql`
         count
         endsAt
         startsAt
+      }
+      timeZone {
+        ianaName
       }
     }
   }

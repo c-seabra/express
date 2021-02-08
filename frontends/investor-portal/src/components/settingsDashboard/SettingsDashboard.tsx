@@ -42,6 +42,7 @@ const SettingsDashboard: React.FC = () => {
     data,
     error,
     loading,
+    refetch,
   }: {
     data?: {
       event: {
@@ -64,11 +65,14 @@ const SettingsDashboard: React.FC = () => {
             startsAt: string
           }
         ]
-        timezone: string
+        timeZone: {
+          ianaName: string
+        }
       }
     }
     error?: ApolloError
     loading?: boolean
+    refetch?: any
   } = useQuery(EVENT_QUERY, {
     context: {
       slug: conferenceSlug,
@@ -98,7 +102,7 @@ const SettingsDashboard: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setEventTimezone(data?.event.timezone || 'Europe/Dublin')
+      setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
       const configurations = data?.event.configuration.investorMeetingConfiguration
       setDefaultStartupSelections(configurations.defaultStartupSelections)
       setMeetingsPerSession(configurations.meetingsPerSession)
@@ -167,7 +171,7 @@ const SettingsDashboard: React.FC = () => {
           </Success>
         )}
         <SpacingBottom>
-          <ContainerCard color="#00AFA9" title="Conference settings">
+          <ContainerCard color="#00AFA9" title="Investor portal settings">
             <SpacingBottom>
               <ConfigurationPanel
                 onSubmit={e => {
@@ -255,12 +259,17 @@ const SettingsDashboard: React.FC = () => {
             </SpacingBottom>
           </ContainerCard>
         </SpacingBottom>
-        <SpacingBottom>
-          <InvestorSessionsCreateForm />
-        </SpacingBottom>
-        {investorSessionsSummary?.length && (
-          <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
-        )}
+        <ContainerCard color="#4688D9" title="Sessions">
+          <SpacingBottom>
+            <InvestorSessionsCreateForm
+              refetchSessions={() => refetch()}
+              timeZone={eventTimezone}
+            />
+            {investorSessionsSummary?.length && (
+              <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
+            )}
+          </SpacingBottom>
+        </ContainerCard>
       </PageContainer>
     </>
   )
