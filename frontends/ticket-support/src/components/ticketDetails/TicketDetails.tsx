@@ -1,5 +1,4 @@
-import { Formik } from 'formik'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -9,7 +8,6 @@ import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
-import TextInputField from '../../lib/components/molecules/TextInputField'
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
@@ -17,6 +15,7 @@ import { useAppContext } from '../app/AppContext'
 import AuditTrail from '../auditTrail/AuditTrail'
 import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
+import TicketVoidModal from '../ticketActions/TicketVoidModal'
 import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier'
@@ -45,8 +44,11 @@ const SpacingBottomSm = styled.div`
   margin-bottom: 1rem;
 `
 
-const SpacingBottomXs = styled.div`
-  margin-bottom: 0.5rem;
+const StyledHistoryChanges = styled.div`
+  padding: 2rem 0;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #dcdfe5;
 `
 
 const StyledRow = styled.div`
@@ -105,11 +107,6 @@ const PrimaryButton = styled(Button)`
   width: 100%;
 `
 
-const TextHighlight = styled.span`
-  color: #337ab7;
-  margin: 0 0.25rem;
-`
-
 const AccountDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -139,6 +136,12 @@ const TicketDetails = (): ReactElement => {
     openModal: openUnassignTicketModal,
     isOpen: isUnassignTicketModalOpen,
     closeModal: closeUnassignTicketModal,
+  } = useModalState()
+
+  const {
+    openModal: openTicketVoidModal,
+    isOpen: isTicketVoidModalOpen,
+    closeModal: closeTicketVoidModal,
   } = useModalState()
 
   const { loading, error, ticket } = useSingleTicketQuery({ reference: bookingRef })
@@ -219,6 +222,14 @@ const TicketDetails = (): ReactElement => {
                     onRequestClose={closeUnassignTicketModal}
                   />
                 </SpacingBottomSm>
+                <SpacingBottomSm>
+                  <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
+                  <TicketVoidModal
+                    isOpen={isTicketVoidModalOpen}
+                    ticket={ticket}
+                    closeModal={closeTicketVoidModal}
+                  />
+                </SpacingBottomSm>
                 <Modal noPadding isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
                   <AuditTrail
                     bookingRef={bookingRef}
@@ -226,10 +237,12 @@ const TicketDetails = (): ReactElement => {
                     token={token as string}
                   />
                 </Modal>
+              </StyledInnerContainerCard>
+              <StyledHistoryChanges>
                 <Button as={SecondaryButton} onClick={openHistoryModal}>
                   Load history changes
                 </Button>
-              </StyledInnerContainerCard>
+              </StyledHistoryChanges>
             </TicketActionsContainerCard>
 
             <AccountDetailsContainer>
