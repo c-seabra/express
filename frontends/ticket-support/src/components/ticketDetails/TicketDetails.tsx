@@ -19,6 +19,7 @@ import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
 import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
+import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier'
 import UserProfileInformation from '../userProfileInformation/UserProfileInformation'
 import TicketStateActions from './TicketStateActions'
 
@@ -235,18 +236,10 @@ const TicketDetails = (): ReactElement => {
               <ContainerCard title="User account details">
                 <ContainerCardInner>
                   {assignment && assignment.assignee && (
-                    <>
-                      <StyledLabel>Unique user identifier</StyledLabel>
-                      <Formik
-                        enableReinitialize
-                        initialValues={{ uniqueEmail: assignment.assignee?.email }}
-                        onSubmit={async values => {
-                          // TODO will be moved to different component
-                        }}
-                      >
-                        <TextInputField disabled name="uniqueEmail" />
-                      </Formik>
-                    </>
+                    <UpdateUniqueUserIdentifier
+                      accountId={assignment.assignee.id}
+                      email={assignment.assignee?.email}
+                    />
                   )}
 
                   {assignment?.state === 'ACCEPTED' && (
