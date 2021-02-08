@@ -12,6 +12,10 @@ export const TICKET_AUDIT_TRAIL = gql`
         context
         reason
         createdAt
+        sourceLocation
+        id
+        command
+        object
       }
       assignments {
         edges {
@@ -25,6 +29,10 @@ export const TICKET_AUDIT_TRAIL = gql`
               context
               reason
               createdAt
+              sourceLocation
+              id
+              command
+              object
             }
           }
         }

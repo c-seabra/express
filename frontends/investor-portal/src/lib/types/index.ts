@@ -1,3 +1,12 @@
+export type InvestorSessionsSummary = [
+  {
+    claimed: number
+    count: number
+    endsAt: string
+    startsAt: string
+  }
+]
+
 export type PageInfo = {
   endCursor: string
   hasNextPage: string
@@ -10,9 +19,9 @@ export type UserError = {
   path: string
 }
 
-export interface Investor {
-  name: string
+export interface Attendance {
   id: string
+  name: string
   pendingSelectionCount: number
 }
 

@@ -8,15 +8,14 @@
  *  disabled, hovered
  */
 
-import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 export const Button = styled.button`
   display: inline-flex;
-  font-family: 'azo-sans-web', sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   justify-content: center;
+  align-items: center;
   min-width: 75px;
   padding: 0 32px;
   border-radius: 3px;
@@ -32,10 +31,10 @@ export const Button = styled.button`
   background-color: #0067e9;
 
   &:hover {
-    border: 1px solid: #2269bf;
+    border: 1px solid #2269bf;
     background-color: #2269bf;
   }
-  
+
   &:focus {
     outline: none;
   }
@@ -56,5 +55,17 @@ export const SecondaryButton = styled(Button)`
   &:hover {
     background-color: #2269bf;
     color: #ffffff;
+  }
+`
+
+export const TextButton = styled(SecondaryButton)`
+  border: none;
+  background-color: white;
+  padding: 0;
+
+  &:hover {
+    background-color: white;
+    color: #2269bf;
+    border: none;
   }
 `

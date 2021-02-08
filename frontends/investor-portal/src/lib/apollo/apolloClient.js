@@ -1,4 +1,5 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client'
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client'
+import { createUploadLink } from 'apollo-upload-client'
 import fetch from 'isomorphic-unfetch'
 
 import { isBrowser, isServer } from './ssrMode'
@@ -26,7 +27,7 @@ const createApolloClient = (initialState = {}) => {
     return forward(operation)
   })
 
-  const httpLink = new HttpLink({ fetch, uri: GRAPHQL_API_URL })
+  const httpLink = createUploadLink({ fetch, uri: GRAPHQL_API_URL })
 
   const links = [setHeadersLink, httpLink]
   const link = ApolloLink.from(links)

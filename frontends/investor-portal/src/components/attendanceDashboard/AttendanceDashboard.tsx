@@ -1,17 +1,17 @@
 import React, { ReactElement } from 'react'
 import { Helmet } from 'react-helmet'
 
-import InvestorTable from '../investorTable/InvestorTable'
-import DashboardContainer from './AttendanceDashboard.styled'
+import AttendanceTable from '../attendanceTable/AttendanceTable'
+import { PageContainer } from '../settingsDashboard/SettingsDashboard.styled'
 
 const AttendanceDashboard = (): ReactElement => {
   return (
-    <DashboardContainer>
+    <PageContainer>
       <Helmet>
         <title>Attendance control panel</title>
       </Helmet>
-      <InvestorTable />
-    </DashboardContainer>
+      <AttendanceTable />
+    </PageContainer>
   )
 }
 

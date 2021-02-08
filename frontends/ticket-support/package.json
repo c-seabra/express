@@ -26,8 +26,10 @@
     "@types/react-dom": "^16.9.6",
     "@types/systemjs": "^6.1.0",
     "@types/webpack-env": "^1.15.1",
+    "@types/yup": "^0.29.11",
     "babel-plugin-styled-components": "^1.11.1",
     "circular-dependency-plugin": "^5.2.2",
+    "formik": "^2.2.6",
     "isomorphic-unfetch": "^3.1.0",
     "jwt-decode": "^3.1.1",
     "luxon": "^1.25.0",
@@ -36,8 +38,10 @@
     "react-helmet": "^6.1.0",
     "react-modal": "^3.12.1",
     "react-router-dom": "^5.2.0",
+    "react-simple-snackbar": "^1.1.10",
     "styled-components": "^5.2.1",
-    "ts-loader": "^8.0.11"
+    "ts-loader": "^8.0.11",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@analytics/google-analytics": "^0.5.2",
@@ -129,6 +133,7 @@
     "react-dom": "^16.13.0",
     "react-instantsearch-core": "^6.7.0",
     "react-instantsearch-dom": "^6.5.0",
+    "react-json-pretty": "^2.2.0",
     "react-jsonschema-form": "^1.8.1",
     "react-markdown": "^4.3.1",
     "react-qr-svg": "^2.2.2",
