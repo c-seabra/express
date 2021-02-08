@@ -73,6 +73,9 @@ const App = ({ token }: { token: string }) => {
             <Route path="/settings">
               <SettingsDashboard />
             </Route>
+            <Route path="/investor_permissions">
+              <InvestorPermission />
+            </Route>
             <Route path="/dashboard">
               <AttendanceDashboard />
             </Route>

@@ -8,6 +8,25 @@ export const PermissionForm = styled.form`
 
   & > div {
     width: 100%;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+  }
+`
+
+export const SpacingBottom = styled.div`
+  margin-bottom: 2.5rem;
+  > button {
+    margin-right: 6px;
+  }
+  > ul {
+    list-style: none;
+  }
+  > li {
+    line-height: 1.5em;
+  }
+  .valid::before {
+    content: '✅ ';
+  }
+  .invalid:before {
+    content: '🔴 ';
   }
 `
