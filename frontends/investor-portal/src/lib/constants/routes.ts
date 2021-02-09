@@ -13,10 +13,11 @@ export type Routes = {
 }
 // Order is important here for rendering purpose
 const ROUTES: Routes = {
+  // eslint-disable-next-line sort-keys-fix/sort-keys-fix
   DASHBOARD: {
     isActive: true,
     meta: { description: 'Dashboard' },
-    path: '/',
+    path: 'dashboard',
   },
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
   SETTINGS_ADMIN: {

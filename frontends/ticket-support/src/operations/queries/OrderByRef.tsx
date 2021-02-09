@@ -10,6 +10,7 @@ export type OrderByRefQuery = {
         firstName: string
         lastName: string
       }
+      source: string
       state: string
       summary: {
         ticketType: {
@@ -62,6 +63,7 @@ const ORDER_QUERY = gql`
         lastName
         email
       }
+      source
       summary {
         ticketType {
           name

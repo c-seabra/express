@@ -9,7 +9,7 @@ import EditableTextInputField from '../../lib/components/molecules/EditableTextI
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
-import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal'
+import UpdateUniqueUserIdentifierModal from './UpdateUniqueUserIdentifierModal'
 
 const StyledActions = styled.span`
   display: flex;
@@ -28,8 +28,8 @@ const StyledLabel = styled.span`
   line-height: 24px;
 `
 
-type UpdateAppLoginEmailProps = {
-  bookingRef: string
+type UpdateUniqueUserIdentifierProps = {
+  accountId: string
   email?: string
 }
 
@@ -39,7 +39,7 @@ const confirmSchema = Yup.object().shape({
     .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 })
 
-const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) => {
+const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdentifierProps) => {
   const { isOpen, openModal, closeModal } = useModalState()
   const [editMode, setEditMode] = useState(false)
 
@@ -63,7 +63,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
 
   return (
     <>
-      <StyledLabel>App login email</StyledLabel>
+      <StyledLabel>Unique user identifier</StyledLabel>
 
       <Formik
         enableReinitialize
@@ -98,10 +98,13 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
                   <SpacingBottomXs>
                     <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
                       <>
-                        This email will be used to login to apps and for further conference specific
-                        communications
+                        This email is used as an user account email (unique user identifier).
+                        Changing this field will impact their profile data, calendar events and any
+                        associated event related associations. Going forward logging into Ticket
+                        Dashboard will use this new user account email.
                         <br />
-                        Change this only if you know how it&apos;s going to reflect our systems!
+                        This change will however <span>not impact</span> the App login email which
+                        is used to log into our conference apps.{' '}
                       </>
                     </BoxMessage>
                   </SpacingBottomXs>
@@ -117,8 +120,8 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
                       </StyledSecondaryButton>
                       <Button type="submit">Save</Button>
                       <Modal isOpen={isOpen} onRequestClose={closeModal} />
-                      <UpdateAppLoginEmailModal
-                        bookingRef={bookingRef}
+                      <UpdateUniqueUserIdentifierModal
+                        accountId={accountId}
                         closeModal={() => {
                           closeModal()
                           cancelAction()
@@ -139,4 +142,4 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
   )
 }
 
-export default UpdateAppLoginEmail
+export default UpdateUniqueUserIdentifier

@@ -7,9 +7,11 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import useSingleOrderQuery from '../../lib/hooks/useSingleOrderQuery'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
+import { switchCase } from '../../lib/utils/logic'
 import Warning from '../ticketActions/Warning'
 import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
@@ -80,6 +82,12 @@ const OrderDetails: React.FC = () => {
 
   const { tickets, owner } = order || {}
 
+  const formatSourceOfSale = (source: string): string =>
+    switchCase({
+      TICKET_MACHINE: 'Ticket Machine',
+      TITO: 'Tito',
+    })(missingDataAbbr)(source)
+
   const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
     error: false,
     loading: false,
@@ -89,7 +97,7 @@ const OrderDetails: React.FC = () => {
       lastUpdatedOn: order?.lastUpdatedAt,
       name: owner?.firstName,
       orderReference: orderRef,
-      sourceOfSale: missingDataAbbr, // e.g. Salesforce (Mocked until integrated to SF)
+      sourceOfSale: order && formatSourceOfSale(order?.source),
       status: order?.state,
       surname: owner?.lastName,
     },
@@ -103,10 +111,10 @@ const OrderDetails: React.FC = () => {
       ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
   }
-
+  const { event } = useEventDataQuery()
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
-      label: 'Web Summit 2021', // TODO get event name
+      label: event?.name || 'Home',
       redirectUrl: '/',
     },
     {
