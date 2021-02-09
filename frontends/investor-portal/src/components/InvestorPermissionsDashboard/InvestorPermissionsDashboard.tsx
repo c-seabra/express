@@ -18,7 +18,7 @@ import {
 } from './InvestorPermissionsDashboard.styled'
 
 const InvestorPermissionsDashboard = (): ReactElement => {
-  type Attendance = {
+  type Ticket = {
     attendanceId?: string
     bookingRef: string
     name?: string
@@ -29,7 +29,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
   const [startupSelections, setStartupSelections] = useState<number | undefined>()
   const [updateError, setUpdateError] = useState<string | undefined>()
   const [updateSuccess, setUpdateSuccess] = useState<string | undefined>()
-  const [attendances, setAttendances] = useState<Array<Attendance>>([])
+  const [tickets, setTickets] = useState<Array<Ticket>>([])
   const [bookingReferencesArray, setBookingReferencesArray] = useState<Array<string>>([])
   const [invalidBookingReferences, setInvalidBookingReferences] = useState<Array<string>>([])
 
@@ -90,13 +90,13 @@ const InvestorPermissionsDashboard = (): ReactElement => {
         setUpdating(false)
         const success = attendanceByBookingReferenceUpdate?.successMessage
         if (success !== null) {
-          setAttendances(attendanceByBookingReferenceUpdate?.attendances)
+          setTickets(attendanceByBookingReferenceUpdate?.tickets)
           setUpdateSuccess(attendanceByBookingReferenceUpdate?.successMessage)
           setInvalidBookingReferences(attendanceByBookingReferenceUpdate?.invalidBookingReferences)
         } else {
           setUpdateError(attendanceByBookingReferenceUpdate?.errorMessage)
           setInvalidBookingReferences([])
-          setAttendances([])
+          setTickets([])
         }
       },
       variables: {
@@ -184,7 +184,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                     <caption>
                       <strong>
                         Invalid booking references for event ({invalidBookingReferences?.length} of{' '}
-                        {attendances?.length}):
+                        {tickets?.length}):
                       </strong>
                       <p>{invalidBookingReferences?.join(' ')}</p>
                     </caption>
@@ -197,8 +197,8 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                     </tr>
                   </thead>
                   <tbody>
-                    {attendances.map(attendance => {
-                      const { attendanceId, bookingRef, name } = attendance
+                    {tickets.map(ticket => {
+                      const { attendanceId, bookingRef, name } = ticket
                       return (
                         <tr key={bookingRef}>
                           <td>{bookingRef}</td>

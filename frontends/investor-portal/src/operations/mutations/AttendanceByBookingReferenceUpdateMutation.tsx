@@ -13,12 +13,12 @@ export const ATTENDANCE_BY_BOOKING_REFERENCE_UPDATE_MUTATION = gql`
     ) {
       successMessage
       errorMessage
-      attendances {
+      invalidBookingReferences
+      tickets {
         attendanceId
         bookingRef
         name
       }
-      invalidBookingReferences
     }
   }
 `
