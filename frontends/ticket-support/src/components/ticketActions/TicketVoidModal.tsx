@@ -3,12 +3,10 @@ import React, { FormEvent, useState } from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import { WarningMessage } from '../../lib/components/atoms/Messages'
 import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
-import useUnlockTicketMutation from '../../lib/hooks/useTicketUnlockMutation'
 import { Ticket } from '../../lib/types'
 import useTicketVoidMutation from "../../lib/hooks/useTicketVoidMutation";
 
