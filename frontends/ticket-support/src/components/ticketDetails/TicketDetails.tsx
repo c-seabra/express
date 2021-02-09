@@ -7,6 +7,7 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
@@ -45,8 +46,9 @@ const SpacingBottomSm = styled.div`
 `
 
 const StyledHistoryChanges = styled.div`
-  padding: 2rem 0;
   display: flex;
+  flex-direction: column;
+  padding: 2rem;
   justify-content: center;
   border-top: 1px solid #dcdfe5;
 `
@@ -149,6 +151,7 @@ const TicketDetails = (): ReactElement => {
   const orderRef = ticket?.order?.reference || ''
   const assignee = assignment?.assignee
   const { event } = useEventDataQuery()
+  const sourceOfSale = 'tito'
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: event?.name || 'Home',
@@ -222,14 +225,21 @@ const TicketDetails = (): ReactElement => {
                     onRequestClose={closeUnassignTicketModal}
                   />
                 </SpacingBottomSm>
-                <SpacingBottomSm>
-                  <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
+                <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
+                {!sourceOfSale && (
                   <TicketVoidModal
+                    closeModal={closeTicketVoidModal}
                     isOpen={isTicketVoidModalOpen}
                     ticket={ticket}
-                    closeModal={closeTicketVoidModal}
                   />
-                </SpacingBottomSm>
+                )}
+                {sourceOfSale === 'tito' && (
+                  <ErrorInfoModal
+                    closeModal={closeTicketVoidModal}
+                    isOpen={isTicketVoidModalOpen}
+                    bookingRef={bookingRef}
+                  />
+                )}
                 <Modal noPadding isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
                   <AuditTrail
                     bookingRef={bookingRef}
