@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
+import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
@@ -55,10 +56,13 @@ const StyledHistoryChanges = styled.div`
   border-top: 1px solid #dcdfe5;
 `
 
-const StyledRow = styled.div`
+const DefaultStyledRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
+  > * {
+    margin-right: 20px;
+  }
 `
 
 const RowContainer = styled.div`
@@ -154,13 +158,13 @@ const TicketDetails = (): ReactElement => {
   const assignee = assignment?.assignee
   const { event } = useEventDataQuery()
   const sourceOfSale = ticket?.order?.source
-  const isTitoTicket = (source: string): boolean => {
+  const isFromTito = (source: string): boolean => {
     return switchCase({
       TICKET_MACHINE: false,
       TITO: true,
     })(false)(source)
   }
-  const isTitoModalShown = sourceOfSale && isTitoTicket(sourceOfSale)
+  const isTitoTicket = sourceOfSale && isFromTito(sourceOfSale)
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: event?.name || 'Home',
@@ -194,9 +198,14 @@ const TicketDetails = (): ReactElement => {
           </BreadcrumbsContainer>
 
           <SpacingBottom>
-            <StyledRow>
+            <DefaultStyledRow>
               <TextHeading>Manage ticket</TextHeading>
-            </StyledRow>
+              {isTitoTicket && (
+                <BoxMessage backgroundColor="#333333" color="#fff" dimension="sm">
+                  <>As this ticket was sold via Tito, some functionality may be limited</>
+                </BoxMessage>
+              )}
+            </DefaultStyledRow>
           </SpacingBottom>
 
           <RowContainer>
@@ -238,14 +247,14 @@ const TicketDetails = (): ReactElement => {
                   <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
                 )}
 
-                {!isTitoModalShown && (
+                {!isTitoTicket && (
                   <TicketVoidModal
                     closeModal={closeTicketVoidModal}
                     isOpen={isTicketVoidModalOpen}
                     ticket={ticket}
                   />
                 )}
-                {isTitoModalShown && (
+                {isTitoTicket && (
                   <ErrorInfoModal
                     alertHeader={bookingRef}
                     alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
