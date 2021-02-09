@@ -1,9 +1,6 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client'
 import fetch from 'isomorphic-unfetch'
 
-import { isBrowser, isServer } from './ssrMode'
-
-export const GRAPHQL_API_URL = 'https://api.cilabs.com/catalyst'
 export const DEFAULT_CONFERENCE_SLUG = 'ws20'
 
 const constructContextHeaders = (commonHeaders, eventSlug, token) => {
@@ -12,12 +9,13 @@ const constructContextHeaders = (commonHeaders, eventSlug, token) => {
     'x-event-id': eventSlug,
   }
   if (token) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     headers.Authorization = `Bearer ${token}`
   }
   return headers
 }
 
-const createApolloClient = (initialState = {}) => {
+const createApolloClient = apiURL => {
   const setHeadersLink = new ApolloLink((operation, forward) => {
     const { headers, slug, token } = operation.getContext()
     const eventSlug = slug || DEFAULT_CONFERENCE_SLUG
@@ -26,17 +24,17 @@ const createApolloClient = (initialState = {}) => {
     return forward(operation)
   })
 
-  const httpLink = new HttpLink({ fetch, uri: GRAPHQL_API_URL })
+  const httpLink = new HttpLink({ fetch, uri: apiURL })
 
   const links = [setHeadersLink, httpLink]
   const link = ApolloLink.from(links)
 
   const requiredOptions = {
-    cache: new InMemoryCache().restore(initialState),
-    connectToDevTools: isBrowser,
+    cache: new InMemoryCache().restore({}),
+    connectToDevTools: true,
     link,
     resolvers: {},
-    ssrMode: isServer,
+    ssrMode: false,
     typedefs: {},
   }
   return new ApolloClient(requiredOptions)
@@ -45,10 +43,6 @@ const createApolloClient = (initialState = {}) => {
 let apolloClient
 
 export default function initApollo(initialState) {
-  if (isServer) {
-    return createApolloClient(initialState)
-  }
-
   if (!apolloClient) {
     apolloClient = createApolloClient(initialState)
   }
