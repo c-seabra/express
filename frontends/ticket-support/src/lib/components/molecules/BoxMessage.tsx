@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Icon from '../atoms/Icon'
 
 type BoxType = 'info' | 'success' | 'error' | 'warning'
+type StyleProps = { backgroundColor: string; color: string; dimension: string }
 
-const BoxNode = styled.div<{ backgroundColor: string; color: string }>`
+const BoxNode = styled.div<StyleProps>`
   display: flex;
   align-items: center;
   padding: 12px 18px;
@@ -15,12 +16,37 @@ const BoxNode = styled.div<{ backgroundColor: string; color: string }>`
   & > * {
     margin-right: 1rem;
   }
+
+  ${props =>
+    props.dimension &&
+    props.dimension === 'sm' &&
+    css`
+      padding: 7px;
+      border-radius: 4px;
+      font-size: 14px;
+
+      > .material-icons {
+        font-size: 20px;
+      }
+
+      & > * {
+        margin-right: 0.5rem;
+      }
+    `}
 `
 
-const StyledMessage = styled.div`
+const StyledMessage = styled.div<Pick<StyleProps, 'dimension'>>`
   font-size: 12px;
   letter-spacing: 0;
   line-height: 20px;
+
+  ${props =>
+    props.dimension &&
+    props.dimension === 'sm' &&
+    css`
+      font-size: 14px;
+      line-height: 17px;
+    `}
 `
 
 const BoxIcon = ({ boxType }: { boxType: BoxType }): ReactElement => {
@@ -41,14 +67,21 @@ type BoxMessageProps = {
   backgroundColor: string
   children?: ReactElement
   color: string
-  type: BoxType
+  dimension?: string
+  type?: BoxType
 }
 
-const BoxMessage = ({ type, color, backgroundColor, children }: BoxMessageProps) => {
+const BoxMessage = ({
+  type = 'info',
+  color,
+  backgroundColor,
+  dimension = 'md',
+  children,
+}: BoxMessageProps) => {
   return (
-    <BoxNode backgroundColor={backgroundColor} color={color}>
+    <BoxNode backgroundColor={backgroundColor} color={color} dimension={dimension}>
       <BoxIcon boxType={type} />
-      <StyledMessage>{children}</StyledMessage>
+      <StyledMessage dimension={dimension}>{children}</StyledMessage>
     </BoxNode>
   )
 }
