@@ -12,6 +12,8 @@ import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
+import { OrderSource } from '../../lib/types'
+import { switchCase } from '../../lib/utils/logic'
 import { useAppContext } from '../app/AppContext'
 import AuditTrail from '../auditTrail/AuditTrail'
 import LoginLinkActions from '../ticketActions/LoginLinkActions'
@@ -151,7 +153,14 @@ const TicketDetails = (): ReactElement => {
   const orderRef = ticket?.order?.reference || ''
   const assignee = assignment?.assignee
   const { event } = useEventDataQuery()
-  const sourceOfSale = 'tito'
+  const sourceOfSale = ticket?.order?.source
+  const isTitoTicket = (source: string): boolean => {
+    return switchCase({
+      TICKET_MACHINE: false,
+      TITO: true,
+    })(false)(source)
+  }
+  const isTitoModalShown = sourceOfSale && isTitoTicket(sourceOfSale)
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: event?.name || 'Home',
@@ -226,18 +235,18 @@ const TicketDetails = (): ReactElement => {
                   />
                 </SpacingBottomSm>
                 <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
-                {!sourceOfSale && (
+                {!isTitoModalShown && (
                   <TicketVoidModal
                     closeModal={closeTicketVoidModal}
                     isOpen={isTicketVoidModalOpen}
                     ticket={ticket}
                   />
                 )}
-                {sourceOfSale === 'tito' && (
+                {isTitoModalShown && (
                   <ErrorInfoModal
+                    bookingRef={bookingRef}
                     closeModal={closeTicketVoidModal}
                     isOpen={isTicketVoidModalOpen}
-                    bookingRef={bookingRef}
                   />
                 )}
                 <Modal noPadding isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
