@@ -44,10 +44,12 @@ const StyledTextarea = styled.textarea<{ fieldHeight?: string; isError?: boolean
     `};
 `
 
-const Error = styled.div`
+const ErrorMessageContainer = styled.div`
+  margin-top: 0;
+  height: 14px;
+  width: 100%;
   color: #e15554;
   font-size: 12px;
-  margin-top: 4px;
 `
 
 const TextAreaContainer = styled.div`
@@ -99,7 +101,9 @@ const TextAreaField = ({
           </TextAreaContainer>
         )}
       </Field>
-      <ErrorMessage name={name} render={message => <Error>{message}</Error>} />
+      <ErrorMessageContainer>
+        <ErrorMessage name={name} render={message => message} />
+      </ErrorMessageContainer>
     </FieldContainer>
   )
 }

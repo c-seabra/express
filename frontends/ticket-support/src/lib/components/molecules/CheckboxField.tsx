@@ -47,7 +47,7 @@ const Indicator = styled.div<{ isChecked?: boolean; isError?: boolean }>`
   height: 1.2em;
   background: #fff;
   position: absolute;
-  top: 0;
+  top: -2px;
   left: -1.6em;
   border: 1px solid ${props => (props.isError ? '#e15554' : '#dcdfe5')};
   transition: background-color 0.3s ease-out;
@@ -81,7 +81,7 @@ const Indicator = styled.div<{ isChecked?: boolean; isError?: boolean }>`
     transform: rotate(45deg);
   }
 
-  &::disabled {
+  &:disabled {
     cursor: not-allowed;
   }
 `
