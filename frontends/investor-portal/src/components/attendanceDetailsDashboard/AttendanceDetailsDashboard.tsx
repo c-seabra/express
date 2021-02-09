@@ -9,6 +9,7 @@ import { Attendance, AttendanceAppearanceSelection } from '../../lib/types'
 import { ATTENDANCE_DETAILS_QUERY } from '../../operations/queries/AttendanceDetails'
 import { useAppContext } from '../app/AppContext'
 import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection'
+import AttendanceInvestorSession from '../attendanceInvestorSession/AttendanceInvestorSession'
 import { DashboardDetailsContainer } from './AttendanceDetailsDashboard.styled'
 
 const AttendanceDetailsDashboard = (): ReactElement => {
@@ -44,6 +45,9 @@ const AttendanceDetailsDashboard = (): ReactElement => {
         <title>Investor Details - Investor Portal</title>
       </Helmet>
       <Label>{data?.attendance.name}</Label>
+      <ContainerCard color="#00ACA8" title="Investor Session">
+        <AttendanceInvestorSession />
+      </ContainerCard>
       <ContainerCard color="#4688D9" title="Startup Confirmations">
         <AttendanceAppearanceSelectionsList error={error} list={selections} loading={loading} />
       </ContainerCard>
