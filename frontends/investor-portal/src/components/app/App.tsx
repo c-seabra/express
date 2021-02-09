@@ -9,6 +9,7 @@ import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import ROUTES from '../../lib/constants/routes'
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard'
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard'
+import InvestorPermissionsDashboard from '../InvestorPermissionsDashboard/InvestorPermissionsDashboard'
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard'
 import AppContext from './AppContext'
 
@@ -74,7 +75,7 @@ const App = ({ token }: { token: string }) => {
               <SettingsDashboard />
             </Route>
             <Route path="/investor_permissions">
-              <InvestorPermission />
+              <InvestorPermissionsDashboard />
             </Route>
             <Route path="/dashboard">
               <AttendanceDashboard />

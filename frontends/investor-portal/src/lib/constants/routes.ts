@@ -23,7 +23,7 @@ const ROUTES: Routes = {
   INVESTOR_PERMISSIONS: {
     isActive: true,
     meta: { description: 'Investor Permissions' },
-    path: 'investor_permissions',
+    path: '/investor_permissions',
   },
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
   SETTINGS_ADMIN: {
