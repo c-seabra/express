@@ -247,8 +247,11 @@ const TicketDetails = (): ReactElement => {
                 )}
                 {isTitoModalShown && (
                   <ErrorInfoModal
-                    bookingRef={bookingRef}
+                    alertHeader={bookingRef}
+                    alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
+            to Tito to void the ticket."
                     closeModal={closeTicketVoidModal}
+                    headerText="Unable to void ticket"
                     isOpen={isTicketVoidModalOpen}
                   />
                 )}

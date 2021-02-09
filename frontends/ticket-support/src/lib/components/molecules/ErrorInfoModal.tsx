@@ -47,13 +47,20 @@ const IconWrapper = styled.div`
 `
 
 type ErrorInfoModalProps = {
-  bookingRef: string
+  alertHeader: string
+  alertText: string
   closeModal: () => void
-  headerText?: string
+  headerText: string
   isOpen: boolean
 }
 
-const ErrorInfoModal = ({ isOpen, closeModal, headerText, bookingRef }: ErrorInfoModalProps) => {
+const ErrorInfoModal = ({
+  isOpen,
+  closeModal,
+  headerText,
+  alertHeader,
+  alertText,
+}: ErrorInfoModalProps) => {
   const handleClose = () => {
     closeModal()
   }
@@ -64,14 +71,11 @@ const ErrorInfoModal = ({ isOpen, closeModal, headerText, bookingRef }: ErrorInf
         <IconWrapper>
           <Icon>error</Icon>
         </IconWrapper>
-        <HeaderText>Unable to void ticket</HeaderText>
-        <AlertText>{bookingRef}</AlertText>
+        <HeaderText>{headerText}</HeaderText>
+        <AlertText>{alertHeader}</AlertText>
 
         <Spacing bottom="4rem">
-          <Text>
-            As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
-            to Tito to void the ticket.
-          </Text>
+          <Text>{alertText}</Text>
         </Spacing>
         <Spacing>
           <StyledErrorButton onClick={handleClose}>OK</StyledErrorButton>
