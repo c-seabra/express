@@ -40,7 +40,7 @@ const AttendanceInvestorSession: React.FC = () => {
       <Select>
         <option selected>Select another available session</option>
         {investorSessionsSummary?.map((item, i) => (
-          <option disabled={item.available === '0'} value={item} key={i}>
+          <option disabled={item.available === '0'} value={item.startsAt} key={i}>
             {moment(item?.startsAt).format('dddd')}: {moment(item?.startsAt).format('HH:mm')} -{' '}
             {moment(item?.endsAt).format('HH:mm')}
           </option>
