@@ -21,6 +21,7 @@ const Text = styled.div`
   font-size: 20px;
   letter-spacing: 0;
   line-height: 28px;
+  max-width: 580px;
 `
 
 const HeaderText = styled.div`
@@ -68,16 +69,22 @@ const ErrorInfoModal = ({
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Wrapper>
-        <IconWrapper>
-          <Icon>error</Icon>
-        </IconWrapper>
-        <HeaderText>{headerText}</HeaderText>
-        <AlertText>{alertHeader}</AlertText>
+        <Spacing bottom="10px">
+          <IconWrapper>
+            <Icon>error</Icon>
+          </IconWrapper>
+        </Spacing>
 
-        <Spacing bottom="4rem">
+        <HeaderText>{headerText}</HeaderText>
+
+        <Spacing bottom="40px">
+          <AlertText>{alertHeader}</AlertText>
+        </Spacing>
+
+        <Spacing bottom="40px" top="24px">
           <Text>{alertText}</Text>
         </Spacing>
-        <Spacing>
+        <Spacing bottom="50px">
           <StyledErrorButton onClick={handleClose}>OK</StyledErrorButton>
         </Spacing>
       </Wrapper>
