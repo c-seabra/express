@@ -8,6 +8,7 @@ import withApollo from '../../lib/apollo/withApollo'
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import ROUTES from '../../lib/constants/routes'
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard'
+import AttendanceDetailsDashboard from '../attendanceDetailsDashboard'
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard'
 import AppContext from './AppContext'
 
@@ -65,6 +66,9 @@ const App = ({ token }: { token: string }) => {
           <Switch>
             <Route exact path="/">
               <Redirect to="/settings" />
+            </Route>
+            <Route path="/dashboard/:attendanceId">
+              <AttendanceDetailsDashboard />
             </Route>
             <Route path="/settings">
               <SettingsDashboard />

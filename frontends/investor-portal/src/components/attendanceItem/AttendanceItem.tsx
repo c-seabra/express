@@ -20,7 +20,7 @@ const AttendanceItem = ({ attendance }: { attendance: Attendance }): ReactElemen
   const history = useHistory()
 
   return (
-    <ListItem onClick={() => history.push(`/attendance/${attendance.id}`)}>
+    <ListItem onClick={() => history.push(`/dashboard/${attendance.id}`)}>
       <Column>{attendance.id}</Column>
       <Column>{attendance.name}</Column>
       <Column>{attendance.pendingSelectionCount}</Column>

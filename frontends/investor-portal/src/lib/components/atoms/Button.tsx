@@ -48,4 +48,24 @@ export const Button = styled.button`
   }
 `
 
+export const SecondaryButton = styled(Button)`
+  color: #0067e9;
+  background-color: #ffffff;
+
+  &:hover {
+    background-color: #2269bf;
+    color: #ffffff;
+  }
+`
+
+export const DestructiveButton = styled(Button)`
+  color: #cb1977;
+  background-color: #ffffff;
+  border: 1px solid #cb1977;
+
+  &:hover {
+    background-color: #cb1977;
+    color: #ffffff;
+  }
+`
 export default Button
