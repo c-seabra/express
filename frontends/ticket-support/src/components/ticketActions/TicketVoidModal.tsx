@@ -10,6 +10,7 @@ import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import useUnlockTicketMutation from '../../lib/hooks/useTicketUnlockMutation'
 import { Ticket } from '../../lib/types'
+import useTicketVoidMutation from "../../lib/hooks/useTicketVoidMutation";
 
 const ContentContainer = styled.div`
   padding: 2rem 0;
@@ -53,7 +54,7 @@ const confirmSchema = Yup.object().shape({
 })
 
 const TicketVoidModal = ({ isOpen, closeModal, ticket }: TicketVoidModalProps) => {
-  const { unlockTicket } = useUnlockTicketMutation()
+  const { voidTicket } = useTicketVoidMutation()
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void
@@ -87,7 +88,7 @@ const TicketVoidModal = ({ isOpen, closeModal, ticket }: TicketVoidModalProps) =
           validateOnChange={false}
           validationSchema={confirmSchema}
           onSubmit={async values => {
-            await unlockTicket({ bookingRef: ticket.bookingRef, reason: values?.reason })
+            await voidTicket({ bookingRef: ticket.bookingRef, reason: values?.reason })
 
             handleClose()
           }}
