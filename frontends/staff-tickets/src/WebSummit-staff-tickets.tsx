@@ -1615,7 +1615,7 @@ const lifecycles = singleSpaReact({
   ReactDOM,
   rootComponent: (props) => (
     <App {...props}
-         token={sandboxToken}
+         storesToken={sandboxToken}
          staffList={staffList}
          conference={sandbox_tfh20}
          apiURL={sandboxApiUrl}

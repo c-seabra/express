@@ -14,7 +14,7 @@ type AssigneeItemProvider = Staff & {index: number}
 
 
 const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({index, bookingRef, firstName, lastName, email}) => {
-  const {token, conference} = useContext(AppContext)
+  const {storesToken, conference} = useContext(AppContext)
   const [status, setStatus] = useState<StatusType>({
     message: 'Assignment is still processing.',
     type: 'PENDING',
@@ -89,7 +89,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({index, bookingRef
     setTimeout(() => {
       ticketAccept({
         context: {
-          token,
+          storesToken: storesToken,
           slug: conference.slug
         },
         variables: {
