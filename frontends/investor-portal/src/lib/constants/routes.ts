@@ -17,14 +17,14 @@ const ROUTES: Routes = {
   DASHBOARD: {
     isActive: true,
     meta: { description: 'Dashboard' },
-    path: 'dashboard',
+    path: '/dashboard',
   },
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
   SETTINGS_ADMIN: {
     hasChildren: false,
     isActive: true,
     meta: { description: 'Settings' },
-    path: 'settings',
+    path: '/settings',
   },
 }
 
