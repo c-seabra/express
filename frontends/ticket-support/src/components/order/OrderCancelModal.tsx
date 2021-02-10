@@ -7,7 +7,7 @@ import { WarningMessage } from '../../lib/components/atoms/Messages'
 import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
-import useOrderCancelMutation from '../../lib/hooks/useOrderCancelMutation'
+import { useOrderCancelMutation } from '../../operations/mutations/OrderCancel'
 
 const ContentContainer = styled.div`
   padding: 2rem 0;
