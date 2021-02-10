@@ -49,6 +49,7 @@ const IconWrapper = styled.div`
 type ReasonAlertModalProps = {
   alertHeader: string
   alertText: string
+  cancelText: string
   closeModal: () => void
   headerText: string
   isOpen: boolean
@@ -65,6 +66,7 @@ const ReasonAlertModal = ({
   isOpen,
   closeModal,
   orderRef,
+  cancelText,
   headerText,
   alertText,
   alertHeader,
@@ -137,8 +139,10 @@ const ReasonAlertModal = ({
 
                 <Spacing bottom="50px">
                   {/* <Modal.DefaultFooter submitText="Cancel order" cancelText={} onCancelClick={handleClose} /> */}
-                  <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
-                  <Button type="submit">{submitText}</Button>
+                  <StyledActionRow>
+                    <SecondaryButton onClick={closeModal}>{cancelText}</SecondaryButton>
+                    <ErrorButton type="submit">{submitText}</ErrorButton>
+                  </StyledActionRow>
                 </Spacing>
               </Wrapper>
             </Form>

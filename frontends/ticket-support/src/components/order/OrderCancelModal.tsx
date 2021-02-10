@@ -16,6 +16,7 @@ const OrderCancelModal = ({ isOpen, closeModal, orderRef }: OrderCancelModalProp
     <ReasonAlertModal
       alertHeader={orderRef}
       alertText="Are you sure you want to cancel this order? Cancellation will void all associated tickets."
+      cancelText="No, keep order"
       closeModal={closeModal}
       headerText="Cancellation of Order"
       isOpen={isOpen}
