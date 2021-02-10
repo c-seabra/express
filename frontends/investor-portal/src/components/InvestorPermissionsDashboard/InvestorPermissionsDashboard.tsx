@@ -124,10 +124,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
           </Success>
         )}
         <ContainerCard color="#555" title="Investor portal permissions">
-          <h4>
-            Give investors permission to access the Investor Portal. Use &quot;0&quot; as
-            &quot;Startup selections&quot; to revoke access.
-          </h4>
+          <h4>Give investors permission to access the Investor Portal.</h4>
           <SpacingBottom>
             <PermissionForm
               onSubmit={e => {
@@ -137,7 +134,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
             >
               <SpacingBottom className="largeInput">
                 <LabeledInput
-                  label="Insert Booking Reference(s) as pasted from single spreadsheet column:"
+                  label="Insert space-separated Booking Reference(s) as pasted from single spreadsheet column:"
                   type="text"
                   onBlur={e => {
                     parseBookingReferencesString(e.target.value)
@@ -155,7 +152,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                     defaultStartupSelections ? defaultStartupSelections.toString() : ''
                   })`}
                   max="999"
-                  min="0"
+                  min="1"
                   type="number"
                   onChange={e => {
                     setStartupSelections(parseInt(e.target.value, 10))
