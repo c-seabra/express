@@ -24,6 +24,10 @@ export type Attendance = {
     edges: [{ node: AttendanceAppearanceSelection }]
   }
   id: string
+  investorSession?: {
+    endsAt: any
+    startsAt: any
+  }
   name: string
   pendingSelectionCount: number
 }
