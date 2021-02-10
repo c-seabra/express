@@ -26,18 +26,18 @@ export const useModalState = ({ initialState = false }: { initialState?: boolean
 
 export type ModalProps = {
   children?: ReactElement | ReactElement[] | string
-  title?: string
-  description?: string
-  isOpen: boolean
-  noPadding?: boolean
-  onRequestClose: () => void
-  renderFooter?: () => ReactElement
-  withDefaultFooter?: boolean
   defaultFooterIsDestructive?: boolean
   defaultFooterNegativeButtonAction?: () => void
   defaultFooterNegativeButtonText?: string
   defaultFooterPositiveButtonAction?: () => void
   defaultFooterPositiveButtonText?: string
+  description?: string
+  isOpen: boolean
+  noPadding?: boolean
+  onRequestClose: () => void
+  renderFooter?: () => ReactElement
+  title?: string
+  withDefaultFooter?: boolean
   withoutDefaultActions?: boolean
 }
 
