@@ -24,7 +24,7 @@ const useTicketVoidMutation = () => {
   const snackbar = useSuccessSnackbar()
   const errSnackbar = useErrorSnackbar()
 
-  const [unlockTicketMutation] = useMutation<TicketVoidResponse>(TICKET_VOID_MUTATION, {
+  const [voidTicketMutation] = useMutation<TicketVoidResponse>(TICKET_VOID_MUTATION, {
     onCompleted: ({ response }) => {
       snackbar('Ticket voided')
 
@@ -37,7 +37,7 @@ const useTicketVoidMutation = () => {
   })
 
   const voidTicket = async ({ reason, bookingRef }: TicketsVoidArgs) => {
-    await unlockTicketMutation({
+    await voidTicketMutation({
       context: {
         headers: {
           'x-admin-reason': reason,
