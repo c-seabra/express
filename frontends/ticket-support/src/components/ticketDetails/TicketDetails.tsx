@@ -243,7 +243,9 @@ const TicketDetails = (): ReactElement => {
                     onRequestClose={closeUnassignTicketModal}
                   />
                 </SpacingBottomSm>
-                {ticket?.state !== 'VOID' && (
+                {ticket?.state === 'VOID' ? (
+                  <Button disabled>Unvoid</Button>
+                ) : (
                   <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
                 )}
 
@@ -264,8 +266,6 @@ const TicketDetails = (): ReactElement => {
                     isOpen={isTicketVoidModalOpen}
                   />
                 )}
-
-                {ticket?.state === 'VOID' && <Button disabled>Unvoid</Button>}
 
                 <Modal noPadding isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
                   <AuditTrail
