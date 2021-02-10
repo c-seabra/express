@@ -1,14 +1,15 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal'
+import { useModalState } from '../../lib/components/molecules/Modal'
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
@@ -53,33 +54,24 @@ const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
 
-export const StyledButton = styled.button`
-  margin: 0 0 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: 1px solid grey;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    background-color: grey;
-    color: white;
-  }
-`
-
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `
 
-const ButtonWithSpacing = styled(Button)`
+const ButtonWithSpacing = styled(SecondaryButton)`
   margin-right: 16px;
 `
 
 const OrderDetails: React.FC = () => {
   const { orderRef } = useParams<{ orderRef: string }>()
   const { conferenceSlug, token } = useAppContext()
+  const {
+    openModal: openOrderCancelModal,
+    isOpen: isOrderCancelModalOpen,
+    closeModal: closeOrderCancelModal,
+  } = useModalState()
 
   const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
     context: {
@@ -124,6 +116,14 @@ const OrderDetails: React.FC = () => {
       ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
   }
+  const isFromTito = (source: string): boolean => {
+    return switchCase({
+      TICKET_MACHINE: false,
+      TITO: true,
+    })(false)(source)
+  }
+  const isTitoOrder = order && isFromTito(order?.source)
+
   const { event } = useEventDataQuery()
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -161,9 +161,19 @@ const OrderDetails: React.FC = () => {
                 <StyledRow>
                   <TextHeading>Order management</TextHeading>
                   <div>
-                    <ButtonWithSpacing disabled as={SecondaryButton}>
+                    <ButtonWithSpacing onClick={openOrderCancelModal}>
                       Cancel order
                     </ButtonWithSpacing>
+                    {isTitoOrder && (
+                      <ErrorInfoModal
+                        alertHeader={orderRef}
+                        alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
+            to Tito to cancel the order."
+                        closeModal={closeOrderCancelModal}
+                        headerText="Unable to cancel order"
+                        isOpen={isOrderCancelModalOpen}
+                      />
+                    )}
                     <Button disabled>Refund order</Button>
                   </div>
                 </StyledRow>
