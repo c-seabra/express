@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react'
 
-import { Button, ContainerCard, Heading } from '../../lib/components'
+import { Button, ContainerCard, Heading, SecondaryButton } from '../../lib/components'
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
 import Loader from '../../lib/Loading'
@@ -18,28 +18,20 @@ type AttendanceSearchState = {
 const AttendanceTable = (): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedValues, setSelectedValues] = useState<string[]>([])
-  const [queriedIds, setQueriedIds] = useState<string[]>([])
+  // const [results, setresults] = useState<string[]>([])
   const [headerCheckbox, setHeaderCheckbox] = useState(false)
 
   const processInitialSearchState = (state: AttendanceSearchState) => {
     if (state.searchQuery) setSearchQuery(state.searchQuery)
   }
 
-  const onCheckboxChange = ({ target: { value } }) => {
+  const onCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
     const a = (selectedValues.includes(value) && selectedValues.filter(item => item !== value)) || [
       ...selectedValues,
       value,
     ]
     setSelectedValues(a)
-  }
-
-  const onHeaderCheckboxChange = () => {
-    setHeaderCheckbox(!headerCheckbox)
-    if (!headerCheckbox) {
-      setSelectedValues(queriedIds)
-    } else {
-      setSelectedValues([])
-    }
   }
 
   const { searchState, setSearchState } = useSearchState<AttendanceSearchState>({
@@ -65,21 +57,16 @@ const AttendanceTable = (): ReactElement => {
     if (currentPage) {
       setSearchState({ ...searchState, page: currentPage })
     }
-  }, [currentPage, searchState, setSearchState])
+    setSelectedValues([])
+  }, [currentPage])
 
   useEffect(() => {
-    if (results.length > 0) {
-      setQueriedIds(results.map(result => result.id))
-    }
-  }, [results])
-
-  useEffect(() => {
-    if (queriedIds.length > 0 && queriedIds.length === selectedValues.length) {
+    if (results.length > 0 && results.length === selectedValues.length) {
       setHeaderCheckbox(true)
     } else {
       setHeaderCheckbox(false)
     }
-  }, [selectedValues, queriedIds])
+  }, [selectedValues, results])
 
   const handleSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -89,11 +76,12 @@ const AttendanceTable = (): ReactElement => {
     }
   }
 
-  console.log('sel', selectedValues)
-
-  const loadingComponent = () => {
-    if (loading) {
-      return <Loader />
+  const onHeaderCheckboxChange = () => {
+    setHeaderCheckbox(!headerCheckbox)
+    if (!headerCheckbox) {
+      setSelectedValues(results.map(result => result.id))
+    } else {
+      setSelectedValues([])
     }
   }
 
@@ -102,7 +90,9 @@ const AttendanceTable = (): ReactElement => {
       <SearchFilters>
         <Heading>Attendance area</Heading>
         <FiltersSearchContainer>
-          <Button onClick={() => console.log('click')} />
+          <SecondaryButton onClick={() => console.log('click')}>
+            Submit investors selections
+          </SecondaryButton>
           <StyledSearchInput
             defaultValue={searchQuery}
             placeholder="Search by Attendance name."
@@ -113,17 +103,27 @@ const AttendanceTable = (): ReactElement => {
           />
         </FiltersSearchContainer>
       </SearchFilters>
-      <ContainerCard noPadding>
-        <AttendanceListHeader isChecked={headerCheckbox} onCheckboxChange={onHeaderCheckboxChange} />
-        {results.map(attendance => (
-          <AttendanceItem
-            key={attendance.id}
-            attendance={attendance}
-            isChecked={selectedValues.includes(attendance.id)}
-            onCheckboxChange={onCheckboxChange}
-          />
-        ))}
-      </ContainerCard>
+      {
+        !loading && !error ? (
+          <ContainerCard noPadding>
+            <>
+              <AttendanceListHeader
+                isChecked={headerCheckbox}
+                onCheckboxChange={onHeaderCheckboxChange}
+              />
+              {results.map(attendance => (
+                <AttendanceItem
+                  key={attendance.id}
+                  attendance={attendance}
+                  isChecked={selectedValues.includes(attendance.id)}
+                  onCheckboxChange={onCheckboxChange}
+                />
+              ))}
+            </>
+          </ContainerCard>
+        ) : (
+            <Loader />
+          )}
       {!loading && !error && (
         <Pagination
           isForwardDisabled={isForwardDisabled}
