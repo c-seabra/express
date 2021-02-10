@@ -22,7 +22,7 @@ const OrderCancelModal = ({ isOpen, closeModal, orderRef }: OrderCancelModalProp
       isOpen={isOpen}
       mutationCallback={cancelOrder}
       orderRef={orderRef}
-      submitText="Yes,cancel order"
+      submitText="Yes, cancel order"
     />
   )
 }
