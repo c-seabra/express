@@ -19,6 +19,7 @@ import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRe
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 import TicketList from '../ticketList/TicketList'
+import OrderCancelModal from './OrderCancelModal'
 import OrderDetailsSummary from './OrderDetailsSummary'
 import OrderOwnerDetails from './OrderOwnerDetails'
 import OrderSummary from './OrderSummary'
@@ -192,6 +193,15 @@ const OrderDetails: React.FC = () => {
                         isOpen={isOrderCancelModalOpen}
                       />
                     )}
+
+                    {!isTitoOrder && (
+                      <OrderCancelModal
+                        closeModal={closeOrderCancelModal}
+                        isOpen={isOrderCancelModalOpen}
+                        orderRef={orderRef}
+                      />
+                    )}
+
                     <Button disabled>Refund order</Button>
                   </div>
                 </StyledRow>
