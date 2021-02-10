@@ -39,6 +39,18 @@ const AlertText = styled(HeaderText)`
   color: #e15554;
 `
 
+const StyledActionRow = styled.div`
+  display: flex;
+  justify-content: space-around;
+
+  > * {
+    margin-right: 32px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`
+
 const IconWrapper = styled.div`
   > .material-icons {
     font-size: 36px;
@@ -131,6 +143,8 @@ const ReasonAlertModal = ({
                   <Text>{alertText}</Text>
                 </Spacing>
 
+                <p>Please specify the reason for your actions</p>
+                {/* TODO textarea */}
                 <TextInputField
                   required
                   label="Please specify the reason for the cancelling"
