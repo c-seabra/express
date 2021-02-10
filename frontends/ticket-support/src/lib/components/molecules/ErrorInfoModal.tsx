@@ -62,12 +62,8 @@ const ErrorInfoModal = ({
   alertHeader,
   alertText,
 }: ErrorInfoModalProps) => {
-  const handleClose = () => {
-    closeModal()
-  }
-
   return (
-    <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
+    <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>
       <Wrapper>
         <Spacing bottom="10px">
           <IconWrapper>
@@ -85,7 +81,7 @@ const ErrorInfoModal = ({
           <Text>{alertText}</Text>
         </Spacing>
         <Spacing bottom="50px">
-          <StyledErrorButton onClick={handleClose}>OK</StyledErrorButton>
+          <StyledErrorButton onClick={closeModal}>OK</StyledErrorButton>
         </Spacing>
       </Wrapper>
     </Modal>
