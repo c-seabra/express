@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
+import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal'
 import { useModalState } from '../../lib/components/molecules/Modal'
@@ -58,6 +59,15 @@ const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`
+
+const StyledInnerRow = styled.div`
+  display: flex;
+  align-items: center;
+
+  > * {
+    margin-right: 16px;
+  }
 `
 
 const ButtonWithSpacing = styled(SecondaryButton)`
@@ -159,7 +169,15 @@ const OrderDetails: React.FC = () => {
             <div>
               <SpacingBottom>
                 <StyledRow>
-                  <TextHeading>Order management</TextHeading>
+                  <StyledInnerRow>
+                    <TextHeading>Order management</TextHeading>
+                    {isTitoOrder && (
+                      <BoxMessage backgroundColor="#333333" color="#fff" dimension="sm">
+                        <>As this ticket was sold via Tito, some functionality may be limited</>
+                      </BoxMessage>
+                    )}
+                  </StyledInnerRow>
+
                   <div>
                     <ButtonWithSpacing onClick={openOrderCancelModal}>
                       Cancel order
