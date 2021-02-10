@@ -21,7 +21,7 @@ export const ORDER_CANCEL_MUTATION = gql`
     }
   }
 `
-// TODO remove 
+// TODO remove
 // values:
 //
 // {  "storeId": "b5ff6381-b06f-4558-9e71-a6fc9f8cdd84",
