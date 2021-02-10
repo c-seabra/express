@@ -6,6 +6,7 @@ export const PageContainer = styled.section`
   margin: 0 auto;
   font-size: 16px;
 `
+
 export const PermissionForm = styled.form`
   input[type='number'] {
     width: 3em;
@@ -14,6 +15,7 @@ export const PermissionForm = styled.form`
     margin-right: 1rem;
   }
 `
+
 export const StripedTable = styled.table`
   --bs-table-bg: transparent;
   --bs-table-striped-color: #212529;
