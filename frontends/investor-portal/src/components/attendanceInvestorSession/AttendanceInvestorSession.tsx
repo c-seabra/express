@@ -5,13 +5,17 @@ import React from 'react'
 import Select from '../../lib/components/atoms/Select'
 import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
+import { InputArea } from './AttendanceInvestorSession.styled'
 
-const AttendanceInvestorSession: React.FC = () => {
+type AttendanceInvestorSessionType = {
+  attEndsAt: string
+  attStartsAt: string
+}
+
+const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({ attStartsAt, attEndsAt }) => {
   const { conferenceSlug, token } = useAppContext()
   const {
     data,
-    error,
-    loading,
   }: {
     data?: {
       event: {
@@ -36,7 +40,13 @@ const AttendanceInvestorSession: React.FC = () => {
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
   return (
-    <>
+    <InputArea>
+      {attStartsAt && (
+        <span>
+          {moment(attStartsAt).format('dddd')}: {moment(attStartsAt).format('HH:mm')} -{' '}
+          {moment(attEndsAt).format('HH:mm')}
+        </span>
+      )}
       <Select>
         <option selected>Select another available session</option>
         {investorSessionsSummary?.map((item, i) => (
@@ -46,7 +56,7 @@ const AttendanceInvestorSession: React.FC = () => {
           </option>
         ))}
       </Select>
-    </>
+    </InputArea>
   )
 }
 

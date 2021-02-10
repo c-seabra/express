@@ -39,6 +39,9 @@ const AttendanceDetailsDashboard = (): ReactElement => {
   const selections: AttendanceAppearanceSelection[] =
     data?.attendance.attendanceAppearanceSelections?.edges.flatMap(edge => edge.node) || []
 
+  const startsAt = data?.attendance.investorSession?.startsAt
+  const endsAt = data?.attendance.investorSession?.endsAt
+
   return (
     <DashboardDetailsContainer>
       <Helmet>
@@ -46,7 +49,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
       </Helmet>
       <Label>{data?.attendance.name}</Label>
       <ContainerCard color="#00ACA8" title="Investor Session">
-        <AttendanceInvestorSession />
+        <AttendanceInvestorSession attStartsAt={startsAt} attEndsAt={endsAt} />
       </ContainerCard>
       <ContainerCard color="#4688D9" title="Startup Confirmations">
         <AttendanceAppearanceSelectionsList error={error} list={selections} loading={loading} />
