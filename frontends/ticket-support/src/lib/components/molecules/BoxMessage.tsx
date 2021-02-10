@@ -4,7 +4,12 @@ import styled, { css } from 'styled-components'
 import Icon from '../atoms/Icon'
 
 type BoxType = 'info' | 'success' | 'error' | 'warning'
-type StyleProps = { backgroundColor: string; color: string; dimension: string }
+type Dimension = 'sm' | 'md'
+type StyleProps = {
+  backgroundColor: string
+  color: string
+  dimension: Dimension
+}
 
 const BoxNode = styled.div<StyleProps>`
   display: flex;
@@ -67,7 +72,7 @@ type BoxMessageProps = {
   backgroundColor: string
   children?: ReactElement
   color: string
-  dimension?: string
+  dimension?: Dimension
   type?: BoxType
 }
 
