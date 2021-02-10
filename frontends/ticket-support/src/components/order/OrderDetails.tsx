@@ -173,7 +173,7 @@ const OrderDetails: React.FC = () => {
                     <TextHeading>Order management</TextHeading>
                     {isTitoOrder && (
                       <BoxMessage backgroundColor="#333333" color="#fff" dimension="sm">
-                        <>As this ticket was sold via Tito, some functionality may be limited</>
+                        <>As this order was sold via Tito, some functionality may be limited</>
                       </BoxMessage>
                     )}
                   </StyledInnerRow>
