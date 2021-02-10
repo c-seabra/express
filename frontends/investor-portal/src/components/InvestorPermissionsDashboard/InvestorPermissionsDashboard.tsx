@@ -36,8 +36,8 @@ const InvestorPermissionsDashboard = (): ReactElement => {
   const [showDetails, setShowDetails] = useState<boolean>(false)
   const toggleDetails = () => setShowDetails(show => !show)
 
-  const validBookingRefMatcher = new RegExp(/[A-Z0-9]{4}-[A-Z0-9]{1,}/)
-  const bookingRefSeparator = new RegExp(/[^A-Z0-9-]/)
+  const validBookingRefMatcher = new RegExp(/[A-Za-z0-9]{4}-[A-Za-z0-9]{1,}/)
+  const bookingRefSeparator = new RegExp(/[^A-Za-z0-9-]/)
 
   const { loading, error, data } = useQuery(EVENT_QUERY, {
     context: {
@@ -69,6 +69,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
       const sanitizedBookingReferences = elements
         .split(bookingRefSeparator)
         .filter(id => validBookingRefMatcher.exec(id))
+        .map(id => id.toUpperCase())
       setBookingReferencesArray(sanitizedBookingReferences)
     }
   }
