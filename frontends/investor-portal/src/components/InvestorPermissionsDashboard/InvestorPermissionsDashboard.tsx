@@ -132,7 +132,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                 grantAccess()
               }}
             >
-              <SpacingBottom className="largeInput">
+              <SpacingBottom>
                 <LabeledInput
                   label="Insert space-separated Booking Reference(s) as pasted from single spreadsheet column:"
                   type="text"
@@ -144,7 +144,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                   }}
                 />
               </SpacingBottom>
-              <SpacingBottom className="smallInput">
+              <SpacingBottom>
                 <LabeledInput
                   className="shortInput"
                   defaultValue={defaultStartupSelections}
@@ -159,33 +159,37 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                   }}
                 />
               </SpacingBottom>
-              <SpacingBottom className="buttons">
-                <Button
-                  type="button"
-                  onClick={() => {
-                    toggleDetails()
-                  }}
-                >
-                  Toggle detail panel
-                </Button>
+              <SpacingBottom>
                 {bookingReferencesArray?.length !== 0 && (
                   <Button type="submit">
                     Grant permission to {bookingReferencesArray?.length} Investor
-                    {bookingReferencesArray?.length > 1 ? 's' : ''}{' '}
+                    {bookingReferencesArray?.length > 1 ? 's' : ''}
+                  </Button>
+                )}
+                {tickets?.length !== 0 && (
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      toggleDetails()
+                    }}
+                  >
+                    Toggle detail panel
                   </Button>
                 )}
               </SpacingBottom>
-              <SpacingBottom className="listing" hidden={!showDetails}>
+              <SpacingBottom>
+                {invalidBookingReferences?.length > 0 && (
+                  <>
+                    <strong>
+                      Invalid booking references for event ({invalidBookingReferences?.length} of{' '}
+                      {tickets?.length}):
+                    </strong>
+                    <p>{invalidBookingReferences?.join(' ')}</p>
+                  </>
+                )}
+              </SpacingBottom>
+              <SpacingBottom hidden={!showDetails}>
                 <StripedTable>
-                  {invalidBookingReferences?.length > 0 && (
-                    <caption>
-                      <strong>
-                        Invalid booking references for event ({invalidBookingReferences?.length} of{' '}
-                        {tickets?.length}):
-                      </strong>
-                      <p>{invalidBookingReferences?.join(' ')}</p>
-                    </caption>
-                  )}
                   <thead>
                     <tr>
                       <th>Booking Reference</th>

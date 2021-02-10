@@ -7,26 +7,11 @@ export const PageContainer = styled.section`
   font-size: 16px;
 `
 export const PermissionForm = styled.form`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  > .largeInput {
-    grid-column: 1 / 5;
-    grid-row: 1;
+  input[type='number'] {
+    width: 3em;
   }
-  > .smallInput {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  > .buttons {
-    grid-column: 1 / 5;
-    grid-row: 3;
-    > button {
-      margin-right: 1em;
-    }
-  }
-  > .listing {
-    grid-column: 1 / 5;
-    grid-row: 4;
+  button {
+    margin-right: 1rem;
   }
 `
 export const StripedTable = styled.table`
