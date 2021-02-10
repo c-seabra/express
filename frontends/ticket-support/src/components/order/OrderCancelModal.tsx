@@ -8,7 +8,6 @@ import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import useOrderCancelMutation from '../../lib/hooks/useOrderCancelMutation'
-import { Ticket } from '../../lib/types'
 
 const ContentContainer = styled.div`
   padding: 2rem 0;
@@ -101,7 +100,7 @@ const OrderCancelModal = ({ isOpen, closeModal, orderRef }: OrderCancelModalProp
               <StyledForm>
                 <ConfirmationText>
                   <span>
-                    Are you sure you want to void ticket <StyledSpan>{orderRef}</StyledSpan>?
+                    Are you sure you want to cancel order <StyledSpan>{orderRef}</StyledSpan>?
                   </span>
                 </ConfirmationText>
                 <TextInputField
@@ -113,7 +112,7 @@ const OrderCancelModal = ({ isOpen, closeModal, orderRef }: OrderCancelModalProp
                   <StyledSpan>Warning:</StyledSpan> Are you sure you want to cancel this order?
                   Cancellation will void all associated tickets.
                 </StyledWarningMessage>
-                <Modal.DefaultFooter submitText="Void ticket" onCancelClick={handleClose} />
+                <Modal.DefaultFooter submitText="Cancel order" onCancelClick={handleClose} />
               </StyledForm>
             )
           }}
