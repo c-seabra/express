@@ -23,6 +23,7 @@ import {
   SpacingBottom,
   SponsorLogo,
 } from './SettingsDashboard.styled'
+import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -35,14 +36,15 @@ const SettingsDashboard: React.FC = () => {
   const [startupPortalOpeningAt, setStartupPortalOpeningAt] = useState<string | undefined>()
   const [startupPortalClosingAt, setStartupPortalClosingAt] = useState<string | undefined>()
   const [startupSelectionDeadline, setStartupSelectionDeadline] = useState<string | undefined>()
-  const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
-  const [mutationError, setMutationError] = useState<string | undefined>()
+  // const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
+  // const [mutationError, setMutationError] = useState<string | undefined>()
+  const success = useSuccessSnackbar()
+  const errorMessage = useErrorSnackbar()
 
   const {
     data,
     error,
     loading,
-    refetch,
   }: {
     data?: {
       event: {
@@ -72,13 +74,16 @@ const SettingsDashboard: React.FC = () => {
     }
     error?: ApolloError
     loading?: boolean
-    refetch?: any
   } = useQuery(EVENT_QUERY, {
     context: {
       slug: conferenceSlug,
       token,
     },
   })
+
+  // if (error) {
+  //   errorMessage(event?.userErrors[0].message)
+  // }
 
   const handleUpload = (uploadedFile?: File) => {
     setSponsorLogoUrl(URL.createObjectURL(uploadedFile))
@@ -123,12 +128,10 @@ const SettingsDashboard: React.FC = () => {
       token,
     },
     onCompleted: ({ eventUpdate }) => {
-      if (eventUpdate?.successMessage.length) {
-        setMutationSuccessMessage(eventUpdate?.successMessage)
-        setMutationError('')
-      }
-      if (eventUpdate?.userErrors.length) {
-        setMutationError(eventUpdate?.userErrors[0])
+      if (eventUpdate?.userErrors[0]) {
+        errorMessage(eventUpdate?.userErrors[0].message)
+      } else {
+        success(eventUpdate?.successMessage)
       }
     },
     refetchQueries: ['EventQuery'],
@@ -147,6 +150,7 @@ const SettingsDashboard: React.FC = () => {
   const submitSettings = () => {
     eventUpdateMutuation()
   }
+  console.log(error)
 
   return (
     <>
@@ -155,20 +159,10 @@ const SettingsDashboard: React.FC = () => {
       </Helmet>
       <PageContainer>
         {loading && <Loader />}
-        {mutationError && (
+        {error && (
           <Warning>
-            <span>{mutationError}</span>
+            <span>{error[0].message}</span>
           </Warning>
-        )}
-        {(error || mutationError) && (
-          <Warning>
-            <span>{error ? error.message : mutationError}</span>
-          </Warning>
-        )}
-        {mutationSuccessMessage && (
-          <Success>
-            <span>{mutationSuccessMessage}</span>
-          </Success>
         )}
         <SpacingBottom>
           <ContainerCard color="#00AFA9" title="Investor portal settings">
