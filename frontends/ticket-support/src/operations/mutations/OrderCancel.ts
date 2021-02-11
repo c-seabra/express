@@ -57,6 +57,7 @@ export const useOrderCancelMutation = () => {
         errSnackbar('Order cancelling failed')
       }
     },
+    onError: e => errSnackbar(e.message),
     refetchQueries: ['Order'],
   })
 
