@@ -1,16 +1,12 @@
-export type StaticMessage = {
-  [messageName: string]: string
+const validationMessages = {
+  EMAIL: 'Invalid email',
+  REQUIRED: 'Required',
 }
 
-export type StaticMessages = {
-  [messageGroup: string]: StaticMessage
-}
+export const VALIDATION_MESSAGES: Readonly<typeof validationMessages> = validationMessages
 
-const STATIC_MESSAGES: StaticMessages = Object.freeze({
-  VALIDATION: {
-    EMAIL: 'Invalid email',
-    REQUIRED: 'Required',
-  },
-})
+const STATIC_MESSAGES = {
+  VALIDATION: VALIDATION_MESSAGES,
+}
 
 export default STATIC_MESSAGES
