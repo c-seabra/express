@@ -1,25 +1,41 @@
 import React, { ReactElement } from 'react'
-import { useSnackbar } from 'react-simple-snackbar'
+import { SnackbarOptions, useSnackbar } from 'react-simple-snackbar'
 import styled from 'styled-components'
 
 import Icon from '../components/atoms/Icon'
 
-type SnackbarType = 'info' | 'success' | 'error'
+type SnackbarType = 'info' | 'success' | 'error' | 'warning'
 
-const getSnackbarStyles = (snackbarType: SnackbarType) => {
+const getSnackbarOptions = (snackbarType: SnackbarType): SnackbarOptions => {
   switch (snackbarType) {
     case 'error':
       return {
-        backgroundColor: '#E15554',
+        style: {
+          backgroundColor: '#E15554',
+        },
       }
     case 'success':
       return {
-        backgroundColor: '#00B66D',
+        style: {
+          backgroundColor: '#00B66D',
+        },
+      }
+    case 'warning':
+      return {
+        closeStyle: {
+          color: '#333333',
+        },
+        style: {
+          backgroundColor: '#F8BA26',
+          color: '#333333',
+        },
       }
     case 'info':
     default:
       return {
-        backgroundColor: '#333333',
+        style: {
+          backgroundColor: '#333333',
+        },
       }
   }
 }
@@ -39,6 +55,8 @@ const SnackbarIcon = ({ snackbarType }: { snackbarType: SnackbarType }): ReactEl
       return <Icon>error</Icon>
     case 'success':
       return <Icon>check_circle</Icon>
+    case 'warning':
+      return <Icon>warning</Icon>
     case 'info':
     default:
       return <Icon>info</Icon>
@@ -50,8 +68,8 @@ type UseSnackbarMessageArgs = {
 }
 
 const useSnackbarMessage = ({ type }: UseSnackbarMessageArgs) => {
-  const style = getSnackbarStyles(type)
-  const [openSnackbar] = useSnackbar({ style })
+  const options = getSnackbarOptions(type)
+  const [openSnackbar] = useSnackbar(options)
 
   return (text: string) => {
     openSnackbar(
@@ -73,4 +91,8 @@ export const useSuccessSnackbar = () => {
 
 export const useInfoSnackbar = () => {
   return useSnackbarMessage({ type: 'info' })
+}
+
+export const useWarningSnackbar = () => {
+  return useSnackbarMessage({ type: 'warning' })
 }
