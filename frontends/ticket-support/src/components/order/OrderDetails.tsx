@@ -181,9 +181,15 @@ const OrderDetails: React.FC = () => {
                   </StyledInnerRow>
 
                   <div>
-                    <ButtonWithSpacing onClick={openOrderCancelModal}>
-                      Cancel order
-                    </ButtonWithSpacing>
+                    {order?.state === 'CANCELLED' ? (
+                      <ButtonWithSpacing disabled onClick={openOrderCancelModal}>
+                        Reinstate order
+                      </ButtonWithSpacing>
+                    ) : (
+                      <ButtonWithSpacing onClick={openOrderCancelModal}>
+                        Cancel order
+                      </ButtonWithSpacing>
+                    )}
                     {isTitoOrder && (
                       <ErrorInfoModal
                         alertHeader={orderRef}
