@@ -3,9 +3,7 @@ import styled from 'styled-components'
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import Loader from '../../lib/Loading'
-import { formatDefaultDateTime } from '../../lib/utils/time'
 import Warning from '../ticketActions/Warning'
-import StatePlate from '../ticketItem/StatePlate'
 
 // Containers
 const StyledContainer = styled.div`
