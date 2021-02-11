@@ -118,3 +118,128 @@ export type EventData = {
   passportRequired: boolean
   slug: string
 }
+
+type CommercePaymentMethod = {
+  id: string
+  name: string
+}
+
+type CommerceAddress = Partial<{
+  city: string
+  country: string
+  id: string
+  line1: string
+  line2: string
+  owner: string
+  postalCode: string
+  state: string
+}>
+
+type CommerceCustomer = {
+  address: CommerceAddress
+  companyName?: string
+  email?: string
+  firstName?: string
+  lastName?: string
+  phoneNumber?: string
+  vatNumber?: string
+  vatVerified?: boolean
+}
+
+export enum CommercePaymentStatus {
+  OVERPAID = 'OVERPAID',
+  PAID = 'PAID',
+  PARTIALLY_REFUNDED = 'PARTIALLY_REFUNDED',
+  PENDING = 'PENDING',
+  REFUNDED = 'REFUNDED',
+}
+
+export enum CommerceOrderStatus {
+  CANCELLED = 'CANCELLED',
+  COMPLETE = 'COMPLETE',
+  PENDING = 'PENDING',
+  REINSTATED = 'REINSTATED',
+}
+
+export enum CommerceTaxMode {
+  B2B = 'B2B',
+  B2C = 'B2C',
+}
+
+type CommerceTaxType = {
+  description: string
+  id: string
+  name: string
+}
+
+type CommerceProduct = {
+  active: boolean
+  description: string
+  id: string
+  name: string
+  price: number
+  taxMode: CommerceTaxMode
+  taxType: CommerceTaxType
+}
+
+type CommerceTax = {
+  country: string
+  id: string
+  name: string
+  rateAmount: number
+  taxType: CommerceTaxType
+}
+
+type CommerceOrderItem = {
+  id: string
+  itemName: string
+  price: number
+  product: CommerceProduct
+  quantity: number
+  subTotal: number
+  tax: CommerceTax
+  taxTotal: number
+}
+
+export type CommerceOrder = {
+  billed: number
+  currency: string
+  currencySymbol: string
+  customer: CommerceCustomer
+  id: string
+  invoiceUrl: string
+  items: CommerceOrderItem[]
+  locked: boolean
+  owner: string
+  paid: number
+  paymentMethod: CommercePaymentMethod
+  paymentStatus: CommercePaymentStatus
+  reference: string
+  status: CommerceOrderStatus
+  subTotal: number
+  taxTotal: number
+  total: number
+  url: string
+}
+
+enum CommerceTransactionStatus {
+  CANCELED = 'CANCELED',
+  COMPLETE = 'COMPLETE',
+  PENDING = 'PENDING',
+}
+
+export enum CommerceTransactionType {
+  PAYMENT = 'PAYMENT',
+  REFUND = 'REFUND',
+}
+
+export type CommerceTransaction = {
+  amount: number
+  currency: string
+  id: string
+  paymentMethod: CommercePaymentMethod
+  refundedTransaction: string
+  status: CommerceTransactionStatus
+  timestamp: string
+  type: CommerceTransactionType
+}
