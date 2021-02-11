@@ -1,17 +1,20 @@
 {
-  "name": "@WebSummit/investor-portal",
+  "name": "@websummit-micro/investor-portal",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
   "scripts": {
-    "analyze": "webpack --mode=production --env.analyze=true",
-    "build": "webpack --mode=production",
-    "build-standalone": "webpack --config ./webpack.config.build.js",
-    "coverage": "cross-env BABEL_ENV=test jest --coverage",
-    "dev": "webpack-dev-server --port 8500",
-    "format": "prettier --write \"./**\"",
+    "start": "webpack serve --port 9005",
+    "start:standalone": "webpack serve --env standalone",
+    "build": "webpack --mode=production  --config ./webpack.config.build.js",
+    "build-standalone": "webpack --mode=production --config ./webpack.config.build.js",
+    "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "lint": "eslint src --ext js,ts,tsx",
-    "start": "webpack-dev-server",
-    "start:standalone": "webpack-dev-server --env.standalone",
+    "format": "prettier --write \"./**\"",
     "test": "cross-env BABEL_ENV=test jest",
-    "watch-tests": "cross-env BABEL_ENV=test jest --watch"
+    "watch-tests": "cross-env BABEL_ENV=test jest --watch",
+    "coverage": "cross-env BABEL_ENV=test jest --coverage",
+    "clean": "rimraf -rf ./dist"
   },
   "husky": {
     "hooks": {
@@ -111,13 +114,15 @@
     "react-dom": "^16.13.0",
     "ts-config-single-spa": "^1.7.0",
     "typescript": "^3.8.3",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10",
-    "webpack-config-single-spa-react": "^1.0.3",
-    "webpack-config-single-spa-react-ts": "^1.4.2",
-    "webpack-config-single-spa-ts": "^1.4.2",
-    "webpack-dev-server": "^3.9.0",
-    "webpack-merge": "^4.2.2"
+    "tsconfig-paths-webpack-plugin": "~3.2.0",
+    "webpack": "^5.8.0",
+    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-config-single-spa-react": "^2.0.0-beta.1",
+    "webpack-config-single-spa-react-ts": "^2.0.0-beta.1",
+    "webpack-config-single-spa-ts": "^2.0.0-beta.1",
+    "webpack-dev-server": "^4.0.0-beta.0",
+    "webpack-merge": "^5.4.0"
   },
   "config": {
     "eslint": {

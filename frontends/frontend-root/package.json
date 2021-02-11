@@ -1,0 +1,25 @@
+{
+  "name": "@websummit-micro/frontend-root-config",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack serve --port 9000 --env isLocal",
+    "lint": "eslint src --ext js,ts,tsx",
+    "test": "cross-env BABEL_ENV=test jest --passWithNoTests",
+    "format": "prettier --write \"./**\"",
+    "build": "webpack --mode=production",
+    "clean": "rimraf -rf ./dist"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && concurrently yarn:test yarn:lint"
+    }
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "single-spa": "*",
+    "single-spa-layout": "*"
+  }
+}
+  

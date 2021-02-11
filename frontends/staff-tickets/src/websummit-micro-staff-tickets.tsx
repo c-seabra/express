@@ -1602,7 +1602,6 @@ const lifecycles = singleSpaReact({
   ReactDOM,
   rootComponent: (props) => (
     <App {...props}
-         token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdG9yZXMiLCJhdWQiOiJzdG9yZXMiLCJpYXQiOjE2MDU3MDc0NzI1ODMsInVzZXIiOiIyNWUyNTQxMy02YzYyLTQxMjgtODE3Mi05YzMzODk1MzIzZDEifQ.eBA8ghlkT8Res0kkWIE2eh5_s4erbvRW05PpPM5spjU"
          staffList={staffList}
          conference={tfh20}
          apiURL={sandboxApiUrl}

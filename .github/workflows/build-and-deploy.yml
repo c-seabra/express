@@ -27,7 +27,10 @@ jobs:
             ${{ runner.os }}-node_modules-
 
       - name: build microfrontends
-        run: bash ./build.sh
+        run: |
+          mkdir -p builds
+          yarn install
+          yarn build
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
