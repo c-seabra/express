@@ -135,8 +135,8 @@ const InvestorPermissionsDashboard = (): ReactElement => {
             >
               <SpacingBottom>
                 <LabeledInput
-                  label="Insert space-separated Booking Reference(s) as pasted from single spreadsheet column:"
-                  type="text"
+                  label="Insert a booking reference(s) as pasted from single spreadsheet column:"
+                  type="textarea"
                   onBlur={e => {
                     parseBookingReferencesString(e.target.value)
                   }}
@@ -149,7 +149,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                 <LabeledInput
                   className="shortInput"
                   defaultValue={defaultStartupSelections}
-                  label={`Startup selections (default is ${
+                  label={`How many start up selections in investor portal per attendee? (default is ${
                     defaultStartupSelections ? defaultStartupSelections.toString() : ''
                   })`}
                   max="999"

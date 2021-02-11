@@ -8,9 +8,6 @@ export const PageContainer = styled.section`
 `
 
 export const PermissionForm = styled.form`
-  input[type='number'] {
-    width: 3em;
-  }
   button {
     margin-right: 1rem;
   }
