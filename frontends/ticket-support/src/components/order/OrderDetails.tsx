@@ -95,7 +95,8 @@ const OrderDetails: React.FC = () => {
   })
 
   const order = data?.order
-  const tickets = order?.tickets
+  const sourceId = order?.sourceId || ''
+  const tickets = order && order?.tickets
   const owner = order?.owner
   const missingDataAbbr = 'N/A'
   const formatSourceOfSale = (source: string): string =>
@@ -199,6 +200,7 @@ const OrderDetails: React.FC = () => {
                         closeModal={closeOrderCancelModal}
                         isOpen={isOrderCancelModalOpen}
                         orderRef={orderRef}
+                        sourceId={sourceId}
                       />
                     )}
 

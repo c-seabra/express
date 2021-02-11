@@ -71,7 +71,6 @@ type ReasonAlertModalProps = {
   headerText: string
   isOpen: boolean
   mutationCallback: (values?: any) => void
-  orderRef: string
   submitText: string
 }
 
@@ -82,7 +81,6 @@ const confirmSchema = Yup.object().shape({
 const ReasonAlertModal = ({
   isOpen,
   closeModal,
-  orderRef,
   cancelText,
   headerText,
   alertText,
