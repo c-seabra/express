@@ -5,10 +5,10 @@ import * as Yup from 'yup'
 
 import { Spacing } from '../../../components/templates/Spacing'
 import STATIC_MESSAGES from '../../constants/messages'
-import { Button, ErrorButton, SecondaryButton } from '../atoms/Button'
+import { DisabledButton, ErrorButton } from '../atoms/Button'
 import Icon from '../atoms/Icon'
 import Modal from './Modal'
-import TextInputField from './TextInputField'
+import TextAreaField from './TextAreaField'
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,6 +26,7 @@ const Text = styled.div`
   letter-spacing: 0;
   line-height: 28px;
   max-width: 580px;
+  text-align: left;
 `
 
 const HeaderText = styled.div`
@@ -37,6 +38,10 @@ const HeaderText = styled.div`
 
 const AlertText = styled(HeaderText)`
   color: #e15554;
+`
+const FieldWrapper = styled(TextAreaField)`
+  min-width: 580px;
+  text-align: left;
 `
 
 const StyledActionRow = styled.div`
@@ -143,18 +148,18 @@ const ReasonAlertModal = ({
                   <Text>{alertText}</Text>
                 </Spacing>
 
-                <p>Please specify the reason for your actions</p>
-                {/* TODO textarea */}
-                <TextInputField
-                  required
-                  label="Please specify the reason for the cancelling"
-                  name="reason"
-                />
+                <Spacing bottom="8px" top="8px">
+                  <FieldWrapper
+                    required
+                    label="Please specify the reason for your actions"
+                    maxLength={255}
+                    name="reason"
+                  />
+                </Spacing>
 
                 <Spacing bottom="50px">
-                  {/* <Modal.DefaultFooter submitText="Cancel order" cancelText={} onCancelClick={handleClose} /> */}
                   <StyledActionRow>
-                    <SecondaryButton onClick={closeModal}>{cancelText}</SecondaryButton>
+                    <DisabledButton onClick={closeModal}>{cancelText}</DisabledButton>
                     <ErrorButton type="submit">{submitText}</ErrorButton>
                   </StyledActionRow>
                 </Spacing>
