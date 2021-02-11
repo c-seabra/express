@@ -1,11 +1,11 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Button, ContainerCard } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Loader from '../../lib/Loading'
-import { ATTENDANCE_BY_BOOKING_REFERENCE_UPDATE_MUTATION } from '../../operations/mutations/AttendanceByBookingReferenceUpdateMutation'
+import { GRANT_INVESTOR_ACCESS_MUTATION } from '../../operations/mutations/GrantInvestorAccessMutation'
 import { EVENT_QUERY } from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Success from '../settingsActions/Success'
@@ -77,35 +77,38 @@ const InvestorPermissionsDashboard = (): ReactElement => {
   const grantAccess = () => {
     clearMessages()
     setUpdating(true)
-    attendanceByBookingReferenceUpdateMutation()
+    grantInvestorAccessMutation()
   }
 
-  const [attendanceByBookingReferenceUpdateMutation] = useMutation(
-    ATTENDANCE_BY_BOOKING_REFERENCE_UPDATE_MUTATION,
-    {
-      context: {
-        slug: conferenceSlug,
-        token,
-      },
-      onCompleted: ({ attendanceByBookingReferenceUpdate }) => {
-        setUpdating(false)
-        const success = attendanceByBookingReferenceUpdate?.successMessage
-        if (success !== null) {
-          setTickets(attendanceByBookingReferenceUpdate?.tickets)
-          setUpdateSuccess(attendanceByBookingReferenceUpdate?.successMessage)
-          setInvalidBookingReferences(attendanceByBookingReferenceUpdate?.invalidBookingReferences)
-        } else {
-          setUpdateError(attendanceByBookingReferenceUpdate?.errorMessage)
-          setInvalidBookingReferences([])
-          setTickets([])
-        }
-      },
-      variables: {
-        bookingReferencesArray,
-        startupSelections,
-      },
-    }
-  )
+  const [grantInvestorAccessMutation] = useMutation(GRANT_INVESTOR_ACCESS_MUTATION, {
+    context: {
+      slug: conferenceSlug,
+      token,
+    },
+    onCompleted: ({ grantInvestorAccessMutation }) => {
+      setUpdating(false)
+      const success = grantInvestorAccessMutation?.successMessage
+      if (success !== null) {
+        setTickets(grantInvestorAccessMutation?.tickets)
+        setUpdateSuccess(grantInvestorAccessMutation?.successMessage)
+        setInvalidBookingReferences(grantInvestorAccessMutation?.invalidBookingReferences)
+      } else {
+        setUpdateError(grantInvestorAccessMutation?.errorMessage)
+        setInvalidBookingReferences([])
+        setTickets([])
+      }
+    },
+    onError: (err: ApolloError) => {
+      setInvalidBookingReferences([])
+      setTickets([])
+      setUpdateError(err.toLocaleString())
+      setUpdating(false)
+    },
+    variables: {
+      bookingReferencesArray,
+      startupSelections,
+    },
+  })
 
   return (
     <>
@@ -163,7 +166,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
               <SpacingBottom>
                 {bookingReferencesArray?.length !== 0 && (
                   <Button type="submit">
-                    Grant permission to {bookingReferencesArray?.length} Investor
+                    Grant access to {bookingReferencesArray?.length} Investor
                     {bookingReferencesArray?.length > 1 ? 's' : ''}
                   </Button>
                 )}

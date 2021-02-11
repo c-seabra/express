@@ -1,14 +1,14 @@
 import { gql } from '@apollo/client'
 
-export const ATTENDANCE_BY_BOOKING_REFERENCE_UPDATE_MUTATION = gql`
-  mutation attendanceByBookingReferenceUpdate(
+export const GRANT_INVESTOR_ACCESS_MUTATION = gql`
+  mutation grantInvestorAccessMutation(
     $bookingReferencesArray: [String!]!
     $startupSelections: Int!
   ) {
-    attendanceByBookingReferenceUpdate(
+    grantInvestorAccessMutation(
       input: {
         bookingReferencesArray: $bookingReferencesArray
-        attendanceConfiguration: { officeHoursStartupSelections: $startupSelections }
+        startupSelections: $startupSelections
       }
     ) {
       successMessage
@@ -23,4 +23,4 @@ export const ATTENDANCE_BY_BOOKING_REFERENCE_UPDATE_MUTATION = gql`
   }
 `
 
-export default ATTENDANCE_BY_BOOKING_REFERENCE_UPDATE_MUTATION
+export default GRANT_INVESTOR_ACCESS_MUTATION
