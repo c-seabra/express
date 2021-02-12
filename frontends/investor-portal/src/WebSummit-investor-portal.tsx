@@ -12,7 +12,7 @@ const lifecycles = singleSpaReact({
   rootComponent: props => (
     <App
       {...props}
-      token="eyJhbGciOiJIUzI1NiJ9.eyJhZG1pbiI6dHJ1ZX0.xPBCo7SxNuv-T9Tm6H4txw19UOAoj-CZOJF93WwrKX8"
+      token="12345"
     />
   ),
 })
