@@ -6,29 +6,25 @@ import React, { useState } from 'react'
 
 import { Button } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
+import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
+import { UserError } from '../../lib/types'
 import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
 import { useAppContext } from '../app/AppContext'
-import Success from '../settingsActions/Success'
-import Warning from '../settingsActions/Warning'
 import { SpacingBottom, StyledGridContainer } from './InvestorSessionsCreateForm.styled'
 import { BorderBottom } from './SettingsDashboard.styled'
 
 type InvestorSessionsCreateFormType = {
-  refetchSessions: any
   timeZone: string
 }
 
-const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
-  refetchSessions,
-  timeZone,
-}) => {
+const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({ timeZone }) => {
   const { conferenceSlug, token } = useAppContext()
   const [eventTimezone] = useState<string>(timeZone)
   const [startsAt, setStartsAt] = useState<string | undefined>()
   const [endsAt, setEndsAt] = useState<string | undefined>()
   const [count, setCount] = useState<number | undefined>()
-  const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
-  const [mutationError, setMutationError] = useState<string | undefined>()
+  const success = useSuccessSnackbar()
+  const errorMessage = useErrorSnackbar()
 
   const styledDateForMutation = (dateString?: string) => {
     if (dateString === undefined || dateString === '') {
@@ -37,45 +33,38 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
     return moment(dateString).tz(eventTimezone, true).format()
   }
 
-  const [investorSessionsCreateMutation] = useMutation(INVESTOR_SESSIONS_CREATE_MUTATION, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    onCompleted: ({ investorSessionsCreate }) => {
-      const success = investorSessionsCreate?.successMessage
-      if (success !== null) {
-        setMutationSuccessMessage(investorSessionsCreate?.successMessage)
-        refetchSessions()
-        setMutationError('')
-      }
-      if (investorSessionsCreate?.userErrors.length) {
-        setMutationError(investorSessionsCreate?.userErrors[0].message)
-      }
-    },
-    variables: {
-      investorSessionsCount: count,
-      investorSessionsEndsAt: styledDateForMutation(endsAt),
-      investorSessionsStartsAt: styledDateForMutation(startsAt),
-    },
-  })
-
-  const submitForm = () => {
-    investorSessionsCreateMutation()
+  type InvestorSessionsCreateData = {
+    investorSessionsCreate: {
+      successMessage: string
+      userErrors: UserError[]
+    }
   }
+
+  const [investorSessionsCreateMutation] = useMutation<InvestorSessionsCreateData>(
+    INVESTOR_SESSIONS_CREATE_MUTATION,
+    {
+      context: {
+        slug: conferenceSlug,
+        token,
+      },
+      onCompleted: ({ investorSessionsCreate }) => {
+        if (investorSessionsCreate.userErrors.length) {
+          errorMessage(investorSessionsCreate?.userErrors[0].message)
+        } else {
+          success(investorSessionsCreate?.successMessage)
+        }
+      },
+      refetchQueries: ['EventQuery'],
+      variables: {
+        investorSessionsCount: count,
+        investorSessionsEndsAt: styledDateForMutation(endsAt),
+        investorSessionsStartsAt: styledDateForMutation(startsAt),
+      },
+    }
+  )
 
   return (
     <>
-      {mutationError && (
-        <Warning>
-          <span>{mutationError}</span>
-        </Warning>
-      )}
-      {mutationSuccessMessage && (
-        <Success>
-          <span>{mutationSuccessMessage}</span>
-        </Success>
-      )}
       <BorderBottom>
         <SpacingBottom>
           <StyledGridContainer
