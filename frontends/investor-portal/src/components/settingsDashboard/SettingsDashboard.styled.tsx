@@ -66,3 +66,8 @@ export const BorderBottom = styled.div`
   border-bottom-width: thin;
   margin-bottom: 20px;
 `
+
+export const BreadcrumbsContainer = styled.div`
+  display: flex;
+  margin: 20px 0 4px;
+`

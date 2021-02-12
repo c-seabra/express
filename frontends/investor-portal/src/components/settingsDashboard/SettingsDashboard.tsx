@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { Button, ContainerCard } from '../../lib/components'
+import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
 import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import useEventQuery from '../../lib/hooks/useEventQuery'
@@ -12,6 +13,7 @@ import Warning from '../settingsActions/Warning'
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
 import SessionsSummary from './SessionsSummary'
 import {
+  BreadcrumbsContainer,
   ConfigurationPanel,
   FormArea,
   PageContainer,
@@ -79,6 +81,16 @@ const SettingsDashboard: React.FC = () => {
     startupSelectionDeadline,
   })
 
+  const breadcrumbsRoutes: Breadcrumb[] = [
+    {
+      label: data?.event.name || 'Home',
+      redirectUrl: '/',
+    },
+    {
+      label: 'Settings',
+    },
+  ]
+
   return (
     <>
       <Helmet>
@@ -91,6 +103,9 @@ const SettingsDashboard: React.FC = () => {
             <span>{error.message}</span>
           </Warning>
         )}
+        <BreadcrumbsContainer>
+          <Breadcrumbs routes={breadcrumbsRoutes} />
+        </BreadcrumbsContainer>
         <SpacingBottom>
           <ContainerCard color="#00AFA9" title="Investor portal settings">
             <SpacingBottom>
