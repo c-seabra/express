@@ -62,8 +62,6 @@ export const FormArea = styled.div`
 `
 
 export const BorderBottom = styled.div`
-  border-bottom: solid;
-  border-bottom-width: thin;
   margin-bottom: 20px;
 `
 

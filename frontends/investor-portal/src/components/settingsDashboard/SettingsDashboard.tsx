@@ -198,7 +198,7 @@ const SettingsDashboard: React.FC = () => {
         <ContainerCard color="#4688D9" title="Sessions">
           <SpacingBottom>
             <InvestorSessionsCreateForm eventTimezone={eventTimezone} />
-            {investorSessionsSummary?.length && (
+            {investorSessionsSummary && (
               <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
             )}
           </SpacingBottom>
