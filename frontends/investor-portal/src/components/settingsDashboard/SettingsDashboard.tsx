@@ -7,10 +7,7 @@ import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import useEventQuery from '../../lib/hooks/useEventQuery'
 import useEventUpdateMutation from '../../lib/hooks/useEventUpdateMutation'
-import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
 import Loader from '../../lib/Loading'
-import { UserError } from '../../lib/types'
-import { useAppContext } from '../app/AppContext'
 import Warning from '../settingsActions/Warning'
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
 import SessionsSummary from './SessionsSummary'
@@ -23,7 +20,6 @@ import {
 } from './SettingsDashboard.styled'
 
 const SettingsDashboard: React.FC = () => {
-  const { conferenceSlug, token } = useAppContext()
   const [defaultStartupSelections, setDefaultStartupSelections] = useState<number>()
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
   const [sponsorLogo, setSponsorLogo] = useState<File | undefined>()
@@ -33,8 +29,6 @@ const SettingsDashboard: React.FC = () => {
   const [startupPortalOpeningAt, setStartupPortalOpeningAt] = useState<string | undefined>()
   const [startupPortalClosingAt, setStartupPortalClosingAt] = useState<string | undefined>()
   const [startupSelectionDeadline, setStartupSelectionDeadline] = useState<string | undefined>()
-  const success = useSuccessSnackbar()
-  const errorMessage = useErrorSnackbar()
 
   const handleUpload = (uploadedFile?: File) => {
     setSponsorLogoUrl(URL.createObjectURL(uploadedFile))
