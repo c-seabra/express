@@ -15,6 +15,7 @@
   "dependencies": {
     "@apollo/client": "*",
     "@apollo/react-common": "*",
+    "@websummit/graphql": "*",
     "formik": "*",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",

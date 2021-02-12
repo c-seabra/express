@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import AssigneeList from '../assigneeList/AssigneeList'
 import Form from '../form/Form'
 import {ApolloProvider} from "@apollo/client";
-import initApollo from "../../lib/apollo/apolloClient";
+import { GraphQLParams, initApollo } from '@websummit/graphql';
 
-const StlyedContainer = styled.section`
+const StyledContainer = styled.section`
   padding: 1rem;
   max-width: 1024px;
   width: 100%;
@@ -36,13 +36,11 @@ export type Conference = {
   guestProductId?: string;
 }
 
-export type StaffTicketContext = {
+export type StaffTicketContext = GraphQLParams & {
   ticketsList?: TicketList;
   setTicketsList?: SetTicketList;
   conference: Conference;
-  token: string;
   staffList: StaffList;
-  apiURL: string;
 }
 
 export const AppContext = createContext<StaffTicketContext>({
@@ -59,7 +57,7 @@ const App = ({token, staffList, conference, apiURL}:StaffTicketContext) => {
 
   const [ticketsList, setTicketList] = useState<TicketList>()
 
-  const apolloClient = initApollo(apiURL);
+  const apolloClient = initApollo({apiURL});
 
   return (
     <ApolloProvider client={apolloClient}>
@@ -73,7 +71,7 @@ const App = ({token, staffList, conference, apiURL}:StaffTicketContext) => {
         apiURL: apiURL,
       }}
     >
-      <StlyedContainer>
+      <StyledContainer>
         <StyledSection>
           <h2>Ticket Assignment - Staff ticket creation tool</h2>
           <Form />
@@ -81,7 +79,7 @@ const App = ({token, staffList, conference, apiURL}:StaffTicketContext) => {
         <StyledSection>
           {ticketsList && ticketsList?.length > 0 && <AssigneeList list={ticketsList} />}
         </StyledSection>
-      </StlyedContainer>
+      </StyledContainer>
     </AppContext.Provider>
     </ApolloProvider>
       )

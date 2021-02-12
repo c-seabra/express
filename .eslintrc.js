@@ -29,15 +29,15 @@ module.exports = {
   overrides: [
     {
       files: [
-        'src/@types/operations.tsx',
-        'src/@types/fragments.ts',
-        'src/operations.wp/types.tsx',
+        'packages/graphql/src/@types/operations.tsx',
+        'packages/graphql/src/@types/fragments.ts',
+        'packages/graphql/src/operations.wp/types.tsx',
       ],
       rules: {
         '@typescript-eslint/camelcase': 'off',
         'import/no-duplicates': 'off',
         'jsx-a11y/anchor-is-valid': 'off',
-        'prettier/prettier': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
         'typescript-sort-keys/interface': 'off',
       },
     },
@@ -46,16 +46,6 @@ module.exports = {
       rules: {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/no-unsafe-member-access': 'off',
-        '@typescript-eslint/no-unsafe-return': 'off',
-      },
-    },
-    {
-      files: ['test/**/*.ts*', 'stories/**/*.ts*'],
-      rules: {
-        '@typescript-eslint/explicit-module-boundary-types': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/no-unsafe-call': 'off',
         '@typescript-eslint/no-unsafe-member-access': 'off',
         '@typescript-eslint/no-unsafe-return': 'off',
       },
@@ -86,12 +76,7 @@ module.exports = {
     'import',
   ],
   rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
-    'arrow-parens': [1, 'as-needed'],
-
-    camelcase: 'off',
 
     'import/extensions': [
       'error',
@@ -104,14 +89,6 @@ module.exports = {
       },
     ],
 
-    'import/no-extraneous-dependencies': [
-      'error',
-      { devDependencies: ['test/**/*', 'stories/**/*'] },
-    ],
-
-    'import/order': 'off',
-
-    indent: ['error', 2, { SwitchCase: 1 }],
     // href is passed down automatically from <Link> into <a> tag
     'jsx-a11y/anchor-is-valid': [
       'error',
@@ -121,10 +98,11 @@ module.exports = {
         specialLink: ['hrefLeft', 'hrefRight'],
       },
     ],
-    'linebreak-style': ['error', 'unix'],
-    'no-underscore-dangle': 'off',
-    'prettier/prettier': 'error',
-    quotes: ['error', 'single', { avoidEscape: true }],
+
+    // we run prettier anyway extra
+    'prettier/prettier': 'off',
+
+    // react specific rules
     'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-key': ['error', { checkFragmentShorthand: true }],
     'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],
@@ -138,13 +116,33 @@ module.exports = {
     'react/static-property-placement': ['error', 'static public field'],
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
-    semi: ['off', 'never'],
-    'import/prefer-default-export': 'off',
+
+    // sorting rules
     'simple-import-sort/sort': 'error',
-    'sort-imports': 'off',
     'sort-keys-fix/sort-keys-fix': ['error', 'asc', { natural: true }],
     'typescript-sort-keys/interface': 2,
     'typescript-sort-keys/string-enum': 2,
+
+    // using simple-import-sort/sort instead
+    'sort-imports': 'off',
+    'import/order': 'off',
+
+    // disabled but might be nice in the future
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+
+    // disabled because they make no sense for us
+    camelcase: 'off',
+    'import/prefer-default-export': 'off',
+    'no-underscore-dangle': 'off',
+    'import/no-extraneous-dependencies': 'off',
+
+    // disabled because prettier controls this
+    indent: ['off', 2, { SwitchCase: 1 }],
+    quotes: ['off', 'single', { avoidEscape: true }],
+    'linebreak-style': ['off', 'unix'],
+    'arrow-parens': ['off', 'as-needed'],
+    semi: ['off', 'never'],
   },
   settings: {
     'import/resolver': {

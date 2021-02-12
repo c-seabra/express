@@ -3,8 +3,15 @@ import jwt from 'jwt-decode'
 import styled from 'styled-components'
 
 import AssigneeList from '../assigneeList/AssigneeList'
-import withApollo from '../../lib/apollo/withApollo'
+import { GraphQLParams, initApollo } from '@websummit/graphql';
 import Form from '../form/Form'
+import { ApolloProvider } from '@apollo/client';
+import {
+  Conference,
+  SetTicketList,
+  StaffList,
+  TicketList,
+} from '@websummit-micro/staff-tickets/src/components/app/App';
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -27,10 +34,13 @@ export type Assignee = {
   autoClaim?: string
 }
 
+export type BulkAssignContext = GraphQLParams & {
+  assigneesList?: AssigneesList; setAssigneesList?: SetAssigneesList;}
 
-export const AppContext = createContext<{assigneesList?: AssigneesList; setAssigneesList?: SetAssigneesList; conferenceSlug?: string; token?: string}>({})
 
-const App = ({token}:{token:string}) => {
+export const AppContext = createContext<BulkAssignContext>({})
+
+const App = ({token, apiURL=''}:BulkAssignContext) => {
   if (!token) return null
   const tokenPayload: {email: string; conf_slug: string} = jwt(token) as {email: string; conf_slug: string}
 
@@ -41,10 +51,14 @@ const App = ({token}:{token:string}) => {
   const [assigneesList, setAssigneesList] = useState<AssigneesList>()
   const [conferenceSlug, setConferenceSlug] = useState<string>()
 
+  const apolloClient = initApollo({apiURL});
+
   return (
+    <ApolloProvider client={apolloClient}>
     <AppContext.Provider
       value={{
         token,
+        apiURL,
         assigneesList,
         setAssigneesList,
         conferenceSlug
@@ -60,7 +74,8 @@ const App = ({token}:{token:string}) => {
         </StyledSection>
       </StlyedContainer>
     </AppContext.Provider>
+    </ApolloProvider>
   )
 }
 
-export default withApollo(App)
+export default App
