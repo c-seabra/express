@@ -5,10 +5,8 @@ import EVENT_QUERY from '../../operations/queries/Event'
 import { Event, UserError } from '../types'
 
 type EventData = {
-  data: {
-    event: Event
-    userErrors: UserError[]
-  }
+  event: Event
+  userErrors: UserError[]
 }
 
 const useEventQuery = () => {
