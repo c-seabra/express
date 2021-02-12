@@ -1,23 +1,18 @@
 {
   "name": "@websummit-micro/ticket-support",
+  "private": true,
+  "license": "MIT",
   "version": "1.0.0",
   "scripts": {
+    "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
+    "build": "webpack --mode=production",
+    "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
+    "clean": "rimraf -rf ./dist",
+    "coverage": "cross-env BABEL_ENV=test jest --coverage",
     "start": "webpack serve --port 9002",
     "start:standalone": "webpack serve --env standalone",
-    "build": "webpack --mode=production  --config ./webpack.config.build.js",
-    "build-standalone": "webpack --mode=production --config ./webpack.config.build.js",
-    "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
-    "lint": "eslint src --ext js,ts,tsx",
-    "format": "prettier --write \"./**\"",
     "test": "cross-env BABEL_ENV=test jest",
-    "watch-tests": "cross-env BABEL_ENV=test jest --watch",
-    "coverage": "cross-env BABEL_ENV=test jest --coverage",
-    "clean": "rimraf -rf ./dist"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && concurrently yarn:test yarn:lint"
-    }
+    "watch-tests": "cross-env BABEL_ENV=test jest --watch"
   },
   "dependencies": {
     "@apollo/client": "*",
@@ -36,12 +31,6 @@
     "yup": "*"
   },
   "devDependencies": {},
-  "config": {
-    "eslint": {
-      "extensions": ".json,.js,.jsx,.ts,.tsx",
-      "paths": ". src/** test/**"
-    }
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -53,8 +42,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }

@@ -5,3 +5,10 @@ yarn-error.log
 package-lock.json
 dist
 builds
+
+
+**/.gitignore
+*/*/yarn.lock
+*/*/yarn-error.log
+*/*/package-lock.json
+*/*/dist

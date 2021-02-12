@@ -9,15 +9,14 @@
   "types": "dist/index",
   "scripts": {
     "build": "yarn run clean && yarn run compile",
+    "build:standalone": "yarn run clean && yarn run compile",
     "clean": "rimraf -rf ./dist",
     "compile": "tsc -p tsconfig.build.json",
     "prepublishOnly": "yarn run build",
     "test": "yarn run build"
   },
   "peerDependencies": {
-    "react": "~17.0.1"
+    "react": "*"
   },
-  "devDependencies": {
-    "@types/react": "17.0.1"
-  }
+  "devDependencies": {}
 }

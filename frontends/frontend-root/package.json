@@ -11,15 +11,9 @@
     "build": "webpack --mode=production",
     "clean": "rimraf -rf ./dist"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && concurrently yarn:test yarn:lint"
-    }
-  },
   "devDependencies": {},
   "dependencies": {
     "single-spa": "*",
     "single-spa-layout": "*"
   }
 }
-  
