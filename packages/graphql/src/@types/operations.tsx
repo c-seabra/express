@@ -1,4 +1,6 @@
+import * as Apollo from '@apollo/client';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { OperationVariables as QueryVariables } from 'apollo-client';
 
 import { AnyJson,JsonObject } from './json';
 
@@ -3739,6 +3741,7 @@ export type CommerceOrderCreate = {
   currency?: Maybe<Scalars['String']>;
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
+  invoiceUrl?: Maybe<Scalars['String']>;
   items: Array<CommerceOrderItemCreateOrUpdate>;
   lastUpdatedAt?: Maybe<Scalars['String']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -3943,6 +3946,7 @@ export type CommerceOrderUpdate = {
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
   id?: Maybe<Scalars['ID']>;
+  invoiceUrl?: Maybe<Scalars['String']>;
   items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
   lastUpdatedAt?: Maybe<Scalars['String']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -5988,10 +5992,7 @@ export type DynamicFormPayloadFragment = { __typename?: 'DynamicForm' } & Pick<
   'id' | 'data' | 'schema' | 'mutation' | 'uiSchema'
 >;
 
-export const DisplayMoneyFragmentDoc: DocumentNode<
-  DisplayMoneyFragment,
-  unknown
-> = {
+export const DisplayMoneyFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6036,10 +6037,7 @@ export const DisplayMoneyFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const DisplayPriceFragmentDoc: DocumentNode<
-  DisplayPriceFragment,
-  unknown
-> = {
+export const DisplayPriceFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6105,14 +6103,50 @@ export const DisplayPriceFragmentDoc: DocumentNode<
         name: { kind: 'Name', value: 'Price' },
       },
     },
-    ...DisplayMoneyFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'DisplayMoney' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'includeUnit' },
+                value: { kind: 'BooleanValue', value: false },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'precision' },
+                value: { kind: 'IntValue', value: '0' },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'format' },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'currency' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'symbol' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Money' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const DisplayReleaseFragmentDoc: DocumentNode<
-  DisplayReleaseFragment,
-  unknown
-> = {
+export const DisplayReleaseFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6341,14 +6375,114 @@ export const DisplayReleaseFragmentDoc: DocumentNode<
         name: { kind: 'Name', value: 'TicketRelease' },
       },
     },
-    ...DisplayPriceFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'DisplayPrice' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'exTax' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'DisplayMoney' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'totalTax' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'DisplayMoney' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'total' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'DisplayMoney' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxLines' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Price' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'DisplayMoney' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'includeUnit' },
+                value: { kind: 'BooleanValue', value: false },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'precision' },
+                value: { kind: 'IntValue', value: '0' },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'format' },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'currency' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'symbol' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Money' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const ReleasePhaseSummaryFragmentDoc: DocumentNode<
-  ReleasePhaseSummaryFragment,
-  unknown
-> = {
+export const ReleasePhaseSummaryFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6370,10 +6504,7 @@ export const ReleasePhaseSummaryFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketReleasesPanelFragmentDoc: DocumentNode<
-  TicketReleasesPanelFragment,
-  unknown
-> = {
+export const TicketReleasesPanelFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6398,7 +6529,7 @@ export const TicketReleasesPanelFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const UrlLinkFragmentDoc: DocumentNode<UrlLinkFragment, unknown> = {
+export const UrlLinkFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6418,7 +6549,7 @@ export const UrlLinkFragmentDoc: DocumentNode<UrlLinkFragment, unknown> = {
   ],
   kind: 'Document',
 };
-export const PageLinkFragmentDoc: DocumentNode<PageLinkFragment, unknown> = {
+export const PageLinkFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6446,10 +6577,7 @@ export const PageLinkFragmentDoc: DocumentNode<PageLinkFragment, unknown> = {
   ],
   kind: 'Document',
 };
-export const TabularMenuFragmentDoc: DocumentNode<
-  TabularMenuFragment,
-  unknown
-> = {
+export const TabularMenuFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6525,15 +6653,48 @@ export const TabularMenuFragmentDoc: DocumentNode<
         name: { kind: 'Name', value: 'Menu' },
       },
     },
-    ...UrlLinkFragmentDoc.definitions,
-    ...PageLinkFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UrlLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'page' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const TicketSalesPageLayoutFragmentDoc: DocumentNode<
-  TicketSalesPageLayoutFragment,
-  unknown
-> = {
+export const TicketSalesPageLayoutFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6647,15 +6808,142 @@ export const TicketSalesPageLayoutFragmentDoc: DocumentNode<
         name: { kind: 'Name', value: 'ComponentWebLayoutsTicketSalesPage' },
       },
     },
-    ...TicketReleasesPanelFragmentDoc.definitions,
-    ...TabularMenuFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketReleasesPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketReleasesPanel',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TabularMenu' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'menuItems' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'UrlLink' },
+                            },
+                          ],
+                        },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'ComponentWebLinksUrlLink',
+                          },
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'PageLink' },
+                            },
+                          ],
+                        },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'ComponentWebLinksPageLink',
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Menu' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UrlLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'page' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const ApplicationFormFragmentDoc: DocumentNode<
-  ApplicationFormFragment,
-  unknown
-> = {
+export const ApplicationFormFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6689,10 +6977,7 @@ export const ApplicationFormFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const ApplicationOverviewPanelFragmentDoc: DocumentNode<
-  ApplicationOverviewPanelFragment,
-  unknown
-> = {
+export const ApplicationOverviewPanelFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6718,10 +7003,7 @@ export const ApplicationOverviewPanelFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketTypeFragmentDoc: DocumentNode<
-  TicketTypeFragment,
-  unknown
-> = {
+export const TicketTypeFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6741,10 +7023,7 @@ export const TicketTypeFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketInfoPanelFragmentDoc: DocumentNode<
-  TicketInfoPanelFragment,
-  unknown
-> = {
+export const TicketInfoPanelFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6781,14 +7060,25 @@ export const TicketInfoPanelFragmentDoc: DocumentNode<
         },
       },
     },
-    ...TicketTypeFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketType' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'TicketType' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const TicketApplicationsPageLayoutFragmentDoc: DocumentNode<
-  TicketApplicationsPageLayoutFragment,
-  unknown
-> = {
+export const TicketApplicationsPageLayoutFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6899,17 +7189,222 @@ export const TicketApplicationsPageLayoutFragmentDoc: DocumentNode<
         },
       },
     },
-    ...ApplicationFormFragmentDoc.definitions,
-    ...ApplicationOverviewPanelFragmentDoc.definitions,
-    ...TicketInfoPanelFragmentDoc.definitions,
-    ...TabularMenuFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketInfoPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketType' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TicketType' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'heading' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'showBenefits' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketTypeInformation',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketType' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'TicketType' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TabularMenu' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'menuItems' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'UrlLink' },
+                            },
+                          ],
+                        },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'ComponentWebLinksUrlLink',
+                          },
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'PageLink' },
+                            },
+                          ],
+                        },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'ComponentWebLinksPageLink',
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Menu' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UrlLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'page' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ApplicationForm' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'dynamicForm' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'schema' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'uiSchema' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'mutation' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Form' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'altImageText' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketApplicationOverviewPanel',
+        },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const ShowcaseGridFragmentDoc: DocumentNode<
-  ShowcaseGridFragment,
-  unknown
-> = {
+export const ShowcaseGridFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -6963,10 +7458,7 @@ export const ShowcaseGridFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const ScheduleSearchSidebarFiltersFragmentDoc: DocumentNode<
-  ScheduleSearchSidebarFiltersFragment,
-  unknown
-> = {
+export const ScheduleSearchSidebarFiltersFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -7007,10 +7499,7 @@ export const ScheduleSearchSidebarFiltersFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const AttendeeSearchSidebarFiltersFragmentDoc: DocumentNode<
-  AttendeeSearchSidebarFiltersFragment,
-  unknown
-> = {
+export const AttendeeSearchSidebarFiltersFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -7051,10 +7540,7 @@ export const AttendeeSearchSidebarFiltersFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const CompanySearchSidebarFiltersFragmentDoc: DocumentNode<
-  CompanySearchSidebarFiltersFragment,
-  unknown
-> = {
+export const CompanySearchSidebarFiltersFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -7095,10 +7581,7 @@ export const CompanySearchSidebarFiltersFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const HeroSectionFragmentDoc: DocumentNode<
-  HeroSectionFragment,
-  unknown
-> = {
+export const HeroSectionFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -7167,10 +7650,7 @@ export const HeroSectionFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const DynamicFormPayloadFragmentDoc: DocumentNode<
-  DynamicFormPayloadFragment,
-  unknown
-> = {
+export const DynamicFormPayloadFragmentDoc: DocumentNode = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -7193,10 +7673,7 @@ export const DynamicFormPayloadFragmentDoc: DocumentNode<
   ],
   kind: 'Document',
 };
-export const AssignmentAuthenticateDocument: DocumentNode<
-  AssignmentAuthenticateMutation,
-  AssignmentAuthenticateMutationVariables
-> = {
+export const AssignmentAuthenticateDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -7269,10 +7746,48 @@ export const AssignmentAuthenticateDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const ProfileUpdateDocument: DocumentNode<
-  ProfileUpdateMutation,
-  ProfileUpdateMutationVariables
-> = {
+export type AssignmentAuthenticateMutationFn = Apollo.MutationFunction<
+  AssignmentAuthenticateMutation,
+  AssignmentAuthenticateMutationVariables
+>;
+
+/**
+ * __useAssignmentAuthenticateMutation__
+ *
+ * To run a mutation, you first call `useAssignmentAuthenticateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAssignmentAuthenticateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [assignmentAuthenticateMutation, { data, loading, error }] = useAssignmentAuthenticateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAssignmentAuthenticateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AssignmentAuthenticateMutation,
+    AssignmentAuthenticateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    AssignmentAuthenticateMutation,
+    AssignmentAuthenticateMutationVariables
+  >(AssignmentAuthenticateDocument, baseOptions);
+}
+export type AssignmentAuthenticateMutationHookResult = ReturnType<
+  typeof useAssignmentAuthenticateMutation
+>;
+export type AssignmentAuthenticateMutationResult = Apollo.MutationResult<AssignmentAuthenticateMutation>;
+export type AssignmentAuthenticateMutationOptions = Apollo.BaseMutationOptions<
+  AssignmentAuthenticateMutation,
+  AssignmentAuthenticateMutationVariables
+>;
+export const ProfileUpdateDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -7391,10 +7906,48 @@ export const ProfileUpdateDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketMagicLoginLinkRequestDocument: DocumentNode<
-  TicketMagicLoginLinkRequestMutation,
-  TicketMagicLoginLinkRequestMutationVariables
-> = {
+export type ProfileUpdateMutationFn = Apollo.MutationFunction<
+  ProfileUpdateMutation,
+  ProfileUpdateMutationVariables
+>;
+
+/**
+ * __useProfileUpdateMutation__
+ *
+ * To run a mutation, you first call `useProfileUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProfileUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [profileUpdateMutation, { data, loading, error }] = useProfileUpdateMutation({
+ *   variables: {
+ *      profile: // value for 'profile'
+ *   },
+ * });
+ */
+export function useProfileUpdateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ProfileUpdateMutation,
+    ProfileUpdateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    ProfileUpdateMutation,
+    ProfileUpdateMutationVariables
+  >(ProfileUpdateDocument, baseOptions);
+}
+export type ProfileUpdateMutationHookResult = ReturnType<
+  typeof useProfileUpdateMutation
+>;
+export type ProfileUpdateMutationResult = Apollo.MutationResult<ProfileUpdateMutation>;
+export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
+  ProfileUpdateMutation,
+  ProfileUpdateMutationVariables
+>;
+export const TicketMagicLoginLinkRequestDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -7461,10 +8014,48 @@ export const TicketMagicLoginLinkRequestDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketAcceptDocument: DocumentNode<
-  TicketAcceptMutation,
-  TicketAcceptMutationVariables
-> = {
+export type TicketMagicLoginLinkRequestMutationFn = Apollo.MutationFunction<
+  TicketMagicLoginLinkRequestMutation,
+  TicketMagicLoginLinkRequestMutationVariables
+>;
+
+/**
+ * __useTicketMagicLoginLinkRequestMutation__
+ *
+ * To run a mutation, you first call `useTicketMagicLoginLinkRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTicketMagicLoginLinkRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [ticketMagicLoginLinkRequestMutation, { data, loading, error }] = useTicketMagicLoginLinkRequestMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTicketMagicLoginLinkRequestMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TicketMagicLoginLinkRequestMutation,
+    TicketMagicLoginLinkRequestMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    TicketMagicLoginLinkRequestMutation,
+    TicketMagicLoginLinkRequestMutationVariables
+  >(TicketMagicLoginLinkRequestDocument, baseOptions);
+}
+export type TicketMagicLoginLinkRequestMutationHookResult = ReturnType<
+  typeof useTicketMagicLoginLinkRequestMutation
+>;
+export type TicketMagicLoginLinkRequestMutationResult = Apollo.MutationResult<TicketMagicLoginLinkRequestMutation>;
+export type TicketMagicLoginLinkRequestMutationOptions = Apollo.BaseMutationOptions<
+  TicketMagicLoginLinkRequestMutation,
+  TicketMagicLoginLinkRequestMutationVariables
+>;
+export const TicketAcceptDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -7586,10 +8177,48 @@ export const TicketAcceptDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketAssignDocument: DocumentNode<
-  TicketAssignMutation,
-  TicketAssignMutationVariables
-> = {
+export type TicketAcceptMutationFn = Apollo.MutationFunction<
+  TicketAcceptMutation,
+  TicketAcceptMutationVariables
+>;
+
+/**
+ * __useTicketAcceptMutation__
+ *
+ * To run a mutation, you first call `useTicketAcceptMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTicketAcceptMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [ticketAcceptMutation, { data, loading, error }] = useTicketAcceptMutation({
+ *   variables: {
+ *      ticketId: // value for 'ticketId'
+ *   },
+ * });
+ */
+export function useTicketAcceptMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TicketAcceptMutation,
+    TicketAcceptMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    TicketAcceptMutation,
+    TicketAcceptMutationVariables
+  >(TicketAcceptDocument, baseOptions);
+}
+export type TicketAcceptMutationHookResult = ReturnType<
+  typeof useTicketAcceptMutation
+>;
+export type TicketAcceptMutationResult = Apollo.MutationResult<TicketAcceptMutation>;
+export type TicketAcceptMutationOptions = Apollo.BaseMutationOptions<
+  TicketAcceptMutation,
+  TicketAcceptMutationVariables
+>;
+export const TicketAssignDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -7800,10 +8429,51 @@ export const TicketAssignDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketRejectDocument: DocumentNode<
-  TicketRejectMutation,
-  TicketRejectMutationVariables
-> = {
+export type TicketAssignMutationFn = Apollo.MutationFunction<
+  TicketAssignMutation,
+  TicketAssignMutationVariables
+>;
+
+/**
+ * __useTicketAssignMutation__
+ *
+ * To run a mutation, you first call `useTicketAssignMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTicketAssignMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [ticketAssignMutation, { data, loading, error }] = useTicketAssignMutation({
+ *   variables: {
+ *      firstName: // value for 'firstName'
+ *      lastName: // value for 'lastName'
+ *      email: // value for 'email'
+ *      ticketId: // value for 'ticketId'
+ *   },
+ * });
+ */
+export function useTicketAssignMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TicketAssignMutation,
+    TicketAssignMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    TicketAssignMutation,
+    TicketAssignMutationVariables
+  >(TicketAssignDocument, baseOptions);
+}
+export type TicketAssignMutationHookResult = ReturnType<
+  typeof useTicketAssignMutation
+>;
+export type TicketAssignMutationResult = Apollo.MutationResult<TicketAssignMutation>;
+export type TicketAssignMutationOptions = Apollo.BaseMutationOptions<
+  TicketAssignMutation,
+  TicketAssignMutationVariables
+>;
+export const TicketRejectDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -7921,10 +8591,48 @@ export const TicketRejectDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const AccessPermissionsDocument: DocumentNode<
-  AccessPermissionsQuery,
-  AccessPermissionsQueryVariables
-> = {
+export type TicketRejectMutationFn = Apollo.MutationFunction<
+  TicketRejectMutation,
+  TicketRejectMutationVariables
+>;
+
+/**
+ * __useTicketRejectMutation__
+ *
+ * To run a mutation, you first call `useTicketRejectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTicketRejectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [ticketRejectMutation, { data, loading, error }] = useTicketRejectMutation({
+ *   variables: {
+ *      ticketId: // value for 'ticketId'
+ *   },
+ * });
+ */
+export function useTicketRejectMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TicketRejectMutation,
+    TicketRejectMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    TicketRejectMutation,
+    TicketRejectMutationVariables
+  >(TicketRejectDocument, baseOptions);
+}
+export type TicketRejectMutationHookResult = ReturnType<
+  typeof useTicketRejectMutation
+>;
+export type TicketRejectMutationResult = Apollo.MutationResult<TicketRejectMutation>;
+export type TicketRejectMutationOptions = Apollo.BaseMutationOptions<
+  TicketRejectMutation,
+  TicketRejectMutationVariables
+>;
+export const AccessPermissionsDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -8051,10 +8759,56 @@ export const AccessPermissionsDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const AppConfigDocument: DocumentNode<
-  AppConfigQuery,
-  AppConfigQueryVariables
-> = {
+
+/**
+ * __useAccessPermissionsQuery__
+ *
+ * To run a query within a React component, call `useAccessPermissionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAccessPermissionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAccessPermissionsQuery({
+ *   variables: {
+ *      ticketTypeIds: // value for 'ticketTypeIds'
+ *   },
+ * });
+ */
+export function useAccessPermissionsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    AccessPermissionsQuery,
+    AccessPermissionsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    AccessPermissionsQuery,
+    AccessPermissionsQueryVariables
+  >(AccessPermissionsDocument, baseOptions);
+}
+export function useAccessPermissionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AccessPermissionsQuery,
+    AccessPermissionsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    AccessPermissionsQuery,
+    AccessPermissionsQueryVariables
+  >(AccessPermissionsDocument, baseOptions);
+}
+export type AccessPermissionsQueryHookResult = ReturnType<
+  typeof useAccessPermissionsQuery
+>;
+export type AccessPermissionsLazyQueryHookResult = ReturnType<
+  typeof useAccessPermissionsLazyQuery
+>;
+export type AccessPermissionsQueryResult = Apollo.QueryResult<
+  AccessPermissionsQuery,
+  AccessPermissionsQueryVariables
+>;
+export const AppConfigDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -8151,10 +8905,53 @@ export const AppConfigDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TaEventDataDocument: DocumentNode<
-  TaEventDataQuery,
-  TaEventDataQueryVariables
-> = {
+
+/**
+ * __useAppConfigQuery__
+ *
+ * To run a query within a React component, call `useAppConfigQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAppConfigQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAppConfigQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAppConfigQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    AppConfigQuery,
+    AppConfigQueryVariables
+  >,
+) {
+  return Apollo.useQuery<AppConfigQuery, AppConfigQueryVariables>(
+    AppConfigDocument,
+    baseOptions,
+  );
+}
+export function useAppConfigLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AppConfigQuery,
+    AppConfigQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<AppConfigQuery, AppConfigQueryVariables>(
+    AppConfigDocument,
+    baseOptions,
+  );
+}
+export type AppConfigQueryHookResult = ReturnType<typeof useAppConfigQuery>;
+export type AppConfigLazyQueryHookResult = ReturnType<
+  typeof useAppConfigLazyQuery
+>;
+export type AppConfigQueryResult = Apollo.QueryResult<
+  AppConfigQuery,
+  AppConfigQueryVariables
+>;
+export const TaEventDataDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -8213,10 +9010,54 @@ export const TaEventDataDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const MyAssignmentDashboardDocument: DocumentNode<
-  MyAssignmentDashboardQuery,
-  MyAssignmentDashboardQueryVariables
-> = {
+
+/**
+ * __useTaEventDataQuery__
+ *
+ * To run a query within a React component, call `useTaEventDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTaEventDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTaEventDataQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useTaEventDataQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TaEventDataQuery,
+    TaEventDataQueryVariables
+  >,
+) {
+  return Apollo.useQuery<TaEventDataQuery, TaEventDataQueryVariables>(
+    TaEventDataDocument,
+    baseOptions,
+  );
+}
+export function useTaEventDataLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TaEventDataQuery,
+    TaEventDataQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<TaEventDataQuery, TaEventDataQueryVariables>(
+    TaEventDataDocument,
+    baseOptions,
+  );
+}
+export type TaEventDataQueryHookResult = ReturnType<typeof useTaEventDataQuery>;
+export type TaEventDataLazyQueryHookResult = ReturnType<
+  typeof useTaEventDataLazyQuery
+>;
+export type TaEventDataQueryResult = Apollo.QueryResult<
+  TaEventDataQuery,
+  TaEventDataQueryVariables
+>;
+export const MyAssignmentDashboardDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -8314,10 +9155,55 @@ export const MyAssignmentDashboardDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const MyDashboardDocument: DocumentNode<
-  MyDashboardQuery,
-  MyDashboardQueryVariables
-> = {
+
+/**
+ * __useMyAssignmentDashboardQuery__
+ *
+ * To run a query within a React component, call `useMyAssignmentDashboardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyAssignmentDashboardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyAssignmentDashboardQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyAssignmentDashboardQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    MyAssignmentDashboardQuery,
+    MyAssignmentDashboardQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    MyAssignmentDashboardQuery,
+    MyAssignmentDashboardQueryVariables
+  >(MyAssignmentDashboardDocument, baseOptions);
+}
+export function useMyAssignmentDashboardLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MyAssignmentDashboardQuery,
+    MyAssignmentDashboardQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    MyAssignmentDashboardQuery,
+    MyAssignmentDashboardQueryVariables
+  >(MyAssignmentDashboardDocument, baseOptions);
+}
+export type MyAssignmentDashboardQueryHookResult = ReturnType<
+  typeof useMyAssignmentDashboardQuery
+>;
+export type MyAssignmentDashboardLazyQueryHookResult = ReturnType<
+  typeof useMyAssignmentDashboardLazyQuery
+>;
+export type MyAssignmentDashboardQueryResult = Apollo.QueryResult<
+  MyAssignmentDashboardQuery,
+  MyAssignmentDashboardQueryVariables
+>;
+export const MyDashboardDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -8394,10 +9280,53 @@ export const MyDashboardDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const MyOrdersDocument: DocumentNode<
-  MyOrdersQuery,
-  MyOrdersQueryVariables
-> = {
+
+/**
+ * __useMyDashboardQuery__
+ *
+ * To run a query within a React component, call `useMyDashboardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyDashboardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyDashboardQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyDashboardQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    MyDashboardQuery,
+    MyDashboardQueryVariables
+  >,
+) {
+  return Apollo.useQuery<MyDashboardQuery, MyDashboardQueryVariables>(
+    MyDashboardDocument,
+    baseOptions,
+  );
+}
+export function useMyDashboardLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MyDashboardQuery,
+    MyDashboardQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<MyDashboardQuery, MyDashboardQueryVariables>(
+    MyDashboardDocument,
+    baseOptions,
+  );
+}
+export type MyDashboardQueryHookResult = ReturnType<typeof useMyDashboardQuery>;
+export type MyDashboardLazyQueryHookResult = ReturnType<
+  typeof useMyDashboardLazyQuery
+>;
+export type MyDashboardQueryResult = Apollo.QueryResult<
+  MyDashboardQuery,
+  MyDashboardQueryVariables
+>;
+export const MyOrdersDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -8485,10 +9414,50 @@ export const MyOrdersDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const MyTicketsDocument: DocumentNode<
-  MyTicketsQuery,
-  MyTicketsQueryVariables
-> = {
+
+/**
+ * __useMyOrdersQuery__
+ *
+ * To run a query within a React component, call `useMyOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyOrdersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyOrdersQuery(
+  baseOptions?: Apollo.QueryHookOptions<MyOrdersQuery, MyOrdersQueryVariables>,
+) {
+  return Apollo.useQuery<MyOrdersQuery, MyOrdersQueryVariables>(
+    MyOrdersDocument,
+    baseOptions,
+  );
+}
+export function useMyOrdersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MyOrdersQuery,
+    MyOrdersQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<MyOrdersQuery, MyOrdersQueryVariables>(
+    MyOrdersDocument,
+    baseOptions,
+  );
+}
+export type MyOrdersQueryHookResult = ReturnType<typeof useMyOrdersQuery>;
+export type MyOrdersLazyQueryHookResult = ReturnType<
+  typeof useMyOrdersLazyQuery
+>;
+export type MyOrdersQueryResult = Apollo.QueryResult<
+  MyOrdersQuery,
+  MyOrdersQueryVariables
+>;
+export const MyTicketsDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -8702,10 +9671,53 @@ export const MyTicketsDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const OrderTicketsDocument: DocumentNode<
-  OrderTicketsQuery,
-  OrderTicketsQueryVariables
-> = {
+
+/**
+ * __useMyTicketsQuery__
+ *
+ * To run a query within a React component, call `useMyTicketsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyTicketsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyTicketsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyTicketsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    MyTicketsQuery,
+    MyTicketsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<MyTicketsQuery, MyTicketsQueryVariables>(
+    MyTicketsDocument,
+    baseOptions,
+  );
+}
+export function useMyTicketsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MyTicketsQuery,
+    MyTicketsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<MyTicketsQuery, MyTicketsQueryVariables>(
+    MyTicketsDocument,
+    baseOptions,
+  );
+}
+export type MyTicketsQueryHookResult = ReturnType<typeof useMyTicketsQuery>;
+export type MyTicketsLazyQueryHookResult = ReturnType<
+  typeof useMyTicketsLazyQuery
+>;
+export type MyTicketsQueryResult = Apollo.QueryResult<
+  MyTicketsQuery,
+  MyTicketsQueryVariables
+>;
+export const OrderTicketsDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -8974,10 +9986,57 @@ export const OrderTicketsDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketCategoriesDocument: DocumentNode<
-  TicketCategoriesQuery,
-  TicketCategoriesQueryVariables
-> = {
+
+/**
+ * __useOrderTicketsQuery__
+ *
+ * To run a query within a React component, call `useOrderTicketsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrderTicketsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrderTicketsQuery({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useOrderTicketsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    OrderTicketsQuery,
+    OrderTicketsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(
+    OrderTicketsDocument,
+    baseOptions,
+  );
+}
+export function useOrderTicketsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    OrderTicketsQuery,
+    OrderTicketsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(
+    OrderTicketsDocument,
+    baseOptions,
+  );
+}
+export type OrderTicketsQueryHookResult = ReturnType<
+  typeof useOrderTicketsQuery
+>;
+export type OrderTicketsLazyQueryHookResult = ReturnType<
+  typeof useOrderTicketsLazyQuery
+>;
+export type OrderTicketsQueryResult = Apollo.QueryResult<
+  OrderTicketsQuery,
+  OrderTicketsQueryVariables
+>;
+export const TicketCategoriesDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -9061,7 +10120,55 @@ export const TicketCategoriesDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const Document: DocumentNode<Query, QueryVariables> = {
+
+/**
+ * __useTicketCategoriesQuery__
+ *
+ * To run a query within a React component, call `useTicketCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTicketCategoriesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    TicketCategoriesQuery,
+    TicketCategoriesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<TicketCategoriesQuery, TicketCategoriesQueryVariables>(
+    TicketCategoriesDocument,
+    baseOptions,
+  );
+}
+export function useTicketCategoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketCategoriesQuery,
+    TicketCategoriesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    TicketCategoriesQuery,
+    TicketCategoriesQueryVariables
+  >(TicketCategoriesDocument, baseOptions);
+}
+export type TicketCategoriesQueryHookResult = ReturnType<
+  typeof useTicketCategoriesQuery
+>;
+export type TicketCategoriesLazyQueryHookResult = ReturnType<
+  typeof useTicketCategoriesLazyQuery
+>;
+export type TicketCategoriesQueryResult = Apollo.QueryResult<
+  TicketCategoriesQuery,
+  TicketCategoriesQueryVariables
+>;
+export const Document: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -9209,10 +10316,36 @@ export const Document: DocumentNode<Query, QueryVariables> = {
   ],
   kind: 'Document',
 };
-export const TicketReleasePhaseDocument: DocumentNode<
-  TicketReleasePhaseQuery,
-  TicketReleasePhaseQueryVariables
-> = {
+
+/**
+ * __useQuery__
+ *
+ * To run a query within a React component, call `useQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useQuery(
+  baseOptions?: Apollo.QueryHookOptions<Query, QueryVariables>,
+) {
+  return Apollo.useQuery<Query, QueryVariables>(Document, baseOptions);
+}
+export function useLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<Query, QueryVariables>,
+) {
+  return Apollo.useLazyQuery<Query, QueryVariables>(Document, baseOptions);
+}
+export type QueryHookResult = ReturnType<typeof useQuery>;
+export type LazyQueryHookResult = ReturnType<typeof useLazyQuery>;
+export type QueryResult = Apollo.QueryResult<Query, QueryVariables>;
+export const TicketReleasePhaseDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -9269,10 +10402,56 @@ export const TicketReleasePhaseDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const TicketReleasesDocument: DocumentNode<
-  TicketReleasesQuery,
-  TicketReleasesQueryVariables
-> = {
+
+/**
+ * __useTicketReleasePhaseQuery__
+ *
+ * To run a query within a React component, call `useTicketReleasePhaseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketReleasePhaseQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketReleasePhaseQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTicketReleasePhaseQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    TicketReleasePhaseQuery,
+    TicketReleasePhaseQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    TicketReleasePhaseQuery,
+    TicketReleasePhaseQueryVariables
+  >(TicketReleasePhaseDocument, baseOptions);
+}
+export function useTicketReleasePhaseLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketReleasePhaseQuery,
+    TicketReleasePhaseQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    TicketReleasePhaseQuery,
+    TicketReleasePhaseQueryVariables
+  >(TicketReleasePhaseDocument, baseOptions);
+}
+export type TicketReleasePhaseQueryHookResult = ReturnType<
+  typeof useTicketReleasePhaseQuery
+>;
+export type TicketReleasePhaseLazyQueryHookResult = ReturnType<
+  typeof useTicketReleasePhaseLazyQuery
+>;
+export type TicketReleasePhaseQueryResult = Apollo.QueryResult<
+  TicketReleasePhaseQuery,
+  TicketReleasePhaseQueryVariables
+>;
+export const TicketReleasesDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -9363,14 +10542,391 @@ export const TicketReleasesDocument: DocumentNode<
         },
       ],
     },
-    ...DisplayReleaseFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'DisplayRelease' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'soldOut' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'action' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'InlineFragment',
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quantity' },
+                      },
+                    ],
+                  },
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: {
+                      kind: 'Name',
+                      value: 'TicketReleaseActionsTitoCheckoutAction',
+                    },
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'emailAddress' },
+                      },
+                    ],
+                  },
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: {
+                      kind: 'Name',
+                      value: 'TicketReleaseActionsPriceEnquiryAction',
+                    },
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'suggestedRelease' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: {
+                      kind: 'Name',
+                      value: 'TicketReleaseActionsExpiredTicketAction',
+                    },
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dynamicForm' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'schema' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'uiSchema' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'mutation' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'data' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: {
+                      kind: 'Name',
+                      value: 'TicketReleaseActionsPriceAlertAction',
+                    },
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'price' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'DisplayPrice' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketType' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accessPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'edges' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'title' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'detail' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'source' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'InlineFragment',
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                    ],
+                  },
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: { kind: 'Name', value: 'TitoTicketRelease' },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'TicketRelease' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'DisplayPrice' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'exTax' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'DisplayMoney' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'totalTax' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'DisplayMoney' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'total' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'DisplayMoney' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxLines' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Price' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'DisplayMoney' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'includeUnit' },
+                value: { kind: 'BooleanValue', value: false },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'precision' },
+                value: { kind: 'IntValue', value: '0' },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'format' },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'currency' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'symbol' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Money' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const TicketTypeReleasePhaseSummaryDocument: DocumentNode<
-  TicketTypeReleasePhaseSummaryQuery,
-  TicketTypeReleasePhaseSummaryQueryVariables
-> = {
+
+/**
+ * __useTicketReleasesQuery__
+ *
+ * To run a query within a React component, call `useTicketReleasesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketReleasesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketReleasesQuery({
+ *   variables: {
+ *      releasePhaseIds: // value for 'releasePhaseIds'
+ *      ticketTypeIds: // value for 'ticketTypeIds'
+ *   },
+ * });
+ */
+export function useTicketReleasesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    TicketReleasesQuery,
+    TicketReleasesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<TicketReleasesQuery, TicketReleasesQueryVariables>(
+    TicketReleasesDocument,
+    baseOptions,
+  );
+}
+export function useTicketReleasesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketReleasesQuery,
+    TicketReleasesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<TicketReleasesQuery, TicketReleasesQueryVariables>(
+    TicketReleasesDocument,
+    baseOptions,
+  );
+}
+export type TicketReleasesQueryHookResult = ReturnType<
+  typeof useTicketReleasesQuery
+>;
+export type TicketReleasesLazyQueryHookResult = ReturnType<
+  typeof useTicketReleasesLazyQuery
+>;
+export type TicketReleasesQueryResult = Apollo.QueryResult<
+  TicketReleasesQuery,
+  TicketReleasesQueryVariables
+>;
+export const TicketTypeReleasePhaseSummaryDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -9484,14 +11040,77 @@ export const TicketTypeReleasePhaseSummaryDocument: DocumentNode<
         },
       ],
     },
-    ...ReleasePhaseSummaryFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReleasePhaseSummary' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'TicketReleasePhase' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const TicketTypeReleasePhasesDocument: DocumentNode<
-  TicketTypeReleasePhasesQuery,
-  TicketTypeReleasePhasesQueryVariables
-> = {
+
+/**
+ * __useTicketTypeReleasePhaseSummaryQuery__
+ *
+ * To run a query within a React component, call `useTicketTypeReleasePhaseSummaryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketTypeReleasePhaseSummaryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketTypeReleasePhaseSummaryQuery({
+ *   variables: {
+ *      ticketTypeId: // value for 'ticketTypeId'
+ *      releasePhaseId: // value for 'releasePhaseId'
+ *   },
+ * });
+ */
+export function useTicketTypeReleasePhaseSummaryQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TicketTypeReleasePhaseSummaryQuery,
+    TicketTypeReleasePhaseSummaryQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    TicketTypeReleasePhaseSummaryQuery,
+    TicketTypeReleasePhaseSummaryQueryVariables
+  >(TicketTypeReleasePhaseSummaryDocument, baseOptions);
+}
+export function useTicketTypeReleasePhaseSummaryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketTypeReleasePhaseSummaryQuery,
+    TicketTypeReleasePhaseSummaryQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    TicketTypeReleasePhaseSummaryQuery,
+    TicketTypeReleasePhaseSummaryQueryVariables
+  >(TicketTypeReleasePhaseSummaryDocument, baseOptions);
+}
+export type TicketTypeReleasePhaseSummaryQueryHookResult = ReturnType<
+  typeof useTicketTypeReleasePhaseSummaryQuery
+>;
+export type TicketTypeReleasePhaseSummaryLazyQueryHookResult = ReturnType<
+  typeof useTicketTypeReleasePhaseSummaryLazyQuery
+>;
+export type TicketTypeReleasePhaseSummaryQueryResult = Apollo.QueryResult<
+  TicketTypeReleasePhaseSummaryQuery,
+  TicketTypeReleasePhaseSummaryQueryVariables
+>;
+export const TicketTypeReleasePhasesDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -9583,10 +11202,56 @@ export const TicketTypeReleasePhasesDocument: DocumentNode<
   ],
   kind: 'Document',
 };
-export const WebPageByHostPathDocument: DocumentNode<
-  WebPageByHostPathQuery,
-  WebPageByHostPathQueryVariables
-> = {
+
+/**
+ * __useTicketTypeReleasePhasesQuery__
+ *
+ * To run a query within a React component, call `useTicketTypeReleasePhasesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketTypeReleasePhasesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketTypeReleasePhasesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTicketTypeReleasePhasesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TicketTypeReleasePhasesQuery,
+    TicketTypeReleasePhasesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    TicketTypeReleasePhasesQuery,
+    TicketTypeReleasePhasesQueryVariables
+  >(TicketTypeReleasePhasesDocument, baseOptions);
+}
+export function useTicketTypeReleasePhasesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketTypeReleasePhasesQuery,
+    TicketTypeReleasePhasesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    TicketTypeReleasePhasesQuery,
+    TicketTypeReleasePhasesQueryVariables
+  >(TicketTypeReleasePhasesDocument, baseOptions);
+}
+export type TicketTypeReleasePhasesQueryHookResult = ReturnType<
+  typeof useTicketTypeReleasePhasesQuery
+>;
+export type TicketTypeReleasePhasesLazyQueryHookResult = ReturnType<
+  typeof useTicketTypeReleasePhasesLazyQuery
+>;
+export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<
+  TicketTypeReleasePhasesQuery,
+  TicketTypeReleasePhasesQueryVariables
+>;
+export const WebPageByHostPathDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -9897,20 +11562,734 @@ export const WebPageByHostPathDocument: DocumentNode<
         },
       ],
     },
-    ...TicketSalesPageLayoutFragmentDoc.definitions,
-    ...TicketApplicationsPageLayoutFragmentDoc.definitions,
-    ...ShowcaseGridFragmentDoc.definitions,
-    ...ScheduleSearchSidebarFiltersFragmentDoc.definitions,
-    ...AttendeeSearchSidebarFiltersFragmentDoc.definitions,
-    ...CompanySearchSidebarFiltersFragmentDoc.definitions,
-    ...HeroSectionFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketSalesPageLayout' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketCategory' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketReleasesPanel' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TicketReleasesPanel' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'releasePhaseStepper' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'categoriesMenu' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TabularMenu' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'promotions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'color' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLayoutsTicketSalesPage' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketApplicationsPageLayout' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'applicationForm' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ApplicationForm' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'applicationOverviewPanel' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketInfoPanel' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TicketInfoPanel' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'categoriesMenu' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TabularMenu' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'releasePhaseStepper' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebLayoutsTicketApplicationsPage',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketInfoPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketType' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TicketType' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'heading' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'showBenefits' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketTypeInformation',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketReleasesPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketReleasesPanel',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketType' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'TicketType' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TabularMenu' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'menuItems' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'UrlLink' },
+                            },
+                          ],
+                        },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'ComponentWebLinksUrlLink',
+                          },
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'PageLink' },
+                            },
+                          ],
+                        },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'ComponentWebLinksPageLink',
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Menu' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UrlLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'page' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ApplicationForm' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'dynamicForm' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'schema' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'uiSchema' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'mutation' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Form' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'altImageText' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketApplicationOverviewPanel',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ShowcaseGrid' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'backgroundColor' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'collection' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'elements' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'image' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'absoluteUrl' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebElementsShowcaseGrid' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ScheduleSearchSidebarFilters' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refinements' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refinementItemsLimit' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsScheduleSearchSidebarFilters',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AttendeeSearchSidebarFilters' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refinements' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refinementItemsLimit' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsAttendeeSearchSidebarFilters',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CompanySearchSidebarFilters' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refinements' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refinementItemsLimit' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsCompanySearchSidebarFilters',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'HeroSection' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'backgroundImage' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  alias: { kind: 'Name', value: 'url' },
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'absoluteUrl' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ctaLink' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'backgroundImageAlt' },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'backgroundImageDescription' },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'brandImage' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  alias: { kind: 'Name', value: 'url' },
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'absoluteUrl' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebElementsHeroSection' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const WebPageByPathDocument: DocumentNode<
-  WebPageByPathQuery,
-  WebPageByPathQueryVariables
-> = {
+
+/**
+ * __useWebPageByHostPathQuery__
+ *
+ * To run a query within a React component, call `useWebPageByHostPathQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWebPageByHostPathQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWebPageByHostPathQuery({
+ *   variables: {
+ *      host: // value for 'host'
+ *      path: // value for 'path'
+ *   },
+ * });
+ */
+export function useWebPageByHostPathQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    WebPageByHostPathQuery,
+    WebPageByHostPathQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    WebPageByHostPathQuery,
+    WebPageByHostPathQueryVariables
+  >(WebPageByHostPathDocument, baseOptions);
+}
+export function useWebPageByHostPathLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    WebPageByHostPathQuery,
+    WebPageByHostPathQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    WebPageByHostPathQuery,
+    WebPageByHostPathQueryVariables
+  >(WebPageByHostPathDocument, baseOptions);
+}
+export type WebPageByHostPathQueryHookResult = ReturnType<
+  typeof useWebPageByHostPathQuery
+>;
+export type WebPageByHostPathLazyQueryHookResult = ReturnType<
+  typeof useWebPageByHostPathLazyQuery
+>;
+export type WebPageByHostPathQueryResult = Apollo.QueryResult<
+  WebPageByHostPathQuery,
+  WebPageByHostPathQueryVariables
+>;
+export const WebPageByPathDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -10202,20 +12581,733 @@ export const WebPageByPathDocument: DocumentNode<
         },
       ],
     },
-    ...TicketSalesPageLayoutFragmentDoc.definitions,
-    ...TicketApplicationsPageLayoutFragmentDoc.definitions,
-    ...ShowcaseGridFragmentDoc.definitions,
-    ...ScheduleSearchSidebarFiltersFragmentDoc.definitions,
-    ...AttendeeSearchSidebarFiltersFragmentDoc.definitions,
-    ...CompanySearchSidebarFiltersFragmentDoc.definitions,
-    ...HeroSectionFragmentDoc.definitions,
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketSalesPageLayout' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketCategory' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketReleasesPanel' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TicketReleasesPanel' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'releasePhaseStepper' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'categoriesMenu' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TabularMenu' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'promotions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'color' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLayoutsTicketSalesPage' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketApplicationsPageLayout' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'applicationForm' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ApplicationForm' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'applicationOverviewPanel' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketInfoPanel' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TicketInfoPanel' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'categoriesMenu' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TabularMenu' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'releasePhaseStepper' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebLayoutsTicketApplicationsPage',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketInfoPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketType' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'TicketType' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'heading' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'showBenefits' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketTypeInformation',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketReleasesPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketReleasesPanel',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketType' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'TicketType' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TabularMenu' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'menuItems' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'link' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'UrlLink' },
+                            },
+                          ],
+                        },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'ComponentWebLinksUrlLink',
+                          },
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'PageLink' },
+                            },
+                          ],
+                        },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: {
+                            kind: 'Name',
+                            value: 'ComponentWebLinksPageLink',
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Menu' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UrlLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageLink' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'page' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ApplicationForm' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'dynamicForm' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'schema' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'uiSchema' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'mutation' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Form' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'altImageText' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsTicketApplicationOverviewPanel',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ShowcaseGrid' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'backgroundColor' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'collection' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'elements' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'image' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'absoluteUrl' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebElementsShowcaseGrid' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ScheduleSearchSidebarFilters' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refinements' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refinementItemsLimit' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsScheduleSearchSidebarFilters',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AttendeeSearchSidebarFilters' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refinements' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refinementItemsLimit' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsAttendeeSearchSidebarFilters',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CompanySearchSidebarFilters' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refinements' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refinementItemsLimit' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: {
+          kind: 'Name',
+          value: 'ComponentWebElementsCompanySearchSidebarFilters',
+        },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'HeroSection' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'backgroundImage' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  alias: { kind: 'Name', value: 'url' },
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'absoluteUrl' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ctaLink' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'backgroundImageAlt' },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'backgroundImageDescription' },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'brandImage' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  alias: { kind: 'Name', value: 'url' },
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'absoluteUrl' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ComponentWebElementsHeroSection' },
+      },
+    },
   ],
   kind: 'Document',
 };
-export const WebPageConfigByPathHostDocument: DocumentNode<
-  WebPageConfigByPathHostQuery,
-  WebPageConfigByPathHostQueryVariables
-> = {
+
+/**
+ * __useWebPageByPathQuery__
+ *
+ * To run a query within a React component, call `useWebPageByPathQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWebPageByPathQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWebPageByPathQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *   },
+ * });
+ */
+export function useWebPageByPathQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    WebPageByPathQuery,
+    WebPageByPathQueryVariables
+  >,
+) {
+  return Apollo.useQuery<WebPageByPathQuery, WebPageByPathQueryVariables>(
+    WebPageByPathDocument,
+    baseOptions,
+  );
+}
+export function useWebPageByPathLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    WebPageByPathQuery,
+    WebPageByPathQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<WebPageByPathQuery, WebPageByPathQueryVariables>(
+    WebPageByPathDocument,
+    baseOptions,
+  );
+}
+export type WebPageByPathQueryHookResult = ReturnType<
+  typeof useWebPageByPathQuery
+>;
+export type WebPageByPathLazyQueryHookResult = ReturnType<
+  typeof useWebPageByPathLazyQuery
+>;
+export type WebPageByPathQueryResult = Apollo.QueryResult<
+  WebPageByPathQuery,
+  WebPageByPathQueryVariables
+>;
+export const WebPageConfigByPathHostDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -10481,3 +13573,53 @@ export const WebPageConfigByPathHostDocument: DocumentNode<
   ],
   kind: 'Document',
 };
+
+/**
+ * __useWebPageConfigByPathHostQuery__
+ *
+ * To run a query within a React component, call `useWebPageConfigByPathHostQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWebPageConfigByPathHostQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWebPageConfigByPathHostQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *      host: // value for 'host'
+ *   },
+ * });
+ */
+export function useWebPageConfigByPathHostQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    WebPageConfigByPathHostQuery,
+    WebPageConfigByPathHostQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    WebPageConfigByPathHostQuery,
+    WebPageConfigByPathHostQueryVariables
+  >(WebPageConfigByPathHostDocument, baseOptions);
+}
+export function useWebPageConfigByPathHostLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    WebPageConfigByPathHostQuery,
+    WebPageConfigByPathHostQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    WebPageConfigByPathHostQuery,
+    WebPageConfigByPathHostQueryVariables
+  >(WebPageConfigByPathHostDocument, baseOptions);
+}
+export type WebPageConfigByPathHostQueryHookResult = ReturnType<
+  typeof useWebPageConfigByPathHostQuery
+>;
+export type WebPageConfigByPathHostLazyQueryHookResult = ReturnType<
+  typeof useWebPageConfigByPathHostLazyQuery
+>;
+export type WebPageConfigByPathHostQueryResult = Apollo.QueryResult<
+  WebPageConfigByPathHostQuery,
+  WebPageConfigByPathHostQueryVariables
+>;
