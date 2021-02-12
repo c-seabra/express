@@ -5,7 +5,7 @@ import { InvestorSessionsSummary } from '../../lib/types'
 import { StyledColumnContainer, StyledGridContainer } from './SessionsSummary.styled'
 
 type SessionsSummaryProps = {
-  investorSessionsSummary: InvestorSessionsSummary
+  investorSessionsSummary: [InvestorSessionsSummary]
 }
 
 const SessionsSummary = ({ investorSessionsSummary }: SessionsSummaryProps): ReactElement => {

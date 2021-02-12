@@ -63,15 +63,22 @@ const SettingsDashboard: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      const configurations = data?.event.configuration.investorMeetingConfiguration
-      setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
-      setDefaultStartupSelections(configurations.defaultStartupSelections)
-      setMeetingsPerSession(configurations.meetingsPerSession)
-      setSessionDuration(configurations.sessionDuration)
-      setSponsorLogoUrl(configurations.sponsorLogoUrl)
-      setStartupPortalOpeningAt(usableDateString(configurations.startupPortalOpeningAt))
-      setStartupPortalClosingAt(usableDateString(configurations.startupPortalClosingAt))
-      setStartupSelectionDeadline(usableDateString(configurations.startupSelectionDeadline))
+      const { investorMeetingConfiguration } = data.event.configuration
+
+      setEventTimezone(data.event.timeZone.ianaName || 'Europe/Dublin')
+      setDefaultStartupSelections(investorMeetingConfiguration.defaultStartupSelections)
+      setMeetingsPerSession(investorMeetingConfiguration.meetingsPerSession)
+      setSessionDuration(investorMeetingConfiguration.sessionDuration)
+      setSponsorLogoUrl(investorMeetingConfiguration.sponsorLogoUrl)
+      setStartupPortalOpeningAt(
+        usableDateString(investorMeetingConfiguration.startupPortalOpeningAt)
+      )
+      setStartupPortalClosingAt(
+        usableDateString(investorMeetingConfiguration.startupPortalClosingAt)
+      )
+      setStartupSelectionDeadline(
+        usableDateString(investorMeetingConfiguration.startupSelectionDeadline)
+      )
     }
   }, [data])
 
@@ -213,9 +220,9 @@ const SettingsDashboard: React.FC = () => {
         <ContainerCard color="#4688D9" title="Sessions">
           <SpacingBottom>
             <InvestorSessionsCreateForm timeZone={eventTimezone} />
-            {/* {investorSessionsSummary?.length && (
+            {investorSessionsSummary?.length && (
               <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
-            )} */}
+            )}
           </SpacingBottom>
         </ContainerCard>
       </PageContainer>
