@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@websummit/ws-components": ["packages/ws-components/src"],
+      "@websummit/ws-lib-example": ["packages/ws-lib-example/src"]
+    },
+    "types": []
+  }
+}

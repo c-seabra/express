@@ -3,6 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 require('dotenv').config()
 
 const config = {
@@ -10,7 +11,7 @@ const config = {
     investorPortal: './src/index.js',
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../../builds/investor-portal'),
     filename: 'frontends.[name].bundle.js',
     library: ['frontends', '[name]'],
     libraryTarget: 'window',
@@ -62,6 +63,7 @@ const config = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    plugins: [new TsconfigPathsPlugin()],
   },
   plugins: [new CleanWebpackPlugin()],
 }

@@ -10,7 +10,7 @@ const useSingleCommerceOrderQuery = ({ id }: { id?: string }) => {
   const error = useErrorSnackbar()
 
   const { data, loading } = useQuery<{ commerceGetOrder: CommerceOrder }>(COMMERCE_GET_ORDER, {
-    context: {
+      context: {
       slug: conferenceSlug,
       token: storeToken,
     },
