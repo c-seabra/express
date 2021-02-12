@@ -78,7 +78,12 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
       )}
       <BorderBottom>
         <SpacingBottom>
-          <StyledGridContainer>
+          <StyledGridContainer
+            onSubmit={e => {
+              e.preventDefault()
+              investorSessionsCreateMutation()
+            }}
+          >
             <LabeledInput
               label="Starting Time"
               type="datetime-local"
@@ -104,7 +109,7 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
                 setCount(+e.target.value)
               }}
             />
-            <Button className="align-right" onClick={submitForm}>
+            <Button className="align-right" type="submit">
               Add Session
             </Button>
           </StyledGridContainer>
