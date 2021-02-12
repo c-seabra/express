@@ -99,11 +99,6 @@ module.exports = {
       },
     ],
 
-    'import/no-extraneous-dependencies': [
-      'error',
-      { devDependencies: ['test/**/*', 'stories/**/*'] },
-    ],
-
     // href is passed down automatically from <Link> into <a> tag
     'jsx-a11y/anchor-is-valid': [
       'error',
@@ -114,8 +109,8 @@ module.exports = {
       },
     ],
 
-    // include prettier
-    'prettier/prettier': 'error',
+    // we run prettier anyway extra
+    'prettier/prettier': 'off',
 
     // react specific rules
     'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.tsx'] }],
@@ -150,6 +145,7 @@ module.exports = {
     camelcase: 'off',
     'import/prefer-default-export': 'off',
     'no-underscore-dangle': 'off',
+    'import/no-extraneous-dependencies': 'off',
 
     // disabled because prettier controls this
     indent: ['off', 2, { SwitchCase: 1 }],
