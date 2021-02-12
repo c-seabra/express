@@ -34,7 +34,8 @@ module.exports = (webpackConfigEnv, argv) => {
         "SANDBOX_STORES_TOKEN",
         "PRODUCTION_API_URL",
         "PRODUCTION_STORES_TOKEN",
-        "AUTH_TOKEN"
+        "AUTH_TOKEN",
+        "API_URL"
       ]),
     ],
   });

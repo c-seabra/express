@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@websummit/graphql": ["packages/graphql/src"],
       "@websummit/ws-components": ["packages/ws-components/src"],
       "@websummit/ws-lib-example": ["packages/ws-lib-example/src"]
     },
