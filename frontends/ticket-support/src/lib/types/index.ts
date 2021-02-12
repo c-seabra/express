@@ -1,3 +1,10 @@
+export type Conference = {
+  guestProductId?: string
+  slug: string
+  staffProductId?: string
+  storeId?: string
+}
+
 export type Account = {
   bio?: string
   city?: string

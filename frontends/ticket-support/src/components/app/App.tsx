@@ -1,14 +1,15 @@
-import jwt from 'jwt-decode'
-import React, { useEffect, useState } from 'react'
+import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 import { HashRouter as Router, NavLink, Redirect, Route, Switch } from 'react-router-dom'
 import SnackbarProvider from 'react-simple-snackbar'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import withApollo from '../../lib/apollo/withApollo'
+import initApollo from '../../lib/apollo/apolloClient'
 import Logo from '../../lib/components/atoms/Logo'
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import ROUTES from '../../lib/constants/routes'
+import { Conference } from '../../lib/types'
 import OrderDetails from '../order/OrderDetails'
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
@@ -41,73 +42,74 @@ const StyledMainHeader = styled.section`
   max-width: 1440px;
 `
 
-const App = ({ token }: { token: string }) => {
-  if (!token) return null
-  const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
-    conf_slug: string
-    email: string
-  }
+type AppProps = {
+  apiUrl: string
+  conference: Conference
+  storeToken: string
+  token: string
+}
 
-  useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug)
-  }, [token])
-
-  const [conferenceSlug, setConferenceSlug] = useState<string>()
+const App = ({ token, storeToken, conference, apiUrl }: AppProps) => {
+  const apolloClient = initApollo(apiUrl) as ApolloClient<NormalizedCacheObject>
 
   return (
-    <SnackbarProvider>
-      <Router>
-        <StyledMainHeader>
-          <NavLink to="/">
-            <Logo />
-          </NavLink>
-        </StyledMainHeader>
-        <StyledMainNavigationContainer>
-          <MainNavigation routes={ROUTES} />
-        </StyledMainNavigationContainer>
-        <AppContext.Provider
-          value={{
-            conferenceSlug,
-            token,
-          }}
-        >
-          <StyledContainer>
-            <Helmet>
-              <link href="https://fonts.gstatic.com" rel="preconnect" />
-              <link
-                href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-                rel="stylesheet"
-              />
-              <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+    <ApolloProvider client={apolloClient}>
+      <SnackbarProvider>
+        <Router>
+          <StyledMainHeader>
+            <NavLink to="/">
+              <Logo />
+            </NavLink>
+          </StyledMainHeader>
+          <StyledMainNavigationContainer>
+            <MainNavigation routes={ROUTES} />
+          </StyledMainNavigationContainer>
+          <AppContext.Provider
+            value={{
+              conferenceSlug: conference?.slug,
+              storeId: conference?.storeId,
+              storeToken,
+              token,
+            }}
+          >
+            <StyledContainer>
+              <Helmet>
+                <link href="https://fonts.gstatic.com" rel="preconnect" />
+                <link
+                  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                  rel="stylesheet"
+                />
+                <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
 
-              <link
-                href="https://fonts.googleapis.com/icon?family=Material+Icons"
-                rel="stylesheet"
-              />
-            </Helmet>
-            <GlobalStyle />
-            <Switch>
-              <Route exact path="/">
-                <Redirect to="/tickets" />
-              </Route>
-              <Route path="/tickets">
-                <TicketDashboard />
-              </Route>
-              <Route path="/ticket/:bookingRef">
-                <TicketDetails />
-              </Route>
-              <Route path="/order/:orderRef">
-                <OrderDetails />
-              </Route>
-              <Route exact path="/orders">
-                <OrdersDashboard />
-              </Route>
-            </Switch>
-          </StyledContainer>
-        </AppContext.Provider>
-      </Router>
-    </SnackbarProvider>
+                <link
+                  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                  rel="stylesheet"
+                />
+              </Helmet>
+              <GlobalStyle />
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/tickets" />
+                </Route>
+                <Route path="/tickets">
+                  <TicketDashboard />
+                </Route>
+                <Route path="/ticket/:bookingRef">
+                  <TicketDetails />
+                </Route>
+                <Route path="/order/:orderRef">
+                  <OrderDetails />
+                </Route>
+                <Route exact path="/orders">
+                  <OrdersDashboard />
+                </Route>
+              </Switch>
+            </StyledContainer>
+          </AppContext.Provider>
+        </Router>
+      </SnackbarProvider>
+    </ApolloProvider>
   )
 }
 
-export default withApollo(App)
+export default App

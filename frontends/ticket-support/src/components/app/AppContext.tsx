@@ -1,6 +1,11 @@
 import { createContext, useContext } from 'react'
 
-type AppContextType = { conferenceSlug?: string; token?: string }
+type AppContextType = {
+  conferenceSlug?: string
+  storeId?: string
+  storeToken?: string
+  token?: string
+}
 
 const AppContext = createContext<AppContextType>({})
 

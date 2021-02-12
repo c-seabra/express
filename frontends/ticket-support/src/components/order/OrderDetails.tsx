@@ -7,11 +7,14 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import { useModalState } from '../../lib/components/molecules/Modal'
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
+import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery'
 import useSingleOrderQuery from '../../lib/hooks/useSingleOrderQuery'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
 import { switchCase } from '../../lib/utils/logic'
+import OrderRefundModal from '../orderActions/OrderRefundModal'
 import Warning from '../ticketActions/Warning'
 import TicketList from '../ticketList/TicketList'
 import OrderDetailsSummary from './OrderDetailsSummary'
@@ -76,9 +79,16 @@ const ButtonWithSpacing = styled(Button)`
 
 const missingDataAbbr = 'N/A'
 
-const OrderDetails: React.FC = () => {
+const OrderDetails = () => {
   const { orderRef } = useParams<{ orderRef: string }>()
+  const {
+    isOpen: isRefundModalOpen,
+    closeModal: closeRefundModal,
+    openModal: openRefundModal,
+  } = useModalState()
+
   const { loading, error, order } = useSingleOrderQuery({ orderRef })
+  const { commerceOrder } = useSingleCommerceOrderQuery({ id: order?.sourceId })
 
   const { tickets, owner } = order || {}
 
@@ -86,7 +96,7 @@ const OrderDetails: React.FC = () => {
     switchCase({
       TICKET_MACHINE: 'Ticket Machine',
       TITO: 'Tito',
-    })(missingDataAbbr)(source)
+    })(missingDataAbbr)(source) as string
 
   const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
     error: false,
@@ -151,7 +161,17 @@ const OrderDetails: React.FC = () => {
                     <ButtonWithSpacing disabled as={SecondaryButton}>
                       Cancel order
                     </ButtonWithSpacing>
-                    <Button disabled>Refund order</Button>
+                    <Button disabled={!commerceOrder} onClick={openRefundModal}>
+                      Refund order
+                    </Button>
+                    {commerceOrder && (
+                      <OrderRefundModal
+                        commerceOrder={commerceOrder}
+                        isOpen={isRefundModalOpen}
+                        orderRef={orderRef}
+                        onRequestClose={closeRefundModal}
+                      />
+                    )}
                   </div>
                 </StyledRow>
               </SpacingBottom>
