@@ -6,7 +6,6 @@
   "scripts": {
     "start": "webpack serve --port 9000 --env isLocal",
     "lint": "eslint src --ext js,ts,tsx",
-    "test": "cross-env BABEL_ENV=test jest --passWithNoTests",
     "format": "prettier --write \"./**\"",
     "build": "webpack --mode=production",
     "clean": "rimraf -rf ./dist"
