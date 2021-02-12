@@ -91,7 +91,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
     'arrow-parens': [1, 'as-needed'],
 
-    'camelcase': 'off',
+    camelcase: 'off',
 
     'import/extensions': [
       'error',
@@ -111,7 +111,7 @@ module.exports = {
 
     'import/order': 'off',
 
-    'indent': ['error', 2, { SwitchCase: 1 }],
+    indent: ['error', 2, { SwitchCase: 1 }],
     // href is passed down automatically from <Link> into <a> tag
     'jsx-a11y/anchor-is-valid': [
       'error',
@@ -124,7 +124,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     'no-underscore-dangle': 'off',
     'prettier/prettier': 'error',
-    'quotes': ['error', 'single', { avoidEscape: true }],
+    quotes: ['error', 'single', { avoidEscape: true }],
     'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-key': ['error', { checkFragmentShorthand: true }],
     'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],
@@ -138,7 +138,8 @@ module.exports = {
     'react/static-property-placement': ['error', 'static public field'],
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
-    semi: ['error', 'never'],
+    semi: ['off', 'never'],
+    'import/prefer-default-export': 'off',
     'simple-import-sort/sort': 'error',
     'sort-imports': 'off',
     'sort-keys-fix/sort-keys-fix': ['error', 'asc', { natural: true }],
@@ -154,4 +155,4 @@ module.exports = {
       version: 'detect',
     },
   },
-}
+};

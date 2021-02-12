@@ -1,1 +1,1 @@
-export var meaningOfLife = 48;
+export var meaningOfLife = 42;
