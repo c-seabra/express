@@ -13,12 +13,12 @@ import Modal, { useModalState } from '../../lib/components/molecules/Modal'
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
 import Loader from '../../lib/Loading'
-import { OrderSource } from '../../lib/types'
 import { switchCase } from '../../lib/utils/logic'
 import { useAppContext } from '../app/AppContext'
 import AuditTrail from '../auditTrail/AuditTrail'
 import LoginLinkActions from '../ticketActions/LoginLinkActions'
 import TicketAssignModal from '../ticketActions/TicketAssignModal'
+import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal'
 import TicketVoidModal from '../ticketActions/TicketVoidModal'
 import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
 import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
@@ -152,6 +152,12 @@ const TicketDetails = (): ReactElement => {
     closeModal: closeTicketVoidModal,
   } = useModalState()
 
+  const {
+    openModal: openTicketUnvoidModal,
+    isOpen: isTicketUnvoidModalOpen,
+    closeModal: closeTicketUnvoidModal,
+  } = useModalState()
+
   const { loading, error, ticket } = useSingleTicketQuery({ reference: bookingRef })
   const assignment = ticket?.assignment
   const orderRef = ticket?.order?.reference || ''
@@ -244,18 +250,25 @@ const TicketDetails = (): ReactElement => {
                   />
                 </SpacingBottomSm>
                 {ticket?.state === 'VOID' ? (
-                  <Button disabled>Unvoid</Button>
+                  <>
+                    <Button onClick={openTicketUnvoidModal}>Unvoid</Button>
+                    <TicketUnvoidModal
+                      closeModal={closeTicketUnvoidModal}
+                      isOpen={isTicketUnvoidModalOpen}
+                      ticket={ticket}
+                    />
+                  </>
                 ) : (
-                  <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
+                  <>
+                    <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
+                    <TicketVoidModal
+                      closeModal={closeTicketVoidModal}
+                      isOpen={isTicketVoidModalOpen}
+                      ticket={ticket}
+                    />
+                  </>
                 )}
 
-                {!isTitoTicket && (
-                  <TicketVoidModal
-                    closeModal={closeTicketVoidModal}
-                    isOpen={isTicketVoidModalOpen}
-                    ticket={ticket}
-                  />
-                )}
                 {isTitoTicket && (
                   <ErrorInfoModal
                     alertHeader={bookingRef}
