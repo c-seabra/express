@@ -8,7 +8,7 @@ import Modal from '../../lib/components/molecules/Modal'
 import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import { Ticket } from '../../lib/types'
-import useTicketVoidMutation from "../../lib/hooks/useTicketVoidMutation";
+import { useTicketVoidMutation } from '../../operations/mutations/TicketVoid'
 
 const ContentContainer = styled.div`
   padding: 2rem 0;
@@ -71,12 +71,7 @@ const TicketVoidModal = ({ isOpen, closeModal, ticket }: TicketVoidModalProps) =
   }
 
   return (
-    <Modal
-      key={isOpen.toString()}
-      isOpen={isOpen}
-      title="Void ticket"
-      onRequestClose={handleClose}
-    >
+    <Modal key={isOpen.toString()} isOpen={isOpen} title="Void ticket" onRequestClose={handleClose}>
       <ContentContainer>
         <Formik
           initialValues={{
