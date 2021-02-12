@@ -8,11 +8,12 @@ import { Helmet } from 'react-helmet'
 import { Button, ContainerCard } from '../../lib/components'
 import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
+import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
 import Loader from '../../lib/Loading'
-import EVENT_UPDATE_MUTATION from '../../operations/mutations/EventUpdate'
+import { UserError } from '../../lib/types'
+import EVENT_UPDATE from '../../operations/mutations/EventUpdate'
 import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
-import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
 import SessionsSummary from './SessionsSummary'
@@ -23,7 +24,6 @@ import {
   SpacingBottom,
   SponsorLogo,
 } from './SettingsDashboard.styled'
-import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
@@ -36,8 +36,6 @@ const SettingsDashboard: React.FC = () => {
   const [startupPortalOpeningAt, setStartupPortalOpeningAt] = useState<string | undefined>()
   const [startupPortalClosingAt, setStartupPortalClosingAt] = useState<string | undefined>()
   const [startupSelectionDeadline, setStartupSelectionDeadline] = useState<string | undefined>()
-  // const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
-  // const [mutationError, setMutationError] = useState<string | undefined>()
   const success = useSuccessSnackbar()
   const errorMessage = useErrorSnackbar()
 
@@ -81,10 +79,6 @@ const SettingsDashboard: React.FC = () => {
     },
   })
 
-  // if (error) {
-  //   errorMessage(event?.userErrors[0].message)
-  // }
-
   const handleUpload = (uploadedFile?: File) => {
     setSponsorLogoUrl(URL.createObjectURL(uploadedFile))
     setFile(uploadedFile)
@@ -107,13 +101,13 @@ const SettingsDashboard: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
       const configurations = data?.event.configuration.investorMeetingConfiguration
+
+      setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
       setDefaultStartupSelections(configurations.defaultStartupSelections)
       setMeetingsPerSession(configurations.meetingsPerSession)
       setSessionDuration(configurations.sessionDuration)
       setSponsorLogoUrl(configurations.sponsorLogoUrl)
-
       setStartupPortalOpeningAt(usableDateString(configurations.startupPortalOpeningAt))
       setStartupPortalClosingAt(usableDateString(configurations.startupPortalClosingAt))
       setStartupSelectionDeadline(usableDateString(configurations.startupSelectionDeadline))
@@ -122,13 +116,20 @@ const SettingsDashboard: React.FC = () => {
 
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
-  const [eventUpdateMutuation] = useMutation(EVENT_UPDATE_MUTATION, {
+  type EventUpdateData = {
+    eventUpdate: {
+      successMessage: string
+      userErrors: UserError[]
+    }
+  }
+
+  const [updateEvent] = useMutation<EventUpdateData>(EVENT_UPDATE, {
     context: {
       slug: conferenceSlug,
       token,
     },
     onCompleted: ({ eventUpdate }) => {
-      if (eventUpdate?.userErrors[0]) {
+      if (eventUpdate.userErrors.length) {
         errorMessage(eventUpdate?.userErrors[0].message)
       } else {
         success(eventUpdate?.successMessage)
@@ -147,11 +148,6 @@ const SettingsDashboard: React.FC = () => {
     },
   })
 
-  const submitSettings = () => {
-    eventUpdateMutuation()
-  }
-  console.log(error)
-
   return (
     <>
       <Helmet>
@@ -161,7 +157,7 @@ const SettingsDashboard: React.FC = () => {
         {loading && <Loader />}
         {error && (
           <Warning>
-            <span>{error[0].message}</span>
+            <span>{error.message}</span>
           </Warning>
         )}
         <SpacingBottom>
@@ -170,7 +166,7 @@ const SettingsDashboard: React.FC = () => {
               <ConfigurationPanel
                 onSubmit={e => {
                   e.preventDefault()
-                  submitSettings()
+                  updateEvent()
                 }}
               >
                 <FormArea>
@@ -245,7 +241,7 @@ const SettingsDashboard: React.FC = () => {
                   />
                 </FormArea>
                 <FormArea>
-                  <Button className="align-right" onClick={submitSettings}>
+                  <Button className="align-right" type="submit">
                     Save
                   </Button>
                 </FormArea>
@@ -255,10 +251,7 @@ const SettingsDashboard: React.FC = () => {
         </SpacingBottom>
         <ContainerCard color="#4688D9" title="Sessions">
           <SpacingBottom>
-            <InvestorSessionsCreateForm
-              refetchSessions={() => refetch()}
-              timeZone={eventTimezone}
-            />
+            <InvestorSessionsCreateForm timeZone={eventTimezone} />
             {investorSessionsSummary?.length && (
               <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
             )}
