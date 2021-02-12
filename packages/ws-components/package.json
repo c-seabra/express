@@ -1,0 +1,22 @@
+{
+  "name": "@websummit/ws-components",
+  "version": "1.0.0",
+  "description": "Websummit UI components library",
+  "author": "Chris Bowes",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "build:standalone": "yarn run clean && yarn run compile",
+    "clean": "rimraf -rf ./dist",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "yarn run build",
+    "test": "yarn run build"
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "devDependencies": {}
+}
