@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react'
 
-import { Button, ContainerCard, Heading, SecondaryButton } from '../../lib/components'
+import { ContainerCard, Heading, SecondaryButton } from '../../lib/components'
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
 import Loader from '../../lib/Loading'
@@ -18,20 +18,11 @@ type AttendanceSearchState = {
 const AttendanceTable = (): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedValues, setSelectedValues] = useState<string[]>([])
-  // const [results, setresults] = useState<string[]>([])
   const [headerCheckbox, setHeaderCheckbox] = useState(false)
+  const [headerCheckboxState, setHeaderCheckboxState] = useState(true)
 
   const processInitialSearchState = (state: AttendanceSearchState) => {
     if (state.searchQuery) setSearchQuery(state.searchQuery)
-  }
-
-  const onCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    const a = (selectedValues.includes(value) && selectedValues.filter(item => item !== value)) || [
-      ...selectedValues,
-      value,
-    ]
-    setSelectedValues(a)
   }
 
   const { searchState, setSearchState } = useSearchState<AttendanceSearchState>({
@@ -53,18 +44,36 @@ const AttendanceTable = (): ReactElement => {
     type: searchState.type,
   })
 
+  const onCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    const newSelectedValues = (selectedValues.includes(value) &&
+      selectedValues.filter(item => item !== value)) || [...selectedValues, value]
+    setSelectedValues(newSelectedValues)
+  }
+
   useEffect(() => {
     if (currentPage) {
       setSearchState({ ...searchState, page: currentPage })
+      setSelectedValues([])
     }
-    setSelectedValues([])
   }, [currentPage])
 
   useEffect(() => {
-    if (results.length > 0 && results.length === selectedValues.length) {
+    const activeCheckboxesCount = results.filter(attendance => attendance.pendingSelectionCount).length
+    if (
+      results.length > 0 &&
+      activeCheckboxesCount &&
+      activeCheckboxesCount === selectedValues.length
+    ) {
       setHeaderCheckbox(true)
     } else {
       setHeaderCheckbox(false)
+    }
+
+    if (results.filter(result => result.pendingSelectionCount).length) {
+      setHeaderCheckboxState(false)
+    } else {
+      setHeaderCheckboxState(true)
     }
   }, [selectedValues, results])
 
@@ -73,13 +82,16 @@ const AttendanceTable = (): ReactElement => {
       const element = e.currentTarget as HTMLInputElement
       setSearchState(prevState => ({ ...prevState, searchQuery: element.value }))
       setSearchQuery(element.value)
+      setSelectedValues([])
     }
   }
 
   const onHeaderCheckboxChange = () => {
     setHeaderCheckbox(!headerCheckbox)
     if (!headerCheckbox) {
-      setSelectedValues(results.map(result => result.id))
+      setSelectedValues(
+        results.filter(attendance => attendance.pendingSelectionCount).map(result => result.id)
+      )
     } else {
       setSelectedValues([])
     }
@@ -90,7 +102,10 @@ const AttendanceTable = (): ReactElement => {
       <SearchFilters>
         <Heading>Attendance area</Heading>
         <FiltersSearchContainer>
-          <SecondaryButton onClick={() => console.log('click')}>
+          <SecondaryButton
+            disabled={selectedValues.length === 0}
+            onClick={() => console.log('click')}
+          >
             Submit investors selections
           </SecondaryButton>
           <StyledSearchInput
@@ -109,6 +124,7 @@ const AttendanceTable = (): ReactElement => {
             <>
               <AttendanceListHeader
                 isChecked={headerCheckbox}
+                isDisabled={headerCheckboxState}
                 onCheckboxChange={onHeaderCheckboxChange}
               />
               {results.map(attendance => (

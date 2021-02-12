@@ -36,6 +36,7 @@ const AttendanceItem = ({
       <NarrowColumn>
         <input
           checked={isChecked}
+          disabled={attendance.pendingSelectionCount === 0}
           name="select"
           type="checkbox"
           value={attendance.id}
