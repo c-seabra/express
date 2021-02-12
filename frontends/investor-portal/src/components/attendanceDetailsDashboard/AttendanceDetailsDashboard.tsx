@@ -19,14 +19,12 @@ const AttendanceDetailsDashboard = (): ReactElement => {
     data,
     error,
     loading,
-    refetch,
   }: {
     data?: {
       attendance: Attendance
     }
     error?: ApolloError
     loading?: boolean
-    refetch?: () => void
   } = useQuery(ATTENDANCE_DETAILS_QUERY, {
     context: {
       slug: conferenceSlug,
@@ -47,12 +45,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
       </Helmet>
       <Label>{data?.attendance.name}</Label>
       <ContainerCard color="#4688D9" title="Startup Confirmations">
-        <AttendanceAppearanceSelectionsList
-          error={error}
-          list={selections}
-          loading={loading}
-          refetch={refetch}
-        />
+        <AttendanceAppearanceSelectionsList error={error} list={selections} loading={loading} />
       </ContainerCard>
     </DashboardDetailsContainer>
   )

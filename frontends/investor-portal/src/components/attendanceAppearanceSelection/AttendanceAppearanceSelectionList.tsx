@@ -14,14 +14,12 @@ type AtendanceAppearanceSelectionListProps = {
   error?: ApolloError
   list: AttendanceAppearanceSelection[]
   loading: boolean
-  refetch: () => void
 }
 
 const AttendanceAppearanceSelectionList = ({
   list = [],
   loading,
   error,
-  refetch,
 }: AtendanceAppearanceSelectionListProps): ReactElement => {
   const { conferenceSlug, token } = useAppContext()
   const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
@@ -50,8 +48,8 @@ const AttendanceAppearanceSelectionList = ({
           result.attendanceAppearanceSelectionDestroy.userErrors?.[0]?.message || ''
         setMutationError(err)
         setMutationSuccessMessage(success)
-        refetch()
       },
+      refetchQueries: ['AttendanceDetailsQuery'],
     }
   )
 
@@ -63,7 +61,7 @@ const AttendanceAppearanceSelectionList = ({
     return <>{error.message}</>
   }
 
-  const onDeleteClick = async (selection: AttendanceAppearanceSelection) => {
+  const onDeletionConfirmed = async (selection: AttendanceAppearanceSelection) => {
     await attendanceAppearanceSelectionDestroyMutation({
       variables: {
         selectionId: selection.id,
@@ -88,7 +86,7 @@ const AttendanceAppearanceSelectionList = ({
         <AttendanceAppearanceSelectionItem
           key={selection.id}
           selection={selection}
-          onDeleteClick={onDeleteClick}
+          onDeletionConfirmed={onDeletionConfirmed}
         />
       ))}
     </>

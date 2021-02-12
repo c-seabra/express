@@ -12,15 +12,15 @@ import Column from './AttendanceAppearanceSelectionColumn.styled'
 
 const AttendanceAppearanceSelectionItem = ({
   selection,
-  onDeleteClick,
+  onDeletionConfirmed,
 }: {
-  onDeleteClick: (selection: AttendanceAppearanceSelection) => void
+  onDeletionConfirmed: (selection: AttendanceAppearanceSelection) => void
   selection: AttendanceAppearanceSelection
 }): ReactElement => {
   const { isOpen, openModal, closeModal } = useModalState()
 
-  const onDeleteConfirmed = () => {
-    onDeleteClick(selection)
+  const onDeleteClick = () => {
+    onDeletionConfirmed(selection)
     closeModal()
   }
   return (
@@ -35,7 +35,7 @@ const AttendanceAppearanceSelectionItem = ({
       <Modal
         defaultFooterIsDestructive
         withDefaultFooter
-        defaultFooterPositiveButtonAction={onDeleteConfirmed}
+        defaultFooterPositiveButtonAction={onDeleteClick}
         defaultFooterPositiveButtonText="Delete"
         description={`You are going to delete "${selection.appearance.company.name}" selection.\n\nThis action can not be un-done!`}
         isOpen={isOpen}
