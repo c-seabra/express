@@ -8,11 +8,11 @@ import { Helmet } from 'react-helmet'
 import { Button, ContainerCard } from '../../lib/components'
 import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
+import useEventQuery from '../../lib/hooks/useEventQuery'
 import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
 import Loader from '../../lib/Loading'
 import { UserError } from '../../lib/types'
 import EVENT_UPDATE from '../../operations/mutations/EventUpdate'
-import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../settingsActions/Warning'
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
@@ -39,46 +39,6 @@ const SettingsDashboard: React.FC = () => {
   const success = useSuccessSnackbar()
   const errorMessage = useErrorSnackbar()
 
-  const {
-    data,
-    error,
-    loading,
-  }: {
-    data?: {
-      event: {
-        configuration: {
-          investorMeetingConfiguration: {
-            defaultStartupSelections: number
-            meetingsPerSession: number
-            sessionDuration: number
-            sponsorLogoUrl: string
-            startupPortalClosingAt: string
-            startupPortalOpeningAt: string
-            startupSelectionDeadline: string
-          }
-        }
-        investorSessionsSummary: [
-          {
-            claimed: number
-            count: number
-            endsAt: string
-            startsAt: string
-          }
-        ]
-        timeZone: {
-          ianaName: string
-        }
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(EVENT_QUERY, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-  })
-
   const handleUpload = (uploadedFile?: File) => {
     setSponsorLogoUrl(URL.createObjectURL(uploadedFile))
     setFile(uploadedFile)
@@ -99,10 +59,11 @@ const SettingsDashboard: React.FC = () => {
     return moment(dateString).tz(eventTimezone, true).format()
   }
 
+  const { data, loading, error } = useEventQuery()
+
   useEffect(() => {
     if (data) {
       const configurations = data?.event.configuration.investorMeetingConfiguration
-
       setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
       setDefaultStartupSelections(configurations.defaultStartupSelections)
       setMeetingsPerSession(configurations.meetingsPerSession)
@@ -252,9 +213,9 @@ const SettingsDashboard: React.FC = () => {
         <ContainerCard color="#4688D9" title="Sessions">
           <SpacingBottom>
             <InvestorSessionsCreateForm timeZone={eventTimezone} />
-            {investorSessionsSummary?.length && (
+            {/* {investorSessionsSummary?.length && (
               <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
-            )}
+            )} */}
           </SpacingBottom>
         </ContainerCard>
       </PageContainer>

@@ -42,3 +42,25 @@ export type Appearance = {
 export type Company = {
   name: string
 }
+
+export type Event = {
+  configuration: Configuration
+  id: string
+  name?: string
+  slug: string
+}
+
+export type Configuration = {
+  investorMeetingConfiguration: InvestorMeetingsConfiguration
+}
+
+export type InvestorMeetingsConfiguration = {
+  defaultStartupSelections: number
+  meetingsPerSession: number
+  notifyOfficeHoursInvitees: boolean
+  sessionDuration: number
+  sponsorLogoUrl: string
+  startupPortalClosingAt: string
+  startupPortalOpeningAt: string
+  startupSelectionDeadline: string
+}
