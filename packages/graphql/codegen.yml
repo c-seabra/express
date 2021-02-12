@@ -1,0 +1,52 @@
+config:
+  avoidOptionals:
+    inputValue: false
+    object: false
+    field: true
+  scalars:
+    Decimal: number
+    Date: string
+    DateTime: string
+    EmailAddress: string
+    ISO8601DateTime: string
+    JSON: AnyJson
+    JSONSchemaForm: JsonObject
+    Markdown: string
+    MenuItemLinkDynamicZoneInput: JsonObject
+    WebPageContentDynamicZoneInput: JsonObject
+    Long: number
+    Time: string
+    URL: string
+    Upload: JsonObject
+documents: 'src/operations/**/*.ts'
+generates:
+  src/@types/operations.tsx:
+    config:
+      reactApolloVersion: 3
+      withComponent: false
+      withHOC: false
+      withHooks: true
+      documentNodeImport:
+    plugins:
+      - add: "import { JsonObject, AnyJson } from './json'"
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+      - 'typed-document-node'
+
+  src/@types/fragments.ts:
+    config:
+      apolloClientVersion: '3'
+    plugins:
+      - fragment-matcher
+
+  graphql.schema.json:
+    config:
+      minify: true
+    plugins:
+      - 'introspection'
+
+overwrite: true
+schema:
+  - src/operations/mock/schema/**/*.ts
+  - ${GRAPHQL_API_URL:https://catalyst.cluster.cilabs.net/graphql}

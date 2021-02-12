@@ -1,10 +1,10 @@
 {
   "name": "@websummit/ws-components",
+  "private": true,
+  "license": "MIT",
   "version": "1.0.0",
   "description": "Websummit UI components library",
   "author": "Chris Bowes",
-  "license": "MIT",
-  "private": true,
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {

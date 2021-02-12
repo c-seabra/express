@@ -29,15 +29,15 @@ module.exports = {
   overrides: [
     {
       files: [
-        '**/@types/operations.tsx',
-        '**/@types/fragments.ts',
-        '**/operations.wp/types.tsx',
+        'packages/graphql/src/@types/operations.tsx',
+        'packages/graphql/src/@types/fragments.ts',
+        'packages/graphql/src/operations.wp/types.tsx',
       ],
       rules: {
         '@typescript-eslint/camelcase': 'off',
         'import/no-duplicates': 'off',
         'jsx-a11y/anchor-is-valid': 'off',
-        'prettier/prettier': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
         'typescript-sort-keys/interface': 'off',
       },
     },
@@ -46,16 +46,6 @@ module.exports = {
       rules: {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/no-unsafe-member-access': 'off',
-        '@typescript-eslint/no-unsafe-return': 'off',
-      },
-    },
-    {
-      files: ['test/**/*.ts*', 'stories/**/*.ts*'],
-      rules: {
-        '@typescript-eslint/explicit-module-boundary-types': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/no-unsafe-call': 'off',
         '@typescript-eslint/no-unsafe-member-access': 'off',
         '@typescript-eslint/no-unsafe-return': 'off',
       },

@@ -1,5 +1,5 @@
 {
-  "name": "@websummit/ws-lib-example",
+  "name": "@websummit/graphql",
   "private": true,
   "license": "MIT",
   "version": "1.0.0",
@@ -12,6 +12,7 @@
     "build": "yarn run clean && yarn run compile",
     "build:standalone": "yarn run clean && yarn run compile",
     "clean": "rimraf -rf ./dist",
+    "codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
     "compile": "tsc -p tsconfig.build.json",
     "prepublishOnly": "yarn run build",
     "test": "yarn run build"
