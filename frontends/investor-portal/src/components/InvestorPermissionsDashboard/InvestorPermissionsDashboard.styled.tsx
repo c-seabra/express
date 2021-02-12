@@ -45,6 +45,16 @@ export const StripedTable = styled.table`
     border-width: 0;
   }
 
+  td.icon {
+    width: 30px;
+    &.success {
+      color: green;
+    }
+    &.fail {
+      color: red;
+    }
+  }
+
   > tbody > tr:nth-of-type(2n + 1) {
     background-color: var(--bs-table-striped-bg);
     color: var(--bs-table-striped-color);

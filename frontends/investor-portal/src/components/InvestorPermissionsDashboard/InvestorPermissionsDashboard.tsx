@@ -2,7 +2,7 @@ import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
-import { Button, ContainerCard } from '../../lib/components'
+import { Button, ContainerCard, Icon } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import Loader from '../../lib/Loading'
 import { GRANT_INVESTOR_ACCESS_MUTATION } from '../../operations/mutations/GrantInvestorAccessMutation'
@@ -25,12 +25,14 @@ const InvestorPermissionsDashboard = (): ReactElement => {
   }
   const [updating, setUpdating] = useState<boolean>(false)
   const { conferenceSlug, token } = useAppContext()
-  const [defaultStartupSelections, setDefaultStartupSelections] = useState<number | undefined>()
-  const [startupSelections, setStartupSelections] = useState<number | undefined>()
+  const [defaultStartupSelectionsCount, setDefaultStartupSelectionsCount] = useState<
+    number | undefined
+  >()
+  const [startupSelectionsCount, setStartupSelectionsCount] = useState<number | undefined>()
   const [updateError, setUpdateError] = useState<string | undefined>()
   const [updateSuccess, setUpdateSuccess] = useState<string | undefined>()
   const [tickets, setTickets] = useState<Array<Ticket>>([])
-  const [bookingReferencesArray, setBookingReferencesArray] = useState<Array<string>>([])
+  const [bookingReferences, setBookingReferences] = useState<Array<string>>([])
   const [invalidBookingReferences, setInvalidBookingReferences] = useState<Array<string>>([])
 
   const [showDetails, setShowDetails] = useState<boolean>(false)
@@ -48,10 +50,10 @@ const InvestorPermissionsDashboard = (): ReactElement => {
 
   useEffect(() => {
     if (data) {
-      setDefaultStartupSelections(
+      setDefaultStartupSelectionsCount(
         data?.event.configuration.investorMeetingConfiguration.defaultStartupSelections
       )
-      setStartupSelections(
+      setStartupSelectionsCount(
         data?.event.configuration.investorMeetingConfiguration.defaultStartupSelections
       )
     }
@@ -64,23 +66,23 @@ const InvestorPermissionsDashboard = (): ReactElement => {
 
   const parseBookingReferencesString = (elements: string) => {
     if (elements === '') {
-      setBookingReferencesArray([])
+      setBookingReferences([])
     } else {
       const sanitizedBookingReferences = elements
         .split(bookingRefSeparator)
         .filter(id => validBookingRefMatcher.exec(id))
         .map(id => id.toUpperCase())
-      setBookingReferencesArray(sanitizedBookingReferences)
+      setBookingReferences(sanitizedBookingReferences)
     }
   }
 
   const grantAccess = () => {
     clearMessages()
     setUpdating(true)
-    grantInvestorAccessMutation()
+    grantInvestorAccess()
   }
 
-  const [grantInvestorAccessMutation] = useMutation(GRANT_INVESTOR_ACCESS_MUTATION, {
+  const [grantInvestorAccess] = useMutation(GRANT_INVESTOR_ACCESS_MUTATION, {
     context: {
       slug: conferenceSlug,
       token,
@@ -92,8 +94,9 @@ const InvestorPermissionsDashboard = (): ReactElement => {
         setTickets(grantInvestorAccessMutation?.tickets)
         setUpdateSuccess(grantInvestorAccessMutation?.successMessage)
         setInvalidBookingReferences(grantInvestorAccessMutation?.invalidBookingReferences)
-      } else {
-        setUpdateError(grantInvestorAccessMutation?.errorMessage)
+      }
+      if (grantInvestorAccessMutation?.errors.length) {
+        setUpdateError(grantInvestorAccessMutation?.errors[0].message)
         setInvalidBookingReferences([])
         setTickets([])
       }
@@ -105,8 +108,8 @@ const InvestorPermissionsDashboard = (): ReactElement => {
       setUpdating(false)
     },
     variables: {
-      bookingReferencesArray,
-      startupSelections,
+      bookingReferences,
+      startupSelectionsCount,
     },
   })
 
@@ -151,23 +154,23 @@ const InvestorPermissionsDashboard = (): ReactElement => {
               <SpacingBottom>
                 <LabeledInput
                   className="shortInput"
-                  defaultValue={defaultStartupSelections}
+                  defaultValue={defaultStartupSelectionsCount}
                   label={`How many start up selections in investor portal per attendee? (default is ${
-                    defaultStartupSelections ? defaultStartupSelections.toString() : ''
+                    defaultStartupSelectionsCount ? defaultStartupSelectionsCount.toString() : ''
                   })`}
                   max="999"
                   min="1"
                   type="number"
                   onChange={e => {
-                    setStartupSelections(parseInt(e.target.value, 10))
+                    setStartupSelectionsCount(parseInt(e.target.value, 10))
                   }}
                 />
               </SpacingBottom>
               <SpacingBottom>
-                {bookingReferencesArray?.length !== 0 && (
+                {bookingReferences?.length !== 0 && (
                   <Button type="submit">
-                    Grant access to {bookingReferencesArray?.length} Investor
-                    {bookingReferencesArray?.length > 1 ? 's' : ''}
+                    Grant access to {bookingReferences?.length} Investor
+                    {bookingReferences?.length > 1 ? 's' : ''}
                   </Button>
                 )}
                 {tickets?.length !== 0 && (
@@ -196,7 +199,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                 <StripedTable>
                   <thead>
                     <tr>
-                      <th>Booking Reference</th>
+                      <th colSpan={2}>Booking Reference</th>
                       <th>Attendance ID</th>
                       <th>Name</th>
                     </tr>
@@ -206,6 +209,9 @@ const InvestorPermissionsDashboard = (): ReactElement => {
                       const { attendanceId, bookingRef, name } = ticket
                       return (
                         <tr key={bookingRef}>
+                          <td className={attendanceId ? 'icon success' : 'icon fail'}>
+                            <Icon>{attendanceId ? 'check' : 'close'}</Icon>
+                          </td>
                           <td>{bookingRef}</td>
                           <td>{attendanceId}</td>
                           <td>{name}</td>

@@ -2,17 +2,19 @@ import { gql } from '@apollo/client'
 
 export const GRANT_INVESTOR_ACCESS_MUTATION = gql`
   mutation grantInvestorAccessMutation(
-    $bookingReferencesArray: [String!]!
-    $startupSelections: Int!
+    $bookingReferences: [String!]!
+    $startupSelectionsCount: Int!
   ) {
     grantInvestorAccessMutation(
       input: {
-        bookingReferencesArray: $bookingReferencesArray
-        startupSelections: $startupSelections
+        bookingReferences: $bookingReferences
+        startupSelectionsCount: $startupSelectionsCount
       }
     ) {
       successMessage
-      errorMessage
+      errors {
+        message
+      }
       invalidBookingReferences
       tickets {
         attendanceId
