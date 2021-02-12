@@ -1,6 +1,3 @@
-import 'moment-timezone'
-
-import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -9,10 +6,10 @@ import { Button, ContainerCard } from '../../lib/components'
 import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import useEventQuery from '../../lib/hooks/useEventQuery'
+import useEventUpdateMutation from '../../lib/hooks/useEventUpdateMutation'
 import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
 import Loader from '../../lib/Loading'
 import { UserError } from '../../lib/types'
-import EVENT_UPDATE from '../../operations/mutations/EventUpdate'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../settingsActions/Warning'
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
@@ -27,9 +24,9 @@ import {
 
 const SettingsDashboard: React.FC = () => {
   const { conferenceSlug, token } = useAppContext()
-  const [defaultStartupSelections, setDefaultStartupSelections] = useState<number | undefined>()
+  const [defaultStartupSelections, setDefaultStartupSelections] = useState<number>()
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
-  const [file, setFile] = useState<File | undefined>()
+  const [sponsorLogo, setSponsorLogo] = useState<File | undefined>()
   const [meetingsPerSession, setMeetingsPerSession] = useState<number | undefined>()
   const [sessionDuration, setSessionDuration] = useState<number | undefined>()
   const [sponsorLogoUrl, setSponsorLogoUrl] = useState<string | undefined>()
@@ -41,7 +38,7 @@ const SettingsDashboard: React.FC = () => {
 
   const handleUpload = (uploadedFile?: File) => {
     setSponsorLogoUrl(URL.createObjectURL(uploadedFile))
-    setFile(uploadedFile)
+    setSponsorLogo(uploadedFile)
   }
 
   const usableDateString = (dateString: string | undefined) => {
@@ -50,13 +47,6 @@ const SettingsDashboard: React.FC = () => {
     }
     const str = dateString
     return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
-  }
-
-  const styledDateForMutation = (dateString?: string) => {
-    if (dateString === undefined || dateString === '') {
-      return null
-    }
-    return moment(dateString).tz(eventTimezone, true).format()
   }
 
   const { data, loading, error } = useEventQuery()
@@ -84,36 +74,15 @@ const SettingsDashboard: React.FC = () => {
 
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
-  type EventUpdateData = {
-    eventUpdate: {
-      successMessage: string
-      userErrors: UserError[]
-    }
-  }
-
-  const [updateEvent] = useMutation<EventUpdateData>(EVENT_UPDATE, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    onCompleted: ({ eventUpdate }) => {
-      if (eventUpdate.userErrors.length) {
-        errorMessage(eventUpdate?.userErrors[0].message)
-      } else {
-        success(eventUpdate?.successMessage)
-      }
-    },
-    refetchQueries: ['EventQuery'],
-    variables: {
-      investorMeetingsDefaultStartupSelections: defaultStartupSelections,
-      investorMeetingsMeetingsPerSession: meetingsPerSession,
-      investorMeetingsSessionDuration: sessionDuration,
-      investorMeetingsSponsorLogo: file,
-
-      investorMeetingsStartupPortalClosingAt: styledDateForMutation(startupPortalClosingAt),
-      investorMeetingsStartupPortalOpeningAt: styledDateForMutation(startupPortalOpeningAt),
-      investorMeetingsStartupSelectionDeadline: styledDateForMutation(startupSelectionDeadline),
-    },
+  const { updateEventMutation } = useEventUpdateMutation({
+    defaultStartupSelections,
+    eventTimezone,
+    meetingsPerSession,
+    sessionDuration,
+    sponsorLogo,
+    startupPortalClosingAt,
+    startupPortalOpeningAt,
+    startupSelectionDeadline,
   })
 
   return (
@@ -132,9 +101,9 @@ const SettingsDashboard: React.FC = () => {
           <ContainerCard color="#00AFA9" title="Investor portal settings">
             <SpacingBottom>
               <ConfigurationPanel
-                onSubmit={e => {
+                onSubmit={async e => {
                   e.preventDefault()
-                  updateEvent()
+                  await updateEventMutation()
                 }}
               >
                 <FormArea>
