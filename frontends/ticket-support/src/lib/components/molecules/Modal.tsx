@@ -115,7 +115,12 @@ const Modal = ({
   }
 
   return (
-    <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
+    <ReactModal
+      ariaHideApp={false}
+      isOpen={isOpen}
+      style={customStyles}
+      onRequestClose={onRequestClose}
+    >
       <ModalContainer>
         <ModalHeader title={title}>
           {title && <ModalTitle>{title}</ModalTitle>}
