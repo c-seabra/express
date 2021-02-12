@@ -1,25 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "jsx": "react",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "outDir": "dist",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true
-  },
-  "typeRoots": [
-    "node_modules/@types"
-  ],
+  "typeRoots": ["node_modules/@types"],
   "include": ["src/**/*", "../../conferenceInput"],
   "exclude": ["src/index.js", "src/lib/apollo/*.js"]
 }

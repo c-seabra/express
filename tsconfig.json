@@ -6,9 +6,6 @@
       "@websummit/ws-components": ["packages/ws-components/src"],
       "@websummit/ws-lib-example": ["packages/ws-lib-example/src"]
     },
-    "jsx": "react",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
     "types": []
   }
 }

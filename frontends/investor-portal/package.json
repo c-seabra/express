@@ -9,7 +9,7 @@
     "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
     "clean": "rimraf -rf ./dist",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
-    "start": "webpack serve --port 9002",
+    "start": "webpack serve --port 9005",
     "start:standalone": "webpack serve --env standalone",
     "test": "cross-env BABEL_ENV=test jest",
     "watch-tests": "cross-env BABEL_ENV=test jest --watch"

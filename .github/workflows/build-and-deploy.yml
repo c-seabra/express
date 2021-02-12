@@ -2,7 +2,7 @@ name: Build & Deploy
 on:
   push:
     branches:
-    - master
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p builds
           yarn install
-          yarn build
+          yarn build:standalone
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
