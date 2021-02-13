@@ -18,8 +18,8 @@ const SessionsSummary = ({ investorSessionsSummary }: SessionsSummaryProps): Rea
       {investorSessionsSummary.length < 1 && (
         <StyledNoticeContainer>
           <p>
-            Currently there are no inverstor sessions. <br />
-            Please enter the details above to create a new session.
+            Currently there are no investor sessions. <br />
+            Please enter the required details above to create a new session.
           </p>
         </StyledNoticeContainer>
       )}
