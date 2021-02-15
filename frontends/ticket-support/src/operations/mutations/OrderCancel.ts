@@ -36,17 +36,19 @@ export const useOrderCancelMutation = () => {
   const [cancelOrderMutation] = useMutation<CancelOrderResponse>(ORDER_CANCEL_MUTATION, {
     onCompleted: ({ response }) => {
       console.log('test', response)
-      snackbar('Ticket voided')
+      snackbar('Order cancelled')
     },
     onError: e => errSnackbar(e.message),
-    refetchQueries: ['Order'],
+    refetchQueries: () => ['CommerceOrderItem', 'CommerceOrderStatus', 'Order', 'CommerceOrder', 'Ticket'],
+    awaitRefetchQueries: true,
+
   })
 
   const cancelOrder = async ({ reason, id }: OrderCancelRequest) => {
     await cancelOrderMutation({
       context: {
         headers: {
-          'x-admin-reason': reason,
+          'X-Reason': reason,
         },
         slug: conferenceSlug,
         token,
@@ -56,7 +58,7 @@ export const useOrderCancelMutation = () => {
           status: 'CANCELLED',
         },
         id,
-        storeId: '', // TODO remove or prefill
+        storeId: '7ada51b5-eed4-44f9-852c-9ef5b20e16a1', // TODO remove or prefill
       },
     })
   }
