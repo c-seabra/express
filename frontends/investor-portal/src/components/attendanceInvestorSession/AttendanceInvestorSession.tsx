@@ -25,6 +25,9 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   const { conferenceSlug, token } = useAppContext()
   const [newStartsAt, setNewStartsAt] = useState<string | undefined>()
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
+  const [selected, setSelected] = useState<boolean | false>()
+  const [unlock, setUnlock] = useState<boolean | false>()
+  const [buttonTitle, setButtonTitle] = useState<string>('Submit')
   const {
     data,
   }: {
@@ -60,7 +63,18 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     return moment(dateString).tz(eventTimezone, true).format()
   }
 
+  const handleUnlock = () => {
+    if (attStartsAt !== undefined && selected === undefined) {
+      setButtonTitle('Unlock Investor')
+      setUnlock(true)
+    } else {
+      setButtonTitle('Submit')
+      setUnlock(false)
+    }
+  }
+
   useEffect(() => {
+    handleUnlock()
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
   })
 
@@ -73,20 +87,23 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
       const success = attendanceUpdate?.successMessage
       if (success !== null) {
         refetchSessions()
-        console.log('success')
+        setSelected(undefined)
       }
       if (attendanceUpdate?.userErrors.length) {
-        console.log('error')
+        console.log("Error")
       }
     },
+    refetchQueries: ['EventQuery'],
     variables: {
-      attendanceId: attendanceId,
+      attendanceId,
       startsAt: styledDateForMutation(newStartsAt),
+      unlock,
     },
   })
 
   const submit = () => {
     attendanceUpdateMutation()
+    handleUnlock()
   }
 
   return (
@@ -100,9 +117,10 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
       <Select
         onChange={e => {
           setNewStartsAt(e.target.value)
+          setSelected(true)
         }}
       >
-        <option selected>Select another available session</option>
+        <option defaultChecked>Select another available session</option>
         {investorSessionsSummary?.map((item, i) => (
           <option key={i} disabled={item.available === '0'} value={item.startsAt}>
             {moment(item?.startsAt).format('dddd')}: {moment(item?.startsAt).format('HH:mm')} -{' '}
@@ -110,7 +128,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
           </option>
         ))}
       </Select>
-      <Button onClick={submit}>Submit</Button>
+      <Button onClick={submit}>{buttonTitle}</Button>
     </InputArea>
   )
 }
