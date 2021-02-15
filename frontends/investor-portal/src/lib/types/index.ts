@@ -16,7 +16,7 @@ export type PageInfo = {
 
 export type UserError = {
   message: string
-  path: string
+  path: [string]
 }
 
 export type Attendance = {
