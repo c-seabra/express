@@ -56,6 +56,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
           attStartsAt={startsAt}
           attEndsAt={endsAt}
           attendanceId={attendanceId}
+          selections={selections}
         />
       </ContainerCard>
       <ContainerCard color="#4688D9" title="Startup Confirmations">
