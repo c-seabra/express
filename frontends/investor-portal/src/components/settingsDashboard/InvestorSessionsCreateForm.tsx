@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { Button } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
-import useInvestorSessionCreateMutation from '../../lib/hooks/useInvestorSessionsCreateMutation'
+import { useInvestorSessionCreateMutation } from '../../lib/hooks/index'
 import { SpacingBottom, StyledGridContainer } from './InvestorSessionsCreateForm.styled'
 import { BorderBottom } from './SettingsDashboard.styled'
 
