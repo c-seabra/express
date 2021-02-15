@@ -34,3 +34,11 @@ export const StyledColumnContainer = styled.div`
     color: #fff;
   }
 `
+
+export const StyledNoticeContainer = styled.div`
+  align-items: center;
+  display: flex;
+  font-size: 1.25rem;
+  justify-content: center;
+  text-align: center;
+`

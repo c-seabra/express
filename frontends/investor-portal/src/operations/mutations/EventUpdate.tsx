@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const EVENT_UPDATE_MUTATION = gql`
+export const EVENT_UPDATE = gql`
   mutation eventUpdate(
     $investorMeetingsDefaultStartupSelections: Int!
     $investorMeetingsMeetingsPerSession: Int!
@@ -32,4 +32,4 @@ export const EVENT_UPDATE_MUTATION = gql`
   }
 `
 
-export default EVENT_UPDATE_MUTATION
+export default EVENT_UPDATE

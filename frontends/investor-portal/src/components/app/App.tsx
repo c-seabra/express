@@ -2,6 +2,7 @@ import jwt from 'jwt-decode'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import SnackbarProvider from 'react-simple-snackbar'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import withApollo from '../../lib/apollo/withApollo'
@@ -41,45 +42,47 @@ const App = ({ token }: { token: string }) => {
   }
 
   return (
-    <Router>
-      <StyledMainNavigationContainer>
-        <MainNavigation routes={ROUTES} />
-      </StyledMainNavigationContainer>
-      <AppContext.Provider
-        value={{
-          conferenceSlug: tokenPayload.conf_slug,
-          token,
-        }}
-      >
-        <StyledContainer>
-          <Helmet>
-            <link href="https://fonts.gstatic.com" rel="preconnect" />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-              rel="stylesheet"
-            />
-            <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+    <SnackbarProvider>
+      <Router>
+        <StyledMainNavigationContainer>
+          <MainNavigation routes={ROUTES} />
+        </StyledMainNavigationContainer>
+        <AppContext.Provider
+          value={{
+            conferenceSlug: tokenPayload.conf_slug,
+            token,
+          }}
+        >
+          <StyledContainer>
+            <Helmet>
+              <link href="https://fonts.gstatic.com" rel="preconnect" />
+              <link
+                href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet"
+              />
+              <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
 
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          </Helmet>
-          <GlobalStyle />
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/settings" />
-            </Route>
-            <Route path="/dashboard/:attendanceId">
-              <AttendanceDetailsDashboard />
-            </Route>
-            <Route path="/settings">
-              <SettingsDashboard />
-            </Route>
-            <Route path="/dashboard">
-              <AttendanceDashboard />
-            </Route>
-          </Switch>
-        </StyledContainer>
-      </AppContext.Provider>
-    </Router>
+              <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+            </Helmet>
+            <GlobalStyle />
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/settings" />
+              </Route>
+              <Route path="/dashboard/:attendanceId">
+                <AttendanceDetailsDashboard />
+              </Route>
+              <Route path="/settings">
+                <SettingsDashboard />
+              </Route>
+              <Route path="/dashboard">
+                <AttendanceDashboard />
+              </Route>
+            </Switch>
+          </StyledContainer>
+        </AppContext.Provider>
+      </Router>
+    </SnackbarProvider>
   )
 }
 
