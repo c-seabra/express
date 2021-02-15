@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Button } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
 import { useInvestorSessionCreateMutation } from '../../lib/hooks'
-import { SpacingBottom, StyledGridContainer } from './InvestorSessionsCreateForm.styled'
+import { SpacingBottom, StyledGridForm } from './InvestorSessionsCreateForm.styled'
 import { BorderBottom } from './SettingsDashboard.styled'
 
 type InvestorSessionsCreateFormType = {
@@ -28,7 +28,7 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
     <>
       <BorderBottom>
         <SpacingBottom>
-          <StyledGridContainer
+          <StyledGridForm
             onSubmit={async e => {
               e.preventDefault()
               await createSesionsMutation()
@@ -62,7 +62,7 @@ const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
             <Button className="align-right" type="submit">
               Add Session
             </Button>
-          </StyledGridContainer>
+          </StyledGridForm>
         </SpacingBottom>
       </BorderBottom>
     </>
