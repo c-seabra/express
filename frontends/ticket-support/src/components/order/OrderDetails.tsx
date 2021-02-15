@@ -22,6 +22,7 @@ import TicketList from '../ticketList/TicketList'
 import OrderCancelModal from './OrderCancelModal'
 import OrderDetailsSummary from './OrderDetailsSummary'
 import OrderOwnerDetails from './OrderOwnerDetails'
+import OrderReinstateModal from "./OrderReinstateModal";
 import OrderSummary from './OrderSummary'
 
 const PageContainer = styled.section`
@@ -84,6 +85,12 @@ const OrderDetails: React.FC = () => {
     closeModal: closeOrderCancelModal,
   } = useModalState()
 
+  const {
+    openModal: openOrderReinstateModal,
+    isOpen: isOrderReinstateModalOpen,
+    closeModal: closeOrderReinstateModal,
+  } = useModalState()
+
   const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
     context: {
       slug: conferenceSlug,
@@ -92,9 +99,11 @@ const OrderDetails: React.FC = () => {
     variables: {
       reference: orderRef,
     },
+    fetchPolicy: "no-cache",
   })
 
   const order = data?.order
+  console.log('order', order)
   const sourceId = order?.sourceId || ''
   const tickets = order && order?.tickets
   const owner = order?.owner
@@ -182,13 +191,30 @@ const OrderDetails: React.FC = () => {
 
                   <div>
                     {order?.state === 'CANCELLED' ? (
-                      <ButtonWithSpacing disabled onClick={openOrderCancelModal}>
-                        Reinstate order
-                      </ButtonWithSpacing>
+                        <>
+                          <ButtonWithSpacing onClick={openOrderReinstateModal}>
+                            Reinstate order
+                          </ButtonWithSpacing>
+                          <OrderReinstateModal
+                              closeModal={closeOrderReinstateModal}
+                              isOpen={isOrderReinstateModalOpen}
+                              orderRef={orderRef}
+                              sourceId={sourceId}
+                          />
+                        </>
                     ) : (
-                      <ButtonWithSpacing onClick={openOrderCancelModal}>
-                        Cancel order
-                      </ButtonWithSpacing>
+                        <>
+                          <ButtonWithSpacing onClick={openOrderCancelModal}>
+                            Cancel order
+                          </ButtonWithSpacing>
+                          <OrderCancelModal
+                              closeModal={closeOrderCancelModal}
+                              isOpen={isOrderCancelModalOpen}
+                              orderRef={orderRef}
+                              sourceId={sourceId}
+                          />
+
+                        </>
                     )}
                     {isTitoOrder && (
                       <ErrorInfoModal
@@ -201,14 +227,14 @@ const OrderDetails: React.FC = () => {
                       />
                     )}
 
-                    {!isTitoOrder && (
-                      <OrderCancelModal
-                        closeModal={closeOrderCancelModal}
-                        isOpen={isOrderCancelModalOpen}
-                        orderRef={orderRef}
-                        sourceId={sourceId}
-                      />
-                    )}
+                    {/* {!isTitoOrder && ( */}
+                    {/*  <OrderCancelModal */}
+                    {/*    closeModal={closeOrderCancelModal} */}
+                    {/*    isOpen={isOrderCancelModalOpen} */}
+                    {/*    orderRef={orderRef} */}
+                    {/*    sourceId={sourceId} */}
+                    {/*  /> */}
+                    {/* )} */}
 
                     <Button disabled>Refund order</Button>
                   </div>
