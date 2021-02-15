@@ -103,7 +103,7 @@ const AttendanceTable = (): ReactElement => {
     attendanceIds: selectedValues,
   })
 
-  const onDeleteConfirmed = async () => {
+  const onUpdateConfirmed = async () => {
     await updateAttendanceAppearanceSelections()
     setSelectedValues([])
     closeModal()
@@ -120,7 +120,7 @@ const AttendanceTable = (): ReactElement => {
           <Modal
             defaultFooterIsDestructive
             withDefaultFooter
-            defaultFooterPositiveButtonAction={onDeleteConfirmed}
+            defaultFooterPositiveButtonAction={onUpdateConfirmed}
             defaultFooterPositiveButtonText="Update"
             description={`You are going to submit selections of ${selectedValues.length} investors.\n\nThis action can not be un-done!`}
             isOpen={isOpen}
