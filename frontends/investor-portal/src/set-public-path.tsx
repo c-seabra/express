@@ -5,4 +5,4 @@ import { setPublicPath } from 'systemjs-webpack-interop'
  * https://single-spa.js.org/docs/faq/#code-splits
  */
 
-setPublicPath('@WebSummit/investor-portal')
+setPublicPath('@websummit-micro/investor-portal')

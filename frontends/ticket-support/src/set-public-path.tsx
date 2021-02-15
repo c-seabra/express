@@ -5,4 +5,4 @@ import { setPublicPath } from 'systemjs-webpack-interop'
  * https://single-spa.js.org/docs/faq/#code-splits
  */
 
-setPublicPath('@WebSummit/ticket-support')
+setPublicPath('@websummit-micro/ticket-support')

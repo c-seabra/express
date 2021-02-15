@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
+import { GraphQLParams } from '@websummit/graphql';
 
-type AppContextType = { conferenceSlug?: string; token?: string }
+type AppContextType = GraphQLParams
 
 const AppContext = createContext<AppContextType>({})
 
