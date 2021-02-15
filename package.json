@@ -13,6 +13,13 @@
     "build:standalone": "lerna run build:standalone",
     "check": "yarn build && yarn build:standalone && yarn lint && yarn is-pretty",
     "clean": "lerna run clean",
+    "codegen": "lerna run codegen && yarn codegen:prettier && yarn codegen:fix",
+    "codegen:prettier": "yarn codegen:prettier-fragments && yarn codegen:prettier-types",
+    "codegen:prettier-fragments": "prettier --write packages/graphql/src/@types/fragments.ts",
+    "codegen:prettier-types": "prettier --write packages/graphql/src/@types/operations.tsx",
+    "codegen:fix": "yarn codegen:fix-fragments && yarn codegen:fix-types",
+    "codegen:fix-fragments": "eslint packages/graphql/src/@types/fragments.ts --fix --cache --no-ignore",
+    "codegen:fix-types": "eslint packages/graphql/src/@types/operations.tsx --fix --cache --no-ignore",
     "fix": "eslint . --ext js,ts,tsx --fix",
     "format": "yarn pretty",
     "is-pretty": "prettier --check .",
@@ -26,7 +33,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged || true"
     }
   },
   "lint-staged": {
@@ -47,6 +54,14 @@
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.12.7",
     "@babel/runtime": "^7.12.5",
+    "@graphql-codegen/add": "^1.17.7",
+    "@graphql-codegen/cli": "^1.19.2",
+    "@graphql-codegen/fragment-matcher": "^1.17.8",
+    "@graphql-codegen/introspection": "^1.17.8",
+    "@graphql-codegen/typed-document-node": "^1.18.2",
+    "@graphql-codegen/typescript": "^1.17.9",
+    "@graphql-codegen/typescript-operations": "^1.17.8",
+    "@graphql-codegen/typescript-react-apollo": "^2.0.7",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.55",
@@ -65,8 +80,8 @@
     "@types/react-helmet": "^6.1.0",
     "@types/react-modal": "^3.10.6",
     "@types/react-router-dom": "^5.1.6",
-    "@types/single-spa-react": "^2.12.0",
     "@types/styled-components": "^5.1.4",
+    "@types/single-spa-react": "^2.12.0",
     "@types/systemjs": "^6.1.0",
     "@types/webpack-env": "^1.16.0",
     "@types/yup": "^0.29.11",
@@ -172,8 +187,6 @@
     "@apollo/react-common": "^3.1.4",
     "@graphql-typed-document-node/core": "^3.1.0",
     "apollo-upload-client": "^14.1.3",
-    "babel-plugin-styled-components": "^1.11.1",
-    "circular-dependency-plugin": "^5.2.2",
     "formik": "^2.2.6",
     "graphql": "^15.4.0",
     "isomorphic-unfetch": "^3.1.0",
