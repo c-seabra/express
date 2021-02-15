@@ -7,22 +7,21 @@ import {
   SecondaryButton,
   useModalState,
 } from '../../lib/components'
+import { useAttendanceAppearanceSelectionDestroyMutation } from '../../lib/hooks'
 import { AttendanceAppearanceSelection } from '../../lib/types'
 import Column from './AttendanceAppearanceSelectionColumn.styled'
 
 const AttendanceAppearanceSelectionItem = ({
   selection,
-  onDeletionConfirmed,
 }: {
-  onDeletionConfirmed: (selection: AttendanceAppearanceSelection) => void
   selection: AttendanceAppearanceSelection
 }): ReactElement => {
   const { isOpen, openModal, closeModal } = useModalState()
 
-  const onDeleteClick = () => {
-    onDeletionConfirmed(selection)
-    closeModal()
-  }
+  const {
+    attendanceAppearanceSelectionDestroyMutation,
+  } = useAttendanceAppearanceSelectionDestroyMutation({ selectionId: selection.id })
+
   return (
     <ListItem>
       <Column>{selection.appearance.company.name}</Column>
@@ -35,7 +34,10 @@ const AttendanceAppearanceSelectionItem = ({
       <Modal
         defaultFooterIsDestructive
         withDefaultFooter
-        defaultFooterPositiveButtonAction={onDeleteClick}
+        defaultFooterPositiveButtonAction={async () => {
+          await attendanceAppearanceSelectionDestroyMutation()
+          closeModal()
+        }}
         defaultFooterPositiveButtonText="Delete"
         description={`You are going to delete "${selection.appearance.company.name}" selection.\n\nThis action can not be un-done!`}
         isOpen={isOpen}
