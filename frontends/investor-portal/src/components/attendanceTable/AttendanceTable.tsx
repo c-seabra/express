@@ -1,6 +1,7 @@
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react'
 
-import { ContainerCard, Heading, SecondaryButton } from '../../lib/components'
+import { ContainerCard, Heading, Modal, SecondaryButton, useModalState } from '../../lib/components'
+import useAttendanceAppearanceSelectionUpdateMutation from '../../lib/hooks/useAttendanceAppearanceSelectionUpdateMutation'
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
 import Loader from '../../lib/Loading'
@@ -16,6 +17,7 @@ type AttendanceSearchState = {
 }
 
 const AttendanceTable = (): ReactElement => {
+  const { isOpen, openModal, closeModal } = useModalState()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedValues, setSelectedValues] = useState<string[]>([])
   const [headerCheckbox, setHeaderCheckbox] = useState(false)
@@ -97,17 +99,34 @@ const AttendanceTable = (): ReactElement => {
     }
   }
 
+  const { updateAttendanceAppearanceSelections } = useAttendanceAppearanceSelectionUpdateMutation({
+    attendanceIds: selectedValues,
+  })
+
+  const onDeleteConfirmed = () => {
+    updateAttendanceAppearanceSelections()
+    setSelectedValues([])
+    closeModal()
+  }
+
   return (
     <>
       <SearchFilters>
         <Heading>Attendance area</Heading>
         <FiltersSearchContainer>
-          <SecondaryButton
-            disabled={selectedValues.length === 0}
-            onClick={() => console.log('click')}
-          >
+          <SecondaryButton disabled={selectedValues.length === 0} onClick={openModal}>
             Submit investors selections
           </SecondaryButton>
+          <Modal
+            defaultFooterIsDestructive
+            withDefaultFooter
+            defaultFooterPositiveButtonAction={onDeleteConfirmed}
+            defaultFooterPositiveButtonText="Update"
+            description={`You are going to submit selections of ${selectedValues.length} investors.\n\nThis action can not be un-done!`}
+            isOpen={isOpen}
+            title="Are you sure?"
+            onRequestClose={closeModal}
+          />
           <StyledSearchInput
             defaultValue={searchQuery}
             placeholder="Search by Attendance name."
@@ -118,28 +137,27 @@ const AttendanceTable = (): ReactElement => {
           />
         </FiltersSearchContainer>
       </SearchFilters>
-      {
-        !loading && !error ? (
-          <ContainerCard noPadding>
-            <>
-              <AttendanceListHeader
-                isChecked={headerCheckbox}
-                isDisabled={headerCheckboxState}
-                onCheckboxChange={onHeaderCheckboxChange}
+      {!loading && !error ? (
+        <ContainerCard noPadding>
+          <>
+            <AttendanceListHeader
+              isChecked={headerCheckbox}
+              isDisabled={headerCheckboxState}
+              onCheckboxChange={onHeaderCheckboxChange}
+            />
+            {results.map(attendance => (
+              <AttendanceItem
+                key={attendance.id}
+                attendance={attendance}
+                isChecked={selectedValues.includes(attendance.id)}
+                onCheckboxChange={onCheckboxChange}
               />
-              {results.map(attendance => (
-                <AttendanceItem
-                  key={attendance.id}
-                  attendance={attendance}
-                  isChecked={selectedValues.includes(attendance.id)}
-                  onCheckboxChange={onCheckboxChange}
-                />
-              ))}
-            </>
-          </ContainerCard>
-        ) : (
-            <Loader />
-          )}
+            ))}
+          </>
+        </ContainerCard>
+      ) : (
+        <Loader />
+      )}
       {!loading && !error && (
         <Pagination
           isForwardDisabled={isForwardDisabled}
