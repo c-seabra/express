@@ -103,8 +103,8 @@ const AttendanceTable = (): ReactElement => {
     attendanceIds: selectedValues,
   })
 
-  const onDeleteConfirmed = () => {
-    updateAttendanceAppearanceSelections()
+  const onDeleteConfirmed = async () => {
+    await updateAttendanceAppearanceSelections()
     setSelectedValues([])
     closeModal()
   }
