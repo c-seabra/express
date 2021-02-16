@@ -7,6 +7,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import ROUTES from '../../lib/constants/routes'
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard'
+import AttendanceDetailsDashboard from '../attendanceDetailsDashboard'
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard'
 import AppContext from './AppContext'
 import { initApollo } from '@websummit/graphql';
@@ -61,7 +62,7 @@ const App = ({ token, apiURL }: { token: string, apiURL: string }) => {
       </StyledMainNavigationContainer>
       <AppContext.Provider
         value={{
-          conferenceSlug,
+          conferenceSlug: tokenPayload.conf_slug,
           token,
         }}
       >
@@ -80,6 +81,9 @@ const App = ({ token, apiURL }: { token: string, apiURL: string }) => {
           <Switch>
             <Route exact path="/">
               <Redirect to="/settings" />
+            </Route>
+            <Route path="/dashboard/:attendanceId">
+              <AttendanceDetailsDashboard />
             </Route>
             <Route path="/settings">
               <SettingsDashboard />
