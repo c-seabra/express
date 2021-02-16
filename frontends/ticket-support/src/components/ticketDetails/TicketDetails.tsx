@@ -25,6 +25,8 @@ import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
 import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier'
 import UserProfileInformation from '../userProfileInformation/UserProfileInformation'
 import TicketStateActions from './TicketStateActions'
+import OrderReinstateModal from "../order/OrderReinstateModal";
+import OrderCancelModal from "../order/OrderCancelModal";
 
 const PageContainer = styled.div`
   max-width: 1440px;
@@ -158,6 +160,12 @@ const TicketDetails = (): ReactElement => {
     closeModal: closeTicketUnvoidModal,
   } = useModalState()
 
+  const {
+    openModal: openTitoWarningModal,
+    isOpen: isTitoWarningModalOpen,
+    closeModal: closeTitoWarningModal,
+  } = useModalState()
+
   const { loading, error, ticket } = useSingleTicketQuery({ reference: bookingRef })
   const assignment = ticket?.assignment
   const orderRef = ticket?.order?.reference || ''
@@ -249,35 +257,38 @@ const TicketDetails = (): ReactElement => {
                     onRequestClose={closeUnassignTicketModal}
                   />
                 </SpacingBottomSm>
+
                 {ticket?.state === 'VOID' ? (
-                  <>
-                    <Button onClick={openTicketUnvoidModal}>Unvoid</Button>
-                    <TicketUnvoidModal
-                      bookingRef={bookingRef}
-                      closeModal={closeTicketUnvoidModal}
-                      isOpen={isTicketUnvoidModalOpen}
-                    />
-                  </>
+                    <Button onClick={isTitoTicket ? openTitoWarningModal : openTicketUnvoidModal}>
+                      Unvoid
+                    </Button>
                 ) : (
-                  <>
-                    <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
-                    <TicketVoidModal
-                      bookingRef={bookingRef}
-                      closeModal={closeTicketVoidModal}
-                      isOpen={isTicketVoidModalOpen}
-                    />
-                  </>
+                    <Button onClick={isTitoTicket ? openTitoWarningModal : openTicketVoidModal}>
+                      Void
+                    </Button>
                 )}
 
-                {isTitoTicket && (
-                  <ErrorInfoModal
-                    alertHeader={bookingRef}
-                    alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
-            to Tito to void the ticket."
-                    closeModal={closeTicketVoidModal}
-                    headerText="Unable to void ticket"
-                    isOpen={isTicketVoidModalOpen}
-                  />
+                {isTitoTicket ? (
+                    <ErrorInfoModal
+                        alertHeader={bookingRef}
+                        alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
+        to Tito to void the ticket."
+                        closeModal={closeTitoWarningModal}
+                        headerText="Unable to void ticket"
+                        isOpen={isTitoWarningModalOpen}
+                    />
+                ) : ticket?.state === 'VOID' ? (
+                    <TicketUnvoidModal
+                        bookingRef={bookingRef}
+                        closeModal={closeTicketUnvoidModal}
+                        isOpen={isTicketUnvoidModalOpen}
+                    />
+                ) : (
+                    <TicketVoidModal
+                        bookingRef={bookingRef}
+                        closeModal={closeTicketVoidModal}
+                        isOpen={isTicketVoidModalOpen}
+                    />
                 )}
 
                 <Modal noPadding isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
