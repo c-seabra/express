@@ -1,51 +1,34 @@
-import { useQuery } from '@apollo/client'
-import React, {useEffect} from 'react'
-import { Helmet } from 'react-helmet'
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
-import React from 'react';
+import { useQuery } from '@apollo/client';
+import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import TextHeading from '../../lib/components/atoms/Heading'
-import BoxMessage from '../../lib/components/molecules/BoxMessage'
-import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
-import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal'
-import { useModalState } from '../../lib/components/molecules/Modal'
-import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
-import Loader from '../../lib/Loading'
-import { Ticket } from '../../lib/types'
-import { switchCase } from '../../lib/utils/logic'
-import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
-import { useAppContext } from '../app/AppContext'
-import Warning from '../ticketActions/Warning'
-import TicketList from '../ticketList/TicketList'
-import OrderCancelModal from './OrderCancelModal'
-import OrderDetailsSummary from './OrderDetailsSummary'
-import OrderOwnerDetails from './OrderOwnerDetails'
-import OrderReinstateModal from "./OrderReinstateModal";
-import OrderSummary from './OrderSummary'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
+import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import Breadcrumbs, {
   Breadcrumb,
 } from '../../lib/components/molecules/Breadcrumbs';
+import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
-import useSingleOrderQuery from '../../lib/hooks/useSingleOrderQuery';
 import Loader from '../../lib/Loading';
 import { Ticket } from '../../lib/types';
 import { switchCase } from '../../lib/utils/logic';
+import ORDER_QUERY, {
+  OrderByRefQuery,
+} from '../../operations/queries/OrderByRef';
+import { useAppContext } from '../app/AppContext';
 import OrderRefundModal from '../orderActions/OrderRefundModal';
 import Warning from '../ticketActions/Warning';
 import TicketList from '../ticketList/TicketList';
+import OrderCancelModal from './OrderCancelModal';
 import OrderDetailsSummary from './OrderDetailsSummary';
 import OrderOwnerDetails from './OrderOwnerDetails';
+import OrderReinstateModal from './OrderReinstateModal';
 import OrderSummary from './OrderSummary';
 
 const PageContainer = styled.section`
@@ -107,63 +90,59 @@ const StyledInnerRow = styled.div`
   > * {
     margin-right: 16px;
   }
-`
+`;
 
 const ButtonWithSpacing = styled(SecondaryButton)`
   margin-right: 16px;
 `;
 
-const missingDataAbbr = 'N/A';
-
-const OrderDetails = () => {
+const OrderDetails = (): ReactElement => {
   const { orderRef } = useParams<{ orderRef: string }>();
+  const { conferenceSlug, token } = useAppContext();
+  const {
+    openModal: openOrderCancelModal,
+    isOpen: isOrderCancelModalOpen,
+    closeModal: closeOrderCancelModal,
+  } = useModalState();
   const {
     isOpen: isRefundModalOpen,
     closeModal: closeRefundModal,
     openModal: openRefundModal,
   } = useModalState();
-const OrderDetails: React.FC = () => {
-  const { orderRef } = useParams<{ orderRef: string }>()
-  const { conferenceSlug, token } = useAppContext()
-  const {
-    openModal: openOrderCancelModal,
-    isOpen: isOrderCancelModalOpen,
-    closeModal: closeOrderCancelModal,
-  } = useModalState()
-
   const {
     openModal: openOrderReinstateModal,
     isOpen: isOrderReinstateModalOpen,
     closeModal: closeOrderReinstateModal,
-  } = useModalState()
-
-  const { loading, error, order } = useSingleOrderQuery({ orderRef });
-  const { commerceOrder } = useSingleCommerceOrderQuery({
-    id: order?.sourceId,
-  });
+  } = useModalState();
   const {
     openModal: openTitoWarningModal,
     isOpen: isTitoWarningModalOpen,
     closeModal: closeTitoWarningModal,
-  } = useModalState()
+  } = useModalState();
 
-  const { loading, error, data, refetch }: OrderByRefQuery = useQuery(ORDER_QUERY, {
-    context: {
-      slug: conferenceSlug,
-      token,
+  const { loading, error, data, refetch }: OrderByRefQuery = useQuery(
+    ORDER_QUERY,
+    {
+      context: {
+        slug: conferenceSlug,
+        token,
+      },
+      variables: {
+        reference: orderRef,
+      },
     },
-    variables: {
-      reference: orderRef,
-    },
-  })
+  );
 
-  const { tickets, owner } = order || {};
+  const order = data?.order;
+  const sourceId = order?.sourceId || '';
 
-  const order = data?.order
-  const sourceId = order?.sourceId || ''
-  const tickets = order && order?.tickets
-  const owner = order?.owner
-  const missingDataAbbr = 'N/A'
+  const { commerceOrder } = useSingleCommerceOrderQuery({
+    id: sourceId,
+  });
+
+  const owner = order?.owner;
+  const tickets = order?.tickets;
+  const missingDataAbbr = 'N/A';
   const formatSourceOfSale = (source: string): string =>
     switchCase({
       TICKET_MACHINE: 'Ticket Machine',
@@ -198,16 +177,16 @@ const OrderDetails: React.FC = () => {
       ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
   };
-  }
+
   const isFromTito = (source: string): boolean => {
     return switchCase({
       TICKET_MACHINE: false,
       TITO: true,
-    })(false)(source)
-  }
-  const isTitoOrder = order && isFromTito(order?.source)
+    })(false)(source);
+  };
+  const isTitoOrder = order && isFromTito(order?.source);
 
-  const { event } = useEventDataQuery()
+  const { event } = useEventDataQuery();
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: event?.name || 'Home',
@@ -245,47 +224,66 @@ const OrderDetails: React.FC = () => {
                   <StyledInnerRow>
                     <TextHeading>Order management</TextHeading>
                     {isTitoOrder && (
-                      <BoxMessage backgroundColor="#333333" color="#fff" dimension="sm">
-                        <>As this order was sold via Tito, some functionality may be limited</>
+                      <BoxMessage
+                        backgroundColor="#333333"
+                        color="#fff"
+                        dimension="sm"
+                      >
+                        <>
+                          As this order was sold via Tito, some functionality
+                          may be limited
+                        </>
                       </BoxMessage>
                     )}
                   </StyledInnerRow>
 
                   <div>
                     {order?.state === 'CANCELLED' ? (
-                        <ButtonWithSpacing onClick={isTitoOrder ? openTitoWarningModal : openOrderReinstateModal}>
-                          Reinstate order
-                        </ButtonWithSpacing>
+                      <ButtonWithSpacing
+                        onClick={
+                          isTitoOrder
+                            ? openTitoWarningModal
+                            : openOrderReinstateModal
+                        }
+                      >
+                        Reinstate order
+                      </ButtonWithSpacing>
                     ) : (
-                        <ButtonWithSpacing onClick={isTitoOrder ? openTitoWarningModal : openOrderCancelModal}>
-                          Cancel order
-                        </ButtonWithSpacing>
+                      <ButtonWithSpacing
+                        onClick={
+                          isTitoOrder
+                            ? openTitoWarningModal
+                            : openOrderCancelModal
+                        }
+                      >
+                        Cancel order
+                      </ButtonWithSpacing>
                     )}
                     {isTitoOrder ? (
-                        <ErrorInfoModal
-                            alertHeader={orderRef}
-                            alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
+                      <ErrorInfoModal
+                        alertHeader={orderRef}
+                        alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
             to Tito to cancel the order."
-                            closeModal={closeTitoWarningModal}
-                            headerText="Unable to cancel order"
-                            isOpen={isTitoWarningModalOpen}
-                        />
+                        closeModal={closeTitoWarningModal}
+                        headerText="Unable to cancel order"
+                        isOpen={isTitoWarningModalOpen}
+                      />
                     ) : order?.state === 'CANCELLED' ? (
-                        <OrderReinstateModal
-                            closeModal={closeOrderReinstateModal}
-                            isOpen={isOrderReinstateModalOpen}
-                            orderRef={orderRef}
-                            sourceId={sourceId}
-                            refetch={refetch}
-                        />
+                      <OrderReinstateModal
+                        closeModal={closeOrderReinstateModal}
+                        isOpen={isOrderReinstateModalOpen}
+                        orderRef={orderRef}
+                        refetch={refetch}
+                        sourceId={sourceId}
+                      />
                     ) : (
-                        <OrderCancelModal
-                            closeModal={closeOrderCancelModal}
-                            isOpen={isOrderCancelModalOpen}
-                            orderRef={orderRef}
-                            sourceId={sourceId}
-                            refetch={refetch}
-                        />
+                      <OrderCancelModal
+                        closeModal={closeOrderCancelModal}
+                        isOpen={isOrderCancelModalOpen}
+                        orderRef={orderRef}
+                        refetch={refetch}
+                        sourceId={sourceId}
+                      />
                     )}
                     <Button disabled={!commerceOrder} onClick={openRefundModal}>
                       Refund order

@@ -1,16 +1,16 @@
-import { Form, Formik } from 'formik'
-import React, { FormEvent, useState } from 'react'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import { Form, Formik } from 'formik';
+import React, { FormEvent, useState } from 'react';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
-import { Spacing } from '../../../components/templates/Spacing'
-import STATIC_MESSAGES from '../../constants/messages'
-import { DisabledButton, ErrorButton } from '../atoms/Button'
-import Icon from '../atoms/Icon'
-import Modal from './Modal'
-import TextAreaField from './TextAreaField'
+import { Spacing } from '../../../components/templates/Spacing';
+import STATIC_MESSAGES from '../../constants/messages';
+import { DisabledButton, ErrorButton } from '../atoms/Button';
+import Icon from '../atoms/Icon';
+import Modal from './Modal';
+import TextAreaField from './TextAreaField';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,35 +19,35 @@ const Wrapper = styled.div`
   font-size: 0.85rem;
   font-weight: 400;
   min-width: 640px;
-`
+`;
 
-const Text = styled.div`
+export const Text = styled.div`
   font-size: 16px;
   letter-spacing: 0;
   line-height: 28px;
   max-width: 580px;
   text-align: left;
-`
+`;
 
-const HeaderText = styled.div`
+export const HeaderText = styled.div`
   font-size: 26px;
   font-weight: 500;
   letter-spacing: -0.5px;
   line-height: 40px;
-`
+`;
 
-const AlertText = styled(HeaderText)`
+export const AlertText = styled(HeaderText)`
   color: #e15554;
-`
-const FieldWrapper = styled(TextAreaField)`
+`;
+export const FieldWrapper = styled(TextAreaField)`
   min-width: 580px;
   text-align: left;
   textarea {
     height: 77px;
   }
-`
+`;
 
-const StyledActionRow = styled.div`
+export const StyledActionRow = styled.div`
   display: flex;
   justify-content: space-around;
 
@@ -57,29 +57,29 @@ const StyledActionRow = styled.div`
       margin-right: 0;
     }
   }
-`
+`;
 
-const IconWrapper = styled.div`
+export const IconWrapper = styled.div`
   > .material-icons {
     font-size: 36px;
     color: #e15554;
   }
-`
+`;
 
 type ReasonAlertModalProps = {
-  alertHeader: string
-  alertText: string
-  cancelText: string
-  closeModal: () => void
-  headerText: string
-  isOpen: boolean
-  mutationCallback: (values?: any) => void
-  submitText: string
-}
+  alertHeader: string;
+  alertText: string;
+  cancelText: string;
+  closeModal: () => void;
+  headerText: string;
+  isOpen: boolean;
+  mutationCallback: (values?: any) => void;
+  submitText: string;
+};
 
 const confirmSchema = Yup.object().shape({
   reason: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-})
+});
 
 const ReasonAlertModal = ({
   isOpen,
@@ -93,20 +93,20 @@ const ReasonAlertModal = ({
 }: ReasonAlertModalProps) => {
   const [formControls, setFormControls] = useState<
     | {
-        boundReset?: () => void
-        boundSubmit?: (event?: FormEvent) => void
+        boundReset?: () => void;
+        boundSubmit?: (event?: FormEvent) => void;
       }
     | undefined
-  >()
+  >();
 
   const handleClose = () => {
     if (formControls?.boundReset) {
-      formControls.boundReset()
+      formControls.boundReset();
     }
 
-    setFormControls(undefined)
-    closeModal()
-  }
+    setFormControls(undefined);
+    closeModal();
+  };
 
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
@@ -117,16 +117,16 @@ const ReasonAlertModal = ({
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}
-        onSubmit={async values => {
-          await mutationCallback(values)
+        onSubmit={async (values) => {
+          await mutationCallback(values);
 
-          handleClose()
+          handleClose();
         }}
       >
         {({ submitForm, resetForm }) => {
           // Binding submit form to submit programmatically from outside the <Formik> component
           if (!formControls) {
-            setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
+            setFormControls({ boundReset: resetForm, boundSubmit: submitForm });
           }
 
           return (
@@ -159,17 +159,19 @@ const ReasonAlertModal = ({
 
                 <Spacing bottom="50px">
                   <StyledActionRow>
-                    <DisabledButton onClick={closeModal}>{cancelText}</DisabledButton>
+                    <DisabledButton onClick={closeModal}>
+                      {cancelText}
+                    </DisabledButton>
                     <ErrorButton type="submit">{submitText}</ErrorButton>
                   </StyledActionRow>
                 </Spacing>
               </Wrapper>
             </Form>
-          )
+          );
         }}
       </Formik>
     </Modal>
-  )
-}
+  );
+};
 
-export default ReasonAlertModal
+export default ReasonAlertModal;

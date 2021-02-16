@@ -4,21 +4,28 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import Icon from '../../lib/components/atoms/Icon';
 import { WarningMessage } from '../../lib/components/atoms/Messages';
 import CheckboxField from '../../lib/components/molecules/CheckboxField';
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal';
 import MoneyInputField from '../../lib/components/molecules/MoneyInputField';
 import RadioField from '../../lib/components/molecules/RadioField';
+import {
+  AlertText,
+  HeaderText,
+  IconWrapper,
+} from '../../lib/components/molecules/ReasonAlertModal';
 import SelectField from '../../lib/components/molecules/SelectField';
 import TextAreaField from '../../lib/components/molecules/TextAreaField';
 import { VALIDATION_MESSAGES } from '../../lib/constants/messages';
 import useRefund from '../../lib/hooks/useRefund';
 import { useErrorSnackbar } from '../../lib/hooks/useSnackbarMessage';
+import { Spacing } from '../templates/Spacing';
 
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
-  margin: 2rem 0 1rem;
+  margin: 0.5rem 0 1rem;
   width: 500px;
 
   & > * {
@@ -49,6 +56,19 @@ const StyledWarningMessage = styled(WarningMessage)`
   & > span {
     font-weight: 600;
   }
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+`;
+
+const StyledAlertText = styled(AlertText)`
+  display: flex;
+  justify-content: center;
 `;
 
 const refundTypes = {
@@ -188,7 +208,7 @@ const OrderRefundModal = ({
   const { country, name, rateAmount } = tax || {};
 
   return (
-    <Modal isOpen={isOpen} title="Refund order" onRequestClose={handleClose}>
+    <Modal isOpen={isOpen} onRequestClose={handleClose}>
       <Formik
         initialValues={{
           ...orderInitialValues,
@@ -219,6 +239,19 @@ const OrderRefundModal = ({
       >
         {({ values }) => (
           <StyledForm>
+            <Header>
+              <Spacing bottom="10px">
+                <IconWrapper>
+                  <Icon>error</Icon>
+                </IconWrapper>
+              </Spacing>
+
+              <HeaderText>Refund of order</HeaderText>
+            </Header>
+
+            <Spacing bottom="40px">
+              <StyledAlertText>{orderRef}</StyledAlertText>
+            </Spacing>
             {!isConfirmStep ? (
               <>
                 <RadioGroup>
@@ -276,7 +309,7 @@ const OrderRefundModal = ({
                 Are you sure you want to refund order <span>{orderRef}</span>?
               </StyledWarningMessage>
             )}
-            <Modal.DefaultFooter onCancelClick={handleClose} />
+            <Modal.DefaultFooter red onCancelClick={handleClose} />
           </StyledForm>
         )}
       </Formik>

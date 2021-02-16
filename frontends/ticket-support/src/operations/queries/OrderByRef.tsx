@@ -1,59 +1,58 @@
-import { ApolloError, gql } from '@apollo/client'
-import {ApolloQueryResult} from "@apollo/client/core/types";
+import { ApolloError, gql } from '@apollo/client';
 
 export type OrderByRefQuery = {
   data?: {
     order: {
-      completedAt: string
-      lastUpdatedAt: string
+      completedAt: string;
+      lastUpdatedAt: string;
       owner: {
-        email: string
-        firstName: string
-        lastName: string
-      }
-      source: string
-      sourceId: string
-      state: string
+        email: string;
+        firstName: string;
+        lastName: string;
+      };
+      source: string;
+      sourceId: string;
+      state: string;
       summary: {
         ticketType: {
-          name: string
-        }
-        tickets: number
-      }
+          name: string;
+        };
+        tickets: number;
+      };
       tickets: {
         edges: [
           {
             node: {
               assignment: {
                 assignee: {
-                  email: string
-                  firstName: string
-                  lastName: string
-                }
-                state: string
-              }
-              bookingRef: string
+                  email: string;
+                  firstName: string;
+                  lastName: string;
+                };
+                state: string;
+              };
+              bookingRef: string;
               order: {
                 owner: {
-                  email: string
-                  firstName: string
-                  lastName: string
-                }
-              }
-              state: string
+                  email: string;
+                  firstName: string;
+                  lastName: string;
+                };
+              };
+              state: string;
               ticketType: {
-                name: string
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
-  error?: ApolloError
-  loading?: boolean
-  refetch?: any
-}
+                name: string;
+              };
+            };
+          },
+        ];
+      };
+    };
+  };
+  error?: ApolloError;
+  loading?: boolean;
+  refetch?: any;
+};
 
 const ORDER_QUERY = gql`
   query OrderByRef($reference: String!) {
@@ -113,5 +112,5 @@ const ORDER_QUERY = gql`
       }
     }
   }
-`
-export default ORDER_QUERY
+`;
+export default ORDER_QUERY;
