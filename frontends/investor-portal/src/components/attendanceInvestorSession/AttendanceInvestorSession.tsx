@@ -4,9 +4,8 @@ import React, { useEffect, useState } from 'react'
 
 import { Button } from '../../lib/components'
 import Select from '../../lib/components/atoms/Select'
+import { useAttendanceUpdateMutation, useEventQuery } from '../../lib/hooks'
 import { AttendanceAppearanceSelection } from '../../lib/types'
-import ATTENDANCE_UPDATE_MUTATION from '../../operations/mutations/AttendanceUpdate'
-import EVENT_QUERY from '../../operations/queries/Event'
 import { useAppContext } from '../app/AppContext'
 import { InputArea } from './AttendanceInvestorSession.styled'
 
@@ -14,58 +13,25 @@ type AttendanceInvestorSessionType = {
   attEndsAt: string
   attStartsAt: string
   attendanceId: string
-  refetchSessions: any
   selections: AttendanceAppearanceSelection[]
 }
 
 const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
-  refetchSessions,
   attStartsAt,
   attEndsAt,
   attendanceId,
   selections = [],
 }) => {
-  const { conferenceSlug, token } = useAppContext()
   const [newStartsAt, setNewStartsAt] = useState<string | undefined>()
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
   const [selected, setSelected] = useState<boolean | false>()
   const [unlock, setUnlock] = useState<boolean | false>()
   const [buttonTitle, setButtonTitle] = useState<string>('Submit')
   const [status, setStatus] = useState<boolean | undefined>()
-  const {
-    data,
-  }: {
-    data?: {
-      event: {
-        investorSessionsSummary: [
-          {
-            available: string
-            endsAt: string
-            startsAt: string
-          }
-        ]
-        timeZone: {
-          ianaName: string
-        }
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(EVENT_QUERY, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-  })
+
+  const { data } = useEventQuery()
 
   const investorSessionsSummary = data?.event.investorSessionsSummary
-
-  const styledDateForMutation = (dateString?: string) => {
-    if (dateString === undefined || dateString === '') {
-      return null
-    }
-    return moment(dateString).tz(eventTimezone, true).format()
-  }
 
   const handleUnlock = () => {
     if (attStartsAt !== undefined && selected === undefined) {
@@ -86,33 +52,25 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     }
   }
 
+  const styledDateForMutation = (dateString?: string) => {
+    if (dateString === undefined || dateString === '') {
+      return undefined
+    }
+    return moment(dateString).tz(eventTimezone, true).format()
+  }
+
   useEffect(() => {
     handleStatus()
     handleUnlock()
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
   })
+  const startsAt = styledDateForMutation(newStartsAt)
 
-  const [attendanceUpdateMutation] = useMutation(ATTENDANCE_UPDATE_MUTATION, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    onCompleted: ({ attendanceUpdate }) => {
-      const success = attendanceUpdate?.successMessage
-      if (success !== null) {
-        refetchSessions()
-        setSelected(undefined)
-      }
-      if (attendanceUpdate?.userErrors.length) {
-        console.log("Error")
-      }
-    },
-    refetchQueries: ['EventQuery'],
-    variables: {
-      attendanceId,
-      startsAt: styledDateForMutation(newStartsAt),
-      unlock,
-    },
+  const { attendanceUpdateMutation } = useAttendanceUpdateMutation({
+    attendanceId,
+    eventTimezone,
+    startsAt,
+    unlock,
   })
 
   const submit = () => {
