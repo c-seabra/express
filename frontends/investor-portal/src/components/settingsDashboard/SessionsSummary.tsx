@@ -9,13 +9,13 @@ import {
 } from './SessionsSummary.styled'
 
 type SessionsSummaryProps = {
-  investorSessionsSummary: [InvestorSessionsSummary]
+  investorSessionsSummaries: [InvestorSessionsSummary]
 }
 
-const SessionsSummary = ({ investorSessionsSummary }: SessionsSummaryProps): ReactElement => {
+const SessionsSummary = ({ investorSessionsSummaries }: SessionsSummaryProps): ReactElement => {
   return (
     <>
-      {investorSessionsSummary.length < 1 && (
+      {investorSessionsSummaries.length < 1 && (
         <StyledNoticeContainer>
           <p>
             Currently there are no investor sessions. <br />
@@ -24,7 +24,7 @@ const SessionsSummary = ({ investorSessionsSummary }: SessionsSummaryProps): Rea
         </StyledNoticeContainer>
       )}
       <StyledGridContainer>
-        {investorSessionsSummary?.map((item, i) => (
+        {investorSessionsSummaries?.map((item, i) => (
           <StyledColumnContainer
             key={i}
             className={item.claimed === item.count ? 'full' : 'available'}
