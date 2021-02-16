@@ -5,7 +5,6 @@ import { HashRouter as Router, NavLink, Redirect, Route, Switch } from 'react-ro
 import SnackbarProvider from 'react-simple-snackbar'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import withApollo from '../../lib/apollo/withApollo'
 import Logo from '../../lib/components/atoms/Logo'
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import ROUTES from '../../lib/constants/routes'
@@ -14,6 +13,8 @@ import OrdersDashboard from '../ordersDashboard/OrdersDashboard'
 import TicketDashboard from '../ticketDashboard/TicketDashboard'
 import TicketDetails from '../ticketDetails/TicketDetails'
 import AppContext from './AppContext'
+import { initApollo } from '@websummit/graphql';
+import { ApolloProvider } from '@apollo/client';
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -41,7 +42,7 @@ const StyledMainHeader = styled.section`
   max-width: 1440px;
 `
 
-const App = ({ token }: { token: string }) => {
+const App = ({ token, apiURL }: { token: string, apiURL: string }) => {
   if (!token) return null
   const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
     conf_slug: string
@@ -54,7 +55,10 @@ const App = ({ token }: { token: string }) => {
 
   const [conferenceSlug, setConferenceSlug] = useState<string>()
 
+  const apolloClient = initApollo({apiURL});
+
   return (
+    <ApolloProvider client={apolloClient}>
     <SnackbarProvider>
       <Router>
         <StyledMainHeader>
@@ -107,7 +111,8 @@ const App = ({ token }: { token: string }) => {
         </AppContext.Provider>
       </Router>
     </SnackbarProvider>
+    </ApolloProvider>
   )
 }
 
-export default withApollo(App)
+export default App

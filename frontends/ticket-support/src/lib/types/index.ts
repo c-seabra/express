@@ -65,9 +65,12 @@ export type TicketsSummary = {
   }
 }
 
+export type OrderSource = 'TICKET_MACHINE' | 'TITO'
+
 export type Order = {
   owner: Account
   reference: string
+  source: OrderSource
   state: OrderState
   summary: OrderSummary
   ticketsSummary: TicketsSummary
