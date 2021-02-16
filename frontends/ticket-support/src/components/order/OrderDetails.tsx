@@ -12,6 +12,7 @@ import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcru
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
+import { switchCase } from '../../lib/utils/logic'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
@@ -94,6 +95,11 @@ const OrderDetails: React.FC = () => {
   const tickets = order?.tickets
   const owner = order?.owner
   const missingDataAbbr = 'N/A'
+  const formatSourceOfSale = (source: string): string =>
+    switchCase({
+      TICKET_MACHINE: 'Ticket Machine',
+      TITO: 'Tito',
+    })(missingDataAbbr)(source)
 
   const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
     error: false,
@@ -104,7 +110,7 @@ const OrderDetails: React.FC = () => {
       lastUpdatedOn: order?.lastUpdatedAt,
       name: owner?.firstName,
       orderReference: orderRef,
-      sourceOfSale: missingDataAbbr, // e.g. Salesforce (Mocked until integrated to SF)
+      sourceOfSale: order && formatSourceOfSale(order?.source),
       status: order?.state,
       surname: owner?.lastName,
     },

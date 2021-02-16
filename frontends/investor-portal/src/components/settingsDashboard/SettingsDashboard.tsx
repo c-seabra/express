@@ -198,7 +198,7 @@ const SettingsDashboard: React.FC = () => {
           <SpacingBottom>
             <InvestorSessionsCreateForm eventTimezone={eventTimezone} />
             {investorSessionsSummary && (
-              <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
+              <SessionsSummary investorSessionsSummaries={investorSessionsSummary} />
             )}
           </SpacingBottom>
         </ContainerCard>
