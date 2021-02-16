@@ -28,7 +28,7 @@ type TicketUnvoidResponse = {
   }
 }
 
-type TicketsUnvoidArgs = {
+export type TicketsUnvoidArgs = {
   bookingRef: string
   reason: string
 }
