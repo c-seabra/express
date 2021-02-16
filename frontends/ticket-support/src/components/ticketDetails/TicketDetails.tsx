@@ -253,18 +253,18 @@ const TicketDetails = (): ReactElement => {
                   <>
                     <Button onClick={openTicketUnvoidModal}>Unvoid</Button>
                     <TicketUnvoidModal
+                      bookingRef={bookingRef}
                       closeModal={closeTicketUnvoidModal}
                       isOpen={isTicketUnvoidModalOpen}
-                      ticket={ticket}
                     />
                   </>
                 ) : (
                   <>
                     <PrimaryButton onClick={openTicketVoidModal}>Void</PrimaryButton>
                     <TicketVoidModal
+                      bookingRef={bookingRef}
                       closeModal={closeTicketVoidModal}
                       isOpen={isTicketVoidModalOpen}
-                      ticket={ticket}
                     />
                   </>
                 )}
