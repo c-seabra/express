@@ -6,8 +6,8 @@ import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery'
 import useSearchState from '../../lib/hooks/useSearchState'
 import Loader from '../../lib/Loading'
 import Pagination from '../../lib/Pagination'
-import AttendanceItem from '../attendanceItem/AttendanceItem'
-import AttendanceListHeader from '../attendanceListHeader/AttendanceListHeader'
+import AttendanceItem from './AttendanceItem'
+import AttendanceListHeader from './AttendanceListHeader'
 import { FiltersSearchContainer, SearchFilters, StyledSearchInput } from './AttendanceTable.styled'
 
 type AttendanceSearchState = {
