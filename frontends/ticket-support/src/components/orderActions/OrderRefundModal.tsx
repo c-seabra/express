@@ -1,18 +1,19 @@
-import { Form, Formik } from 'formik'
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import { CommerceOrder } from '@websummit/graphql/src/@types/operations';
+import { Form, Formik, useFormikContext } from 'formik';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
-import { WarningMessage } from '../../lib/components/atoms/Messages'
-import CheckboxField from '../../lib/components/molecules/CheckboxField'
-import Modal, { ModalProps } from '../../lib/components/molecules/Modal'
-import MoneyInputField from '../../lib/components/molecules/MoneyInputField'
-import RadioField from '../../lib/components/molecules/RadioField'
-import SelectField from '../../lib/components/molecules/SelectField'
-import TextAreaField from '../../lib/components/molecules/TextAreaField'
-import { VALIDATION_MESSAGES } from '../../lib/constants/messages'
-import useRefund from '../../lib/hooks/useRefund'
-import { CommerceOrder } from '../../lib/types'
+import { WarningMessage } from '../../lib/components/atoms/Messages';
+import CheckboxField from '../../lib/components/molecules/CheckboxField';
+import Modal, { ModalProps } from '../../lib/components/molecules/Modal';
+import MoneyInputField from '../../lib/components/molecules/MoneyInputField';
+import RadioField from '../../lib/components/molecules/RadioField';
+import SelectField from '../../lib/components/molecules/SelectField';
+import TextAreaField from '../../lib/components/molecules/TextAreaField';
+import { VALIDATION_MESSAGES } from '../../lib/constants/messages';
+import useRefund from '../../lib/hooks/useRefund';
+import { useErrorSnackbar } from '../../lib/hooks/useSnackbarMessage';
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -23,7 +24,7 @@ const StyledForm = styled(Form)`
   & > * {
     margin-bottom: 1rem;
   }
-`
+`;
 
 const Row = styled.div`
   display: flex;
@@ -33,14 +34,14 @@ const Row = styled.div`
   & > * {
     width: 48%;
   }
-`
+`;
 
 const RadioGroup = styled.div`
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const StyledWarningMessage = styled(WarningMessage)`
   margin-bottom: 2.5rem;
@@ -48,18 +49,18 @@ const StyledWarningMessage = styled(WarningMessage)`
   & > span {
     font-weight: 600;
   }
-`
+`;
 
 const refundTypes = {
   full: 'full',
   partial: 'partial',
-}
+};
 
 const refundMethods = {
   CREDIT: 'credit',
   DEFAULT: 'default',
   REFUNDED: 'refunded',
-}
+};
 
 const refundMethodOptions = [
   {
@@ -78,16 +79,18 @@ const refundMethodOptions = [
     label: 'Credit value to future event',
     value: refundMethods.CREDIT,
   },
-]
+];
 
 const refundShape = {
-  amount: Yup.number().typeError('Amount must be a number').required(VALIDATION_MESSAGES.REQUIRED),
+  amount: Yup.number()
+    .typeError('Amount must be a number')
+    .required(VALIDATION_MESSAGES.REQUIRED),
   method: Yup.string().required(VALIDATION_MESSAGES.REQUIRED),
   reason: Yup.string().required(VALIDATION_MESSAGES.REQUIRED),
   type: Yup.mixed().oneOf([refundTypes.full, refundTypes.partial]),
-}
+};
 
-const fullRefundSchema = Yup.object().shape(refundShape)
+const fullRefundSchema = Yup.object().shape(refundShape);
 
 const partialRefundSchema = Yup.object().shape({
   ...refundShape,
@@ -96,33 +99,73 @@ const partialRefundSchema = Yup.object().shape({
     is: true,
     then: Yup.string().required(VALIDATION_MESSAGES.REQUIRED),
   }),
-})
+});
 
 const orderRefundSchema = () =>
   Yup.lazy((value: { type: string }) => {
     if (value.type === refundTypes.full) {
-      return fullRefundSchema
+      return fullRefundSchema;
     }
 
-    return partialRefundSchema
-  })
+    return partialRefundSchema;
+  });
 
 const getFullRefundInitialValues = (order: CommerceOrder) => {
   return {
     amount: order.total,
-  }
-}
+  };
+};
 
 // TODO - for now, it's just the first tax type found on the order
 // later down the line it's going to be a select field with different taxes
 const getProductTax = (order: CommerceOrder) => {
-  return order?.items[0]?.tax
-}
+  return order?.items[0]?.tax;
+};
+
+type DependentTaxRateAmountInputField = {
+  currencySymbol: string;
+  disabled: boolean;
+  required: boolean;
+  taxName?: string;
+  taxRate?: number;
+  taxTotal?: number | null;
+};
+
+const DependentTaxRateAmountInputField = ({
+  currencySymbol,
+  disabled,
+  required,
+  taxName = 'tax',
+  taxRate = 0,
+  taxTotal,
+}: DependentTaxRateAmountInputField) => {
+  const {
+    values: { amount },
+    setFieldValue,
+  } = useFormikContext<{ amount: number; taxRefundAmount: number }>();
+
+  useEffect(() => {
+    setFieldValue(
+      'taxRefundAmount',
+      (amount - (taxTotal || 0)) * (taxRate / 100),
+    );
+  }, [amount, setFieldValue, taxRate, taxTotal]);
+
+  return (
+    <MoneyInputField
+      currencySymbol={currencySymbol}
+      disabled={disabled}
+      label={`Amount of ${taxName} to refund`}
+      name="taxRefundAmount"
+      required={required}
+    />
+  );
+};
 
 type OrderRefundModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
-  commerceOrder: CommerceOrder
-  orderRef: string
-}
+  commerceOrder: CommerceOrder;
+  orderRef: string;
+};
 
 const OrderRefundModal = ({
   commerceOrder,
@@ -130,18 +173,19 @@ const OrderRefundModal = ({
   onRequestClose,
   orderRef,
 }: OrderRefundModalProps) => {
-  const [isConfirmStep, setConfirmStep] = useState(false)
-  const { fullRefund, partialRefund } = useRefund({ order: commerceOrder })
+  const [isConfirmStep, setConfirmStep] = useState(false);
+  const { fullRefund, partialRefund } = useRefund({ order: commerceOrder });
+  const error = useErrorSnackbar();
 
-  const orderInitialValues = getFullRefundInitialValues(commerceOrder)
+  const orderInitialValues = getFullRefundInitialValues(commerceOrder);
 
   const handleClose = () => {
-    setConfirmStep(false)
-    onRequestClose()
-  }
+    setConfirmStep(false);
+    onRequestClose();
+  };
 
-  const tax = getProductTax(commerceOrder) || {}
-  const { country, name, rateAmount } = tax
+  const tax = getProductTax(commerceOrder);
+  const { country, name, rateAmount } = tax || {};
 
   return (
     <Modal isOpen={isOpen} title="Refund order" onRequestClose={handleClose}>
@@ -157,17 +201,19 @@ const OrderRefundModal = ({
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={orderRefundSchema}
-        onSubmit={async values => {
+        onSubmit={async (values) => {
           if (isConfirmStep) {
             if (values.type === 'full') {
-              await fullRefund(values.reason)
+              await fullRefund(values.reason);
+            } else if ((commerceOrder.total || 0) < (values.amount || 0)) {
+              error('Refund amount cannot be bigger than the total');
             } else {
-              await partialRefund(values.reason, values.amount)
+              await partialRefund(values.reason, values.amount);
             }
 
-            handleClose()
+            handleClose();
           } else {
-            setConfirmStep(true)
+            setConfirmStep(true);
           }
         }}
       >
@@ -176,10 +222,12 @@ const OrderRefundModal = ({
             {!isConfirmStep ? (
               <>
                 <RadioGroup>
-                  <RadioField label="Full refund" name="type" value={refundTypes.full} />
-                  {/* TODO - remove disabled when implementing partial refund */}
                   <RadioField
-                    disabled
+                    label="Full refund"
+                    name="type"
+                    value={refundTypes.full}
+                  />
+                  <RadioField
                     label="Partial refund"
                     name="type"
                     value={refundTypes.partial}
@@ -194,15 +242,20 @@ const OrderRefundModal = ({
                 {values.type === refundTypes.partial && (
                   <Row>
                     <CheckboxField
-                      label={`Refund ${name} (${country}) at ${rateAmount}%?`}
+                      label={
+                        name && country && rateAmount
+                          ? `Refund ${name} (${country}) at ${rateAmount}%?`
+                          : ''
+                      }
                       name="refundTax"
                     />
-                    <MoneyInputField
-                      currencySymbol={commerceOrder.currencySymbol}
+                    <DependentTaxRateAmountInputField
+                      currencySymbol={commerceOrder.currencySymbol || ''}
                       disabled={!values.refundTax}
-                      label={`Amount of ${name} to refund`}
-                      name="taxRefundAmount"
                       required={values.refundTax}
+                      taxName={name}
+                      taxRate={rateAmount}
+                      taxTotal={commerceOrder.taxTotal}
                     />
                   </Row>
                 )}
@@ -228,7 +281,7 @@ const OrderRefundModal = ({
         )}
       </Formik>
     </Modal>
-  )
-}
+  );
+};
 
-export default OrderRefundModal
+export default OrderRefundModal;

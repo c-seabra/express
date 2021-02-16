@@ -1,20 +1,20 @@
-import { ErrorMessage, Field, FieldProps, useFormikContext } from 'formik'
-import React, { HTMLProps } from 'react'
-import CurrencyInput from 'react-currency-input-field'
-import styled, { css } from 'styled-components'
+import { ErrorMessage, Field, FieldProps, useFormikContext } from 'formik';
+import React, { HTMLProps } from 'react';
+import CurrencyInput from 'react-currency-input-field';
+import styled, { css } from 'styled-components';
 
 const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 85px;
-`
+`;
 
 const Label = styled.div<{ required?: boolean }>`
   color: #091a46;
   font-size: 14px;
   margin-bottom: 4px;
 
-  ${props =>
+  ${(props) =>
     props.required &&
     css`
       &:after {
@@ -22,7 +22,7 @@ const Label = styled.div<{ required?: boolean }>`
         content: '*';
       }
     `}
-`
+`;
 
 const StyledInput = styled.input`
   font-size: 14px;
@@ -34,33 +34,33 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   width: 100%;
   color: #07143e;
-`
+`;
 
 const StyledErrorInput = styled(StyledInput)`
   border: 1px solid #e15554;
-`
+`;
 
 const Error = styled.div`
   color: #e15554;
   font-size: 12px;
   margin-top: 4px;
-`
+`;
 
 type MoneyInputFieldProps = HTMLProps<HTMLInputElement> & {
-  currencySymbol?: string
-  name: string
-}
+  currencySymbol?: string | null;
+  name: string;
+};
 
 const MoneyInputField = ({
   className,
   label,
   name,
   required,
-  currencySymbol,
+  currencySymbol = '',
   placeholder,
   disabled,
 }: MoneyInputFieldProps) => {
-  const { setFieldValue } = useFormikContext()
+  const { setFieldValue } = useFormikContext();
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
@@ -72,16 +72,19 @@ const MoneyInputField = ({
             disabled={disabled}
             name={field.name}
             placeholder={placeholder}
-            prefix={currencySymbol}
-            onValueChange={value => {
-              setFieldValue(name, value)
+            prefix={currencySymbol || ''}
+            onValueChange={(value) => {
+              setFieldValue(name, value);
             }}
           />
         )}
       </Field>
-      <ErrorMessage name={name} render={message => <Error>{message}</Error>} />
+      <ErrorMessage
+        name={name}
+        render={(message) => <Error>{message}</Error>}
+      />
     </FieldContainer>
-  )
-}
+  );
+};
 
-export default MoneyInputField
+export default MoneyInputField;

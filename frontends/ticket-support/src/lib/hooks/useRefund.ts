@@ -1,31 +1,40 @@
-import useCommerceCreateTransactionMutation from '../../operations/mutations/CommerceCreateTransaction'
-import { CommerceOrder, CommerceTransactionType } from '../types'
+import {
+  CommerceOrder,
+  CommerceTransactionType,
+} from '@websummit/graphql/src/@types/operations';
+
+import useCommerceCreateTransactionMutation from '../../operations/mutations/CommerceCreateTransaction';
 
 const useRefund = ({ order }: { order: CommerceOrder }) => {
-  const createCommerceTransaction = useCommerceCreateTransactionMutation({ orderId: order.id })
+  const createCommerceTransaction = useCommerceCreateTransactionMutation({
+    orderId: order.id,
+  });
 
   const fullRefund = async (reason: string) => {
     await createCommerceTransaction({
       amount: order.total,
-      paymentMethod: order.paymentMethod?.id,
+      paymentMethod: order.paymentMethod?.id || null,
       reason,
-      type: CommerceTransactionType.REFUND,
-    })
-  }
+      type: CommerceTransactionType.Refund,
+    });
+  };
 
-  const partialRefund = async (reason: string, amount: number) => {
+  const partialRefund = async (
+    reason: string | null,
+    amount: number | null,
+  ) => {
     await createCommerceTransaction({
       amount,
-      paymentMethod: order.paymentMethod?.id,
+      paymentMethod: order.paymentMethod?.id || null,
       reason,
-      type: CommerceTransactionType.REFUND,
-    })
-  }
+      type: CommerceTransactionType.Refund,
+    });
+  };
 
   return {
     fullRefund,
     partialRefund,
-  }
-}
+  };
+};
 
-export default useRefund
+export default useRefund;

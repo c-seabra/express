@@ -5204,6 +5204,150 @@ export type AppConfigQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceTaxTypeFragment = { __typename?: 'CommerceTaxType' } & Pick<
+  CommerceTaxType,
+  | 'createdAt'
+  | 'createdBy'
+  | 'description'
+  | 'id'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'name'
+>;
+
+export type CommerceTaxFragment = { __typename?: 'CommerceTax' } & Pick<
+  CommerceTax,
+  | 'country'
+  | 'createdAt'
+  | 'createdBy'
+  | 'id'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'name'
+  | 'rateAmount'
+  | 'rateType'
+> & { taxType: { __typename?: 'CommerceTaxType' } & CommerceTaxTypeFragment };
+
+export type CommerceProductFragment = { __typename?: 'CommerceProduct' } & Pick<
+  CommerceProduct,
+  | 'active'
+  | 'createdAt'
+  | 'createdBy'
+  | 'description'
+  | 'id'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'name'
+  | 'price'
+  | 'taxMode'
+>;
+
+export type CommerceOrderItemFragment = {
+  __typename?: 'CommerceOrderItem';
+} & Pick<
+  CommerceOrderItem,
+  | 'createdAt'
+  | 'createdBy'
+  | 'id'
+  | 'itemName'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'price'
+  | 'productMetadata'
+  | 'quantity'
+  | 'subTotal'
+  | 'taxTotal'
+> & {
+    product: Maybe<
+      { __typename?: 'CommerceProduct' } & CommerceProductFragment
+    >;
+    tax: Maybe<{ __typename?: 'CommerceTax' } & CommerceTaxFragment>;
+  };
+
+export type CommercePaymentMethodFragment = {
+  __typename?: 'CommercePaymentMethod';
+} & Pick<CommercePaymentMethod, 'id' | 'name'>;
+
+export type CommerceAddressFragment = { __typename?: 'CommerceAddress' } & Pick<
+  CommerceAddress,
+  | 'city'
+  | 'country'
+  | 'createdAt'
+  | 'createdBy'
+  | 'id'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'line1'
+  | 'line2'
+  | 'postalCode'
+  | 'state'
+>;
+
+export type CommerceCustomerFragment = {
+  __typename?: 'CommerceCustomer';
+} & Pick<
+  CommerceCustomer,
+  | 'companyName'
+  | 'createdAt'
+  | 'createdBy'
+  | 'email'
+  | 'firstName'
+  | 'id'
+  | 'lastName'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'phoneNumber'
+  | 'vatNumber'
+  | 'vatVerified'
+> & {
+    address: Maybe<
+      { __typename?: 'CommerceAddress' } & CommerceAddressFragment
+    >;
+  };
+
+export type CommerceGetOrderQueryVariables = Exact<{
+  id: Scalars['ID'];
+  storeId: Scalars['ID'];
+}>;
+
+export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
+  commerceGetOrder: Maybe<
+    { __typename?: 'CommerceOrder' } & Pick<
+      CommerceOrder,
+      | 'billed'
+      | 'createdAt'
+      | 'createdBy'
+      | 'currency'
+      | 'currencySymbol'
+      | 'id'
+      | 'invoiceUrl'
+      | 'lastUpdatedAt'
+      | 'lastUpdatedBy'
+      | 'locked'
+      | 'paid'
+      | 'paymentStatus'
+      | 'reference'
+      | 'status'
+      | 'subTotal'
+      | 'taxTotal'
+      | 'total'
+      | 'url'
+    > & {
+        customer: Maybe<
+          { __typename?: 'CommerceCustomer' } & CommerceCustomerFragment
+        >;
+        items: Array<
+          { __typename?: 'CommerceOrderItem' } & CommerceOrderItemFragment
+        >;
+        paymentMethod: Maybe<
+          {
+            __typename?: 'CommercePaymentMethod';
+          } & CommercePaymentMethodFragment
+        >;
+      }
+  >;
+};
+
 export type TaEventDataQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -5992,6 +6136,369 @@ export type DynamicFormPayloadFragment = { __typename?: 'DynamicForm' } & Pick<
   'id' | 'data' | 'schema' | 'mutation' | 'uiSchema'
 >;
 
+export const CommerceProductFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceProduct' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceProduct' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommerceTaxTypeFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTaxType' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTaxType' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommerceTaxFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTax' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxType' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceTaxType' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTax' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTaxType' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTaxType' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommerceOrderItemFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceOrderItem' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'itemName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'product' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceProduct' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'productMetadata' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'subTotal' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tax' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceTax' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceOrderItem' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTaxType' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTaxType' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTax' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxType' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceTaxType' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTax' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceProduct' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceProduct' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommercePaymentMethodFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommerceAddressFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceAddress' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceAddress' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommerceCustomerFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceCustomer' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'address' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceAddress' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'vatNumber' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'vatVerified' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceCustomer' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceAddress' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceAddress' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
 export const DisplayMoneyFragmentDoc: DocumentNode = {
   definitions: [
     {
@@ -8950,6 +9457,394 @@ export type AppConfigLazyQueryHookResult = ReturnType<
 export type AppConfigQueryResult = Apollo.QueryResult<
   AppConfigQuery,
   AppConfigQueryVariables
+>;
+export const CommerceGetOrderDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'commerceGetOrder' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'storeId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'storeId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceGetOrder' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'billed' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currencySymbol' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'invoiceUrl' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedAt' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedBy' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'locked' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'paid' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'customer' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'CommerceCustomer' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'CommerceOrderItem' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentMethod' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentStatus' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'subTotal' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'total' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'storeId' },
+          },
+        },
+      ],
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTaxType' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTaxType' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTax' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxType' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceTaxType' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTax' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceProduct' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceProduct' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceOrderItem' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'itemName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'product' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceProduct' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'productMetadata' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'subTotal' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tax' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceTax' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceOrderItem' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceAddress' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceAddress' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceCustomer' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'address' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceAddress' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'vatNumber' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'vatVerified' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceCustomer' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceGetOrderQuery__
+ *
+ * To run a query within a React component, call `useCommerceGetOrderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceGetOrderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceGetOrderQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      storeId: // value for 'storeId'
+ *   },
+ * });
+ */
+export function useCommerceGetOrderQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CommerceGetOrderQuery,
+    CommerceGetOrderQueryVariables
+  >,
+) {
+  return Apollo.useQuery<CommerceGetOrderQuery, CommerceGetOrderQueryVariables>(
+    CommerceGetOrderDocument,
+    baseOptions,
+  );
+}
+export function useCommerceGetOrderLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceGetOrderQuery,
+    CommerceGetOrderQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceGetOrderQuery,
+    CommerceGetOrderQueryVariables
+  >(CommerceGetOrderDocument, baseOptions);
+}
+export type CommerceGetOrderQueryHookResult = ReturnType<
+  typeof useCommerceGetOrderQuery
+>;
+export type CommerceGetOrderLazyQueryHookResult = ReturnType<
+  typeof useCommerceGetOrderLazyQuery
+>;
+export type CommerceGetOrderQueryResult = Apollo.QueryResult<
+  CommerceGetOrderQuery,
+  CommerceGetOrderQueryVariables
 >;
 export const TaEventDataDocument: DocumentNode = {
   definitions: [

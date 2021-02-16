@@ -1,9 +1,13 @@
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client';
+import { CommerceTransactionType } from '@websummit/graphql/src/@types/operations';
 
-import { useAppContext } from '../../components/app/AppContext'
-import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
-import { CommerceTransaction, CommerceTransactionType } from '../../lib/types'
-import { commercePaymentMethodFragment } from '../queries/CommerceGetOrder'
+import { useAppContext } from '../../components/app/AppContext';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '../../lib/hooks/useSnackbarMessage';
+import { CommerceTransaction } from '../../lib/types';
+import { commercePaymentMethodFragment } from '../queries/CommerceGetOrder';
 
 const CREATE_TRANSACTION_MUTATION = gql`
   mutation commerceCreateTransaction(
@@ -33,27 +37,34 @@ const CREATE_TRANSACTION_MUTATION = gql`
     }
   }
   ${commercePaymentMethodFragment}
-`
+`;
 
 type CreateTransactionMutationResult = {
   commerceCreateTransaction: {
-    commerceTransaction: CommerceTransaction
-  }
-}
+    commerceTransaction: CommerceTransaction;
+  };
+};
 
-const useCommerceCreateTransactionMutation = ({ orderId }: { orderId: string }) => {
-  const { conferenceSlug, storeToken, storeId } = useAppContext()
-  const success = useSuccessSnackbar()
-  const error = useErrorSnackbar()
-  const [createTransactionMutation] = useMutation<CreateTransactionMutationResult>(
+const useCommerceCreateTransactionMutation = ({
+  orderId,
+}: {
+  orderId: string | null;
+}) => {
+  const { conferenceSlug, token } = useAppContext();
+  const success = useSuccessSnackbar();
+  const error = useErrorSnackbar();
+  const [
+    createTransactionMutation,
+  ] = useMutation<CreateTransactionMutationResult>(
     CREATE_TRANSACTION_MUTATION,
     {
       onCompleted: () => {
-        success('Operation successful')
+        success('Operation successful');
       },
-      onError: e => error(e.message),
-    }
-  )
+      onError: (e) => error(e.message),
+      refetchQueries: ['Order'],
+    },
+  );
 
   return async ({
     amount,
@@ -61,10 +72,10 @@ const useCommerceCreateTransactionMutation = ({ orderId }: { orderId: string }) 
     reason,
     type,
   }: {
-    amount: number
-    paymentMethod: string
-    reason: string
-    type: CommerceTransactionType
+    amount: number | null;
+    paymentMethod: string | null;
+    reason: string | null;
+    type: CommerceTransactionType | null;
   }) => {
     await createTransactionMutation({
       context: {
@@ -72,19 +83,21 @@ const useCommerceCreateTransactionMutation = ({ orderId }: { orderId: string }) 
           'x-reason': reason,
         },
         slug: conferenceSlug,
-        token: storeToken,
+        token,
       },
       variables: {
         commerceTransactionCreate: {
-          amount,
-          paymentMethod,
+          amount: Number(amount),
+          paymentMethod: {
+            id: paymentMethod,
+          },
           type,
         },
         orderId,
-        storeId,
+        storeId: '',
       },
-    })
-  }
-}
+    });
+  };
+};
 
-export default useCommerceCreateTransactionMutation
+export default useCommerceCreateTransactionMutation;

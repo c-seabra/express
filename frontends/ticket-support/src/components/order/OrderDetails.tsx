@@ -1,37 +1,39 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import TextHeading from '../../lib/components/atoms/Heading'
-import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
-import { useModalState } from '../../lib/components/molecules/Modal'
-import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
-import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery'
-import useSingleOrderQuery from '../../lib/hooks/useSingleOrderQuery'
-import Loader from '../../lib/Loading'
-import { Ticket } from '../../lib/types'
-import { switchCase } from '../../lib/utils/logic'
-import OrderRefundModal from '../orderActions/OrderRefundModal'
-import Warning from '../ticketActions/Warning'
-import TicketList from '../ticketList/TicketList'
-import OrderDetailsSummary from './OrderDetailsSummary'
-import OrderOwnerDetails from './OrderOwnerDetails'
-import OrderSummary from './OrderSummary'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import TextHeading from '../../lib/components/atoms/Heading';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '../../lib/components/molecules/Breadcrumbs';
+import { useModalState } from '../../lib/components/molecules/Modal';
+import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
+import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
+import useSingleOrderQuery from '../../lib/hooks/useSingleOrderQuery';
+import Loader from '../../lib/Loading';
+import { Ticket } from '../../lib/types';
+import { switchCase } from '../../lib/utils/logic';
+import OrderRefundModal from '../orderActions/OrderRefundModal';
+import Warning from '../ticketActions/Warning';
+import TicketList from '../ticketList/TicketList';
+import OrderDetailsSummary from './OrderDetailsSummary';
+import OrderOwnerDetails from './OrderOwnerDetails';
+import OrderSummary from './OrderSummary';
 
 const PageContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-`
+`;
 
 const BreadcrumbsContainer = styled.div`
   display: flex;
   margin: 20px 0 4px;
-`
+`;
 
 export const Text = styled.div`
   border-radius: 8px;
@@ -42,16 +44,16 @@ export const Text = styled.div`
     color: #337ab7;
     margin: 0 0.25rem;
   }
-`
+`;
 
 export const TextHighlight = styled.span`
   color: #337ab7;
   margin: 0 0.25rem;
-`
+`;
 
 const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
-`
+`;
 
 export const StyledButton = styled.button`
   margin: 0 0 1rem;
@@ -65,40 +67,47 @@ export const StyledButton = styled.button`
     background-color: grey;
     color: white;
   }
-`
+`;
 
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const ButtonWithSpacing = styled(Button)`
   margin-right: 16px;
-`
+`;
 
-const missingDataAbbr = 'N/A'
+const missingDataAbbr = 'N/A';
 
 const OrderDetails = () => {
-  const { orderRef } = useParams<{ orderRef: string }>()
+  const { orderRef } = useParams<{ orderRef: string }>();
   const {
     isOpen: isRefundModalOpen,
     closeModal: closeRefundModal,
     openModal: openRefundModal,
-  } = useModalState()
+  } = useModalState();
 
-  const { loading, error, order } = useSingleOrderQuery({ orderRef })
-  const { commerceOrder } = useSingleCommerceOrderQuery({ id: order?.sourceId })
+  const { loading, error, order } = useSingleOrderQuery({ orderRef });
+  const { commerceOrder } = useSingleCommerceOrderQuery({
+    id: order?.sourceId,
+  });
 
-  const { tickets, owner } = order || {}
+  const { tickets, owner } = order || {};
 
   const formatSourceOfSale = (source: string): string =>
     switchCase({
       TICKET_MACHINE: 'Ticket Machine',
       TITO: 'Tito',
-    })(missingDataAbbr)(source) as string
+    })(missingDataAbbr)(source) as string;
 
-  const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
+  const {
+    loading: mockedLoading,
+    error: mockedError,
+    orderDetails,
+    orderSummary,
+  } = {
     error: false,
     loading: false,
     orderDetails: {
@@ -120,8 +129,8 @@ const OrderDetails = () => {
       salesTaxApplied: missingDataAbbr, // Mocked until fully integrated with BE
       ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
-  }
-  const { event } = useEventDataQuery()
+  };
+  const { event } = useEventDataQuery();
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: event?.name || 'Home',
@@ -134,7 +143,7 @@ const OrderDetails = () => {
     {
       label: `Order ${orderRef}`,
     },
-  ]
+  ];
 
   return (
     <>
@@ -212,8 +221,14 @@ const OrderDetails = () => {
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <ContainerCard noPadding color="#DF0079" title="Ticket information">
-                  <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
+                <ContainerCard
+                  noPadding
+                  color="#DF0079"
+                  title="Ticket information"
+                >
+                  <TicketList
+                    list={tickets.edges.map(({ node }) => node) as Ticket[]}
+                  />
                 </ContainerCard>
               </div>
             )}
@@ -221,7 +236,7 @@ const OrderDetails = () => {
         )}
       </PageContainer>
     </>
-  )
-}
+  );
+};
 
-export default OrderDetails
+export default OrderDetails;
