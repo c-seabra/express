@@ -1,6 +1,7 @@
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 
 import {
+  Button,
   ContainerCard,
   Heading,
   Modal,
@@ -24,6 +25,7 @@ type AttendanceSearchState = {
   page: string;
   searchQuery?: string;
   type: string;
+  withPendingSelections?: boolean;
 };
 
 const AttendanceTable = (): ReactElement => {
@@ -56,6 +58,7 @@ const AttendanceTable = (): ReactElement => {
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
     type: searchState.type,
+    withPendingSelections: searchState.withPendingSelections,
   });
 
   const onCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +107,16 @@ const AttendanceTable = (): ReactElement => {
       setSelectedValues([]);
     }
   };
+
+  const onPendingSelectionsFilterChange = () => {
+    setSearchState(prevState => ({
+      ...prevState,
+      withPendingSelections: !prevState?.withPendingSelections,
+    }))
+  }
+  const onPendingSelectionsFilterOff = () => {
+    setSearchState(prevState => ({ ...prevState, withPendingSelections: false }))
+  }
 
   const onHeaderCheckboxChange = () => {
     setHeaderCheckbox(!headerCheckbox);
@@ -154,6 +167,15 @@ const AttendanceTable = (): ReactElement => {
             title="Are you sure?"
             onRequestClose={closeModal}
           />
+          {searchState.withPendingSelections ? (
+            <Button style={{ marginLeft: 10 }} onClick={onPendingSelectionsFilterChange}>
+              Filter pending selections
+            </Button>
+          ) : (
+            <SecondaryButton style={{ marginLeft: 10 }} onClick={onPendingSelectionsFilterChange}>
+              Filter pending selections
+            </SecondaryButton>
+          )}
           <StyledSearchInput
             defaultValue={searchQuery}
             placeholder="Search by Attendance name."
