@@ -106,8 +106,7 @@ const TicketUnvoidModal = ({ isOpen, closeModal, ticket }: TicketUnvoidModalProp
                   name="reason"
                 />
                 <StyledWarningMessage>
-                  <StyledSpan>Warning:</StyledSpan> This action shall void the ticket and ticket
-                  holder will no longer have access to the conference.
+                  <StyledSpan>Warning:</StyledSpan> This action shall unvoid the ticket and ticket holder will again have access to the conference.
                 </StyledWarningMessage>
                 <Modal.DefaultFooter submitText="Unvoid ticket" onCancelClick={handleClose} />
               </StyledForm>

@@ -106,9 +106,7 @@ const TicketVoidModal = ({ isOpen, closeModal, ticket }: TicketVoidModalProps) =
                   name="reason"
                 />
                 <StyledWarningMessage>
-                  <StyledSpan>Warning:</StyledSpan> This will reset the ticket assignment and the
-                  previous ticket holder will lose access to the ticket. They will be notified by
-                  email.
+                  <StyledSpan>Warning:</StyledSpan> This action shall void the ticket and ticket holder will no longer have access to the conference.
                 </StyledWarningMessage>
                 <Modal.DefaultFooter submitText="Void ticket" onCancelClick={handleClose} />
               </StyledForm>
