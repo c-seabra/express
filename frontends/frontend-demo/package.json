@@ -1,0 +1,22 @@
+{
+  "name": "@websummit-micro/frontend-demo",
+  "private": true,
+  "license": "MIT",
+  "version": "1.0.0",
+  "scripts": {
+    "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
+    "build": "webpack --mode=production",
+    "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
+    "clean": "rimraf -rf ./dist",
+    "coverage": "cross-env BABEL_ENV=test jest --coverage",
+    "start": "webpack serve --port 9001",
+    "start:standalone": "webpack serve --env standalone"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@websummit/ws-components": "*",
+    "@websummit/ws-lib-example": "*",
+    "react": "*",
+    "react-dom": "*"
+  }
+}

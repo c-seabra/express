@@ -1,24 +1,19 @@
 {
-  "name": "@WebSummit/investor-portal",
+  "name": "@websummit-micro/investor-portal",
+  "private": true,
+  "license": "MIT",
+  "version": "1.0.0",
   "scripts": {
-    "analyze": "webpack --mode=production --env.analyze=true",
+    "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
-    "build-standalone": "webpack --config ./webpack.config.build.js",
+    "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
+    "clean": "rimraf -rf ./dist",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
-    "dev": "webpack-dev-server --port 8500",
-    "format": "prettier --write \"./**\"",
-    "lint": "eslint src --ext js,ts,tsx",
-    "start": "webpack-dev-server",
-    "start:standalone": "webpack-dev-server --env.standalone",
-    "test": "cross-env BABEL_ENV=test jest",
-    "watch-tests": "cross-env BABEL_ENV=test jest --watch"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && concurrently yarn:test yarn:lint"
-    }
+    "start": "webpack serve --port 9005",
+    "start:standalone": "webpack serve --env standalone"
   },
   "dependencies": {
+    "@websummit/graphql": "*",
     "@apollo/client": "^3.1.0",
     "@apollo/react-common": "^3.1.4",
     "@graphql-typed-document-node/core": "^3.1.0",
@@ -140,8 +135,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }
