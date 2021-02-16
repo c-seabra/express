@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `
 
 const Text = styled.div`
-  font-size: 20px;
+  font-size: 16px;
   letter-spacing: 0;
   line-height: 28px;
   max-width: 580px;
@@ -30,7 +30,7 @@ const Text = styled.div`
 `
 
 const HeaderText = styled.div`
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 500;
   letter-spacing: -0.5px;
   line-height: 40px;
@@ -42,6 +42,9 @@ const AlertText = styled(HeaderText)`
 const FieldWrapper = styled(TextAreaField)`
   min-width: 580px;
   text-align: left;
+  textarea {
+    height: 77px;
+  }
 `
 
 const StyledActionRow = styled.div`
