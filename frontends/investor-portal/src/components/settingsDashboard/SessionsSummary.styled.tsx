@@ -9,6 +9,8 @@ export const StyledGridContainer = styled.section`
   grid-gap: 1rem;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
 `
 
 export const StyledColumnContainer = styled.div`
@@ -31,4 +33,12 @@ export const StyledColumnContainer = styled.div`
     background-color: #0067e9;
     color: #fff;
   }
+`
+
+export const StyledNoticeContainer = styled.div`
+  align-items: center;
+  display: flex;
+  font-size: 1.25rem;
+  justify-content: center;
+  text-align: center;
 `
