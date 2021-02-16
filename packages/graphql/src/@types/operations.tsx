@@ -2,7 +2,7 @@ import * as Apollo from '@apollo/client';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 import { OperationVariables as QueryVariables } from 'apollo-client';
 
-import { AnyJson,JsonObject } from './json';
+import { AnyJson, JsonObject } from './json';
 
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -1541,7 +1541,7 @@ export enum SearchRefinementWidgetType {
   Hidden = 'HIDDEN',
   LiveTalksOnly = 'LIVE_TALKS_ONLY',
   NumericSlider = 'NUMERIC_SLIDER',
-  TagsMulti = 'TAGS_MULTI'
+  TagsMulti = 'TAGS_MULTI',
 }
 
 export type ComponentWebElementsCompanySearchSidebarFilters = {
@@ -1584,7 +1584,7 @@ export type ComponentWebElementsHeroSection = {
 
 export enum Enum_Componentwebelementsherosection_Variant {
   Compact = 'COMPACT',
-  Regular = 'REGULAR'
+  Regular = 'REGULAR',
 }
 
 export type ComponentWebElementsCtaLink = {
@@ -4422,7 +4422,7 @@ export type WebPageInput = {
 export enum Enum_Webpage_Status {
   Archived = 'ARCHIVED',
   Draft = 'DRAFT',
-  Published = 'PUBLISHED'
+  Published = 'PUBLISHED',
 }
 
 export type CreateWebPagePayload = {
