@@ -24,6 +24,7 @@ export type EventQuery = {
           startsAt: string
         }
       ]
+      name: string
       timeZone: {
         ianaName: string
       }
@@ -55,6 +56,7 @@ export const EVENT_QUERY = gql`
         endsAt
         startsAt
       }
+      name
       timeZone {
         ianaName
       }

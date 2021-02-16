@@ -5,8 +5,8 @@ import * as Yup from 'yup'
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import BoxMessage from '../../lib/components/molecules/BoxMessage'
+import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField'
 import Modal, { useModalState } from '../../lib/components/molecules/Modal'
-import TextInputField from '../../lib/components/molecules/TextInputField'
 import STATIC_MESSAGES from '../../lib/constants/messages'
 import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
 import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal'
@@ -52,7 +52,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
   const saveAction = () => {
     openModal()
   }
-  
+
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void
@@ -85,7 +85,7 @@ const UpdateAppLoginEmail = ({ email, bookingRef }: UpdateAppLoginEmailProps) =>
 
           return (
             <Form>
-              <TextInputField
+              <EditableTextInputField
                 required
                 editModeOn={editMode}
                 name="email"

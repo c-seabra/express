@@ -58,6 +58,17 @@ export const SecondaryButton = styled(Button)`
   }
 `
 
+export const ErrorButton = styled(Button)`
+  color: #fff;
+  background-color: #e15554;
+  border: 1px solid #e15554;
+
+  &:hover {
+    background-color: #de201f;
+    border: 1px solid #de201f;
+  }
+`
+
 export const TextButton = styled(SecondaryButton)`
   border: none;
   background-color: white;
