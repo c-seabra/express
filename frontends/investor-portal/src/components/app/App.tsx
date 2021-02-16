@@ -1,7 +1,10 @@
+import { ApolloProvider } from '@apollo/client';
+import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import SnackbarProvider from 'react-simple-snackbar'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
@@ -10,8 +13,6 @@ import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard'
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard'
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard'
 import AppContext from './AppContext'
-import { initApollo } from '@websummit/graphql';
-import { ApolloProvider } from '@apollo/client';
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -33,20 +34,11 @@ const StyledMainNavigationContainer = styled.section`
   max-width: 1440px;
 `
 
-const StyledMainHeader = styled.section`
-  display: flex;
-  margin: 20px auto;
-  max-width: 1440px;
-`
-
-const App = ({ token, apiURL }: { token: string, apiURL: string }) => {
+const App = ({ token, apiURL }: { apiURL: string, token: string }) => {
   if (!token) return null
 
   const [conferenceSlug, setConferenceSlug] = useState<string>()
-  const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
-    conf_slug: string
-    email: string
-  }
+  const tokenPayload: { conf_slug: string; email: string } = jwt(token)
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug)
@@ -56,45 +48,47 @@ const App = ({ token, apiURL }: { token: string, apiURL: string }) => {
 
   return (
     <ApolloProvider client={apolloClient}>
-    <Router>
-      <StyledMainNavigationContainer>
-        <MainNavigation routes={ROUTES} />
-      </StyledMainNavigationContainer>
-      <AppContext.Provider
-        value={{
-          conferenceSlug: tokenPayload.conf_slug,
-          token,
-        }}
-      >
-        <StyledContainer>
-          <Helmet>
-            <link href="https://fonts.gstatic.com" rel="preconnect" />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-              rel="stylesheet"
-            />
-            <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+      <SnackbarProvider>
+        <Router>
+          <StyledMainNavigationContainer>
+            <MainNavigation routes={ROUTES} />
+          </StyledMainNavigationContainer>
+          <AppContext.Provider
+            value={{
+              conferenceSlug,
+              token,
+            }}
+          >
+            <StyledContainer>
+              <Helmet>
+                <link href="https://fonts.gstatic.com" rel="preconnect" />
+                <link
+                  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                  rel="stylesheet"
+                />
+                <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
 
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          </Helmet>
-          <GlobalStyle />
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/settings" />
-            </Route>
-            <Route path="/dashboard/:attendanceId">
-              <AttendanceDetailsDashboard />
-            </Route>
-            <Route path="/settings">
-              <SettingsDashboard />
-            </Route>
-            <Route path="/dashboard">
-              <AttendanceDashboard />
-            </Route>
-          </Switch>
-        </StyledContainer>
-      </AppContext.Provider>
-    </Router>
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+              </Helmet>
+              <GlobalStyle />
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/settings" />
+                </Route>
+                <Route path="/dashboard/:attendanceId">
+                  <AttendanceDetailsDashboard />
+                </Route>
+                <Route path="/settings">
+                  <SettingsDashboard />
+                </Route>
+                <Route path="/dashboard">
+                  <AttendanceDashboard />
+                </Route>
+              </Switch>
+            </StyledContainer>
+          </AppContext.Provider>
+        </Router>
+      </SnackbarProvider>
     </ApolloProvider>
   )
 }
