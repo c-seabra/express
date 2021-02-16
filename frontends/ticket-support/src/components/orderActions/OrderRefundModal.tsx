@@ -160,19 +160,24 @@ const DependentTaxRateAmountInputField = ({
   taxTotal,
 }: DependentTaxRateAmountInputField) => {
   const {
-    values: { amount },
+    values: { amount, taxRefundAmount, refundTax },
     setFieldValue,
-  } = useFormikContext<{ amount: number; taxRefundAmount: number }>();
+  } = useFormikContext<{
+    amount: number;
+    refundTax: boolean;
+    taxRefundAmount: number;
+  }>();
 
   useEffect(() => {
     setFieldValue(
       'taxRefundAmount',
-      (amount - (taxTotal || 0)) * (taxRate / 100),
+      (amount - amount / ((100 + taxRate) / 100) || 0).toFixed(2),
     );
   }, [amount, setFieldValue, taxRate, taxTotal]);
 
   return (
     <MoneyInputField
+      key={refundTax ? '' : taxRefundAmount}
       currencySymbol={currencySymbol}
       disabled={disabled}
       label={`Amount of ${taxName} to refund`}
