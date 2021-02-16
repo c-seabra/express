@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useAppContext } from '../../components/app/AppContext'
 import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
 import { Ticket, UserError } from '../../lib/types'
+import { useTicketUnvoidMutation as OrigMutation } from '@websummit/graphql/src/@types/operations';
 
 export const TICKET_UNVOID_MUTATION = gql`
   mutation UnvoidTicket($input: TicketUnvoidInput!) {
@@ -33,11 +34,14 @@ export type TicketsUnvoidArgs = {
   reason: string
 }
 
-export const useTicketUnvoidMutation = () => {
+export const useTicketUnvoidMutationd = () => {
   const { conferenceSlug, token } = useAppContext()
   const [error, setError] = useState('')
   const snackbar = useSuccessSnackbar()
   const errSnackbar = useErrorSnackbar()
+
+
+  const newHook = OrigMutation;
 
   const [voidTicketMutation] = useMutation<TicketUnvoidResponse>(TICKET_UNVOID_MUTATION, {
     onCompleted: ({ response }) => {
