@@ -28,7 +28,7 @@ type TicketVoidResponse = {
   }
 }
 
-type TicketsVoidArgs = {
+export type TicketsVoidArgs = {
   bookingRef: string
   reason: string
 }
