@@ -1,10 +1,12 @@
+import { ApolloProvider } from '@apollo/client';
+import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import SnackbarProvider from 'react-simple-snackbar'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import withApollo from '../../lib/apollo/withApollo'
 import MainNavigation from '../../lib/components/molecules/MainNavigation'
 import ROUTES from '../../lib/constants/routes'
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard'
@@ -33,58 +35,66 @@ const StyledMainNavigationContainer = styled.section`
   max-width: 1440px;
 `
 
-const App = ({ token }: { token: string }) => {
+const App = ({ token, apiURL }: { apiURL: string, token: string }) => {
   if (!token) return null
 
-  const tokenPayload: { conf_slug: string; email: string } = jwt(token) as {
-    conf_slug: string
-    email: string
-  }
+  const [conferenceSlug, setConferenceSlug] = useState<string>()
+  const tokenPayload: { conf_slug: string; email: string } = jwt(token)
+
+  useEffect(() => {
+    setConferenceSlug(tokenPayload.conf_slug)
+  }, [token])
+
+  const apolloClient = initApollo({apiURL});
 
   return (
-    <Router>
-      <StyledMainNavigationContainer>
-        <MainNavigation routes={ROUTES} />
-      </StyledMainNavigationContainer>
-      <AppContext.Provider
-        value={{
-          conferenceSlug: tokenPayload.conf_slug,
-          token,
-        }}
-      >
-        <StyledContainer>
-          <Helmet>
-            <link href="https://fonts.gstatic.com" rel="preconnect" />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-              rel="stylesheet"
-            />
-            <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
+    <ApolloProvider client={apolloClient}>
+      <SnackbarProvider>
+        <Router>
+          <StyledMainNavigationContainer>
+            <MainNavigation routes={ROUTES} />
+          </StyledMainNavigationContainer>
+          <AppContext.Provider
+            value={{
+              conferenceSlug,
+              token,
+            }}
+          >
+            <StyledContainer>
+              <Helmet>
+                <link href="https://fonts.gstatic.com" rel="preconnect" />
+                <link
+                  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                  rel="stylesheet"
+                />
+                <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
 
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          </Helmet>
-          <GlobalStyle />
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/settings" />
-            </Route>
-            <Route path="/dashboard/:attendanceId">
-              <AttendanceDetailsDashboard />
-            </Route>
-            <Route path="/settings">
-              <SettingsDashboard />
-            </Route>
-            <Route path="/investor_permissions">
-              <InvestorPermissionsDashboard />
-            </Route>
-            <Route path="/dashboard">
-              <AttendanceDashboard />
-            </Route>
-          </Switch>
-        </StyledContainer>
-      </AppContext.Provider>
-    </Router>
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+              </Helmet>
+              <GlobalStyle />
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/settings" />
+                </Route>
+                <Route path="/dashboard/:attendanceId">
+                  <AttendanceDetailsDashboard />
+                </Route>
+                <Route path="/settings">
+                  <SettingsDashboard />
+                </Route>
+                <Route path="/investor_permissions">
+                  <InvestorPermissionsDashboard />
+                </Route>
+                <Route path="/dashboard">
+                  <AttendanceDashboard />
+                </Route>
+              </Switch>
+            </StyledContainer>
+          </AppContext.Provider>
+        </Router>
+      </SnackbarProvider>
+    </ApolloProvider>
   )
 }
 
-export default withApollo(App)
+export default App

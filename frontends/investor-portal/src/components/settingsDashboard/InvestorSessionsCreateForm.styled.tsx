@@ -4,7 +4,7 @@ export const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
 
-export const StyledGridContainer = styled.section`
+export const StyledGridForm = styled.form`
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(3, 1fr);

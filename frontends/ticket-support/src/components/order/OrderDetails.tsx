@@ -1,23 +1,28 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Helmet } from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Tooltip } from '../../lib/components'
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
 import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import TextHeading from '../../lib/components/atoms/Heading'
+import BoxMessage from '../../lib/components/molecules/BoxMessage'
 import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal'
+import { useModalState } from '../../lib/components/molecules/Modal'
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
 import Loader from '../../lib/Loading'
 import { Ticket } from '../../lib/types'
+import { switchCase } from '../../lib/utils/logic'
 import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
 import { useAppContext } from '../app/AppContext'
 import Warning from '../ticketActions/Warning'
 import TicketList from '../ticketList/TicketList'
+import OrderCancelModal from './OrderCancelModal'
 import OrderDetailsSummary from './OrderDetailsSummary'
 import OrderOwnerDetails from './OrderOwnerDetails'
+import OrderReinstateModal from "./OrderReinstateModal";
 import OrderSummary from './OrderSummary'
 
 const PageContainer = styled.section`
@@ -52,35 +57,47 @@ const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
 
-export const StyledButton = styled.button`
-  margin: 0 0 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: 1px solid grey;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    background-color: grey;
-    color: white;
-  }
-`
-
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `
 
-const ButtonWithSpacing = styled(Button)`
+const StyledInnerRow = styled.div`
+  display: flex;
+  align-items: center;
+
+  > * {
+    margin-right: 16px;
+  }
+`
+
+const ButtonWithSpacing = styled(SecondaryButton)`
   margin-right: 16px;
 `
 
 const OrderDetails: React.FC = () => {
   const { orderRef } = useParams<{ orderRef: string }>()
   const { conferenceSlug, token } = useAppContext()
+  const {
+    openModal: openOrderCancelModal,
+    isOpen: isOrderCancelModalOpen,
+    closeModal: closeOrderCancelModal,
+  } = useModalState()
 
-  const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
+  const {
+    openModal: openOrderReinstateModal,
+    isOpen: isOrderReinstateModalOpen,
+    closeModal: closeOrderReinstateModal,
+  } = useModalState()
+
+  const {
+    openModal: openTitoWarningModal,
+    isOpen: isTitoWarningModalOpen,
+    closeModal: closeTitoWarningModal,
+  } = useModalState()
+
+  const { loading, error, data, refetch }: OrderByRefQuery = useQuery(ORDER_QUERY, {
     context: {
       slug: conferenceSlug,
       token,
@@ -91,9 +108,15 @@ const OrderDetails: React.FC = () => {
   })
 
   const order = data?.order
-  const tickets = order?.tickets
+  const sourceId = order?.sourceId || ''
+  const tickets = order && order?.tickets
   const owner = order?.owner
   const missingDataAbbr = 'N/A'
+  const formatSourceOfSale = (source: string): string =>
+    switchCase({
+      TICKET_MACHINE: 'Ticket Machine',
+      TITO: 'Tito',
+    })(missingDataAbbr)(source)
 
   const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
     error: false,
@@ -104,7 +127,7 @@ const OrderDetails: React.FC = () => {
       lastUpdatedOn: order?.lastUpdatedAt,
       name: owner?.firstName,
       orderReference: orderRef,
-      sourceOfSale: missingDataAbbr, // e.g. Salesforce (Mocked until integrated to SF)
+      sourceOfSale: order && formatSourceOfSale(order?.source),
       status: order?.state,
       surname: owner?.lastName,
     },
@@ -118,6 +141,14 @@ const OrderDetails: React.FC = () => {
       ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
   }
+  const isFromTito = (source: string): boolean => {
+    return switchCase({
+      TICKET_MACHINE: false,
+      TITO: true,
+    })(false)(source)
+  }
+  const isTitoOrder = order && isFromTito(order?.source)
+
   const { event } = useEventDataQuery()
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -153,11 +184,52 @@ const OrderDetails: React.FC = () => {
             <div>
               <SpacingBottom>
                 <StyledRow>
-                  <TextHeading>Order management</TextHeading>
+                  <StyledInnerRow>
+                    <TextHeading>Order management</TextHeading>
+                    {isTitoOrder && (
+                      <BoxMessage backgroundColor="#333333" color="#fff" dimension="sm">
+                        <>As this order was sold via Tito, some functionality may be limited</>
+                      </BoxMessage>
+                    )}
+                  </StyledInnerRow>
+
                   <div>
-                    <ButtonWithSpacing disabled as={SecondaryButton}>
-                      Cancel order
-                    </ButtonWithSpacing>
+                    {order?.state === 'CANCELLED' ? (
+                        <ButtonWithSpacing onClick={isTitoOrder ? openTitoWarningModal : openOrderReinstateModal}>
+                          Reinstate order
+                        </ButtonWithSpacing>
+                    ) : (
+                        <ButtonWithSpacing onClick={isTitoOrder ? openTitoWarningModal : openOrderCancelModal}>
+                          Cancel order
+                        </ButtonWithSpacing>
+                    )}
+                    {isTitoOrder ? (
+                        <ErrorInfoModal
+                            alertHeader={orderRef}
+                            alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
+            to Tito to cancel the order."
+                            closeModal={closeTitoWarningModal}
+                            headerText="Unable to cancel order"
+                            isOpen={isTitoWarningModalOpen}
+                        />
+                    ) : order?.state === 'CANCELLED' ? (
+                        <OrderReinstateModal
+                            closeModal={closeOrderReinstateModal}
+                            isOpen={isOrderReinstateModalOpen}
+                            orderRef={orderRef}
+                            sourceId={sourceId}
+                            refetch={refetch}
+                        />
+                    ) : (
+                        <OrderCancelModal
+                            closeModal={closeOrderCancelModal}
+                            isOpen={isOrderCancelModalOpen}
+                            orderRef={orderRef}
+                            sourceId={sourceId}
+                            refetch={refetch}
+                        />
+                    )}
+
                     <Button disabled>Refund order</Button>
                   </div>
                 </StyledRow>

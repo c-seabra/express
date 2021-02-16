@@ -1,12 +1,3 @@
-export type InvestorSessionsSummary = [
-  {
-    claimed: number
-    count: number
-    endsAt: string
-    startsAt: string
-  }
-]
-
 export type PageInfo = {
   endCursor: string
   hasNextPage: string
@@ -41,4 +32,39 @@ export type Appearance = {
 
 export type Company = {
   name: string
+}
+
+export type Event = {
+  configuration: Configuration
+  id: string
+  investorSessionsSummary: [InvestorSessionsSummary]
+  name?: string
+  slug: string
+  timeZone: TimeZone
+}
+
+export type Configuration = {
+  investorMeetingConfiguration: InvestorMeetingsConfiguration
+}
+
+export type InvestorMeetingsConfiguration = {
+  defaultStartupSelections: number
+  meetingsPerSession: number
+  notifyOfficeHoursInvitees: boolean
+  sessionDuration: number
+  sponsorLogoUrl: string
+  startupPortalClosingAt: string
+  startupPortalOpeningAt: string
+  startupSelectionDeadline: string
+}
+
+export type TimeZone = {
+  ianaName: string
+}
+
+export type InvestorSessionsSummary = {
+  claimed: number
+  count: number
+  endsAt: string
+  startsAt: string
 }
