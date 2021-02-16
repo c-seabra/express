@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
-import Upload from "../upload/Upload";
-import { AppContext, TicketList } from "../app/App";
-import styled from "styled-components";
+import React, { useState, useContext } from 'react';
+import Upload from '../upload/Upload';
+import { AppContext, TicketList } from '../app/App';
+import styled from 'styled-components';
 
 const SubmitButton = styled.button`
   margin: 1rem 0;
@@ -43,8 +43,8 @@ const Form: React.FC = () => {
     if (setTicketsList && staffList) {
       let staff = staffList[email];
       if (!staff) {
-        const name = email.split("@")[0];
-        const [firstName, lastName] = name.split(".");
+        const name = email.split('@')[0];
+        const [firstName, lastName] = name.split('.');
         staff = {
           email,
           firstName: capitalizeFirstLetter(firstName),

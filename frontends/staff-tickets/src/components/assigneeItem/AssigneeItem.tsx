@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import UploadStatus from "../statusIcon/StatusIcon";
+import UploadStatus from '../statusIcon/StatusIcon';
 
 const BookingRef = styled.div`
   width: calc(15% - 1rem);
@@ -34,6 +34,7 @@ const StyledListItem = styled.li`
   margin-bottom: 0.5rem;
   padding: 0.75rem;
   background-color: gainsboro;
+
   &:nth-child(2n + 1) {
     background-color: white;
   }
@@ -44,7 +45,7 @@ const StyledListItem = styled.li`
 
 export type StatusType = {
   message: string;
-  type: "PENDING" | "SUCCESS" | "ERROR";
+  type: 'PENDING' | 'SUCCESS' | 'ERROR';
 };
 
 type AssigneItemType = {

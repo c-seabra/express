@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { TicketList } from "../app/App";
-import AssigneeItemProvider from "../assigneeItem/AssigneeItemProvider";
-import AssigneeItem from "../assigneeItem/AssigneeItem";
-import AssigneeListHeader from "./AssigneeListHeader";
+import { TicketList } from '../app/App';
+import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider';
+import AssigneeItem from '../assigneeItem/AssigneeItem';
+import AssigneeListHeader from './AssigneeListHeader';
 
 const StyledList = styled.ul`
   margin: 0;
@@ -21,13 +21,13 @@ const AssigneeList: React.FC<{ list: TicketList }> = ({ list }) => {
         if (!bookingRef && !email)
           return (
             <AssigneeItem
-              bookingRef={bookingRef || "???"}
+              bookingRef={bookingRef || '???'}
               firstName={firstName}
               lastName={lastName}
               email={email}
               status={{
-                message: "Not enough information provided",
-                type: "ERROR",
+                message: 'Not enough information provided',
+                type: 'ERROR',
               }}
             />
           );

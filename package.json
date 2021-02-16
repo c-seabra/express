@@ -22,9 +22,9 @@
     "codegen:fix-types": "eslint packages/graphql/src/@types/operations.tsx --fix --cache --no-ignore",
     "fix": "eslint . --ext js,ts,tsx --fix",
     "format": "yarn pretty",
-    "is-pretty": "prettier --check .",
+    "is-pretty": "prettier --config ./.prettierrc.json --check .",
     "lint": "eslint . --ext js,ts,tsx",
-    "pretty": "prettier --write .",
+    "pretty": "prettier --config ./.prettierrc.json --write .",
     "pub": "lerna publish",
     "ready": "yarn build && yarn build:standalone && yarn fix && yarn pretty",
     "start": "yarn install && yarn build:packages && yarn start:single-spa --stream",
@@ -38,7 +38,7 @@
   },
   "lint-staged": {
     "*.ts": "eslint --cache --fix",
-    "*.{ts,js,md,json,yml}": "prettier --write"
+    "*.{ts,js,md,json,yml}": "prettier --config ./.prettierrc.json --write"
   },
   "devDependencies": {
     "@analytics/google-analytics": "^0.5.2",
