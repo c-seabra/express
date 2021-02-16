@@ -34,12 +34,6 @@
     "styled-components": "*"
   },
   "devDependencies": {},
-  "config": {
-    "eslint": {
-      "extensions": ".json,.js,.jsx,.ts,.tsx",
-      "paths": ". src/** test/**"
-    }
-  },
   "browserslist": {
     "production": [
       ">0.2%",
