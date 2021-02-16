@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@apollo/client": "*",
-    "@websummit/graphql": "*",
     "@apollo/react-common": "*",
     "@graphql-typed-document-node/core": "*",
+    "@websummit/graphql": "*",
     "apollo-upload-client": "*",
     "babel-plugin-styled-components": "*",
     "circular-dependency-plugin": "*",
@@ -24,9 +24,11 @@
     "jwt-decode": "*",
     "moment": "*",
     "moment-timezone": "*",
+    "qs": "*",
     "react": "*",
     "react-dom": "*",
     "react-helmet": "*",
+    "react-modal": "*",
     "react-router-dom": "*",
     "single-spa-react": "*",
     "styled-components": "*"

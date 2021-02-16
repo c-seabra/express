@@ -1,89 +1,39 @@
-import 'moment-timezone'
-
-import { useMutation } from '@apollo/client'
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { Button } from '../../lib/components'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
-import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
-import { useAppContext } from '../app/AppContext'
-import Success from '../settingsActions/Success'
-import Warning from '../settingsActions/Warning'
-import { FormArea, SpacingBottom } from './SettingsDashboard.styled'
+import { useInvestorSessionCreateMutation } from '../../lib/hooks'
+import { SpacingBottom, StyledGridForm } from './InvestorSessionsCreateForm.styled'
+import { BorderBottom } from './SettingsDashboard.styled'
 
-const InvestorSessionsCreateForm: React.FC = () => {
-  const { conferenceSlug, token } = useAppContext()
-  const [eventTimezone] = useState<string>('Europe/Dublin')
-  const [startsAt, setStartsAt] = useState<string | undefined>()
-  const [endsAt, setEndsAt] = useState<string | undefined>()
+type InvestorSessionsCreateFormType = {
+  eventTimezone: string
+}
+
+const InvestorSessionsCreateForm: React.FC<InvestorSessionsCreateFormType> = ({
+  eventTimezone,
+}) => {
   const [count, setCount] = useState<number | undefined>()
-  const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
-  const [mutationError, setMutationError] = useState<string | undefined>()
+  const [endsAt, setEndsAt] = useState<string | undefined>()
+  const [startsAt, setStartsAt] = useState<string | undefined>()
 
-  const usableDateString = (dateString: string | undefined) => {
-    if (dateString === undefined || dateString === null) {
-      return undefined
-    }
-    const str = dateString
-    return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
-  }
-
-  const styledDateForMutation = (dateString?: string) => {
-    if (dateString === undefined || dateString === '') {
-      return null
-    }
-    return moment(dateString).tz(eventTimezone, true).format()
-  }
-
-  useEffect(() => {
-    setStartsAt(usableDateString(startsAt))
-    setEndsAt(usableDateString(endsAt))
-    setCount(count)
-  }, [])
-
-  const [investorSessionsCreateMutation] = useMutation(INVESTOR_SESSIONS_CREATE_MUTATION, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    onCompleted: ({ investorSessionsCreate }) => {
-      const success = investorSessionsCreate?.successMessage
-      if (success !== null) {
-        setMutationSuccessMessage(investorSessionsCreate?.successMessage)
-        setMutationError('')
-      }
-      if (investorSessionsCreate?.userErrors.length) {
-        setMutationError(investorSessionsCreate?.userErrors[0].message)
-      }
-    },
-    variables: {
-      investorSessionsCount: count,
-      investorSessionsEndsAt: styledDateForMutation(endsAt),
-      investorSessionsStartsAt: styledDateForMutation(startsAt),
-    },
+  const { createSesionsMutation } = useInvestorSessionCreateMutation({
+    count,
+    endsAt,
+    eventTimezone,
+    startsAt,
   })
-
-  const submitForm = () => {
-    investorSessionsCreateMutation()
-  }
 
   return (
     <>
-      {mutationError && (
-        <Warning>
-          <span>{mutationError}</span>
-        </Warning>
-      )}
-      {mutationSuccessMessage && (
-        <Success>
-          <span>{mutationSuccessMessage}</span>
-        </Success>
-      )}
-      <ContainerCard color="#f6b826" title="Session Settings">
+      <BorderBottom>
         <SpacingBottom>
-          <FormArea>
+          <StyledGridForm
+            onSubmit={async e => {
+              e.preventDefault()
+              await createSesionsMutation()
+            }}
+          >
             <LabeledInput
               label="Starting Time"
               type="datetime-local"
@@ -106,15 +56,15 @@ const InvestorSessionsCreateForm: React.FC = () => {
               label="How many sessions in this block?"
               type="number"
               onChange={e => {
-                setCount(parseInt(e.target.value))
+                setCount(+e.target.value)
               }}
             />
-          </FormArea>
-          <div>
-            <Button onClick={submitForm}>Add Session</Button>
-          </div>
+            <Button className="align-right" type="submit">
+              Add Session
+            </Button>
+          </StyledGridForm>
         </SpacingBottom>
-      </ContainerCard>
+      </BorderBottom>
     </>
   )
 }

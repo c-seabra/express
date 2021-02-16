@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -22,6 +22,7 @@ import TicketList from '../ticketList/TicketList'
 import OrderCancelModal from './OrderCancelModal'
 import OrderDetailsSummary from './OrderDetailsSummary'
 import OrderOwnerDetails from './OrderOwnerDetails'
+import OrderReinstateModal from "./OrderReinstateModal";
 import OrderSummary from './OrderSummary'
 
 const PageContainer = styled.section`
@@ -84,7 +85,19 @@ const OrderDetails: React.FC = () => {
     closeModal: closeOrderCancelModal,
   } = useModalState()
 
-  const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
+  const {
+    openModal: openOrderReinstateModal,
+    isOpen: isOrderReinstateModalOpen,
+    closeModal: closeOrderReinstateModal,
+  } = useModalState()
+
+  const {
+    openModal: openTitoWarningModal,
+    isOpen: isTitoWarningModalOpen,
+    closeModal: closeTitoWarningModal,
+  } = useModalState()
+
+  const { loading, error, data, refetch }: OrderByRefQuery = useQuery(ORDER_QUERY, {
     context: {
       slug: conferenceSlug,
       token,
@@ -182,32 +195,39 @@ const OrderDetails: React.FC = () => {
 
                   <div>
                     {order?.state === 'CANCELLED' ? (
-                      <ButtonWithSpacing disabled onClick={openOrderCancelModal}>
-                        Reinstate order
-                      </ButtonWithSpacing>
+                        <ButtonWithSpacing onClick={isTitoOrder ? openTitoWarningModal : openOrderReinstateModal}>
+                          Reinstate order
+                        </ButtonWithSpacing>
                     ) : (
-                      <ButtonWithSpacing onClick={openOrderCancelModal}>
-                        Cancel order
-                      </ButtonWithSpacing>
+                        <ButtonWithSpacing onClick={isTitoOrder ? openTitoWarningModal : openOrderCancelModal}>
+                          Cancel order
+                        </ButtonWithSpacing>
                     )}
-                    {isTitoOrder && (
-                      <ErrorInfoModal
-                        alertHeader={orderRef}
-                        alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
+                    {isTitoOrder ? (
+                        <ErrorInfoModal
+                            alertHeader={orderRef}
+                            alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
             to Tito to cancel the order."
-                        closeModal={closeOrderCancelModal}
-                        headerText="Unable to cancel order"
-                        isOpen={isOrderCancelModalOpen}
-                      />
-                    )}
-
-                    {!isTitoOrder && (
-                      <OrderCancelModal
-                        closeModal={closeOrderCancelModal}
-                        isOpen={isOrderCancelModalOpen}
-                        orderRef={orderRef}
-                        sourceId={sourceId}
-                      />
+                            closeModal={closeTitoWarningModal}
+                            headerText="Unable to cancel order"
+                            isOpen={isTitoWarningModalOpen}
+                        />
+                    ) : order?.state === 'CANCELLED' ? (
+                        <OrderReinstateModal
+                            closeModal={closeOrderReinstateModal}
+                            isOpen={isOrderReinstateModalOpen}
+                            orderRef={orderRef}
+                            sourceId={sourceId}
+                            refetch={refetch}
+                        />
+                    ) : (
+                        <OrderCancelModal
+                            closeModal={closeOrderCancelModal}
+                            isOpen={isOrderCancelModalOpen}
+                            orderRef={orderRef}
+                            sourceId={sourceId}
+                            refetch={refetch}
+                        />
                     )}
 
                     <Button disabled>Refund order</Button>

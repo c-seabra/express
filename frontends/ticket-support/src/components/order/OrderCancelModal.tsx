@@ -8,13 +8,13 @@ type OrderCancelModalProps = {
   isOpen: boolean
   orderRef: string
   sourceId: string
+  refetch?: any
 }
 
-const OrderCancelModal = ({ isOpen, closeModal, orderRef, sourceId }: OrderCancelModalProps) => {
+const OrderCancelModal = ({ isOpen, closeModal, orderRef, sourceId, refetch }: OrderCancelModalProps) => {
   const { cancelOrder } = useOrderCancelMutation()
   const setMutation = (e: OrderCancelRequest) => {
-    console.log('set', e, sourceId)
-    return cancelOrder({ id: sourceId, reason: e.reason })
+    return cancelOrder({ id: sourceId, reason: e.reason, refetch })
   }
 
   return (

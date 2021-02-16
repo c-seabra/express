@@ -1,22 +1,18 @@
-import 'moment-timezone'
-
-import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
-import { Button } from '../../lib/components'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
+import { Button, ContainerCard } from '../../lib/components'
+import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
+import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
+import { useEventQuery, useEventUpdateMutation } from '../../lib/hooks'
 import Loader from '../../lib/Loading'
-import EVENT_UPDATE_MUTATION from '../../operations/mutations/EventUpdate'
-import EVENT_QUERY from '../../operations/queries/Event'
-import { useAppContext } from '../app/AppContext'
-import Success from '../settingsActions/Success'
 import Warning from '../settingsActions/Warning'
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm'
 import SessionsSummary from './SessionsSummary'
 import {
+  BreadcrumbsContainer,
   ConfigurationPanel,
   FormArea,
   PageContainer,
@@ -25,60 +21,19 @@ import {
 } from './SettingsDashboard.styled'
 
 const SettingsDashboard: React.FC = () => {
-  const { conferenceSlug, token } = useAppContext()
-  const [defaultStartupSelections, setDefaultStartupSelections] = useState<number | undefined>()
+  const [defaultStartupSelections, setDefaultStartupSelections] = useState<number>()
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
-  const [file, setFile] = useState<File | undefined>()
+  const [sponsorLogo, setSponsorLogo] = useState<File | undefined>()
   const [meetingsPerSession, setMeetingsPerSession] = useState<number | undefined>()
   const [sessionDuration, setSessionDuration] = useState<number | undefined>()
   const [sponsorLogoUrl, setSponsorLogoUrl] = useState<string | undefined>()
   const [startupPortalOpeningAt, setStartupPortalOpeningAt] = useState<string | undefined>()
   const [startupPortalClosingAt, setStartupPortalClosingAt] = useState<string | undefined>()
   const [startupSelectionDeadline, setStartupSelectionDeadline] = useState<string | undefined>()
-  const [mutationSuccessMessage, setMutationSuccessMessage] = useState<string | undefined>()
-  const [mutationError, setMutationError] = useState<string | undefined>()
-
-  const {
-    data,
-    error,
-    loading,
-  }: {
-    data?: {
-      event: {
-        configuration: {
-          investorMeetingConfiguration: {
-            defaultStartupSelections: number
-            meetingsPerSession: number
-            sessionDuration: number
-            sponsorLogoUrl: string
-            startupPortalClosingAt: string
-            startupPortalOpeningAt: string
-            startupSelectionDeadline: string
-          }
-        }
-        investorSessionsSummary: [
-          {
-            claimed: number
-            count: number
-            endsAt: string
-            startsAt: string
-          }
-        ]
-        timezone: string
-      }
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(EVENT_QUERY, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-  })
 
   const handleUpload = (uploadedFile?: File) => {
     setSponsorLogoUrl(URL.createObjectURL(uploadedFile))
-    setFile(uploadedFile)
+    setSponsorLogo(uploadedFile)
   }
 
   const usableDateString = (dateString: string | undefined) => {
@@ -89,60 +44,51 @@ const SettingsDashboard: React.FC = () => {
     return moment(str).utcOffset(str).format('YYYY-MM-DDTHH:mm')
   }
 
-  const styledDateForMutation = (dateString?: string) => {
-    if (dateString === undefined || dateString === '') {
-      return null
-    }
-    return moment(dateString).tz(eventTimezone, true).format()
-  }
+  const { data, loading, error } = useEventQuery()
 
   useEffect(() => {
     if (data) {
-      setEventTimezone(data?.event.timezone || 'Europe/Dublin')
-      const configurations = data?.event.configuration.investorMeetingConfiguration
-      setDefaultStartupSelections(configurations.defaultStartupSelections)
-      setMeetingsPerSession(configurations.meetingsPerSession)
-      setSessionDuration(configurations.sessionDuration)
-      setSponsorLogoUrl(configurations.sponsorLogoUrl)
+      const { investorMeetingConfiguration } = data.event.configuration
 
-      setStartupPortalOpeningAt(usableDateString(configurations.startupPortalOpeningAt))
-      setStartupPortalClosingAt(usableDateString(configurations.startupPortalClosingAt))
-      setStartupSelectionDeadline(usableDateString(configurations.startupSelectionDeadline))
+      setEventTimezone(data.event.timeZone.ianaName || 'Europe/Dublin')
+      setDefaultStartupSelections(investorMeetingConfiguration.defaultStartupSelections)
+      setMeetingsPerSession(investorMeetingConfiguration.meetingsPerSession)
+      setSessionDuration(investorMeetingConfiguration.sessionDuration)
+      setSponsorLogoUrl(investorMeetingConfiguration.sponsorLogoUrl)
+      setStartupPortalOpeningAt(
+        usableDateString(investorMeetingConfiguration.startupPortalOpeningAt)
+      )
+      setStartupPortalClosingAt(
+        usableDateString(investorMeetingConfiguration.startupPortalClosingAt)
+      )
+      setStartupSelectionDeadline(
+        usableDateString(investorMeetingConfiguration.startupSelectionDeadline)
+      )
     }
   }, [data])
 
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
-  const [eventUpdateMutuation] = useMutation(EVENT_UPDATE_MUTATION, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    onCompleted: ({ eventUpdate }) => {
-      if (eventUpdate?.successMessage.length) {
-        setMutationSuccessMessage(eventUpdate?.successMessage)
-        setMutationError('')
-      }
-      if (eventUpdate?.userErrors.length) {
-        setMutationError(eventUpdate?.userErrors[0])
-      }
-    },
-    refetchQueries: ['EventQuery'],
-    variables: {
-      investorMeetingsDefaultStartupSelections: defaultStartupSelections,
-      investorMeetingsMeetingsPerSession: meetingsPerSession,
-      investorMeetingsSessionDuration: sessionDuration,
-      investorMeetingsSponsorLogo: file,
-
-      investorMeetingsStartupPortalClosingAt: styledDateForMutation(startupPortalClosingAt),
-      investorMeetingsStartupPortalOpeningAt: styledDateForMutation(startupPortalOpeningAt),
-      investorMeetingsStartupSelectionDeadline: styledDateForMutation(startupSelectionDeadline),
-    },
+  const { updateEventMutation } = useEventUpdateMutation({
+    defaultStartupSelections,
+    eventTimezone,
+    meetingsPerSession,
+    sessionDuration,
+    sponsorLogo,
+    startupPortalClosingAt,
+    startupPortalOpeningAt,
+    startupSelectionDeadline,
   })
 
-  const submitSettings = () => {
-    eventUpdateMutuation()
-  }
+  const breadcrumbsRoutes: Breadcrumb[] = [
+    {
+      label: data?.event.name || 'Home',
+      redirectUrl: '/',
+    },
+    {
+      label: 'Settings',
+    },
+  ]
 
   return (
     <>
@@ -151,48 +97,44 @@ const SettingsDashboard: React.FC = () => {
       </Helmet>
       <PageContainer>
         {loading && <Loader />}
-        {mutationError && (
+        {error && (
           <Warning>
-            <span>{mutationError}</span>
+            <span>{error.message}</span>
           </Warning>
         )}
-        {(error || mutationError) && (
-          <Warning>
-            <span>{error ? error.message : mutationError}</span>
-          </Warning>
-        )}
-        {mutationSuccessMessage && (
-          <Success>
-            <span>{mutationSuccessMessage}</span>
-          </Success>
-        )}
+        <BreadcrumbsContainer>
+          <Breadcrumbs routes={breadcrumbsRoutes} />
+        </BreadcrumbsContainer>
         <SpacingBottom>
-          <ContainerCard color="#00AFA9" title="Conference settings">
+          <ContainerCard color="#00AFA9" title="Investor portal settings">
             <SpacingBottom>
               <ConfigurationPanel
-                onSubmit={e => {
+                onSubmit={async e => {
                   e.preventDefault()
-                  submitSettings()
+                  await updateEventMutation()
                 }}
               >
-                <SponsorLogo src={sponsorLogoUrl} />
-                <LabeledInput
-                  accept="image/svg+xml"
-                  defaultValue={sponsorLogoUrl}
-                  label="Sponsor logo"
-                  type="file"
-                  onChange={e => {
-                    handleUpload(e.target.files?.[0])
-                  }}
-                />
                 <FormArea>
-                  <h2>Session settings</h2>
+                  <SponsorLogo src={sponsorLogoUrl} />
+                  <LabeledFileInput
+                    accept="image/svg+xml"
+                    className="file-input"
+                    defaultValue={sponsorLogoUrl}
+                    label="Upload a SVG file"
+                    type="file"
+                    onChange={e => {
+                      handleUpload(e.target.files?.[0])
+                    }}
+                  />
+                </FormArea>
+                <FormArea>
+                  <h3 className="heading">Session settings</h3>
                   <LabeledInput
                     defaultValue={sessionDuration}
                     label="Sessions duration (min)"
                     type="number"
                     onChange={e => {
-                      setSessionDuration(parseInt(e.target.value, 10))
+                      setSessionDuration(+e.target.value)
                     }}
                   />
                   <LabeledInput
@@ -200,7 +142,7 @@ const SettingsDashboard: React.FC = () => {
                     label="Meetings per session"
                     type="number"
                     onChange={e => {
-                      setMeetingsPerSession(parseInt(e.target.value, 10))
+                      setMeetingsPerSession(+e.target.value)
                     }}
                   />
                   <LabeledInput
@@ -208,12 +150,12 @@ const SettingsDashboard: React.FC = () => {
                     label="Minimum startup selections"
                     type="number"
                     onChange={e => {
-                      setDefaultStartupSelections(parseInt(e.target.value, 10))
+                      setDefaultStartupSelections(+e.target.value)
                     }}
                   />
                 </FormArea>
                 <FormArea>
-                  <h2>Investor portal dates</h2>
+                  <h3 className="heading">Investor portal dates</h3>
                   <LabeledInput
                     label="Startup submissions deadline"
                     type="datetime-local"
@@ -223,8 +165,8 @@ const SettingsDashboard: React.FC = () => {
                     }}
                   />
                 </FormArea>
-                <FormArea>
-                  <h2>Startup portal dates</h2>
+                <FormArea className="space-around">
+                  <h3 className="heading">Startup portal dates</h3>
                   <LabeledInput
                     label="Startup Portal opening at"
                     type="datetime-local"
@@ -243,19 +185,23 @@ const SettingsDashboard: React.FC = () => {
                     }}
                   />
                 </FormArea>
-                <div>
-                  <Button onClick={submitSettings}>Save</Button>
-                </div>
+                <FormArea>
+                  <Button className="align-right" type="submit">
+                    Save
+                  </Button>
+                </FormArea>
               </ConfigurationPanel>
             </SpacingBottom>
           </ContainerCard>
         </SpacingBottom>
-        <SpacingBottom>
-          <InvestorSessionsCreateForm />
-        </SpacingBottom>
-        {investorSessionsSummary?.length && (
-          <SessionsSummary investorSessionsSummary={investorSessionsSummary} />
-        )}
+        <ContainerCard color="#4688D9" title="Sessions">
+          <SpacingBottom>
+            <InvestorSessionsCreateForm eventTimezone={eventTimezone} />
+            {investorSessionsSummary && (
+              <SessionsSummary investorSessionsSummaries={investorSessionsSummary} />
+            )}
+          </SpacingBottom>
+        </ContainerCard>
       </PageContainer>
     </>
   )
