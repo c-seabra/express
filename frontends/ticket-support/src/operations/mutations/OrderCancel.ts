@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useAppContext } from '../../components/app/AppContext'
 import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
 import { UserError } from '../../lib/types'
+import ORDER_QUERY from "../queries/OrderByRef";
 
 export const ORDER_CANCEL_MUTATION = gql`
   mutation CancelOrder($commerceOrderUpdate: CommerceOrderUpdate!, $id: ID!, $storeId: ID!) {
@@ -18,10 +19,11 @@ export type OrderCancelRequest = {
   id: string
   reason: string
   storeId?: string
+  refetch?: any
 }
 
 type CancelOrderResponse = {
-  response: {
+  commerceUpdateOrder: {
     status: string
     userErrors: UserError[]
   }
@@ -34,17 +36,13 @@ export const useOrderCancelMutation = () => {
   const errSnackbar = useErrorSnackbar()
 
   const [cancelOrderMutation] = useMutation<CancelOrderResponse>(ORDER_CANCEL_MUTATION, {
-    onCompleted: ({ response }) => {
-      console.log('test', response)
+    onCompleted: ({ commerceUpdateOrder }) => {
       snackbar('Order cancelled')
     },
     onError: e => errSnackbar(e.message),
-    refetchQueries: () => ['CommerceOrderItem', 'CommerceOrderStatus', 'Order', 'CommerceOrder', 'Ticket'],
-    awaitRefetchQueries: true,
-
   })
 
-  const cancelOrder = async ({ reason, id }: OrderCancelRequest) => {
+  const cancelOrder = async ({ reason, id, refetch }: OrderCancelRequest) => {
     await cancelOrderMutation({
       context: {
         headers: {
@@ -61,6 +59,9 @@ export const useOrderCancelMutation = () => {
         storeId: '7ada51b5-eed4-44f9-852c-9ef5b20e16a1', // TODO remove or prefill
       },
     })
+    // Hacky solution
+    // there is a race condition after successful mutation order gets null
+    setTimeout(()=> refetch(), 1000)
   }
 
   return {

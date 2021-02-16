@@ -115,7 +115,6 @@ const ReasonAlertModal = ({
         validateOnChange={false}
         validationSchema={confirmSchema}
         onSubmit={async values => {
-          console.log(values)
           await mutationCallback(values)
 
           handleClose()

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -91,7 +91,7 @@ const OrderDetails: React.FC = () => {
     closeModal: closeOrderReinstateModal,
   } = useModalState()
 
-  const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
+  const { loading, error, data, refetch }: OrderByRefQuery = useQuery(ORDER_QUERY, {
     context: {
       slug: conferenceSlug,
       token,
@@ -99,11 +99,9 @@ const OrderDetails: React.FC = () => {
     variables: {
       reference: orderRef,
     },
-    fetchPolicy: "no-cache",
   })
 
   const order = data?.order
-  console.log('order', order)
   const sourceId = order?.sourceId || ''
   const tickets = order && order?.tickets
   const owner = order?.owner
@@ -200,6 +198,7 @@ const OrderDetails: React.FC = () => {
                               isOpen={isOrderReinstateModalOpen}
                               orderRef={orderRef}
                               sourceId={sourceId}
+                              refetch={refetch}
                           />
                         </>
                     ) : (
@@ -212,6 +211,7 @@ const OrderDetails: React.FC = () => {
                               isOpen={isOrderCancelModalOpen}
                               orderRef={orderRef}
                               sourceId={sourceId}
+                              refetch={refetch}
                           />
 
                         </>

@@ -8,13 +8,13 @@ type OrderReinstateModalProps = {
   isOpen: boolean
   orderRef: string
   sourceId: string
+  refetch?: any
 }
 
-const OrderReinstateModal = ({ isOpen, closeModal, orderRef, sourceId }: OrderReinstateModalProps) => {
+const OrderReinstateModal = ({ isOpen, closeModal, orderRef, sourceId, refetch }: OrderReinstateModalProps) => {
   const { reinstateOrder } = useOrderReinstateMutation()
   const setMutation = (e: OrderReinstateRequest) => {
-    console.log('set', e, sourceId)
-    return reinstateOrder({ id: sourceId, reason: e.reason })
+    return reinstateOrder({ id: sourceId, reason: e.reason, refetch })
   }
 
   return (

@@ -1,4 +1,5 @@
 import { ApolloError, gql } from '@apollo/client'
+import {ApolloQueryResult} from "@apollo/client/core/types";
 
 export type OrderByRefQuery = {
   data?: {
@@ -51,6 +52,7 @@ export type OrderByRefQuery = {
   }
   error?: ApolloError
   loading?: boolean
+  refetch?: any
 }
 
 export const ORDER_QUERY = gql`

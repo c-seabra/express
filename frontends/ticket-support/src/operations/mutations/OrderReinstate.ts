@@ -18,10 +18,11 @@ export type OrderReinstateRequest = {
   id: string
   reason: string
   storeId?: string
+  refetch?: any
 }
 
 type ReinstateOrderResponse = {
-  response: {
+  commerceUpdateOrder: {
     status: string
     userErrors: UserError[]
   }
@@ -34,16 +35,13 @@ export const useOrderReinstateMutation = () => {
   const errSnackbar = useErrorSnackbar()
 
   const [reinstateOrderMutation] = useMutation<ReinstateOrderResponse>(ORDER_REINSTATE_MUTATION, {
-    onCompleted: ({ response }) => {
-      console.log('reinstateOrderMutation', response)
+    onCompleted: ({ commerceUpdateOrder }) => {
       snackbar('Order reinstated')
     },
     onError: e => errSnackbar(e.message),
-    refetchQueries: () => ['CommerceOrderItem', 'CommerceOrderStatus', 'Order', 'CommerceOrder', 'Ticket'],
-    awaitRefetchQueries: true,
   })
 
-  const reinstateOrder = async ({ reason, id }: OrderReinstateRequest) => {
+  const reinstateOrder =  async({ reason, id, refetch }: OrderReinstateRequest) => {
     await reinstateOrderMutation({
       context: {
         headers: {
@@ -60,6 +58,9 @@ export const useOrderReinstateMutation = () => {
         storeId: '7ada51b5-eed4-44f9-852c-9ef5b20e16a1', // TODO remove or prefill
       },
     })
+    // Hacky solution
+    // there is a race condition after successful mutation order gets null
+    setTimeout(()=> refetch(), 1000)
   }
 
   return {
