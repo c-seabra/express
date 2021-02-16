@@ -44,9 +44,7 @@ const AttendanceItem = ({
         />
       </NarrowColumn>
       <Column>{attendance.id}</Column>
-      <Column onClick={() => history.push(`/attendance/${attendance.id}`)}>
-        {attendance.name}
-      </Column>
+      <Column onClick={() => history.push(`/dashboard/${attendance.id}`)}>{attendance.name}</Column>
       <Column>{attendance.pendingSelectionCount}</Column>
     </ListItem>
   )
