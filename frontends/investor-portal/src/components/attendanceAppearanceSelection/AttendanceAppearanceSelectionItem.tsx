@@ -1,13 +1,17 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from 'react';
 
-import { DestructiveButton, ListItem, SecondaryButton } from '../../lib/components'
-import { AttendanceAppearanceSelection } from '../../lib/types'
-import Column from './AttendanceAppearanceSelectionColumn.styled'
+import {
+  DestructiveButton,
+  ListItem,
+  SecondaryButton,
+} from '../../lib/components';
+import { AttendanceAppearanceSelection } from '../../lib/types';
+import Column from './AttendanceAppearanceSelectionColumn.styled';
 
 const AttendanceAppearanceSelectionItem = ({
   selection,
 }: {
-  selection: AttendanceAppearanceSelection
+  selection: AttendanceAppearanceSelection;
 }): ReactElement => {
   return (
     <ListItem>
@@ -17,7 +21,7 @@ const AttendanceAppearanceSelectionItem = ({
       <SecondaryButton style={{ marginRight: 10 }}>Edit</SecondaryButton>
       <DestructiveButton style={{ marginLeft: 10 }}>Delete</DestructiveButton>
     </ListItem>
-  )
-}
+  );
+};
 
-export default AttendanceAppearanceSelectionItem
+export default AttendanceAppearanceSelectionItem;

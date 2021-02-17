@@ -1,6 +1,6 @@
-import React from "react";
-import ReactDom from "react-dom";
-import { meaningOfLife } from "@websummit/ws-lib-example";
+import { meaningOfLife } from '@websummit/ws-lib-example';
+import React from 'react';
+import ReactDom from 'react-dom';
 
 export default function Root(props: any) {
   return (

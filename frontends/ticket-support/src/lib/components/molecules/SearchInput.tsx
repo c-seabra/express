@@ -1,7 +1,7 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react'
-import styled from 'styled-components'
+import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import styled from 'styled-components';
 
-import SearchIcon from '../../svgs/search'
+import SearchIcon from '../../svgs/search';
 
 export const StyledLabel = styled.label`
   display: flex;
@@ -11,7 +11,7 @@ export const StyledLabel = styled.label`
     height: 2rem;
     width: 100%;
   }
-`
+`;
 
 export const Search = styled(StyledLabel)`
   width: 30%;
@@ -31,12 +31,12 @@ export const Search = styled(StyledLabel)`
     border-radius: 4px;
     font-weight: 300;
   }
-`
+`;
 
 type SearchInputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
-> & { className?: string }
+> & { className?: string };
 
 const SearchInput = ({
   className,
@@ -61,7 +61,7 @@ const SearchInput = ({
         {...props}
       />
     </Search>
-  )
-}
+  );
+};
 
-export default SearchInput
+export default SearchInput;

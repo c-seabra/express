@@ -1,7 +1,11 @@
 declare module 'react-simple-snackbar' {
-  import { CSSProperties, ReactElement, ReactNode } from 'react'
+  import { CSSProperties, ReactElement, ReactNode } from 'react';
 
-  export default function SnackbarProvider({ children }: { children: ReactNode }): ReactElement
+  export default function SnackbarProvider({
+    children,
+  }: {
+    children: ReactNode;
+  }): ReactElement;
 
   type SnackbarPosition =
     | 'top-left'
@@ -9,25 +13,25 @@ declare module 'react-simple-snackbar' {
     | 'top-right'
     | 'bottom-left'
     | 'bottom-center'
-    | 'bottom-right'
+    | 'bottom-right';
 
   export type SnackbarOptions = {
-    closeStyle?: CSSProperties
-    position?: SnackbarPosition
-    style?: CSSProperties
-  }
+    closeStyle?: CSSProperties;
+    position?: SnackbarPosition;
+    style?: CSSProperties;
+  };
 
   export function useSnackbar(
-    options?: SnackbarOptions
-  ): [(node: ReactNode, duration?: number) => void, () => void]
+    options?: SnackbarOptions,
+  ): [(node: ReactNode, duration?: number) => void, () => void];
 
   type InjectedSnackbarProps = {
-    closeSnackbar: () => void
-    openSnackbar: (node: ReactNode, duration?: number) => void
-  }
+    closeSnackbar: () => void;
+    openSnackbar: (node: ReactNode, duration?: number) => void;
+  };
 
   export function withSnackbar<P>(
     component: ReactElement<P>,
-    options?: SnackbarOptions
-  ): ReactElement<P & InjectedSnackbarProps>
+    options?: SnackbarOptions,
+  ): ReactElement<P & InjectedSnackbarProps>;
 }

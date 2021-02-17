@@ -1,9 +1,10 @@
-import './set-public-path'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import singleSpaReact from 'single-spa-react'
-import App, {Conference} from './components/app/App'
+import './set-public-path';
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import singleSpaReact from 'single-spa-react';
+
+import App, { Conference } from './components/app/App';
 
 /*
 
@@ -43,1570 +44,1571 @@ puts mapping.to_json
  */
 
 const staffList = {
-  "edgar.lopes@websummit.com": {
-    "email": "edgar.lopes@websummit.com",
-    "bookingRef": "ZZMR-STF",
-    "firstName": "Edgar",
-    "lastName": "Lopes"
-  },
-  "lucas.baptista@websummit.com": {
-    "email": "lucas.baptista@websummit.com",
-    "bookingRef": "FOZY-STF",
-    "firstName": "Lucas",
-    "lastName": "Baptista"
-  },
-  "kacper.cygan@netguru.com": {
-    "email": "kacper.cygan@netguru.com",
-    "bookingRef": "54DX-STF",
-    "firstName": "Kacper",
-    "lastName": "Cygan"
-  },
-  "evan+demo@websummit.com": {
-    "email": "evan+demo@websummit.com",
-    "bookingRef": "DEMO-ONE",
-    "firstName": "Demo",
-    "lastName": "User"
-  },
-  "kacper.michal.wojciechowski@netguru.com": {
-    "email": "kacper.michal.wojciechowski@netguru.com",
-    "bookingRef": "NHVS-STF",
-    "firstName": "Kacper",
-    "lastName": "Wojciechowski"
-  },
-  "pawel.parafiniuk@netguru.com": {
-    "email": "pawel.parafiniuk@netguru.com",
-    "bookingRef": "ZRJ5-STF",
-    "firstName": "Paweł",
-    "lastName": "Parafiniuk"
-  },
-  "marek.parafianowicz@netguru.com": {
-    "email": "marek.parafianowicz@netguru.com",
-    "bookingRef": "20HJ-STF",
-    "firstName": "Marek",
-    "lastName": "Parafianowicz"
-  },
-  "marvin.hofmann@websummit.com": {
-    "email": "marvin.hofmann@websummit.com",
-    "bookingRef": "MARV-STF",
-    "firstName": "Marvin",
-    "lastName": "Hofmann"
-  },
-  "patrycja.batko@netguru.com": {
-    "email": "patrycja.batko@netguru.com",
-    "bookingRef": "8OTZ-STF",
-    "firstName": "Patrycja",
-    "lastName": "Batko"
-  },
-  "mateusz.kluge@netguru.com": {
-    "email": "mateusz.kluge@netguru.com",
-    "bookingRef": "I9CH-STF",
-    "firstName": "Mateusz",
-    "lastName": "Kluge"
-  },
-  "shane.tynan@websummit.com": {
-    "email": "shane.tynan@websummit.com",
-    "bookingRef": "1V0C-STF",
-    "firstName": "Shane",
-    "lastName": "Tynan"
-  },
-  "emanuele.tozzato@websummit.com": {
-    "email": "emanuele.tozzato@websummit.com",
-    "bookingRef": "V2MV-STF",
-    "firstName": "Emanuele",
-    "lastName": "Tozzato"
-  },
-  "joao.silva@websummit.com": {
-    "email": "joao.silva@websummit.com",
-    "bookingRef": "H5LY-STF",
-    "firstName": "João",
-    "lastName": "Silva"
-  },
-  "wale.lawal@websummit.com": {
-    "email": "wale.lawal@websummit.com",
-    "bookingRef": "VFRQ-STF",
-    "firstName": "Wale",
-    "lastName": "Lawal"
-  },
-  "bernardo.jose@websummit.com": {
-    "email": "bernardo.jose@websummit.com",
-    "bookingRef": "MQQN-STF",
-    "firstName": "Bernardo",
-    "lastName": "Jose"
-  },
-  "tome.duarte@websummit.com": {
-    "email": "tome.duarte@websummit.com",
-    "bookingRef": "H7LR-STF",
-    "firstName": "Tomé",
-    "lastName": "Duarte"
-  },
-  "domingos.dasilva@websummit.com": {
-    "email": "domingos.dasilva@websummit.com",
-    "bookingRef": "H8HI-STF",
-    "firstName": "Domingos",
-    "lastName": "Da Silva"
-  },
-  "soraia.lage@websummit.com": {
-    "email": "soraia.lage@websummit.com",
-    "bookingRef": "FL3I-STF",
-    "firstName": "Soraia",
-    "lastName": "Torres Lage"
-  },
-  "brian.tobin@websummit.com": {
-    "email": "brian.tobin@websummit.com",
-    "bookingRef": "F0FI-STF",
-    "firstName": "Brian",
-    "lastName": "Tobin"
-  },
-  "rachel.monahan@websummit.com": {
-    "email": "rachel.monahan@websummit.com",
-    "bookingRef": "LKRF-STF",
-    "firstName": "Rachel",
-    "lastName": "Monahan"
-  },
-  "ricardo.lima@websummit.com": {
-    "email": "ricardo.lima@websummit.com",
-    "bookingRef": "VQ6C-STF",
-    "firstName": "Ricardo",
-    "lastName": "Lima"
-  },
-  "sorcha.killian@websummit.com": {
-    "email": "sorcha.killian@websummit.com",
-    "bookingRef": "BV8G-STF",
-    "firstName": "Sorcha",
-    "lastName": "Killian"
-  },
-  "ines.fradeira@websummit.com": {
-    "email": "ines.fradeira@websummit.com",
-    "bookingRef": "39EE-STF",
-    "firstName": "Inês",
-    "lastName": "Cabral Fradeira "
-  },
-  "robert.fitzgerald@websummit.com": {
-    "email": "robert.fitzgerald@websummit.com",
-    "bookingRef": "5B0L-STF",
-    "firstName": "Robbie",
-    "lastName": "Fitzgerald"
-  },
-  "ines.deroche@websummit.com": {
-    "email": "ines.deroche@websummit.com",
-    "bookingRef": "TNSW-STF",
-    "firstName": "Ines",
-    "lastName": "Deroche"
-  },
-  "sean.curtin@websummit.com": {
-    "email": "sean.curtin@websummit.com",
-    "bookingRef": "WDZT-STF",
-    "firstName": "Sean",
-    "lastName": "Curtin"
-  },
-  "cathal.curry@websummit.com": {
-    "email": "cathal.curry@websummit.com",
-    "bookingRef": "YLT2-STF",
-    "firstName": "Cathal",
-    "lastName": "Curry"
-  },
-  "jamie.coyle@websummit.com": {
-    "email": "jamie.coyle@websummit.com",
-    "bookingRef": "6OWL-STF",
-    "firstName": "Jamie",
-    "lastName": "Coyle"
-  },
-  "ian.stevenson@websummit.com": {
-    "email": "ian.stevenson@websummit.com",
-    "bookingRef": "FO0Y-STF",
-    "firstName": "Ian",
-    "lastName": "Stevenson"
-  },
-  "maria.payandee@websummit.com": {
-    "email": "maria.payandee@websummit.com",
-    "bookingRef": "PJ06-STF",
-    "firstName": "Maria",
-    "lastName": "Payandee"
-  },
-  "alice.mcdermott@websummit.com": {
-    "email": "alice.mcdermott@websummit.com",
-    "bookingRef": "JA8F-STF",
-    "firstName": "Alice",
-    "lastName": "McDermott"
-  },
-  "aine.kavanagh@websummit.com": {
-    "email": "aine.kavanagh@websummit.com",
-    "bookingRef": "MWBD-STF",
-    "firstName": "Aine",
-    "lastName": "Kavanagh"
-  },
-  "tebra@websummit.com": {
-    "email": "tebra@websummit.com",
-    "bookingRef": "QKHI-STF",
-    "firstName": "Tebra",
-    "lastName": "Hynes"
-  },
-  "lauren.burke@websummit.com": {
-    "email": "lauren.burke@websummit.com",
-    "bookingRef": "OWJB-STF",
-    "firstName": "Lauren",
-    "lastName": "Burke"
-  },
-  "yvonne.redmond@websummit.com": {
-    "email": "yvonne.redmond@websummit.com",
-    "bookingRef": "LDDD-STF",
-    "firstName": "Yvonne",
-    "lastName": "Redmond"
-  },
-  "stephanie.quilligan@websummit.com": {
-    "email": "stephanie.quilligan@websummit.com",
-    "bookingRef": "7I6S-STF",
-    "firstName": "Stephanie",
-    "lastName": "Quilligan"
-  },
-  "laura.oneill@websummit.com": {
-    "email": "laura.oneill@websummit.com",
-    "bookingRef": "VIUO-STF",
-    "firstName": "Laura",
-    "lastName": "O'Neill"
-  },
-  "gavin.morrison@websummit.com": {
-    "email": "gavin.morrison@websummit.com",
-    "bookingRef": "PBOM-STF",
-    "firstName": "Gavin",
-    "lastName": "Morrison"
-  },
-  "colm.moore@websummit.com": {
-    "email": "colm.moore@websummit.com",
-    "bookingRef": "H3VI-STF",
-    "firstName": "Colm",
-    "lastName": "Moore"
-  },
-  "katarina.micuchova@websummit.com": {
-    "email": "katarina.micuchova@websummit.com",
-    "bookingRef": "3DKC-STF",
-    "firstName": "Katarina",
-    "lastName": "Micuchova"
-  },
-  "daniel.meijer@websummit.com": {
-    "email": "daniel.meijer@websummit.com",
-    "bookingRef": "PZSK-STF",
-    "firstName": "Daniel",
-    "lastName": "Meijer"
-  },
-  "luan.mckenna@websummit.com": {
-    "email": "luan.mckenna@websummit.com",
-    "bookingRef": "HTLP-STF",
-    "firstName": "Luan",
-    "lastName": "McKenna"
-  },
-  "darragh.mccauley@websummit.com": {
-    "email": "darragh.mccauley@websummit.com",
-    "bookingRef": "JLUS-STF",
-    "firstName": "Darragh",
-    "lastName": "McCauley"
-  },
-  "carol.lin@websummit.com": {
-    "email": "carol.lin@websummit.com",
-    "bookingRef": "840L-STF",
-    "firstName": "Carol (Yijing)",
-    "lastName": "Lin"
-  },
-  "lucia.gavin@websummit.com": {
-    "email": "lucia.gavin@websummit.com",
-    "bookingRef": "W6AX-STF",
-    "firstName": "Lucia",
-    "lastName": "Gavin"
-  },
-  "hugh@websummit.com": {
-    "email": "hugh@websummit.com",
-    "bookingRef": "G6U4-STF",
-    "firstName": "Hugh",
-    "lastName": "Gallagher"
-  },
-  "ahmed.elbanna@websummit.com": {
-    "email": "ahmed.elbanna@websummit.com",
-    "bookingRef": "5WSV-STF",
-    "firstName": "Ahmed",
-    "lastName": "El-Banna"
-  },
-  "brian.curran@websummit.com": {
-    "email": "brian.curran@websummit.com",
-    "bookingRef": "JQDH-STF",
-    "firstName": "Brian",
-    "lastName": "Curran"
-  },
-  "helen.conway@websummit.com": {
-    "email": "helen.conway@websummit.com",
-    "bookingRef": "9PCV-STF",
-    "firstName": "Helen",
-    "lastName": "Conway"
-  },
-  "darren.cleary@websummit.com": {
-    "email": "darren.cleary@websummit.com",
-    "bookingRef": "Q33E-STF",
-    "firstName": "Darren",
-    "lastName": "Cleary"
-  },
-  "lobna@websummit.com": {
-    "email": "lobna@websummit.com",
-    "bookingRef": "P9CA-STF",
-    "firstName": "Lobna",
-    "lastName": "Abulhassan"
-  },
-  "eabha.smith@websummit.com": {
-    "email": "eabha.smith@websummit.com",
-    "bookingRef": "BDDM-STF",
-    "firstName": "Eabha",
-    "lastName": "Smith"
-  },
-  "ines.santos@websummit.com": {
-    "email": "ines.santos@websummit.com",
-    "bookingRef": "YEZ3-STF",
-    "firstName": "Inês",
-    "lastName": "Santos"
-  },
-  "manon.racine@websummit.com": {
-    "email": "manon.racine@websummit.com",
-    "bookingRef": "QWU9-STF",
-    "firstName": "Manon",
-    "lastName": "Racine"
-  },
-  "jack.knox@websummit.com": {
-    "email": "jack.knox@websummit.com",
-    "bookingRef": "EQKR-STF",
-    "firstName": "Jack",
-    "lastName": "Knox"
-  },
-  "lynn.kenny@websummit.com": {
-    "email": "lynn.kenny@websummit.com",
-    "bookingRef": "QD60-STF",
-    "firstName": "Lynn",
-    "lastName": "Kenny"
-  },
-  "lucia.hastings@websummit.com": {
-    "email": "lucia.hastings@websummit.com",
-    "bookingRef": "OVAY-STF",
-    "firstName": "Lucia",
-    "lastName": "Hastings"
-  },
-  "hannah.glendon@websummit.com": {
-    "email": "hannah.glendon@websummit.com",
-    "bookingRef": "VETM-STF",
-    "firstName": "Hannah",
-    "lastName": "Glendon"
-  },
-  "francisca.bernardo@websummit.com": {
-    "email": "francisca.bernardo@websummit.com",
-    "bookingRef": "GBBL-STF",
-    "firstName": "Francisca",
-    "lastName": "Bernardo"
-  },
-  "naomi.agnew@websummit.com": {
-    "email": "naomi.agnew@websummit.com",
-    "bookingRef": "4UEL-STF",
-    "firstName": "Naomi",
-    "lastName": "Agnew"
-  },
-  "keith@websummit.com": {
-    "email": "keith@websummit.com",
-    "bookingRef": "JJT3-STF",
-    "firstName": "Keith",
-    "lastName": "Wallace"
-  },
-  "evan@websummit.com": {
-    "email": "evan@websummit.com",
-    "bookingRef": "EVAN-STF",
-    "firstName": "Evan",
-    "lastName": "O'Brien"
-  },
-  "wesley@websummit.com": {
-    "email": "wesley@websummit.com",
-    "bookingRef": "HK1Q-STF",
-    "firstName": "Wesley",
-    "lastName": "Farrell"
-  },
-  "nuno.romao@websummit.com": {
-    "email": "nuno.romao@websummit.com",
-    "bookingRef": "W0G8-STF",
-    "firstName": "Nuno",
-    "lastName": "Romão"
-  },
-  "nidhi.naithani@websummit.com": {
-    "email": "nidhi.naithani@websummit.com",
-    "bookingRef": "XDIH-STF",
-    "firstName": "Nidhi",
-    "lastName": "Naithani"
-  },
-  "brian.flanagan@websummit.com": {
-    "email": "brian.flanagan@websummit.com",
-    "bookingRef": "3AV7-STF",
-    "firstName": "brian",
-    "lastName": "flanagan"
-  },
-  "ian.curtis@websummit.com": {
-    "email": "ian.curtis@websummit.com",
-    "bookingRef": "T6WS-STF",
-    "firstName": "Ian",
-    "lastName": "Curtis"
-  },
-  "katarina.cierna@websummit.com": {
-    "email": "katarina.cierna@websummit.com",
-    "bookingRef": "CGMZ-STF",
-    "firstName": "Katarina",
-    "lastName": "Cierna"
-  },
-  "mark.powell@websummit.com": {
-    "email": "mark.powell@websummit.com",
-    "bookingRef": "PBJO-STF",
-    "firstName": "Mark",
-    "lastName": "Powell"
-  },
-  "aisling.flynn@websummit.com": {
-    "email": "aisling.flynn@websummit.com",
-    "bookingRef": "Y06S-STF",
-    "firstName": "Aisling",
-    "lastName": "Flynn"
-  },
-  "megan.sheridan@websummit.com": {
-    "email": "megan.sheridan@websummit.com",
-    "bookingRef": "HVME-STF",
-    "firstName": "Megan",
-    "lastName": "Sheridan"
-  },
-  "ciara.murnane@websummit.com": {
-    "email": "ciara.murnane@websummit.com",
-    "bookingRef": "KUVA-STF",
-    "firstName": "Ciara",
-    "lastName": "Murnane"
-  },
-  "thierry@websummit.com": {
-    "email": "thierry@websummit.com",
-    "bookingRef": "MRTY-STF",
-    "firstName": "Thierry",
-    "lastName": "Michel"
-  },
-  "jennifer.keogh@websummit.com": {
-    "email": "jennifer.keogh@websummit.com",
-    "bookingRef": "ECKJ-STF",
-    "firstName": "Jennifer",
-    "lastName": "Keogh"
-  },
-  "victor.jager@websummit.com": {
-    "email": "victor.jager@websummit.com",
-    "bookingRef": "OGVN-STF",
-    "firstName": "Victor",
-    "lastName": "Jager"
-  },
-  "lia.downer@websummit.com": {
-    "email": "lia.downer@websummit.com",
-    "bookingRef": "1VU1-STF",
-    "firstName": "Lia",
-    "lastName": "Downer"
-  },
-  "paul.butler@websummit.com": {
-    "email": "paul.butler@websummit.com",
-    "bookingRef": "LZIS-STF",
-    "firstName": "Paul",
-    "lastName": "Butler"
-  },
-  "rory.beirne@websummit.com": {
-    "email": "rory.beirne@websummit.com",
-    "bookingRef": "1CPS-STF",
-    "firstName": "Rory",
-    "lastName": "Beirne"
-  },
-  "sebastian.white@websummit.com": {
-    "email": "sebastian.white@websummit.com",
-    "bookingRef": "D7I7-STF",
-    "firstName": "Sebastian",
-    "lastName": "White"
-  },
-  "ronan.mooney@websummit.com": {
-    "email": "ronan.mooney@websummit.com",
-    "bookingRef": "XJ91-STF",
-    "firstName": "Ronan",
-    "lastName": "Mooney"
-  },
-  "eleanor@websummit.com": {
-    "email": "eleanor@websummit.com",
-    "bookingRef": "ON9Z-STF",
-    "firstName": "Eleanor",
-    "lastName": "McGrath"
-  },
-  "patrick.kelly@websummit.com": {
-    "email": "patrick.kelly@websummit.com",
-    "bookingRef": "CNMM-STF",
-    "firstName": "Patrick",
-    "lastName": "Kelly"
-  },
-  "patrice@websummit.com": {
-    "email": "patrice@websummit.com",
-    "bookingRef": "EQ2O-STF",
-    "firstName": "Patrice",
-    "lastName": "Finneran"
-  },
-  "claire.davis@websummit.com": {
-    "email": "claire.davis@websummit.com",
-    "bookingRef": "VZL9-STF",
-    "firstName": "Claire",
-    "lastName": "Davis"
-  },
-  "aoife.buckley@websummit.com": {
-    "email": "aoife.buckley@websummit.com",
-    "bookingRef": "6TLM-STF",
-    "firstName": "Aoife",
-    "lastName": "Buckley"
-  },
-  "tom@websummit.com": {
-    "email": "tom@websummit.com",
-    "bookingRef": "JQAH-STF",
-    "firstName": "Tom",
-    "lastName": "O'Reilly"
-  },
-  "ciara.ohanrahan@websummit.com": {
-    "email": "ciara.ohanrahan@websummit.com",
-    "bookingRef": "EASC-STF",
-    "firstName": "Ciara",
-    "lastName": "O'Hanrahan"
-  },
-  "eoin.ocarroll@websummit.com": {
-    "email": "eoin.ocarroll@websummit.com",
-    "bookingRef": "QPY7-STF",
-    "firstName": "Eoin",
-    "lastName": "O'Carroll"
-  },
-  "henry.obrien@websummit.com": {
-    "email": "henry.obrien@websummit.com",
-    "bookingRef": "CWE9-STF",
-    "firstName": "Henry",
-    "lastName": "O’ Brien"
-  },
-  "craig.obrien@websummit.com": {
-    "email": "craig.obrien@websummit.com",
-    "bookingRef": "MOUD-STF",
-    "firstName": "Craig",
-    "lastName": "O'Brien"
-  },
-  "jake.mulcahy@websummit.com": {
-    "email": "jake.mulcahy@websummit.com",
-    "bookingRef": "MC3J-STF",
-    "firstName": "Jake",
-    "lastName": "Mulcahy"
-  },
-  "jennifer.mcnaughton@websummit.com": {
-    "email": "jennifer.mcnaughton@websummit.com",
-    "bookingRef": "2A7M-STF",
-    "firstName": "Jen",
-    "lastName": "McNaughton"
-  },
-  "kevin.mcdonald@websummit.com": {
-    "email": "kevin.mcdonald@websummit.com",
-    "bookingRef": "X3RS-STF",
-    "firstName": "Kevin",
-    "lastName": "McDonald"
-  },
-  "patrick.griffith@websummit.com": {
-    "email": "patrick.griffith@websummit.com",
-    "bookingRef": "FXOA-STF",
-    "firstName": "Patrick",
-    "lastName": "Griffith"
-  },
-  "peterg@websummit.com": {
-    "email": "peterg@websummit.com",
-    "bookingRef": "BLSB-STF",
-    "firstName": "Peter",
-    "lastName": "Gilmer"
-  },
-  "micky.gangwani@websummit.com": {
-    "email": "micky.gangwani@websummit.com",
-    "bookingRef": "YEGX-STF",
-    "firstName": "Micky",
-    "lastName": "Gangwani"
-  },
-  "karl.fagan@websummit.com": {
-    "email": "karl.fagan@websummit.com",
-    "bookingRef": "BTGR-STF",
-    "firstName": "Karl",
-    "lastName": "Fagan"
-  },
-  "marie.degery@websummit.com": {
-    "email": "marie.degery@websummit.com",
-    "bookingRef": "I5JT-STF",
-    "firstName": "Marie",
-    "lastName": "Degery"
-  },
-  "grace.copeland@websummit.com": {
-    "email": "grace.copeland@websummit.com",
-    "bookingRef": "T0GF-STF",
-    "firstName": "Grace",
-    "lastName": "Copeland"
-  },
-  "clementine.baig@websummit.com": {
-    "email": "clementine.baig@websummit.com",
-    "bookingRef": "HT9P-STF",
-    "firstName": "Clementine",
-    "lastName": "Baig"
-  },
-  "nassim.amara@websummit.com": {
-    "email": "nassim.amara@websummit.com",
-    "bookingRef": "WQEW-STF",
-    "firstName": "Nassim",
-    "lastName": "Amara"
-  },
-  "janina.yotova@websummit.com": {
-    "email": "janina.yotova@websummit.com",
-    "bookingRef": "NJPN-STF",
-    "firstName": "Janina",
-    "lastName": "Yotova"
-  },
-  "suzanne.taylor@websummit.com": {
-    "email": "suzanne.taylor@websummit.com",
-    "bookingRef": "N5X1-STF",
-    "firstName": "Suzanne",
-    "lastName": "Taylor"
-  },
-  "rebecca.ryan@websummit.com": {
-    "email": "rebecca.ryan@websummit.com",
-    "bookingRef": "E1JI-STF",
-    "firstName": "Rebecca",
-    "lastName": "Ryan"
-  },
-  "allison@websummit.com": {
-    "email": "allison@websummit.com",
-    "bookingRef": "DMES-STF",
-    "firstName": "Allison",
-    "lastName": "Reilly"
-  },
-  "kristina@websummit.com": {
-    "email": "kristina@websummit.com",
-    "bookingRef": "FXZH-STF",
-    "firstName": "Kristina",
-    "lastName": "Neligan"
-  },
-  "rebecca.connolly@websummit.com": {
-    "email": "rebecca.connolly@websummit.com",
-    "bookingRef": "RSCN-STF",
-    "firstName": "Rebecca",
-    "lastName": "Connolly"
-  },
-  "gary.kelly@websummit.com": {
-    "email": "gary.kelly@websummit.com",
-    "bookingRef": "6WEC-STF",
-    "firstName": "Gary",
-    "lastName": "Kelly"
-  },
-  "caoimhe.hurley@websummit.com": {
-    "email": "caoimhe.hurley@websummit.com",
-    "bookingRef": "DHNY-STF",
-    "firstName": "Caoimhe",
-    "lastName": "Hurley"
-  },
-  "elaine.hanly@websummit.com": {
-    "email": "elaine.hanly@websummit.com",
-    "bookingRef": "BI3X-STF",
-    "firstName": "Elaine",
-    "lastName": "Hanly"
-  },
-  "aaron.campbell@websummit.com": {
-    "email": "aaron.campbell@websummit.com",
-    "bookingRef": "QSWY-STF",
-    "firstName": "Aaron",
-    "lastName": "Campbell"
-  },
-  "conor.buggle@websummit.com": {
-    "email": "conor.buggle@websummit.com",
-    "bookingRef": "LHDA-STF",
-    "firstName": "Conor",
-    "lastName": "Buggle"
-  },
-  "eugene.kazaev@websummit.com": {
-    "email": "eugene.kazaev@websummit.com",
-    "bookingRef": "XJSM-STF",
-    "firstName": "Eugene",
-    "lastName": "Kazaev"
-  },
-  "dino.bikic@websummit.com": {
-    "email": "dino.bikic@websummit.com",
-    "bookingRef": "G8C1-STF",
-    "firstName": "Dino",
-    "lastName": "Bikic"
-  },
-  "lingyu.zhang@websummit.com": {
-    "email": "lingyu.zhang@websummit.com",
-    "bookingRef": "21RP-STF",
-    "firstName": "Lingyu",
-    "lastName": "Zhang"
-  },
-  "haziq.zargar@websummit.com": {
-    "email": "haziq.zargar@websummit.com",
-    "bookingRef": "VR42-STF",
-    "firstName": "Haziq",
-    "lastName": "Zargar"
-  },
-  "stephen@websummit.com": {
-    "email": "stephen@websummit.com",
-    "bookingRef": "VASR-STF",
-    "firstName": "Stephen",
-    "lastName": "Twomey"
-  },
-  "clarissa.schirosi@websummit.com": {
-    "email": "clarissa.schirosi@websummit.com",
-    "bookingRef": "Q44G-STF",
-    "firstName": "Clarissa",
-    "lastName": "Schirosi"
-  },
-  "shauna.kiely@websummit.com": {
-    "email": "shauna.kiely@websummit.com",
-    "bookingRef": "94XH-STF",
-    "firstName": "Shauna",
-    "lastName": "Kiely"
-  },
-  "mary.kavanagh@websummit.com": {
-    "email": "mary.kavanagh@websummit.com",
-    "bookingRef": "4UVX-STF",
-    "firstName": "Mary",
-    "lastName": "Kavanagh"
-  },
-  "donal.donovan@websummit.com": {
-    "email": "donal.donovan@websummit.com",
-    "bookingRef": "T8LT-STF",
-    "firstName": "Donal",
-    "lastName": "Donovan"
-  },
-  "lisa.armstrongbowles@websummit.com": {
-    "email": "lisa.armstrongbowles@websummit.com",
-    "bookingRef": "W4EY-STF",
-    "firstName": "Lisa",
-    "lastName": "Armstrong Bowles"
-  },
-  "sarahjane.allen@websummit.com": {
-    "email": "sarahjane.allen@websummit.com",
-    "bookingRef": "1Q5P-STF",
-    "firstName": "Sarah Jane",
-    "lastName": "Allen"
-  },
-  "lauren.omahony@websummit.com": {
-    "email": "lauren.omahony@websummit.com",
-    "bookingRef": "YWYS-STF",
-    "firstName": "Lauren",
-    "lastName": "O'Mahony"
-  },
-  "anna@websummit.com": {
-    "email": "anna@websummit.com",
-    "bookingRef": "SFLD-STF",
-    "firstName": "Anna",
-    "lastName": "O'Hare"
-  },
-  "niamh.oconnor@websummit.com": {
-    "email": "niamh.oconnor@websummit.com",
-    "bookingRef": "BI4B-STF",
-    "firstName": "Niamh",
-    "lastName": "O'Connor"
-  },
-  "emma.murphy@websummit.com": {
-    "email": "emma.murphy@websummit.com",
-    "bookingRef": "BTWY-STF",
-    "firstName": "Emma",
-    "lastName": "Murphy"
-  },
-  "maeve.mcquillan@websummit.com": {
-    "email": "maeve.mcquillan@websummit.com",
-    "bookingRef": "DDE0-STF",
-    "firstName": "Maeve",
-    "lastName": "McQuillan"
-  },
-  "gabriela.guedez@websummit.com": {
-    "email": "gabriela.guedez@websummit.com",
-    "bookingRef": "UOE6-STF",
-    "firstName": "Gabriela",
-    "lastName": "Guedez"
-  },
-  "lee.campbell@websummit.com": {
-    "email": "lee.campbell@websummit.com",
-    "bookingRef": "INBL-STF",
-    "firstName": "Lee",
-    "lastName": "Campbell"
-  },
-  "robert.babos@websummit.com": {
-    "email": "robert.babos@websummit.com",
-    "bookingRef": "27GV-STF",
-    "firstName": "Rob",
-    "lastName": "Babos"
-  },
-  "abbey.adkins@websummit.com": {
-    "email": "abbey.adkins@websummit.com",
-    "bookingRef": "PWMK-STF",
-    "firstName": "Abbey",
-    "lastName": "Adkins"
-  },
-  "ronan.yore@websummit.com": {
-    "email": "ronan.yore@websummit.com",
-    "bookingRef": "0GUP-STF",
-    "firstName": "Ronan",
-    "lastName": "Yore"
-  },
-  "mark.teeple@websummit.com": {
-    "email": "mark.teeple@websummit.com",
-    "bookingRef": "NW4M-STF",
-    "firstName": "Mark",
-    "lastName": "Teeple"
-  },
-  "luke.prendeville@websummit.com": {
-    "email": "luke.prendeville@websummit.com",
-    "bookingRef": "888Q-STF",
-    "firstName": "Luke",
-    "lastName": "Prendeville"
-  },
-  "zara.mcgrath@websummit.com": {
-    "email": "zara.mcgrath@websummit.com",
-    "bookingRef": "YK86-STF",
-    "firstName": "Zara",
-    "lastName": "McGrath"
-  },
-  "sine.mcgoff@websummit.com": {
-    "email": "sine.mcgoff@websummit.com",
-    "bookingRef": "U47T-STF",
-    "firstName": "Síne",
-    "lastName": "McGoff"
-  },
-  "gintare@websummit.com": {
-    "email": "gintare@websummit.com",
-    "bookingRef": "M2LG-STF",
-    "firstName": "Gintare",
-    "lastName": "Karalyte"
-  },
-  "edel.hynes@websummit.com": {
-    "email": "edel.hynes@websummit.com",
-    "bookingRef": "LC8O-STF",
-    "firstName": "Edel",
-    "lastName": "Hynes"
-  },
-  "ciaran.hope@websummit.com": {
-    "email": "ciaran.hope@websummit.com",
-    "bookingRef": "AHFH-STF",
-    "firstName": "Ciaran",
-    "lastName": "Hope"
-  },
-  "wez.evans@websummit.com": {
-    "email": "wez.evans@websummit.com",
-    "bookingRef": "TGBR-STF",
-    "firstName": "Wez",
-    "lastName": "Evans"
-  },
-  "john.downey@websummit.com": {
-    "email": "john.downey@websummit.com",
-    "bookingRef": "5YQU-STF",
-    "firstName": "John",
-    "lastName": "Downey"
-  },
-  "eamon.defreitas@websummit.com": {
-    "email": "eamon.defreitas@websummit.com",
-    "bookingRef": "889B-STF",
-    "firstName": "Eamon",
-    "lastName": "de Freitas"
-  },
-  "craig.becker@websummit.com": {
-    "email": "craig.becker@websummit.com",
-    "bookingRef": "HHB5-STF",
-    "firstName": "Craig",
-    "lastName": "Becker"
-  },
-  "ines.azevedo@websummit.com": {
-    "email": "ines.azevedo@websummit.com",
-    "bookingRef": "QUFN-STF",
-    "firstName": "Inês",
-    "lastName": "Azevedo"
-  },
-  "amanda.egan@websummit.com": {
-    "email": "amanda.egan@websummit.com",
-    "bookingRef": "A0YB-STF",
-    "firstName": "Amanda",
-    "lastName": "Egan"
-  },
-  "arianne.cruz@websummit.com": {
-    "email": "arianne.cruz@websummit.com",
-    "bookingRef": "M58M-STF",
-    "firstName": "Arianne",
-    "lastName": "Cruz"
-  },
-  "sarah.coffey@websummit.com": {
-    "email": "sarah.coffey@websummit.com",
-    "bookingRef": "VMIR-STF",
-    "firstName": "Sarah",
-    "lastName": "Coffey"
-  },
-  "geoff.wharton@websummit.com": {
-    "email": "geoff.wharton@websummit.com",
-    "bookingRef": "O1R2-STF",
-    "firstName": "Geoffrey",
-    "lastName": "Wharton"
-  },
-  "eoin.sheehan@websummit.com": {
-    "email": "eoin.sheehan@websummit.com",
-    "bookingRef": "GLW1-STF",
-    "firstName": "Eoin",
-    "lastName": "Sheehan"
-  },
-  "alex.mackenzie@websummit.com": {
-    "email": "alex.mackenzie@websummit.com",
-    "bookingRef": "CCWK-STF",
-    "firstName": "Alex",
-    "lastName": "Mackenzie"
-  },
-  "robert.lynch@websummit.com": {
-    "email": "robert.lynch@websummit.com",
-    "bookingRef": "5BL4-STF",
-    "firstName": "Robert",
-    "lastName": "Lynch"
-  },
-  "james.lenihan@websummit.com": {
-    "email": "james.lenihan@websummit.com",
-    "bookingRef": "FULN-STF",
-    "firstName": "James",
-    "lastName": "Lenihan"
-  },
-  "adam.fleming@websummit.com": {
-    "email": "adam.fleming@websummit.com",
-    "bookingRef": "8BCC-STF",
-    "firstName": "Adam",
-    "lastName": "Fleming"
-  },
-  "konrad.timon@websummit.com": {
-    "email": "konrad.timon@websummit.com",
-    "bookingRef": "QMQW-STF",
-    "firstName": "Konrad",
-    "lastName": "Timon"
-  },
-  "barry@websummit.com": {
-    "email": "barry@websummit.com",
-    "bookingRef": "EVEP-STF",
-    "firstName": "Barry",
-    "lastName": "McCullagh"
-  },
-  "michael.whelan@websummit.com": {
-    "email": "michael.whelan@websummit.com",
-    "bookingRef": "FEPQ-STF",
-    "firstName": "Mike",
-    "lastName": "Whelan"
-  },
-  "charlie.mullen@websummit.com": {
-    "email": "charlie.mullen@websummit.com",
-    "bookingRef": "MLGZ-STF",
-    "firstName": "Charlie",
-    "lastName": "Mullen"
-  },
-  "elaine.watts@websummit.com": {
-    "email": "elaine.watts@websummit.com",
-    "bookingRef": "586A-STF",
-    "firstName": "Elaine",
-    "lastName": "Watts"
-  },
-  "francesca.viterbo@websummit.com": {
-    "email": "francesca.viterbo@websummit.com",
-    "bookingRef": "8ZHV-STF",
-    "firstName": "Francesca",
-    "lastName": "Viterbo"
-  },
-  "anne@websummit.com": {
-    "email": "anne@websummit.com",
-    "bookingRef": "HECV-STF",
-    "firstName": "Anne",
-    "lastName": "O'Leary"
-  },
-  "laoise.odwyer@websummit.com": {
-    "email": "laoise.odwyer@websummit.com",
-    "bookingRef": "MHJ5-STF",
-    "firstName": "Laoise",
-    "lastName": "O'Dwyer"
-  },
-  "paul.moore@websummit.com": {
-    "email": "paul.moore@websummit.com",
-    "bookingRef": "F6XN-STF",
-    "firstName": "Paul",
-    "lastName": "Anthony Moore"
-  },
-  "trevor@websummit.com": {
-    "email": "trevor@websummit.com",
-    "bookingRef": "LRDG-STF",
-    "firstName": "Trevor",
-    "lastName": "Merrey"
-  },
-  "mark.mcgann@websummit.com": {
-    "email": "mark.mcgann@websummit.com",
-    "bookingRef": "UD5E-STF",
-    "firstName": "Mark",
-    "lastName": "McGann"
-  },
-  "kerry.mcdevitt@websummit.com": {
-    "email": "kerry.mcdevitt@websummit.com",
-    "bookingRef": "PO76-STF",
-    "firstName": "Kerry",
-    "lastName": "Mc.Devitt"
-  },
-  "colin@websummit.com": {
-    "email": "colin@websummit.com",
-    "bookingRef": "V5EX-STF",
-    "firstName": "Colin",
-    "lastName": "McAvoy"
-  },
-  "aine.madden@websummit.com": {
-    "email": "aine.madden@websummit.com",
-    "bookingRef": "K9WA-STF",
-    "firstName": "Áine",
-    "lastName": "Madden"
-  },
-  "raxitpaul.louis@websummit.com": {
-    "email": "raxitpaul.louis@websummit.com",
-    "bookingRef": "N5SC-STF",
-    "firstName": "Raxit Paul",
-    "lastName": "Louis"
-  },
-  "carmel@websummit.com": {
-    "email": "carmel@websummit.com",
-    "bookingRef": "FCNO-STF",
-    "firstName": "Carmel",
-    "lastName": "Lee"
-  },
-  "patrick.kirwan@websummit.com": {
-    "email": "patrick.kirwan@websummit.com",
-    "bookingRef": "VCHZ-STF",
-    "firstName": "Paddy",
-    "lastName": "Kirwan"
-  },
-  "adam.connon@websummit.com": {
-    "email": "adam.connon@websummit.com",
-    "bookingRef": "M6PW-STF",
-    "firstName": "Adam",
-    "lastName": "Connon"
-  },
-  "aoife.brew@websummit.com": {
-    "email": "aoife.brew@websummit.com",
-    "bookingRef": "5XZI-STF",
-    "firstName": "Aoife",
-    "lastName": "Brew"
-  },
-  "liyuan.ma@websummit.com": {
-    "email": "liyuan.ma@websummit.com",
-    "bookingRef": "RIQW-STF",
-    "firstName": "Liyuan",
-    "lastName": "Ma"
-  },
-  "niall.khoaz@websummit.com": {
-    "email": "niall.khoaz@websummit.com",
-    "bookingRef": "4C9P-STF",
-    "firstName": "Niall",
-    "lastName": "Khoaz"
-  },
-  "lisa@websummit.com": {
-    "email": "lisa@websummit.com",
-    "bookingRef": "3VQF-STF",
-    "firstName": "Lisa",
-    "lastName": "Gallagher"
-  },
-  "rachel.wheeler@websummit.com": {
-    "email": "rachel.wheeler@websummit.com",
-    "bookingRef": "QNBO-STF",
-    "firstName": "Rachel Wheeler",
-    "lastName": "(She / Her)"
-  },
-  "karena.walshe@websummit.com": {
-    "email": "karena.walshe@websummit.com",
-    "bookingRef": "D25K-STF",
-    "firstName": "Karena",
-    "lastName": "Walshe"
-  },
-  "cathal.walsh@websummit.com": {
-    "email": "cathal.walsh@websummit.com",
-    "bookingRef": "UMOM-STF",
-    "firstName": "Cathal",
-    "lastName": "Walsh"
-  },
-  "mirella.vanbalen@websummit.com": {
-    "email": "mirella.vanbalen@websummit.com",
-    "bookingRef": "0O30-STF",
-    "firstName": "Mirella",
-    "lastName": "Van Balen"
-  },
-  "aoileann@websummit.com": {
-    "email": "aoileann@websummit.com",
-    "bookingRef": "QPEG-STF",
-    "firstName": "Aoileann",
-    "lastName": "Ni Chuilleanáin"
-  },
-  "michael.harnett@websummit.com": {
-    "email": "michael.harnett@websummit.com",
-    "bookingRef": "CEOO-STF",
-    "firstName": "Michael",
-    "lastName": "Harnett"
-  },
-  "finian.green@websummit.com": {
-    "email": "finian.green@websummit.com",
-    "bookingRef": "CRBP-STF",
-    "firstName": "Finian",
-    "lastName": "Green"
-  },
-  "nida@websummit.com": {
-    "email": "nida@websummit.com",
-    "bookingRef": "DJPF-STF",
-    "firstName": "Nida",
-    "lastName": "Shah"
-  },
-  "mike@websummit.com": {
-    "email": "mike@websummit.com",
-    "bookingRef": "WPF7-STF",
-    "firstName": "Mike",
-    "lastName": "Sexton"
-  },
-  "artur.pereira@websummit.com": {
-    "email": "artur.pereira@websummit.com",
-    "bookingRef": "J6ZJ-STF",
-    "firstName": "Artur",
-    "lastName": "Pereira"
-  },
-  "david@websummit.com": {
-    "email": "david@websummit.com",
-    "bookingRef": "L9YJ-STF",
-    "firstName": "David",
-    "lastName": "Kelly"
-  },
-  "luca.viola@websummit.com": {
-    "email": "luca.viola@websummit.com",
-    "bookingRef": "C571-STF",
-    "firstName": "Luca",
-    "lastName": "Viola"
-  },
-  "tomislav.svecak@websummit.com": {
-    "email": "tomislav.svecak@websummit.com",
-    "bookingRef": "GZM8-STF",
-    "firstName": "Tomislav",
-    "lastName": "Svecak"
-  },
-  "joao.soares@websummit.com": {
-    "email": "joao.soares@websummit.com",
-    "bookingRef": "JOAO-STF",
-    "firstName": "João",
-    "lastName": "Soares"
-  },
-  "tomasz.rdzak@websummit.com": {
-    "email": "tomasz.rdzak@websummit.com",
-    "bookingRef": "N6AN-STFY",
-    "firstName": "Tomasz",
-    "lastName": "Rdzak"
-  },
-  "thomas.moen@websummit.com": {
-    "email": "thomas.moen@websummit.com",
-    "bookingRef": "GJU6-STF",
-    "firstName": "Thomas",
-    "lastName": "Moen"
-  },
-  "joan.mccarthy@websummit.com": {
-    "email": "joan.mccarthy@websummit.com",
-    "bookingRef": "NOMX-STF",
-    "firstName": "Joan",
-    "lastName": "McCarthy"
-  },
-  "dylan@websummit.com": {
-    "email": "dylan@websummit.com",
-    "bookingRef": "RAKW-STF",
-    "firstName": "Dylan",
-    "lastName": "Kelly"
-  },
-  "gabriel.karasekgageiro@websummit.com": {
-    "email": "gabriel.karasekgageiro@websummit.com",
-    "bookingRef": "PJ4W-STF",
-    "firstName": "Gabriel",
-    "lastName": "Karasek"
-  },
-  "roberto.decurnex@websummit.com": {
-    "email": "roberto.decurnex@websummit.com",
-    "bookingRef": "IAE6-STF",
-    "firstName": "Roberto",
-    "lastName": "Decurnex"
-  },
-  "ciaran.curley@websummit.com": {
-    "email": "ciaran.curley@websummit.com",
-    "bookingRef": "WVJU-STF",
-    "firstName": "Ciarán",
-    "lastName": "Curley"
-  },
-  "conor.broderick@websummit.com": {
-    "email": "conor.broderick@websummit.com",
-    "bookingRef": "57G2-STF",
-    "firstName": "Conor",
-    "lastName": "Broderick"
-  },
-  "paul.omahony@websummit.com": {
-    "email": "paul.omahony@websummit.com",
-    "bookingRef": "K9TM-STF",
-    "firstName": "Paul",
-    "lastName": "O'Mahony"
-  },
-  "hannah.large@websummit.com": {
-    "email": "hannah.large@websummit.com",
-    "bookingRef": "8CBP-STF",
-    "firstName": "Hannah",
-    "lastName": "Large"
-  },
-  "ary.blue@websummit.com": {
-    "email": "ary.blue@websummit.com",
-    "bookingRef": "DP70-STF",
-    "firstName": "Ary",
-    "lastName": "Blue"
-  },
-  "dylan.hodge@websummit.com": {
-    "email": "dylan.hodge@websummit.com",
-    "bookingRef": "Z28J-STF",
-    "firstName": "Dylan",
-    "lastName": "Hodge"
-  },
-  "chloe.hines@websummit.com": {
-    "email": "chloe.hines@websummit.com",
-    "bookingRef": "ZNPH-STF",
-    "firstName": "Chloe",
-    "lastName": "Hines"
-  },
-  "dargan@websummit.com": {
-    "email": "dargan@websummit.com",
-    "bookingRef": "GTNX-STF",
-    "firstName": "Dargan",
-    "lastName": "Crowley Long"
-  },
-  "conor.claffey@websummit.com": {
-    "email": "conor.claffey@websummit.com",
-    "bookingRef": "HJLK-STF",
-    "firstName": "Conor",
-    "lastName": "Claffey"
-  },
-  "steven@websummit.com": {
-    "email": "steven@websummit.com",
-    "bookingRef": "DDYZ-STF",
-    "firstName": "Steven",
-    "lastName": "Tobin"
-  },
-  "aaron.meagher@websummit.com": {
-    "email": "aaron.meagher@websummit.com",
-    "bookingRef": "SZAP-STF",
-    "firstName": "Aaron",
-    "lastName": "Meagher"
-  },
-  "georgios.lamprou@websummit.com": {
-    "email": "georgios.lamprou@websummit.com",
-    "bookingRef": "SI44-STF",
-    "firstName": "Georgios",
-    "lastName": "Lamprou"
-  },
-  "ricardo.pinto@websummit.com": {
-    "email": "ricardo.pinto@websummit.com",
-    "bookingRef": "VGBM-STF",
-    "firstName": "Ricardo",
-    "lastName": "Gandara Pinto"
-  },
-  "ines.cruz@websummit.com": {
-    "email": "ines.cruz@websummit.com",
-    "bookingRef": "603G-STF",
-    "firstName": "Inês",
-    "lastName": "Cruz"
-  },
-  "johannes.vollertsen@websummit.com": {
-    "email": "johannes.vollertsen@websummit.com",
-    "bookingRef": "FGH0-STF",
-    "firstName": "Johannes",
-    "lastName": "Vollertsen"
-  },
-  "kirsty.tobin@websummit.com": {
-    "email": "kirsty.tobin@websummit.com",
-    "bookingRef": "AO3N-STF",
-    "firstName": "Kirsty",
-    "lastName": "Tobin"
-  },
-  "greta.taylor@websummit.com": {
-    "email": "greta.taylor@websummit.com",
-    "bookingRef": "NZ3Z-STF",
-    "firstName": "Greta",
-    "lastName": "Taylor"
-  },
-  "ciaran.bruder@websummit.com": {
-    "email": "ciaran.bruder@websummit.com",
-    "bookingRef": "IWL8-STF",
-    "firstName": "Ciaran",
-    "lastName": "Bruder"
-  },
-  "rob.reid@websummit.com": {
-    "email": "rob.reid@websummit.com",
-    "bookingRef": "C74F-STF",
-    "firstName": "Rob",
-    "lastName": "Reid"
-  },
-  "allyson.doyle@websummit.com": {
-    "email": "allyson.doyle@websummit.com",
-    "bookingRef": "YDBP-STF",
-    "firstName": "Ally",
-    "lastName": "Doyle"
-  },
-  "carolyn.quinlan@websummit.com": {
-    "email": "carolyn.quinlan@websummit.com",
-    "bookingRef": "TKIJ-STF",
-    "firstName": "Carolyn",
-    "lastName": "Quinlan"
-  },
-  "katie.bolger@websummit.com": {
-    "email": "katie.bolger@websummit.com",
-    "bookingRef": "TOVZ-STF",
-    "firstName": "Katie",
-    "lastName": "Bolger"
-  },
-  "antonio.nevescosta@websummit.com": {
-    "email": "antonio.nevescosta@websummit.com",
-    "bookingRef": "UMO1-STF",
-    "firstName": "Antonio",
-    "lastName": "Neves Costa"
-  },
-  "katherine.farrell@websummit.com": {
-    "email": "katherine.farrell@websummit.com",
-    "bookingRef": "OXCC-STF",
-    "firstName": "Katherine",
-    "lastName": "Farrell"
-  },
-  "sunil.sharma@websummit.com": {
-    "email": "sunil.sharma@websummit.com",
-    "bookingRef": "SHOA-STF",
-    "firstName": "Sunil",
-    "lastName": "Sharma"
-  },
-  "casey@riseconf.com": {
-    "email": "casey@riseconf.com",
-    "bookingRef": "J5UP-STF",
-    "firstName": "Casey",
-    "lastName": "Lau"
-  },
-  "jenny.odonoghue@websummit.com": {
-    "email": "jenny.odonoghue@websummit.com",
-    "bookingRef": "IOUL-STF",
-    "firstName": "Jenny",
-    "lastName": "O'Donoghue"
-  },
-  "chris@websummit.com": {
-    "email": "chris@websummit.com",
-    "bookingRef": "L8PN-STF",
-    "firstName": "Chris",
-    "lastName": "Murphy"
-  },
-  "eoghan@websummit.com": {
-    "email": "eoghan@websummit.com",
-    "bookingRef": "J4XS-STF",
-    "firstName": "Eoghan",
-    "lastName": "McNeill"
-  },
-  "renee.daly@websummit.com": {
-    "email": "renee.daly@websummit.com",
-    "bookingRef": "C8CH-STF",
-    "firstName": "Renee",
-    "lastName": "Daly"
-  },
-  "katarzyna.matusiak@websummit.com": {
-    "email": "katarzyna.matusiak@websummit.com",
-    "bookingRef": "EEQ1-STF",
-    "firstName": "Katarzyna",
-    "lastName": "Matusiak"
-  },
-  "david.jordan@websummit.com": {
-    "email": "david.jordan@websummit.com",
-    "bookingRef": "1OIV-STF",
-    "firstName": "David",
-    "lastName": "Jordan"
-  },
-  "luke.byrne@websummit.com": {
-    "email": "luke.byrne@websummit.com",
-    "bookingRef": "3ZWS-STF",
-    "firstName": "Luke",
-    "lastName": "Byrne"
-  },
-  "edel.prendergast@websummit.com": {
-    "email": "edel.prendergast@websummit.com",
-    "bookingRef": "8KWF-STF",
-    "firstName": "Edel",
-    "lastName": "Prendergast"
-  },
-  "dave.kenny@websummit.com": {
-    "email": "dave.kenny@websummit.com",
-    "bookingRef": "XOOC-STF",
-    "firstName": "Dave",
-    "lastName": "Kenny"
-  },
-  "eadaoin.fitzmaurice@websummit.com": {
-    "email": "eadaoin.fitzmaurice@websummit.com",
-    "bookingRef": "8ORN-STF",
-    "firstName": "Éadaoin",
-    "lastName": "Fitzmaurice"
-  },
-  "sylviane.coquard@websummit.com": {
-    "email": "sylviane.coquard@websummit.com",
-    "bookingRef": "JXDR-STF",
-    "firstName": "Sylviane",
-    "lastName": "Coquard"
-  },
-  "lorna.coakley@websummit.com": {
-    "email": "lorna.coakley@websummit.com",
-    "bookingRef": "7PI2-STF",
-    "firstName": "Lorna",
-    "lastName": "Coakley"
-  },
-  "marija.citic@websummit.com": {
-    "email": "marija.citic@websummit.com",
-    "bookingRef": "2YGS-STF",
-    "firstName": "Marija",
-    "lastName": "Citic"
-  },
-  "campbell.lee@websummit.com": {
-    "email": "campbell.lee@websummit.com",
-    "bookingRef": "YTUM-STF",
-    "firstName": "Lee",
-    "lastName": "Campbell"
-  },
-  "artem.ankudovich@websummit.com": {
-    "email": "artem.ankudovich@websummit.com",
-    "bookingRef": "CPLO-STF",
-    "firstName": "Artem",
-    "lastName": "Ankudovich"
-  },
-  "beth.dinsmore@websummit.com": {
-    "email": "beth.dinsmore@websummit.com",
-    "bookingRef": "M556-STF",
-    "firstName": "Elizabeth",
-    "lastName": "Dinsmore"
-  },
-  "alex.anikeev@websummit.com": {
-    "email": "alex.anikeev@websummit.com",
-    "bookingRef": "0ORY-STF",
-    "firstName": "Alexander",
-    "lastName": "Anikeev"
-  },
-  "luis.serralheiro@websummit.com": {
-    "email": "luis.serralheiro@websummit.com",
-    "bookingRef": "W78E-STF",
-    "firstName": "Luis",
-    "lastName": "Serralheiro"
-  },
-  "tim.kiernan@websummit.com": {
-    "email": "tim.kiernan@websummit.com",
-    "bookingRef": "EOTW-STF",
-    "firstName": "Tim",
-    "lastName": "Kiernan"
-  },
-  "keeva.bentham@websummit.com": {
-    "email": "keeva.bentham@websummit.com",
-    "bookingRef": "CT0C-STF",
-    "firstName": "Keeva",
-    "lastName": "Bentham"
-  },
-  "thomas.moen+test@websummit.com": {
-    "email": "thomas.moen+test@websummit.com",
-    "bookingRef": "J3UB-STF",
-    "firstName": "Thomas",
-    "lastName": "Test Moen"
-  },
-  "kat@websummit.com": {
-    "email": "kat@websummit.com",
-    "bookingRef": "V6HD-STF",
-    "firstName": "Katarina",
-    "lastName": "Black"
-  },
-  "alexandra.silva@websummit.com": {
-    "email": "alexandra.silva@websummit.com",
-    "bookingRef": "YI98-STF",
-    "firstName": "Alexandra",
-    "lastName": "Silva"
-  },
-  "marek.parafianowicz@websummit.com": {
-    "email": "marek.parafianowicz@websummit.com",
-    "bookingRef": "FHOD-STF",
-    "firstName": "Marek",
-    "lastName": "Parafianowicz"
-  },
-  "paddy@websummit.com": {
-    "email": "paddy@websummit.com",
-    "bookingRef": "WACD-STF",
-    "firstName": "Paddy",
-    "lastName": "Cosgrave"
-  },
-  "pm@amaranthine.com": {
-    "email": "pm@amaranthine.com",
-    "bookingRef": "MD0M-STF",
-    "firstName": "Patrick",
-    "lastName": "Murphy"
-  },
-  "tom.svecak@websummit.com": {
-    "email": "tom.svecak@websummit.com",
-    "bookingRef": "CPX0-STF",
-    "firstName": "Tom",
-    "lastName": "Svecak"
-  },
-  "angelika.kosiorek+4@netguru.com": {
-    "email": "angelika.kosiorek+4@netguru.com",
-    "bookingRef": "DSQ3-STF",
-    "firstName": "Marta",
-    "lastName": "Gras (test conf - STAFF)"
-  },
-  "angelika.kosiorek+2@netguru.com": {
-    "email": "angelika.kosiorek+2@netguru.com",
-    "bookingRef": "GL0X-STF",
-    "firstName": "Maria",
-    "lastName": "Kos (test conf - STAFF)"
-  },
-  "martyna.kupidura+t3@netguru.com": {
-    "email": "martyna.kupidura+t3@netguru.com",
-    "bookingRef": "UNLY-STF",
-    "firstName": "Martyna",
-    "lastName": "Kowalska (staff for now, convert to an attendee later)"
-  },
-  "angelika.kosiorek+1@netguru.com": {
-    "email": "angelika.kosiorek+1@netguru.com",
-    "bookingRef": "96CF-STF",
-    "firstName": "Angelika",
-    "lastName": "Kosiorek"
-  },
-  "conor.buggle@cilabs.com": {
-    "email": "conor.buggle@cilabs.com",
-    "bookingRef": "1GCB-STF",
-    "firstName": "Conor",
-    "lastName": "Buggle"
-  },
-  "allison@cilabs.com": {
-    "email": "allison@cilabs.com",
-    "bookingRef": "SBN4-STF",
-    "firstName": "Allisson",
-    "lastName": "Reilly"
-  },
-  "nuno.ramao@websummit.com": {
-    "email": "nuno.ramao@websummit.com",
-    "bookingRef": "K2YJ-STF",
-    "firstName": "Nuno",
-    "lastName": "Ramāo"
-  }
-}
+  'aaron.campbell@websummit.com': {
+    bookingRef: 'QSWY-STF',
+    email: 'aaron.campbell@websummit.com',
+    firstName: 'Aaron',
+    lastName: 'Campbell',
+  },
+  'aaron.meagher@websummit.com': {
+    bookingRef: 'SZAP-STF',
+    email: 'aaron.meagher@websummit.com',
+    firstName: 'Aaron',
+    lastName: 'Meagher',
+  },
+  'abbey.adkins@websummit.com': {
+    bookingRef: 'PWMK-STF',
+    email: 'abbey.adkins@websummit.com',
+    firstName: 'Abbey',
+    lastName: 'Adkins',
+  },
+  'adam.connon@websummit.com': {
+    bookingRef: 'M6PW-STF',
+    email: 'adam.connon@websummit.com',
+    firstName: 'Adam',
+    lastName: 'Connon',
+  },
+  'adam.fleming@websummit.com': {
+    bookingRef: '8BCC-STF',
+    email: 'adam.fleming@websummit.com',
+    firstName: 'Adam',
+    lastName: 'Fleming',
+  },
+  'ahmed.elbanna@websummit.com': {
+    bookingRef: '5WSV-STF',
+    email: 'ahmed.elbanna@websummit.com',
+    firstName: 'Ahmed',
+    lastName: 'El-Banna',
+  },
+  'aine.kavanagh@websummit.com': {
+    bookingRef: 'MWBD-STF',
+    email: 'aine.kavanagh@websummit.com',
+    firstName: 'Aine',
+    lastName: 'Kavanagh',
+  },
+  'aine.madden@websummit.com': {
+    bookingRef: 'K9WA-STF',
+    email: 'aine.madden@websummit.com',
+    firstName: 'Áine',
+    lastName: 'Madden',
+  },
+  'aisling.flynn@websummit.com': {
+    bookingRef: 'Y06S-STF',
+    email: 'aisling.flynn@websummit.com',
+    firstName: 'Aisling',
+    lastName: 'Flynn',
+  },
+  'alex.anikeev@websummit.com': {
+    bookingRef: '0ORY-STF',
+    email: 'alex.anikeev@websummit.com',
+    firstName: 'Alexander',
+    lastName: 'Anikeev',
+  },
+  'alex.mackenzie@websummit.com': {
+    bookingRef: 'CCWK-STF',
+    email: 'alex.mackenzie@websummit.com',
+    firstName: 'Alex',
+    lastName: 'Mackenzie',
+  },
+  'alexandra.silva@websummit.com': {
+    bookingRef: 'YI98-STF',
+    email: 'alexandra.silva@websummit.com',
+    firstName: 'Alexandra',
+    lastName: 'Silva',
+  },
+  'alice.mcdermott@websummit.com': {
+    bookingRef: 'JA8F-STF',
+    email: 'alice.mcdermott@websummit.com',
+    firstName: 'Alice',
+    lastName: 'McDermott',
+  },
+  'allison@cilabs.com': {
+    bookingRef: 'SBN4-STF',
+    email: 'allison@cilabs.com',
+    firstName: 'Allisson',
+    lastName: 'Reilly',
+  },
+  'allison@websummit.com': {
+    bookingRef: 'DMES-STF',
+    email: 'allison@websummit.com',
+    firstName: 'Allison',
+    lastName: 'Reilly',
+  },
+  'allyson.doyle@websummit.com': {
+    bookingRef: 'YDBP-STF',
+    email: 'allyson.doyle@websummit.com',
+    firstName: 'Ally',
+    lastName: 'Doyle',
+  },
+  'amanda.egan@websummit.com': {
+    bookingRef: 'A0YB-STF',
+    email: 'amanda.egan@websummit.com',
+    firstName: 'Amanda',
+    lastName: 'Egan',
+  },
+  'angelika.kosiorek+1@netguru.com': {
+    bookingRef: '96CF-STF',
+    email: 'angelika.kosiorek+1@netguru.com',
+    firstName: 'Angelika',
+    lastName: 'Kosiorek',
+  },
+  'angelika.kosiorek+2@netguru.com': {
+    bookingRef: 'GL0X-STF',
+    email: 'angelika.kosiorek+2@netguru.com',
+    firstName: 'Maria',
+    lastName: 'Kos (test conf - STAFF)',
+  },
+  'angelika.kosiorek+4@netguru.com': {
+    bookingRef: 'DSQ3-STF',
+    email: 'angelika.kosiorek+4@netguru.com',
+    firstName: 'Marta',
+    lastName: 'Gras (test conf - STAFF)',
+  },
+  'anna@websummit.com': {
+    bookingRef: 'SFLD-STF',
+    email: 'anna@websummit.com',
+    firstName: 'Anna',
+    lastName: "O'Hare",
+  },
+  'anne@websummit.com': {
+    bookingRef: 'HECV-STF',
+    email: 'anne@websummit.com',
+    firstName: 'Anne',
+    lastName: "O'Leary",
+  },
+  'antonio.nevescosta@websummit.com': {
+    bookingRef: 'UMO1-STF',
+    email: 'antonio.nevescosta@websummit.com',
+    firstName: 'Antonio',
+    lastName: 'Neves Costa',
+  },
+  'aoife.brew@websummit.com': {
+    bookingRef: '5XZI-STF',
+    email: 'aoife.brew@websummit.com',
+    firstName: 'Aoife',
+    lastName: 'Brew',
+  },
+  'aoife.buckley@websummit.com': {
+    bookingRef: '6TLM-STF',
+    email: 'aoife.buckley@websummit.com',
+    firstName: 'Aoife',
+    lastName: 'Buckley',
+  },
+  'aoileann@websummit.com': {
+    bookingRef: 'QPEG-STF',
+    email: 'aoileann@websummit.com',
+    firstName: 'Aoileann',
+    lastName: 'Ni Chuilleanáin',
+  },
+  'arianne.cruz@websummit.com': {
+    bookingRef: 'M58M-STF',
+    email: 'arianne.cruz@websummit.com',
+    firstName: 'Arianne',
+    lastName: 'Cruz',
+  },
+  'artem.ankudovich@websummit.com': {
+    bookingRef: 'CPLO-STF',
+    email: 'artem.ankudovich@websummit.com',
+    firstName: 'Artem',
+    lastName: 'Ankudovich',
+  },
+  'artur.pereira@websummit.com': {
+    bookingRef: 'J6ZJ-STF',
+    email: 'artur.pereira@websummit.com',
+    firstName: 'Artur',
+    lastName: 'Pereira',
+  },
+  'ary.blue@websummit.com': {
+    bookingRef: 'DP70-STF',
+    email: 'ary.blue@websummit.com',
+    firstName: 'Ary',
+    lastName: 'Blue',
+  },
+  'barry@websummit.com': {
+    bookingRef: 'EVEP-STF',
+    email: 'barry@websummit.com',
+    firstName: 'Barry',
+    lastName: 'McCullagh',
+  },
+  'bernardo.jose@websummit.com': {
+    bookingRef: 'MQQN-STF',
+    email: 'bernardo.jose@websummit.com',
+    firstName: 'Bernardo',
+    lastName: 'Jose',
+  },
+  'beth.dinsmore@websummit.com': {
+    bookingRef: 'M556-STF',
+    email: 'beth.dinsmore@websummit.com',
+    firstName: 'Elizabeth',
+    lastName: 'Dinsmore',
+  },
+  'brian.curran@websummit.com': {
+    bookingRef: 'JQDH-STF',
+    email: 'brian.curran@websummit.com',
+    firstName: 'Brian',
+    lastName: 'Curran',
+  },
+  'brian.flanagan@websummit.com': {
+    bookingRef: '3AV7-STF',
+    email: 'brian.flanagan@websummit.com',
+    firstName: 'brian',
+    lastName: 'flanagan',
+  },
+  'brian.tobin@websummit.com': {
+    bookingRef: 'F0FI-STF',
+    email: 'brian.tobin@websummit.com',
+    firstName: 'Brian',
+    lastName: 'Tobin',
+  },
+  'campbell.lee@websummit.com': {
+    bookingRef: 'YTUM-STF',
+    email: 'campbell.lee@websummit.com',
+    firstName: 'Lee',
+    lastName: 'Campbell',
+  },
+  'caoimhe.hurley@websummit.com': {
+    bookingRef: 'DHNY-STF',
+    email: 'caoimhe.hurley@websummit.com',
+    firstName: 'Caoimhe',
+    lastName: 'Hurley',
+  },
+  'carmel@websummit.com': {
+    bookingRef: 'FCNO-STF',
+    email: 'carmel@websummit.com',
+    firstName: 'Carmel',
+    lastName: 'Lee',
+  },
+  'carol.lin@websummit.com': {
+    bookingRef: '840L-STF',
+    email: 'carol.lin@websummit.com',
+    firstName: 'Carol (Yijing)',
+    lastName: 'Lin',
+  },
+  'carolyn.quinlan@websummit.com': {
+    bookingRef: 'TKIJ-STF',
+    email: 'carolyn.quinlan@websummit.com',
+    firstName: 'Carolyn',
+    lastName: 'Quinlan',
+  },
+  'casey@riseconf.com': {
+    bookingRef: 'J5UP-STF',
+    email: 'casey@riseconf.com',
+    firstName: 'Casey',
+    lastName: 'Lau',
+  },
+  'cathal.curry@websummit.com': {
+    bookingRef: 'YLT2-STF',
+    email: 'cathal.curry@websummit.com',
+    firstName: 'Cathal',
+    lastName: 'Curry',
+  },
+  'cathal.walsh@websummit.com': {
+    bookingRef: 'UMOM-STF',
+    email: 'cathal.walsh@websummit.com',
+    firstName: 'Cathal',
+    lastName: 'Walsh',
+  },
+  'charlie.mullen@websummit.com': {
+    bookingRef: 'MLGZ-STF',
+    email: 'charlie.mullen@websummit.com',
+    firstName: 'Charlie',
+    lastName: 'Mullen',
+  },
+  'chloe.hines@websummit.com': {
+    bookingRef: 'ZNPH-STF',
+    email: 'chloe.hines@websummit.com',
+    firstName: 'Chloe',
+    lastName: 'Hines',
+  },
+  'chris@websummit.com': {
+    bookingRef: 'L8PN-STF',
+    email: 'chris@websummit.com',
+    firstName: 'Chris',
+    lastName: 'Murphy',
+  },
+  'ciara.murnane@websummit.com': {
+    bookingRef: 'KUVA-STF',
+    email: 'ciara.murnane@websummit.com',
+    firstName: 'Ciara',
+    lastName: 'Murnane',
+  },
+  'ciara.ohanrahan@websummit.com': {
+    bookingRef: 'EASC-STF',
+    email: 'ciara.ohanrahan@websummit.com',
+    firstName: 'Ciara',
+    lastName: "O'Hanrahan",
+  },
+  'ciaran.bruder@websummit.com': {
+    bookingRef: 'IWL8-STF',
+    email: 'ciaran.bruder@websummit.com',
+    firstName: 'Ciaran',
+    lastName: 'Bruder',
+  },
+  'ciaran.curley@websummit.com': {
+    bookingRef: 'WVJU-STF',
+    email: 'ciaran.curley@websummit.com',
+    firstName: 'Ciarán',
+    lastName: 'Curley',
+  },
+  'ciaran.hope@websummit.com': {
+    bookingRef: 'AHFH-STF',
+    email: 'ciaran.hope@websummit.com',
+    firstName: 'Ciaran',
+    lastName: 'Hope',
+  },
+  'claire.davis@websummit.com': {
+    bookingRef: 'VZL9-STF',
+    email: 'claire.davis@websummit.com',
+    firstName: 'Claire',
+    lastName: 'Davis',
+  },
+  'clarissa.schirosi@websummit.com': {
+    bookingRef: 'Q44G-STF',
+    email: 'clarissa.schirosi@websummit.com',
+    firstName: 'Clarissa',
+    lastName: 'Schirosi',
+  },
+  'clementine.baig@websummit.com': {
+    bookingRef: 'HT9P-STF',
+    email: 'clementine.baig@websummit.com',
+    firstName: 'Clementine',
+    lastName: 'Baig',
+  },
+  'colin@websummit.com': {
+    bookingRef: 'V5EX-STF',
+    email: 'colin@websummit.com',
+    firstName: 'Colin',
+    lastName: 'McAvoy',
+  },
+  'colm.moore@websummit.com': {
+    bookingRef: 'H3VI-STF',
+    email: 'colm.moore@websummit.com',
+    firstName: 'Colm',
+    lastName: 'Moore',
+  },
+  'conor.broderick@websummit.com': {
+    bookingRef: '57G2-STF',
+    email: 'conor.broderick@websummit.com',
+    firstName: 'Conor',
+    lastName: 'Broderick',
+  },
+  'conor.buggle@cilabs.com': {
+    bookingRef: '1GCB-STF',
+    email: 'conor.buggle@cilabs.com',
+    firstName: 'Conor',
+    lastName: 'Buggle',
+  },
+  'conor.buggle@websummit.com': {
+    bookingRef: 'LHDA-STF',
+    email: 'conor.buggle@websummit.com',
+    firstName: 'Conor',
+    lastName: 'Buggle',
+  },
+  'conor.claffey@websummit.com': {
+    bookingRef: 'HJLK-STF',
+    email: 'conor.claffey@websummit.com',
+    firstName: 'Conor',
+    lastName: 'Claffey',
+  },
+  'craig.becker@websummit.com': {
+    bookingRef: 'HHB5-STF',
+    email: 'craig.becker@websummit.com',
+    firstName: 'Craig',
+    lastName: 'Becker',
+  },
+  'craig.obrien@websummit.com': {
+    bookingRef: 'MOUD-STF',
+    email: 'craig.obrien@websummit.com',
+    firstName: 'Craig',
+    lastName: "O'Brien",
+  },
+  'daniel.meijer@websummit.com': {
+    bookingRef: 'PZSK-STF',
+    email: 'daniel.meijer@websummit.com',
+    firstName: 'Daniel',
+    lastName: 'Meijer',
+  },
+  'dargan@websummit.com': {
+    bookingRef: 'GTNX-STF',
+    email: 'dargan@websummit.com',
+    firstName: 'Dargan',
+    lastName: 'Crowley Long',
+  },
+  'darragh.mccauley@websummit.com': {
+    bookingRef: 'JLUS-STF',
+    email: 'darragh.mccauley@websummit.com',
+    firstName: 'Darragh',
+    lastName: 'McCauley',
+  },
+  'darren.cleary@websummit.com': {
+    bookingRef: 'Q33E-STF',
+    email: 'darren.cleary@websummit.com',
+    firstName: 'Darren',
+    lastName: 'Cleary',
+  },
+  'dave.kenny@websummit.com': {
+    bookingRef: 'XOOC-STF',
+    email: 'dave.kenny@websummit.com',
+    firstName: 'Dave',
+    lastName: 'Kenny',
+  },
+  'david.jordan@websummit.com': {
+    bookingRef: '1OIV-STF',
+    email: 'david.jordan@websummit.com',
+    firstName: 'David',
+    lastName: 'Jordan',
+  },
+  'david@websummit.com': {
+    bookingRef: 'L9YJ-STF',
+    email: 'david@websummit.com',
+    firstName: 'David',
+    lastName: 'Kelly',
+  },
+  'dino.bikic@websummit.com': {
+    bookingRef: 'G8C1-STF',
+    email: 'dino.bikic@websummit.com',
+    firstName: 'Dino',
+    lastName: 'Bikic',
+  },
+  'domingos.dasilva@websummit.com': {
+    bookingRef: 'H8HI-STF',
+    email: 'domingos.dasilva@websummit.com',
+    firstName: 'Domingos',
+    lastName: 'Da Silva',
+  },
+  'donal.donovan@websummit.com': {
+    bookingRef: 'T8LT-STF',
+    email: 'donal.donovan@websummit.com',
+    firstName: 'Donal',
+    lastName: 'Donovan',
+  },
+  'dylan.hodge@websummit.com': {
+    bookingRef: 'Z28J-STF',
+    email: 'dylan.hodge@websummit.com',
+    firstName: 'Dylan',
+    lastName: 'Hodge',
+  },
+  'dylan@websummit.com': {
+    bookingRef: 'RAKW-STF',
+    email: 'dylan@websummit.com',
+    firstName: 'Dylan',
+    lastName: 'Kelly',
+  },
+  'eabha.smith@websummit.com': {
+    bookingRef: 'BDDM-STF',
+    email: 'eabha.smith@websummit.com',
+    firstName: 'Eabha',
+    lastName: 'Smith',
+  },
+  'eadaoin.fitzmaurice@websummit.com': {
+    bookingRef: '8ORN-STF',
+    email: 'eadaoin.fitzmaurice@websummit.com',
+    firstName: 'Éadaoin',
+    lastName: 'Fitzmaurice',
+  },
+  'eamon.defreitas@websummit.com': {
+    bookingRef: '889B-STF',
+    email: 'eamon.defreitas@websummit.com',
+    firstName: 'Eamon',
+    lastName: 'de Freitas',
+  },
+  'edel.hynes@websummit.com': {
+    bookingRef: 'LC8O-STF',
+    email: 'edel.hynes@websummit.com',
+    firstName: 'Edel',
+    lastName: 'Hynes',
+  },
+  'edel.prendergast@websummit.com': {
+    bookingRef: '8KWF-STF',
+    email: 'edel.prendergast@websummit.com',
+    firstName: 'Edel',
+    lastName: 'Prendergast',
+  },
+  'edgar.lopes@websummit.com': {
+    bookingRef: 'ZZMR-STF',
+    email: 'edgar.lopes@websummit.com',
+    firstName: 'Edgar',
+    lastName: 'Lopes',
+  },
+  'elaine.hanly@websummit.com': {
+    bookingRef: 'BI3X-STF',
+    email: 'elaine.hanly@websummit.com',
+    firstName: 'Elaine',
+    lastName: 'Hanly',
+  },
+  'elaine.watts@websummit.com': {
+    bookingRef: '586A-STF',
+    email: 'elaine.watts@websummit.com',
+    firstName: 'Elaine',
+    lastName: 'Watts',
+  },
+  'eleanor@websummit.com': {
+    bookingRef: 'ON9Z-STF',
+    email: 'eleanor@websummit.com',
+    firstName: 'Eleanor',
+    lastName: 'McGrath',
+  },
+  'emanuele.tozzato@websummit.com': {
+    bookingRef: 'V2MV-STF',
+    email: 'emanuele.tozzato@websummit.com',
+    firstName: 'Emanuele',
+    lastName: 'Tozzato',
+  },
+  'emma.murphy@websummit.com': {
+    bookingRef: 'BTWY-STF',
+    email: 'emma.murphy@websummit.com',
+    firstName: 'Emma',
+    lastName: 'Murphy',
+  },
+  'eoghan@websummit.com': {
+    bookingRef: 'J4XS-STF',
+    email: 'eoghan@websummit.com',
+    firstName: 'Eoghan',
+    lastName: 'McNeill',
+  },
+  'eoin.ocarroll@websummit.com': {
+    bookingRef: 'QPY7-STF',
+    email: 'eoin.ocarroll@websummit.com',
+    firstName: 'Eoin',
+    lastName: "O'Carroll",
+  },
+  'eoin.sheehan@websummit.com': {
+    bookingRef: 'GLW1-STF',
+    email: 'eoin.sheehan@websummit.com',
+    firstName: 'Eoin',
+    lastName: 'Sheehan',
+  },
+  'eugene.kazaev@websummit.com': {
+    bookingRef: 'XJSM-STF',
+    email: 'eugene.kazaev@websummit.com',
+    firstName: 'Eugene',
+    lastName: 'Kazaev',
+  },
+  'evan+demo@websummit.com': {
+    bookingRef: 'DEMO-ONE',
+    email: 'evan+demo@websummit.com',
+    firstName: 'Demo',
+    lastName: 'User',
+  },
+  'evan@websummit.com': {
+    bookingRef: 'EVAN-STF',
+    email: 'evan@websummit.com',
+    firstName: 'Evan',
+    lastName: "O'Brien",
+  },
+  'finian.green@websummit.com': {
+    bookingRef: 'CRBP-STF',
+    email: 'finian.green@websummit.com',
+    firstName: 'Finian',
+    lastName: 'Green',
+  },
+  'francesca.viterbo@websummit.com': {
+    bookingRef: '8ZHV-STF',
+    email: 'francesca.viterbo@websummit.com',
+    firstName: 'Francesca',
+    lastName: 'Viterbo',
+  },
+  'francisca.bernardo@websummit.com': {
+    bookingRef: 'GBBL-STF',
+    email: 'francisca.bernardo@websummit.com',
+    firstName: 'Francisca',
+    lastName: 'Bernardo',
+  },
+  'gabriel.karasekgageiro@websummit.com': {
+    bookingRef: 'PJ4W-STF',
+    email: 'gabriel.karasekgageiro@websummit.com',
+    firstName: 'Gabriel',
+    lastName: 'Karasek',
+  },
+  'gabriela.guedez@websummit.com': {
+    bookingRef: 'UOE6-STF',
+    email: 'gabriela.guedez@websummit.com',
+    firstName: 'Gabriela',
+    lastName: 'Guedez',
+  },
+  'gary.kelly@websummit.com': {
+    bookingRef: '6WEC-STF',
+    email: 'gary.kelly@websummit.com',
+    firstName: 'Gary',
+    lastName: 'Kelly',
+  },
+  'gavin.morrison@websummit.com': {
+    bookingRef: 'PBOM-STF',
+    email: 'gavin.morrison@websummit.com',
+    firstName: 'Gavin',
+    lastName: 'Morrison',
+  },
+  'geoff.wharton@websummit.com': {
+    bookingRef: 'O1R2-STF',
+    email: 'geoff.wharton@websummit.com',
+    firstName: 'Geoffrey',
+    lastName: 'Wharton',
+  },
+  'georgios.lamprou@websummit.com': {
+    bookingRef: 'SI44-STF',
+    email: 'georgios.lamprou@websummit.com',
+    firstName: 'Georgios',
+    lastName: 'Lamprou',
+  },
+  'gintare@websummit.com': {
+    bookingRef: 'M2LG-STF',
+    email: 'gintare@websummit.com',
+    firstName: 'Gintare',
+    lastName: 'Karalyte',
+  },
+  'grace.copeland@websummit.com': {
+    bookingRef: 'T0GF-STF',
+    email: 'grace.copeland@websummit.com',
+    firstName: 'Grace',
+    lastName: 'Copeland',
+  },
+  'greta.taylor@websummit.com': {
+    bookingRef: 'NZ3Z-STF',
+    email: 'greta.taylor@websummit.com',
+    firstName: 'Greta',
+    lastName: 'Taylor',
+  },
+  'hannah.glendon@websummit.com': {
+    bookingRef: 'VETM-STF',
+    email: 'hannah.glendon@websummit.com',
+    firstName: 'Hannah',
+    lastName: 'Glendon',
+  },
+  'hannah.large@websummit.com': {
+    bookingRef: '8CBP-STF',
+    email: 'hannah.large@websummit.com',
+    firstName: 'Hannah',
+    lastName: 'Large',
+  },
+  'haziq.zargar@websummit.com': {
+    bookingRef: 'VR42-STF',
+    email: 'haziq.zargar@websummit.com',
+    firstName: 'Haziq',
+    lastName: 'Zargar',
+  },
+  'helen.conway@websummit.com': {
+    bookingRef: '9PCV-STF',
+    email: 'helen.conway@websummit.com',
+    firstName: 'Helen',
+    lastName: 'Conway',
+  },
+  'henry.obrien@websummit.com': {
+    bookingRef: 'CWE9-STF',
+    email: 'henry.obrien@websummit.com',
+    firstName: 'Henry',
+    lastName: 'O’ Brien',
+  },
+  'hugh@websummit.com': {
+    bookingRef: 'G6U4-STF',
+    email: 'hugh@websummit.com',
+    firstName: 'Hugh',
+    lastName: 'Gallagher',
+  },
+  'ian.curtis@websummit.com': {
+    bookingRef: 'T6WS-STF',
+    email: 'ian.curtis@websummit.com',
+    firstName: 'Ian',
+    lastName: 'Curtis',
+  },
+  'ian.stevenson@websummit.com': {
+    bookingRef: 'FO0Y-STF',
+    email: 'ian.stevenson@websummit.com',
+    firstName: 'Ian',
+    lastName: 'Stevenson',
+  },
+  'ines.azevedo@websummit.com': {
+    bookingRef: 'QUFN-STF',
+    email: 'ines.azevedo@websummit.com',
+    firstName: 'Inês',
+    lastName: 'Azevedo',
+  },
+  'ines.cruz@websummit.com': {
+    bookingRef: '603G-STF',
+    email: 'ines.cruz@websummit.com',
+    firstName: 'Inês',
+    lastName: 'Cruz',
+  },
+  'ines.deroche@websummit.com': {
+    bookingRef: 'TNSW-STF',
+    email: 'ines.deroche@websummit.com',
+    firstName: 'Ines',
+    lastName: 'Deroche',
+  },
+  'ines.fradeira@websummit.com': {
+    bookingRef: '39EE-STF',
+    email: 'ines.fradeira@websummit.com',
+    firstName: 'Inês',
+    lastName: 'Cabral Fradeira ',
+  },
+  'ines.santos@websummit.com': {
+    bookingRef: 'YEZ3-STF',
+    email: 'ines.santos@websummit.com',
+    firstName: 'Inês',
+    lastName: 'Santos',
+  },
+  'jack.knox@websummit.com': {
+    bookingRef: 'EQKR-STF',
+    email: 'jack.knox@websummit.com',
+    firstName: 'Jack',
+    lastName: 'Knox',
+  },
+  'jake.mulcahy@websummit.com': {
+    bookingRef: 'MC3J-STF',
+    email: 'jake.mulcahy@websummit.com',
+    firstName: 'Jake',
+    lastName: 'Mulcahy',
+  },
+  'james.lenihan@websummit.com': {
+    bookingRef: 'FULN-STF',
+    email: 'james.lenihan@websummit.com',
+    firstName: 'James',
+    lastName: 'Lenihan',
+  },
+  'jamie.coyle@websummit.com': {
+    bookingRef: '6OWL-STF',
+    email: 'jamie.coyle@websummit.com',
+    firstName: 'Jamie',
+    lastName: 'Coyle',
+  },
+  'janina.yotova@websummit.com': {
+    bookingRef: 'NJPN-STF',
+    email: 'janina.yotova@websummit.com',
+    firstName: 'Janina',
+    lastName: 'Yotova',
+  },
+  'jennifer.keogh@websummit.com': {
+    bookingRef: 'ECKJ-STF',
+    email: 'jennifer.keogh@websummit.com',
+    firstName: 'Jennifer',
+    lastName: 'Keogh',
+  },
+  'jennifer.mcnaughton@websummit.com': {
+    bookingRef: '2A7M-STF',
+    email: 'jennifer.mcnaughton@websummit.com',
+    firstName: 'Jen',
+    lastName: 'McNaughton',
+  },
+  'jenny.odonoghue@websummit.com': {
+    bookingRef: 'IOUL-STF',
+    email: 'jenny.odonoghue@websummit.com',
+    firstName: 'Jenny',
+    lastName: "O'Donoghue",
+  },
+  'joan.mccarthy@websummit.com': {
+    bookingRef: 'NOMX-STF',
+    email: 'joan.mccarthy@websummit.com',
+    firstName: 'Joan',
+    lastName: 'McCarthy',
+  },
+  'joao.silva@websummit.com': {
+    bookingRef: 'H5LY-STF',
+    email: 'joao.silva@websummit.com',
+    firstName: 'João',
+    lastName: 'Silva',
+  },
+  'joao.soares@websummit.com': {
+    bookingRef: 'JOAO-STF',
+    email: 'joao.soares@websummit.com',
+    firstName: 'João',
+    lastName: 'Soares',
+  },
+  'johannes.vollertsen@websummit.com': {
+    bookingRef: 'FGH0-STF',
+    email: 'johannes.vollertsen@websummit.com',
+    firstName: 'Johannes',
+    lastName: 'Vollertsen',
+  },
+  'john.downey@websummit.com': {
+    bookingRef: '5YQU-STF',
+    email: 'john.downey@websummit.com',
+    firstName: 'John',
+    lastName: 'Downey',
+  },
+  'kacper.cygan@netguru.com': {
+    bookingRef: '54DX-STF',
+    email: 'kacper.cygan@netguru.com',
+    firstName: 'Kacper',
+    lastName: 'Cygan',
+  },
+  'kacper.michal.wojciechowski@netguru.com': {
+    bookingRef: 'NHVS-STF',
+    email: 'kacper.michal.wojciechowski@netguru.com',
+    firstName: 'Kacper',
+    lastName: 'Wojciechowski',
+  },
+  'karena.walshe@websummit.com': {
+    bookingRef: 'D25K-STF',
+    email: 'karena.walshe@websummit.com',
+    firstName: 'Karena',
+    lastName: 'Walshe',
+  },
+  'karl.fagan@websummit.com': {
+    bookingRef: 'BTGR-STF',
+    email: 'karl.fagan@websummit.com',
+    firstName: 'Karl',
+    lastName: 'Fagan',
+  },
+  'kat@websummit.com': {
+    bookingRef: 'V6HD-STF',
+    email: 'kat@websummit.com',
+    firstName: 'Katarina',
+    lastName: 'Black',
+  },
+  'katarina.cierna@websummit.com': {
+    bookingRef: 'CGMZ-STF',
+    email: 'katarina.cierna@websummit.com',
+    firstName: 'Katarina',
+    lastName: 'Cierna',
+  },
+  'katarina.micuchova@websummit.com': {
+    bookingRef: '3DKC-STF',
+    email: 'katarina.micuchova@websummit.com',
+    firstName: 'Katarina',
+    lastName: 'Micuchova',
+  },
+  'katarzyna.matusiak@websummit.com': {
+    bookingRef: 'EEQ1-STF',
+    email: 'katarzyna.matusiak@websummit.com',
+    firstName: 'Katarzyna',
+    lastName: 'Matusiak',
+  },
+  'katherine.farrell@websummit.com': {
+    bookingRef: 'OXCC-STF',
+    email: 'katherine.farrell@websummit.com',
+    firstName: 'Katherine',
+    lastName: 'Farrell',
+  },
+  'katie.bolger@websummit.com': {
+    bookingRef: 'TOVZ-STF',
+    email: 'katie.bolger@websummit.com',
+    firstName: 'Katie',
+    lastName: 'Bolger',
+  },
+  'keeva.bentham@websummit.com': {
+    bookingRef: 'CT0C-STF',
+    email: 'keeva.bentham@websummit.com',
+    firstName: 'Keeva',
+    lastName: 'Bentham',
+  },
+  'keith@websummit.com': {
+    bookingRef: 'JJT3-STF',
+    email: 'keith@websummit.com',
+    firstName: 'Keith',
+    lastName: 'Wallace',
+  },
+  'kerry.mcdevitt@websummit.com': {
+    bookingRef: 'PO76-STF',
+    email: 'kerry.mcdevitt@websummit.com',
+    firstName: 'Kerry',
+    lastName: 'Mc.Devitt',
+  },
+  'kevin.mcdonald@websummit.com': {
+    bookingRef: 'X3RS-STF',
+    email: 'kevin.mcdonald@websummit.com',
+    firstName: 'Kevin',
+    lastName: 'McDonald',
+  },
+  'kirsty.tobin@websummit.com': {
+    bookingRef: 'AO3N-STF',
+    email: 'kirsty.tobin@websummit.com',
+    firstName: 'Kirsty',
+    lastName: 'Tobin',
+  },
+  'konrad.timon@websummit.com': {
+    bookingRef: 'QMQW-STF',
+    email: 'konrad.timon@websummit.com',
+    firstName: 'Konrad',
+    lastName: 'Timon',
+  },
+  'kristina@websummit.com': {
+    bookingRef: 'FXZH-STF',
+    email: 'kristina@websummit.com',
+    firstName: 'Kristina',
+    lastName: 'Neligan',
+  },
+  'laoise.odwyer@websummit.com': {
+    bookingRef: 'MHJ5-STF',
+    email: 'laoise.odwyer@websummit.com',
+    firstName: 'Laoise',
+    lastName: "O'Dwyer",
+  },
+  'laura.oneill@websummit.com': {
+    bookingRef: 'VIUO-STF',
+    email: 'laura.oneill@websummit.com',
+    firstName: 'Laura',
+    lastName: "O'Neill",
+  },
+  'lauren.burke@websummit.com': {
+    bookingRef: 'OWJB-STF',
+    email: 'lauren.burke@websummit.com',
+    firstName: 'Lauren',
+    lastName: 'Burke',
+  },
+  'lauren.omahony@websummit.com': {
+    bookingRef: 'YWYS-STF',
+    email: 'lauren.omahony@websummit.com',
+    firstName: 'Lauren',
+    lastName: "O'Mahony",
+  },
+  'lee.campbell@websummit.com': {
+    bookingRef: 'INBL-STF',
+    email: 'lee.campbell@websummit.com',
+    firstName: 'Lee',
+    lastName: 'Campbell',
+  },
+  'lia.downer@websummit.com': {
+    bookingRef: '1VU1-STF',
+    email: 'lia.downer@websummit.com',
+    firstName: 'Lia',
+    lastName: 'Downer',
+  },
+  'lingyu.zhang@websummit.com': {
+    bookingRef: '21RP-STF',
+    email: 'lingyu.zhang@websummit.com',
+    firstName: 'Lingyu',
+    lastName: 'Zhang',
+  },
+  'lisa.armstrongbowles@websummit.com': {
+    bookingRef: 'W4EY-STF',
+    email: 'lisa.armstrongbowles@websummit.com',
+    firstName: 'Lisa',
+    lastName: 'Armstrong Bowles',
+  },
+  'lisa@websummit.com': {
+    bookingRef: '3VQF-STF',
+    email: 'lisa@websummit.com',
+    firstName: 'Lisa',
+    lastName: 'Gallagher',
+  },
+  'liyuan.ma@websummit.com': {
+    bookingRef: 'RIQW-STF',
+    email: 'liyuan.ma@websummit.com',
+    firstName: 'Liyuan',
+    lastName: 'Ma',
+  },
+  'lobna@websummit.com': {
+    bookingRef: 'P9CA-STF',
+    email: 'lobna@websummit.com',
+    firstName: 'Lobna',
+    lastName: 'Abulhassan',
+  },
+  'lorna.coakley@websummit.com': {
+    bookingRef: '7PI2-STF',
+    email: 'lorna.coakley@websummit.com',
+    firstName: 'Lorna',
+    lastName: 'Coakley',
+  },
+  'luan.mckenna@websummit.com': {
+    bookingRef: 'HTLP-STF',
+    email: 'luan.mckenna@websummit.com',
+    firstName: 'Luan',
+    lastName: 'McKenna',
+  },
+  'luca.viola@websummit.com': {
+    bookingRef: 'C571-STF',
+    email: 'luca.viola@websummit.com',
+    firstName: 'Luca',
+    lastName: 'Viola',
+  },
+  'lucas.baptista@websummit.com': {
+    bookingRef: 'FOZY-STF',
+    email: 'lucas.baptista@websummit.com',
+    firstName: 'Lucas',
+    lastName: 'Baptista',
+  },
+  'lucia.gavin@websummit.com': {
+    bookingRef: 'W6AX-STF',
+    email: 'lucia.gavin@websummit.com',
+    firstName: 'Lucia',
+    lastName: 'Gavin',
+  },
+  'lucia.hastings@websummit.com': {
+    bookingRef: 'OVAY-STF',
+    email: 'lucia.hastings@websummit.com',
+    firstName: 'Lucia',
+    lastName: 'Hastings',
+  },
+  'luis.serralheiro@websummit.com': {
+    bookingRef: 'W78E-STF',
+    email: 'luis.serralheiro@websummit.com',
+    firstName: 'Luis',
+    lastName: 'Serralheiro',
+  },
+  'luke.byrne@websummit.com': {
+    bookingRef: '3ZWS-STF',
+    email: 'luke.byrne@websummit.com',
+    firstName: 'Luke',
+    lastName: 'Byrne',
+  },
+  'luke.prendeville@websummit.com': {
+    bookingRef: '888Q-STF',
+    email: 'luke.prendeville@websummit.com',
+    firstName: 'Luke',
+    lastName: 'Prendeville',
+  },
+  'lynn.kenny@websummit.com': {
+    bookingRef: 'QD60-STF',
+    email: 'lynn.kenny@websummit.com',
+    firstName: 'Lynn',
+    lastName: 'Kenny',
+  },
+  'maeve.mcquillan@websummit.com': {
+    bookingRef: 'DDE0-STF',
+    email: 'maeve.mcquillan@websummit.com',
+    firstName: 'Maeve',
+    lastName: 'McQuillan',
+  },
+  'manon.racine@websummit.com': {
+    bookingRef: 'QWU9-STF',
+    email: 'manon.racine@websummit.com',
+    firstName: 'Manon',
+    lastName: 'Racine',
+  },
+  'marek.parafianowicz@netguru.com': {
+    bookingRef: '20HJ-STF',
+    email: 'marek.parafianowicz@netguru.com',
+    firstName: 'Marek',
+    lastName: 'Parafianowicz',
+  },
+  'marek.parafianowicz@websummit.com': {
+    bookingRef: 'FHOD-STF',
+    email: 'marek.parafianowicz@websummit.com',
+    firstName: 'Marek',
+    lastName: 'Parafianowicz',
+  },
+  'maria.payandee@websummit.com': {
+    bookingRef: 'PJ06-STF',
+    email: 'maria.payandee@websummit.com',
+    firstName: 'Maria',
+    lastName: 'Payandee',
+  },
+  'marie.degery@websummit.com': {
+    bookingRef: 'I5JT-STF',
+    email: 'marie.degery@websummit.com',
+    firstName: 'Marie',
+    lastName: 'Degery',
+  },
+  'marija.citic@websummit.com': {
+    bookingRef: '2YGS-STF',
+    email: 'marija.citic@websummit.com',
+    firstName: 'Marija',
+    lastName: 'Citic',
+  },
+  'mark.mcgann@websummit.com': {
+    bookingRef: 'UD5E-STF',
+    email: 'mark.mcgann@websummit.com',
+    firstName: 'Mark',
+    lastName: 'McGann',
+  },
+  'mark.powell@websummit.com': {
+    bookingRef: 'PBJO-STF',
+    email: 'mark.powell@websummit.com',
+    firstName: 'Mark',
+    lastName: 'Powell',
+  },
+  'mark.teeple@websummit.com': {
+    bookingRef: 'NW4M-STF',
+    email: 'mark.teeple@websummit.com',
+    firstName: 'Mark',
+    lastName: 'Teeple',
+  },
+  'martyna.kupidura+t3@netguru.com': {
+    bookingRef: 'UNLY-STF',
+    email: 'martyna.kupidura+t3@netguru.com',
+    firstName: 'Martyna',
+    lastName: 'Kowalska (staff for now, convert to an attendee later)',
+  },
+  'marvin.hofmann@websummit.com': {
+    bookingRef: 'MARV-STF',
+    email: 'marvin.hofmann@websummit.com',
+    firstName: 'Marvin',
+    lastName: 'Hofmann',
+  },
+  'mary.kavanagh@websummit.com': {
+    bookingRef: '4UVX-STF',
+    email: 'mary.kavanagh@websummit.com',
+    firstName: 'Mary',
+    lastName: 'Kavanagh',
+  },
+  'mateusz.kluge@netguru.com': {
+    bookingRef: 'I9CH-STF',
+    email: 'mateusz.kluge@netguru.com',
+    firstName: 'Mateusz',
+    lastName: 'Kluge',
+  },
+  'megan.sheridan@websummit.com': {
+    bookingRef: 'HVME-STF',
+    email: 'megan.sheridan@websummit.com',
+    firstName: 'Megan',
+    lastName: 'Sheridan',
+  },
+  'michael.harnett@websummit.com': {
+    bookingRef: 'CEOO-STF',
+    email: 'michael.harnett@websummit.com',
+    firstName: 'Michael',
+    lastName: 'Harnett',
+  },
+  'michael.whelan@websummit.com': {
+    bookingRef: 'FEPQ-STF',
+    email: 'michael.whelan@websummit.com',
+    firstName: 'Mike',
+    lastName: 'Whelan',
+  },
+  'micky.gangwani@websummit.com': {
+    bookingRef: 'YEGX-STF',
+    email: 'micky.gangwani@websummit.com',
+    firstName: 'Micky',
+    lastName: 'Gangwani',
+  },
+  'mike@websummit.com': {
+    bookingRef: 'WPF7-STF',
+    email: 'mike@websummit.com',
+    firstName: 'Mike',
+    lastName: 'Sexton',
+  },
+  'mirella.vanbalen@websummit.com': {
+    bookingRef: '0O30-STF',
+    email: 'mirella.vanbalen@websummit.com',
+    firstName: 'Mirella',
+    lastName: 'Van Balen',
+  },
+  'naomi.agnew@websummit.com': {
+    bookingRef: '4UEL-STF',
+    email: 'naomi.agnew@websummit.com',
+    firstName: 'Naomi',
+    lastName: 'Agnew',
+  },
+  'nassim.amara@websummit.com': {
+    bookingRef: 'WQEW-STF',
+    email: 'nassim.amara@websummit.com',
+    firstName: 'Nassim',
+    lastName: 'Amara',
+  },
+  'niall.khoaz@websummit.com': {
+    bookingRef: '4C9P-STF',
+    email: 'niall.khoaz@websummit.com',
+    firstName: 'Niall',
+    lastName: 'Khoaz',
+  },
+  'niamh.oconnor@websummit.com': {
+    bookingRef: 'BI4B-STF',
+    email: 'niamh.oconnor@websummit.com',
+    firstName: 'Niamh',
+    lastName: "O'Connor",
+  },
+  'nida@websummit.com': {
+    bookingRef: 'DJPF-STF',
+    email: 'nida@websummit.com',
+    firstName: 'Nida',
+    lastName: 'Shah',
+  },
+  'nidhi.naithani@websummit.com': {
+    bookingRef: 'XDIH-STF',
+    email: 'nidhi.naithani@websummit.com',
+    firstName: 'Nidhi',
+    lastName: 'Naithani',
+  },
+  'nuno.ramao@websummit.com': {
+    bookingRef: 'K2YJ-STF',
+    email: 'nuno.ramao@websummit.com',
+    firstName: 'Nuno',
+    lastName: 'Ramāo',
+  },
+  'nuno.romao@websummit.com': {
+    bookingRef: 'W0G8-STF',
+    email: 'nuno.romao@websummit.com',
+    firstName: 'Nuno',
+    lastName: 'Romão',
+  },
+  'paddy@websummit.com': {
+    bookingRef: 'WACD-STF',
+    email: 'paddy@websummit.com',
+    firstName: 'Paddy',
+    lastName: 'Cosgrave',
+  },
+  'patrice@websummit.com': {
+    bookingRef: 'EQ2O-STF',
+    email: 'patrice@websummit.com',
+    firstName: 'Patrice',
+    lastName: 'Finneran',
+  },
+  'patrick.griffith@websummit.com': {
+    bookingRef: 'FXOA-STF',
+    email: 'patrick.griffith@websummit.com',
+    firstName: 'Patrick',
+    lastName: 'Griffith',
+  },
+  'patrick.kelly@websummit.com': {
+    bookingRef: 'CNMM-STF',
+    email: 'patrick.kelly@websummit.com',
+    firstName: 'Patrick',
+    lastName: 'Kelly',
+  },
+  'patrick.kirwan@websummit.com': {
+    bookingRef: 'VCHZ-STF',
+    email: 'patrick.kirwan@websummit.com',
+    firstName: 'Paddy',
+    lastName: 'Kirwan',
+  },
+  'patrycja.batko@netguru.com': {
+    bookingRef: '8OTZ-STF',
+    email: 'patrycja.batko@netguru.com',
+    firstName: 'Patrycja',
+    lastName: 'Batko',
+  },
+  'paul.butler@websummit.com': {
+    bookingRef: 'LZIS-STF',
+    email: 'paul.butler@websummit.com',
+    firstName: 'Paul',
+    lastName: 'Butler',
+  },
+  'paul.moore@websummit.com': {
+    bookingRef: 'F6XN-STF',
+    email: 'paul.moore@websummit.com',
+    firstName: 'Paul',
+    lastName: 'Anthony Moore',
+  },
+  'paul.omahony@websummit.com': {
+    bookingRef: 'K9TM-STF',
+    email: 'paul.omahony@websummit.com',
+    firstName: 'Paul',
+    lastName: "O'Mahony",
+  },
+  'pawel.parafiniuk@netguru.com': {
+    bookingRef: 'ZRJ5-STF',
+    email: 'pawel.parafiniuk@netguru.com',
+    firstName: 'Paweł',
+    lastName: 'Parafiniuk',
+  },
+  'peterg@websummit.com': {
+    bookingRef: 'BLSB-STF',
+    email: 'peterg@websummit.com',
+    firstName: 'Peter',
+    lastName: 'Gilmer',
+  },
+  'pm@amaranthine.com': {
+    bookingRef: 'MD0M-STF',
+    email: 'pm@amaranthine.com',
+    firstName: 'Patrick',
+    lastName: 'Murphy',
+  },
+  'rachel.monahan@websummit.com': {
+    bookingRef: 'LKRF-STF',
+    email: 'rachel.monahan@websummit.com',
+    firstName: 'Rachel',
+    lastName: 'Monahan',
+  },
+  'rachel.wheeler@websummit.com': {
+    bookingRef: 'QNBO-STF',
+    email: 'rachel.wheeler@websummit.com',
+    firstName: 'Rachel Wheeler',
+    lastName: '(She / Her)',
+  },
+  'raxitpaul.louis@websummit.com': {
+    bookingRef: 'N5SC-STF',
+    email: 'raxitpaul.louis@websummit.com',
+    firstName: 'Raxit Paul',
+    lastName: 'Louis',
+  },
+  'rebecca.connolly@websummit.com': {
+    bookingRef: 'RSCN-STF',
+    email: 'rebecca.connolly@websummit.com',
+    firstName: 'Rebecca',
+    lastName: 'Connolly',
+  },
+  'rebecca.ryan@websummit.com': {
+    bookingRef: 'E1JI-STF',
+    email: 'rebecca.ryan@websummit.com',
+    firstName: 'Rebecca',
+    lastName: 'Ryan',
+  },
+  'renee.daly@websummit.com': {
+    bookingRef: 'C8CH-STF',
+    email: 'renee.daly@websummit.com',
+    firstName: 'Renee',
+    lastName: 'Daly',
+  },
+  'ricardo.lima@websummit.com': {
+    bookingRef: 'VQ6C-STF',
+    email: 'ricardo.lima@websummit.com',
+    firstName: 'Ricardo',
+    lastName: 'Lima',
+  },
+  'ricardo.pinto@websummit.com': {
+    bookingRef: 'VGBM-STF',
+    email: 'ricardo.pinto@websummit.com',
+    firstName: 'Ricardo',
+    lastName: 'Gandara Pinto',
+  },
+  'rob.reid@websummit.com': {
+    bookingRef: 'C74F-STF',
+    email: 'rob.reid@websummit.com',
+    firstName: 'Rob',
+    lastName: 'Reid',
+  },
+  'robert.babos@websummit.com': {
+    bookingRef: '27GV-STF',
+    email: 'robert.babos@websummit.com',
+    firstName: 'Rob',
+    lastName: 'Babos',
+  },
+  'robert.fitzgerald@websummit.com': {
+    bookingRef: '5B0L-STF',
+    email: 'robert.fitzgerald@websummit.com',
+    firstName: 'Robbie',
+    lastName: 'Fitzgerald',
+  },
+  'robert.lynch@websummit.com': {
+    bookingRef: '5BL4-STF',
+    email: 'robert.lynch@websummit.com',
+    firstName: 'Robert',
+    lastName: 'Lynch',
+  },
+  'roberto.decurnex@websummit.com': {
+    bookingRef: 'IAE6-STF',
+    email: 'roberto.decurnex@websummit.com',
+    firstName: 'Roberto',
+    lastName: 'Decurnex',
+  },
+  'ronan.mooney@websummit.com': {
+    bookingRef: 'XJ91-STF',
+    email: 'ronan.mooney@websummit.com',
+    firstName: 'Ronan',
+    lastName: 'Mooney',
+  },
+  'ronan.yore@websummit.com': {
+    bookingRef: '0GUP-STF',
+    email: 'ronan.yore@websummit.com',
+    firstName: 'Ronan',
+    lastName: 'Yore',
+  },
+  'rory.beirne@websummit.com': {
+    bookingRef: '1CPS-STF',
+    email: 'rory.beirne@websummit.com',
+    firstName: 'Rory',
+    lastName: 'Beirne',
+  },
+  'sarah.coffey@websummit.com': {
+    bookingRef: 'VMIR-STF',
+    email: 'sarah.coffey@websummit.com',
+    firstName: 'Sarah',
+    lastName: 'Coffey',
+  },
+  'sarahjane.allen@websummit.com': {
+    bookingRef: '1Q5P-STF',
+    email: 'sarahjane.allen@websummit.com',
+    firstName: 'Sarah Jane',
+    lastName: 'Allen',
+  },
+  'sean.curtin@websummit.com': {
+    bookingRef: 'WDZT-STF',
+    email: 'sean.curtin@websummit.com',
+    firstName: 'Sean',
+    lastName: 'Curtin',
+  },
+  'sebastian.white@websummit.com': {
+    bookingRef: 'D7I7-STF',
+    email: 'sebastian.white@websummit.com',
+    firstName: 'Sebastian',
+    lastName: 'White',
+  },
+  'shane.tynan@websummit.com': {
+    bookingRef: '1V0C-STF',
+    email: 'shane.tynan@websummit.com',
+    firstName: 'Shane',
+    lastName: 'Tynan',
+  },
+  'shauna.kiely@websummit.com': {
+    bookingRef: '94XH-STF',
+    email: 'shauna.kiely@websummit.com',
+    firstName: 'Shauna',
+    lastName: 'Kiely',
+  },
+  'sine.mcgoff@websummit.com': {
+    bookingRef: 'U47T-STF',
+    email: 'sine.mcgoff@websummit.com',
+    firstName: 'Síne',
+    lastName: 'McGoff',
+  },
+  'soraia.lage@websummit.com': {
+    bookingRef: 'FL3I-STF',
+    email: 'soraia.lage@websummit.com',
+    firstName: 'Soraia',
+    lastName: 'Torres Lage',
+  },
+  'sorcha.killian@websummit.com': {
+    bookingRef: 'BV8G-STF',
+    email: 'sorcha.killian@websummit.com',
+    firstName: 'Sorcha',
+    lastName: 'Killian',
+  },
+  'stephanie.quilligan@websummit.com': {
+    bookingRef: '7I6S-STF',
+    email: 'stephanie.quilligan@websummit.com',
+    firstName: 'Stephanie',
+    lastName: 'Quilligan',
+  },
+  'stephen@websummit.com': {
+    bookingRef: 'VASR-STF',
+    email: 'stephen@websummit.com',
+    firstName: 'Stephen',
+    lastName: 'Twomey',
+  },
+  'steven@websummit.com': {
+    bookingRef: 'DDYZ-STF',
+    email: 'steven@websummit.com',
+    firstName: 'Steven',
+    lastName: 'Tobin',
+  },
+  'sunil.sharma@websummit.com': {
+    bookingRef: 'SHOA-STF',
+    email: 'sunil.sharma@websummit.com',
+    firstName: 'Sunil',
+    lastName: 'Sharma',
+  },
+  'suzanne.taylor@websummit.com': {
+    bookingRef: 'N5X1-STF',
+    email: 'suzanne.taylor@websummit.com',
+    firstName: 'Suzanne',
+    lastName: 'Taylor',
+  },
+  'sylviane.coquard@websummit.com': {
+    bookingRef: 'JXDR-STF',
+    email: 'sylviane.coquard@websummit.com',
+    firstName: 'Sylviane',
+    lastName: 'Coquard',
+  },
+  'tebra@websummit.com': {
+    bookingRef: 'QKHI-STF',
+    email: 'tebra@websummit.com',
+    firstName: 'Tebra',
+    lastName: 'Hynes',
+  },
+  'thierry@websummit.com': {
+    bookingRef: 'MRTY-STF',
+    email: 'thierry@websummit.com',
+    firstName: 'Thierry',
+    lastName: 'Michel',
+  },
+  'thomas.moen+test@websummit.com': {
+    bookingRef: 'J3UB-STF',
+    email: 'thomas.moen+test@websummit.com',
+    firstName: 'Thomas',
+    lastName: 'Test Moen',
+  },
+  'thomas.moen@websummit.com': {
+    bookingRef: 'GJU6-STF',
+    email: 'thomas.moen@websummit.com',
+    firstName: 'Thomas',
+    lastName: 'Moen',
+  },
+  'tim.kiernan@websummit.com': {
+    bookingRef: 'EOTW-STF',
+    email: 'tim.kiernan@websummit.com',
+    firstName: 'Tim',
+    lastName: 'Kiernan',
+  },
+  'tom.svecak@websummit.com': {
+    bookingRef: 'CPX0-STF',
+    email: 'tom.svecak@websummit.com',
+    firstName: 'Tom',
+    lastName: 'Svecak',
+  },
+  'tom@websummit.com': {
+    bookingRef: 'JQAH-STF',
+    email: 'tom@websummit.com',
+    firstName: 'Tom',
+    lastName: "O'Reilly",
+  },
+  'tomasz.rdzak@websummit.com': {
+    bookingRef: 'N6AN-STFY',
+    email: 'tomasz.rdzak@websummit.com',
+    firstName: 'Tomasz',
+    lastName: 'Rdzak',
+  },
+  'tome.duarte@websummit.com': {
+    bookingRef: 'H7LR-STF',
+    email: 'tome.duarte@websummit.com',
+    firstName: 'Tomé',
+    lastName: 'Duarte',
+  },
+  'tomislav.svecak@websummit.com': {
+    bookingRef: 'GZM8-STF',
+    email: 'tomislav.svecak@websummit.com',
+    firstName: 'Tomislav',
+    lastName: 'Svecak',
+  },
+  'trevor@websummit.com': {
+    bookingRef: 'LRDG-STF',
+    email: 'trevor@websummit.com',
+    firstName: 'Trevor',
+    lastName: 'Merrey',
+  },
+  'victor.jager@websummit.com': {
+    bookingRef: 'OGVN-STF',
+    email: 'victor.jager@websummit.com',
+    firstName: 'Victor',
+    lastName: 'Jager',
+  },
+  'wale.lawal@websummit.com': {
+    bookingRef: 'VFRQ-STF',
+    email: 'wale.lawal@websummit.com',
+    firstName: 'Wale',
+    lastName: 'Lawal',
+  },
+  'wesley@websummit.com': {
+    bookingRef: 'HK1Q-STF',
+    email: 'wesley@websummit.com',
+    firstName: 'Wesley',
+    lastName: 'Farrell',
+  },
+  'wez.evans@websummit.com': {
+    bookingRef: 'TGBR-STF',
+    email: 'wez.evans@websummit.com',
+    firstName: 'Wez',
+    lastName: 'Evans',
+  },
+  'yvonne.redmond@websummit.com': {
+    bookingRef: 'LDDD-STF',
+    email: 'yvonne.redmond@websummit.com',
+    firstName: 'Yvonne',
+    lastName: 'Redmond',
+  },
+  'zara.mcgrath@websummit.com': {
+    bookingRef: 'YK86-STF',
+    email: 'zara.mcgrath@websummit.com',
+    firstName: 'Zara',
+    lastName: 'McGrath',
+  },
+};
 
 const ws20: Conference = {
-  slug: 'ws20',
-  storeId: '22d0f54a-35ef-4dcc-a2b3-1e6c8f99a41f',
-  staffProductId: '56ba3c20-ee93-4aa7-8400-2ffc22f36a92',
   guestProductId: '65e53977-9efa-4937-bdf7-340a8a131862',
-}
+  slug: 'ws20',
+  staffProductId: '56ba3c20-ee93-4aa7-8400-2ffc22f36a92',
+  storeId: '22d0f54a-35ef-4dcc-a2b3-1e6c8f99a41f',
+};
 
 const tfh20: Conference = {
   slug: 'tfh20',
+  staffProductId: 'daa9e08b-409c-4ce2-9c45-f220d33101c1',
   storeId: '7ada51b5-eed4-44f9-852c-9ef5b20e16a1',
-  staffProductId: 'daa9e08b-409c-4ce2-9c45-f220d33101c1'
-}
+};
 
-const sandboxApiUrl = 'https://catalyst.cluster.cilabs.net/graphql'
-const prodApiUrl = 'https://api.cilabs.com/catalyst'
+const sandboxApiUrl = 'https://catalyst.cluster.cilabs.net/graphql';
+const prodApiUrl = 'https://api.cilabs.com/catalyst';
 
 const lifecycles = singleSpaReact({
   React,
   ReactDOM,
   rootComponent: (props) => (
-    <App {...props}
-         staffList={staffList}
-         conference={tfh20}
-         apiURL={sandboxApiUrl}
+    <App
+      {...props}
+      apiURL={sandboxApiUrl}
+      conference={tfh20}
+      staffList={staffList}
     />
-  )
-})
+  ),
+});
 
-export const { bootstrap, mount, unmount, update } = lifecycles
+export const { bootstrap, mount, unmount, update } = lifecycles;

@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
-`
+`;
 
 export const StyledGridForm = styled.form`
   display: grid;
@@ -15,4 +15,4 @@ export const StyledGridForm = styled.form`
   & .align-right {
     grid-area: 2 / 3 / 3 / 4;
   }
-`
+`;

@@ -1,21 +1,30 @@
-import React from 'react'
+import React from 'react';
 
-import ReasonAlertModal from '../../lib/components/molecules/ReasonAlertModal'
-import { OrderReinstateRequest, useOrderReinstateMutation } from '../../operations/mutations/OrderReinstate'
+import ReasonAlertModal from '../../lib/components/molecules/ReasonAlertModal';
+import {
+  OrderReinstateRequest,
+  useOrderReinstateMutation,
+} from '../../operations/mutations/OrderReinstate';
 
 type OrderReinstateModalProps = {
-  closeModal: () => void
-  isOpen: boolean
-  orderRef: string
-  sourceId: string
-  refetch?: any
-}
+  closeModal: () => void;
+  isOpen: boolean;
+  orderRef: string;
+  refetch?: any;
+  sourceId: string;
+};
 
-const OrderReinstateModal = ({ isOpen, closeModal, orderRef, sourceId, refetch }: OrderReinstateModalProps) => {
-  const { reinstateOrder } = useOrderReinstateMutation()
+const OrderReinstateModal = ({
+  isOpen,
+  closeModal,
+  orderRef,
+  sourceId,
+  refetch,
+}: OrderReinstateModalProps) => {
+  const { reinstateOrder } = useOrderReinstateMutation();
   const setMutation = (e: OrderReinstateRequest) => {
-    return reinstateOrder({ id: sourceId, reason: e.reason, refetch })
-  }
+    return reinstateOrder({ id: sourceId, reason: e.reason, refetch });
+  };
 
   return (
     <ReasonAlertModal
@@ -28,7 +37,7 @@ const OrderReinstateModal = ({ isOpen, closeModal, orderRef, sourceId, refetch }
       mutationCallback={setMutation}
       submitText="Yes, reinstate order"
     />
-  )
-}
+  );
+};
 
-export default OrderReinstateModal
+export default OrderReinstateModal;

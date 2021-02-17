@@ -9,6 +9,7 @@ builds
 
 packages/graphql/graphql.schema.json
 
+.yarn/releases/
 
 **/.gitignore
 */*/yarn.lock

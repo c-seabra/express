@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { Spacing } from '../../../components/templates/Spacing'
-import { ErrorButton } from '../atoms/Button'
-import Icon from '../atoms/Icon'
-import Modal from './Modal'
+import { Spacing } from '../../../components/templates/Spacing';
+import { ErrorButton } from '../atoms/Button';
+import Icon from '../atoms/Icon';
+import Modal from './Modal';
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,45 +15,45 @@ const Wrapper = styled.div`
   font-size: 0.85rem;
   font-weight: 400;
   min-width: 640px;
-`
+`;
 
 const Text = styled.div`
   font-size: 16px;
   letter-spacing: 0;
   line-height: 28px;
   max-width: 580px;
-`
+`;
 
 const HeaderText = styled.div`
   font-size: 26px;
   font-weight: 500;
   letter-spacing: -0.5px;
   line-height: 40px;
-`
+`;
 
 const AlertText = styled(HeaderText)`
   color: #e15554;
-`
+`;
 
 const StyledErrorButton = styled(ErrorButton)`
   padding-left: 3.75rem;
   padding-right: 3.75rem;
-`
+`;
 
 const IconWrapper = styled.div`
   > .material-icons {
     font-size: 36px;
     color: #e15554;
   }
-`
+`;
 
 type ErrorInfoModalProps = {
-  alertHeader: string
-  alertText: string
-  closeModal: () => void
-  headerText: string
-  isOpen: boolean
-}
+  alertHeader: string;
+  alertText: string;
+  closeModal: () => void;
+  headerText: string;
+  isOpen: boolean;
+};
 
 const ErrorInfoModal = ({
   isOpen,
@@ -85,7 +85,7 @@ const ErrorInfoModal = ({
         </Spacing>
       </Wrapper>
     </Modal>
-  )
-}
+  );
+};
 
-export default ErrorInfoModal
+export default ErrorInfoModal;

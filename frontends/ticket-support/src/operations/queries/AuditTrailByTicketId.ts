@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const TICKET_AUDIT_TRAIL = gql`
   query TicketAuditTrail($reference: String!) {
@@ -39,5 +39,5 @@ export const TICKET_AUDIT_TRAIL = gql`
       }
     }
   }
-`
-export default TICKET_AUDIT_TRAIL
+`;
+export default TICKET_AUDIT_TRAIL;

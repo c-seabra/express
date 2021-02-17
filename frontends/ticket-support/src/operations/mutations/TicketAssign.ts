@@ -1,9 +1,19 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const TICKET_ASSIGN_MUTATION = gql`
-  mutation TicketAssign($firstName: String!, $lastName: String, $email: String!, $ticketId: ID!) {
+  mutation TicketAssign(
+    $firstName: String!
+    $lastName: String
+    $email: String!
+    $ticketId: ID!
+  ) {
     ticketAssign(
-      input: { firstName: $firstName, lastName: $lastName, email: $email, ticketId: $ticketId }
+      input: {
+        firstName: $firstName
+        lastName: $lastName
+        email: $email
+        ticketId: $ticketId
+      }
     ) {
       ticket {
         id
@@ -31,6 +41,6 @@ const TICKET_ASSIGN_MUTATION = gql`
       }
     }
   }
-`
+`;
 
-export default TICKET_ASSIGN_MUTATION
+export default TICKET_ASSIGN_MUTATION;

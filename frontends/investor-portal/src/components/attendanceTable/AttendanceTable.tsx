@@ -1,28 +1,34 @@
-import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react'
+import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 
-import { ContainerCard, Heading } from '../../lib/components'
-import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery'
-import useSearchState from '../../lib/hooks/useSearchState'
-import Pagination from '../../lib/Pagination'
-import AttendanceList from '../attendanceList/AttendanceList'
-import { FiltersSearchContainer, SearchFilters, StyledSearchInput } from './AttendanceTable.styled'
+import { ContainerCard, Heading } from '../../lib/components';
+import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
+import useSearchState from '../../lib/hooks/useSearchState';
+import Pagination from '../../lib/Pagination';
+import AttendanceList from '../attendanceList/AttendanceList';
+import {
+  FiltersSearchContainer,
+  SearchFilters,
+  StyledSearchInput,
+} from './AttendanceTable.styled';
 
 type AttendanceSearchState = {
-  page: string
-  searchQuery?: string
-  type: string
-}
+  page: string;
+  searchQuery?: string;
+  type: string;
+};
 
 const AttendanceTable = (): ReactElement => {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('');
 
   const processInitialSearchState = (state: AttendanceSearchState) => {
-    if (state.searchQuery) setSearchQuery(state.searchQuery)
-  }
+    if (state.searchQuery) setSearchQuery(state.searchQuery);
+  };
 
-  const { searchState, setSearchState } = useSearchState<AttendanceSearchState>({
-    processInitialSearchState,
-  })
+  const { searchState, setSearchState } = useSearchState<AttendanceSearchState>(
+    {
+      processInitialSearchState,
+    },
+  );
 
   const {
     results,
@@ -37,21 +43,24 @@ const AttendanceTable = (): ReactElement => {
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
     type: searchState.type,
-  })
+  });
 
   useEffect(() => {
     if (currentPage) {
-      setSearchState({ ...searchState, page: currentPage })
+      setSearchState({ ...searchState, page: currentPage });
     }
-  }, [currentPage])
+  }, [currentPage]);
 
   const handleSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      const element = e.currentTarget as HTMLInputElement
-      setSearchState(prevState => ({ ...prevState, searchQuery: element.value }))
-      setSearchQuery(element.value)
+      const element = e.currentTarget as HTMLInputElement;
+      setSearchState((prevState) => ({
+        ...prevState,
+        searchQuery: element.value,
+      }));
+      setSearchQuery(element.value);
     }
-  }
+  };
 
   return (
     <>
@@ -63,7 +72,7 @@ const AttendanceTable = (): ReactElement => {
             placeholder="Search by Attendance name."
             type="text"
             value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKey}
           />
         </FiltersSearchContainer>
@@ -80,7 +89,7 @@ const AttendanceTable = (): ReactElement => {
         />
       )}
     </>
-  )
-}
+  );
+};
 
-export default AttendanceTable
+export default AttendanceTable;

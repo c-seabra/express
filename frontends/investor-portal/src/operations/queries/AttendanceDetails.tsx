@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const ATTENDANCE_DETAILS_QUERY = gql`
   query($attendance_id: ID!) {
@@ -25,6 +25,6 @@ export const ATTENDANCE_DETAILS_QUERY = gql`
       }
     }
   }
-`
+`;
 
 export default ATTENDANCE_DETAILS_QUERY

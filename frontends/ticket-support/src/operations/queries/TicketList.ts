@@ -1,8 +1,18 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const TICKET_LIST = gql`
-  query($filter: TicketFilter, $searchQuery: String, $first: Int, $after: String) {
-    tickets(filter: $filter, searchQuery: $searchQuery, first: $first, after: $after) {
+  query(
+    $filter: TicketFilter
+    $searchQuery: String
+    $first: Int
+    $after: String
+  ) {
+    tickets(
+      filter: $filter
+      searchQuery: $searchQuery
+      first: $first
+      after: $after
+    ) {
       edges {
         cursor
         node {
@@ -37,5 +47,5 @@ const TICKET_LIST = gql`
       }
     }
   }
-`
-export default TICKET_LIST
+`;
+export default TICKET_LIST;

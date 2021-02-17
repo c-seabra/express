@@ -1,21 +1,21 @@
-import { ErrorMessage, Field, FieldProps } from 'formik'
-import React, { HTMLProps } from 'react'
-import styled, { css } from 'styled-components'
+import { ErrorMessage, Field, FieldProps } from 'formik';
+import React, { HTMLProps } from 'react';
+import styled, { css } from 'styled-components';
 
-import Icon from '../atoms/Icon'
+import Icon from '../atoms/Icon';
 
 const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 85px;
-`
+`;
 
 const Label = styled.div<{ required?: boolean }>`
   color: #091a46;
   font-size: 14px;
   margin-bottom: 4px;
 
-  ${props =>
+  ${(props) =>
     props.required &&
     css`
       &:after {
@@ -23,11 +23,11 @@ const Label = styled.div<{ required?: boolean }>`
         content: '*';
       }
     `}
-`
+`;
 
 const InputContainer = styled.div<{ editModeOn?: boolean; isError?: boolean }>`
   display: flex;
-  border: 1px solid ${props => (props.isError ? '#e15554' : '#dcdfe5')};
+  border: 1px solid ${(props) => (props.isError ? '#e15554' : '#dcdfe5')};
   border-radius: 2px;
   font-size: 16px;
   padding-right: 24px;
@@ -37,7 +37,8 @@ const InputContainer = styled.div<{ editModeOn?: boolean; isError?: boolean }>`
     font-weight: 300;
     background-color: #fff;
     border: none;
-    color: ${props => (props.editModeOn ? 'rgba(7, 20, 62, 0.5)' : '#07143e')};
+    color: ${(props) =>
+      props.editModeOn ? 'rgba(7, 20, 62, 0.5)' : '#07143e'};
     font-size: 16px;
     letter-spacing: 0;
     line-height: 20px;
@@ -46,7 +47,7 @@ const InputContainer = styled.div<{ editModeOn?: boolean; isError?: boolean }>`
       outline: none;
     }
   }
-`
+`;
 
 const StyledInput = styled.input`
   font-size: 14px;
@@ -57,19 +58,19 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   width: 100%;
   color: #07143e;
-`
+`;
 
 const Error = styled.div`
   color: #e15554;
   font-size: 12px;
   margin-top: 4px;
-`
+`;
 
 const StyledActions = styled.span`
   display: flex;
   align-items: center;
   cursor: pointer;
-`
+`;
 
 const IconWrapper = styled.span`
   color: #0067e9;
@@ -79,20 +80,20 @@ const IconWrapper = styled.span`
   .material-icons {
     font-size: 16px;
   }
-`
+`;
 
 const StyledActionsText = styled.span`
   color: #0067e9;
   font-size: 14px;
   letter-spacing: 0;
   line-height: 24px;
-`
+`;
 
 type EditableTextInputFieldProps = HTMLProps<HTMLInputElement> & {
-  editModeOn?: boolean
-  name: string
-  onEdit?(): void
-}
+  editModeOn?: boolean;
+  name: string;
+  onEdit?(): void;
+};
 
 const EditableTextInputField = ({
   className,
@@ -130,9 +131,12 @@ const EditableTextInputField = ({
           </InputContainer>
         )}
       </Field>
-      <ErrorMessage name={name} render={message => <Error>{message}</Error>} />
+      <ErrorMessage
+        name={name}
+        render={(message) => <Error>{message}</Error>}
+      />
     </FieldContainer>
-  )
-}
+  );
+};
 
-export default EditableTextInputField
+export default EditableTextInputField;

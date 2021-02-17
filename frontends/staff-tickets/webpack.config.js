@@ -1,12 +1,12 @@
-const { merge } = require("webpack-merge");
-const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
+const { merge } = require('webpack-merge');
+const singleSpaDefaults = require('webpack-config-single-spa-react-ts');
 
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
-    orgName: "websummit-micro",
-    projectName: "staff-tickets",
-    webpackConfigEnv,
     argv,
+    orgName: 'websummit-micro',
+    projectName: 'staff-tickets',
+    webpackConfigEnv,
   });
 
   return merge(defaultConfig, {
