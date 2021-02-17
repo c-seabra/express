@@ -1,17 +1,17 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const PageContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-`
+`;
 
 export const PermissionForm = styled.form`
   button {
     margin-right: 1rem;
   }
-`
+`;
 
 export const StripedTable = styled.table`
   --bs-table-bg: transparent;
@@ -68,16 +68,19 @@ export const StripedTable = styled.table`
   > :not(caption) > * > * {
     padding: 0.25rem 0.25rem;
     background-color: var(--bs-table-bg);
-    background-image: linear-gradient(var(--bs-table-accent-bg), var(--bs-table-accent-bg));
+    background-image: linear-gradient(
+      var(--bs-table-accent-bg),
+      var(--bs-table-accent-bg)
+    );
     border-bottom-width: 1px;
   }
-`
+`;
 
 export const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
-`
+`;
 
 export const BreadcrumbsContainer = styled.div`
   display: flex;
   margin: 20px 0 4px;
-`
+`;
