@@ -17,14 +17,14 @@ type AttendanceInvestorSessionUpdateArgs = {
   attendanceId: string | undefined;
   eventTimezone: string;
   startsAt: string | undefined;
-  unlock: boolean | undefined;
+  unlockInvestor: boolean | undefined;
 };
 
 const useAttendanceInvestorSessionUpdateMutation = ({
   attendanceId,
   eventTimezone,
   startsAt,
-  unlock,
+  unlockInvestor,
 }: AttendanceInvestorSessionUpdateArgs) => {
   const { conferenceSlug, token } = useAppContext();
   const success = useSuccessSnackbar();
@@ -64,7 +64,7 @@ const useAttendanceInvestorSessionUpdateMutation = ({
       variables: {
         attendanceId,
         startsAt: styledDateForMutation(startsAt),
-        unlock,
+        unlockInvestor,
       },
     });
   };

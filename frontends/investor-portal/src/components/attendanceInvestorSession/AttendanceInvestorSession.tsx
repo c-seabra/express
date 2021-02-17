@@ -22,7 +22,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   const [newStartsAt, setNewStartsAt] = useState<string | undefined>()
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
   const [selected, setSelected] = useState<boolean | false>()
-  const [unlock, setUnlock] = useState<boolean | false>()
+  const [unlockInvestor, setUnlockInvestor] = useState<boolean | false>()
   const [buttonTitle, setButtonTitle] = useState<string>('Submit')
   const [status, setStatus] = useState<boolean | undefined>()
 
@@ -33,10 +33,10 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   const handleUnlock = () => {
     if (currentStartsAt !== undefined && selected === undefined) {
       setButtonTitle('Unlock Investor')
-      setUnlock(true)
+      setUnlockInvestor(true)
     } else {
       setButtonTitle('Submit')
-      setUnlock(false)
+      setUnlockInvestor(false)
     }
   }
 
@@ -67,7 +67,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     attendanceId,
     eventTimezone,
     startsAt,
-    unlock,
+    unlockInvestor,
   })
 
   const submit = () => {
