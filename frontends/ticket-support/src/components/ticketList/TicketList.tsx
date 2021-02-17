@@ -1,32 +1,36 @@
-import { ApolloError } from '@apollo/client'
-import React, { ReactElement } from 'react'
-import { useHistory } from 'react-router-dom'
+import { ApolloError } from '@apollo/client';
+import React, { ReactElement } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import Loader from '../../lib/Loading'
-import { Ticket } from '../../lib/types'
-import TicketItem, { TicketListHeader } from '../ticketItem/TicketItem'
+import Loader from '../../lib/Loading';
+import { Ticket } from '../../lib/types';
+import TicketItem, { TicketListHeader } from '../ticketItem/TicketItem';
 
 type TicketListProps = {
-  error?: ApolloError
-  list: Ticket[]
-  loading?: boolean
-}
+  error?: ApolloError;
+  list: Ticket[];
+  loading?: boolean;
+};
 
-const TicketList = ({ list = [], loading, error }: TicketListProps): ReactElement => {
-  const history = useHistory()
+const TicketList = ({
+  list = [],
+  loading,
+  error,
+}: TicketListProps): ReactElement => {
+  const history = useHistory();
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   if (error) {
-    return <>{error.message}</>
+    return <>{error.message}</>;
   }
 
   return (
     <>
       <TicketListHeader />
-      {list.map(ticket => (
+      {list.map((ticket) => (
         <TicketItem
           key={ticket.bookingRef}
           assignment={ticket.assignment}
@@ -38,7 +42,7 @@ const TicketList = ({ list = [], loading, error }: TicketListProps): ReactElemen
         />
       ))}
     </>
-  )
-}
+  );
+};
 
-export default TicketList
+export default TicketList;

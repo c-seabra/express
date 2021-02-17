@@ -1,24 +1,24 @@
-import { Form, Formik } from 'formik'
-import React, { FormEvent, useState } from 'react'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import { Form, Formik } from 'formik';
+import React, { FormEvent, useState } from 'react';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import BoxMessage from '../../lib/components/molecules/BoxMessage'
-import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField'
-import Modal, { useModalState } from '../../lib/components/molecules/Modal'
-import STATIC_MESSAGES from '../../lib/constants/messages'
-import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing'
-import UpdateUniqueUserIdentifierModal from './UpdateUniqueUserIdentifierModal'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
+import BoxMessage from '../../lib/components/molecules/BoxMessage';
+import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField';
+import Modal, { useModalState } from '../../lib/components/molecules/Modal';
+import STATIC_MESSAGES from '../../lib/constants/messages';
+import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing';
+import UpdateUniqueUserIdentifierModal from './UpdateUniqueUserIdentifierModal';
 
 const StyledActions = styled.span`
   display: flex;
   justify-content: flex-end;
-`
+`;
 
 const StyledSecondaryButton = styled(SecondaryButton)`
   margin-right: 16px;
-`
+`;
 
 const StyledLabel = styled.span`
   color: #091a46;
@@ -26,40 +26,43 @@ const StyledLabel = styled.span`
   font-weight: 300;
   letter-spacing: 0;
   line-height: 24px;
-`
+`;
 
 type UpdateUniqueUserIdentifierProps = {
-  accountId: string
-  email?: string
-}
+  accountId: string;
+  email?: string;
+};
 
 const confirmSchema = Yup.object().shape({
   email: Yup.string()
     .email(STATIC_MESSAGES.VALIDATION.EMAIL)
     .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-})
+});
 
-const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdentifierProps) => {
-  const { isOpen, openModal, closeModal } = useModalState()
-  const [editMode, setEditMode] = useState(false)
+const UpdateUniqueUserIdentifier = ({
+  email,
+  accountId,
+}: UpdateUniqueUserIdentifierProps) => {
+  const { isOpen, openModal, closeModal } = useModalState();
+  const [editMode, setEditMode] = useState(false);
 
   const cancelAction = () => {
-    setEditMode(false)
-  }
+    setEditMode(false);
+  };
   const editAction = () => {
-    setEditMode(true)
-  }
+    setEditMode(true);
+  };
   const saveAction = () => {
-    openModal()
-  }
+    openModal();
+  };
 
   const [formControls, setFormControls] = useState<
     | {
-        boundReset?: () => void
-        boundSubmit?: (event?: FormEvent) => void
+        boundReset?: () => void;
+        boundSubmit?: (event?: FormEvent) => void;
       }
     | undefined
-  >()
+  >();
 
   return (
     <>
@@ -74,13 +77,13 @@ const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdenti
         validateOnChange={false}
         validationSchema={confirmSchema}
         onSubmit={() => {
-          saveAction()
+          saveAction();
         }}
       >
         {({ values, submitForm, resetForm }) => {
           // Binding submit form to submit programmatically from outside the <Formik> component
           if (!formControls) {
-            setFormControls({ boundReset: resetForm, boundSubmit: submitForm })
+            setFormControls({ boundReset: resetForm, boundSubmit: submitForm });
           }
 
           return (
@@ -96,15 +99,21 @@ const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdenti
               {editMode && (
                 <>
                   <SpacingBottomXs>
-                    <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
+                    <BoxMessage
+                      backgroundColor="#F7F7F7"
+                      color="#E15554"
+                      type="error"
+                    >
                       <>
-                        This email is used as an user account email (unique user identifier).
-                        Changing this field will impact their profile data, calendar events and any
-                        associated event related associations. Going forward logging into Ticket
+                        This email is used as an user account email (unique user
+                        identifier). Changing this field will impact their
+                        profile data, calendar events and any associated event
+                        related associations. Going forward logging into Ticket
                         Dashboard will use this new user account email.
                         <br />
-                        This change will however <span>not impact</span> the App login email which
-                        is used to log into our conference apps.{' '}
+                        This change will however <span>not impact</span> the App
+                        login email which is used to log into our conference
+                        apps.{' '}
                       </>
                     </BoxMessage>
                   </SpacingBottomXs>
@@ -112,8 +121,8 @@ const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdenti
                     <StyledActions>
                       <StyledSecondaryButton
                         onClick={() => {
-                          resetForm()
-                          cancelAction()
+                          resetForm();
+                          cancelAction();
                         }}
                       >
                         Cancel
@@ -123,9 +132,9 @@ const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdenti
                       <UpdateUniqueUserIdentifierModal
                         accountId={accountId}
                         closeModal={() => {
-                          closeModal()
-                          cancelAction()
-                          resetForm()
+                          closeModal();
+                          cancelAction();
+                          resetForm();
                         }}
                         email={values.email || 'N/A'}
                         isOpen={isOpen}
@@ -135,11 +144,11 @@ const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdenti
                 </>
               )}
             </Form>
-          )
+          );
         }}
       </Formik>
     </>
-  )
-}
+  );
+};
 
-export default UpdateUniqueUserIdentifier
+export default UpdateUniqueUserIdentifier;

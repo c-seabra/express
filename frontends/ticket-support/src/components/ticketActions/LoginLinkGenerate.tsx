@@ -1,28 +1,30 @@
-import React from 'react'
+import React from 'react';
 
-import { Tooltip } from '../../lib/components'
-import { SecondaryButton } from '../../lib/components/atoms/Button'
-import { useModalState } from '../../lib/components/molecules/Modal'
-import useMagicLinkMutation from '../../lib/hooks/useMagicLinkMutation'
-import { Account } from '../../lib/types'
-import { TextHighlight } from '../order/OrderDetails'
-import GenerateLoginLinkModal from './GenerateLoginLinkModal'
+import { Tooltip } from '../../lib/components';
+import { SecondaryButton } from '../../lib/components/atoms/Button';
+import { useModalState } from '../../lib/components/molecules/Modal';
+import useMagicLinkMutation from '../../lib/hooks/useMagicLinkMutation';
+import { Account } from '../../lib/types';
+import { TextHighlight } from '../order/OrderDetails';
+import GenerateLoginLinkModal from './GenerateLoginLinkModal';
 
 const LoginLinkGenerate = ({ assignee }: { assignee: Account }) => {
-  const { isOpen, closeModal, openModal } = useModalState()
+  const { isOpen, closeModal, openModal } = useModalState();
 
-  const { generateLoginLink, loading, error, data } = useMagicLinkMutation({ assignee })
+  const { generateLoginLink, loading, error, data } = useMagicLinkMutation({
+    assignee,
+  });
 
-  if (loading) return <p>Generating login link...</p>
+  if (loading) return <p>Generating login link...</p>;
 
-  if (error) return <p>Error generating login link. Reason {error.message}</p>
+  if (error) return <p>Error generating login link. Reason {error.message}</p>;
 
   if (data)
     return (
       <Tooltip copyToClip value={data.assignmentMagicLinkGenerate.loginLink}>
         <TextHighlight>Generated login link</TextHighlight>
       </Tooltip>
-    )
+    );
 
   return (
     <>
@@ -35,7 +37,7 @@ const LoginLinkGenerate = ({ assignee }: { assignee: Account }) => {
         onRequestClose={closeModal}
       />
     </>
-  )
-}
+  );
+};
 
-export default LoginLinkGenerate
+export default LoginLinkGenerate;

@@ -1,12 +1,12 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import { CategoryListContainer } from '../../lib/components/molecules/CategoryList.styled'
-import SearchInput from '../../lib/components/molecules/SearchInput'
+import { CategoryListContainer } from '../../lib/components/molecules/CategoryList.styled';
+import SearchInput from '../../lib/components/molecules/SearchInput';
 
 export const DashboardContainer = styled.div`
   max-width: 1440px;
   margin: auto;
-`
+`;
 
 export const SearchFilters = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const SearchFilters = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
-`
+`;
 
 export const StyledLabel = styled.label`
   display: flex;
@@ -24,7 +24,7 @@ export const StyledLabel = styled.label`
     height: 2rem;
     width: 100%;
   }
-`
+`;
 
 export const FiltersSearchContainer = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ export const FiltersSearchContainer = styled.div`
   & > div {
     margin-left: 1rem;
   }
-`
+`;
 
 // TODO-FONT To be removed once proper fonts are implemented
 // current font line height is wrong and forces a negative margin here for alignment
@@ -45,7 +45,7 @@ export const StyledSearchInput = styled(SearchInput)`
   margin-right: calc(2rem + 1px);
 
   width: 450px;
-`
+`;
 
 export const Search = styled(StyledLabel)`
   width: 30%;
@@ -62,25 +62,25 @@ export const Search = styled(StyledLabel)`
     border: none;
     border-bottom: 1px solid grey;
   }
-`
+`;
 
 export const Filters = styled.div`
   display: flex;
   align-items: flex-start;
-`
+`;
 
 export const Select = styled(StyledLabel)`
   margin-right: 1rem;
   select {
     padding-right: 1rem;
   }
-`
+`;
 
 export const MultiSelect = styled(StyledLabel)`
   select {
     height: 4rem;
   }
-`
+`;
 
 export const PopupFiltersContainer = styled.div`
   display: flex;
@@ -92,4 +92,4 @@ export const PopupFiltersContainer = styled.div`
   &:last-child {
     margin-right: 0;
   }
-`
+`;

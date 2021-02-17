@@ -8,7 +8,7 @@
  *  disabled, hovered
  */
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Button = styled.button`
   display: inline-flex;
@@ -46,7 +46,7 @@ export const Button = styled.button`
     cursor: not-allowed;
     pointer-events: none;
   }
-`
+`;
 
 export const SecondaryButton = styled(Button)`
   color: #0067e9;
@@ -56,7 +56,7 @@ export const SecondaryButton = styled(Button)`
     background-color: #2269bf;
     color: #ffffff;
   }
-`
+`;
 
 export const ErrorButton = styled(Button)`
   background-color: #e15554;
@@ -66,7 +66,7 @@ export const ErrorButton = styled(Button)`
     background-color: #de201f;
     border: 1px solid #de201f;
   }
-`
+`;
 
 export const DisabledButton = styled(Button)`
   background-color: #949494;
@@ -76,7 +76,7 @@ export const DisabledButton = styled(Button)`
     background-color: #6b6b6b;
     border: 1px solid #6b6b6b;
   }
-`
+`;
 
 export const TextButton = styled(SecondaryButton)`
   border: none;
@@ -88,4 +88,4 @@ export const TextButton = styled(SecondaryButton)`
     color: #2269bf;
     border: none;
   }
-`
+`;

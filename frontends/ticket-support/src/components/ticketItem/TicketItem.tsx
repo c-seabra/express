@@ -1,27 +1,27 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import StatePlate from './StatePlate'
+import StatePlate from './StatePlate';
 
 const ColumnStyles = styled.div`
   display: flex;
   align-items: center;
   padding: 0 0.25rem;
   word-break: break-word;
-`
+`;
 const Column = styled(ColumnStyles)`
   width: 10%;
-`
+`;
 
 const TicketReference = styled(ColumnStyles)`
   width: 10%;
   color: #0067e9;
-`
+`;
 
 const Email = styled(ColumnStyles)`
   width: 20%;
   white-space: pre-wrap;
-`
+`;
 
 const StyledListItem = styled.li`
   font-size: 0.85rem;
@@ -40,7 +40,7 @@ const StyledListItem = styled.li`
     background-color: #dde0e5;
     cursor: pointer;
   }
-`
+`;
 
 const ListHeaderItem = styled(StyledListItem)`
   font-weight: 600;
@@ -50,11 +50,11 @@ const ListHeaderItem = styled(StyledListItem)`
     background-color: white;
     cursor: initial;
   }
-`
+`;
 
 const BadgeColumn = styled(Column)`
   justify-content: center;
-`
+`;
 
 // The list header is kept here along with the ticket item
 // When columns displayed in the ticket item change,
@@ -73,8 +73,8 @@ export const TicketListHeader = () => {
       <BadgeColumn>Ticket Status</BadgeColumn>
       <Email>Ticket Owner Email</Email>
     </ListHeaderItem>
-  )
-}
+  );
+};
 
 const TicketItem = ({
   assignment,
@@ -86,23 +86,23 @@ const TicketItem = ({
 }: {
   assignment?: {
     assignee?: {
-      email?: string
-      firstName?: string
-      lastName?: string
-    }
-    state: string
-  }
-  bookingRef: string
-  handleOnClick?: () => void
+      email?: string;
+      firstName?: string;
+      lastName?: string;
+    };
+    state: string;
+  };
+  bookingRef: string;
+  handleOnClick?: () => void;
   orderOwner?: {
-    email?: string
-    firstName?: string
-    lastName?: string
-  }
-  ticketState: string
-  ticketTypeName: string
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+  };
+  ticketState: string;
+  ticketTypeName: string;
 }) => {
-  const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state
+  const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state;
 
   return (
     <StyledListItem onClick={handleOnClick}>
@@ -122,7 +122,7 @@ const TicketItem = ({
       </BadgeColumn>
       <Email>{orderOwner?.email}</Email>
     </StyledListItem>
-  )
-}
+  );
+};
 
-export default TicketItem
+export default TicketItem;

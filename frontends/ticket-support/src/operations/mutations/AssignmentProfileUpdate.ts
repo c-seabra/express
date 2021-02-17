@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const ASSIGNMENT_PROFILE_ADMIN_UPDATE = gql`
   mutation profileAdminUpdate($profile: AssignmentProfileAdminUpdateInput!) {
@@ -23,6 +23,6 @@ const ASSIGNMENT_PROFILE_ADMIN_UPDATE = gql`
       }
     }
   }
-`
+`;
 
-export default ASSIGNMENT_PROFILE_ADMIN_UPDATE
+export default ASSIGNMENT_PROFILE_ADMIN_UPDATE;
