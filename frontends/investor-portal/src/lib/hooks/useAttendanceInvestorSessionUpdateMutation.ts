@@ -2,30 +2,30 @@ import { useMutation } from '@apollo/client';
 import moment from 'moment';
 
 import { useAppContext } from '../../components/app/AppContext';
-import ATTENDANCE_UPDATE_MUTATION from '../../operations/mutations/AttendanceUpdate';
+import ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION from '../../operations/mutations/AttendanceInvestorSessionUpdate';
 import { UserError } from '../types';
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
-type AttendanceUpdateData = {
-  attendanceUpdate: {
+type AttendanceInvestorSessionUpdateData = {
+  attendanceInvestorSessionUpdate: {
     successMessage: string;
     userErrors: UserError[];
   };
 };
 
-type AttendanceUpdateArgs = {
+type AttendanceInvestorSessionUpdateArgs = {
   attendanceId: string | undefined;
   eventTimezone: string;
   startsAt: string | undefined;
   unlock: boolean | undefined;
 };
 
-const useAttendanceUpdateMutation = ({
+const useAttendanceInvestorSessionUpdateMutation = ({
   attendanceId,
   eventTimezone,
   startsAt,
   unlock,
-}: AttendanceUpdateArgs) => {
+}: AttendanceInvestorSessionUpdateArgs) => {
   const { conferenceSlug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
@@ -38,21 +38,24 @@ const useAttendanceUpdateMutation = ({
   };
 
   const [
-    updateAttendance,
+    updateAttendanceInvestorSession,
     { data, error, loading },
-  ] = useMutation<AttendanceUpdateData>(ATTENDANCE_UPDATE_MUTATION, {
-    onCompleted: ({ attendanceUpdate }) => {
-      if (attendanceUpdate?.userErrors[0]) {
-        errorMessage(attendanceUpdate?.userErrors[0].message);
-      } else {
-        success(attendanceUpdate.successMessage);
-      }
+  ] = useMutation<AttendanceInvestorSessionUpdateData>(
+    ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION,
+    {
+      onCompleted: ({ attendanceInvestorSessionUpdate }) => {
+        if (attendanceInvestorSessionUpdate?.userErrors[0]) {
+          errorMessage(attendanceInvestorSessionUpdate?.userErrors[0].message);
+        } else {
+          success(attendanceInvestorSessionUpdate.successMessage);
+        }
+      },
+      onError: (e) => errorMessage(e.message),
     },
-    onError: (e) => errorMessage(e.message),
-  });
+  );
 
-  const attendanceUpdateMutation = async () => {
-    await updateAttendance({
+  const attendanceInvestorSessionUpdateMutation = async () => {
+    await updateAttendanceInvestorSession({
       context: {
         slug: conferenceSlug,
         token,
@@ -67,11 +70,11 @@ const useAttendanceUpdateMutation = ({
   };
 
   return {
-    attendanceUpdateMutation,
+    attendanceInvestorSessionUpdateMutation,
     data,
     error,
     loading,
   };
 };
 
-export default useAttendanceUpdateMutation;
+export default useAttendanceInvestorSessionUpdateMutation;

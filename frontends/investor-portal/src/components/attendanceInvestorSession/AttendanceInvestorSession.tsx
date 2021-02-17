@@ -2,7 +2,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
 import { Button, Select } from '../../lib/components'
-import { useAttendanceUpdateMutation, useEventQuery } from '../../lib/hooks'
+import { useAttendanceInvestorSessionUpdateMutation, useEventQuery } from '../../lib/hooks'
 import { AttendanceAppearanceSelection } from '../../lib/types'
 import { InputArea } from './AttendanceInvestorSession.styled'
 
@@ -63,7 +63,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   })
   const startsAt = styledDateForMutation(newStartsAt)
 
-  const { attendanceUpdateMutation } = useAttendanceUpdateMutation({
+  const { attendanceInvestorSessionUpdateMutation } = useAttendanceInvestorSessionUpdateMutation({
     attendanceId,
     eventTimezone,
     startsAt,
@@ -71,7 +71,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   })
 
   const submit = () => {
-    attendanceUpdateMutation()
+    attendanceInvestorSessionUpdateMutation()
     handleUnlock()
   }
 

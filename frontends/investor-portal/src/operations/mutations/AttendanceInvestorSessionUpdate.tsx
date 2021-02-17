@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
-export const ATTENDANCE_UPDATE_MUTATION = gql`
-  mutation attendanceUpdate($unlock: Boolean, $attendanceId: ID, $startsAt: ISO8601DateTime) {
-    attendanceUpdate(
+export const ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION = gql`
+  mutation attendanceInvestorSessionUpdate($unlock: Boolean, $attendanceId: ID, $startsAt: ISO8601DateTime) {
+    attendanceInvestorSessionUpdate(
       input: {
         investorSessionConfiguration: {
           unlock: $unlock
@@ -20,4 +20,4 @@ export const ATTENDANCE_UPDATE_MUTATION = gql`
   }
 `
 
-export default ATTENDANCE_UPDATE_MUTATION
+export default ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION
