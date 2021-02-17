@@ -39,7 +39,11 @@ const createApolloClient = (apiURL: string) => {
     return forward(operation);
   });
 
-  const httpLink = new HttpLink({ fetch, uri: apiURL });
+  const httpLink = new HttpLink({ fetch, uri: ({ operationName }) => {
+    const shortPath = `${apiURL}`
+    const fullPath = `${apiURL}/${operationName}`
+      return operationName ? fullPath : shortPath;
+    } });
 
   const links = [setHeadersLink, httpLink];
   const link = ApolloLink.from(links);
