@@ -1,33 +1,42 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet'
+import React, { ReactElement, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 
-import { ContainerCard } from '../../lib/components'
-import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
-import { useEventQuery } from '../../lib/hooks'
-import Loader from '../../lib/Loading'
-import Warning from '../settingsActions/Warning'
-import { BreadcrumbsContainer,PageContainer, SpacingBottom } from './InvestorPermissionsDashboard.styled'
-import InvestorPermissionsForm from './InvestorPermissionsForm'
-import InvestorPermissionsList from './InvestorPermissionsList'
+import { ContainerCard } from '../../lib/components';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '../../lib/components/molecules/Breadcrumbs';
+import { useEventQuery } from '../../lib/hooks';
+import Loader from '../../lib/Loading';
+import Warning from '../settingsActions/Warning';
+import {
+  BreadcrumbsContainer,
+  PageContainer,
+  SpacingBottom,
+} from './InvestorPermissionsDashboard.styled';
+import InvestorPermissionsForm from './InvestorPermissionsForm';
+import InvestorPermissionsList from './InvestorPermissionsList';
 
 const InvestorPermissionsDashboard = (): ReactElement => {
   type Ticket = {
-    attendanceId?: string
-    bookingRef: string
-    name?: string
-  }
-  const [tickets, setTickets] = useState<Array<Ticket>>([])
-  const [updating, setUpdating] = useState<boolean>(false)
-  const [defaultSelectionsCount, setDefaultSelectionsCount] = useState<number | undefined>()
-  const { data, loading, error } = useEventQuery()
+    attendanceId?: string;
+    bookingRef: string;
+    name?: string;
+  };
+  const [tickets, setTickets] = useState<Array<Ticket>>([]);
+  const [updating, setUpdating] = useState<boolean>(false);
+  const [defaultSelectionsCount, setDefaultSelectionsCount] = useState<
+    number | undefined
+  >();
+  const { data, loading, error } = useEventQuery();
 
   useEffect(() => {
     if (data) {
       const selections =
-        data?.event.configuration.investorMeetingConfiguration.defaultStartupSelections
-      setDefaultSelectionsCount(selections)
+        data?.event.configuration.investorMeetingConfiguration
+          .defaultStartupSelections;
+      setDefaultSelectionsCount(selections);
     }
-  }, [data])
+  }, [data]);
 
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -37,7 +46,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
     {
       label: 'Investor Permissions',
     },
-  ]
+  ];
 
   return (
     <>
@@ -70,7 +79,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
         </ContainerCard>
       </PageContainer>
     </>
-  )
-}
+  );
+};
 
-export default InvestorPermissionsDashboard
+export default InvestorPermissionsDashboard;

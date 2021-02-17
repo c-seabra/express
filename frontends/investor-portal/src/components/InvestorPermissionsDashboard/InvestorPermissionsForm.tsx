@@ -1,83 +1,89 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react';
 
-import { Button } from '../../lib/components'
-import LabeledInput from '../../lib/components/molecules/LabeledInput'
-import { useInvestorAccessGrantMutation } from '../../lib/hooks'
-import { PermissionForm, SpacingBottom } from './InvestorPermissionsDashboard.styled'
+import { Button } from '../../lib/components';
+import LabeledInput from '../../lib/components/molecules/LabeledInput';
+import { useInvestorAccessGrantMutation } from '../../lib/hooks';
+import {
+  PermissionForm,
+  SpacingBottom,
+} from './InvestorPermissionsDashboard.styled';
 
 type Ticket = {
-  attendanceId?: string
-  bookingRef: string
-  name?: string
-}
+  attendanceId?: string;
+  bookingRef: string;
+  name?: string;
+};
 
 type InvestorPermissionsFormProps = {
-  defaultSelectionsCount: number | undefined
-  setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>
-  setUpdating: React.Dispatch<React.SetStateAction<boolean>>
-}
+  defaultSelectionsCount: number | undefined;
+  setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
+  setUpdating: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const InvestorPermissionsForm = ({
   defaultSelectionsCount,
   setTickets,
   setUpdating,
 }: InvestorPermissionsFormProps): ReactElement => {
+  const [startupSelectionsCount, setStartupSelectionsCount] = useState<
+    number | undefined
+  >();
+  const [bookingReferences, setBookingReferences] = useState<Array<string>>([]);
+  const [invalidBookingReferences, setInvalidBookingReferences] = useState<
+    Array<string>
+  >([]);
 
-  const [startupSelectionsCount, setStartupSelectionsCount] = useState<number | undefined>()
-  const [bookingReferences, setBookingReferences] = useState<Array<string>>([])
-  const [invalidBookingReferences, setInvalidBookingReferences] = useState<Array<string>>([])
-
-  const validBookingRefMatcher = new RegExp(/[A-Za-z0-9]{4}-[A-Za-z0-9]{1,}/)
-  const bookingRefSeparator = new RegExp(/[^A-Za-z0-9-]/)
+  const validBookingRefMatcher = new RegExp(/[A-Za-z0-9]{4}-[A-Za-z0-9]{1,}/);
+  const bookingRefSeparator = new RegExp(/[^A-Za-z0-9-]/);
 
   const parseBookingReferencesString = (elements: string) => {
     if (elements === '') {
-      setBookingReferences([])
+      setBookingReferences([]);
     } else {
       const sanitizedBookingReferences = elements
         .split(bookingRefSeparator)
-        .filter(id => validBookingRefMatcher.exec(id))
-        .map(id => id.toUpperCase())
-      setBookingReferences(sanitizedBookingReferences)
+        .filter((id) => validBookingRefMatcher.exec(id))
+        .map((id) => id.toUpperCase());
+      setBookingReferences(sanitizedBookingReferences);
     }
-  }
+  };
 
   const { grantInvestorAccessMutation } = useInvestorAccessGrantMutation({
     bookingReferences,
     setInvalidBookingReferences,
     setTickets,
     setUpdating,
-    startupSelectionsCount
-  })
+    startupSelectionsCount,
+  });
 
   const grantAccess = async () => {
-    setUpdating(true)
-    await grantInvestorAccessMutation()
-  }
+    setUpdating(true);
+    await grantInvestorAccessMutation();
+  };
 
   useEffect(() => {
     if (defaultSelectionsCount) {
-      setStartupSelectionsCount(defaultSelectionsCount)
+      setStartupSelectionsCount(defaultSelectionsCount);
     }
-  }, [defaultSelectionsCount])
+  }, [defaultSelectionsCount]);
 
   return (
     <>
       <PermissionForm
         onSubmit={async (e) => {
-          e.preventDefault()
-          await grantAccess()
+          e.preventDefault();
+          await grantAccess();
         }}
       >
         <SpacingBottom>
           <LabeledInput
             label="Insert a booking reference(s) as pasted from single spreadsheet column:"
             type="textarea"
-            onBlur={e => {
-              parseBookingReferencesString(e.target.value)
+            onBlur={(e) => {
+              parseBookingReferencesString(e.target.value);
             }}
-            onChange={e => {
-              parseBookingReferencesString(e.target.value)
+            onChange={(e) => {
+              parseBookingReferencesString(e.target.value);
             }}
           />
         </SpacingBottom>
@@ -91,8 +97,8 @@ const InvestorPermissionsForm = ({
             max="999"
             min="1"
             type="number"
-            onChange={e => {
-              setStartupSelectionsCount(parseInt(e.target.value, 10))
+            onChange={(e) => {
+              setStartupSelectionsCount(parseInt(e.target.value, 10));
             }}
           />
         </SpacingBottom>
@@ -107,14 +113,16 @@ const InvestorPermissionsForm = ({
         <SpacingBottom>
           {invalidBookingReferences?.length > 0 && (
             <>
-              <strong>Invalid booking references {invalidBookingReferences?.length}:</strong>
+              <strong>
+                Invalid booking references {invalidBookingReferences?.length}:
+              </strong>
               <p>{invalidBookingReferences?.join(' ')}</p>
             </>
           )}
         </SpacingBottom>
       </PermissionForm>
     </>
-  )
-}
+  );
+};
 
-export default InvestorPermissionsForm
+export default InvestorPermissionsForm;

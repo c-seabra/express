@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const INVESTOR_ACCESS_GRANT_MUTATION = gql`
   mutation investorAccessGrant(
@@ -23,6 +23,6 @@ export const INVESTOR_ACCESS_GRANT_MUTATION = gql`
       }
     }
   }
-`
+`;
 
-export default INVESTOR_ACCESS_GRANT_MUTATION
+export default INVESTOR_ACCESS_GRANT_MUTATION;

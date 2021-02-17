@@ -1,21 +1,26 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useState } from 'react';
 
-import { Button, Icon } from '../../lib/components'
-import { SpacingBottom, StripedTable } from './InvestorPermissionsDashboard.styled'
+import { Button, Icon } from '../../lib/components';
+import {
+  SpacingBottom,
+  StripedTable,
+} from './InvestorPermissionsDashboard.styled';
 
 type Ticket = {
-  attendanceId?: string
-  bookingRef: string
-  name?: string
-}
+  attendanceId?: string;
+  bookingRef: string;
+  name?: string;
+};
 
 type InvestorPermissionsListProps = {
-  tickets: Array<Ticket>
-}
+  tickets: Array<Ticket>;
+};
 
-const InvestorPermissionsList = ({ tickets }: InvestorPermissionsListProps): ReactElement => {
-  const [showDetails, setShowDetails] = useState<boolean>(false)
-  const toggleDetails = () => setShowDetails(show => !show)
+const InvestorPermissionsList = ({
+  tickets,
+}: InvestorPermissionsListProps): ReactElement => {
+  const [showDetails, setShowDetails] = useState<boolean>(false);
+  const toggleDetails = () => setShowDetails((show) => !show);
 
   return (
     <>
@@ -24,7 +29,7 @@ const InvestorPermissionsList = ({ tickets }: InvestorPermissionsListProps): Rea
           <Button
             type="button"
             onClick={() => {
-              toggleDetails()
+              toggleDetails();
             }}
           >
             Toggle detail panel
@@ -41,8 +46,8 @@ const InvestorPermissionsList = ({ tickets }: InvestorPermissionsListProps): Rea
             </tr>
           </thead>
           <tbody>
-            {tickets.map(ticket => {
-              const { attendanceId, bookingRef, name } = ticket
+            {tickets.map((ticket) => {
+              const { attendanceId, bookingRef, name } = ticket;
               return (
                 <tr key={bookingRef}>
                   <td className={attendanceId ? 'icon success' : 'icon fail'}>
@@ -52,13 +57,13 @@ const InvestorPermissionsList = ({ tickets }: InvestorPermissionsListProps): Rea
                   <td>{attendanceId}</td>
                   <td>{name}</td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </StripedTable>
       </SpacingBottom>
     </>
-  )
-}
+  );
+};
 
-export default InvestorPermissionsList
+export default InvestorPermissionsList;
