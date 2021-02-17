@@ -17,10 +17,6 @@ const ListItem = styled.li`
     background-color: #dde0e5;
     cursor: pointer;
   }
-
-  > div:last-of-type {
-    justify-content: flex-end;
-  }
 `;
 
 export default ListItem;

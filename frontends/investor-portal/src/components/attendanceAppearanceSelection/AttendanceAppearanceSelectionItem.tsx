@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import {
   DestructiveButton,
-  ListItem,
   Modal,
   SecondaryButton,
   useModalState,
@@ -10,6 +9,7 @@ import {
 import { useAttendanceAppearanceSelectionDestroyMutation } from '../../lib/hooks'
 import { AttendanceAppearanceSelection } from '../../lib/types'
 import Column from './AttendanceAppearanceSelectionColumn.styled'
+import { ListItem } from './AttendanceAppearanceSelectionColumn.styled'
 
 const AttendanceAppearanceSelectionItem = ({
   selection,
@@ -28,11 +28,12 @@ const AttendanceAppearanceSelectionItem = ({
       <Column>{new Date(selection.updatedAt).toDateString()}</Column>
       <Column>{selection.status}</Column>
       <Column>
-        <SecondaryButton style={{ marginRight: 10 }}>Edit</SecondaryButton>
-        <DestructiveButton style={{ marginRight: 10 }} onClick={openModal}>
+        <SecondaryButton style={{ marginLeft: 10 }}>Edit</SecondaryButton>
+        <DestructiveButton style={{ marginLeft: 10 }} onClick={openModal}>
           Delete
         </DestructiveButton>
       </Column>
+
       <Modal
         defaultFooterIsDestructive
         withDefaultFooter
