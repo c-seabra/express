@@ -42,6 +42,7 @@ const Error = styled.div`
 `
 
 type SelectFieldOption = {
+  disabled?: boolean
   label: string
   value: string
 }
@@ -70,7 +71,7 @@ const SelectField = ({
         {({ meta, field }: FieldProps) => (
           <StyledSelect isError={meta.touched && !!meta.error} {...field} placeholder={placeholder}>
             {options.map(option => (
-              <option key={option.value} value={option.value}>
+              <option key={option.value} disabled={option.disabled} value={option.value}>
                 {option.label}
               </option>
             ))}

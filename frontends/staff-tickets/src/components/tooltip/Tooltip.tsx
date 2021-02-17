@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const TooltipText = styled.div`
   visibility: hidden;
@@ -10,7 +10,7 @@ const TooltipText = styled.div`
   text-align: center;
   border-radius: 6px;
   border-bottom-right-radius: 0;
-  padding: .5rem;
+  padding: 0.5rem;
   font-size: 1em;
   position: absolute;
   z-index: 1;
@@ -18,7 +18,7 @@ const TooltipText = styled.div`
   right: 100%;
   opacity: 0;
   transition: opacity 0.3s;
-`
+`;
 const StyledTooltip = styled.div`
   position: relative;
   display: inline-block;
@@ -30,7 +30,8 @@ const StyledTooltip = styled.div`
     border-bottom-right-radius: 4px;
     transition: all 0.3s;
     svg {
-      path, polygon {
+      path,
+      polygon {
         fill: #fff;
       }
     }
@@ -39,19 +40,18 @@ const StyledTooltip = styled.div`
       opacity: 1;
     }
   }
-`
+`;
 
-const Tooltip: React.FC<{children: React.ReactElement; tooltipText: string}> = ({children, tooltipText}) => {
-
-
+const Tooltip: React.FC<{
+  children: React.ReactElement;
+  tooltipText: string;
+}> = ({ children, tooltipText }) => {
   return (
     <StyledTooltip>
       {children}
-      <TooltipText>
-        {tooltipText}
-      </TooltipText>
+      <TooltipText>{tooltipText}</TooltipText>
     </StyledTooltip>
-  )
-}
+  );
+};
 
-export default Tooltip
+export default Tooltip;

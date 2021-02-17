@@ -98,13 +98,13 @@ const UpdateUniqueUserIdentifier = ({ email, accountId }: UpdateUniqueUserIdenti
                   <SpacingBottomXs>
                     <BoxMessage backgroundColor="#F7F7F7" color="#E15554" type="error">
                       <>
-                          This email is used as an user account email (unique user identifier). Changing
-                          this field will impact their profile data, calendar events and any associated
-                          event related associations. Going forward logging into Ticket Dashboard will
-                          use this new user account email.
-                          <br />
-                          This change will however <span>not impact</span> the App login email which is used to log
-                          into our conference apps.{' '}
+                        This email is used as an user account email (unique user identifier).
+                        Changing this field will impact their profile data, calendar events and any
+                        associated event related associations. Going forward logging into Ticket
+                        Dashboard will use this new user account email.
+                        <br />
+                        This change will however <span>not impact</span> the App login email which
+                        is used to log into our conference apps.{' '}
                       </>
                     </BoxMessage>
                   </SpacingBottomXs>

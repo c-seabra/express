@@ -8,6 +8,7 @@ const useEventDataQuery = () => {
   const { conferenceSlug } = useAppContext()
 
   const { data, error, loading } = useQuery<{ taEvent: EventData }>(EVENT_DATA, {
+    skip: !conferenceSlug,
     variables: { slug: conferenceSlug },
   })
 

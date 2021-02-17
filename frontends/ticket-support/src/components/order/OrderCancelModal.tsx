@@ -1,21 +1,30 @@
-import React from 'react'
+import React from 'react';
 
-import ReasonAlertModal from '../../lib/components/molecules/ReasonAlertModal'
-import { OrderCancelRequest, useOrderCancelMutation } from '../../operations/mutations/OrderCancel'
+import ReasonAlertModal from '../../lib/components/molecules/ReasonAlertModal';
+import {
+  OrderCancelRequest,
+  useOrderCancelMutation,
+} from '../../operations/mutations/OrderCancel';
 
 type OrderCancelModalProps = {
-  closeModal: () => void
-  isOpen: boolean
-  orderRef: string
-  sourceId: string
-  refetch?: any
-}
+  closeModal: () => void;
+  isOpen: boolean;
+  orderRef: string;
+  refetch?: any;
+  sourceId: string;
+};
 
-const OrderCancelModal = ({ isOpen, closeModal, orderRef, sourceId, refetch }: OrderCancelModalProps) => {
-  const { cancelOrder } = useOrderCancelMutation()
+const OrderCancelModal = ({
+  isOpen,
+  closeModal,
+  orderRef,
+  sourceId,
+  refetch,
+}: OrderCancelModalProps) => {
+  const { cancelOrder } = useOrderCancelMutation();
   const setMutation = (e: OrderCancelRequest) => {
-    return cancelOrder({ id: sourceId, reason: e.reason, refetch })
-  }
+    return cancelOrder({ id: sourceId, reason: e.reason, refetch });
+  };
 
   return (
     <ReasonAlertModal
@@ -28,7 +37,7 @@ const OrderCancelModal = ({ isOpen, closeModal, orderRef, sourceId, refetch }: O
       mutationCallback={setMutation}
       submitText="Yes, cancel order"
     />
-  )
-}
+  );
+};
 
-export default OrderCancelModal
+export default OrderCancelModal;
