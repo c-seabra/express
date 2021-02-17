@@ -1,4 +1,3 @@
-import { ApolloError, useMutation, useQuery } from '@apollo/client'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
@@ -6,7 +5,6 @@ import { Button } from '../../lib/components'
 import Select from '../../lib/components/atoms/Select'
 import { useAttendanceUpdateMutation, useEventQuery } from '../../lib/hooks'
 import { AttendanceAppearanceSelection } from '../../lib/types'
-import { useAppContext } from '../app/AppContext'
 import { InputArea } from './AttendanceInvestorSession.styled'
 
 type AttendanceInvestorSessionType = {
