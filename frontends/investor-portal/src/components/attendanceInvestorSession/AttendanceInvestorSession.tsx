@@ -1,8 +1,7 @@
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
-import { Button } from '../../lib/components'
-import Select from '../../lib/components/atoms/Select'
+import { Button, Select } from '../../lib/components'
 import { useAttendanceUpdateMutation, useEventQuery } from '../../lib/hooks'
 import { AttendanceAppearanceSelection } from '../../lib/types'
 import { InputArea } from './AttendanceInvestorSession.styled'
