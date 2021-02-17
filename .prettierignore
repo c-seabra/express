@@ -7,7 +7,7 @@ package-lock.json
 dist
 builds
 
-packages/graphql/graphql.schema.json
+graphql.schema.json
 
 .yarn/releases/
 

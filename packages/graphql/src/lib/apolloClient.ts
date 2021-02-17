@@ -12,7 +12,7 @@ export const DEFAULT_CONFERENCE_SLUG = 'ws20';
 const constructContextHeaders = (
   commonHeaders: Record<string, string>,
   eventSlug: string,
-  token: string,
+  token?: string,
 ) => {
   const headers: Record<string, string> = {
     ...commonHeaders,
@@ -32,14 +32,25 @@ export type GraphQLParams = {
 
 const createApolloClient = (apiURL: string) => {
   const setHeadersLink = new ApolloLink((operation, forward) => {
-    const { headers, slug, token } = operation.getContext();
+    const { headers, slug, token } = operation.getContext() as {
+      headers: Record<string, string>;
+      slug?: string;
+      token?: string;
+    };
     const eventSlug = slug || DEFAULT_CONFERENCE_SLUG;
     const contextHeaders = constructContextHeaders(headers, eventSlug, token);
     operation.setContext({ headers: contextHeaders });
     return forward(operation);
   });
 
-  const httpLink = new HttpLink({ fetch, uri: apiURL });
+  const httpLink = new HttpLink({
+    fetch,
+    uri: ({ operationName }) => {
+      const shortPath = `${apiURL}`;
+      const fullPath = `${apiURL}/${operationName}`;
+      return operationName ? fullPath : shortPath;
+    },
+  });
 
   const links = [setHeadersLink, httpLink];
   const link = ApolloLink.from(links);

@@ -106,13 +106,11 @@ module.exports = {
     'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-key': ['error', { checkFragmentShorthand: true }],
     'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],
-    'react/jsx-props-no-spreading': 'off',
     'react/jsx-sort-props': [
       'warn',
       { callbacksLast: true, reservedFirst: true, shorthandFirst: true },
     ],
-    'react/prop-types': 0,
-    'react/require-default-props': 0,
+
     'react/static-property-placement': ['error', 'static public field'],
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
@@ -136,6 +134,12 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-underscore-dangle': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/prop-types': 'off',
+    'react/require-default-props': 'off',
+
+    // results in false positives for single spa
+    'react/display-name': 'off',
 
     // disabled because prettier controls this
     indent: ['off', 2, { SwitchCase: 1 }],
