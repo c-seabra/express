@@ -51,3 +51,4 @@ builds/
 
 frontends/ticket-support/src/coverage/*
 frontends/investor-portal/src/coverage/*
+coverage/*

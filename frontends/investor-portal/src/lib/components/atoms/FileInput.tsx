@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledFileInput = styled.input`
   display: flex;
@@ -27,12 +27,12 @@ const StyledFileInput = styled.input`
   &:hover::before {
     border-color: black;
   }
-`
+`;
 
-type Props = React.InputHTMLAttributes<HTMLInputElement>
+type Props = React.InputHTMLAttributes<HTMLInputElement>;
 
 const FileInput = ({ ...props }: Props) => {
-  return <StyledFileInput {...props} />
-}
+  return <StyledFileInput {...props} />;
+};
 
-export default FileInput
+export default FileInput;

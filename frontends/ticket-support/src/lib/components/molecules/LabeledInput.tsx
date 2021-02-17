@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { Input, Label } from '..'
+import { Input, Label } from '..';
 
 const InputContainer = styled.div`
   display: flex;
@@ -11,11 +11,11 @@ const InputContainer = styled.div`
   & > span {
     margin-bottom: 4px;
   }
-`
+`;
 
 type LabeledInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  label?: string
-}
+  label?: string;
+};
 
 const LabeledInput = ({ label, className, ...props }: LabeledInputProps) => {
   return (
@@ -23,7 +23,7 @@ const LabeledInput = ({ label, className, ...props }: LabeledInputProps) => {
       <Label>{label}</Label>
       <Input {...props} />
     </InputContainer>
-  )
-}
+  );
+};
 
-export default LabeledInput
+export default LabeledInput;

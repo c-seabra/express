@@ -1,24 +1,27 @@
-import { Form, Formik } from 'formik'
-import React from 'react'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import { Form, Formik } from 'formik';
+import React from 'react';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
-import { InfoMessage } from '../../lib/components/atoms/Messages'
-import Modal, { ModalProps } from '../../lib/components/molecules/Modal'
-import TextInputField from '../../lib/components/molecules/TextInputField'
+import { InfoMessage } from '../../lib/components/atoms/Messages';
+import Modal, { ModalProps } from '../../lib/components/molecules/Modal';
+import TextInputField from '../../lib/components/molecules/TextInputField';
 
 const StyledForm = styled(Form)`
   width: 450px;
   padding: 1rem 0;
-`
+`;
 
 const generateLinkSchema = Yup.object().shape({
   reason: Yup.string().required('Required'),
-})
+});
 
-type GenerateLoginLinkModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
-  generateLink: (reason: string) => void
-}
+type GenerateLoginLinkModalProps = Pick<
+  ModalProps,
+  'isOpen' | 'onRequestClose'
+> & {
+  generateLink: (reason: string) => void;
+};
 
 const GenerateLoginLinkModal = ({
   isOpen,
@@ -39,22 +42,26 @@ const GenerateLoginLinkModal = ({
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={generateLinkSchema}
-        onSubmit={values => {
-          generateLink(values.reason)
-          onRequestClose()
+        onSubmit={(values) => {
+          generateLink(values.reason);
+          onRequestClose();
         }}
       >
         <StyledForm>
-          <TextInputField required label="Please enter a reason for this change" name="reason" />
+          <TextInputField
+            required
+            label="Please enter a reason for this change"
+            name="reason"
+          />
           <InfoMessage>
-            The generated link can be copied by hovering over the &quot;Generated Login Link&quot;
-            text.
+            The generated link can be copied by hovering over the
+            &quot;Generated Login Link&quot; text.
           </InfoMessage>
           <Modal.DefaultFooter submitText="Generate" />
         </StyledForm>
       </Formik>
     </Modal>
-  )
-}
+  );
+};
 
-export default GenerateLoginLinkModal
+export default GenerateLoginLinkModal;

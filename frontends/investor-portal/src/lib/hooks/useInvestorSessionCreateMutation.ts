@@ -1,26 +1,26 @@
-import 'moment-timezone'
+import 'moment-timezone';
 
-import { useMutation } from '@apollo/client'
-import moment from 'moment'
+import { useMutation } from '@apollo/client';
+import moment from 'moment';
 
-import { useAppContext } from '../../components/app/AppContext'
-import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate'
-import { UserError } from '../types'
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage'
+import { useAppContext } from '../../components/app/AppContext';
+import INVESTOR_SESSIONS_CREATE_MUTATION from '../../operations/mutations/InvestorSessionsCreate';
+import { UserError } from '../types';
+import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type InvestorSessionsCreateData = {
   investorSessionsCreate: {
-    successMessage: string
-    userErrors: UserError[]
-  }
-}
+    successMessage: string;
+    userErrors: UserError[];
+  };
+};
 
 type InvestorSessionsCreatesArgs = {
-  count: number | undefined
-  endsAt: string | undefined
-  eventTimezone: string
-  startsAt: string | undefined
-}
+  count: number | undefined;
+  endsAt: string | undefined;
+  eventTimezone: string;
+  startsAt: string | undefined;
+};
 
 const useInvestorSessionCreateMutation = ({
   count,
@@ -28,30 +28,33 @@ const useInvestorSessionCreateMutation = ({
   eventTimezone,
   startsAt,
 }: InvestorSessionsCreatesArgs) => {
-  const { conferenceSlug, token } = useAppContext()
-  const success = useSuccessSnackbar()
-  const errorMessage = useErrorSnackbar()
+  const { conferenceSlug, token } = useAppContext();
+  const success = useSuccessSnackbar();
+  const errorMessage = useErrorSnackbar();
 
   const styledDateForMutation = (dateString?: string) => {
     if (dateString === undefined || dateString === '') {
-      return null
+      return null;
     }
-    return moment(dateString).tz(eventTimezone, true).format()
-  }
+    return moment(dateString).tz(eventTimezone, true).format();
+  };
 
-  const [createSesions, { data, error, loading }] = useMutation<InvestorSessionsCreateData>(
+  const [
+    createSesions,
+    { data, error, loading },
+  ] = useMutation<InvestorSessionsCreateData>(
     INVESTOR_SESSIONS_CREATE_MUTATION,
     {
       onCompleted: ({ investorSessionsCreate }) => {
         if (investorSessionsCreate?.userErrors[0]) {
-          errorMessage(investorSessionsCreate?.userErrors[0].message)
+          errorMessage(investorSessionsCreate?.userErrors[0].message);
         } else {
-          success(investorSessionsCreate.successMessage)
+          success(investorSessionsCreate.successMessage);
         }
       },
-      onError: e => errorMessage(e.message),
-    }
-  )
+      onError: (e) => errorMessage(e.message),
+    },
+  );
 
   const createSesionsMutation = async () => {
     await createSesions({
@@ -65,15 +68,15 @@ const useInvestorSessionCreateMutation = ({
         investorSessionsEndsAt: styledDateForMutation(endsAt),
         investorSessionsStartsAt: styledDateForMutation(startsAt),
       },
-    })
-  }
+    });
+  };
 
   return {
     createSesionsMutation,
     data,
     error,
     loading,
-  }
-}
+  };
+};
 
-export default useInvestorSessionCreateMutation
+export default useInvestorSessionCreateMutation;

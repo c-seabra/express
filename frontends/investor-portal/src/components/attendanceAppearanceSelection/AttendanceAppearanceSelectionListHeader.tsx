@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import Column from './AttendanceAppearanceSelectionColumn.styled'
-import ListHeaderItem from './AttendanceAppearanceSelectionListHeader.styled'
+import Column from './AttendanceAppearanceSelectionColumn.styled';
+import ListHeaderItem from './AttendanceAppearanceSelectionListHeader.styled';
 
 const AttendanceAppearanceSelectionListHeader = () => {
   return (
@@ -10,7 +10,7 @@ const AttendanceAppearanceSelectionListHeader = () => {
       <Column>Updated At</Column>
       <Column>Status</Column>
     </ListHeaderItem>
-  )
-}
+  );
+};
 
-export default AttendanceAppearanceSelectionListHeader
+export default AttendanceAppearanceSelectionListHeader;

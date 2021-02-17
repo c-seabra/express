@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import LabeledInput from '../../lib/components/molecules/LabeledInput'
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import LabeledInput from '../../lib/components/molecules/LabeledInput';
 
 type OrderOwnerDetailsProps = {
-  email?: string
-  firstName?: string
-  lastName?: string
-}
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+};
 
 const OwnerDetails = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const OwnerDetails = styled.div`
     min-width: 30%;
     margin-bottom: 8px;
   }
-`
+`;
 
 const OrderOwnerDetails = ({
   firstName,
@@ -35,7 +35,7 @@ const OrderOwnerDetails = ({
         <LabeledInput disabled label="Email" value={email} />
       </OwnerDetails>
     </ContainerCard>
-  )
-}
+  );
+};
 
-export default OrderOwnerDetails
+export default OrderOwnerDetails;

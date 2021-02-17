@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const ListItem = styled.li`
   font-size: 0.85rem;
@@ -16,6 +16,6 @@ const ListItem = styled.li`
     background-color: #dde0e5;
     cursor: pointer;
   }
-`
+`;
 
-export default ListItem
+export default ListItem;

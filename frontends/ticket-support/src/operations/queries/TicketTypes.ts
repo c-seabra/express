@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const TICKET_TYPES = gql`
   query {
@@ -12,5 +12,5 @@ const TICKET_TYPES = gql`
       }
     }
   }
-`
-export default TICKET_TYPES
+`;
+export default TICKET_TYPES;

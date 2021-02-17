@@ -20,7 +20,7 @@ const layoutEngine = constructLayoutEngine({ routes, applications });
 // eslint-disable-next-line no-undef
 const env: any = process.env;
 const customProps = {
-  test: "testing",
+  test: 'testing',
   apiURL: env.API_URL,
   token: env.AUTH_TOKEN,
 };

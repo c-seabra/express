@@ -1,17 +1,17 @@
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import Loader from '../../lib/Loading'
-import { formatDefaultDateTime } from '../../lib/utils/time'
-import Warning from '../ticketActions/Warning'
-import StatePlate from '../ticketItem/StatePlate'
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import Loader from '../../lib/Loading';
+import { formatDefaultDateTime } from '../../lib/utils/time';
+import Warning from '../ticketActions/Warning';
+import StatePlate from '../ticketItem/StatePlate';
 
 // Containers
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const StyledGridContainer = styled.section`
   display: grid;
@@ -19,7 +19,7 @@ const StyledGridContainer = styled.section`
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 32px);
   align-items: center;
-`
+`;
 
 // Headers
 const StyledLabel = styled.label`
@@ -28,24 +28,24 @@ const StyledLabel = styled.label`
   font-weight: 600;
   letter-spacing: 0;
   line-height: 24px;
-`
+`;
 
 const StyledValue = styled.p`
   color: #0c1439;
   font-size: 14px;
   letter-spacing: 0;
   line-height: 24;
-`
+`;
 
 type Props = {
-  createdOn?: string
-  error: boolean
-  lastUpdatedOn?: string
-  loading: boolean
-  orderReference?: string
-  orderStatus?: string
-  sourceOfSale?: string
-}
+  createdOn?: string;
+  error: boolean;
+  lastUpdatedOn?: string;
+  loading: boolean;
+  orderReference?: string;
+  orderStatus?: string;
+  sourceOfSale?: string;
+};
 
 const OrderDetailsSummary = ({
   loading,
@@ -56,7 +56,7 @@ const OrderDetailsSummary = ({
   sourceOfSale,
   orderStatus,
 }: Props): ReactElement => {
-  const missingDataAbbr = 'MD'
+  const missingDataAbbr = 'MD';
 
   return (
     <ContainerCard color="#654DA0" title="Order details">
@@ -79,11 +79,13 @@ const OrderDetailsSummary = ({
 
               <StyledValue>#{orderReference}</StyledValue>
               <StyledValue>
-                {(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) || missingDataAbbr}
+                {(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) ||
+                  missingDataAbbr}
               </StyledValue>
 
               <StyledValue>
-                {(createdOn && formatDefaultDateTime(createdOn)) || missingDataAbbr}
+                {(createdOn && formatDefaultDateTime(createdOn)) ||
+                  missingDataAbbr}
               </StyledValue>
 
               <StyledValue>{sourceOfSale}</StyledValue>
@@ -94,7 +96,7 @@ const OrderDetailsSummary = ({
         )}
       </StyledContainer>
     </ContainerCard>
-  )
-}
+  );
+};
 
-export default OrderDetailsSummary
+export default OrderDetailsSummary;

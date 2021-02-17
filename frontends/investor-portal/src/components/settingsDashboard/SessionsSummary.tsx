@@ -1,18 +1,20 @@
-import moment from 'moment'
-import React, { ReactElement } from 'react'
+import moment from 'moment';
+import React, { ReactElement } from 'react';
 
-import { InvestorSessionsSummary } from '../../lib/types'
+import { InvestorSessionsSummary } from '../../lib/types';
 import {
   StyledColumnContainer,
   StyledGridContainer,
   StyledNoticeContainer,
-} from './SessionsSummary.styled'
+} from './SessionsSummary.styled';
 
 type SessionsSummaryProps = {
-  investorSessionsSummaries: [InvestorSessionsSummary]
-}
+  investorSessionsSummaries: [InvestorSessionsSummary];
+};
 
-const SessionsSummary = ({ investorSessionsSummaries }: SessionsSummaryProps): ReactElement => {
+const SessionsSummary = ({
+  investorSessionsSummaries,
+}: SessionsSummaryProps): ReactElement => {
   return (
     <>
       {investorSessionsSummaries.length < 1 && (
@@ -30,7 +32,8 @@ const SessionsSummary = ({ investorSessionsSummaries }: SessionsSummaryProps): R
             className={item.claimed === item.count ? 'full' : 'available'}
           >
             <span>
-              {moment(item?.startsAt).format('dddd')}: {moment(item?.startsAt).format('HH:mm')} -{' '}
+              {moment(item?.startsAt).format('dddd')}:{' '}
+              {moment(item?.startsAt).format('HH:mm')} -{' '}
               {moment(item?.endsAt).format('HH:mm')}
             </span>
             <span>
@@ -40,7 +43,7 @@ const SessionsSummary = ({ investorSessionsSummaries }: SessionsSummaryProps): R
         ))}
       </StyledGridContainer>
     </>
-  )
-}
+  );
+};
 
-export default SessionsSummary
+export default SessionsSummary;

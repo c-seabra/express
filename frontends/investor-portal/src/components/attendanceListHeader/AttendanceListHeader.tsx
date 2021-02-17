@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import { Column, ListHeaderItem } from './AttendanceListHeader.styled'
+import { Column, ListHeaderItem } from './AttendanceListHeader.styled';
 
 const AttendanceListHeader = () => {
   return (
@@ -9,7 +9,7 @@ const AttendanceListHeader = () => {
       <Column>Name</Column>
       <Column>Pending selections</Column>
     </ListHeaderItem>
-  )
-}
+  );
+};
 
-export default AttendanceListHeader
+export default AttendanceListHeader;

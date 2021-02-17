@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const TICKET_ID_BY_REFERENCE = gql`
   query GetTicketIdByReference($reference: String!) {
@@ -28,5 +28,5 @@ export const TICKET_ID_BY_REFERENCE = gql`
       }
     }
   }
-`
-export default TICKET_ID_BY_REFERENCE
+`;
+export default TICKET_ID_BY_REFERENCE;

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const TICKET_UNLOCK_MUTATION = gql`
   mutation UnlockTicket($input: TicketUnlockInput!) {
@@ -14,6 +14,6 @@ const TICKET_UNLOCK_MUTATION = gql`
       }
     }
   }
-`
+`;
 
-export default TICKET_UNLOCK_MUTATION
+export default TICKET_UNLOCK_MUTATION;

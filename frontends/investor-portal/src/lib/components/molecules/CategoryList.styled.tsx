@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const CategoryListContainer = styled.div<{ headerColor?: string }>`
   display: flex;
@@ -25,15 +25,15 @@ export const CategoryListContainer = styled.div<{ headerColor?: string }>`
   &:last-child {
     margin-bottom: 0;
   }
-`
+`;
 
 export const Header = styled.div<{ headerColor?: string }>`
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   color: #fff;
 
-  background-color: ${props => props.headerColor};
+  background-color: ${(props) => props.headerColor};
   margin-bottom: 0.2rem;
   padding: 0.2rem 0.5rem;
   font-weight: 600;
-`
+`;

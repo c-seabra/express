@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { Order, OrderState, TicketsSummary } from '../../lib/types'
-import { Badge } from '../../lib/components'
+import { Order, OrderState, TicketsSummary } from '../../lib/types';
+import { Badge } from '../../lib/components';
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -11,15 +11,15 @@ const ColumnStyles = styled.div`
   align-items: center;
   padding: 0 0.25rem;
   word-break: break-word;
-`
+`;
 const Column = styled(ColumnStyles)`
   width: 15%;
-`
+`;
 
 const Email = styled(ColumnStyles)`
   width: 20%;
   white-space: pre-wrap;
-`
+`;
 
 const StyledListItem = styled.li`
   font-size: 0.85rem;
@@ -37,7 +37,7 @@ const StyledListItem = styled.li`
     background-color: #dde0e5;
     cursor: pointer;
   }
-`
+`;
 
 const ListHeaderItem = styled(StyledListItem)`
   font-weight: 600;
@@ -48,18 +48,18 @@ const ListHeaderItem = styled(StyledListItem)`
     background-color: white;
     cursor: initial;
   }
-`
+`;
 
 const ActiveState = styled(Badge)`
   background-color: #eaf9ea;
   color: #44c242;
   max-height: 32px;
-`
+`;
 const CancelledState = styled(Badge)`
   background-color: #f14d4c;
   color: #d8d8d8;
   max-height: 32px;
-`
+`;
 
 const BadgeColumn = styled(Column)`
   justify-content: center;
@@ -67,7 +67,7 @@ const BadgeColumn = styled(Column)`
   & > span {
     line-height: 16px;
   }
-`
+`;
 
 export const OrderListHeader = () => {
   return (
@@ -79,24 +79,24 @@ export const OrderListHeader = () => {
       <BadgeColumn>Ticket Status</BadgeColumn>
       <BadgeColumn>Order State</BadgeColumn>
     </ListHeaderItem>
-  )
-}
+  );
+};
 
 const StateLabel = ({ state }: { state: OrderState }): ReactElement => {
   switch (state) {
     case OrderState.ACTIVE:
-      return <ActiveState>Active</ActiveState>
+      return <ActiveState>Active</ActiveState>;
     case OrderState.CANCELLED:
-      return <CancelledState>Cancelled</CancelledState>
+      return <CancelledState>Cancelled</CancelledState>;
     default:
-      return <>{state}</>
+      return <>{state}</>;
   }
-}
+};
 
 const getTicketStatusesCount = (ticketsSummary: TicketsSummary): string => {
-  if (!ticketsSummary) return ''
+  if (!ticketsSummary) return '';
 
-  const { all } = ticketsSummary
+  const { all } = ticketsSummary;
 
   const assignedCounts = {
     accepted: all?.active?.assigned?.accepted?.count || 0,
@@ -104,39 +104,40 @@ const getTicketStatusesCount = (ticketsSummary: TicketsSummary): string => {
     duplicate: all?.active?.assigned?.duplicate?.count || 0,
     locked: all?.active?.assigned?.locked?.count || 0,
     pending: all?.active?.assigned?.pending?.count || 0,
-  }
+  };
 
   const assignedTicketsAmount = Object.entries(assignedCounts).reduce(
     (previousValue, [, value]) => previousValue + value,
-    0
-  )
+    0,
+  );
 
   const allStateCounts = {
     ...assignedCounts,
     neverAssigned: all?.active?.unassigned?.neverAssigned?.count || 0,
     rejected: all?.active?.unassigned?.rejected?.count || 0,
     void: all?.void?.count || 0,
-  }
+  };
 
   const allTicketsAmount = Object.entries(allStateCounts).reduce(
     (previousValue, [, value]) => previousValue + value,
-    0
-  )
+    0,
+  );
 
-  return `${assignedTicketsAmount} / ${allTicketsAmount} Assigned`
-}
+  return `${assignedTicketsAmount} / ${allTicketsAmount} Assigned`;
+};
 
 const OrderItem = ({ order }: { order: Order }): ReactElement => {
-  const history = useHistory()
+  const history = useHistory();
 
-  const assignedTicketsCount = getTicketStatusesCount(order.ticketsSummary)
-  const ticketCount = order.ticketsSummary?.all?.count
+  const assignedTicketsCount = getTicketStatusesCount(order.ticketsSummary);
+  const ticketCount = order.ticketsSummary?.all?.count;
 
   return (
     <StyledListItem onClick={() => history.push(`/order/${order.reference}`)}>
       <Column>{order.reference}</Column>
       <Column>
-        {order.summary?.ticketType?.name || (ticketCount > 0 && `${ticketCount} mixed tickets`)}
+        {order.summary?.ticketType?.name ||
+          (ticketCount > 0 && `${ticketCount} mixed tickets`)}
       </Column>
       <Column>
         {order?.owner?.firstName} {order?.owner?.lastName}
@@ -147,7 +148,7 @@ const OrderItem = ({ order }: { order: Order }): ReactElement => {
         <StateLabel state={order.state} />
       </BadgeColumn>
     </StyledListItem>
-  )
-}
+  );
+};
 
-export default OrderItem
+export default OrderItem;
