@@ -8,15 +8,15 @@ import { AttendanceAppearanceSelection } from '../../lib/types'
 import { InputArea } from './AttendanceInvestorSession.styled'
 
 type AttendanceInvestorSessionType = {
-  attEndsAt: string
-  attStartsAt: string
   attendanceId: string
+  currentEndsAt: string
+  currentStartsAt: string
   selections: AttendanceAppearanceSelection[]
 }
 
 const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
-  attStartsAt,
-  attEndsAt,
+  currentStartsAt,
+  currentEndsAt,
   attendanceId,
   selections = [],
 }) => {
@@ -32,7 +32,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
   const handleUnlock = () => {
-    if (attStartsAt !== undefined && selected === undefined) {
+    if (currentStartsAt !== undefined && selected === undefined) {
       setButtonTitle('Unlock Investor')
       setUnlock(true)
     } else {
@@ -80,10 +80,10 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     <>
       {!status && (
         <InputArea>
-          {attStartsAt && (
+          {currentStartsAt && (
             <span>
-              {moment(attStartsAt).format('dddd')}: {moment(attStartsAt).format('HH:mm')} -{' '}
-              {moment(attEndsAt).format('HH:mm')}
+              {moment(currentStartsAt).format('dddd')}: {moment(currentStartsAt).format('HH:mm')} -{' '}
+              {moment(currentEndsAt).format('HH:mm')}
             </span>
           )}
           <Select
