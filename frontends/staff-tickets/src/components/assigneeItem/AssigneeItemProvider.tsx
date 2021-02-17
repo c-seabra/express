@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from 'react';
 
-import { useMutation } from "@apollo/client";
-import CREATE_ORDER_MUTATION from "../../operations/mutations/CreateOrder";
+import { useMutation } from '@apollo/client';
+import CREATE_ORDER_MUTATION from '../../operations/mutations/CreateOrder';
 
-import AssigneeItem from "../assigneeItem/AssigneeItem";
+import AssigneeItem from '../assigneeItem/AssigneeItem';
 
-import { AppContext, Staff } from "../app/App";
+import { AppContext, Staff } from '../app/App';
 
 export type StatusType = {
   message: string;
-  type: "PENDING" | "SUCCESS" | "ERROR";
+  type: 'PENDING' | 'SUCCESS' | 'ERROR';
 };
 
 type AssigneeItemProvider = Staff;
@@ -22,8 +22,8 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
 }) => {
   const { token, conference } = useContext(AppContext);
   const [status, setStatus] = useState<StatusType>({
-    message: "Assignment is still processing.",
-    type: "PENDING",
+    message: 'Assignment is still processing.',
+    type: 'PENDING',
   });
 
   const [ticketAccept] = useMutation(CREATE_ORDER_MUTATION, {
@@ -31,12 +31,12 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       if (ticketAccept?.userErrors.length) {
         setStatus({
           message: ticketAccept.userErrors[0].message,
-          type: "ERROR",
+          type: 'ERROR',
         });
       } else {
         setStatus({
-          message: "Auto claim was successful",
-          type: "SUCCESS",
+          message: 'Auto claim was successful',
+          type: 'SUCCESS',
         });
       }
     },
@@ -73,7 +73,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     if (productsList.length == 0) {
       setStatus({
         message: `No Staff ticket product configured for this conference, please contact engineering!`,
-        type: "ERROR",
+        type: 'ERROR',
       });
     }
 
@@ -91,14 +91,14 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
             lastName: lastName,
           },
           items: productsList,
-          status: "COMPLETE",
+          status: 'COMPLETE',
         },
       },
     }).catch((e) => {
       console.error(e);
       setStatus({
         message: `Unable to create this ticket - ${bookingRef}`,
-        type: "ERROR",
+        type: 'ERROR',
       });
     });
   }, []);
