@@ -1,11 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
-
 import { useMutation } from '@apollo/client';
+import React, { useContext, useEffect, useState } from 'react';
+
 import CREATE_ORDER_MUTATION from '../../operations/mutations/CreateOrder';
-
-import AssigneeItem from '../assigneeItem/AssigneeItem';
-
 import { AppContext, Staff } from '../app/App';
+import AssigneeItem from './AssigneeItem';
 
 export type StatusType = {
   message: string;
@@ -46,20 +44,20 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     const productsList = [];
     if (conference.staffProductId) {
       productsList.push({
-        product: conference.staffProductId,
-        quantity: 1,
         metadata: {
           assignees: [
             {
-              firstName: firstName,
-              lastName: lastName,
-              email: email,
               bookingReference: bookingRef
                 ? bookingRef.toUpperCase()
                 : undefined,
+              email,
+              firstName,
+              lastName,
             },
           ],
         },
+        product: conference.staffProductId,
+        quantity: 1,
       });
     }
 
@@ -79,20 +77,20 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
 
     ticketAccept({
       context: {
-        token,
         slug: conference.slug,
+        token,
       },
       variables: {
-        storeId: conference.storeId,
         input: {
           customer: {
-            email: email,
-            firstName: firstName,
-            lastName: lastName,
+            email,
+            firstName,
+            lastName,
           },
           items: productsList,
           status: 'COMPLETE',
         },
+        storeId: conference.storeId,
       },
     }).catch((e) => {
       console.error(e);
@@ -106,9 +104,9 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   return (
     <AssigneeItem
       bookingRef={bookingRef}
+      email={email}
       firstName={firstName}
       lastName={lastName}
-      email={email}
       status={status}
     />
   );

@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Order, OrderState, TicketsSummary } from '../../lib/types';
 import { Badge } from '../../lib/components';
+import { Order, OrderState, TicketsSummary } from '../../lib/types';
 
 const ColumnStyles = styled.div`
   text-align: center;

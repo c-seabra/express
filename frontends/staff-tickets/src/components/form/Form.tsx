@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
-import Upload from '../upload/Upload';
-import { AppContext, TicketList } from '../app/App';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+
+import { AppContext, TicketList } from '../app/App';
+import Upload from '../upload/Upload';
 
 const SubmitButton = styled.button`
   margin: 1rem 0;
@@ -61,7 +62,7 @@ const Form: React.FC = () => {
     <>
       <form onSubmit={(e) => onSingleSubmit(e)}>
         {formError && <div>There seems to be an error with your input.</div>}
-        <input type="text" name="email" />
+        <input name="email" type="text" />
         <SubmitButton type="submit">Submit</SubmitButton>
       </form>
       <form onSubmit={(e) => onSubmit(e)}>

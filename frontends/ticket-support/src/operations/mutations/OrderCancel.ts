@@ -29,8 +29,8 @@ export type OrderCancelRequest = {
   commerceOrderUpdate?: { status: string };
   id: string;
   reason: string;
-  storeId?: string;
   refetch?: any;
+  storeId?: string;
 };
 
 type CancelOrderResponse = {

@@ -9,19 +9,19 @@ const routes = constructRoutes(
   document.querySelector('#single-spa-layout') as HTMLTemplateElement,
 );
 const applications = constructApplications({
-  routes,
   loadApp({ name }) {
     // eslint-disable-next-line
     return System.import(name);
   },
+  routes,
 });
-const layoutEngine = constructLayoutEngine({ routes, applications });
+const layoutEngine = constructLayoutEngine({ applications, routes });
 
 // eslint-disable-next-line no-undef
-const env: any = process.env;
+const { env } = process;
 const customProps = {
-  test: 'testing',
   apiURL: env.API_URL,
+  test: 'testing',
   token: env.AUTH_TOKEN,
 };
 
