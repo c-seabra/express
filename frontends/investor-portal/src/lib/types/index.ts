@@ -11,9 +11,9 @@ export type UserError = {
 };
 
 export type Error = {
-  message: string
-  path: string
-}
+  message: string;
+  path: string;
+};
 
 export type Attendance = {
   attendanceAppearanceSelections?: {
