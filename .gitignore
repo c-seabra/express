@@ -49,6 +49,6 @@ builds/
 *.sw?
 .DS_Store
 
-frontends/ticket-support/src/coverage/*
-frontends/investor-portal/src/coverage/*
-coverage/*
+coverage
+*/coverage
+*/*/coverage
