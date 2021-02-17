@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Ticket, TicketList } from '../app/App';
 import styled from 'styled-components';
+
+import { Ticket, TicketList } from '../app/App';
 
 const Field = styled.label`
   display: flex;
@@ -23,7 +24,7 @@ const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
 
   const onUpload = () => {
     const input = document.getElementById('csvFileInput') as HTMLInputElement;
-    const files = input.files;
+    const { files } = input;
 
     const errorHandler = (evt: ProgressEvent<FileReader>) => {
       if (evt?.target?.error?.name == 'NotReadableError') {
@@ -66,7 +67,6 @@ const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
         setError(
           'There has been an issue reading uploaded CSV try again or check your CSV has correct format.',
         );
-        return;
       }
     };
 
@@ -91,10 +91,10 @@ const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
       <Field>
         <span>Please upload assignee detail as a CSV file</span>
         <input
-          type="file"
-          id="csvFileInput"
-          onChange={() => onUpload()}
           accept=".csv"
+          id="csvFileInput"
+          type="file"
+          onChange={() => onUpload()}
         />
       </Field>
     </div>

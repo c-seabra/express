@@ -11,11 +11,11 @@ dotenv.config({
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = 'websummit-micro';
   const defaultConfig = singleSpaDefaults({
+    argv,
+    disableHtmlGeneration: true,
     orgName,
     projectName: 'root-config',
     webpackConfigEnv,
-    argv,
-    disableHtmlGeneration: true,
   });
 
   return merge(defaultConfig, {

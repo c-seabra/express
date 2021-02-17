@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react';
 import { ApolloError } from '@apollo/client';
+import React, { ReactElement } from 'react';
 
+import Loader from '../../lib/Loading';
 import { Order } from '../../lib/types';
 import OrderItem, { OrderListHeader } from '../orderItem/OrderItem';
-import Loader from '../../lib/Loading';
 
 type OrderListProps = {
   error?: ApolloError;

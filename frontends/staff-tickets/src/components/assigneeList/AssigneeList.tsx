@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { TicketList } from '../app/App';
-import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider';
 import AssigneeItem from '../assigneeItem/AssigneeItem';
+import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider';
 import AssigneeListHeader from './AssigneeListHeader';
 
 const StyledList = styled.ul`
@@ -22,9 +22,9 @@ const AssigneeList: React.FC<{ list: TicketList }> = ({ list }) => {
           return (
             <AssigneeItem
               bookingRef={bookingRef || '???'}
+              email={email}
               firstName={firstName}
               lastName={lastName}
-              email={email}
               status={{
                 message: 'Not enough information provided',
                 type: 'ERROR',
@@ -35,9 +35,9 @@ const AssigneeList: React.FC<{ list: TicketList }> = ({ list }) => {
           <AssigneeItemProvider
             key={bookingRef}
             bookingRef={bookingRef}
+            email={email}
             firstName={firstName}
             lastName={lastName}
-            email={email}
           />
         );
       })}

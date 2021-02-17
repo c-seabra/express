@@ -1,10 +1,10 @@
+import { ApolloProvider } from '@apollo/client';
+import { GraphQLParams, initApollo } from '@websummit/graphql';
 import React, { createContext, useState } from 'react';
 import styled from 'styled-components';
 
 import AssigneeList from '../assigneeList/AssigneeList';
 import Form from '../form/Form';
-import { ApolloProvider } from '@apollo/client';
-import { GraphQLParams, initApollo } from '@websummit/graphql';
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -19,8 +19,8 @@ const StyledSection = styled.section`
 
 export type StaffList = { [index: string]: Staff };
 export type Staff = {
-  email: string;
   bookingRef?: string;
+  email: string;
   firstName: string;
   lastName: string;
 };
@@ -30,26 +30,26 @@ export type SetTicketList = (tickets: TicketList) => void;
 export type Ticket = Staff;
 
 export type Conference = {
-  slug: string;
-  storeId?: string;
-  staffProductId?: string;
   guestProductId?: string;
+  slug: string;
+  staffProductId?: string;
+  storeId?: string;
 };
 
 export type StaffTicketContext = GraphQLParams & {
-  ticketsList?: TicketList;
-  setTicketsList?: SetTicketList;
   conference: Conference;
+  setTicketsList?: SetTicketList;
   staffList: StaffList;
+  ticketsList?: TicketList;
 };
 
 export const AppContext = createContext<StaffTicketContext>({
+  apiURL: '',
   conference: {
     slug: '',
   },
-  token: '',
   staffList: {},
-  apiURL: '',
+  token: '',
 });
 
 const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
@@ -63,12 +63,12 @@ const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
     <ApolloProvider client={apolloClient}>
       <AppContext.Provider
         value={{
-          token,
-          ticketsList: ticketsList,
+          apiURL,
+          conference,
           setTicketsList: setTicketList,
-          conference: conference,
-          staffList: staffList,
-          apiURL: apiURL,
+          staffList,
+          ticketsList,
+          token,
         }}
       >
         <StyledContainer>
