@@ -1,12 +1,12 @@
-import { ApolloError,useMutation, useQuery } from '@apollo/client';
-import React, { useContext, useEffect,useState } from 'react';
+import { ApolloError, useMutation, useQuery } from '@apollo/client';
+import React, { useContext, useEffect, useState } from 'react';
 
 import TICKET_ACCEPT_MUTATION from '../../operations/mutations/TicketAccept';
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign';
 import ASSIGNMENT_USER from '../../operations/queries/AssignmentUserByEmail';
 import TICKET_ID_BY_REFERENCE from '../../operations/queries/TicketIdByReference';
 import { AppContext, Assignee } from '../app/App';
-import AssigneeItem from "./AssigneeItem";
+import AssigneeItem from './AssigneeItem';
 
 export type StatusType = {
   message: string;
@@ -245,55 +245,55 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
           });
         });
       } else if (ticketState === 'VOID') {
+        setStatus({
+          message: 'This ticket has been voided and cannot be reassigned.',
+          type: 'ERROR',
+        });
+        setClaimStatus({
+          message: 'This ticket has been voided and cannot be claimed.',
+          type: 'ERROR',
+        });
+      } else if (
+        ticketAssignmentState === 'PENDING' ||
+        ticketAssignmentState === 'ACCEPTED'
+      ) {
+        if (email === ticketAssignmentEmail) {
           setStatus({
-            message: 'This ticket has been voided and cannot be reassigned.',
+            message: `Ticket email is same as new assignee email. Assignment state ${ticketAssignmentState.toLowerCase()}`,
             type: 'ERROR',
           });
-          setClaimStatus({
-            message: 'This ticket has been voided and cannot be claimed.',
-            type: 'ERROR',
-          });
-        } else if (
-          ticketAssignmentState === 'PENDING' ||
-          ticketAssignmentState === 'ACCEPTED'
-        ) {
-          if (email === ticketAssignmentEmail) {
-            setStatus({
-              message: `Ticket email is same as new assignee email. Assignment state ${ticketAssignmentState.toLowerCase()}`,
-              type: 'ERROR',
-            });
-            if (hasAutoClaim && ticketAssignmentState === 'PENDING') {
-              claimTicket(data.ticket.id);
-            } else {
-              setClaimStatus({
-                message: `Ticket cannot be auto claimed as it has ${ticketAssignmentState.toLowerCase()} state`,
-                type: 'ERROR',
-              });
-            }
+          if (hasAutoClaim && ticketAssignmentState === 'PENDING') {
+            claimTicket(data.ticket.id);
           } else {
-            setStatus({
-              message: `This ticket is already assigned to ${ticketAssignmentEmail}`,
-              type: 'ERROR',
-            });
             setClaimStatus({
-              message: `This ticket is already assigned to ${ticketAssignmentEmail}, cannot be claimed.`,
+              message: `Ticket cannot be auto claimed as it has ${ticketAssignmentState.toLowerCase()} state`,
               type: 'ERROR',
             });
           }
-        } else if (newAssignmentUserEmail) {
+        } else {
           setStatus({
-            message: `${newAssignmentUserEmail} already owns a ticket for ${
-              conferenceSlug as string
-            } event therefore reassignment will not be executed.`,
+            message: `This ticket is already assigned to ${ticketAssignmentEmail}`,
             type: 'ERROR',
           });
           setClaimStatus({
-            message: `${newAssignmentUserEmail} already owns a ticket for ${
-              conferenceSlug as string
-            } event therefore auto claim will not be executed.`,
+            message: `This ticket is already assigned to ${ticketAssignmentEmail}, cannot be claimed.`,
             type: 'ERROR',
           });
         }
+      } else if (newAssignmentUserEmail) {
+        setStatus({
+          message: `${newAssignmentUserEmail} already owns a ticket for ${
+            conferenceSlug as string
+          } event therefore reassignment will not be executed.`,
+          type: 'ERROR',
+        });
+        setClaimStatus({
+          message: `${newAssignmentUserEmail} already owns a ticket for ${
+            conferenceSlug as string
+          } event therefore auto claim will not be executed.`,
+          type: 'ERROR',
+        });
+      }
     } else {
       setStatus({
         message:

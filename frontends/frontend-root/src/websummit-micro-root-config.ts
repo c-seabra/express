@@ -18,7 +18,7 @@ const applications = constructApplications({
 const layoutEngine = constructLayoutEngine({ applications, routes });
 
 // eslint-disable-next-line no-undef
-const {env} = process;
+const { env } = process;
 const customProps = {
   apiURL: env.API_URL,
   test: 'testing',

@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client';
-import React, { useContext, useEffect,useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import CREATE_ORDER_MUTATION from '../../operations/mutations/CreateOrder';
 import { AppContext, Staff } from '../app/App';
-import AssigneeItem from "./AssigneeItem";
+import AssigneeItem from './AssigneeItem';
 
 export type StatusType = {
   message: string;

@@ -43,7 +43,7 @@ export const AppContext = createContext<BulkAssignContext>({});
 
 const App = ({ token, apiURL = '' }: BulkAssignContext) => {
   if (!token) return null;
-  const tokenPayload: { conf_slug: string, email: string; } = jwt(token);
+  const tokenPayload: { conf_slug: string; email: string } = jwt(token);
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
