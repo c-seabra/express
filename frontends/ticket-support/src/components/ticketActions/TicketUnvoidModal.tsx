@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ReasonAlertModal from '../../lib/components/molecules/ReasonAlertModal'
-import { TicketsUnvoidArgs, useTicketUnvoidMutation } from '../../operations/mutations/TicketUnvoid'
+import { TicketsUnvoidArgs, useTicketUnvoidOperation } from '../../operations/mutations/TicketUnvoid'
 
 type TicketUnvoidModalProps = {
     bookingRef: string,
@@ -10,7 +10,7 @@ type TicketUnvoidModalProps = {
 }
 
 const TicketUnvoidModal = ({ isOpen, closeModal, bookingRef }: TicketUnvoidModalProps) => {
-    const { unvoidTicket } = useTicketUnvoidMutation()
+    const { unvoidTicket } = useTicketUnvoidOperation()
     const setMutation = (e: TicketsUnvoidArgs) => {
         return unvoidTicket({bookingRef, reason: e.reason })
     }
