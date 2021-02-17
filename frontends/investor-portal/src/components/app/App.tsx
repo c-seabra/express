@@ -12,7 +12,7 @@ import {
 import SnackbarProvider from 'react-simple-snackbar';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import MainNavigation from '../../lib/components/molecules/MainNavigation';
+import { MainNavigation } from '../../lib/components/molecules';
 import ROUTES from '../../lib/constants/routes';
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard';
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard';

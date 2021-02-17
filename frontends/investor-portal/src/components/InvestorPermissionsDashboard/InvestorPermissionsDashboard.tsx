@@ -1,10 +1,8 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
-import { ContainerCard } from '../../lib/components';
-import Breadcrumbs, {
-  Breadcrumb,
-} from '../../lib/components/molecules/Breadcrumbs';
+import { ContainerCard } from '../../lib/components/atoms';
+import { Breadcrumb, Breadcrumbs } from '../../lib/components/molecules';
 import { useEventQuery } from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import Warning from '../settingsActions/Warning';

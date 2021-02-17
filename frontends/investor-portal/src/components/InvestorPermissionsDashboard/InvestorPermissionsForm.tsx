@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { Button } from '../../lib/components';
-import LabeledInput from '../../lib/components/molecules/LabeledInput';
+import { Button } from '../../lib/components/atoms';
+import { LabeledInput } from '../../lib/components/molecules';
 import { useInvestorAccessGrantMutation } from '../../lib/hooks';
 import {
   PermissionForm,
