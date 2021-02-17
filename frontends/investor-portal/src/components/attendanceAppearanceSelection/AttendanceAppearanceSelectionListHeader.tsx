@@ -9,6 +9,7 @@ const AttendanceAppearanceSelectionListHeader = () => {
       <Column>Company Name</Column>
       <Column>Updated At</Column>
       <Column>Status</Column>
+      <Column/>
     </ListHeaderItem>
   );
 };
