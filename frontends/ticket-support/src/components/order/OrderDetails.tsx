@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import { CommerceOrderPaymentStatus } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
@@ -285,8 +286,18 @@ const OrderDetails = (): ReactElement => {
                         sourceId={sourceId}
                       />
                     )}
-                    <Button disabled={!commerceOrder} onClick={openRefundModal}>
-                      Refund order
+                    <Button
+                      disabled={
+                        !commerceOrder ||
+                        commerceOrder?.paymentStatus ===
+                          CommerceOrderPaymentStatus.Refunded
+                      }
+                      onClick={openRefundModal}
+                    >
+                      {commerceOrder?.paymentStatus ===
+                      CommerceOrderPaymentStatus.Refunded
+                        ? 'Order refunded'
+                        : 'Refund order'}
                     </Button>
                     {commerceOrder && (
                       <OrderRefundModal
