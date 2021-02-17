@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Select } from '../../lib/components'
 import { useAttendanceInvestorSessionUpdateMutation, useEventQuery } from '../../lib/hooks'
 import { AttendanceAppearanceSelection } from '../../lib/types'
-import { InputArea } from './AttendanceInvestorSession.styled'
+import { StyledForm } from './AttendanceInvestorSession.styled'
 
 type AttendanceInvestorSessionType = {
   attendanceId: string
@@ -78,7 +78,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   return (
     <>
       {!status && (
-        <InputArea>
+        <StyledForm>
           {currentStartsAt && (
             <span>
               {moment(currentStartsAt).format('dddd')}: {moment(currentStartsAt).format('HH:mm')} -{' '}
@@ -100,7 +100,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
             ))}
           </Select>
           <Button onClick={submit}>{buttonTitle}</Button>
-        </InputArea>
+        </StyledForm>
       )}
     </>
   )

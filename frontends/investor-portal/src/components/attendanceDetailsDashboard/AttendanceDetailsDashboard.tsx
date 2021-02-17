@@ -10,7 +10,7 @@ import { ATTENDANCE_DETAILS_QUERY } from '../../operations/queries/AttendanceDet
 import { useAppContext } from '../app/AppContext';
 import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection';
 import AttendanceInvestorSession from '../attendanceInvestorSession/AttendanceInvestorSession'
-import { DashboardDetailsContainer } from './AttendanceDetailsDashboard.styled';
+import { BorderBottom, DashboardDetailsContainer } from './AttendanceDetailsDashboard.styled';
 
 const AttendanceDetailsDashboard = (): ReactElement => {
   const { attendanceId } = useParams<{ attendanceId: string }>();
@@ -50,14 +50,16 @@ const AttendanceDetailsDashboard = (): ReactElement => {
         <title>Investor Details - Investor Portal</title>
       </Helmet>
       <Label>{data?.attendance.name}</Label>
-      <ContainerCard color="#00ACA8" title="Investor Session">
-        <AttendanceInvestorSession
-          currentStartsAt={startsAt}
-          currentEndsAt={endsAt}
-          attendanceId={attendanceId}
-          selections={selections}
-        />
-      </ContainerCard>
+      <BorderBottom>
+        <ContainerCard color="#00ACA8" title="Investor Session">
+          <AttendanceInvestorSession
+            currentStartsAt={startsAt}
+            currentEndsAt={endsAt}
+            attendanceId={attendanceId}
+            selections={selections}
+          />
+        </ContainerCard>
+      </BorderBottom>
       <ContainerCard color="#4688D9" title="Startup Confirmations">
         <AttendanceAppearanceSelectionsList
           error={error}
