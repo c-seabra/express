@@ -1,44 +1,44 @@
-const path = require("path");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const CircularDependencyPlugin = require("circular-dependency-plugin");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-require("dotenv").config();
+const CircularDependencyPlugin = require('circular-dependency-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+require('dotenv').config();
 
 const config = {
   entry: {
-    demo: "./src/index.js",
+    demo: './src/index.js',
   },
   output: {
-    path: path.resolve(__dirname, "../../builds/demo"),
-    filename: "frontends.[name].bundle.js",
-    library: ["frontends", "[name]"],
-    libraryTarget: "window",
+    path: path.resolve(__dirname, '../../builds/demo'),
+    filename: 'frontends.[name].bundle.js',
+    library: ['frontends', '[name]'],
+    libraryTarget: 'window',
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: 'ts-loader',
         exclude: /node_modules/,
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
         },
       },
       {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
           },
         ],
         exclude: /\.module\.css$/,
@@ -47,10 +47,10 @@ const config = {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: true,
               importLoaders: 1,
@@ -63,14 +63,14 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js"],
+    extensions: ['.tsx', '.ts', '.jsx', '.js'],
     plugins: [new TsconfigPathsPlugin()],
   },
   plugins: [new CleanWebpackPlugin()],
 };
 
 module.exports = (env, argv) => {
-  if (process.env.mode === "analyse") {
+  if (process.env.mode === 'analyse') {
     config.plugins = config.plugins.concat([
       new BundleAnalyzerPlugin(),
       new CircularDependencyPlugin({
@@ -82,18 +82,18 @@ module.exports = (env, argv) => {
     ]);
   }
 
-  if (argv.mode === "development") {
+  if (argv.mode === 'development') {
     config.plugins = config.plugins.concat([
       new HtmlWebPackPlugin({
-        template: "template.html",
-        filename: "./index.html",
-        title: "demo",
+        template: 'template.html',
+        filename: './index.html',
+        title: 'demo',
         token: process.env.TOKEN,
         env: process.env.ENV,
       }),
     ]);
     config.devServer = {
-      contentBase: path.join(__dirname, "dist"),
+      contentBase: path.join(__dirname, 'dist'),
     };
   }
 

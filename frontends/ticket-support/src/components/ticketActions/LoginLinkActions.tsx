@@ -1,13 +1,13 @@
-import React, { ReactElement, useState } from 'react'
-import styled from 'styled-components'
+import React, { ReactElement, useState } from 'react';
+import styled from 'styled-components';
 
-import { SecondaryButton } from '../../lib/components/atoms/Button'
-import { useModalState } from '../../lib/components/molecules/Modal'
-import useSendLoginLinkMutation from '../../lib/hooks/useSendLoginLinkMutation'
-import { Account } from '../../lib/types'
-import { formatDateTime } from '../../lib/utils/time'
-import LoginLinkGenerate from './LoginLinkGenerate'
-import SendLoginLinkModal from './SendLoginLinkModal'
+import { SecondaryButton } from '../../lib/components/atoms/Button';
+import { useModalState } from '../../lib/components/molecules/Modal';
+import useSendLoginLinkMutation from '../../lib/hooks/useSendLoginLinkMutation';
+import { Account } from '../../lib/types';
+import { formatDateTime } from '../../lib/utils/time';
+import LoginLinkGenerate from './LoginLinkGenerate';
+import SendLoginLinkModal from './SendLoginLinkModal';
 
 const Text = styled.div`
   opacity: 0.5;
@@ -20,12 +20,12 @@ const Text = styled.div`
   a {
     color: #337ab7;
   }
-`
+`;
 
 const RowContainer = styled.div`
   display: flex;
   margin-top: 1rem;
-`
+`;
 
 const LoginLinkGeneratorContainer = styled.div`
   display: flex;
@@ -36,25 +36,35 @@ const LoginLinkGeneratorContainer = styled.div`
   p {
     margin: 0;
   }
-`
+`;
 
-const LoginLinkActions = ({ assignee }: { assignee: Account }): ReactElement => {
-  const [lastLoginLinkRequestedAt, setLastLoginLinkRequestedAt] = useState<string>()
-  const { isOpen, openModal, closeModal } = useModalState()
+const LoginLinkActions = ({
+  assignee,
+}: {
+  assignee: Account;
+}): ReactElement => {
+  const [
+    lastLoginLinkRequestedAt,
+    setLastLoginLinkRequestedAt,
+  ] = useState<string>();
+  const { isOpen, openModal, closeModal } = useModalState();
 
-  const { sendLoginLink } = useSendLoginLinkMutation({ assignee })
+  const { sendLoginLink } = useSendLoginLinkMutation({ assignee });
 
   if (
     assignee?.lastLoginTokenCreatedAt &&
     assignee?.lastLoginTokenCreatedAt !== lastLoginLinkRequestedAt
   ) {
-    setLastLoginLinkRequestedAt(assignee.lastLoginTokenCreatedAt)
+    setLastLoginLinkRequestedAt(assignee.lastLoginTokenCreatedAt);
   }
 
   return (
     <>
       {lastLoginLinkRequestedAt ? (
-        <Text>Last login link requested at: {formatDateTime(lastLoginLinkRequestedAt)}</Text>
+        <Text>
+          Last login link requested at:{' '}
+          {formatDateTime(lastLoginLinkRequestedAt)}
+        </Text>
       ) : (
         <Text>No login links requested for assignee</Text>
       )}
@@ -72,11 +82,17 @@ const LoginLinkActions = ({ assignee }: { assignee: Account }): ReactElement => 
           <LoginLinkGenerate assignee={assignee} />
         </LoginLinkGeneratorContainer>
 
-        <SecondaryButton onClick={openModal}>Send assignee login link email</SecondaryButton>
-        <SendLoginLinkModal isOpen={isOpen} sendLink={sendLoginLink} onRequestClose={closeModal} />
+        <SecondaryButton onClick={openModal}>
+          Send assignee login link email
+        </SecondaryButton>
+        <SendLoginLinkModal
+          isOpen={isOpen}
+          sendLink={sendLoginLink}
+          onRequestClose={closeModal}
+        />
       </RowContainer>
     </>
-  )
-}
+  );
+};
 
-export default LoginLinkActions
+export default LoginLinkActions;

@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
 
 const StyledSuccess = styled.div`
   font-style: italic;
@@ -11,14 +11,14 @@ const StyledSuccess = styled.div`
     line-height: 1.25rem;
     color: #fff;
   }
-`
+`;
 
 const Success = ({ children }: { children: ReactElement | string }) => {
   return (
     <StyledSuccess>
       <span>{children}</span>
     </StyledSuccess>
-  )
-}
+  );
+};
 
-export default Success
+export default Success;

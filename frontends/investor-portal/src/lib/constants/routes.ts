@@ -1,16 +1,16 @@
 export type Route = {
-  children?: Route[]
-  hasChildren?: boolean
-  isActive?: boolean
+  children?: Route[];
+  hasChildren?: boolean;
+  isActive?: boolean;
   meta?: {
-    description?: string
-  }
-  path: string
-}
+    description?: string;
+  };
+  path: string;
+};
 
 export type Routes = {
-  [routeName: string]: Route
-}
+  [routeName: string]: Route;
+};
 // Order is important here for rendering purpose
 const ROUTES: Routes = {
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
@@ -26,6 +26,6 @@ const ROUTES: Routes = {
     meta: { description: 'Settings' },
     path: '/settings',
   },
-}
+};
 
-export default ROUTES
+export default ROUTES;

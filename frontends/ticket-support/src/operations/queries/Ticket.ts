@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const TICKET = gql`
   query Ticket($reference: String!) {
@@ -49,5 +49,5 @@ const TICKET = gql`
       }
     }
   }
-`
-export default TICKET
+`;
+export default TICKET;

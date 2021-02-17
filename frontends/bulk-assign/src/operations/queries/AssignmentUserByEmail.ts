@@ -1,10 +1,8 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const ASSIGNMENT_USER = gql`
   query GetAssignmentByEmail($email: String!) {
-    assignmentUser(
-      email: $email
-    ) {
+    assignmentUser(email: $email) {
       assigneeAssignments {
         edges {
           node {
@@ -16,5 +14,5 @@ export const ASSIGNMENT_USER = gql`
       }
     }
   }
-`
-export default ASSIGNMENT_USER
+`;
+export default ASSIGNMENT_USER;

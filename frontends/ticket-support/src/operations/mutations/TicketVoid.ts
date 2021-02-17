@@ -1,9 +1,12 @@
-import { gql, useMutation } from '@apollo/client'
-import { useState } from 'react'
+import { gql, useMutation } from '@apollo/client';
+import { useState } from 'react';
 
-import { useAppContext } from '../../components/app/AppContext'
-import { useErrorSnackbar, useSuccessSnackbar } from '../../lib/hooks/useSnackbarMessage'
-import { Ticket, UserError } from '../../lib/types'
+import { useAppContext } from '../../components/app/AppContext';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '../../lib/hooks/useSnackbarMessage';
+import { Ticket, UserError } from '../../lib/types';
 
 export const TICKET_VOID_MUTATION = gql`
   mutation VoidTicket($input: TicketVoidInput!) {
@@ -19,37 +22,40 @@ export const TICKET_VOID_MUTATION = gql`
       }
     }
   }
-`
+`;
 
 type TicketVoidResponse = {
   response: {
-    ticket: Ticket
-    userErrors: UserError[]
-  }
-}
+    ticket: Ticket;
+    userErrors: UserError[];
+  };
+};
 
 export type TicketsVoidArgs = {
-  bookingRef: string
-  reason: string
-}
+  bookingRef: string;
+  reason: string;
+};
 
 export const useTicketVoidMutation = () => {
-  const { conferenceSlug, token } = useAppContext()
-  const [error, setError] = useState('')
-  const snackbar = useSuccessSnackbar()
-  const errSnackbar = useErrorSnackbar()
+  const { conferenceSlug, token } = useAppContext();
+  const [error, setError] = useState('');
+  const snackbar = useSuccessSnackbar();
+  const errSnackbar = useErrorSnackbar();
 
-  const [voidTicketMutation] = useMutation<TicketVoidResponse>(TICKET_VOID_MUTATION, {
-    onCompleted: ({ response }) => {
-      snackbar('Ticket voided')
+  const [voidTicketMutation] = useMutation<TicketVoidResponse>(
+    TICKET_VOID_MUTATION,
+    {
+      onCompleted: ({ response }) => {
+        snackbar('Ticket voided');
 
-      if (response?.userErrors.length) {
-        setError(response.userErrors[0]?.message)
-        errSnackbar('Ticket voiding failed')
-      }
+        if (response?.userErrors.length) {
+          setError(response.userErrors[0]?.message);
+          errSnackbar('Ticket voiding failed');
+        }
+      },
+      refetchQueries: ['TicketAuditTrail', 'Ticket'],
     },
-    refetchQueries: ['TicketAuditTrail', 'Ticket'],
-  })
+  );
 
   const voidTicket = async ({ reason, bookingRef }: TicketsVoidArgs) => {
     await voidTicketMutation({
@@ -63,12 +69,11 @@ export const useTicketVoidMutation = () => {
       variables: {
         input: { reference: bookingRef },
       },
-    })
-  }
+    });
+  };
 
   return {
     error,
     voidTicket,
-  }
-}
-
+  };
+};

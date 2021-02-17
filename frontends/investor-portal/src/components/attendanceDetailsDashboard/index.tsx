@@ -1,3 +1,3 @@
-import AttendanceDetailsDashboard from './AttendanceDetailsDashboard'
+import AttendanceDetailsDashboard from './AttendanceDetailsDashboard';
 
-export default AttendanceDetailsDashboard
+export default AttendanceDetailsDashboard;

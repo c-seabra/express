@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -6,10 +6,10 @@ const ColumnStyles = styled.div`
   align-items: center;
   padding: 0 0.25rem;
   word-break: break-word;
-`
+`;
 
 const Column = styled(ColumnStyles)`
   width: 25%;
-`
+`;
 
-export default Column
+export default Column;

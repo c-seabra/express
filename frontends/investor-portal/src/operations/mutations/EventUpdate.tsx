@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const EVENT_UPDATE = gql`
   mutation eventUpdate(
@@ -30,6 +30,6 @@ export const EVENT_UPDATE = gql`
       }
     }
   }
-`
+`;
 
-export default EVENT_UPDATE
+export default EVENT_UPDATE;

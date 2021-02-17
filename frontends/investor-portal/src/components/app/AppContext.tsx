@@ -1,12 +1,12 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext } from 'react';
 import { GraphQLParams } from '@websummit/graphql';
 
-type AppContextType = GraphQLParams
+type AppContextType = GraphQLParams;
 
-const AppContext = createContext<AppContextType>({})
+const AppContext = createContext<AppContextType>({});
 
 export const useAppContext = () => {
-  return useContext(AppContext)
-}
+  return useContext(AppContext);
+};
 
-export default AppContext
+export default AppContext;

@@ -1,16 +1,31 @@
-import React, { SVGProps } from 'react'
+import React, { SVGProps } from 'react';
 
 const LogoImage = (props: SVGProps<SVGSVGElement>) => {
   return (
-    <svg height="24px" version="1.1" viewBox="0 0 154 24" width="154px" {...props}>
+    <svg
+      height="24px"
+      version="1.1"
+      viewBox="0 0 154 24"
+      width="154px"
+      {...props}
+    >
       <defs>
         <polygon
           id="path-1"
           points="0.0176199095 0.0580677241 111.455385 0.0580677241 111.455385 14.2398289 0.0176199095 14.2398289"
         />
       </defs>
-      <g fill="none" fillRule="evenodd" id="Ticket-administration" stroke="none" strokeWidth="1">
-        <g id="ManageTickets/Individual2" transform="translate(-30.000000, -16.000000)">
+      <g
+        fill="none"
+        fillRule="evenodd"
+        id="Ticket-administration"
+        stroke="none"
+        strokeWidth="1"
+      >
+        <g
+          id="ManageTickets/Individual2"
+          transform="translate(-30.000000, -16.000000)"
+        >
           <g id="Group-19" transform="translate(30.000000, 16.002000)">
             <polygon
               fill="#00ACA8"
@@ -114,7 +129,7 @@ const LogoImage = (props: SVGProps<SVGSVGElement>) => {
         </g>
       </g>
     </svg>
-  )
-}
+  );
+};
 
-export default LogoImage
+export default LogoImage;
