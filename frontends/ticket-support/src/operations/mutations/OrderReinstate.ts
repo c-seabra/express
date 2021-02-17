@@ -28,8 +28,8 @@ export type OrderReinstateRequest = {
   commerceOrderUpdate?: { status: string };
   id: string;
   reason: string;
-  storeId?: string;
   refetch?: any;
+  storeId?: string;
 };
 
 type ReinstateOrderResponse = {

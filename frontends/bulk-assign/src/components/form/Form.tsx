@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
-import Upload from '../upload/Upload';
-import { AppContext, AssigneesList } from '../app/App';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+
+import { AppContext, AssigneesList } from '../app/App';
+import Upload from '../upload/Upload';
 
 const SubmitButton = styled.button`
   margin: 1rem 0;

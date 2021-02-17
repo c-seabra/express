@@ -4,8 +4,8 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client';
-import fetch from 'isomorphic-unfetch';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
+import fetch from 'isomorphic-unfetch';
 
 export const DEFAULT_CONFERENCE_SLUG = 'ws20';
 

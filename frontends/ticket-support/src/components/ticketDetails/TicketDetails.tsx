@@ -18,6 +18,8 @@ import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
 import { useAppContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
+import OrderCancelModal from '../order/OrderCancelModal';
+import OrderReinstateModal from '../order/OrderReinstateModal';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';
 import TicketAssignModal from '../ticketActions/TicketAssignModal';
 import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
@@ -27,8 +29,6 @@ import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail';
 import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier';
 import UserProfileInformation from '../userProfileInformation/UserProfileInformation';
 import TicketStateActions from './TicketStateActions';
-import OrderReinstateModal from '../order/OrderReinstateModal';
-import OrderCancelModal from '../order/OrderCancelModal';
 
 const PageContainer = styled.div`
   max-width: 1440px;
