@@ -50,11 +50,11 @@ export type StatusType = {
 
 type AssigneItemType = {
   bookingRef?: string;
+  claimStatus?: StatusType;
+  email?: string;
   firstName?: string;
   lastName?: string;
-  email?: string;
   status?: StatusType;
-  claimStatus?: StatusType;
 };
 
 const AssigneeItem: React.FC<AssigneItemType> = ({

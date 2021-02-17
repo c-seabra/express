@@ -1,14 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { ApolloError,useMutation, useQuery } from '@apollo/client';
+import React, { useContext, useEffect,useState } from 'react';
 
-import { useQuery, useMutation, ApolloError } from '@apollo/client';
-import TICKET_ID_BY_REFERENCE from '../../operations/queries/TicketIdByReference';
-import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign';
 import TICKET_ACCEPT_MUTATION from '../../operations/mutations/TicketAccept';
-
-import AssigneeItem from '../assigneeItem/AssigneeItem';
-
-import { AppContext, Assignee } from '../app/App';
+import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign';
 import ASSIGNMENT_USER from '../../operations/queries/AssignmentUserByEmail';
+import TICKET_ID_BY_REFERENCE from '../../operations/queries/TicketIdByReference';
+import { AppContext, Assignee } from '../app/App';
+import AssigneeItem from "./AssigneeItem";
 
 export type StatusType = {
   message: string;
@@ -16,11 +14,11 @@ export type StatusType = {
 };
 
 type AssigneeItemProvider = {
+  autoClaim?: string;
   bookingRef: string;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
-  autoClaim?: string;
 };
 
 const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
@@ -66,8 +64,8 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   const claimTicket = (ticketId: string) => {
     ticketAccept({
       context: {
-        token,
         slug: conferenceSlug,
+        token,
       },
       variables: {
         ticketId,
@@ -85,13 +83,13 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       ticketAssign,
     }: {
       ticketAssign: {
-        userErrors: [{ message: string }];
         ticket: {
           assignment: {
-            state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
             assignee: Assignee;
+            state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
           };
         };
+        userErrors: [{ message: string }];
       };
     }) => {
       if (ticketAssign?.ticket?.assignment?.assignee) {
@@ -116,14 +114,10 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
 
   const { data: newAssignmentUserData } = useQuery(ASSIGNMENT_USER, {
     context: {
-      token,
       slug: conferenceSlug,
-    },
-    variables: {
-      email,
+      token,
     },
     onCompleted: (data: {
-      userErrors?: [{ message: string }];
       assignmentUser?: {
         assigneeAssignments?: {
           edges?: [
@@ -137,6 +131,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
           ];
         };
       };
+      userErrors?: [{ message: string }];
     }) => {
       if (
         data?.assignmentUser?.assigneeAssignments?.edges?.[0]?.node?.assignee
@@ -154,6 +149,9 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
         });
       }
     },
+    variables: {
+      email,
+    },
   });
 
   const {
@@ -161,32 +159,29 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     error,
     data,
   }: {
-    loading?: boolean;
-    error?: ApolloError;
     data?: {
       ticket?: {
-        userErrors?: [{ message: string }];
+        assignment: {
+          assignee: Assignee;
+          state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+        };
         id: string;
         state: string;
-        assignment: {
-          state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
-          assignee: Assignee;
-        };
+        userErrors?: [{ message: string }];
       };
     };
+    error?: ApolloError;
+    loading?: boolean;
   } = useQuery(TICKET_ID_BY_REFERENCE, {
     context: {
-      token,
       slug: conferenceSlug,
-    },
-    variables: {
-      reference: bookingRef,
+      token,
     },
     onCompleted: (data) => {
       if (!data?.ticket?.id) {
         setStatus({
-          type: 'ERROR',
           message: `Cannot find Ticket ID for - ${bookingRef}. Your role might not be sufficient for this action.`,
+          type: 'ERROR',
         });
         setClaimStatus({
           message: 'Ticket ID is missing and can not auto claim',
@@ -203,6 +198,9 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
           type: 'ERROR',
         });
       }
+    },
+    variables: {
+      reference: bookingRef,
     },
   });
 
@@ -227,13 +225,13 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       ) {
         ticketAssign({
           context: {
-            token,
             slug: conferenceSlug,
+            token,
           },
           variables: {
+            email,
             firstName,
             lastName,
-            email,
             ticketId: data?.ticket?.id,
           },
         }).catch(() => {
@@ -246,8 +244,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
             type: 'ERROR',
           });
         });
-      } else {
-        if (ticketState === 'VOID') {
+      } else if (ticketState === 'VOID') {
           setStatus({
             message: 'This ticket has been voided and cannot be reassigned.',
             type: 'ERROR',
@@ -297,7 +294,6 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
             type: 'ERROR',
           });
         }
-      }
     } else {
       setStatus({
         message:
@@ -311,11 +307,11 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   return (
     <AssigneeItem
       bookingRef={bookingRef}
+      claimStatus={hasAutoClaim ? claimStatus : undefined}
+      email={email}
       firstName={firstName}
       lastName={lastName}
-      email={email}
       status={status}
-      claimStatus={hasAutoClaim ? claimStatus : undefined}
     />
   );
 };

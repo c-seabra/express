@@ -10,8 +10,8 @@ type OrderReinstateModalProps = {
   closeModal: () => void;
   isOpen: boolean;
   orderRef: string;
-  sourceId: string;
   refetch?: any;
+  sourceId: string;
 };
 
 const OrderReinstateModal = ({

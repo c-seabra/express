@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AssigneesList } from '../app/App';
-import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider';
 import AssigneeItem from '../assigneeItem/AssigneeItem';
+import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider';
 import AssigneeListHeader from './AssigneeListHeader';
 
 const StyledList = styled.ul`
@@ -22,14 +22,14 @@ const AssigneeList: React.FC<{ list: AssigneesList }> = ({ list }) => {
           return (
             <AssigneeItem
               bookingRef={bookingRef}
-              firstName={firstName}
-              lastName={lastName}
-              email={email}
-              status={{
+              claimStatus={{
                 message: 'Not enough information provided',
                 type: 'ERROR',
               }}
-              claimStatus={{
+              email={email}
+              firstName={firstName}
+              lastName={lastName}
+              status={{
                 message: 'Not enough information provided',
                 type: 'ERROR',
               }}
@@ -37,11 +37,11 @@ const AssigneeList: React.FC<{ list: AssigneesList }> = ({ list }) => {
           );
         return (
           <AssigneeItemProvider
+            autoClaim={autoClaim}
             bookingRef={bookingRef.toUpperCase()}
+            email={email}
             firstName={firstName}
             lastName={lastName}
-            email={email}
-            autoClaim={autoClaim}
           />
         );
       })}

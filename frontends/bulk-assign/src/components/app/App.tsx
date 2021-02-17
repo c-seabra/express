@@ -1,10 +1,3 @@
-import React, { createContext, useEffect, useState } from 'react';
-import jwt from 'jwt-decode';
-import styled from 'styled-components';
-
-import AssigneeList from '../assigneeList/AssigneeList';
-import { GraphQLParams, initApollo } from '@websummit/graphql';
-import Form from '../form/Form';
 import { ApolloProvider } from '@apollo/client';
 import {
   Conference,
@@ -12,6 +5,13 @@ import {
   StaffList,
   TicketList,
 } from '@websummit-micro/staff-tickets/src/components/app/App';
+import { GraphQLParams, initApollo } from '@websummit/graphql';
+import jwt from 'jwt-decode';
+import React, { createContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+import AssigneeList from '../assigneeList/AssigneeList';
+import Form from '../form/Form';
 
 const StlyedContainer = styled.section`
   padding: 1rem;
@@ -26,12 +26,12 @@ const StyledSection = styled.section`
 export type AssigneesList = Array<Assignee>;
 export type SetAssigneesList = (assignees: AssigneesList) => void;
 export type Assignee = {
+  autoClaim?: string;
+  bookingRef: string;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
   ticketId: string;
-  bookingRef: string;
-  autoClaim?: string;
 };
 
 export type BulkAssignContext = GraphQLParams & {
@@ -43,10 +43,7 @@ export const AppContext = createContext<BulkAssignContext>({});
 
 const App = ({ token, apiURL = '' }: BulkAssignContext) => {
   if (!token) return null;
-  const tokenPayload: { email: string; conf_slug: string } = jwt(token) as {
-    email: string;
-    conf_slug: string;
-  };
+  const tokenPayload: { conf_slug: string, email: string; } = jwt(token);
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
@@ -61,11 +58,11 @@ const App = ({ token, apiURL = '' }: BulkAssignContext) => {
     <ApolloProvider client={apolloClient}>
       <AppContext.Provider
         value={{
-          token,
           apiURL,
           assigneesList,
-          setAssigneesList,
           conferenceSlug,
+          setAssigneesList,
+          token,
         }}
       >
         <StlyedContainer>

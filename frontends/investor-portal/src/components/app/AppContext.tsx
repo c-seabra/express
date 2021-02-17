@@ -1,5 +1,5 @@
-import { createContext, useContext } from 'react';
 import { GraphQLParams } from '@websummit/graphql';
+import { createContext, useContext } from 'react';
 
 type AppContextType = GraphQLParams;
 

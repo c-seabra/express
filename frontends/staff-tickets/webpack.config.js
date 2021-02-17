@@ -3,10 +3,10 @@ const singleSpaDefaults = require('webpack-config-single-spa-react-ts');
 
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
+    argv,
     orgName: 'websummit-micro',
     projectName: 'staff-tickets',
     webpackConfigEnv,
-    argv,
   });
 
   return merge(defaultConfig, {
