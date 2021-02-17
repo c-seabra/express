@@ -67,7 +67,7 @@ export type TimeZone = {
 };
 
 export type InvestorSessionsSummary = {
-  available: number;
+  available: string;
   claimed: number;
   count: number;
   endsAt: string;
