@@ -4,7 +4,7 @@ export const ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION = gql`
   mutation attendanceAppearanceSelectionDestroy($selectionId: ID!) {
     attendanceAppearanceSelectionDestroy(input: { id: $selectionId }) {
       userErrors {
-        type
+        path
         message
       }
       successMessage

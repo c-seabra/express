@@ -2,17 +2,13 @@ import { useMutation } from '@apollo/client'
 
 import { useAppContext } from '../../components/app/AppContext'
 import { ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION } from '../../operations/mutations'
+import { UserError } from '../types'
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage'
 
 type AttendanceAppearanceSelectionDestroyData = {
   attendanceAppearanceSelectionDestroy: {
     successMessage: string
-    userErrors: [
-      {
-        message: string
-        type: string
-      }
-    ]
+    userErrors: [UserError]
   }
 }
 
