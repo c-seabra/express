@@ -1,5 +1,4 @@
-
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const TICKET_ACCEPT_MUTATION = gql`
   mutation ticketAccept($ticketId: ID!) {
@@ -10,6 +9,6 @@ export const TICKET_ACCEPT_MUTATION = gql`
       }
     }
   }
-`
+`;
 
-export default TICKET_ACCEPT_MUTATION
+export default TICKET_ACCEPT_MUTATION;

@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { ListItem } from '../../lib/components'
-import { Attendance } from '../../lib/types'
+import { ListItem } from '../../lib/components';
+import { Attendance } from '../../lib/types';
 
 const ColumnStyles = styled.div`
   text-align: center;
@@ -11,13 +11,17 @@ const ColumnStyles = styled.div`
   align-items: center;
   padding: 0 0.25rem;
   word-break: break-word;
-`
+`;
 const Column = styled(ColumnStyles)`
   width: 15%;
-`
+`;
 
-const AttendanceItem = ({ attendance }: { attendance: Attendance }): ReactElement => {
-  const history = useHistory()
+const AttendanceItem = ({
+  attendance,
+}: {
+  attendance: Attendance;
+}): ReactElement => {
+  const history = useHistory();
 
   return (
     <ListItem onClick={() => history.push(`/dashboard/${attendance.id}`)}>
@@ -25,7 +29,7 @@ const AttendanceItem = ({ attendance }: { attendance: Attendance }): ReactElemen
       <Column>{attendance.name}</Column>
       <Column>{attendance.pendingSelectionCount}</Column>
     </ListItem>
-  )
-}
+  );
+};
 
-export default AttendanceItem
+export default AttendanceItem;

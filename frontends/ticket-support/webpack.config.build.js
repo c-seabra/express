@@ -1,10 +1,11 @@
-const path = require('path')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const CircularDependencyPlugin = require('circular-dependency-plugin')
-const HtmlWebPackPlugin = require('html-webpack-plugin')
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-require('dotenv').config()
+const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
+const CircularDependencyPlugin = require('circular-dependency-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+require('dotenv').config();
 
 const config = {
   entry: {
@@ -46,7 +47,6 @@ const config = {
         test: /\.css$/,
         use: [
           {
-
             loader: 'style-loader',
           },
           {
@@ -67,7 +67,7 @@ const config = {
     //plugins: [new TsconfigPathsPlugin()],
   },
   plugins: [new CleanWebpackPlugin()],
-}
+};
 
 module.exports = (env, argv) => {
   if (process.env.mode === 'analyse') {
@@ -79,7 +79,7 @@ module.exports = (env, argv) => {
         allowAsyncCycles: false,
         cwd: process.cwd(),
       }),
-    ])
+    ]);
   }
 
   if (argv.mode === 'development') {
@@ -91,11 +91,11 @@ module.exports = (env, argv) => {
         token: process.env.TOKEN,
         env: process.env.ENV,
       }),
-    ])
+    ]);
     config.devServer = {
       contentBase: path.join(__dirname, 'dist'),
-    }
+    };
   }
 
-  return config
-}
+  return config;
+};

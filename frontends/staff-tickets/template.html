@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title><%= JSON.stringify(htmlWebpackPlugin.options.title) %></title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="notifications"></div>
-</body>
-<script>
+  </body>
+  <script>
     const { token } = <%= JSON.stringify(htmlWebpackPlugin.options) %>
     const props = {
         token,
@@ -19,6 +18,5 @@
         React.createElement(StaffTickets, props),
         document.getElementById('notifications')
     )
-</script>
-
+  </script>
 </html>

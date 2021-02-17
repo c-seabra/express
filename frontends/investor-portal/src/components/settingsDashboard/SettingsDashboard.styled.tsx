@@ -1,29 +1,29 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const PageContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-`
+`;
 
 export const ConfigurationPanel = styled.form`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-`
+`;
 
 export const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
-`
+`;
 
 export const SponsorLogo = styled.img`
   width: 50%;
   height: 300px;
   margin: 15px;
   grid-area: 1 / 1 / 2 / 3;
-`
+`;
 
 export const FormArea = styled.div`
   display: grid;
@@ -59,13 +59,13 @@ export const FormArea = styled.div`
       grid-area: 1 / 3 / 2 / 4;
     }
   }
-`
+`;
 
 export const BorderBottom = styled.div`
   margin-bottom: 20px;
-`
+`;
 
 export const BreadcrumbsContainer = styled.div`
   display: flex;
   margin: 20px 0 4px;
-`
+`;

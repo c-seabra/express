@@ -1,4 +1,4 @@
-export { default as useEventQuery } from './useEventQuery'
+export { default as useEventQuery } from './useEventQuery';
 
 export { default as useAttendanceAppearanceSelectionDestroyMutation } from './useAttendanceAppearanceSelectionDestroyMutation'
 export { default as useEventUpdateMutation } from './useEventUpdateMutation'

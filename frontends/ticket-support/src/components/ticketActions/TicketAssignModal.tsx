@@ -1,21 +1,21 @@
-import { Form, Formik } from 'formik'
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
-import { WarningMessage } from '../../lib/components/atoms/Messages'
-import CheckboxField from '../../lib/components/molecules/CheckboxField'
-import Modal from '../../lib/components/molecules/Modal'
-import TextInputField from '../../lib/components/molecules/TextInputField'
-import useAssignTicketMutation from '../../lib/hooks/useTicketAssignMutation'
-import { Ticket } from '../../lib/types'
+import { WarningMessage } from '../../lib/components/atoms/Messages';
+import CheckboxField from '../../lib/components/molecules/CheckboxField';
+import Modal from '../../lib/components/molecules/Modal';
+import TextInputField from '../../lib/components/molecules/TextInputField';
+import useAssignTicketMutation from '../../lib/hooks/useTicketAssignMutation';
+import { Ticket } from '../../lib/types';
 
 const ContentContainer = styled.div`
   padding: 2rem 0;
   width: 450px;
   font-size: 0.85rem;
   font-weight: 400;
-`
+`;
 
 const ConfirmationText = styled.div`
   display: flex;
@@ -28,40 +28,44 @@ const ConfirmationText = styled.div`
     font-weight: 600;
     color: #0067e9;
   }
-`
+`;
 
 const StyledForm = styled(Form)`
   & > * {
     margin-bottom: 0.5rem;
   }
-`
+`;
 
 type TicketAssignModalProps = {
-  closeModal: () => void
-  isOpen: boolean
-  ticket: Ticket
-}
+  closeModal: () => void;
+  isOpen: boolean;
+  ticket: Ticket;
+};
 
 const assignSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   firstName: Yup.string().required('Required'),
   lastName: Yup.string(),
-})
+});
 
 const confirmSchema = Yup.object().shape({
   notify: Yup.boolean(),
   reason: Yup.string().required('Required'),
-})
+});
 
-const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProps) => {
-  const { assignTicket } = useAssignTicketMutation()
-  const [isFirstStepFilled, setFirstStepFilled] = useState(false)
+const TicketAssignModal = ({
+  isOpen,
+  closeModal,
+  ticket,
+}: TicketAssignModalProps) => {
+  const { assignTicket } = useAssignTicketMutation();
+  const [isFirstStepFilled, setFirstStepFilled] = useState(false);
 
   const handleClose = () => {
-    setFirstStepFilled(false)
+    setFirstStepFilled(false);
 
-    closeModal()
-  }
+    closeModal();
+  };
 
   return (
     <Modal
@@ -83,13 +87,13 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
           validateOnBlur={false}
           validateOnChange={false}
           validationSchema={isFirstStepFilled ? confirmSchema : assignSchema}
-          onSubmit={async values => {
+          onSubmit={async (values) => {
             if (isFirstStepFilled) {
-              await assignTicket({ ...values, ticketId: ticket.id })
+              await assignTicket({ ...values, ticketId: ticket.id });
 
-              handleClose()
+              handleClose();
             } else {
-              setFirstStepFilled(true)
+              setFirstStepFilled(true);
             }
           }}
         >
@@ -98,7 +102,8 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
               {isFirstStepFilled ? (
                 <>
                   <ConfirmationText>
-                    Are you sure you want to&nbsp;<span>reassign</span>&nbsp;ticket&nbsp;
+                    Are you sure you want to&nbsp;<span>reassign</span>
+                    &nbsp;ticket&nbsp;
                     <span>{ticket.bookingRef}</span>?
                   </ConfirmationText>
                   <TextInputField
@@ -112,15 +117,24 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
                   />
                   {values.notify && (
                     <WarningMessage>
-                      Email notifications will be sent to the new assignee, old assignee, and order
-                      owner
+                      Email notifications will be sent to the new assignee, old
+                      assignee, and order owner
                     </WarningMessage>
                   )}
                 </>
               ) : (
                 <>
-                  <TextInputField required label="First name" name="firstName" placeholder="John" />
-                  <TextInputField label="Last name" name="lastName" placeholder="Doe" />
+                  <TextInputField
+                    required
+                    label="First name"
+                    name="firstName"
+                    placeholder="John"
+                  />
+                  <TextInputField
+                    label="Last name"
+                    name="lastName"
+                    placeholder="Doe"
+                  />
                   <TextInputField
                     required
                     label="Email"
@@ -138,7 +152,7 @@ const TicketAssignModal = ({ isOpen, closeModal, ticket }: TicketAssignModalProp
         </Formik>
       </ContentContainer>
     </Modal>
-  )
-}
+  );
+};
 
-export default TicketAssignModal
+export default TicketAssignModal;

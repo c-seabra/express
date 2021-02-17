@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { FileInput, Label } from '..'
+import { FileInput, Label } from '..';
 
 const InputContainer = styled.div`
   display: flex;
@@ -10,11 +10,11 @@ const InputContainer = styled.div`
   & > span {
     margin-bottom: 4px;
   }
-`
+`;
 
 type LabeledInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  label?: string
-}
+  label?: string;
+};
 
 const LabeledInput = ({ label, ...props }: LabeledInputProps) => {
   return (
@@ -22,7 +22,7 @@ const LabeledInput = ({ label, ...props }: LabeledInputProps) => {
       <Label>{label}</Label>
       <FileInput {...props} />
     </InputContainer>
-  )
-}
+  );
+};
 
-export default LabeledInput
+export default LabeledInput;

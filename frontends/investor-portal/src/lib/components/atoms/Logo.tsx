@@ -1,7 +1,7 @@
-import React, { SVGProps } from 'react'
+import React, { SVGProps } from 'react';
 
-import LogoImage from '../../svgs/Logo'
+import LogoImage from '../../svgs/Logo';
 
-const Logo = (props: SVGProps<SVGSVGElement>) => <LogoImage {...props} />
+const Logo = (props: SVGProps<SVGSVGElement>) => <LogoImage {...props} />;
 
-export default Logo
+export default Logo;

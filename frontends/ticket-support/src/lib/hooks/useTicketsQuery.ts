@@ -1,9 +1,9 @@
-import { useAppContext } from '../../components/app/AppContext'
-import TICKET_LIST from '../../operations/queries/TicketList'
-import { Ticket } from '../types'
-import usePaginatedQuery from './usePaginatedQuery'
+import { useAppContext } from '../../components/app/AppContext';
+import TICKET_LIST from '../../operations/queries/TicketList';
+import { Ticket } from '../types';
+import usePaginatedQuery from './usePaginatedQuery';
 
-const TICKETS_PER_PAGE = 20
+const TICKETS_PER_PAGE = 20;
 
 const useTicketsQuery = ({
   initialPage,
@@ -12,13 +12,13 @@ const useTicketsQuery = ({
   status,
   ticketTypeIds,
 }: {
-  initialPage: string
-  perPage?: number
-  searchQuery: string
-  status?: string
-  ticketTypeIds?: string[]
+  initialPage: string;
+  perPage?: number;
+  searchQuery: string;
+  status?: string;
+  ticketTypeIds?: string[];
 }) => {
-  const { conferenceSlug, token } = useAppContext()
+  const { conferenceSlug, token } = useAppContext();
 
   const variables = {
     filter: {
@@ -27,19 +27,21 @@ const useTicketsQuery = ({
     },
     first: perPage,
     searchQuery,
-  }
+  };
 
   const context = {
     slug: conferenceSlug,
     token,
-  }
+  };
 
-  return usePaginatedQuery<Ticket, 'tickets', typeof variables, typeof context>({
-    context,
-    initialPage,
-    query: TICKET_LIST,
-    variables,
-  })
-}
+  return usePaginatedQuery<Ticket, 'tickets', typeof variables, typeof context>(
+    {
+      context,
+      initialPage,
+      query: TICKET_LIST,
+      variables,
+    },
+  );
+};
 
-export default useTicketsQuery
+export default useTicketsQuery;

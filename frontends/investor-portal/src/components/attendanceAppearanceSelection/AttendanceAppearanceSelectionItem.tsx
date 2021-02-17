@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from 'react';
 
 import {
   DestructiveButton,
@@ -14,7 +14,7 @@ import Column from './AttendanceAppearanceSelectionColumn.styled'
 const AttendanceAppearanceSelectionItem = ({
   selection,
 }: {
-  selection: AttendanceAppearanceSelection
+  selection: AttendanceAppearanceSelection;
 }): ReactElement => {
   const { isOpen, openModal, closeModal } = useModalState()
 
@@ -45,7 +45,7 @@ const AttendanceAppearanceSelectionItem = ({
         onRequestClose={closeModal}
       />
     </ListItem>
-  )
-}
+  );
+};
 
-export default AttendanceAppearanceSelectionItem
+export default AttendanceAppearanceSelectionItem;
