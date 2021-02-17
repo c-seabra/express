@@ -10,6 +10,11 @@ export type UserError = {
   path: string
 }
 
+export type Error = {
+  message: string
+  path: string
+}
+
 export type Attendance = {
   attendanceAppearanceSelections?: {
     edges: [{ node: AttendanceAppearanceSelection }]

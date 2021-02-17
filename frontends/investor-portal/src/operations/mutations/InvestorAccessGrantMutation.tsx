@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client'
 
-export const GRANT_INVESTOR_ACCESS_MUTATION = gql`
-  mutation grantInvestorAccessMutation(
+export const INVESTOR_ACCESS_GRANT_MUTATION = gql`
+  mutation investorAccessGrant(
     $bookingReferences: [String!]!
     $startupSelectionsCount: Int!
   ) {
-    grantInvestorAccessMutation(
+    investorAccessGrant(
       input: {
         bookingReferences: $bookingReferences
         startupSelectionsCount: $startupSelectionsCount
@@ -25,4 +25,4 @@ export const GRANT_INVESTOR_ACCESS_MUTATION = gql`
   }
 `
 
-export default GRANT_INVESTOR_ACCESS_MUTATION
+export default INVESTOR_ACCESS_GRANT_MUTATION

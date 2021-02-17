@@ -1,31 +1,31 @@
-import { ApolloError, useMutation } from '@apollo/client'
 import React, { ReactElement, useEffect, useState } from 'react'
 
 import { Button } from '../../lib/components'
 import LabeledInput from '../../lib/components/molecules/LabeledInput'
-import { GRANT_INVESTOR_ACCESS_MUTATION } from '../../operations/mutations/GrantInvestorAccessMutation'
-import { useAppContext } from '../app/AppContext'
+import { useInvestorAccessGrantMutation } from '../../lib/hooks'
 import { PermissionForm, SpacingBottom } from './InvestorPermissionsDashboard.styled'
+
+type Ticket = {
+  attendanceId?: string
+  bookingRef: string
+  name?: string
+}
 
 type InvestorPermissionsFormProps = {
   defaultSelectionsCount: number | undefined
-  setTickets: unknown
+  setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>
+  setUpdating: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const InvestorPermissionsForm = ({
   defaultSelectionsCount,
   setTickets,
+  setUpdating,
 }: InvestorPermissionsFormProps): ReactElement => {
-  type Ticket = {
-    attendanceId?: string
-    bookingRef: string
-    name?: string
-  }
-  const { conferenceSlug, token } = useAppContext()
+
   const [startupSelectionsCount, setStartupSelectionsCount] = useState<number | undefined>()
   const [bookingReferences, setBookingReferences] = useState<Array<string>>([])
   const [invalidBookingReferences, setInvalidBookingReferences] = useState<Array<string>>([])
-  const [updating, setUpdating] = useState<boolean>(false)
 
   const validBookingRefMatcher = new RegExp(/[A-Za-z0-9]{4}-[A-Za-z0-9]{1,}/)
   const bookingRefSeparator = new RegExp(/[^A-Za-z0-9-]/)
@@ -42,42 +42,17 @@ const InvestorPermissionsForm = ({
     }
   }
 
-  const [grantInvestorAccess] = useMutation(GRANT_INVESTOR_ACCESS_MUTATION, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    onCompleted: ({ grantInvestorAccessMutation }) => {
-      setUpdating(false)
-      const success = grantInvestorAccessMutation?.successMessage
-      if (success !== null) {
-        setTickets(grantInvestorAccessMutation?.tickets)
-        // setUpdateSuccess(grantInvestorAccessMutation?.successMessage)
-        setInvalidBookingReferences(grantInvestorAccessMutation?.invalidBookingReferences)
-      }
-      if (grantInvestorAccessMutation?.errors.length) {
-        // setUpdateError(grantInvestorAccessMutation?.errors[0].message)
-        setInvalidBookingReferences([])
-        setTickets([])
-      }
-    },
-    onError: (err: ApolloError) => {
-      console.log(err)
-
-      setInvalidBookingReferences([])
-      setTickets([])
-      // setUpdateError(err.toLocaleString())
-      setUpdating(false)
-    },
-    variables: {
-      bookingReferences,
-      startupSelectionsCount,
-    },
+  const { grantInvestorAccessMutation } = useInvestorAccessGrantMutation({
+    bookingReferences,
+    setInvalidBookingReferences,
+    setTickets,
+    setUpdating,
+    startupSelectionsCount
   })
 
-  const grantAccess = () => {
+  const grantAccess = async () => {
     setUpdating(true)
-    grantInvestorAccess()
+    await grantInvestorAccessMutation()
   }
 
   useEffect(() => {
@@ -89,9 +64,9 @@ const InvestorPermissionsForm = ({
   return (
     <>
       <PermissionForm
-        onSubmit={e => {
+        onSubmit={async (e) => {
           e.preventDefault()
-          grantAccess()
+          await grantAccess()
         }}
       >
         <SpacingBottom>

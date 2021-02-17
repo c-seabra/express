@@ -76,3 +76,8 @@ export const StripedTable = styled.table`
 export const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
 `
+
+export const BreadcrumbsContainer = styled.div`
+  display: flex;
+  margin: 20px 0 4px;
+`
