@@ -27,10 +27,12 @@ const AttendanceAppearanceSelectionItem = ({
       <Column>{selection.appearance.company.name}</Column>
       <Column>{new Date(selection.updatedAt).toDateString()}</Column>
       <Column>{selection.status}</Column>
-      <SecondaryButton style={{ marginRight: 10 }}>Edit</SecondaryButton>
-      <DestructiveButton style={{ marginRight: 10 }} onClick={openModal}>
-        Delete
-      </DestructiveButton>
+      <Column>
+        <SecondaryButton style={{ marginRight: 10 }}>Edit</SecondaryButton>
+        <DestructiveButton style={{ marginRight: 10 }} onClick={openModal}>
+          Delete
+        </DestructiveButton>
+      </Column>
       <Modal
         defaultFooterIsDestructive
         withDefaultFooter
