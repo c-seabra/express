@@ -18,14 +18,14 @@ const Wrapper = styled.div`
 `
 
 const Text = styled.div`
-  font-size: 20px;
+  font-size: 16px;
   letter-spacing: 0;
   line-height: 28px;
   max-width: 580px;
 `
 
 const HeaderText = styled.div`
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 500;
   letter-spacing: -0.5px;
   line-height: 40px;
