@@ -9,8 +9,8 @@ const BoxNode = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  //padding: 12px 18px;
   background-color: #F8F8F8;
+  border-radius: 5px 5px 0 0;
 
   & > * {
     margin-right: 1rem;
