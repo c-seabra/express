@@ -1,6 +1,5 @@
 import {
   CommerceOrderStatus,
-  // CommerceOrderUpdate,
   useUpdateCommerceOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
 
@@ -11,7 +10,6 @@ import {
 } from '../../lib/hooks/useSnackbarMessage';
 
 export type OrderCancelRequest = {
-  // commerceOrderUpdate: CommerceOrderUpdate;
   id: string;
   reason: string;
   refetch?: any;

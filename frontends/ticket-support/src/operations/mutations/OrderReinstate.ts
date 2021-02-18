@@ -1,28 +1,13 @@
-import { gql, useMutation } from '@apollo/client';
-import { useState } from 'react';
+import {
+  CommerceOrderStatus,
+  useUpdateCommerceOrderMutation,
+} from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '../../lib/hooks/useSnackbarMessage';
-import { UserError } from '../../lib/types';
-
-export const ORDER_REINSTATE_MUTATION = gql`
-  mutation ReinstateOrder(
-    $commerceOrderUpdate: CommerceOrderUpdate!
-    $id: ID!
-    $storeId: ID
-  ) {
-    commerceUpdateOrder(
-      commerceOrderUpdate: $commerceOrderUpdate
-      id: $id
-      storeId: $storeId
-    ) {
-      status
-    }
-  }
-`;
 
 export type OrderReinstateRequest = {
   commerceOrderUpdate?: { status: string };
@@ -32,28 +17,17 @@ export type OrderReinstateRequest = {
   storeId?: string;
 };
 
-type ReinstateOrderResponse = {
-  commerceUpdateOrder: {
-    status: string;
-    userErrors: UserError[];
-  };
-};
-
 export const useOrderReinstateMutation = () => {
   const { conferenceSlug, token } = useAppContext();
-  const [error, setError] = useState('');
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
-  const [reinstateOrderMutation] = useMutation<ReinstateOrderResponse>(
-    ORDER_REINSTATE_MUTATION,
-    {
-      onCompleted: ({ commerceUpdateOrder }) => {
-        snackbar('Order reinstated');
-      },
-      onError: (e) => errSnackbar(e.message),
+  const [reinstateOrderMutation] = useUpdateCommerceOrderMutation({
+    onCompleted: ({ commerceUpdateOrder }) => {
+      snackbar('Order reinstated');
     },
-  );
+    onError: (e) => errSnackbar(e.message),
+  });
 
   const reinstateOrder = async ({
     reason,
@@ -70,7 +44,7 @@ export const useOrderReinstateMutation = () => {
       },
       variables: {
         commerceOrderUpdate: {
-          status: 'REINSTATED',
+          status: CommerceOrderStatus.Reinstated,
         },
         id,
       },
@@ -81,7 +55,6 @@ export const useOrderReinstateMutation = () => {
   };
 
   return {
-    error,
     reinstateOrder,
   };
 };
