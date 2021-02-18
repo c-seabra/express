@@ -5,6 +5,7 @@ export interface PossibleTypesResultData {
 }
 const result: PossibleTypesResultData = {
   possibleTypes: {
+    ConnectionEntity: ['Appearance', 'Attendee'],
     MenuItemLinkDynamicZone: [
       'ComponentWebLinksPageLink',
       'ComponentWebLinksUrlLink',
