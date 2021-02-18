@@ -20,7 +20,6 @@ const useSingleCommerceOrderQuery = ({ id = '' }: { id?: string }) => {
     skip: !id,
     variables: {
       id,
-      storeId: '7ada51b5-eed4-44f9-852c-9ef5b20e16a1',
     },
   });
 

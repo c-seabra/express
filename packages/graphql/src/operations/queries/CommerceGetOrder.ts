@@ -115,7 +115,7 @@ const commerceCustomerFragment = gql`
 `;
 
 const COMMERCE_GET_ORDER = gql`
-  query commerceGetOrder($id: ID!, $storeId: ID!) {
+  query commerceGetOrder($id: ID!, $storeId: ID) {
     commerceGetOrder(id: $id, storeId: $storeId) {
       billed
       createdAt
