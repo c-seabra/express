@@ -3,7 +3,7 @@ import React from 'react';
 import ReasonAlertModal from '../../lib/components/molecules/ReasonAlertModal';
 import {
   OrderCancelRequest,
-  useOrderCancelMutation,
+  useOrderCancelOperation,
 } from '../../operations/mutations/OrderCancel';
 
 type OrderCancelModalProps = {
@@ -21,7 +21,7 @@ const OrderCancelModal = ({
   sourceId,
   refetch,
 }: OrderCancelModalProps) => {
-  const { cancelOrder } = useOrderCancelMutation();
+  const { cancelOrder } = useOrderCancelOperation();
   const setMutation = (e: OrderCancelRequest) => {
     return cancelOrder({ id: sourceId, reason: e.reason, refetch });
   };
