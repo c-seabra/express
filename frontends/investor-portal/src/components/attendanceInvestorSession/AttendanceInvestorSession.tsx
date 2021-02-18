@@ -60,7 +60,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     handleStatus()
     handleUnlock()
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
-  }, [status, selected, data])
+  }, [status, selected, unlockInvestor, data])
 
   const startsAt = styledDateForMutation(newStartsAt)
 
