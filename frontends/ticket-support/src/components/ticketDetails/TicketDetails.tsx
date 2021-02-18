@@ -108,10 +108,7 @@ const StyledInnerContainerCard = styled.span`
   display: flex;
   flex-direction: column;
   padding: 32px;
-`;
-
-const StyledInnerContainerCardWithBorder = styled(StyledInnerContainerCard)`
-  border-bottom: 1px solid #dcdfe5;
+  border-top: 1px solid #dcdfe5;
 `;
 
 const PrimaryButton = styled(Button)`
@@ -234,7 +231,7 @@ const TicketDetails = (): ReactElement => {
 
           <RowContainer>
             <TicketActionsContainerCard noPadding>
-              <StyledInnerContainerCardWithBorder>
+              <StyledInnerContainerCard>
                 <StyledPairContainer>
                   <StyledLabel>Ticket reference</StyledLabel>
                   <StyledValue>{bookingRef}</StyledValue>
@@ -251,85 +248,89 @@ const TicketDetails = (): ReactElement => {
                     ticket={ticket}
                   />
                 </StyledPairContainer>
-              </StyledInnerContainerCardWithBorder>
-
-              <StyledInnerContainerCard>
-                <SpacingBottomSm>
-                  <PrimaryButton onClick={openTicketAssignModal}>
-                    Reassign
-                  </PrimaryButton>
-                  <TicketAssignModal
-                    closeModal={closeTicketAssignModal}
-                    isOpen={isTicketAssignModalOpen}
-                    ticket={ticket}
-                  />
-                </SpacingBottomSm>
-                <SpacingBottomSm>
-                  <PrimaryButton onClick={openUnassignTicketModal}>
-                    Unassign
-                  </PrimaryButton>
-                  <UnassignTicketModal
-                    isOpen={isUnassignTicketModalOpen}
-                    ticket={ticket}
-                    onRequestClose={closeUnassignTicketModal}
-                  />
-                </SpacingBottomSm>
-
-                {ticket?.state === 'VOID' ? (
-                  <Button
-                    onClick={
-                      isTitoTicket
-                        ? openTitoWarningModal
-                        : openTicketUnvoidModal
-                    }
-                  >
-                    Unvoid
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={
-                      isTitoTicket ? openTitoWarningModal : openTicketVoidModal
-                    }
-                  >
-                    Void
-                  </Button>
-                )}
-
-                {isTitoTicket ? (
-                  <ErrorInfoModal
-                    alertHeader={bookingRef}
-                    alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
-        to Tito to void the ticket."
-                    closeModal={closeTitoWarningModal}
-                    headerText="Unable to void ticket"
-                    isOpen={isTitoWarningModalOpen}
-                  />
-                ) : ticket?.state === 'VOID' ? (
-                  <TicketUnvoidModal
-                    bookingRef={bookingRef}
-                    closeModal={closeTicketUnvoidModal}
-                    isOpen={isTicketUnvoidModalOpen}
-                  />
-                ) : (
-                  <TicketVoidModal
-                    bookingRef={bookingRef}
-                    closeModal={closeTicketVoidModal}
-                    isOpen={isTicketVoidModalOpen}
-                  />
-                )}
-
-                <Modal
-                  noPadding
-                  isOpen={isHistoryModalOpen}
-                  onRequestClose={closeHistoryModal}
-                >
-                  <AuditTrail
-                    bookingRef={bookingRef}
-                    conferenceSlug={conferenceSlug as string}
-                    token={token as string}
-                  />
-                </Modal>
               </StyledInnerContainerCard>
+
+              {ticket?.state !== 'UNASSIGNED' && (
+                <StyledInnerContainerCard>
+                  <SpacingBottomSm>
+                    <PrimaryButton onClick={openTicketAssignModal}>
+                      Reassign
+                    </PrimaryButton>
+                    <TicketAssignModal
+                      closeModal={closeTicketAssignModal}
+                      isOpen={isTicketAssignModalOpen}
+                      ticket={ticket}
+                    />
+                  </SpacingBottomSm>
+                  <SpacingBottomSm>
+                    <PrimaryButton onClick={openUnassignTicketModal}>
+                      Unassign
+                    </PrimaryButton>
+                    <UnassignTicketModal
+                      isOpen={isUnassignTicketModalOpen}
+                      ticket={ticket}
+                      onRequestClose={closeUnassignTicketModal}
+                    />
+                  </SpacingBottomSm>
+
+                  {ticket?.state === 'VOID' ? (
+                    <Button
+                      onClick={
+                        isTitoTicket
+                          ? openTitoWarningModal
+                          : openTicketUnvoidModal
+                      }
+                    >
+                      Unvoid
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={
+                        isTitoTicket
+                          ? openTitoWarningModal
+                          : openTicketVoidModal
+                      }
+                    >
+                      Void
+                    </Button>
+                  )}
+
+                  {isTitoTicket ? (
+                    <ErrorInfoModal
+                      alertHeader={bookingRef}
+                      alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
+        to Tito to void the ticket."
+                      closeModal={closeTitoWarningModal}
+                      headerText="Unable to void ticket"
+                      isOpen={isTitoWarningModalOpen}
+                    />
+                  ) : ticket?.state === 'VOID' ? (
+                    <TicketUnvoidModal
+                      bookingRef={bookingRef}
+                      closeModal={closeTicketUnvoidModal}
+                      isOpen={isTicketUnvoidModalOpen}
+                    />
+                  ) : (
+                    <TicketVoidModal
+                      bookingRef={bookingRef}
+                      closeModal={closeTicketVoidModal}
+                      isOpen={isTicketVoidModalOpen}
+                    />
+                  )}
+
+                  <Modal
+                    noPadding
+                    isOpen={isHistoryModalOpen}
+                    onRequestClose={closeHistoryModal}
+                  >
+                    <AuditTrail
+                      bookingRef={bookingRef}
+                      conferenceSlug={conferenceSlug as string}
+                      token={token as string}
+                    />
+                  </Modal>
+                </StyledInnerContainerCard>
+              )}
               <StyledHistoryChanges>
                 <Button as={SecondaryButton} onClick={openHistoryModal}>
                   Load history changes
