@@ -1,7 +1,9 @@
 import React, { ReactElement, useState } from 'react';
 import ReactModal from 'react-modal';
 
-import { Button, DestructiveButton, Icon, SecondaryButton } from '..';
+import { Button, DestructiveButton, SecondaryButton } from '../atoms/Button';
+import Icon from '../atoms/Icon';
+
 import {
   DefaultFooterSpacer,
   ExitActionContainer,
