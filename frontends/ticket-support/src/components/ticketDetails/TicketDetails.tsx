@@ -18,8 +18,6 @@ import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
 import { useAppContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
-import OrderCancelModal from '../order/OrderCancelModal';
-import OrderReinstateModal from '../order/OrderReinstateModal';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';
 import TicketAssignModal from '../ticketActions/TicketAssignModal';
 import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
