@@ -60,7 +60,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     handleStatus()
     handleUnlock()
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
-  }, [status, unlockInvestor, data, selected, newStartsAt])
+  })
 
   const startsAt = styledDateForMutation(newStartsAt)
 
@@ -80,27 +80,29 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     <>
       <StyledForm>
         {currentStartsAt && (
-            <span>
-              {moment(currentStartsAt).format('dddd')}: {moment(currentStartsAt).format('HH:mm')} -{' '}
-              {moment(currentEndsAt).format('HH:mm')}
-            </span>
+          <span>
+            {moment(currentStartsAt).format('dddd')}: {moment(currentStartsAt).format('HH:mm')} -{' '}
+            {moment(currentEndsAt).format('HH:mm')}
+          </span>
         )}
         {!status && (
-          <><Select
-            onChange={e => {
-              setNewStartsAt(e.target.value)
-              setSelected(true)
-            } }
-          >
-            <option defaultChecked>Select another available session</option>
-            {investorSessionsSummary?.map((item, i) => (
-              <option key={i} disabled={item.available === '0'} value={item.startsAt}>
-                {moment(item?.startsAt).format('dddd')}: {moment(item?.startsAt).format('HH:mm')} -{' '}
-                {moment(item?.endsAt).format('HH:mm')}
-              </option>
-            ))}
-          </Select>
-            <Button onClick={submit}>{buttonTitle}</Button></>
+          <>
+            <Select
+              onChange={e => {
+                setNewStartsAt(e.target.value)
+                setSelected(true)
+              }}
+            >
+              <option defaultChecked>Select another available session</option>
+              {investorSessionsSummary?.map((item, i) => (
+                <option key={i} disabled={item.available === '0'} value={item.startsAt}>
+                  {moment(item?.startsAt).format('dddd')}: {moment(item?.startsAt).format('HH:mm')} -{' '}
+                  {moment(item?.endsAt).format('HH:mm')}
+                </option>
+              ))}
+            </Select>
+            <Button onClick={submit}>{buttonTitle}</Button>
+          </>
         )}
       </StyledForm>
     </>

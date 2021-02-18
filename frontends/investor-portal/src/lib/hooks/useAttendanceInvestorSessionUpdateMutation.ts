@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client';
-import moment from 'moment';
 
 import { useAppContext } from '../../components/app/AppContext';
 import ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION from '../../operations/mutations/AttendanceInvestorSessionUpdate';
@@ -22,20 +21,12 @@ type AttendanceInvestorSessionUpdateArgs = {
 
 const useAttendanceInvestorSessionUpdateMutation = ({
   attendanceId,
-  eventTimezone,
   startsAt,
   unlockInvestor,
 }: AttendanceInvestorSessionUpdateArgs) => {
   const { conferenceSlug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
-
-  const styledDateForMutation = (dateString?: string) => {
-    if (dateString === undefined || dateString === '') {
-      return undefined;
-    }
-    return moment(dateString).tz(eventTimezone, true).format();
-  };
 
   const [
     updateAttendanceInvestorSession,
@@ -63,7 +54,7 @@ const useAttendanceInvestorSessionUpdateMutation = ({
       refetchQueries: ['EventQuery'],
       variables: {
         attendanceId,
-        startsAt: styledDateForMutation(startsAt),
+        startsAt,
         unlockInvestor,
       },
     });

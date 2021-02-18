@@ -9,8 +9,9 @@ import { Attendance, AttendanceAppearanceSelection } from '../../lib/types';
 import { ATTENDANCE_DETAILS_QUERY } from '../../operations/queries/AttendanceDetails';
 import { useAppContext } from '../app/AppContext';
 import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection';
-import AttendanceInvestorSession from '../attendanceInvestorSession/AttendanceInvestorSession'
-import { BorderBottom, DashboardDetailsContainer } from './AttendanceDetailsDashboard.styled';
+import AttendanceInvestorSession from "../attendanceInvestorSession/AttendanceInvestorSession";
+import { BorderBottom } from '../settingsDashboard/SettingsDashboard.styled';
+import { DashboardDetailsContainer } from './AttendanceDetailsDashboard.styled';
 
 const AttendanceDetailsDashboard = (): ReactElement => {
   const { attendanceId } = useParams<{ attendanceId: string }>();
@@ -53,9 +54,9 @@ const AttendanceDetailsDashboard = (): ReactElement => {
       <BorderBottom>
         <ContainerCard color="#00ACA8" title="Investor Session">
           <AttendanceInvestorSession
-            currentStartsAt={startsAt}
-            currentEndsAt={endsAt}
             attendanceId={attendanceId}
+            currentEndsAt={endsAt}
+            currentStartsAt={startsAt}
             selections={selections}
           />
         </ContainerCard>
