@@ -27,6 +27,7 @@ import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail';
 import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier';
 import UserProfileInformation from '../userProfileInformation/UserProfileInformation';
 import TicketStateActions from './TicketStateActions';
+import AssignTicketBox from '../ticketActions/AssignTicketBox';
 
 const PageContainer = styled.div`
   max-width: 1440px;
@@ -334,34 +335,42 @@ const TicketDetails = (): ReactElement => {
             </TicketActionsContainerCard>
 
             <AccountDetailsContainer>
-              <ContainerCard title="User account details">
-                <ContainerCardInner>
-                  {assignment && assignment.assignee && (
-                    <UpdateUniqueUserIdentifier
-                      accountId={assignment.assignee.id}
-                      email={assignment.assignee?.email}
-                    />
-                  )}
+              {ticket?.state === 'UNASSIGNED' && (
+                <ContainerCard>
+                  <AssignTicketBox />
+                </ContainerCard>
+              )}
 
-                  {assignment?.state === 'ACCEPTED' && (
-                    <UpdateAppLoginEmail
-                      bookingRef={bookingRef}
-                      email={assignment?.appLoginEmail || assignee?.email}
-                    />
-                  )}
+              {ticket?.state !== 'UNASSIGNED' && (
+                <ContainerCard title="User account details">
+                  <ContainerCardInner>
+                    {assignment && assignment.assignee && (
+                      <UpdateUniqueUserIdentifier
+                        accountId={assignment.assignee.id}
+                        email={assignment.assignee?.email}
+                      />
+                    )}
 
-                  {assignee && (
-                    <>
-                      <SpacingBottomSm>
-                        <StyledLabel>
-                          Assignment dashboard login link
-                        </StyledLabel>
-                        <LoginLinkActions assignee={assignee} />
-                      </SpacingBottomSm>
-                    </>
-                  )}
-                </ContainerCardInner>
-              </ContainerCard>
+                    {assignment?.state === 'ACCEPTED' && (
+                      <UpdateAppLoginEmail
+                        bookingRef={bookingRef}
+                        email={assignment?.appLoginEmail || assignee?.email}
+                      />
+                    )}
+
+                    {assignee && (
+                      <>
+                        <SpacingBottomSm>
+                          <StyledLabel>
+                            Assignment dashboard login link
+                          </StyledLabel>
+                          <LoginLinkActions assignee={assignee} />
+                        </SpacingBottomSm>
+                      </>
+                    )}
+                  </ContainerCardInner>
+                </ContainerCard>
+              )}
               <UserProfileInformation account={assignee} />
             </AccountDetailsContainer>
           </RowContainer>
