@@ -42,8 +42,8 @@ const StyledMainNavigationContainer = styled.section`
 const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
   if (!token) return null;
 
-  const [conferenceSlug, setConferenceSlug] = useState<string>();
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
+  const [conferenceSlug, setConferenceSlug] = useState<string>(tokenPayload.conf_slug);
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
