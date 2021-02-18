@@ -14,5 +14,5 @@ export const TICKET_VOID_MUTATION = gql`
       }
     }
   }
-`
+`;
 export default TICKET_VOID_MUTATION;
