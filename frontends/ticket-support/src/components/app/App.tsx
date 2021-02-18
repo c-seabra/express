@@ -4,7 +4,8 @@ import {
   NormalizedCacheObject,
 } from '@apollo/client';
 import { initApollo } from '@websummit/graphql';
-import React, {useEffect, useState} from 'react';
+import jwt from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   HashRouter as Router,
@@ -25,7 +26,6 @@ import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
 import TicketDashboard from '../ticketDashboard/TicketDashboard';
 import TicketDetails from '../ticketDetails/TicketDetails';
 import AppContext from './AppContext';
-import jwt from "jwt-decode";
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -55,7 +55,6 @@ const StyledMainHeader = styled.section`
 
 type AppProps = {
   apiURL: string;
-  conference: Conference;
   token: string;
 };
 
@@ -64,7 +63,7 @@ const App = ({ token, apiURL }: AppProps) => {
 
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
   const [conferenceSlug, setConferenceSlug] = useState<string>(
-      tokenPayload.conf_slug,
+    tokenPayload.conf_slug,
   );
 
   useEffect(() => {
