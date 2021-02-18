@@ -1,10 +1,9 @@
 import React, { ReactElement, useState } from 'react';
 
-import { Button, Icon } from '../../lib/components';
-import {
-  SpacingBottom,
-  StripedTable,
-} from './InvestorPermissionsDashboard.styled';
+import { Button, Icon, ListItem } from '../../lib/components';
+import { ListColumn } from '../../lib/components/atoms';
+import { ItemListHeader } from '../../lib/components/molecules';
+import { SpacingBottom } from './InvestorPermissionsDashboard.styled';
 
 type Ticket = {
   attendanceId?: string;
@@ -37,30 +36,24 @@ const InvestorPermissionsList = ({
         )}
       </SpacingBottom>
       <SpacingBottom hidden={!showDetails}>
-        <StripedTable>
-          <thead>
-            <tr>
-              <th colSpan={2}>Booking Reference</th>
-              <th>Attendance ID</th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tickets.map((ticket) => {
-              const { attendanceId, bookingRef, name } = ticket;
-              return (
-                <tr key={bookingRef}>
-                  <td className={attendanceId ? 'icon success' : 'icon fail'}>
-                    <Icon>{attendanceId ? 'check' : 'close'}</Icon>
-                  </td>
-                  <td>{bookingRef}</td>
-                  <td>{attendanceId}</td>
-                  <td>{name}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </StripedTable>
+        <ItemListHeader
+          columns={['Booking Reference', 'Attendance ID', 'Name']}
+        />
+        {tickets.map((ticket) => {
+          const { attendanceId, bookingRef, name } = ticket;
+          return (
+            <ListItem key={bookingRef}>
+              <ListColumn columnCount={3}>
+                <Icon color={attendanceId ? '#00B66D' : '#E15554'}>
+                  {attendanceId ? 'check' : 'close'}
+                </Icon>
+                {bookingRef}
+              </ListColumn>
+              <ListColumn columnCount={3}>{attendanceId}</ListColumn>
+              <ListColumn columnCount={3}>{name}</ListColumn>
+            </ListItem>
+          );
+        })}
       </SpacingBottom>
     </>
   );

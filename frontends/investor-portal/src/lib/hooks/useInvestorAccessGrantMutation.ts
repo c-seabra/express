@@ -3,7 +3,11 @@ import { useMutation } from '@apollo/client';
 import { useAppContext } from '../../components/app/AppContext';
 import { INVESTOR_ACCESS_GRANT_MUTATION } from '../../operations/mutations/InvestorAccessGrantMutation';
 import { Error } from '../types';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+  useWarningSnackbar,
+} from './useSnackbarMessage';
 
 type Ticket = {
   attendanceId?: string;
@@ -37,6 +41,7 @@ const useInvestorAccessGrantMutation = ({
 }: InvestorAccessArgs) => {
   const { conferenceSlug, token } = useAppContext();
   const success = useSuccessSnackbar();
+  const warning = useWarningSnackbar();
   const errorMessage = useErrorSnackbar();
 
   const [
@@ -54,7 +59,11 @@ const useInvestorAccessGrantMutation = ({
           investorAccessGrant?.invalidBookingReferences,
         );
         setTickets(investorAccessGrant?.tickets);
-        success(investorAccessGrant.successMessage);
+        if (investorAccessGrant?.invalidBookingReferences[0]) {
+          warning(investorAccessGrant.successMessage);
+        } else {
+          success(investorAccessGrant.successMessage);
+        }
       }
     },
     onError: (e) => {

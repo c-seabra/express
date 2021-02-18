@@ -6,10 +6,10 @@ const ListItem = styled.li`
   padding: 0.75rem;
   background-color: #fff;
 
-  binvestor-bottom: 1px solid #dde0e5;
+  border-bottom: 1px solid #dde0e5;
 
   &:last-child {
-    binvestor-bottom: none;
+    border-bottom: none;
   }
 
   &:hover {

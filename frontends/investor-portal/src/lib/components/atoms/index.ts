@@ -14,3 +14,4 @@ export { default as ListItem } from './ListItem';
 export { default as Logo } from './Logo';
 export { default as PopupModal } from './PopupModal';
 export { default as Tooltip } from './Tooltip';
+export { default as ListColumn } from './ListColumn';

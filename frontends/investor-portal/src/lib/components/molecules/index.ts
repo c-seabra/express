@@ -7,3 +7,4 @@ export { default as MainNavigation } from './MainNavigation';
 export { default as Modal, useModalState } from './Modal';
 export { default as PopupButton } from './PopupButton';
 export { default as SearchInput } from './SearchInput';
+export { default as ItemListHeader } from './ItemListHeader';
