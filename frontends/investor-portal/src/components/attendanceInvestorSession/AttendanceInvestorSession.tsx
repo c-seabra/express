@@ -60,7 +60,8 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     handleStatus()
     handleUnlock()
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
-  })
+  }, [status, selected, data])
+
   const startsAt = styledDateForMutation(newStartsAt)
 
   const { attendanceInvestorSessionUpdateMutation } = useAttendanceInvestorSessionUpdateMutation({
@@ -77,19 +78,19 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
 
   return (
     <>
-      {!status && (
-        <StyledForm>
-          {currentStartsAt && (
+      <StyledForm>
+        {currentStartsAt && (
             <span>
               {moment(currentStartsAt).format('dddd')}: {moment(currentStartsAt).format('HH:mm')} -{' '}
               {moment(currentEndsAt).format('HH:mm')}
             </span>
-          )}
-          <Select
+        )}
+        {!status && (
+          <><Select
             onChange={e => {
               setNewStartsAt(e.target.value)
               setSelected(true)
-            }}
+            } }
           >
             <option defaultChecked>Select another available session</option>
             {investorSessionsSummary?.map((item, i) => (
@@ -99,9 +100,9 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
               </option>
             ))}
           </Select>
-          <Button onClick={submit}>{buttonTitle}</Button>
-        </StyledForm>
-      )}
+            <Button onClick={submit}>{buttonTitle}</Button></>
+        )}
+      </StyledForm>
     </>
   )
 }
