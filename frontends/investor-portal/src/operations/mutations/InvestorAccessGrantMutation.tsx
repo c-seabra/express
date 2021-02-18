@@ -19,6 +19,7 @@ export const INVESTOR_ACCESS_GRANT_MUTATION = gql`
       tickets {
         attendanceId
         bookingRef
+        eventSlug
         name
       }
     }

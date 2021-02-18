@@ -8,15 +8,16 @@ import {
   SpacingBottom,
 } from './InvestorPermissionsDashboard.styled';
 
-type Ticket = {
+type TicketSummary = {
   attendanceId?: string;
   bookingRef: string;
+  eventSlug?: string;
   name?: string;
 };
 
 type InvestorPermissionsFormProps = {
   defaultSelectionsCount: number | undefined;
-  setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
+  setTickets: React.Dispatch<React.SetStateAction<TicketSummary[]>>;
   setUpdating: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -114,7 +115,7 @@ const InvestorPermissionsForm = ({
           {invalidBookingReferences?.length > 0 && (
             <>
               <strong>
-                Invalid booking references {invalidBookingReferences?.length}:
+                Invalid booking references: {invalidBookingReferences?.length}
               </strong>
               <p>{invalidBookingReferences?.join(' ')}</p>
             </>

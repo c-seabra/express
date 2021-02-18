@@ -15,12 +15,12 @@ import InvestorPermissionsForm from './InvestorPermissionsForm';
 import InvestorPermissionsList from './InvestorPermissionsList';
 
 const InvestorPermissionsDashboard = (): ReactElement => {
-  type Ticket = {
+  type TicketSummary = {
     attendanceId?: string;
     bookingRef: string;
     name?: string;
   };
-  const [tickets, setTickets] = useState<Array<Ticket>>([]);
+  const [tickets, setTickets] = useState<Array<TicketSummary>>([]);
   const [updating, setUpdating] = useState<boolean>(false);
   const [defaultSelectionsCount, setDefaultSelectionsCount] = useState<
     number | undefined
