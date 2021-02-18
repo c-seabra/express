@@ -1,4 +1,4 @@
-import { gql, useMutation } from '@apollo/client';
+import { useVoidTicketMutation } from '@websummit/graphql/src/@types/operations';
 import { useState } from 'react';
 
 import { useAppContext } from '../../components/app/AppContext';
@@ -6,56 +6,30 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '../../lib/hooks/useSnackbarMessage';
-import { Ticket, UserError } from '../../lib/types';
-
-export const TICKET_VOID_MUTATION = gql`
-  mutation VoidTicket($input: TicketVoidInput!) {
-    ticketVoid(input: $input) {
-      ticket {
-        id
-        state
-        bookingRef
-      }
-      userErrors {
-        message
-        path
-      }
-    }
-  }
-`;
-
-type TicketVoidResponse = {
-  response: {
-    ticket: Ticket;
-    userErrors: UserError[];
-  };
-};
+import { Ticket } from '../../lib/types';
 
 export type TicketsVoidArgs = {
   bookingRef: string;
   reason: string;
 };
 
-export const useTicketVoidMutation = () => {
+export const useTicketVoidOperation = () => {
   const { conferenceSlug, token } = useAppContext();
   const [error, setError] = useState('');
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
-  const [voidTicketMutation] = useMutation<TicketVoidResponse>(
-    TICKET_VOID_MUTATION,
-    {
-      onCompleted: ({ response }) => {
-        snackbar('Ticket voided');
+  const [voidTicketMutation] = useVoidTicketMutation({
+    onCompleted: ({ ticketVoid }) => {
+      snackbar('Ticket voided');
 
-        if (response?.userErrors.length) {
-          setError(response.userErrors[0]?.message);
-          errSnackbar('Ticket voiding failed');
-        }
-      },
-      refetchQueries: ['TicketAuditTrail', 'Ticket'],
+      if (ticketVoid?.userErrors.length) {
+        setError(ticketVoid.userErrors[0]?.message);
+        errSnackbar('Ticket voiding failed');
+      }
     },
-  );
+    refetchQueries: ['TicketAuditTrail', 'Ticket'],
+  });
 
   const voidTicket = async ({ reason, bookingRef }: TicketsVoidArgs) => {
     await voidTicketMutation({
