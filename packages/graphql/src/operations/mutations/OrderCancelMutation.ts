@@ -1,4 +1,4 @@
-import {gql} from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const COMMERCE_ORDER_UPDATE_MUTATION = gql`
   mutation UpdateCommerceOrder(
@@ -16,4 +16,4 @@ export const COMMERCE_ORDER_UPDATE_MUTATION = gql`
   }
 `;
 
-export default COMMERCE_ORDER_UPDATE_MUTATION
+export default COMMERCE_ORDER_UPDATE_MUTATION;
