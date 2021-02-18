@@ -13,7 +13,7 @@ export const ORDER_CANCEL_MUTATION = gql`
   mutation CancelOrder(
     $commerceOrderUpdate: CommerceOrderUpdate!
     $id: ID!
-    $storeId: ID!
+    $storeId: ID
   ) {
     commerceUpdateOrder(
       commerceOrderUpdate: $commerceOrderUpdate
@@ -70,7 +70,6 @@ export const useOrderCancelMutation = () => {
           status: 'CANCELLED',
         },
         id,
-        storeId: '7ada51b5-eed4-44f9-852c-9ef5b20e16a1', // TODO remove or prefill
       },
     });
     // Hacky solution
