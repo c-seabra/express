@@ -41,7 +41,7 @@ generates:
     plugins:
       - fragment-matcher
 
-  graphql.schema.json:
+  ../../graphql.schema.json:
     config:
       minify: true
     plugins:
