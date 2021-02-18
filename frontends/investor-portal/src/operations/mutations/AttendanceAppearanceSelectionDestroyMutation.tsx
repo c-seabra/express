@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION = gql`
   mutation attendanceAppearanceSelectionDestroy($selectionId: ID!) {
@@ -10,6 +10,6 @@ export const ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION = gql`
       successMessage
     }
   }
-`
+`;
 
-export default ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION
+export default ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION;
