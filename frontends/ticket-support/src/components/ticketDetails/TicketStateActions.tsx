@@ -8,6 +8,7 @@ import { Ticket } from '../../lib/types';
 import ClaimTicketModal from '../ticketActions/ClaimTicketModal';
 import TicketUnlockModal from '../ticketActions/TicketUnlockModal';
 import StatePlate from '../ticketItem/StatePlate';
+import { Spacing } from '../templates/Spacing';
 
 const TicketStateContainer = styled.div``;
 
@@ -38,6 +39,7 @@ const StyledWrapper = styled.span`
 
 type TicketStateActionsProps = {
   ticket: Ticket;
+  assignmentStatus: string;
 };
 
 const TicketAction = ({ ticket }: { ticket: Ticket }) => {
@@ -81,15 +83,30 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
   }
 };
 
-const TicketStateActions = ({ ticket }: TicketStateActionsProps) => {
+const TicketStateActions = ({
+  ticket,
+  assignmentStatus,
+}: TicketStateActionsProps) => {
   return (
-    <TicketStateContainer>
-      <StyledLabel>Ticket status</StyledLabel>
-      <StateActionContainer>
-        <StatePlate state={ticket?.state} />
-        <TicketAction ticket={ticket} />
-      </StateActionContainer>
-    </TicketStateContainer>
+    <>
+      <TicketStateContainer>
+        <StyledLabel>Ticket status</StyledLabel>
+        <StateActionContainer>
+          <StatePlate state={ticket?.state} />
+          <TicketAction ticket={ticket} />
+        </StateActionContainer>
+      </TicketStateContainer>
+
+      <Spacing top="24px">
+        <TicketStateContainer>
+          <StyledLabel>Assignment status</StyledLabel>
+          <StateActionContainer>
+            <StatePlate state={assignmentStatus} />
+            {/*<TicketAction ticket={ticket} />*/}
+          </StateActionContainer>
+        </TicketStateContainer>
+      </Spacing>
+    </>
   );
 };
 

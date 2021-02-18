@@ -246,7 +246,10 @@ const TicketDetails = (): ReactElement => {
                 </StyledPairContainer>
 
                 <StyledPairContainer>
-                  <TicketStateActions ticket={ticket} />
+                  <TicketStateActions
+                    assignmentStatus={'test'}
+                    ticket={ticket}
+                  />
                 </StyledPairContainer>
               </StyledInnerContainerCardWithBorder>
 
