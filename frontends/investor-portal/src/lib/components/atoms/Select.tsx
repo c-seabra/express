@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledSelect = styled.select`
   display: flex;
@@ -11,12 +11,12 @@ const StyledSelect = styled.select`
   &:disabled {
     color: #9ba5ae;
   }
-`
+`;
 
-type Props = React.SelectHTMLAttributes<HTMLSelectElement>
+type Props = React.SelectHTMLAttributes<HTMLSelectElement>;
 
 const Select = ({ ...props }: Props) => {
-  return <StyledSelect {...props} />
-}
+  return <StyledSelect {...props} />;
+};
 
-export default Select
+export default Select;

@@ -27,4 +27,4 @@ export const ATTENDANCE_DETAILS_QUERY = gql`
   }
 `;
 
-export default ATTENDANCE_DETAILS_QUERY
+export default ATTENDANCE_DETAILS_QUERY;
