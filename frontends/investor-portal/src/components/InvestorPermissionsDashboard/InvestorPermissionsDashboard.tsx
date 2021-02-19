@@ -15,16 +15,19 @@ import InvestorPermissionsForm from './InvestorPermissionsForm';
 import InvestorPermissionsList from './InvestorPermissionsList';
 
 const InvestorPermissionsDashboard = (): ReactElement => {
-  type TicketSummary = {
-    attendanceId?: string;
+  type Attendance = {
     bookingRef: string;
+    id: string;
     name?: string;
   };
-  const [tickets, setTickets] = useState<Array<TicketSummary>>([]);
+  const [attendances, setAttendances] = useState<Array<Attendance>>([]);
   const [updating, setUpdating] = useState<boolean>(false);
   const [defaultSelectionsCount, setDefaultSelectionsCount] = useState<
     number | undefined
   >();
+  const [invalidBookingReferences, setInvalidBookingReferences] = useState<
+    Array<string>
+  >([]);
   const { data, loading, error } = useEventQuery();
 
   useEffect(() => {
@@ -67,12 +70,17 @@ const InvestorPermissionsDashboard = (): ReactElement => {
           <SpacingBottom>
             <InvestorPermissionsForm
               defaultSelectionsCount={defaultSelectionsCount}
-              setTickets={setTickets}
+              invalidBookingReferences={invalidBookingReferences}
+              setAttendances={setAttendances}
+              setInvalidBookingReferences={setInvalidBookingReferences}
               setUpdating={setUpdating}
             />
           </SpacingBottom>
           <SpacingBottom>
-            <InvestorPermissionsList tickets={tickets} />
+            <InvestorPermissionsList
+              attendances={attendances}
+              invalidBookingReferences={invalidBookingReferences}
+            />
           </SpacingBottom>
         </ContainerCard>
       </PageContainer>

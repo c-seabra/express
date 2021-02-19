@@ -16,10 +16,9 @@ export const INVESTOR_ACCESS_GRANT_MUTATION = gql`
         message
       }
       invalidBookingReferences
-      tickets {
-        attendanceId
+      attendances {
+        id
         bookingRef
-        eventSlug
         name
       }
     }

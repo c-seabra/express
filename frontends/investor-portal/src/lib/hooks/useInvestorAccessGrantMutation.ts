@@ -9,9 +9,9 @@ import {
   useWarningSnackbar,
 } from './useSnackbarMessage';
 
-type Ticket = {
-  attendanceId?: string;
+type Attendance = {
   bookingRef: string;
+  id: string;
   name?: string;
 };
 
@@ -20,14 +20,14 @@ type InvestorAccessGrantData = {
     errors: Error[];
     invalidBookingReferences: string[];
     successMessage: string;
-    tickets: Ticket[];
+    attendances: Attendance[];
   };
 };
 
 type InvestorAccessArgs = {
   bookingReferences: string[];
+  setAttendances: React.Dispatch<React.SetStateAction<Attendance[]>>;
   setInvalidBookingReferences: React.Dispatch<React.SetStateAction<string[]>>;
-  setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
   setUpdating: React.Dispatch<React.SetStateAction<boolean>>;
   startupSelectionsCount: number | undefined;
 };
@@ -35,7 +35,7 @@ type InvestorAccessArgs = {
 const useInvestorAccessGrantMutation = ({
   bookingReferences,
   setInvalidBookingReferences,
-  setTickets,
+  setAttendances,
   setUpdating,
   startupSelectionsCount,
 }: InvestorAccessArgs) => {
@@ -52,13 +52,13 @@ const useInvestorAccessGrantMutation = ({
       setUpdating(false);
       if (investorAccessGrant?.errors[0]) {
         setInvalidBookingReferences([]);
-        setTickets([]);
+        setAttendances([]);
         errorMessage(investorAccessGrant?.errors[0].message);
       } else {
         setInvalidBookingReferences(
           investorAccessGrant?.invalidBookingReferences,
         );
-        setTickets(investorAccessGrant?.tickets);
+        setAttendances(investorAccessGrant?.attendances);
         if (investorAccessGrant?.invalidBookingReferences[0]) {
           warning(investorAccessGrant.successMessage);
         } else {
@@ -68,7 +68,7 @@ const useInvestorAccessGrantMutation = ({
     },
     onError: (e) => {
       setInvalidBookingReferences([]);
-      setTickets([]);
+      setAttendances([]);
       setUpdating(false);
       errorMessage(e.toLocaleString());
     },

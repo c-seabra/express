@@ -8,31 +8,31 @@ import {
   SpacingBottom,
 } from './InvestorPermissionsDashboard.styled';
 
-type TicketSummary = {
-  attendanceId?: string;
+type Attendance = {
   bookingRef: string;
-  eventSlug?: string;
+  id: string;
   name?: string;
 };
 
 type InvestorPermissionsFormProps = {
   defaultSelectionsCount: number | undefined;
-  setTickets: React.Dispatch<React.SetStateAction<TicketSummary[]>>;
+  invalidBookingReferences: string[];
+  setAttendances: React.Dispatch<React.SetStateAction<Attendance[]>>;
+  setInvalidBookingReferences: React.Dispatch<React.SetStateAction<string[]>>;
   setUpdating: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const InvestorPermissionsForm = ({
   defaultSelectionsCount,
-  setTickets,
+  invalidBookingReferences,
+  setAttendances,
+  setInvalidBookingReferences,
   setUpdating,
 }: InvestorPermissionsFormProps): ReactElement => {
   const [startupSelectionsCount, setStartupSelectionsCount] = useState<
     number | undefined
   >();
   const [bookingReferences, setBookingReferences] = useState<Array<string>>([]);
-  const [invalidBookingReferences, setInvalidBookingReferences] = useState<
-    Array<string>
-  >([]);
 
   const validBookingRefMatcher = new RegExp(/[A-Za-z0-9]{4}-[A-Za-z0-9]{1,}/);
   const bookingRefSeparator = new RegExp(/[^A-Za-z0-9-]/);
@@ -51,8 +51,8 @@ const InvestorPermissionsForm = ({
 
   const { grantInvestorAccessMutation } = useInvestorAccessGrantMutation({
     bookingReferences,
+    setAttendances,
     setInvalidBookingReferences,
-    setTickets,
     setUpdating,
     startupSelectionsCount,
   });
