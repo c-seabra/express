@@ -33,7 +33,7 @@ const useSendLoginLinkMutation = ({ assignee }: { assignee: Account }) => {
       await sendLink({
         context: {
           headers: {
-            'x-admin-reason': reason,
+            'x-reason': reason,
           },
           slug: conferenceSlug,
           token,

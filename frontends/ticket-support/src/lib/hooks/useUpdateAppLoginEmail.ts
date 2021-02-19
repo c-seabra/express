@@ -33,7 +33,7 @@ const useUpdateLoginMutation = () => {
         errorSnackbar('Updating login email failed')
       }
     },
-    onError: (error) => errorSnackbar(error.message),
+    onError: error => errorSnackbar(error.message),
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
   })
 
@@ -41,7 +41,7 @@ const useUpdateLoginMutation = () => {
     await updateLoginMutation({
       context: {
         headers: {
-          'x-admin-reason': reason,
+          'x-reason': reason,
         },
         slug: conferenceSlug,
         token,
