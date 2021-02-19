@@ -4,7 +4,8 @@ import {
   NormalizedCacheObject,
 } from '@apollo/client';
 import { initApollo } from '@websummit/graphql';
-import React from 'react';
+import jwt from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   HashRouter as Router,
@@ -54,14 +55,22 @@ const StyledMainHeader = styled.section`
 
 type AppProps = {
   apiURL: string;
-  conference: Conference;
   token: string;
 };
 
-const App = ({ token, conference, apiURL }: AppProps) => {
-  const apolloClient = initApollo({
-    apiURL,
-  }) as ApolloClient<NormalizedCacheObject>;
+const App = ({ token, apiURL }: AppProps) => {
+  if (!token) return null;
+
+  const tokenPayload: { conf_slug: string; email: string } = jwt(token);
+  const [conferenceSlug, setConferenceSlug] = useState<string>(
+    tokenPayload.conf_slug,
+  );
+
+  useEffect(() => {
+    setConferenceSlug(tokenPayload.conf_slug);
+  }, [token]);
+
+  const apolloClient = initApollo({ apiURL });
 
   return (
     <ApolloProvider client={apolloClient}>
@@ -77,7 +86,7 @@ const App = ({ token, conference, apiURL }: AppProps) => {
           </StyledMainNavigationContainer>
           <AppContext.Provider
             value={{
-              conferenceSlug: conference?.slug,
+              conferenceSlug,
               token,
             }}
           >
