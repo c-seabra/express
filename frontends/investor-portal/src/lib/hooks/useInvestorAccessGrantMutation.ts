@@ -17,10 +17,10 @@ type Attendance = {
 
 type InvestorAccessGrantData = {
   investorAccessGrant: {
+    attendances: Attendance[];
     errors: Error[];
     invalidBookingReferences: string[];
     successMessage: string;
-    attendances: Attendance[];
   };
 };
 
@@ -80,6 +80,7 @@ const useInvestorAccessGrantMutation = ({
         slug: conferenceSlug,
         token,
       },
+      refetchQueries: ['EventQuery'],
       variables: {
         bookingReferences,
         startupSelectionsCount,
