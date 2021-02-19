@@ -75,7 +75,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
           </span>
         )}
         {!currentStartsAt && (
-          <div>Investor has not selected a timeslot session</div>
+          <div>Investor has not selected a session timeslot</div>
         )}
         {!hasAccepted && (
           <>
