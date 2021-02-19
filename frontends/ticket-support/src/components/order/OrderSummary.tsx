@@ -1,23 +1,21 @@
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import Loader from '../../lib/Loading'
-import { formatDefaultDateTime } from '../../lib/utils/time'
-import Warning from '../ticketActions/Warning'
-import StatePlate from '../ticketItem/StatePlate'
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import Loader from '../../lib/Loading';
+import Warning from '../ticketActions/Warning';
 
 // Containers
 const StyledContainer = styled.div`
   display: flex;
-`
+`;
 
 const StyledColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
 
   margin-right: 4rem;
-`
+`;
 
 // Headers
 const StyledLabel = styled.label`
@@ -28,26 +26,26 @@ const StyledLabel = styled.label`
   line-height: 1.5rem;
 
   margin-bottom: 1rem;
-`
+`;
 
 const StyledValue = styled.span`
   color: #0c1439;
   font-size: 0.875rem;
   letter-spacing: 0;
   line-height: 1.5rem;
-`
+`;
 
 type Props = {
-  billedAmount?: string
-  discountCodeApplied?: string
-  discountedAmount?: string
-  error: boolean
-  loading: boolean
-  orderType?: string
-  purchasedTotal?: number
-  salesTaxApplied?: string
-  ticketPrice?: string
-}
+  billedAmount?: string;
+  discountCodeApplied?: string;
+  discountedAmount?: string;
+  error: boolean;
+  loading: boolean;
+  orderType?: string;
+  purchasedTotal?: number;
+  salesTaxApplied?: string;
+  ticketPrice?: string;
+};
 
 const OrderSummary = ({
   loading,
@@ -111,7 +109,7 @@ const OrderSummary = ({
         )}
       </StyledContainer>
     </ContainerCard>
-  )
-}
+  );
+};
 
-export default OrderSummary
+export default OrderSummary;

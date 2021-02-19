@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const WarningMessage = styled.div`
   border-radius: 4px;
@@ -8,8 +8,8 @@ export const WarningMessage = styled.div`
   font-weight: 400;
   padding: 0.8rem;
   margin-bottom: 16px;
-`
+`;
 
 export const InfoMessage = styled(WarningMessage)`
   background-color: rgba(0, 103, 233, 0.7);
-`
+`;

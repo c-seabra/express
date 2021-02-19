@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import { Button } from '..'
+import { Button } from '..';
 
 const SecondaryButton = styled(Button)`
   color: #0067e9;
@@ -10,6 +10,6 @@ const SecondaryButton = styled(Button)`
     background-color: #2269bf;
     color: #ffffff;
   }
-`
+`;
 
-export default SecondaryButton
+export default SecondaryButton;

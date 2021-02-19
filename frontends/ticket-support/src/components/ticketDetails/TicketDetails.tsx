@@ -1,26 +1,34 @@
-import { Formik } from 'formik'
-import React, { ReactElement, useState } from 'react'
-import { Helmet } from 'react-helmet'
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import TextHeading from '../../lib/components/atoms/Heading'
-import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
-import Modal, { useModalState } from '../../lib/components/molecules/Modal'
-import TextInputField from '../../lib/components/molecules/TextInputField'
-import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
-import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery'
-import Loader from '../../lib/Loading'
-import { useAppContext } from '../app/AppContext'
-import AuditTrail from '../auditTrail/AuditTrail'
-import LoginLinkActions from '../ticketActions/LoginLinkActions'
-import TicketAssignModal from '../ticketActions/TicketAssignModal'
-import UnassignTicketModal from '../ticketActions/UnassignTicketModal'
-import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
-import UserProfileInformation from '../userProfileInformation/UserProfileInformation'
-import TicketStateActions from './TicketStateActions'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import TextHeading from '../../lib/components/atoms/Heading';
+import BoxMessage from '../../lib/components/molecules/BoxMessage';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '../../lib/components/molecules/Breadcrumbs';
+import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
+import Modal, { useModalState } from '../../lib/components/molecules/Modal';
+import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
+import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery';
+import Loader from '../../lib/Loading';
+import { switchCase } from '../../lib/utils/logic';
+import { useAppContext } from '../app/AppContext';
+import AuditTrail from '../auditTrail/AuditTrail';
+import OrderCancelModal from '../order/OrderCancelModal';
+import OrderReinstateModal from '../order/OrderReinstateModal';
+import LoginLinkActions from '../ticketActions/LoginLinkActions';
+import TicketAssignModal from '../ticketActions/TicketAssignModal';
+import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
+import TicketVoidModal from '../ticketActions/TicketVoidModal';
+import UnassignTicketModal from '../ticketActions/UnassignTicketModal';
+import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail';
+import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier';
+import UserProfileInformation from '../userProfileInformation/UserProfileInformation';
+import TicketStateActions from './TicketStateActions';
 
 const PageContainer = styled.div`
   max-width: 1440px;
@@ -29,50 +37,57 @@ const PageContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-`
+`;
 
 const BreadcrumbsContainer = styled.div`
   display: flex;
   margin: 20px 0 16px;
-`
+`;
 
 const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
-`
+`;
 
 const SpacingBottomSm = styled.div`
   margin-bottom: 1rem;
-`
+`;
 
-const SpacingBottomXs = styled.div`
-  margin-bottom: 0.5rem;
-`
+const StyledHistoryChanges = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  justify-content: center;
+  border-top: 1px solid #dcdfe5;
+`;
 
-const StyledRow = styled.div`
+const DefaultStyledRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-`
+
+  > * {
+    margin-right: 20px;
+  }
+`;
 
 const RowContainer = styled.div`
   display: flex;
-`
+`;
 
 const ContainerCardInner = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const TicketActionsContainerCard = styled(ContainerCard)`
   margin-right: 3.75rem;
   max-width: 300px;
-`
+`;
 
 const StyledPairContainer = styled.span`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-`
+`;
 
 const StyledLabel = styled.span`
   color: #091a46;
@@ -80,7 +95,7 @@ const StyledLabel = styled.span`
   font-weight: 300;
   letter-spacing: 0;
   line-height: 24px;
-`
+`;
 
 const StyledValue = styled.span`
   color: #0c1439;
@@ -88,26 +103,21 @@ const StyledValue = styled.span`
   font-weight: 600;
   letter-spacing: 0;
   line-height: 24px;
-`
+`;
 
 const StyledInnerContainerCard = styled.span`
   display: flex;
   flex-direction: column;
   padding: 32px;
-`
+`;
 
 const StyledInnerContainerCardWithBorder = styled(StyledInnerContainerCard)`
   border-bottom: 1px solid #dcdfe5;
-`
+`;
 
 const PrimaryButton = styled(Button)`
   width: 100%;
-`
-
-const TextHighlight = styled.span`
-  color: #337ab7;
-  margin: 0 0.25rem;
-`
+`;
 
 const AccountDetailsContainer = styled.div`
   display: flex;
@@ -118,33 +128,61 @@ const AccountDetailsContainer = styled.div`
   & > div {
     margin-bottom: 1rem;
   }
-`
+`;
 
 const TicketDetails = (): ReactElement => {
-  const { bookingRef } = useParams<{ bookingRef: string }>()
-  const { conferenceSlug, token } = useAppContext()
+  const { bookingRef } = useParams<{ bookingRef: string }>();
+  const { conferenceSlug, token } = useAppContext();
   const {
     openModal: openTicketAssignModal,
     isOpen: isTicketAssignModalOpen,
     closeModal: closeTicketAssignModal,
-  } = useModalState()
+  } = useModalState();
   const {
     isOpen: isHistoryModalOpen,
     openModal: openHistoryModal,
     closeModal: closeHistoryModal,
-  } = useModalState()
+  } = useModalState();
 
   const {
     openModal: openUnassignTicketModal,
     isOpen: isUnassignTicketModalOpen,
     closeModal: closeUnassignTicketModal,
-  } = useModalState()
+  } = useModalState();
 
-  const { loading, error, ticket } = useSingleTicketQuery({ reference: bookingRef })
-  const assignment = ticket?.assignment
-  const orderRef = ticket?.order?.reference || ''
-  const assignee = assignment?.assignee
-  const { event } = useEventDataQuery()
+  const {
+    openModal: openTicketVoidModal,
+    isOpen: isTicketVoidModalOpen,
+    closeModal: closeTicketVoidModal,
+  } = useModalState();
+
+  const {
+    openModal: openTicketUnvoidModal,
+    isOpen: isTicketUnvoidModalOpen,
+    closeModal: closeTicketUnvoidModal,
+  } = useModalState();
+
+  const {
+    openModal: openTitoWarningModal,
+    isOpen: isTitoWarningModalOpen,
+    closeModal: closeTitoWarningModal,
+  } = useModalState();
+
+  const { loading, error, ticket } = useSingleTicketQuery({
+    reference: bookingRef,
+  });
+  const assignment = ticket?.assignment;
+  const orderRef = ticket?.order?.reference || '';
+  const assignee = assignment?.assignee;
+  const { event } = useEventDataQuery();
+  const sourceOfSale = ticket?.order?.source;
+  const isFromTito = (source: string): boolean => {
+    return switchCase({
+      TICKET_MACHINE: false,
+      TITO: true,
+    })(false)(source);
+  };
+  const isTitoTicket = sourceOfSale && isFromTito(sourceOfSale);
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: event?.name || 'Home',
@@ -161,7 +199,7 @@ const TicketDetails = (): ReactElement => {
     {
       label: `Ticket ${bookingRef}`,
     },
-  ]
+  ];
 
   return (
     <>
@@ -178,9 +216,21 @@ const TicketDetails = (): ReactElement => {
           </BreadcrumbsContainer>
 
           <SpacingBottom>
-            <StyledRow>
+            <DefaultStyledRow>
               <TextHeading>Manage ticket</TextHeading>
-            </StyledRow>
+              {isTitoTicket && (
+                <BoxMessage
+                  backgroundColor="#333333"
+                  color="#fff"
+                  dimension="sm"
+                >
+                  <>
+                    As this ticket was sold via Tito, some functionality may be
+                    limited
+                  </>
+                </BoxMessage>
+              )}
+            </DefaultStyledRow>
           </SpacingBottom>
 
           <RowContainer>
@@ -203,7 +253,9 @@ const TicketDetails = (): ReactElement => {
 
               <StyledInnerContainerCard>
                 <SpacingBottomSm>
-                  <PrimaryButton onClick={openTicketAssignModal}>Reassign</PrimaryButton>
+                  <PrimaryButton onClick={openTicketAssignModal}>
+                    Reassign
+                  </PrimaryButton>
                   <TicketAssignModal
                     closeModal={closeTicketAssignModal}
                     isOpen={isTicketAssignModalOpen}
@@ -211,42 +263,86 @@ const TicketDetails = (): ReactElement => {
                   />
                 </SpacingBottomSm>
                 <SpacingBottomSm>
-                  <PrimaryButton onClick={openUnassignTicketModal}>Unassign</PrimaryButton>
+                  <PrimaryButton onClick={openUnassignTicketModal}>
+                    Unassign
+                  </PrimaryButton>
                   <UnassignTicketModal
                     isOpen={isUnassignTicketModalOpen}
                     ticket={ticket}
                     onRequestClose={closeUnassignTicketModal}
                   />
                 </SpacingBottomSm>
-                <Modal noPadding isOpen={isHistoryModalOpen} onRequestClose={closeHistoryModal}>
+
+                {ticket?.state === 'VOID' ? (
+                  <Button
+                    onClick={
+                      isTitoTicket
+                        ? openTitoWarningModal
+                        : openTicketUnvoidModal
+                    }
+                  >
+                    Unvoid
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={
+                      isTitoTicket ? openTitoWarningModal : openTicketVoidModal
+                    }
+                  >
+                    Void
+                  </Button>
+                )}
+
+                {isTitoTicket ? (
+                  <ErrorInfoModal
+                    alertHeader={bookingRef}
+                    alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
+        to Tito to void the ticket."
+                    closeModal={closeTitoWarningModal}
+                    headerText="Unable to void ticket"
+                    isOpen={isTitoWarningModalOpen}
+                  />
+                ) : ticket?.state === 'VOID' ? (
+                  <TicketUnvoidModal
+                    bookingRef={bookingRef}
+                    closeModal={closeTicketUnvoidModal}
+                    isOpen={isTicketUnvoidModalOpen}
+                  />
+                ) : (
+                  <TicketVoidModal
+                    bookingRef={bookingRef}
+                    closeModal={closeTicketVoidModal}
+                    isOpen={isTicketVoidModalOpen}
+                  />
+                )}
+
+                <Modal
+                  noPadding
+                  isOpen={isHistoryModalOpen}
+                  onRequestClose={closeHistoryModal}
+                >
                   <AuditTrail
                     bookingRef={bookingRef}
                     conferenceSlug={conferenceSlug as string}
                     token={token as string}
                   />
                 </Modal>
+              </StyledInnerContainerCard>
+              <StyledHistoryChanges>
                 <Button as={SecondaryButton} onClick={openHistoryModal}>
                   Load history changes
                 </Button>
-              </StyledInnerContainerCard>
+              </StyledHistoryChanges>
             </TicketActionsContainerCard>
 
             <AccountDetailsContainer>
               <ContainerCard title="User account details">
                 <ContainerCardInner>
                   {assignment && assignment.assignee && (
-                    <>
-                      <StyledLabel>Unique user identifier</StyledLabel>
-                      <Formik
-                        enableReinitialize
-                        initialValues={{ uniqueEmail: assignment.assignee?.email }}
-                        onSubmit={async values => {
-                          // TODO will be moved to different component
-                        }}
-                      >
-                        <TextInputField disabled name="uniqueEmail" />
-                      </Formik>
-                    </>
+                    <UpdateUniqueUserIdentifier
+                      accountId={assignment.assignee.id}
+                      email={assignment.assignee?.email}
+                    />
                   )}
 
                   {assignment?.state === 'ACCEPTED' && (
@@ -259,7 +355,9 @@ const TicketDetails = (): ReactElement => {
                   {assignee && (
                     <>
                       <SpacingBottomSm>
-                        <StyledLabel>Assignment dashboard login link</StyledLabel>
+                        <StyledLabel>
+                          Assignment dashboard login link
+                        </StyledLabel>
                         <LoginLinkActions assignee={assignee} />
                       </SpacingBottomSm>
                     </>
@@ -272,7 +370,7 @@ const TicketDetails = (): ReactElement => {
         </PageContainer>
       )}
     </>
-  )
-}
+  );
+};
 
-export default TicketDetails
+export default TicketDetails;
