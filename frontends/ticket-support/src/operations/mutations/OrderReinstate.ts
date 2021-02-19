@@ -23,7 +23,7 @@ export const useOrderReinstateMutation = () => {
   const errSnackbar = useErrorSnackbar();
 
   const [reinstateOrderMutation] = useUpdateCommerceOrderMutation({
-    onCompleted: ({ commerceUpdateOrder }) => {
+    onCompleted: () => {
       snackbar('Order reinstated');
     },
     onError: (e) => errSnackbar(e.message),

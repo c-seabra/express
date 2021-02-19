@@ -37,7 +37,7 @@ const useMagicLinkMutation = ({ assignee }: { assignee: Account }) => {
       await generateLink({
         context: {
           headers: {
-            'x-admin-reason': reason,
+            'x-reason': reason,
           },
           slug: conferenceSlug,
           token,

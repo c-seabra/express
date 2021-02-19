@@ -22,7 +22,7 @@ export const useOrderCancelOperation = () => {
   const errSnackbar = useErrorSnackbar();
 
   const [cancelOrderMutation] = useUpdateCommerceOrderMutation({
-    onCompleted: ({ commerceUpdateOrder }) => {
+    onCompleted: () => {
       snackbar('Order cancelled');
     },
     onError: (e) => errSnackbar(e.message),
