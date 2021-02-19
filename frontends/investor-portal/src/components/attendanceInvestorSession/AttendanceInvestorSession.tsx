@@ -60,8 +60,8 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     unlockInvestor,
   })
 
-  const submit = () => {
-    attendanceInvestorSessionUpdateMutation()
+  const submit = async () => {
+    await attendanceInvestorSessionUpdateMutation()
     handleUnlock()
   }
 
@@ -73,6 +73,9 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
             {moment(currentStartsAt).format('dddd')}: {moment(currentStartsAt).format('HH:mm')} -{' '}
             {moment(currentEndsAt).format('HH:mm')}
           </span>
+        )}
+        {!currentStartsAt && (
+          <div>Investor has not selected a timeslot session</div>
         )}
         {!hasAccepted && (
           <>

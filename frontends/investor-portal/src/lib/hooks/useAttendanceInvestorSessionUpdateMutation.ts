@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 
 import { useAppContext } from '../../components/app/AppContext';
-import ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION from '../../operations/mutations/AttendanceInvestorSessionUpdate';
+import { ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION } from '../../operations/mutations/AttendanceInvestorSessionUpdate';
 import { UserError } from '../types';
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
