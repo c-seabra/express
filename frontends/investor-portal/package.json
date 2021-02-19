@@ -31,8 +31,7 @@
     "react-modal": "*",
     "react-router-dom": "*",
     "single-spa-react": "*",
-    "styled-components": "*",
-    "react-minimal-pie-chart": "*"
+    "styled-components": "*"
   },
   "devDependencies": {},
   "browserslist": {
