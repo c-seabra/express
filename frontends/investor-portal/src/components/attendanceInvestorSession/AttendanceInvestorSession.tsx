@@ -21,32 +21,21 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
 }) => {
   const [newStartsAt, setNewStartsAt] = useState<string | undefined>()
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin')
-  const [selected, setSelected] = useState<boolean | false>()
-  const [unlockInvestor, setUnlockInvestor] = useState<boolean | false>()
-  const [buttonTitle, setButtonTitle] = useState<string>('Submit')
-  const [status, setStatus] = useState<boolean | undefined>()
+  const [selected, setSelected] = useState<boolean>(false)
+  const [unlockInvestor, setUnlockInvestor] = useState<boolean>(false)
+  const [hasAccepted, setHasAccepted] = useState<boolean>(false)
 
   const { data } = useEventQuery()
 
   const investorSessionsSummary = data?.event.investorSessionsSummary
 
   const handleUnlock = () => {
-    if (currentStartsAt !== undefined && selected === undefined) {
-      setButtonTitle('Unlock Investor')
-      setUnlockInvestor(true)
-    } else {
-      setButtonTitle('Submit')
-      setUnlockInvestor(false)
-    }
+    setUnlockInvestor(currentStartsAt !== undefined && selected === false)
   }
 
-  const handleStatus = () => {
-    const item = selections.find(item => item.status === "accepted")
-    if (item === undefined) {
-      setStatus(undefined)
-    } else {
-      setStatus(true)
-    }
+  const checkHasAccepted = () => {
+    const item = selections.find(selection => selection.status === "accepted")
+    setHasAccepted(item !== undefined)
   }
 
   const styledDateForMutation = (dateString?: string) => {
@@ -57,7 +46,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   }
 
   useEffect(() => {
-    handleStatus()
+    checkHasAccepted()
     handleUnlock()
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin')
   })
@@ -85,7 +74,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
             {moment(currentEndsAt).format('HH:mm')}
           </span>
         )}
-        {!status && (
+        {!hasAccepted && (
           <>
             <Select
               onChange={e => {
@@ -101,7 +90,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
                 </option>
               ))}
             </Select>
-            <Button onClick={submit}>{buttonTitle}</Button>
+            <Button onClick={submit}>{unlockInvestor ? 'Unlock Investor' : 'Submit'}</Button>
           </>
         )}
       </StyledForm>
