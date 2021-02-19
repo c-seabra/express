@@ -48,8 +48,7 @@ const createApolloClient = (apiURL: string) => {
     uri: ({ operationName }) => {
       const shortPath = `${apiURL}`;
       const fullPath = `${apiURL}/${operationName}`;
-      return shortPath;
-      // return operationName ? fullPath : shortPath;
+      return operationName ? fullPath : shortPath;
     },
   });
 
