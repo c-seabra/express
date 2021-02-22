@@ -1,36 +1,36 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client';
 
-import { useAppContext } from '../../components/app/AppContext'
-import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject'
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage'
+import { useAppContext } from '../../components/app/AppContext';
+import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject';
+import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 const useUnassignTicketMutation = ({ ticketId }: { ticketId: string }) => {
-  const { conferenceSlug, token } = useAppContext()
-  const success = useSuccessSnackbar()
-  const error = useErrorSnackbar()
+  const { conferenceSlug, token } = useAppContext();
+  const success = useSuccessSnackbar();
+  const error = useErrorSnackbar();
 
   const [unassignTicketMutation] = useMutation(TICKET_REJECT_MUTATION, {
     onCompleted: ({
       ticketReject,
     }: {
       ticketReject: {
-        userErrors: [{ message: string }]
-      }
+        userErrors: [{ message: string }];
+      };
     }) => {
       if (ticketReject?.userErrors.length) {
-        error(ticketReject.userErrors[0].message)
+        error(ticketReject.userErrors[0].message);
       } else {
-        success('The ticket was unassigned')
+        success('The ticket was unassigned');
       }
     },
     refetchQueries: ['Ticket'],
-  })
+  });
 
   const unassignTicket = async (reason: string, notify = false) => {
     await unassignTicketMutation({
       context: {
         headers: {
-          'x-admin-reason': reason,
+          'x-reason': reason,
         },
         slug: conferenceSlug,
         token,
@@ -40,12 +40,12 @@ const useUnassignTicketMutation = ({ ticketId }: { ticketId: string }) => {
         notify,
         ticketId,
       },
-    })
-  }
+    });
+  };
 
   return {
     unassignTicket,
-  }
-}
+  };
+};
 
-export default useUnassignTicketMutation
+export default useUnassignTicketMutation;

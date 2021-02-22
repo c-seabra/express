@@ -9930,6 +9930,11 @@ react-apollo@^4.0.0-beta.1:
     "@apollo/react-hooks" "^4.0.0-beta.1"
     "@apollo/react-ssr" "^4.0.0-beta.1"
 
+react-currency-input-field@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.2.4.tgz#3b40f2a544df79938930d00c4cfeb80dd15d3227"
+  integrity sha512-+e26jWgE7Vi8XU9v3sFgpqx3EXdpF72u63GeCbFfLQ1ksEv0QTPowRjZ5j+XnwOoviTroksJ2yYkQB8wMuxj0g==
+
 react-dom@^16.12.0:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"

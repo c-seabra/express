@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
-import { Helmet } from 'react-helmet'
+import React, { ReactElement } from 'react';
+import { Helmet } from 'react-helmet';
 
 import { PageContainer } from '../settingsDashboard/SettingsDashboard.styled'
 import AttendanceTable from './AttendanceTable'
@@ -12,7 +12,7 @@ const AttendanceDashboard = (): ReactElement => {
       </Helmet>
       <AttendanceTable />
     </PageContainer>
-  )
-}
+  );
+};
 
-export default AttendanceDashboard
+export default AttendanceDashboard;

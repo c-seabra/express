@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client'
 import { useAppContext } from '../../components/app/AppContext'
 import ATTENDANCE_APPEARANCE_SELECTION_UPDATE from '../../operations/mutations/AttendanceAppearanceSelectionsUpdate'
 import { UserError } from '../types'
+import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type SelectionUpdateData = {
   attendanceAppearanceSelectionUpdate: {
@@ -17,6 +18,8 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
   attendanceIds: string[]
 }) => {
   const { conferenceSlug, token } = useAppContext()
+  const success = useSuccessSnackbar();
+  const errorMessage = useErrorSnackbar();
 
   const context = {
     slug: conferenceSlug,
@@ -32,18 +35,15 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
     {
       context,
       onCompleted: ({ attendanceAppearanceSelectionUpdate }) => {
-        if (attendanceAppearanceSelectionUpdate?.successMessage) {
-          console.log('success', attendanceAppearanceSelectionUpdate?.successMessage)
-          // will be replaced with a Snackbar
+        if (attendanceAppearanceSelectionUpdate?.userErrors[0]) {
+          errorMessage(
+            attendanceAppearanceSelectionUpdate?.userErrors[0].message,
+          );
         } else {
-          console.log('error', attendanceAppearanceSelectionUpdate?.userErrors[0].message)
-          // will be replaced with a Snackbar
+          success(attendanceAppearanceSelectionUpdate.successMessage);
         }
       },
-      onError: e => {
-        console.log('serious error', e?.message)
-        // will be replaced with a Snackbar
-      },
+      onError: (e) => errorMessage(e.message),
       refetchQueries: ['Attendances'],
       variables,
     }

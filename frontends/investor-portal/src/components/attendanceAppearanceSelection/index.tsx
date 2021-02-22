@@ -1,3 +1,3 @@
-import AttendanceAppearanceSelectionList from './AttendanceAppearanceSelectionList'
+import AttendanceAppearanceSelectionList from './AttendanceAppearanceSelectionList';
 
-export default AttendanceAppearanceSelectionList
+export default AttendanceAppearanceSelectionList;

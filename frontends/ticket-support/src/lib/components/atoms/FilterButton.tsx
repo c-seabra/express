@@ -1,6 +1,6 @@
-import FilterListIcon from '@material-ui/icons/FilterList'
-import React from 'react'
-import styled, { css } from 'styled-components'
+import FilterListIcon from '@material-ui/icons/FilterList';
+import React from 'react';
+import styled, { css } from 'styled-components';
 
 const Container = styled.div<{ isOpen?: boolean }>`
   display: flex;
@@ -8,7 +8,7 @@ const Container = styled.div<{ isOpen?: boolean }>`
   cursor: pointer;
   height: 36px;
 
-  ${props =>
+  ${(props) =>
     props.isOpen &&
     css`
       color: #267dec;
@@ -22,12 +22,19 @@ const Container = styled.div<{ isOpen?: boolean }>`
     -ms-user-select: none;
     user-select: none;
   }
-`
+`;
 
-const FilterButton = ({ isOpen, onClick }: { isOpen?: boolean; onClick: () => void }) => (
+const FilterButton = ({
+  isOpen,
+  onClick,
+}: {
+  isOpen?: boolean;
+  onClick: () => void;
+}) => (
   <Container isOpen={isOpen} role="button" onClick={onClick}>
-    <FilterListIcon style={{ color: isOpen ? '#267dec' : 'initial' }} /> <span>Filter</span>
+    <FilterListIcon style={{ color: isOpen ? '#267dec' : 'initial' }} />{' '}
+    <span>Filter</span>
   </Container>
-)
+);
 
-export default FilterButton
+export default FilterButton;

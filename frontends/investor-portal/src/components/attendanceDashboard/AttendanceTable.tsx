@@ -118,11 +118,10 @@ const AttendanceTable = (): ReactElement => {
             Submit investors selections
           </SecondaryButton>
           <Modal
-            defaultFooterIsDestructive
             withDefaultFooter
             defaultFooterPositiveButtonAction={onUpdateConfirmed}
             defaultFooterPositiveButtonText="Update"
-            description={`You are going to submit selections of ${selectedValues.length} investors.\n\nThis action can not be un-done!`}
+            description={`You are going to submit selections of ${selectedValues.length} investor${selectedValues.length > 1 ? 's' : ''}.`}
             isOpen={isOpen}
             title="Are you sure?"
             onRequestClose={closeModal}

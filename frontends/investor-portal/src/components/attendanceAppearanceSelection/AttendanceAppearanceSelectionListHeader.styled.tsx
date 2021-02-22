@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import { ListItem } from '../../lib/components'
+import { ListItem } from '../../lib/components';
 
 const ListHeaderItem = styled(ListItem)`
   font-weight: 600;
@@ -11,6 +11,6 @@ const ListHeaderItem = styled(ListItem)`
     background-color: white;
     cursor: initial;
   }
-`
+`;
 
-export default ListHeaderItem
+export default ListHeaderItem;

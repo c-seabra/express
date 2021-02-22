@@ -1,8 +1,18 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const ATTENDANCES_LIST = gql`
-  query Attendances($first: Int, $filter: AttendanceFilter, $after: String, $searchQuery: String) {
-    attendances(first: $first, filter: $filter, after: $after, searchQuery: $searchQuery) {
+  query Attendances (
+    $first: Int
+    $filter: AttendanceFilter
+    $after: String
+    $searchQuery: String
+  ) {
+    attendances(
+      first: $first
+      filter: $filter
+      after: $after
+      searchQuery: $searchQuery
+    ) {
       edges {
         cursor
         node {
@@ -19,6 +29,6 @@ const ATTENDANCES_LIST = gql`
       }
     }
   }
-`
+`;
 
-export default ATTENDANCES_LIST
+export default ATTENDANCES_LIST;

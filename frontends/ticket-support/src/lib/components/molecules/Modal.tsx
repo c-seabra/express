@@ -1,55 +1,64 @@
-import React, { ReactElement, useState } from 'react'
-import ReactModal from 'react-modal'
-import styled from 'styled-components'
+import React, { ReactElement, useState } from 'react';
+import ReactModal from 'react-modal';
+import styled from 'styled-components';
 
-import { Button, SecondaryButton } from '../atoms/Button'
-import Icon from '../atoms/Icon'
+import {
+  Button,
+  DisabledButton,
+  ErrorButton,
+  SecondaryButton,
+} from '../atoms/Button';
+import Icon from '../atoms/Icon';
 
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const ExitActionContainer = styled.div<{ noPadding?: boolean }>`
   display: flex;
   align-items: center;
-  padding: ${props =>
-    props.noPadding ? '16px' : '0'}; // Adjust only action header when no padding
-`
+  padding: ${(props) =>
+    props.noPadding
+      ? '16px'
+      : '0'}; // Adjust only action header when no padding
+`;
 
 const ModalHeader = styled.div<{ title?: string }>`
   display: flex;
-  justify-content: ${props => (props.title ? 'space-between' : 'flex-end')};
-`
+  justify-content: ${(props) => (props.title ? 'space-between' : 'flex-end')};
+`;
 
 const ModalTitle = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
   font-size: 1.2rem;
-`
+`;
 
-export const useModalState = ({ initialState = false }: { initialState?: boolean } = {}) => {
-  const [isOpen, setOpen] = useState(initialState)
+export const useModalState = ({
+  initialState = false,
+}: { initialState?: boolean } = {}) => {
+  const [isOpen, setOpen] = useState(initialState);
 
   return {
     closeModal: () => setOpen(false),
     isOpen,
     openModal: () => setOpen(true),
-    toggleModal: () => setOpen(prevState => !prevState),
-  }
-}
+    toggleModal: () => setOpen((prevState) => !prevState),
+  };
+};
 
 export type ModalProps = {
-  children?: ReactElement | ReactElement[] | string
-  isOpen: boolean
-  noPadding?: boolean
-  onRequestClose: () => void
-  renderFooter?: () => ReactElement
-  title?: string
-  withDefaultFooter?: boolean
-  withoutDefaultActions?: boolean
-}
+  children?: ReactElement | ReactElement[] | string;
+  isOpen: boolean;
+  noPadding?: boolean;
+  onRequestClose: () => void;
+  renderFooter?: () => ReactElement;
+  title?: string;
+  withDefaultFooter?: boolean;
+  withoutDefaultActions?: boolean;
+};
 
 const ModalFooter = styled.div`
   position: absolute;
@@ -57,37 +66,58 @@ const ModalFooter = styled.div`
   bottom: 1rem;
   display: flex;
   justify-content: flex-end;
-`
+`;
 
 const StyledSecondaryButton = styled(SecondaryButton)`
   margin-right: 8px;
-`
+`;
+
+const StyledDisabledButton = styled(DisabledButton)`
+  margin-right: 8px;
+`;
 
 type FooterProps = {
-  cancelText?: string
-  onCancelClick?: () => void
-  onSubmitClick?: () => void
-  submitText?: string
-}
+  cancelText?: string;
+  onCancelClick?: () => void;
+  onSubmitClick?: () => void;
+  red?: boolean;
+  submitText?: string;
+};
 
 const DefaultModalFooter = ({
   onSubmitClick,
   submitText = 'Submit',
   onCancelClick,
   cancelText = 'Cancel',
+  red = false,
 }: FooterProps) => (
   <ModalFooter>
-    <StyledSecondaryButton onClick={onCancelClick}>{cancelText}</StyledSecondaryButton>
-    <Button type="submit" onClick={onSubmitClick}>
-      {submitText}
-    </Button>
+    {red ? (
+      <>
+        <StyledDisabledButton onClick={onCancelClick}>
+          {cancelText}
+        </StyledDisabledButton>
+        <ErrorButton type="submit" onClick={onSubmitClick}>
+          {submitText}
+        </ErrorButton>
+      </>
+    ) : (
+      <>
+        <StyledSecondaryButton onClick={onCancelClick}>
+          {cancelText}
+        </StyledSecondaryButton>
+        <Button type="submit" onClick={onSubmitClick}>
+          {submitText}
+        </Button>
+      </>
+    )}
   </ModalFooter>
-)
+);
 
 const DefaultFooterSpacer = styled.div`
   width: 100%;
   height: 2rem;
-`
+`;
 
 const Modal = ({
   title,
@@ -112,10 +142,15 @@ const Modal = ({
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
     },
-  }
+  };
 
   return (
-    <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
+    <ReactModal
+      ariaHideApp={false}
+      isOpen={isOpen}
+      style={customStyles}
+      onRequestClose={onRequestClose}
+    >
       <ModalContainer>
         <ModalHeader title={title}>
           {title && <ModalTitle>{title}</ModalTitle>}
@@ -130,9 +165,9 @@ const Modal = ({
         {!withDefaultFooter && renderFooter && renderFooter()}
       </ModalContainer>
     </ReactModal>
-  )
-}
+  );
+};
 
-Modal.DefaultFooter = DefaultModalFooter
+Modal.DefaultFooter = DefaultModalFooter;
 
-export default Modal
+export default Modal;

@@ -1,11 +1,11 @@
-import { ApolloError, useQuery } from '@apollo/client'
+import { ApolloError, useQuery } from '@apollo/client';
 
-import { useAppContext } from '../../components/app/AppContext'
-import TICKET from '../../operations/queries/Ticket'
-import { Ticket } from '../types'
+import { useAppContext } from '../../components/app/AppContext';
+import TICKET from '../../operations/queries/Ticket';
+import { Ticket } from '../types';
 
 const useSingleTicketQuery = ({ reference }: { reference: string }) => {
-  const { conferenceSlug, token } = useAppContext()
+  const { conferenceSlug, token } = useAppContext();
 
   const {
     loading,
@@ -13,10 +13,10 @@ const useSingleTicketQuery = ({ reference }: { reference: string }) => {
     data,
   }: {
     data?: {
-      ticket: Ticket
-    }
-    error?: ApolloError
-    loading?: boolean
+      ticket: Ticket;
+    };
+    error?: ApolloError;
+    loading?: boolean;
   } = useQuery(TICKET, {
     context: {
       slug: conferenceSlug,
@@ -25,13 +25,13 @@ const useSingleTicketQuery = ({ reference }: { reference: string }) => {
     variables: {
       reference,
     },
-  })
+  });
 
   return {
     error,
     loading,
     ticket: data?.ticket,
-  }
-}
+  };
+};
 
-export default useSingleTicketQuery
+export default useSingleTicketQuery;

@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import { ListItem } from '../../lib/components'
+import { ListItem } from '../../lib/components';
 
 export const ColumnStyles = styled.div`
   text-align: center;
@@ -8,10 +8,10 @@ export const ColumnStyles = styled.div`
   align-items: center;
   padding: 0 0.25rem;
   word-break: break-word;
-`
+`;
 export const Column = styled(ColumnStyles)`
   width: 15%;
-`
+`;
 
 export const NarrowColumn = styled(ColumnStyles)`
   width: 3%;
@@ -26,4 +26,4 @@ export const ListHeaderItem = styled(ListItem)`
     background-color: white;
     cursor: initial;
   }
-`
+`;
