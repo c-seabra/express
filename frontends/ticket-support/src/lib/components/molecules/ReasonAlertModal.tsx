@@ -7,6 +7,7 @@ import { Spacing } from '../../../components/templates/Spacing';
 import STATIC_MESSAGES from '../../constants/messages';
 import { DisabledButton, ErrorButton } from '../atoms/Button';
 import Icon from '../atoms/Icon';
+import CheckboxField from './CheckboxField';
 import Modal from './Modal';
 import TextAreaField from './TextAreaField';
 
@@ -45,6 +46,12 @@ export const FieldWrapper = styled(TextAreaField)`
   textarea {
     height: 77px;
   }
+`;
+
+const StyledRow = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0 32px;
 `;
 
 export const StyledActionRow = styled.div`
@@ -148,7 +155,7 @@ const ReasonAlertModal = ({
                   <Text>{alertText}</Text>
                 </Spacing>
 
-                <Spacing bottom="8px" top="8px">
+                <Spacing top="8px">
                   <FieldWrapper
                     required
                     label="Please specify the reason for your actions"
@@ -156,6 +163,14 @@ const ReasonAlertModal = ({
                     name="reason"
                   />
                 </Spacing>
+
+                <StyledRow>
+                  <CheckboxField
+                    color="#E15554"
+                    label="Notify previous ticket holder by email?"
+                    name="sendEmailNotification"
+                  />
+                </StyledRow>
 
                 <Spacing bottom="50px">
                   <StyledActionRow>
