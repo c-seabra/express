@@ -92,7 +92,7 @@ const Error = styled.div`
   margin-top: 4px;
 `;
 
-type CheckboxFieldProps = HTMLProps<HTMLInputElement> & { color: string, name: string };
+type CheckboxFieldProps = HTMLProps<HTMLInputElement> & { color?: string, name: string };
 
 const CheckboxField = ({
   color,
