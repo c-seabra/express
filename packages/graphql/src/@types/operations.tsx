@@ -3040,12 +3040,14 @@ export type CommerceOrderItem = {
   lastUpdatedBy: Maybe<Scalars['ID']>;
   metadata: Maybe<Scalars['JSON']>;
   price: Maybe<Scalars['Int']>;
+  priceIncludingTax: Maybe<Scalars['Int']>;
   product: Maybe<CommerceProduct>;
   productMetadata: Maybe<Scalars['JSON']>;
   quantity: Scalars['Int'];
   subTotal: Maybe<Scalars['Int']>;
   tax: Maybe<CommerceTax>;
   taxTotal: Maybe<Scalars['Int']>;
+  total: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethod = {
@@ -5063,11 +5065,13 @@ export type CommerceOrderItemCreateOrUpdate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  priceIncludingTax?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity?: Maybe<Scalars['Int']>;
   subTotal?: Maybe<Scalars['Int']>;
   tax?: Maybe<CommerceTaxCreateOrUpdate>;
+  total?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceTaxSummaryCreateOrUpdate = {
@@ -6084,11 +6088,13 @@ export type CommerceOrderItemCreate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  priceIncludingTax?: Maybe<Scalars['Int']>;
   product: Scalars['ID'];
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity: Scalars['Int'];
   subTotal?: Maybe<Scalars['Int']>;
   tax?: Maybe<CommerceTaxCreateOrUpdate>;
+  total?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceOrderItemUpdate = {
@@ -6099,11 +6105,13 @@ export type CommerceOrderItemUpdate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  priceIncludingTax?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity?: Maybe<Scalars['Int']>;
   subTotal?: Maybe<Scalars['Int']>;
   tax?: Maybe<CommerceTaxCreateOrUpdate>;
+  total?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceStoreBillingCreate = {
@@ -6519,10 +6527,12 @@ export type CommerceOrderItemFragment = {
   | 'lastUpdatedAt'
   | 'lastUpdatedBy'
   | 'price'
+  | 'priceIncludingTax'
   | 'productMetadata'
   | 'quantity'
   | 'subTotal'
   | 'taxTotal'
+  | 'total'
 > & {
     product: Maybe<
       { __typename?: 'CommerceProduct' } & CommerceProductFragment
@@ -7531,6 +7541,7 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priceIncludingTax' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'product' },
@@ -7561,6 +7572,7 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'total' } },
         ],
       },
       typeCondition: {
@@ -11308,6 +11320,7 @@ export const CommerceGetOrderDocument: DocumentNode = {
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priceIncludingTax' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'product' },
@@ -11338,6 +11351,7 @@ export const CommerceGetOrderDocument: DocumentNode = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'total' } },
         ],
       },
       typeCondition: {

@@ -320,7 +320,6 @@ const OrderDetails = (): ReactElement => {
                   commerceOrder={commerceOrder}
                   error={commerceOrderError}
                   loading={loadingCommerceOrder}
-                  orderReference={orderDetails.orderReference}
                 />
               </SpacingBottom>
 

@@ -55,6 +55,7 @@ const commerceOrderItemFragment = gql`
     lastUpdatedAt
     lastUpdatedBy
     price
+    priceIncludingTax
     product {
       ...CommerceProduct
     }
@@ -65,6 +66,7 @@ const commerceOrderItemFragment = gql`
       ...CommerceTax
     }
     taxTotal
+    total
   }
   ${commerceProductFragment}
   ${commerceTaxFragment}

@@ -1,11 +1,15 @@
-import { CommerceOrder } from '@websummit/graphql/src/@types/operations';
+import { ApolloError } from '@apollo/client';
+import {
+  CommerceOrder,
+  CommerceTaxRateType,
+} from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import Loader from '../../lib/Loading';
+import { Spacing } from '../templates/Spacing';
 import Warning from '../ticketActions/Warning';
-import { ApolloError } from '@apollo/client';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -20,11 +24,6 @@ const ColumnStyles = styled.div`
 `;
 const Column = styled(ColumnStyles)`
   width: 15%;
-`;
-
-const TicketReference = styled(ColumnStyles)`
-  width: 15%;
-  color: #0067e9;
 `;
 
 const StyledListItem = styled.li`
@@ -57,10 +56,10 @@ const ListHeaderItem = styled(StyledListItem)`
 
 const OrderDetilsSummaryHeader = () => (
   <ListHeaderItem>
-    <Column>Order reference</Column>
     <Column>Ticket type</Column>
     <Column>Quantity</Column>
-    <Column>Ticket value</Column>
+    <Column>Tax</Column>
+    <Column>Ticket value (incl. Tax)</Column>
     <Column>Discount code</Column>
     <Column>Complimentary sale</Column>
     <Column>Payment method</Column>
@@ -71,7 +70,6 @@ type Props = {
   commerceOrder?: CommerceOrder;
   error?: ApolloError;
   loading: boolean;
-  orderReference?: string;
 };
 
 const missingDataAbbr = 'N/A';
@@ -79,36 +77,43 @@ const missingDataAbbr = 'N/A';
 const OrderDetailsSummary = ({
   loading,
   error,
-  orderReference,
   commerceOrder,
 }: Props): ReactElement => {
   return (
     <ContainerCard color="#654DA0" title="Order details">
       <>
-        {loading && <Loader />}
-        {error && (
-          <Warning>
-            <span>{error.message}</span>
-          </Warning>
-        )}
-
         <StyledContainer>
+          <OrderDetilsSummaryHeader />
+          {loading && (
+            <Spacing top="2rem">
+              <Loader />
+            </Spacing>
+          )}
+          {error && (
+            <Warning>
+              <span>{error.message}</span>
+            </Warning>
+          )}
           {!loading &&
             !error &&
             commerceOrder &&
             commerceOrder?.items?.map((item) => (
-              <div key={item.id}>
-                <OrderDetilsSummaryHeader />
-                <StyledListItem>
-                  <TicketReference>{orderReference}</TicketReference>
-                  <Column>{item.itemName}</Column>
-                  <Column>{item.quantity}</Column>
-                  <Column>{item.price}</Column>
-                  <Column>{missingDataAbbr}</Column>
-                  <Column>{missingDataAbbr}</Column>
-                  <Column>{commerceOrder?.paymentMethod?.name}</Column>
-                </StyledListItem>
-              </div>
+              <StyledListItem key={item.id}>
+                <Column>{item.itemName}</Column>
+                <Column>{item.quantity}</Column>
+                <Column>
+                  {item.tax?.name}&nbsp;{item.tax?.rateAmount}
+                  {item.tax?.rateType === CommerceTaxRateType.Percentage && '%'}
+                  &nbsp;({item.tax?.country})
+                </Column>
+                <Column>
+                  {item.priceIncludingTax}&nbsp;
+                  {commerceOrder.currencySymbol}
+                </Column>
+                <Column>{missingDataAbbr}</Column>
+                <Column>{missingDataAbbr}</Column>
+                <Column>{commerceOrder?.paymentMethod?.name}</Column>
+              </StyledListItem>
             ))}
         </StyledContainer>
       </>

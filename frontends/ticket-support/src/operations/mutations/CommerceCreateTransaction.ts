@@ -7,7 +7,13 @@ import {
   useSuccessSnackbar,
 } from '../../lib/hooks/useSnackbarMessage';
 import { CommerceTransaction } from '../../lib/types';
-import { commercePaymentMethodFragment } from '../queries/CommerceGetOrder';
+
+const commercePaymentMethodFragment = gql`
+  fragment CommercePaymentMethod on CommercePaymentMethod {
+    id
+    name
+  }
+`;
 
 const CREATE_TRANSACTION_MUTATION = gql`
   mutation commerceCreateTransaction(
