@@ -9,7 +9,7 @@ const BoxNode = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   border-radius: 5px 5px 0 0;
 
   & > * {
@@ -32,14 +32,18 @@ const StyledHeader = styled(StyledMessage)`
 const IconWrapper = styled.div`
   > .material-icons {
     font-size: 48px;
-    color: #0067E9;
+    color: #0067e9;
   }
 `;
 
-const AssignTicketBox = () => {
+type AssignTicketBoxProps = {
+  onClickAction: () => void;
+};
+
+const AssignTicketBox = ({ onClickAction }: AssignTicketBoxProps) => {
   return (
     <BoxNode>
-      <Spacing top="65px" bottom="16px">
+      <Spacing bottom="16px" top="65px">
         <IconWrapper>
           <Icon>info</Icon>
         </IconWrapper>
@@ -53,7 +57,7 @@ const AssignTicketBox = () => {
       </Spacing>
 
       <Spacing bottom="90px">
-      <Button>Assign now</Button>
+        <Button onClick={onClickAction}>Assign now</Button>
       </Spacing>
     </BoxNode>
   );
