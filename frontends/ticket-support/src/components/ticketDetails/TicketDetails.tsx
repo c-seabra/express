@@ -253,11 +253,6 @@ const TicketDetails = (): ReactElement => {
                       <PrimaryButton onClick={openTicketAssignModal}>
                         Reassign
                       </PrimaryButton>
-                      <TicketAssignModal
-                        closeModal={closeTicketAssignModal}
-                        isOpen={isTicketAssignModalOpen}
-                        ticket={ticket}
-                      />
                     </SpacingBottomSm>
                     <SpacingBottomSm>
                       <PrimaryButton onClick={openUnassignTicketModal}>
@@ -339,7 +334,12 @@ const TicketDetails = (): ReactElement => {
             <AccountDetailsContainer>
               {ticket?.state === 'UNASSIGNED' && (
                 <ContainerCard>
-                  <AssignTicketBox />
+                  <AssignTicketBox onClickAction={openTicketAssignModal}/>
+                  <TicketAssignModal
+                      closeModal={closeTicketAssignModal}
+                      isOpen={isTicketAssignModalOpen}
+                      ticket={ticket}
+                  />
                 </ContainerCard>
               )}
 
