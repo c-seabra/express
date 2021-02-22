@@ -314,26 +314,25 @@ const TicketDetails = (): ReactElement => {
                         isOpen={isTicketVoidModalOpen}
                       />
                     )}
-
-                    <Modal
-                      noPadding
-                      isOpen={isHistoryModalOpen}
-                      onRequestClose={closeHistoryModal}
-                    >
-                      <AuditTrail
-                        bookingRef={bookingRef}
-                        conferenceSlug={conferenceSlug as string}
-                        token={token as string}
-                      />
-                    </Modal>
                   </StyledInnerContainerCard>
                 )}
               </>
 
               <StyledHistoryChanges>
-                <Button as={SecondaryButton} onClick={openHistoryModal}>
+                <SecondaryButton onClick={openHistoryModal}>
                   Load history changes
-                </Button>
+                </SecondaryButton>
+                <Modal
+                  noPadding
+                  isOpen={isHistoryModalOpen}
+                  onRequestClose={closeHistoryModal}
+                >
+                  <AuditTrail
+                    bookingRef={bookingRef}
+                    conferenceSlug={conferenceSlug as string}
+                    token={token as string}
+                  />
+                </Modal>
               </StyledHistoryChanges>
             </TicketActionsContainerCard>
 
