@@ -3,7 +3,7 @@ import React from 'react';
 import ReasonAlertModal from '../../lib/components/molecules/ReasonAlertModal';
 import {
   TicketsVoidArgs,
-  useTicketVoidMutation,
+  useTicketVoidOperation,
 } from '../../operations/mutations/TicketVoid';
 
 type TicketVoidModalProps = {
@@ -17,7 +17,7 @@ const TicketVoidModal = ({
   closeModal,
   bookingRef,
 }: TicketVoidModalProps) => {
-  const { voidTicket } = useTicketVoidMutation();
+  const { voidTicket } = useTicketVoidOperation();
   const setMutation = (e: TicketsVoidArgs) => {
     return voidTicket({ bookingRef, reason: e.reason });
   };

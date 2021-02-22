@@ -5,6 +5,7 @@ const ListItem = styled.li`
   display: flex;
   padding: 0.75rem;
   background-color: #fff;
+  justify-content: space-between;
 
   binvestor-bottom: 1px solid #dde0e5;
 

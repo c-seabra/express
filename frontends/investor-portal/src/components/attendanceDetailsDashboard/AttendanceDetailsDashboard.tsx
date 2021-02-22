@@ -9,6 +9,8 @@ import { Attendance, AttendanceAppearanceSelection } from '../../lib/types';
 import { ATTENDANCE_DETAILS_QUERY } from '../../operations/queries/AttendanceDetails';
 import { useAppContext } from '../app/AppContext';
 import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection';
+import AttendanceInvestorSession from '../attendanceInvestorSession/AttendanceInvestorSession';
+import { BorderBottom } from '../settingsDashboard/SettingsDashboard.styled';
 import { DashboardDetailsContainer } from './AttendanceDetailsDashboard.styled';
 
 const AttendanceDetailsDashboard = (): ReactElement => {
@@ -40,12 +42,25 @@ const AttendanceDetailsDashboard = (): ReactElement => {
       (edge) => edge.node,
     ) || [];
 
+  const startsAt = data?.attendance.investorSession?.startsAt;
+  const endsAt = data?.attendance.investorSession?.endsAt;
+
   return (
     <DashboardDetailsContainer>
       <Helmet>
         <title>Investor Details - Investor Portal</title>
       </Helmet>
       <Label>{data?.attendance.name}</Label>
+      <BorderBottom>
+        <ContainerCard color="#00ACA8" title="Investor Session">
+          <AttendanceInvestorSession
+            attendanceId={attendanceId}
+            currentEndsAt={endsAt}
+            currentStartsAt={startsAt}
+            selections={selections}
+          />
+        </ContainerCard>
+      </BorderBottom>
       <ContainerCard color="#4688D9" title="Startup Confirmations">
         <AttendanceAppearanceSelectionsList
           error={error}

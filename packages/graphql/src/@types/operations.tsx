@@ -6262,6 +6262,18 @@ export type ProfileUpdateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type UpdateCommerceOrderMutationVariables = Exact<{
+  commerceOrderUpdate: CommerceOrderUpdate;
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+}>;
+
+export type UpdateCommerceOrderMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateOrder: Maybe<
+    { __typename?: 'CommerceOrder' } & Pick<CommerceOrder, 'status'>
+  >;
+};
+
 export type TicketMagicLoginLinkRequestMutationVariables = Exact<{
   input: AssignmentMagicLinkLoginRequestInput;
 }>;
@@ -6373,6 +6385,23 @@ export type TicketUnvoidMutationVariables = Exact<{
 export type TicketUnvoidMutation = { __typename?: 'Mutation' } & {
   ticketUnvoid: Maybe<
     { __typename?: 'TicketUnvoidPayload' } & {
+      ticket: Maybe<
+        { __typename?: 'Ticket' } & Pick<Ticket, 'id' | 'state' | 'bookingRef'>
+      >;
+      userErrors: Array<
+        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
+  >;
+};
+
+export type VoidTicketMutationVariables = Exact<{
+  input: TicketVoidInput;
+}>;
+
+export type VoidTicketMutation = { __typename?: 'Mutation' } & {
+  ticketVoid: Maybe<
+    { __typename?: 'TicketVoidPayload' } & {
       ticket: Maybe<
         { __typename?: 'Ticket' } & Pick<Ticket, 'id' | 'state' | 'bookingRef'>
       >;
@@ -9691,6 +9720,132 @@ export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileUpdateMutation,
   ProfileUpdateMutationVariables
 >;
+export const UpdateCommerceOrderDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'UpdateCommerceOrder' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceOrderUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceOrderUpdate' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'storeId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'storeId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateOrder' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceOrderUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceOrderUpdate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'storeId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type UpdateCommerceOrderMutationFn = Apollo.MutationFunction<
+  UpdateCommerceOrderMutation,
+  UpdateCommerceOrderMutationVariables
+>;
+
+/**
+ * __useUpdateCommerceOrderMutation__
+ *
+ * To run a mutation, you first call `useUpdateCommerceOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCommerceOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCommerceOrderMutation, { data, loading, error }] = useUpdateCommerceOrderMutation({
+ *   variables: {
+ *      commerceOrderUpdate: // value for 'commerceOrderUpdate'
+ *      id: // value for 'id'
+ *      storeId: // value for 'storeId'
+ *   },
+ * });
+ */
+export function useUpdateCommerceOrderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCommerceOrderMutation,
+    UpdateCommerceOrderMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    UpdateCommerceOrderMutation,
+    UpdateCommerceOrderMutationVariables
+  >(UpdateCommerceOrderDocument, baseOptions);
+}
+export type UpdateCommerceOrderMutationHookResult = ReturnType<
+  typeof useUpdateCommerceOrderMutation
+>;
+export type UpdateCommerceOrderMutationResult = Apollo.MutationResult<UpdateCommerceOrderMutation>;
+export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCommerceOrderMutation,
+  UpdateCommerceOrderMutationVariables
+>;
 export const TicketMagicLoginLinkRequestDocument: DocumentNode = {
   definitions: [
     {
@@ -10495,6 +10650,126 @@ export type TicketUnvoidMutationResult = Apollo.MutationResult<TicketUnvoidMutat
 export type TicketUnvoidMutationOptions = Apollo.BaseMutationOptions<
   TicketUnvoidMutation,
   TicketUnvoidMutationVariables
+>;
+export const VoidTicketDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'VoidTicket' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketVoid' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticket' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingRef' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'TicketVoidInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type VoidTicketMutationFn = Apollo.MutationFunction<
+  VoidTicketMutation,
+  VoidTicketMutationVariables
+>;
+
+/**
+ * __useVoidTicketMutation__
+ *
+ * To run a mutation, you first call `useVoidTicketMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVoidTicketMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [voidTicketMutation, { data, loading, error }] = useVoidTicketMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useVoidTicketMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    VoidTicketMutation,
+    VoidTicketMutationVariables
+  >,
+) {
+  return Apollo.useMutation<VoidTicketMutation, VoidTicketMutationVariables>(
+    VoidTicketDocument,
+    baseOptions,
+  );
+}
+export type VoidTicketMutationHookResult = ReturnType<
+  typeof useVoidTicketMutation
+>;
+export type VoidTicketMutationResult = Apollo.MutationResult<VoidTicketMutation>;
+export type VoidTicketMutationOptions = Apollo.BaseMutationOptions<
+  VoidTicketMutation,
+  VoidTicketMutationVariables
 >;
 export const AccessPermissionsDocument: DocumentNode = {
   definitions: [

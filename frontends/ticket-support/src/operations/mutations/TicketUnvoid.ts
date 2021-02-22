@@ -6,7 +6,6 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '../../lib/hooks/useSnackbarMessage';
-import { Ticket } from '../../lib/types';
 
 export type TicketsUnvoidArgs = {
   bookingRef: string;
