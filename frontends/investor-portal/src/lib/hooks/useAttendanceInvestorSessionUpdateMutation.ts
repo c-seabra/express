@@ -16,7 +16,7 @@ type AttendanceInvestorSessionUpdateArgs = {
   attendanceId: string | undefined;
   eventTimezone: string;
   startsAt: string | undefined;
-  unlockInvestor: boolean | undefined;
+  unlockInvestor: boolean | false;
 };
 
 const useAttendanceInvestorSessionUpdateMutation = ({
