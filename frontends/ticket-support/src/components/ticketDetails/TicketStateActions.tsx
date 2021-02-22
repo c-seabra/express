@@ -39,7 +39,6 @@ const StyledWrapper = styled.span`
 
 type TicketStateActionsProps = {
   ticket: Ticket;
-  assignmentStatus: string;
 };
 
 const TicketAction = ({ ticket }: { ticket: Ticket }) => {
@@ -85,7 +84,6 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
 
 const TicketStateActions = ({
   ticket,
-  assignmentStatus,
 }: TicketStateActionsProps) => {
   return (
     <>
@@ -101,8 +99,7 @@ const TicketStateActions = ({
         <TicketStateContainer>
           <StyledLabel>Assignment status</StyledLabel>
           <StateActionContainer>
-            <StatePlate state={assignmentStatus} />
-            {/*<TicketAction ticket={ticket} />*/}
+            <StatePlate state={ticket?.assignment?.state || 'Unassigned'} />
           </StateActionContainer>
         </TicketStateContainer>
       </Spacing>
