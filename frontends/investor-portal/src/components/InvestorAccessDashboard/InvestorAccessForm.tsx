@@ -3,10 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { Button } from '../../lib/components/atoms';
 import { LabeledInput } from '../../lib/components/molecules';
 import { useInvestorAccessGrantMutation } from '../../lib/hooks';
-import {
-  PermissionForm,
-  SpacingBottom,
-} from './InvestorPermissionsDashboard.styled';
+import { AccessForm, SpacingBottom } from './InvestorAccessDashboard.styled';
 
 type Attendance = {
   bookingRef: string;
@@ -14,7 +11,7 @@ type Attendance = {
   name?: string;
 };
 
-type InvestorPermissionsFormProps = {
+type InvestorAccessFormProps = {
   defaultSelectionsCount: number | undefined;
   invalidBookingReferences: string[];
   setAttendances: React.Dispatch<React.SetStateAction<Attendance[]>>;
@@ -22,13 +19,13 @@ type InvestorPermissionsFormProps = {
   setUpdating: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const InvestorPermissionsForm = ({
+const InvestorAccessForm = ({
   defaultSelectionsCount,
   invalidBookingReferences,
   setAttendances,
   setInvalidBookingReferences,
   setUpdating,
-}: InvestorPermissionsFormProps): ReactElement => {
+}: InvestorAccessFormProps): ReactElement => {
   const [startupSelectionsCount, setStartupSelectionsCount] = useState<
     number | undefined
   >();
@@ -70,7 +67,7 @@ const InvestorPermissionsForm = ({
 
   return (
     <>
-      <PermissionForm
+      <AccessForm
         onSubmit={async (e) => {
           e.preventDefault();
           await grantAccess();
@@ -121,9 +118,9 @@ const InvestorPermissionsForm = ({
             </>
           )}
         </SpacingBottom>
-      </PermissionForm>
+      </AccessForm>
     </>
   );
 };
 
-export default InvestorPermissionsForm;
+export default InvestorAccessForm;

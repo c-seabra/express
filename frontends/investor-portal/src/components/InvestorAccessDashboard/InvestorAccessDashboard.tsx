@@ -10,11 +10,11 @@ import {
   BreadcrumbsContainer,
   PageContainer,
   SpacingBottom,
-} from './InvestorPermissionsDashboard.styled';
-import InvestorPermissionsForm from './InvestorPermissionsForm';
-import InvestorPermissionsList from './InvestorPermissionsList';
+} from './InvestorAccessDashboard.styled';
+import InvestorAccessForm from './InvestorAccessForm';
+import InvestorAccessList from './InvestorAccessList';
 
-const InvestorPermissionsDashboard = (): ReactElement => {
+const InvestorAccessDashboard = (): ReactElement => {
   type Attendance = {
     bookingRef: string;
     id: string;
@@ -45,14 +45,14 @@ const InvestorPermissionsDashboard = (): ReactElement => {
       redirectUrl: '/',
     },
     {
-      label: 'Investor Permissions',
+      label: 'Investor Access',
     },
   ];
 
   return (
     <>
       <Helmet>
-        <title>Investor permissions</title>
+        <title>Investor Access</title>
       </Helmet>
       <PageContainer>
         {(loading || updating) && <Loader />}
@@ -65,10 +65,12 @@ const InvestorPermissionsDashboard = (): ReactElement => {
           <Breadcrumbs routes={breadcrumbsRoutes} />
         </BreadcrumbsContainer>
 
-        <ContainerCard color="#555" title="Investor portal permissions">
-          <h4>Give investors permission to access the Investor Portal.</h4>
+        <ContainerCard
+          color="#555"
+          title="Give investor access to the investor portal"
+        >
           <SpacingBottom>
-            <InvestorPermissionsForm
+            <InvestorAccessForm
               defaultSelectionsCount={defaultSelectionsCount}
               invalidBookingReferences={invalidBookingReferences}
               setAttendances={setAttendances}
@@ -77,7 +79,7 @@ const InvestorPermissionsDashboard = (): ReactElement => {
             />
           </SpacingBottom>
           <SpacingBottom>
-            <InvestorPermissionsList
+            <InvestorAccessList
               attendances={attendances}
               invalidBookingReferences={invalidBookingReferences}
             />
@@ -88,4 +90,4 @@ const InvestorPermissionsDashboard = (): ReactElement => {
   );
 };
 
-export default InvestorPermissionsDashboard;
+export default InvestorAccessDashboard;

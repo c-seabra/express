@@ -24,7 +24,7 @@ export const PageContainer = styled.section`
   font-size: 16px;
 `;
 
-export const PermissionForm = styled.form`
+export const AccessForm = styled.form`
   button {
     margin-right: 1rem;
   }

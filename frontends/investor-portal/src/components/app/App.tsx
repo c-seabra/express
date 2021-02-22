@@ -16,7 +16,7 @@ import { MainNavigation } from '../../lib/components/molecules';
 import ROUTES from '../../lib/constants/routes';
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard';
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard';
-import InvestorPermissionsDashboard from '../InvestorPermissionsDashboard/InvestorPermissionsDashboard';
+import InvestorAccessDashboard from '../InvestorAccessDashboard/InvestorAccessDashboard';
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard';
 import AppContext from './AppContext';
 
@@ -50,7 +50,7 @@ const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
-  }, [token]);
+  }, [token, tokenPayload.conf_slug]);
 
   const apolloClient = initApollo({ apiURL });
 
@@ -95,8 +95,8 @@ const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
                 <Route path="/settings">
                   <SettingsDashboard />
                 </Route>
-                <Route path="/investor_permissions">
-                  <InvestorPermissionsDashboard />
+                <Route path="/investor_access">
+                  <InvestorAccessDashboard />
                 </Route>
                 <Route path="/dashboard">
                   <AttendanceDashboard />

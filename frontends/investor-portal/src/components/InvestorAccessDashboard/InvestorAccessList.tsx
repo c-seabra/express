@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { Button, Icon, ListItem } from '../../lib/components';
 import { ListColumn } from '../../lib/components/atoms';
 import { ItemListHeader } from '../../lib/components/molecules';
-import { SpacingBottom } from './InvestorPermissionsDashboard.styled';
+import { SpacingBottom } from './InvestorAccessDashboard.styled';
 
 type Attendance = {
   bookingRef: string;
@@ -11,15 +11,15 @@ type Attendance = {
   name?: string;
 };
 
-type InvestorPermissionsListProps = {
+type InvestorAccessListProps = {
   attendances: Array<Attendance>;
   invalidBookingReferences: string[];
 };
 
-const InvestorPermissionsList = ({
+const InvestorAccessList = ({
   attendances,
   invalidBookingReferences,
-}: InvestorPermissionsListProps): ReactElement => {
+}: InvestorAccessListProps): ReactElement => {
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const toggleDetails = () => setShowDetails((show) => !show);
 
@@ -72,4 +72,4 @@ const InvestorPermissionsList = ({
   );
 };
 
-export default InvestorPermissionsList;
+export default InvestorAccessList;

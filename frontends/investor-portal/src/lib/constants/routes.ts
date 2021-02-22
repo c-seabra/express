@@ -20,10 +20,10 @@ const ROUTES: Routes = {
     path: '/dashboard',
   },
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-  INVESTOR_PERMISSIONS: {
+  INVESTOR_ACCESS: {
     isActive: true,
-    meta: { description: 'Investor Permissions' },
-    path: '/investor_permissions',
+    meta: { description: 'Investor Access' },
+    path: '/investor_access',
   },
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
   SETTINGS_ADMIN: {
