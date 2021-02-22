@@ -13,7 +13,7 @@ const CREATE_TRANSACTION_MUTATION = gql`
   mutation commerceCreateTransaction(
     $commerceTransactionCreate: CommerceTransactionCreate!
     $orderId: ID!
-    $storeId: ID!
+    $storeId: ID
   ) {
     commerceCreateTransaction(
       commerceTransactionCreate: $commerceTransactionCreate
@@ -62,7 +62,7 @@ const useCommerceCreateTransactionMutation = ({
         success('Operation successful');
       },
       onError: (e) => error(e.message),
-      refetchQueries: ['Order'],
+      refetchQueries: ['Order', 'CommerceOrder'],
     },
   );
 
@@ -94,7 +94,6 @@ const useCommerceCreateTransactionMutation = ({
           type,
         },
         orderId,
-        storeId: '',
       },
     });
   };

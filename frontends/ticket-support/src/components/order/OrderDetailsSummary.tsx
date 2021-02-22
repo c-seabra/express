@@ -1,100 +1,117 @@
+import { CommerceOrder } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import Loader from '../../lib/Loading';
-import { formatDefaultDateTime } from '../../lib/utils/time';
 import Warning from '../ticketActions/Warning';
-import StatePlate from '../ticketItem/StatePlate';
+import { ApolloError } from '@apollo/client';
 
-// Containers
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const StyledGridContainer = styled.section`
-  display: grid;
-  grid-gap: 8px;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(2, 32px);
+const ColumnStyles = styled.div`
+  display: flex;
   align-items: center;
+  padding: 0 0.25rem;
+  word-break: break-word;
+`;
+const Column = styled(ColumnStyles)`
+  width: 15%;
 `;
 
-// Headers
-const StyledLabel = styled.label`
-  color: #c2c0c2;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 24px;
+const TicketReference = styled(ColumnStyles)`
+  width: 15%;
+  color: #0067e9;
 `;
 
-const StyledValue = styled.p`
+const StyledListItem = styled.li`
+  font-size: 0.85rem;
+  display: flex;
+  padding: 1rem 1.5rem;
+  background-color: white;
   color: #0c1439;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 24;
+
+  border-bottom: 1px solid #dde0e5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: #dde0e5;
+  }
 `;
+
+const ListHeaderItem = styled(StyledListItem)`
+  font-weight: 600;
+  text-align: center;
+
+  &:hover {
+    background-color: white;
+    cursor: initial;
+  }
+`;
+
+const OrderDetilsSummaryHeader = () => (
+  <ListHeaderItem>
+    <Column>Order reference</Column>
+    <Column>Ticket type</Column>
+    <Column>Quantity</Column>
+    <Column>Ticket value</Column>
+    <Column>Discount code</Column>
+    <Column>Complimentary sale</Column>
+    <Column>Payment method</Column>
+  </ListHeaderItem>
+);
 
 type Props = {
-  createdOn?: string;
-  error: boolean;
-  lastUpdatedOn?: string;
+  commerceOrder?: CommerceOrder;
+  error?: ApolloError;
   loading: boolean;
   orderReference?: string;
-  orderStatus?: string;
-  sourceOfSale?: string;
 };
+
+const missingDataAbbr = 'N/A';
 
 const OrderDetailsSummary = ({
   loading,
   error,
   orderReference,
-  createdOn,
-  lastUpdatedOn,
-  sourceOfSale,
-  orderStatus,
+  commerceOrder,
 }: Props): ReactElement => {
-  const missingDataAbbr = 'MD';
-
   return (
     <ContainerCard color="#654DA0" title="Order details">
-      <StyledContainer>
+      <>
         {loading && <Loader />}
         {error && (
           <Warning>
-            <span>{error}</span>
+            <span>{error.message}</span>
           </Warning>
         )}
 
-        {!loading && !error && (
-          <>
-            <StyledGridContainer>
-              <StyledLabel>Order reference #</StyledLabel>
-              <StyledLabel>Last updated</StyledLabel>
-              <StyledLabel>Date created</StyledLabel>
-              <StyledLabel>Source of sale</StyledLabel>
-              <StyledLabel>Order status</StyledLabel>
-
-              <StyledValue>#{orderReference}</StyledValue>
-              <StyledValue>
-                {(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) ||
-                  missingDataAbbr}
-              </StyledValue>
-
-              <StyledValue>
-                {(createdOn && formatDefaultDateTime(createdOn)) ||
-                  missingDataAbbr}
-              </StyledValue>
-
-              <StyledValue>{sourceOfSale}</StyledValue>
-
-              <StatePlate state={orderStatus || missingDataAbbr} />
-            </StyledGridContainer>
-          </>
-        )}
-      </StyledContainer>
+        <StyledContainer>
+          {!loading &&
+            !error &&
+            commerceOrder &&
+            commerceOrder?.items?.map((item) => (
+              <div key={item.id}>
+                <OrderDetilsSummaryHeader />
+                <StyledListItem>
+                  <TicketReference>{orderReference}</TicketReference>
+                  <Column>{item.itemName}</Column>
+                  <Column>{item.quantity}</Column>
+                  <Column>{item.price}</Column>
+                  <Column>{missingDataAbbr}</Column>
+                  <Column>{missingDataAbbr}</Column>
+                  <Column>{commerceOrder?.paymentMethod?.name}</Column>
+                </StyledListItem>
+              </div>
+            ))}
+        </StyledContainer>
+      </>
     </ContainerCard>
   );
 };

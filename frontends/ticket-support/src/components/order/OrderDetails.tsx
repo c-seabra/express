@@ -137,7 +137,11 @@ const OrderDetails = (): ReactElement => {
   const order = data?.order;
   const sourceId = order?.sourceId || '';
 
-  const { commerceOrder } = useSingleCommerceOrderQuery({
+  const {
+    commerceOrder,
+    loadingCommerceOrder,
+    commerceOrderError,
+  } = useSingleCommerceOrderQuery({
     id: sourceId,
   });
 
@@ -313,13 +317,10 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderDetailsSummary
-                  createdOn={orderDetails.createdOn}
-                  error={mockedError}
-                  lastUpdatedOn={orderDetails.lastUpdatedOn}
-                  loading={mockedLoading}
+                  commerceOrder={commerceOrder}
+                  error={commerceOrderError}
+                  loading={loadingCommerceOrder}
                   orderReference={orderDetails.orderReference}
-                  orderStatus={orderDetails.status}
-                  sourceOfSale={orderDetails.sourceOfSale}
                 />
               </SpacingBottom>
 

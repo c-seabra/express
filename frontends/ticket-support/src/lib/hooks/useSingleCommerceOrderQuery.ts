@@ -10,22 +10,25 @@ const useSingleCommerceOrderQuery = ({ id = '' }: { id?: string }) => {
   const { conferenceSlug, token } = useAppContext();
   const error = useErrorSnackbar();
 
-  const { data, loading } = useCommerceGetOrderQuery({
-    context: {
-      slug: conferenceSlug,
-      token,
+  const { data, loading, error: commerceOrderError } = useCommerceGetOrderQuery(
+    {
+      context: {
+        slug: conferenceSlug,
+        token,
+      },
+      onError: (e) =>
+        error(`Cannot fetch details for order refund. Reason - ${e.message}`),
+      skip: !id,
+      variables: {
+        id,
+      },
     },
-    onError: (e) =>
-      error(`Cannot fetch details for order refund. Reason - ${e.message}`),
-    skip: !id,
-    variables: {
-      id,
-    },
-  });
+  );
 
   return {
     commerceOrder: data?.commerceGetOrder as CommerceOrder,
-    loading,
+    commerceOrderError,
+    loadingCommerceOrder: loading,
   };
 };
 
