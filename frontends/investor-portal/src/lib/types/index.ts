@@ -20,6 +20,10 @@ export type Attendance = {
     edges: [{ node: AttendanceAppearanceSelection }];
   };
   id: string;
+  investorSession?: {
+    endsAt: any;
+    startsAt: any;
+  };
   name: string;
   pendingSelectionCount: number;
 };
@@ -68,6 +72,7 @@ export type TimeZone = {
 };
 
 export type InvestorSessionsSummary = {
+  available: string;
   claimed: number;
   count: number;
   endsAt: string;
