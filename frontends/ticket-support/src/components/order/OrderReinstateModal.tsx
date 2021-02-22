@@ -29,7 +29,7 @@ const OrderReinstateModal = ({
   return (
     <ReasonAlertModal
       alertHeader={`${orderRef}`}
-      alertText="This will reset the ticket assignment and the previous ticket holder will lose access to the ticket. They will be notified by email."
+      alertText="This will reset the ticket assignment and the previous ticket holder will lose access to the ticket."
       cancelText="No, keep order"
       closeModal={closeModal}
       headerText="Are you sure you want to reinstate order"
