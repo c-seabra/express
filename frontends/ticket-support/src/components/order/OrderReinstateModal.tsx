@@ -37,6 +37,7 @@ const OrderReinstateModal = ({
       alertHeader={`${orderRef}`}
       alertText="This action will reinstate the Order and un-void the tickets under it.  Do you want to proceed with this action?"
       cancelText="No, keep order"
+      checkboxLabel="Notify previous order holder by email?"
       closeModal={closeModal}
       headerText="Are you sure you want to reinstate order"
       isOpen={isOpen}

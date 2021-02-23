@@ -32,6 +32,7 @@ const TicketVoidModal = ({
       alertHeader={bookingRef}
       alertText="This action shall void the ticket and ticket holder will no longer have access to the conference."
       cancelText="No, keep order"
+      checkboxLabel="Notify previous ticket holder by email?"
       closeModal={closeModal}
       headerText="Are you sure you want to void ticket"
       isOpen={isOpen}
