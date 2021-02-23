@@ -19,8 +19,6 @@ const TicketVoidModal = ({
 }: TicketVoidModalProps) => {
   const { voidTicket } = useTicketVoidOperation();
   const setMutation = (e: TicketsVoidArgs) => {
-    console.log(e);
-
     return voidTicket({
       bookingRef,
       reason: e.reason,

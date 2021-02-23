@@ -36,8 +36,6 @@ export const useTicketUnvoidOperation = () => {
     bookingRef,
     sendEmailNotification,
   }: TicketsUnvoidArgs) => {
-    console.log('sendEmailNotification', sendEmailNotification);
-
     await voidTicketMutation({
       context: {
         headers: {

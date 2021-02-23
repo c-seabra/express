@@ -19,7 +19,6 @@ const TicketUnvoidModal = ({
 }: TicketUnvoidModalProps) => {
   const { unvoidTicket } = useTicketUnvoidOperation();
   const setMutation = (e: TicketsUnvoidArgs) => {
-    console.log(e);
     return unvoidTicket({
       bookingRef,
       reason: e.reason,

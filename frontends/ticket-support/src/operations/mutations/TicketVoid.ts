@@ -36,7 +36,6 @@ export const useTicketVoidOperation = () => {
     bookingRef,
     sendEmailNotification,
   }: TicketsVoidArgs) => {
-    console.log('isNotificationDisabled', sendEmailNotification);
     await voidTicketMutation({
       context: {
         headers: {
