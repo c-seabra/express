@@ -42,7 +42,11 @@ const Label = styled.div<{ required?: boolean }>`
     `}
 `;
 
-const Indicator = styled.div<{ isChecked?: boolean; isError?: boolean; color?: string }>`
+const Indicator = styled.div<{
+  color?: string;
+  isChecked?: boolean;
+  isError?: boolean;
+}>`
   width: 1.2em;
   height: 1.2em;
   background: #fff;
@@ -92,7 +96,10 @@ const Error = styled.div`
   margin-top: 4px;
 `;
 
-type CheckboxFieldProps = HTMLProps<HTMLInputElement> & { color?: string, name: string };
+type CheckboxFieldProps = HTMLProps<HTMLInputElement> & {
+  color?: string;
+  name: string;
+};
 
 const CheckboxField = ({
   color,
