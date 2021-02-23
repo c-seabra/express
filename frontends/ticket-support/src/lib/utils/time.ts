@@ -7,7 +7,11 @@ import { DateTime } from 'luxon';
  * @param isoDate
  */
 
-export const formatDefaultDateTime = (isoDate: string): string => {
+export const formatDefaultDateTime = (isoDate?: string): string => {
+  if (!isoDate) {
+    return '';
+  }
+
   const date = DateTime.fromISO(isoDate);
   return date.toLocaleString(DateTime.DATETIME_SHORT);
 };

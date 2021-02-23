@@ -1,3 +1,7 @@
+import {
+  Assignment,
+  AssignmentUser,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -76,6 +80,15 @@ export const TicketListHeader = () => {
   );
 };
 
+type TicketItemProps = {
+  assignment?: Assignment | null;
+  bookingRef: string;
+  handleOnClick?: () => void;
+  orderOwner?: AssignmentUser | null;
+  ticketState: string;
+  ticketTypeName: string | null;
+};
+
 const TicketItem = ({
   assignment,
   bookingRef,
@@ -83,32 +96,14 @@ const TicketItem = ({
   orderOwner,
   ticketTypeName,
   handleOnClick,
-}: {
-  assignment?: {
-    assignee?: {
-      email?: string;
-      firstName?: string;
-      lastName?: string;
-    };
-    state: string;
-  };
-  bookingRef: string;
-  handleOnClick?: () => void;
-  orderOwner?: {
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-  };
-  ticketState: string;
-  ticketTypeName: string;
-}) => {
+}: TicketItemProps) => {
   const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state;
 
   return (
     <StyledListItem onClick={handleOnClick}>
       <TicketReference>{bookingRef}</TicketReference>
-      <Column>{orderOwner?.firstName}</Column>
-      <Column>{orderOwner?.lastName}</Column>
+      <Column>{orderOwner?.firstName || ''}</Column>
+      <Column>{orderOwner?.lastName || ''}</Column>
       <Column>{ticketTypeName}</Column>
       <Column>
         {assignment?.assignee?.firstName} {assignment?.assignee?.lastName}
