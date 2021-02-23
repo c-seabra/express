@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client';
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
@@ -31,8 +31,6 @@ const AttendanceAppearanceSelectionDetails = (): ReactElement => {
   const [companyName, setCompanyName] = useState<string>()
   const [participations, setParticipations] = useState<[Attendance]>()
   const [sessionTimeslotId, setSessionTimeslotId] = useState<string>()
-
-  const inputField = useRef()
 
   const {
     data,
