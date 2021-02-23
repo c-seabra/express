@@ -79,6 +79,7 @@ type ReasonAlertModalProps = {
   cancelText: string;
   closeModal: () => void;
   headerText: string;
+  isNotificationOptionVisible?: boolean;
   isOpen: boolean;
   mutationCallback: (values?: any) => void;
   submitText: string;
@@ -86,6 +87,7 @@ type ReasonAlertModalProps = {
 
 const confirmSchema = Yup.object().shape({
   reason: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  sendEmailNotification: Yup.boolean(),
 });
 
 const ReasonAlertModal = ({
@@ -96,6 +98,7 @@ const ReasonAlertModal = ({
   alertText,
   alertHeader,
   mutationCallback,
+  isNotificationOptionVisible,
   submitText = 'Submit',
 }: ReasonAlertModalProps) => {
   const [formControls, setFormControls] = useState<
@@ -120,6 +123,7 @@ const ReasonAlertModal = ({
       <Formik
         initialValues={{
           reason: '',
+          sendEmailNotification: false,
         }}
         validateOnBlur={false}
         validateOnChange={false}
@@ -164,13 +168,15 @@ const ReasonAlertModal = ({
                   />
                 </Spacing>
 
-                <StyledRow>
-                  <CheckboxField
-                    color="#E15554"
-                    label="Notify previous ticket holder by email?"
-                    name="sendEmailNotification"
-                  />
-                </StyledRow>
+                {isNotificationOptionVisible && (
+                  <StyledRow>
+                    <CheckboxField
+                      color="#E15554"
+                      label="Notify previous ticket holder by email?"
+                      name="sendEmailNotification"
+                    />
+                  </StyledRow>
+                )}
 
                 <Spacing bottom="50px">
                   <StyledActionRow>
