@@ -35,7 +35,6 @@ export const useOrderCancelOperation = () => {
     refetch,
     sendEmailNotification,
   }: OrderCancelRequest) => {
-    console.log('sendEmailNotification', sendEmailNotification)
     await cancelOrderMutation({
       context: {
         headers: {

@@ -36,8 +36,6 @@ export const useOrderReinstateMutation = () => {
     refetch,
     sendEmailNotification,
   }: OrderReinstateRequest) => {
-    console.log('sendEmailNotification', sendEmailNotification)
-
     await reinstateOrderMutation({
       context: {
         headers: {

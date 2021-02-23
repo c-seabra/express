@@ -23,7 +23,6 @@ const OrderCancelModal = ({
 }: OrderCancelModalProps) => {
   const { cancelOrder } = useOrderCancelOperation();
   const setMutation = (e: OrderCancelRequest) => {
-    console.log(e)
     return cancelOrder({
       id: sourceId,
       reason: e.reason,

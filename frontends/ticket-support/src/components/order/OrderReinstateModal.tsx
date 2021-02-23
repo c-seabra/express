@@ -23,8 +23,6 @@ const OrderReinstateModal = ({
 }: OrderReinstateModalProps) => {
   const { reinstateOrder } = useOrderReinstateMutation();
   const setMutation = (e: OrderReinstateRequest) => {
-    console.log(e)
-
     return reinstateOrder({
       id: sourceId,
       reason: e.reason,
