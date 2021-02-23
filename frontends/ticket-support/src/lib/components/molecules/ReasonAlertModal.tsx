@@ -46,12 +46,12 @@ export const FieldWrapper = styled(TextAreaField)`
   textarea {
     height: 77px;
   }
+  padding: 0;
 `;
 
 const StyledRow = styled.div`
   display: flex;
-  width: 100%;
-  padding: 0 32px;
+  min-width: 590px;
 `;
 
 export const StyledActionRow = styled.div`
@@ -169,13 +169,15 @@ const ReasonAlertModal = ({
                 </Spacing>
 
                 {isNotificationOptionVisible && (
-                  <StyledRow>
-                    <CheckboxField
-                      color="#E15554"
-                      label="Notify previous ticket holder by email?"
-                      name="sendEmailNotification"
-                    />
-                  </StyledRow>
+                  <Spacing bottom="66px">
+                    <StyledRow>
+                      <CheckboxField
+                        color="#E15554"
+                        label="Notify previous ticket holder by email?"
+                        name="sendEmailNotification"
+                      />
+                    </StyledRow>
+                  </Spacing>
                 )}
 
                 <Spacing bottom="50px">
