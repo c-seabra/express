@@ -1,6 +1,8 @@
 import { ApolloError } from '@apollo/client';
 import React, { ReactElement } from 'react';
 
+import { Button } from '../../lib/components';
+import { useAttendanceAppearanceSelectionsUpdateMutation } from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import { AttendanceAppearanceSelection } from '../../lib/types';
 import AttendanceAppearanceSelectionItem from './AttendanceAppearanceSelectionItem';
@@ -17,6 +19,20 @@ const AttendanceAppearanceSelectionList = ({
   loading,
   error,
 }: AtendanceAppearanceSelectionListProps): ReactElement => {
+  const ids = list.map((item) => (
+    item.appearance.id
+  ))
+
+  const {
+    attendanceAppearanceSelectionsUpdateMutation,
+  } = useAttendanceAppearanceSelectionsUpdateMutation({
+    attendanceIds: ids
+  });
+
+  const submit = async () => {
+    await attendanceAppearanceSelectionsUpdateMutation();
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -34,6 +50,7 @@ const AttendanceAppearanceSelectionList = ({
           selection={selection}
         />
       ))}
+      <Button onClick={submit}>Submit</Button>
     </>
   );
 };

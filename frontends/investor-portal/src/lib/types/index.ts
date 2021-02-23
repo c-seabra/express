@@ -32,6 +32,7 @@ export type AttendanceAppearanceSelection = {
 
 export type Appearance = {
   company: Company;
+  id: string;
 };
 
 export type Company = {
