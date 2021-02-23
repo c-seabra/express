@@ -115,7 +115,7 @@ const OrderDetailsSummary = ({
   orderReference,
 }: Props): ReactElement => {
   return (
-    <ContainerCard color="#654DA0" title="Order details">
+    <ContainerCard noPadding title="Order details">
       <StyledContainer>
         {commerceOrder ? (
           <OrderDetilsSummaryHeader />
