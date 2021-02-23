@@ -77,6 +77,7 @@ type ReasonAlertModalProps = {
   alertHeader: string;
   alertText: string;
   cancelText: string;
+  checkboxLabel?: string;
   closeModal: () => void;
   headerText: string;
   isNotificationOptionVisible?: boolean;
@@ -97,6 +98,7 @@ const ReasonAlertModal = ({
   headerText,
   alertText,
   alertHeader,
+  checkboxLabel,
   mutationCallback,
   isNotificationOptionVisible,
   submitText = 'Submit',
@@ -173,7 +175,7 @@ const ReasonAlertModal = ({
                     <StyledRow>
                       <CheckboxField
                         color="#E15554"
-                        label="Notify previous ticket holder by email?"
+                        label={checkboxLabel}
                         name="sendEmailNotification"
                       />
                     </StyledRow>
