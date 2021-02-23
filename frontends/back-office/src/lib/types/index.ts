@@ -2,7 +2,8 @@ export type Address = {
   id: string;
   city: string;
   postalCode: string;
-  street: string;
+  lineOne: string;
+  lineTwo: string;
   region: string;
   country: Country;
 };
@@ -10,7 +11,8 @@ export type Address = {
 export type AddressInput = {
   city: string;
   postalCode: string;
-  street: string;
+  lineOne: string;
+  lineTwo: string;
   region: string;
   countryId: string;
 };
@@ -70,12 +72,12 @@ export type Event = {
   baseUrl?: string;
 };
 
-export type Host = {
+export type LegalEntity = {
   id: string;
   name: string;
   regNumber?: string;
   website?: string;
   taxNumber?: string;
   email?: string;
-  invoiceAddress?: Address;
+  address?: Address;
 };

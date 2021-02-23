@@ -1,36 +1,37 @@
 import { gql } from "@apollo/client";
 
-export const HOST_CREATE_MUTATION = gql`
-  mutation HostCreate(
+export const LEGAL_ENTITY_CREATE_MUTATION = gql`
+  mutation LegalEntityCreate(
     $name: String!
     $regNumber: String
     $website: String
     $taxNumber: String
     $email: String
-    $invoiceAddress: AddressInput
+    $address: AddressInput
   ) {
-    hostCreate(
+    legalEntityCreate(
       input: {
         name: $name
         regNumber: $regNumber
         website: $website
         taxNumber: $taxNumber
         email: $email
-        invoiceAddress: $invoiceAddress
+        address: $address
       }
     ) {
-      host {
+      legalEntity {
         id
         name
         regNumber
         website
         taxNumber
         email
-        invoiceAddress {
+        address {
           id
           city
           postalCode
-          street
+          lineOne
+          lineTwo
           region
           country {
             name
@@ -45,4 +46,4 @@ export const HOST_CREATE_MUTATION = gql`
   }
 `;
 
-export default HOST_CREATE_MUTATION;
+export default LEGAL_ENTITY_CREATE_MUTATION;

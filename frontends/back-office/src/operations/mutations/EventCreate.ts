@@ -5,32 +5,35 @@ export const EVENT_CREATE_MUTATION = gql`
     $slug: String
     $name: String!
     $description: String
+    $taxNumber: String!
     $startDate: String
     $endDate: String
     $timezone: String
     $currency: CurrencyCode
     $baseUrl: String
     $countryId: ID
-    $hostId: ID
+    $legalEntityId: ID
   ) {
     eventCreate(
       input: {
         slug: $slug
         name: $name
         description: $description
+        taxNumber: $taxNumber
         startDate: $startDate
         endDate: $endDate
         timezone: $timezone
         currency: $currency
         baseUrl: $baseUrl
         countryId: $countryId
-        hostId: $hostId
+        legalEntityId: $legalEntityId
       }
     ) {
       event {
         id
         name
         description
+        taxNumber
         slug
         startDate
         endDate

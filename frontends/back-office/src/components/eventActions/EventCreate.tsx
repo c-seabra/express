@@ -32,6 +32,7 @@ const EventCreate: React.FC<{}> = () => {
   const { conferenceSlug, token } = useAppContext();
   const [name, setName] = useState<string | undefined>();
   const [description, setDescription] = useState<string | undefined>();
+  const [taxNumber, setTaxNumber] = useState<string | undefined>();
   const [slug, setSlug] = useState<string | undefined>();
   const [startDate, setStartDate] = useState<string | undefined>();
   const [endDate, setEndDate] = useState<string | undefined>();
@@ -62,6 +63,7 @@ const EventCreate: React.FC<{}> = () => {
     variables: {
       name,
       description,
+      taxNumber,
       slug,
       startDate,
       endDate,
@@ -87,10 +89,11 @@ const EventCreate: React.FC<{}> = () => {
             onChange={setDescription}
           />
           <Field fieldName="slug" label="Slug" onChange={setSlug} />
-          <Field fieldName="currency" label="Currency" onChange={setCurrency} />
+          <Field fieldName="taxNumber" label="Tax number" onChange={setTaxNumber} />
         </Row>
 
         <Row>
+          <Field fieldName="currency" label="Currency" onChange={setCurrency} />
           <Field
             fieldName="startDate"
             label="Start Date"

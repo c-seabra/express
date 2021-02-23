@@ -42,7 +42,7 @@ const ListHeaderItem = styled(StyledListItem)`
   }
 `;
 
-export const HostListHeader = () => {
+export const LegalEntityListHeader = () => {
   return (
     <ListHeaderItem>
       <Column>Name</Column>
@@ -55,7 +55,7 @@ export const HostListHeader = () => {
   );
 };
 
-const HostItem = ({
+const LegalEntityItem = ({
   name,
   regNumber,
   website,
@@ -78,11 +78,11 @@ const HostItem = ({
       <Column>{taxNumber}</Column>
       <Column>{email}</Column>
       <div>
-        {address?.street}, {address?.region}, {address?.city},{" "}
+        {address?.lineOne}, {address?.lineTwo}, {address?.region}, {address?.city},{" "}
         {address?.postalCode}, {address?.country?.name}
       </div>
     </StyledListItem>
   );
 };
 
-export default HostItem;
+export default LegalEntityItem;

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-const HOST_LIST = gql`
-  query HostListQuery {
-    hosts {
+const LEGAL_ENTITY_LIST = gql`
+  query LegalEntityListQuery {
+    legalEntities {
       edges {
         cursor
         node {
@@ -12,11 +12,12 @@ const HOST_LIST = gql`
           website
           taxNumber
           email
-          invoiceAddress {
+          address {
             id
             city
             postalCode
-            street
+            lineOne
+            lineTwo
             region
             country {
               name
@@ -34,4 +35,4 @@ const HOST_LIST = gql`
   }
 `;
 
-export default HOST_LIST;
+export default LEGAL_ENTITY_LIST;

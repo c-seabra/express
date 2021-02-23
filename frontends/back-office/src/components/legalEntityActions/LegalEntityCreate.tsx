@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Warning from "./Warning";
 import Field from "./Field";
 import { useAppContext } from "../app/AppContext";
-import { HOST_CREATE_MUTATION } from "../../operations/mutations/HostCreate";
+import { LEGAL_ENTITY_CREATE_MUTATION } from "../../operations/mutations/LegalEntityCreate";
 
 const Row = styled.div`
   display: flex;
@@ -28,55 +28,60 @@ const SubmitButton = styled.button`
   }
 `;
 
-const HostCreate: React.FC<{}> = () => {
+const LegalEntityCreate: React.FC<{}> = () => {
   const { conferenceSlug, token } = useAppContext();
   const [name, setName] = useState<string | undefined>();
   const [regNumber, setRegNumber] = useState<string | undefined>();
   const [website, setWebsite] = useState<string | undefined>();
   const [taxNumber, setTaxNumber] = useState<string | undefined>();
   const [email, setEmail] = useState<string | undefined>();
-  const [street, setStreet] = useState<string | undefined>();
+  const [lineOne, setLineOne] = useState<string | undefined>();
+  const [lineTwo, setLineTwo] = useState<string | undefined>();
   const [region, setRegion] = useState<string | undefined>();
   const [city, setCity] = useState<string | undefined>();
   const [postalCode, setPostalCode] = useState<string | undefined>();
   const [countryId, setCountryId] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
 
-  const createHost = () => {
+  const createLegalEntity = () => {
     if (name) {
-      hostCreateMutation();
+      legalEntityCreateMutation();
     }
   };
 
-  const [hostCreateMutation] = useMutation(HOST_CREATE_MUTATION, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    onCompleted: ({ hostCreate }) => {
-      if (hostCreate?.host?.id) {
-        setError("");
-      }
-      if (hostCreate?.userErrors.length) {
-        setError(hostCreate.userErrors[0]?.message);
-      }
-    },
-    refetchQueries: ["HostListQuery"],
-    variables: {
-      name,
-      regNumber,
-      website,
-      taxNumber,
-      email,
-      invoiceAddress: {
-        city,
-        postalCode,
-        street,
-        region,
-        countryId,
+  const [legalEntityCreateMutation] = useMutation(
+    LEGAL_ENTITY_CREATE_MUTATION,
+    {
+      context: {
+        slug: conferenceSlug,
+        token,
       },
-    },
-  });
+      onCompleted: ({ legalEntityCreate }) => {
+        if (legalEntityCreate?.legalEntity?.id) {
+          setError("");
+        }
+        if (legalEntityCreate?.userErrors.length) {
+          setError(legalEntityCreate.userErrors[0]?.message);
+        }
+      },
+      refetchQueries: ["LegalEntityListQuery"],
+      variables: {
+        name,
+        regNumber,
+        website,
+        taxNumber,
+        email,
+        address: {
+          city,
+          postalCode,
+          lineOne,
+          lineTwo,
+          region,
+          countryId,
+        },
+      },
+    }
+  );
 
   return (
     <div>
@@ -84,7 +89,7 @@ const HostCreate: React.FC<{}> = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          createHost();
+          createLegalEntity();
         }}
       >
         <Row>
@@ -107,9 +112,15 @@ const HostCreate: React.FC<{}> = () => {
         <Row>
           <Field
             required
-            fieldName="street"
-            label="Street"
-            onChange={setStreet}
+            fieldName="lineOne"
+            label="Line 1"
+            onChange={setLineOne}
+          />
+          <Field
+            required
+            fieldName="lineTwo"
+            label="Line 2"
+            onChange={setLineTwo}
           />
           <Field
             required
@@ -138,4 +149,4 @@ const HostCreate: React.FC<{}> = () => {
   );
 };
 
-export default HostCreate;
+export default LegalEntityCreate;

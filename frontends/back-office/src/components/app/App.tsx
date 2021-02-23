@@ -13,9 +13,9 @@ import AppContext from "./AppContext";
 
 import withApollo from "../../lib/apollo/withApollo";
 import { ApolloError, useQuery } from "@apollo/client";
-import HostList from "../hostList/HostList";
-import HOST_LIST from "../../operations/queries/HostList";
-import { Event, Host } from "../../lib/types";
+import LegalEntityList from "../legalEntityList/LegalEntityList";
+import LEGAL_ENTITY_LIST from "../../operations/queries/LegalEntityList";
+import { Event, LegalEntity } from "../../lib/types";
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -67,22 +67,22 @@ const App = ({ token }: { token: string }) => {
   });
 
   const {
-    loading: hostLoading,
-    error: hostError,
-    data: hostData,
+    loading: legalEntityLoading,
+    error: legalEntityError,
+    data: legalEntityData,
   }: {
     loading?: boolean;
     error?: ApolloError;
     data?: {
-      hosts: {
+      legalEntities: {
         edges: [
           {
-            node: Host;
+            node: LegalEntity;
           }
         ];
       };
     };
-  } = useQuery(HOST_LIST, {
+  } = useQuery(LEGAL_ENTITY_LIST, {
     context: {
       token,
       slug: conferenceSlug,
@@ -116,12 +116,12 @@ const App = ({ token }: { token: string }) => {
                 )}
               </StyledSection>
             </Route>
-            <Route path="/hosts">
-              {hostLoading && "Loading events list"}
-              {hostError}
-              {!hostLoading && !hostError && (
-                <HostList
-                  list={hostData?.hosts.edges.map((node) => node.node)}
+            <Route path="/legal_entities">
+              {legalEntityLoading && "Loading legal entities list"}
+              {legalEntityError}
+              {!legalEntityLoading && !legalEntityError && (
+                <LegalEntityList
+                  list={legalEntityData?.legalEntities.edges.map((node) => node.node)}
                 />
               )}
             </Route>
