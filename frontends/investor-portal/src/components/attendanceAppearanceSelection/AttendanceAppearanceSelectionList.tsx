@@ -1,11 +1,12 @@
 import { ApolloError } from '@apollo/client';
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { Button } from '../../lib/components';
 import { useAttendanceAppearanceSelectionsUpdateMutation } from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import { AttendanceAppearanceSelection } from '../../lib/types';
+import { BorderBottom } from '../settingsDashboard/SettingsDashboard.styled';
 import AttendanceAppearanceSelectionItem from './AttendanceAppearanceSelectionItem';
+import RightButton from './AttendanceAppearanceSelectionList.styled';
 import AttendanceAppearanceSelectionListHeader from './AttendanceAppearanceSelectionListHeader';
 
 type AtendanceAppearanceSelectionListProps = {
@@ -67,9 +68,9 @@ const AttendanceAppearanceSelectionList = ({
         />
       ))}
       {!hasAccepted && (
-        <Button onClick={submit}>
+        <RightButton onClick={submit}>
           {unlockStartup ? 'Unlock Startups' : 'Submit'}
-        </Button>
+        </RightButton>
       )}
     </>
   );
