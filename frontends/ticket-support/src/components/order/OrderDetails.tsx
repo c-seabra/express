@@ -17,7 +17,6 @@ import { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
 import Loader from '../../lib/Loading';
-import { Ticket } from '../../lib/types';
 import { switchCase } from '../../lib/utils/logic';
 import ORDER_QUERY, {
   OrderByRefQuery,
@@ -137,7 +136,11 @@ const OrderDetails = (): ReactElement => {
   const order = data?.order;
   const sourceId = order?.sourceId || '';
 
-  const { commerceOrder } = useSingleCommerceOrderQuery({
+  const {
+    commerceOrder,
+    loadingCommerceOrder,
+    commerceOrderError,
+  } = useSingleCommerceOrderQuery({
     id: sourceId,
   });
 
@@ -164,7 +167,7 @@ const OrderDetails = (): ReactElement => {
       lastUpdatedOn: order?.lastUpdatedAt,
       name: owner?.firstName,
       orderReference: orderRef,
-      sourceOfSale: order && formatSourceOfSale(order?.source),
+      sourceOfSale: order && formatSourceOfSale(order?.source || ''),
       status: order?.state,
       surname: owner?.lastName,
     },
@@ -185,7 +188,7 @@ const OrderDetails = (): ReactElement => {
       TITO: true,
     })(false)(source);
   };
-  const isTitoOrder = order && isFromTito(order?.source);
+  const isTitoOrder = order && isFromTito(order?.source || '');
 
   const { event } = useEventDataQuery();
   const breadcrumbsRoutes: Breadcrumb[] = [
@@ -313,13 +316,11 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderDetailsSummary
-                  createdOn={orderDetails.createdOn}
-                  error={mockedError}
-                  lastUpdatedOn={orderDetails.lastUpdatedOn}
-                  loading={mockedLoading}
-                  orderReference={orderDetails.orderReference}
-                  orderStatus={orderDetails.status}
-                  sourceOfSale={orderDetails.sourceOfSale}
+                  commerceOrder={commerceOrder}
+                  error={commerceOrderError || error}
+                  loading={loadingCommerceOrder || loading}
+                  order={order}
+                  orderReference={orderRef}
                 />
               </SpacingBottom>
 
@@ -327,7 +328,7 @@ const OrderDetails = (): ReactElement => {
                 <OrderOwnerDetails
                   email={orderDetails.email}
                   firstName={orderDetails.name}
-                  lastName={orderDetails.surname}
+                  lastName={orderDetails.surname || ''}
                 />
               </SpacingBottom>
 
@@ -352,9 +353,7 @@ const OrderDetails = (): ReactElement => {
                   color="#DF0079"
                   title="Ticket information"
                 >
-                  <TicketList
-                    list={tickets.edges.map(({ node }) => node) as Ticket[]}
-                  />
+                  <TicketList list={tickets.edges.map(({ node }) => node)} />
                 </ContainerCard>
               </div>
             )}
