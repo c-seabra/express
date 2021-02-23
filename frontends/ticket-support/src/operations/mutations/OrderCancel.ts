@@ -13,6 +13,7 @@ export type OrderCancelRequest = {
   id: string;
   reason: string;
   refetch?: any;
+  sendEmailNotification?: boolean;
   storeId?: string;
 };
 
@@ -28,7 +29,13 @@ export const useOrderCancelOperation = () => {
     onError: (e) => errSnackbar(e.message),
   });
 
-  const cancelOrder = async ({ reason, id, refetch }: OrderCancelRequest) => {
+  const cancelOrder = async ({
+    reason,
+    id,
+    refetch,
+    sendEmailNotification,
+  }: OrderCancelRequest) => {
+    console.log('sendEmailNotification', sendEmailNotification)
     await cancelOrderMutation({
       context: {
         headers: {
@@ -39,6 +46,9 @@ export const useOrderCancelOperation = () => {
       },
       variables: {
         commerceOrderUpdate: {
+          metadata: {
+            disableEmailNotification: !sendEmailNotification,
+          },
           status: CommerceOrderStatus.Cancelled,
         },
         id,
