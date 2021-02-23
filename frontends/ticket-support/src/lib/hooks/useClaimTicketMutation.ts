@@ -16,7 +16,7 @@ const useClaimTicketMutation = ({ ticketId }: ClaimTicketMutationArgs) => {
     await claimTicketMutation({
       context: {
         headers: {
-          'x-admin-reason': reason,
+          'x-reason': reason,
         },
         slug: conferenceSlug,
         token,

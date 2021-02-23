@@ -14,6 +14,7 @@ export type OrderReinstateRequest = {
   id: string;
   reason: string;
   refetch?: any;
+  sendEmailNotification?: boolean;
   storeId?: string;
 };
 
@@ -23,7 +24,7 @@ export const useOrderReinstateMutation = () => {
   const errSnackbar = useErrorSnackbar();
 
   const [reinstateOrderMutation] = useUpdateCommerceOrderMutation({
-    onCompleted: ({ commerceUpdateOrder }) => {
+    onCompleted: () => {
       snackbar('Order reinstated');
     },
     onError: (e) => errSnackbar(e.message),
@@ -33,6 +34,7 @@ export const useOrderReinstateMutation = () => {
     reason,
     id,
     refetch,
+    sendEmailNotification,
   }: OrderReinstateRequest) => {
     await reinstateOrderMutation({
       context: {
@@ -44,6 +46,9 @@ export const useOrderReinstateMutation = () => {
       },
       variables: {
         commerceOrderUpdate: {
+          metadata: {
+            disableEmailNotification: !sendEmailNotification,
+          },
           status: CommerceOrderStatus.Reinstated,
         },
         id,

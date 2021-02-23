@@ -16,6 +16,10 @@ export type Attendance = {
   };
   companyName: string;
   id: string;
+  investorSession?: {
+    endsAt: any;
+    startsAt: any;
+  };
   name: string;
   pendingSelectionCount: number;
 };
@@ -66,6 +70,7 @@ export type TimeZone = {
 };
 
 export type InvestorSessionsSummary = {
+  available: string;
   claimed: number;
   count: number;
   endsAt: string;

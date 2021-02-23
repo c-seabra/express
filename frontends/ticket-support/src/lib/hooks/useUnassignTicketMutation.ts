@@ -30,7 +30,7 @@ const useUnassignTicketMutation = ({ ticketId }: { ticketId: string }) => {
     await unassignTicketMutation({
       context: {
         headers: {
-          'x-admin-reason': reason,
+          'x-reason': reason,
         },
         slug: conferenceSlug,
         token,
