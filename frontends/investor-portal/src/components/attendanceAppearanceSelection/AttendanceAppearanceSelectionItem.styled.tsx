@@ -31,7 +31,7 @@ export const FormArea = styled.div`
   justify-content: space-between;
 
   > div {
-    width: 33.3%
+    width: 33.3%;
   }
 
   & .full-width {

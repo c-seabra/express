@@ -9,7 +9,7 @@ import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type SessionTimeslotParticipationCreateData = {
   sessionTimeslotParticipationCreate: {
-    participations: [Attendance]
+    participations: [Attendance];
     successMessage: string;
     userErrors: UserError[];
   };
@@ -22,7 +22,7 @@ type SessionTimeslotParticipationCreatesArgs = {
 
 const useSessionTimeslotParticipationCreateMutation = ({
   attendanceId,
-  sessionTimeslotId
+  sessionTimeslotId,
 }: SessionTimeslotParticipationCreatesArgs) => {
   const { conferenceSlug, token } = useAppContext();
   const success = useSuccessSnackbar();
@@ -36,7 +36,9 @@ const useSessionTimeslotParticipationCreateMutation = ({
     {
       onCompleted: ({ sessionTimeslotParticipationCreate }) => {
         if (sessionTimeslotParticipationCreate?.userErrors[0]) {
-          errorMessage(sessionTimeslotParticipationCreate?.userErrors[0].message);
+          errorMessage(
+            sessionTimeslotParticipationCreate?.userErrors[0].message,
+          );
         } else {
           success(sessionTimeslotParticipationCreate.successMessage);
         }
@@ -54,7 +56,7 @@ const useSessionTimeslotParticipationCreateMutation = ({
       refetchQueries: ['AttendanceAppearanceSelectionQuery'],
       variables: {
         attendanceId,
-        sessionTimeslotId
+        sessionTimeslotId,
       },
     });
   };

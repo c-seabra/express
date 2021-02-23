@@ -4,7 +4,9 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
 import { Button, ContainerCard } from '../../lib/components';
-import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '../../lib/components/molecules/Breadcrumbs';
 import LabeledInput from '../../lib/components/molecules/LabeledInput';
 import { useSessionTimeslotParticipationCreateMutation } from '../../lib/hooks';
 import useAttendanceAppearanceSelectionQuery from '../../lib/hooks/useAttendanceAppearanceSelectionQuery';
@@ -19,18 +21,19 @@ import {
   StyledList,
   StyledListItem,
   StyledNoticeContainer,
-  StyledSpan
+  StyledSpan,
 } from './AttendanceAppearanceSelectionItem.styled';
 
-
 const AttendanceAppearanceSelectionDetails = (): ReactElement => {
-  const { attendanceId: currentAttendance } = useParams<{ attendanceId: string }>()
-  const { selectionId } = useParams<{ selectionId: string }>()
+  const { attendanceId: currentAttendance } = useParams<{
+    attendanceId: string;
+  }>();
+  const { selectionId } = useParams<{ selectionId: string }>();
 
-  const [attendanceId, setAttendanceId] = useState<string>()
-  const [companyName, setCompanyName] = useState<string>()
-  const [participations, setParticipations] = useState<[Attendance]>()
-  const [sessionTimeslotId, setSessionTimeslotId] = useState<string>()
+  const [attendanceId, setAttendanceId] = useState<string>();
+  const [companyName, setCompanyName] = useState<string>();
+  const [participations, setParticipations] = useState<[Attendance]>();
+  const [sessionTimeslotId, setSessionTimeslotId] = useState<string>();
 
   const {
     data,
@@ -40,22 +43,26 @@ const AttendanceAppearanceSelectionDetails = (): ReactElement => {
     };
     error?: ApolloError;
     loading?: boolean;
-  } = useAttendanceAppearanceSelectionQuery({ selectionId })
+  } = useAttendanceAppearanceSelectionQuery({ selectionId });
 
   const {
-    createSessionTimeslotParticipationMutation
+    createSessionTimeslotParticipationMutation,
   } = useSessionTimeslotParticipationCreateMutation({
     attendanceId,
-    sessionTimeslotId
+    sessionTimeslotId,
   });
 
   useEffect(() => {
     if (data) {
-      setCompanyName(data.attendanceAppearanceSelection.appearance.company.name)
-      setParticipations(data.attendanceAppearanceSelection.participations)
-      setSessionTimeslotId(data.attendanceAppearanceSelection.sessionTimeslotId)
+      setCompanyName(
+        data.attendanceAppearanceSelection.appearance.company.name,
+      );
+      setParticipations(data.attendanceAppearanceSelection.participations);
+      setSessionTimeslotId(
+        data.attendanceAppearanceSelection.sessionTimeslotId,
+      );
     }
-  }, [data])
+  }, [data]);
 
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -85,7 +92,8 @@ const AttendanceAppearanceSelectionDetails = (): ReactElement => {
           <ContainerCard color="#00AFA9" title="Add additional attendance">
             <StyledNoticeContainer>
               <p>
-                To add an additional attendee to this session please enter their Attendance ID and click submit.
+                To add an additional attendee to this session please enter their
+                Attendance ID and click submit.
               </p>
             </StyledNoticeContainer>
             <ParticipationCreatePanel
@@ -101,9 +109,7 @@ const AttendanceAppearanceSelectionDetails = (): ReactElement => {
                     {participations?.map((participant, i) => (
                       <StyledListItem key={i}>
                         {participant.name}
-                        <StyledSpan>
-                          ({participant.companyName})
-                        </StyledSpan>
+                        <StyledSpan>({participant.companyName})</StyledSpan>
                       </StyledListItem>
                     ))}
                   </StyledList>

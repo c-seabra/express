@@ -25,7 +25,7 @@ const AttendanceAppearanceSelectionItem = ({
     selectionId: selection.id,
   });
 
-  const history = useHistory()
+  const history = useHistory();
   const { attendanceId } = useParams<{ attendanceId: string }>();
 
   return (
@@ -36,7 +36,9 @@ const AttendanceAppearanceSelectionItem = ({
       <Column>
         <SecondaryButton
           style={{ marginLeft: 10 }}
-          onClick={() => history.push(`/dashboard/${attendanceId}/selection/${selection.id}`)}
+          onClick={() =>
+            history.push(`/dashboard/${attendanceId}/selection/${selection.id}`)
+          }
         >
           Edit
         </SecondaryButton>
