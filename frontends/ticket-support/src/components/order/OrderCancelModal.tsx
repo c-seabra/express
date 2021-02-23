@@ -23,14 +23,21 @@ const OrderCancelModal = ({
 }: OrderCancelModalProps) => {
   const { cancelOrder } = useOrderCancelOperation();
   const setMutation = (e: OrderCancelRequest) => {
-    return cancelOrder({ id: sourceId, reason: e.reason, refetch });
+    return cancelOrder({
+      id: sourceId,
+      reason: e.reason,
+      refetch,
+      sendEmailNotification: e.sendEmailNotification,
+    });
   };
 
   return (
     <ReasonAlertModal
+      isNotificationOptionVisible
       alertHeader={orderRef}
       alertText="Are you sure you want to cancel this order? Cancellation will void all associated tickets."
       cancelText="No, keep order"
+      checkboxLabel="Notify order owner by email?"
       closeModal={closeModal}
       headerText="Cancellation of Order"
       isOpen={isOpen}
