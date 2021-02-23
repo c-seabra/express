@@ -46,7 +46,7 @@ export const useTicketVoidOperation = () => {
       },
       variables: {
         input: {
-          disableEmailNotification: sendEmailNotification,
+          disableEmailNotification: !sendEmailNotification,
           reference: bookingRef,
         },
       },

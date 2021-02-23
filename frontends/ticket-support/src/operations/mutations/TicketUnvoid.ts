@@ -46,7 +46,7 @@ export const useTicketUnvoidOperation = () => {
       },
       variables: {
         input: {
-          disableEmailNotification: sendEmailNotification,
+          disableEmailNotification: !sendEmailNotification,
           reference: bookingRef,
         },
       },
