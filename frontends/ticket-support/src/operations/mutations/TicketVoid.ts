@@ -34,7 +34,7 @@ export const useTicketVoidOperation = () => {
     await voidTicketMutation({
       context: {
         headers: {
-          'x-admin-reason': reason,
+          'x-reason': reason,
         },
         slug: conferenceSlug,
         token,
