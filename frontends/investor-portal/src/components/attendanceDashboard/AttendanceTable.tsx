@@ -21,7 +21,7 @@ const AttendanceTable = (): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedValues, setSelectedValues] = useState<string[]>([])
   const [headerCheckbox, setHeaderCheckbox] = useState(false)
-  const [headerCheckboxState, setHeaderCheckboxState] = useState(true)
+  const [headerCheckboxDisabled, setHeaderCheckboxDisabled] = useState(true)
 
   const processInitialSearchState = (state: AttendanceSearchState) => {
     if (state.searchQuery) setSearchQuery(state.searchQuery)
@@ -62,21 +62,12 @@ const AttendanceTable = (): ReactElement => {
 
   useEffect(() => {
     const activeCheckboxesCount = results.filter(attendance => attendance.pendingSelectionCount).length
-    if (
+    setHeaderCheckbox(
       results.length > 0 &&
-      activeCheckboxesCount &&
+      !!activeCheckboxesCount &&
       activeCheckboxesCount === selectedValues.length
-    ) {
-      setHeaderCheckbox(true)
-    } else {
-      setHeaderCheckbox(false)
-    }
-
-    if (results.filter(result => result.pendingSelectionCount).length) {
-      setHeaderCheckboxState(false)
-    } else {
-      setHeaderCheckboxState(true)
-    }
+    )
+    setHeaderCheckboxDisabled(!results.filter(result => result.pendingSelectionCount).length)
   }, [selectedValues, results])
 
   const handleSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -90,13 +81,9 @@ const AttendanceTable = (): ReactElement => {
 
   const onHeaderCheckboxChange = () => {
     setHeaderCheckbox(!headerCheckbox)
-    if (!headerCheckbox) {
-      setSelectedValues(
-        results.filter(attendance => attendance.pendingSelectionCount).map(result => result.id)
-      )
-    } else {
-      setSelectedValues([])
-    }
+    setSelectedValues(headerCheckbox ? [] :
+      results.filter(attendance => attendance.pendingSelectionCount).map(result => result.id)
+    )
   }
 
   const { updateAttendanceAppearanceSelections } = useAttendanceAppearanceSelectionUpdateMutation({
@@ -141,7 +128,7 @@ const AttendanceTable = (): ReactElement => {
           <>
             <AttendanceListHeader
               isChecked={headerCheckbox}
-              isDisabled={headerCheckboxState}
+              isDisabled={headerCheckboxDisabled}
               onCheckboxChange={onHeaderCheckboxChange}
             />
             {results.map(attendance => (
