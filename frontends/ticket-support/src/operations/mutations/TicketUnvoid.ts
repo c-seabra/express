@@ -10,6 +10,7 @@ import {
 export type TicketsUnvoidArgs = {
   bookingRef: string;
   reason: string;
+  sendEmailNotification?: boolean;
 };
 
 export const useTicketUnvoidOperation = () => {
@@ -30,7 +31,13 @@ export const useTicketUnvoidOperation = () => {
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
   });
 
-  const unvoidTicket = async ({ reason, bookingRef }: TicketsUnvoidArgs) => {
+  const unvoidTicket = async ({
+    reason,
+    bookingRef,
+    sendEmailNotification,
+  }: TicketsUnvoidArgs) => {
+    console.log('sendEmailNotification', sendEmailNotification);
+
     await voidTicketMutation({
       context: {
         headers: {
@@ -40,7 +47,10 @@ export const useTicketUnvoidOperation = () => {
         token,
       },
       variables: {
-        input: { reference: bookingRef },
+        input: {
+          disableEmailNotification: sendEmailNotification,
+          reference: bookingRef,
+        },
       },
     });
   };
