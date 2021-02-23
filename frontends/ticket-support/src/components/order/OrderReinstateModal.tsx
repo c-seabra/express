@@ -23,11 +23,19 @@ const OrderReinstateModal = ({
 }: OrderReinstateModalProps) => {
   const { reinstateOrder } = useOrderReinstateMutation();
   const setMutation = (e: OrderReinstateRequest) => {
-    return reinstateOrder({ id: sourceId, reason: e.reason, refetch });
+    console.log(e)
+
+    return reinstateOrder({
+      id: sourceId,
+      reason: e.reason,
+      refetch,
+      sendEmailNotification: e.sendEmailNotification,
+    });
   };
 
   return (
     <ReasonAlertModal
+      isNotificationOptionVisible
       alertHeader={`${orderRef}`}
       alertText="This action will reinstate the Order and un-void the tickets under it.  Do you want to proceed with this action?"
       cancelText="No, keep order"
