@@ -8,7 +8,7 @@
  *  disabled, hovered
  */
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Button = styled.button`
   display: inline-flex;
@@ -46,7 +46,7 @@ export const Button = styled.button`
     cursor: not-allowed;
     pointer-events: none;
   }
-`
+`;
 
 export const SecondaryButton = styled(Button)`
   color: #0067e9;
@@ -56,4 +56,16 @@ export const SecondaryButton = styled(Button)`
     background-color: #2269bf;
     color: #ffffff;
   }
-`
+`;
+
+export const DestructiveButton = styled(Button)`
+  color: #cb1977;
+  background-color: #ffffff;
+  border: 1px solid #cb1977;
+
+  &:hover {
+    background-color: #cb1977;
+    color: #ffffff;
+  }
+`;
+export default Button;

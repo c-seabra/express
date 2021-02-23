@@ -1,12 +1,12 @@
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
 
 const PaginationContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
-`
+`;
 
 const PaginationButton = styled.button`
   padding: 0.5rem 1rem;
@@ -26,14 +26,14 @@ const PaginationButton = styled.button`
     color: grey;
     cursor: not-allowed;
   }
-`
+`;
 
 type PaginationProps = {
-  isForwardDisabled: boolean
-  isPreviousDisabled: boolean
-  nextPage: () => void
-  previousPage: () => void
-}
+  isForwardDisabled: boolean;
+  isPreviousDisabled: boolean;
+  nextPage: () => void;
+  previousPage: () => void;
+};
 
 const Pagination = ({
   isPreviousDisabled,
@@ -50,7 +50,7 @@ const Pagination = ({
         Next
       </PaginationButton>
     </PaginationContainer>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;

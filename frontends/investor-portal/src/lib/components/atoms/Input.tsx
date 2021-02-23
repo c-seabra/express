@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledInput = styled.input`
   display: flex;
@@ -11,10 +11,12 @@ const StyledInput = styled.input`
   &:disabled {
     color: #9ba5ae;
   }
-`
+`;
 
-type Props = React.InputHTMLAttributes<HTMLInputElement>
+type Props = React.InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = ({ ...props }: Props) => {
-  return <StyledInput {...props} />
-}
+const Input = ({ ...props }: Props) => {
+  return <StyledInput {...props} />;
+};
+
+export default Input;

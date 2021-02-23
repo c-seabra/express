@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { Route, Routes } from '../../constants/routes'
-import Icon from "../atoms/Icon";
+import { Route, Routes } from '../../constants/routes';
+import Icon from '../atoms/Icon';
 
 const StyledNavigation = styled.nav`
   display: flex;
@@ -48,7 +48,7 @@ const StyledNavigation = styled.nav`
       }
     }
   }
-`
+`;
 const StyledDropbox = styled.div`
   display: none;
   position: absolute;
@@ -83,12 +83,12 @@ const StyledDropbox = styled.div`
       cursor: pointer;
     }
   }
-`
+`;
 
 type Props = {
-  children?: ReactElement
-  routes?: Routes
-}
+  children?: ReactElement;
+  routes?: Routes;
+};
 
 const MainNavigation = ({ routes, children }: Props) => {
   return (
@@ -124,7 +124,7 @@ const MainNavigation = ({ routes, children }: Props) => {
 
       {!routes && { children }}
     </StyledNavigation>
-  )
-}
+  );
+};
 
-export default MainNavigation
+export default MainNavigation;

@@ -1,35 +1,48 @@
-import { useQuery } from '@apollo/client'
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
-import styled from 'styled-components'
+import { useQuery } from '@apollo/client';
+import { CommerceOrderPaymentStatus } from '@websummit/graphql/src/@types/operations';
+import React, { ReactElement } from 'react';
+import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { Tooltip } from '../../lib/components'
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import TextHeading from '../../lib/components/atoms/Heading'
-import Breadcrumbs, { Breadcrumb } from '../../lib/components/molecules/Breadcrumbs'
-import Loader from '../../lib/Loading'
-import { Ticket } from '../../lib/types'
-import ORDER_QUERY, { OrderByRefQuery } from '../../operations/queries/OrderByRef'
-import { useAppContext } from '../app/AppContext'
-import Warning from '../ticketActions/Warning'
-import TicketList from '../ticketList/TicketList'
-import OrderDetailsSummary from './OrderDetailsSummary'
-import OrderOwnerDetails from './OrderOwnerDetails'
-import OrderSummary from './OrderSummary'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import TextHeading from '../../lib/components/atoms/Heading';
+import BoxMessage from '../../lib/components/molecules/BoxMessage';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '../../lib/components/molecules/Breadcrumbs';
+import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
+import { useModalState } from '../../lib/components/molecules/Modal';
+import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
+import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
+import Loader from '../../lib/Loading';
+import { Ticket } from '../../lib/types';
+import { switchCase } from '../../lib/utils/logic';
+import ORDER_QUERY, {
+  OrderByRefQuery,
+} from '../../operations/queries/OrderByRef';
+import { useAppContext } from '../app/AppContext';
+import OrderRefundModal from '../orderActions/OrderRefundModal';
+import Warning from '../ticketActions/Warning';
+import TicketList from '../ticketList/TicketList';
+import OrderCancelModal from './OrderCancelModal';
+import OrderDetailsSummary from './OrderDetailsSummary';
+import OrderOwnerDetails from './OrderOwnerDetails';
+import OrderReinstateModal from './OrderReinstateModal';
+import OrderSummary from './OrderSummary';
 
 const PageContainer = styled.section`
   padding: 1rem;
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-`
+`;
 
 const BreadcrumbsContainer = styled.div`
   display: flex;
   margin: 20px 0 4px;
-`
+`;
 
 export const Text = styled.div`
   border-radius: 8px;
@@ -40,16 +53,16 @@ export const Text = styled.div`
     color: #337ab7;
     margin: 0 0.25rem;
   }
-`
+`;
 
 export const TextHighlight = styled.span`
   color: #337ab7;
   margin: 0 0.25rem;
-`
+`;
 
 const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
-`
+`;
 
 export const StyledButton = styled.button`
   margin: 0 0 1rem;
@@ -63,38 +76,86 @@ export const StyledButton = styled.button`
     background-color: grey;
     color: white;
   }
-`
+`;
 
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
-const ButtonWithSpacing = styled(Button)`
+const StyledInnerRow = styled.div`
+  display: flex;
+  align-items: center;
+
+  > * {
+    margin-right: 16px;
+  }
+`;
+
+const ButtonWithSpacing = styled(SecondaryButton)`
   margin-right: 16px;
-`
+`;
 
-const OrderDetails: React.FC = () => {
-  const { orderRef } = useParams<{ orderRef: string }>()
-  const { conferenceSlug, token } = useAppContext()
+const OrderDetails = (): ReactElement => {
+  const { orderRef } = useParams<{ orderRef: string }>();
+  const { conferenceSlug, token } = useAppContext();
+  const {
+    openModal: openOrderCancelModal,
+    isOpen: isOrderCancelModalOpen,
+    closeModal: closeOrderCancelModal,
+  } = useModalState();
+  const {
+    isOpen: isRefundModalOpen,
+    closeModal: closeRefundModal,
+    openModal: openRefundModal,
+  } = useModalState();
+  const {
+    openModal: openOrderReinstateModal,
+    isOpen: isOrderReinstateModalOpen,
+    closeModal: closeOrderReinstateModal,
+  } = useModalState();
+  const {
+    openModal: openTitoWarningModal,
+    isOpen: isTitoWarningModalOpen,
+    closeModal: closeTitoWarningModal,
+  } = useModalState();
 
-  const { loading, error, data }: OrderByRefQuery = useQuery(ORDER_QUERY, {
-    context: {
-      slug: conferenceSlug,
-      token,
+  const { loading, error, data, refetch }: OrderByRefQuery = useQuery(
+    ORDER_QUERY,
+    {
+      context: {
+        slug: conferenceSlug,
+        token,
+      },
+      variables: {
+        reference: orderRef,
+      },
     },
-    variables: {
-      reference: orderRef,
-    },
-  })
+  );
 
-  const order = data?.order
-  const tickets = order?.tickets
-  const owner = order?.owner
-  const missingDataAbbr = 'N/A'
+  const order = data?.order;
+  const sourceId = order?.sourceId || '';
 
-  const { loading: mockedLoading, error: mockedError, orderDetails, orderSummary } = {
+  const { commerceOrder } = useSingleCommerceOrderQuery({
+    id: sourceId,
+  });
+
+  const owner = order?.owner;
+  const tickets = order?.tickets;
+  const missingDataAbbr = 'N/A';
+  const formatSourceOfSale = (source: string): string =>
+    switchCase({
+      TICKET_MACHINE: 'Ticket Machine',
+      TITO: 'Tito',
+    })(missingDataAbbr)(source) as string;
+
+  const {
+    loading: mockedLoading,
+    error: mockedError,
+    orderDetails,
+    orderSummary,
+  } = {
     error: false,
     loading: false,
     orderDetails: {
@@ -103,7 +164,7 @@ const OrderDetails: React.FC = () => {
       lastUpdatedOn: order?.lastUpdatedAt,
       name: owner?.firstName,
       orderReference: orderRef,
-      sourceOfSale: missingDataAbbr, // e.g. Salesforce (Mocked until integrated to SF)
+      sourceOfSale: order && formatSourceOfSale(order?.source),
       status: order?.state,
       surname: owner?.lastName,
     },
@@ -116,11 +177,20 @@ const OrderDetails: React.FC = () => {
       salesTaxApplied: missingDataAbbr, // Mocked until fully integrated with BE
       ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
     },
-  }
+  };
 
+  const isFromTito = (source: string): boolean => {
+    return switchCase({
+      TICKET_MACHINE: false,
+      TITO: true,
+    })(false)(source);
+  };
+  const isTitoOrder = order && isFromTito(order?.source);
+
+  const { event } = useEventDataQuery();
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
-      label: 'Web Summit 2021', // TODO get event name
+      label: event?.name || 'Home',
       redirectUrl: '/',
     },
     {
@@ -130,7 +200,7 @@ const OrderDetails: React.FC = () => {
     {
       label: `Order ${orderRef}`,
     },
-  ]
+  ];
 
   return (
     <>
@@ -152,12 +222,91 @@ const OrderDetails: React.FC = () => {
             <div>
               <SpacingBottom>
                 <StyledRow>
-                  <TextHeading>Order management</TextHeading>
+                  <StyledInnerRow>
+                    <TextHeading>Order management</TextHeading>
+                    {isTitoOrder && (
+                      <BoxMessage
+                        backgroundColor="#333333"
+                        color="#fff"
+                        dimension="sm"
+                      >
+                        <>
+                          As this order was sold via Tito, some functionality
+                          may be limited
+                        </>
+                      </BoxMessage>
+                    )}
+                  </StyledInnerRow>
+
                   <div>
-                    <ButtonWithSpacing disabled as={SecondaryButton}>
-                      Cancel order
-                    </ButtonWithSpacing>
-                    <Button disabled>Refund order</Button>
+                    {order?.state === 'CANCELLED' ? (
+                      <ButtonWithSpacing
+                        onClick={
+                          isTitoOrder
+                            ? openTitoWarningModal
+                            : openOrderReinstateModal
+                        }
+                      >
+                        Reinstate order
+                      </ButtonWithSpacing>
+                    ) : (
+                      <ButtonWithSpacing
+                        onClick={
+                          isTitoOrder
+                            ? openTitoWarningModal
+                            : openOrderCancelModal
+                        }
+                      >
+                        Cancel order
+                      </ButtonWithSpacing>
+                    )}
+                    {isTitoOrder ? (
+                      <ErrorInfoModal
+                        alertHeader={orderRef}
+                        alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
+            to Tito to cancel the order."
+                        closeModal={closeTitoWarningModal}
+                        headerText="Unable to cancel order"
+                        isOpen={isTitoWarningModalOpen}
+                      />
+                    ) : order?.state === 'CANCELLED' ? (
+                      <OrderReinstateModal
+                        closeModal={closeOrderReinstateModal}
+                        isOpen={isOrderReinstateModalOpen}
+                        orderRef={orderRef}
+                        refetch={refetch}
+                        sourceId={sourceId}
+                      />
+                    ) : (
+                      <OrderCancelModal
+                        closeModal={closeOrderCancelModal}
+                        isOpen={isOrderCancelModalOpen}
+                        orderRef={orderRef}
+                        refetch={refetch}
+                        sourceId={sourceId}
+                      />
+                    )}
+                    <Button
+                      disabled={
+                        !commerceOrder ||
+                        commerceOrder?.paymentStatus ===
+                          CommerceOrderPaymentStatus.Refunded
+                      }
+                      onClick={openRefundModal}
+                    >
+                      {commerceOrder?.paymentStatus ===
+                      CommerceOrderPaymentStatus.Refunded
+                        ? 'Order refunded'
+                        : 'Refund order'}
+                    </Button>
+                    {commerceOrder && (
+                      <OrderRefundModal
+                        commerceOrder={commerceOrder}
+                        isOpen={isRefundModalOpen}
+                        orderRef={orderRef}
+                        onRequestClose={closeRefundModal}
+                      />
+                    )}
                   </div>
                 </StyledRow>
               </SpacingBottom>
@@ -198,8 +347,14 @@ const OrderDetails: React.FC = () => {
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <ContainerCard noPadding color="#DF0079" title="Ticket information">
-                  <TicketList list={tickets.edges.map(({ node }) => node) as Ticket[]} />
+                <ContainerCard
+                  noPadding
+                  color="#DF0079"
+                  title="Ticket information"
+                >
+                  <TicketList
+                    list={tickets.edges.map(({ node }) => node) as Ticket[]}
+                  />
                 </ContainerCard>
               </div>
             )}
@@ -207,7 +362,7 @@ const OrderDetails: React.FC = () => {
         )}
       </PageContainer>
     </>
-  )
-}
+  );
+};
 
-export default OrderDetails
+export default OrderDetails;

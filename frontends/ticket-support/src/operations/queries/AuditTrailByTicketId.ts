@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const TICKET_AUDIT_TRAIL = gql`
   query TicketAuditTrail($reference: String!) {
@@ -12,6 +12,10 @@ export const TICKET_AUDIT_TRAIL = gql`
         context
         reason
         createdAt
+        sourceLocation
+        id
+        command
+        object
       }
       assignments {
         edges {
@@ -25,11 +29,15 @@ export const TICKET_AUDIT_TRAIL = gql`
               context
               reason
               createdAt
+              sourceLocation
+              id
+              command
+              object
             }
           }
         }
       }
     }
   }
-`
-export default TICKET_AUDIT_TRAIL
+`;
+export default TICKET_AUDIT_TRAIL;

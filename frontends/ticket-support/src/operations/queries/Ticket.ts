@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
-export const TICKET = gql`
+const TICKET = gql`
   query Ticket($reference: String!) {
     ticket(reference: $reference) {
       id
@@ -11,6 +11,7 @@ export const TICKET = gql`
       }
       order {
         reference
+        source
         owner {
           firstName
           lastName
@@ -32,10 +33,21 @@ export const TICKET = gql`
           email
           firstName
           lastName
+          bio
+          city
+          companyName
+          companySizeId
+          email
+          gender
+          industryId
+          jobTitle
+          phoneNumber
+          marketingConsent
+          personalisationConsent
           lastLoginTokenCreatedAt
         }
       }
     }
   }
-`
-export default TICKET
+`;
+export default TICKET;

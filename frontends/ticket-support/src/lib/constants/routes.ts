@@ -1,29 +1,28 @@
 export type Route = {
-  children?: Route[]
-  hasChildren?: boolean
-  isActive?: boolean
+  children?: Route[];
+  hasChildren?: boolean;
+  isActive?: boolean;
   meta?: {
-    description?: string
-  }
-  path: string
-}
+    description?: string;
+  };
+  path: string;
+};
 
 export type Routes = {
-  [routeName: string]: Route
-}
+  [routeName: string]: Route;
+};
 // Order is important here for rendering purpose
 // eslint-disable-next-line sort-keys
 const ROUTES: Routes = {
+  CUSTOMISATION: {
+    isActive: false,
+    meta: { description: 'Customisation' },
+    path: 'customisation',
+  },
   DASHBOARD: {
     isActive: false,
     meta: { description: 'Dashboard' },
     path: 'dashboard',
-  },
-  TICKET_CONFIGURATION: {
-    hasChildren: true,
-    isActive: false,
-    meta: { description: 'Ticket configuration' },
-    path: 'ticket-configuration',
   },
   DISCOUNTS: {
     isActive: false,
@@ -35,11 +34,12 @@ const ROUTES: Routes = {
     meta: { description: 'Private sales' },
     path: 'private-sales',
   },
+  REPORTS: {
+    isActive: false,
+    meta: { description: 'Reports' },
+    path: 'reports',
+  },
   TICKET_ADMINISTRATION: {
-    hasChildren: true,
-    isActive: true,
-    meta: { description: 'Ticket administration' },
-    path: 'tickets',
     children: [
       {
         isActive: true,
@@ -62,17 +62,17 @@ const ROUTES: Routes = {
         path: 'cancellation-and-refunds',
       },
     ],
+    hasChildren: true,
+    isActive: true,
+    meta: { description: 'Ticket administration' },
+    path: 'tickets',
   },
-  REPORTS: {
+  TICKET_CONFIGURATION: {
+    hasChildren: true,
     isActive: false,
-    meta: { description: 'Reports' },
-    path: 'reports',
+    meta: { description: 'Ticket configuration' },
+    path: 'ticket-configuration',
   },
-  CUSTOMISATION: {
-    isActive: false,
-    meta: { description: 'Customisation' },
-    path: 'customisation',
-  },
-}
+};
 
-export default ROUTES
+export default ROUTES;

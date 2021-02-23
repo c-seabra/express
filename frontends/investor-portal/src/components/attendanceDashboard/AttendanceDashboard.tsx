@@ -1,18 +1,18 @@
-import React, { ReactElement } from 'react'
-import { Helmet } from 'react-helmet'
-import { PageContainer } from '../settingsDashboard/SettingsDashboard.styled'
+import React, { ReactElement } from 'react';
+import { Helmet } from 'react-helmet';
+
+import AttendanceTable from '../attendanceTable/AttendanceTable';
+import { PageContainer } from '../settingsDashboard/SettingsDashboard.styled';
 
 const AttendanceDashboard = (): ReactElement => {
   return (
-    <>
+    <PageContainer>
       <Helmet>
         <title>Attendance control panel</title>
       </Helmet>
-      <PageContainer>
-        <h1>Attendance area</h1>
-      </PageContainer>
-    </>
-  )
-}
+      <AttendanceTable />
+    </PageContainer>
+  );
+};
 
-export default AttendanceDashboard
+export default AttendanceDashboard;

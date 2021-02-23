@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
-export const MAGIC_LINK_GENERATE = gql`
+const MAGIC_LINK_GENERATE = gql`
   mutation MagicLinkGenerate($input: AssignmentMagicLinkGenerateInput!) {
     assignmentMagicLinkGenerate(input: $input) {
       email
@@ -11,6 +11,6 @@ export const MAGIC_LINK_GENERATE = gql`
       }
     }
   }
-`
+`;
 
-export default MAGIC_LINK_GENERATE
+export default MAGIC_LINK_GENERATE;

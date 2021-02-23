@@ -1,310 +1,376 @@
-import { ApolloError, useQuery } from '@apollo/client'
-import React, { useState } from 'react'
-import { Helmet } from 'react-helmet'
-import { useHistory, useParams } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-import Loader from '../../lib/Loading'
-import { Tooltip } from '../../lib/components'
-import { Ticket } from '../../lib/types'
-import TICKET from '../../operations/queries/Ticket'
-import { useAppContext } from '../app/AppContext'
-import AuditTrail from '../auditTrail/AuditTrail'
-import IdentityEmailUpdate from '../ticketActions/IdentityEmailUpdate'
-import LoginLinkGenerate from '../ticketActions/LoginLinkGenerate'
-import LoginLinkRequest from '../ticketActions/LoginLinkRequest'
-import TicketAssign from '../ticketActions/TicketAssign'
-import TicketClaim from '../ticketActions/TicketClaim'
-import TicketReject from '../ticketActions/TicketReject'
-import TicketUnlock from '../ticketActions/TicketUnlock'
-import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail'
-import StatePlate from '../ticketItem/StatePlate'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import TextHeading from '../../lib/components/atoms/Heading';
+import BoxMessage from '../../lib/components/molecules/BoxMessage';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '../../lib/components/molecules/Breadcrumbs';
+import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
+import Modal, { useModalState } from '../../lib/components/molecules/Modal';
+import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
+import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery';
+import Loader from '../../lib/Loading';
+import { switchCase } from '../../lib/utils/logic';
+import { useAppContext } from '../app/AppContext';
+import AuditTrail from '../auditTrail/AuditTrail';
+import OrderCancelModal from '../order/OrderCancelModal';
+import OrderReinstateModal from '../order/OrderReinstateModal';
+import LoginLinkActions from '../ticketActions/LoginLinkActions';
+import TicketAssignModal from '../ticketActions/TicketAssignModal';
+import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
+import TicketVoidModal from '../ticketActions/TicketVoidModal';
+import UnassignTicketModal from '../ticketActions/UnassignTicketModal';
+import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail';
+import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier';
+import UserProfileInformation from '../userProfileInformation/UserProfileInformation';
+import TicketStateActions from './TicketStateActions';
 
-const StyledContainer = styled.section`
-  padding: 1rem;
+const PageContainer = styled.div`
   max-width: 1440px;
   margin: 0 auto;
   font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid grey;
-  hr {
-    border-color: grey;
-    margin: 1rem 0;
-  }
-`
 
-const Heading = styled.div`
-  border-radius: 8px;
-  padding-top: 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  font-weight: bold;
-  button {
-    margin-right: 1rem;
-  }
-  span {
-    color: #00ac93;
-  }
-`
-
-export const Text = styled.div`
-  border-radius: 8px;
-  padding: 0.25rem;
-  font-size: 1rem;
-  font-weight: 400;
-  a {
-    color: #337ab7;
-    margin: 0 0.25rem;
-  }
-`
-
-const TextHighlight = styled.span`
-  color: #337ab7;
-  margin: 0 0.25rem;
-`
-
-export const Button = styled.button`
-  margin: 0 0 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: none;
-  border: 1px solid grey;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    background-color: grey;
-    color: white;
-  }
-`
-const TicketHeader = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-const TicketStatus = styled.div`
-  display: flex;
-  align-items: center;
   flex-direction: column;
-  font-size: 0.85rem;
-  margin-right: 0.75rem;
-  > span {
-    margin-bottom: 0.25rem;
-  }
-`
-const TicketStatusBar = styled.div`
+`;
+
+const BreadcrumbsContainer = styled.div`
+  display: flex;
+  margin: 20px 0 16px;
+`;
+
+const SpacingBottom = styled.div`
+  margin-bottom: 2.5rem;
+`;
+
+const SpacingBottomSm = styled.div`
+  margin-bottom: 1rem;
+`;
+
+const StyledHistoryChanges = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  justify-content: center;
+  border-top: 1px solid #dcdfe5;
+`;
+
+const DefaultStyledRow = styled.div`
   display: flex;
   align-items: center;
-`
 
-const ticketDetails: React.FC = () => {
-  const { bookingRef } = useParams<{ bookingRef: string }>()
-  const history = useHistory()
-  const { conferenceSlug, token } = useAppContext()
-  const [reassignment, setReassignment] = useState(false)
-  const [loginEmailChange, setLoginEmailChange] = useState(false)
-  const [identityEmailChange, setIdentityEmailChange] = useState(false)
-  const [showAuditTrail, setShowAuditTrail] = useState(false)
+  > * {
+    margin-right: 20px;
+  }
+`;
+
+const RowContainer = styled.div`
+  display: flex;
+`;
+
+const ContainerCardInner = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TicketActionsContainerCard = styled(ContainerCard)`
+  margin-right: 3.75rem;
+  max-width: 300px;
+`;
+
+const StyledPairContainer = styled.span`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+`;
+
+const StyledLabel = styled.span`
+  color: #091a46;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 24px;
+`;
+
+const StyledValue = styled.span`
+  color: #0c1439;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+`;
+
+const StyledInnerContainerCard = styled.span`
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+`;
+
+const StyledInnerContainerCardWithBorder = styled(StyledInnerContainerCard)`
+  border-bottom: 1px solid #dcdfe5;
+`;
+
+const PrimaryButton = styled(Button)`
+  width: 100%;
+`;
+
+const AccountDetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 780px;
+  width: 100%;
+
+  & > div {
+    margin-bottom: 1rem;
+  }
+`;
+
+const TicketDetails = (): ReactElement => {
+  const { bookingRef } = useParams<{ bookingRef: string }>();
+  const { conferenceSlug, token } = useAppContext();
+  const {
+    openModal: openTicketAssignModal,
+    isOpen: isTicketAssignModalOpen,
+    closeModal: closeTicketAssignModal,
+  } = useModalState();
+  const {
+    isOpen: isHistoryModalOpen,
+    openModal: openHistoryModal,
+    closeModal: closeHistoryModal,
+  } = useModalState();
 
   const {
-    loading,
-    error,
-    data,
-  }: {
-    data?: {
-      ticket: Ticket
-    }
-    error?: ApolloError
-    loading?: boolean
-  } = useQuery(TICKET, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    variables: {
-      reference: bookingRef,
-    },
-  })
+    openModal: openUnassignTicketModal,
+    isOpen: isUnassignTicketModalOpen,
+    closeModal: closeUnassignTicketModal,
+  } = useModalState();
 
-  const ticket = data?.ticket
-  const assignment = ticket?.assignment
-  const assignee = assignment?.assignee
+  const {
+    openModal: openTicketVoidModal,
+    isOpen: isTicketVoidModalOpen,
+    closeModal: closeTicketVoidModal,
+  } = useModalState();
+
+  const {
+    openModal: openTicketUnvoidModal,
+    isOpen: isTicketUnvoidModalOpen,
+    closeModal: closeTicketUnvoidModal,
+  } = useModalState();
+
+  const {
+    openModal: openTitoWarningModal,
+    isOpen: isTitoWarningModalOpen,
+    closeModal: closeTitoWarningModal,
+  } = useModalState();
+
+  const { loading, error, ticket } = useSingleTicketQuery({
+    reference: bookingRef,
+  });
+  const assignment = ticket?.assignment;
+  const orderRef = ticket?.order?.reference || '';
+  const assignee = assignment?.assignee;
+  const { event } = useEventDataQuery();
+  const sourceOfSale = ticket?.order?.source;
+  const isFromTito = (source: string): boolean => {
+    return switchCase({
+      TICKET_MACHINE: false,
+      TITO: true,
+    })(false)(source);
+  };
+  const isTitoTicket = sourceOfSale && isFromTito(sourceOfSale);
+  const breadcrumbsRoutes: Breadcrumb[] = [
+    {
+      label: event?.name || 'Home',
+      redirectUrl: '/',
+    },
+    {
+      label: 'Orders',
+      redirectUrl: '/orders',
+    },
+    {
+      label: `Order ${orderRef}`,
+      redirectUrl: `/order/${orderRef}`,
+    },
+    {
+      label: `Ticket ${bookingRef}`,
+    },
+  ];
 
   return (
-      <>
-        <Helmet>
-          <title>Manage {bookingRef} ticket - Ticket machine</title>
-        </Helmet>
-        {loading && <Loader />}
-        {error && <div>{error}</div>}
-        {!loading && !error && ticket && (
-            <StyledContainer>
-              <TicketHeader>
-                <Heading>
-                  <Button type="button" onClick={() => history.goBack()}>
-                    Back
-                  </Button>
-                  Manage Ticket/
-                  <Tooltip copyToClip value={bookingRef}>
-                    <TextHighlight>{bookingRef}</TextHighlight>
-                  </Tooltip>
-                </Heading>
-                <Heading>
+    <>
+      <Helmet>
+        <title>Manage {bookingRef} ticket - Ticket machine</title>
+      </Helmet>
+
+      {loading && <Loader />}
+      {error && <div>{error}</div>}
+      {!loading && !error && ticket && (
+        <PageContainer>
+          <BreadcrumbsContainer>
+            <Breadcrumbs routes={breadcrumbsRoutes} />
+          </BreadcrumbsContainer>
+
+          <SpacingBottom>
+            <DefaultStyledRow>
+              <TextHeading>Manage ticket</TextHeading>
+              {isTitoTicket && (
+                <BoxMessage
+                  backgroundColor="#333333"
+                  color="#fff"
+                  dimension="sm"
+                >
+                  <>
+                    As this ticket was sold via Tito, some functionality may be
+                    limited
+                  </>
+                </BoxMessage>
+              )}
+            </DefaultStyledRow>
+          </SpacingBottom>
+
+          <RowContainer>
+            <TicketActionsContainerCard noPadding>
+              <StyledInnerContainerCardWithBorder>
+                <StyledPairContainer>
+                  <StyledLabel>Ticket reference</StyledLabel>
+                  <StyledValue>{bookingRef}</StyledValue>
+                </StyledPairContainer>
+
+                <StyledPairContainer>
+                  <StyledLabel>Ticket type</StyledLabel>
+                  <StyledValue>{ticket?.ticketType?.name}</StyledValue>
+                </StyledPairContainer>
+
+                <StyledPairContainer>
+                  <TicketStateActions ticket={ticket} />
+                </StyledPairContainer>
+              </StyledInnerContainerCardWithBorder>
+
+              <StyledInnerContainerCard>
+                <SpacingBottomSm>
+                  <PrimaryButton onClick={openTicketAssignModal}>
+                    Reassign
+                  </PrimaryButton>
+                  <TicketAssignModal
+                    closeModal={closeTicketAssignModal}
+                    isOpen={isTicketAssignModalOpen}
+                    ticket={ticket}
+                  />
+                </SpacingBottomSm>
+                <SpacingBottomSm>
+                  <PrimaryButton onClick={openUnassignTicketModal}>
+                    Unassign
+                  </PrimaryButton>
+                  <UnassignTicketModal
+                    isOpen={isUnassignTicketModalOpen}
+                    ticket={ticket}
+                    onRequestClose={closeUnassignTicketModal}
+                  />
+                </SpacingBottomSm>
+
+                {ticket?.state === 'VOID' ? (
                   <Button
-                      type="button"
-                      onClick={() => history.push(`/order/${ticket.order.reference}`)}
+                    onClick={
+                      isTitoTicket
+                        ? openTitoWarningModal
+                        : openTicketUnvoidModal
+                    }
                   >
-                    Order Details
+                    Unvoid
                   </Button>
-                </Heading>
-                <TicketStatusBar>
-                  <TicketStatus>
-                    <span>Ticket status</span>
-                    <StatePlate state={ticket?.state} />
-                  </TicketStatus>
-                  <TicketStatus>
-                    <span>Assignment status</span>
-                    <StatePlate state={!assignment ? 'Unassigned' : assignment?.state} />
-                  </TicketStatus>
-                </TicketStatusBar>
-              </TicketHeader>
-              <div>
-                <hr />
-                {ticket && ticket.state !== 'VOID' && !assignment && (
-                    <>
-                      <div>
-                        <Heading>Assign ticket:</Heading>
-                        <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} />
-                      </div>
-                    </>
+                ) : (
+                  <Button
+                    onClick={
+                      isTitoTicket ? openTitoWarningModal : openTicketVoidModal
+                    }
+                  >
+                    Void
+                  </Button>
                 )}
 
-                {assignee && (
-                    <div>
-                      <Heading>Assignee details</Heading>
-                      <Text>
-                        Name: {assignee.firstName} {assignee.lastName}
-                      </Text>
-                      <Text>
-                        Email:
-                        <Tooltip copyToClip value={assignee.email}>
-                          <TextHighlight>{assignee.email}</TextHighlight>
-                        </Tooltip>
-                      </Text>
-                      {ticket && reassignment && (
-                          <div>
-                            <Heading>Reassign ticket</Heading>
-                            <TicketAssign resetReassignment={setReassignment} ticketId={ticket.id} />
-                          </div>
-                      )}
-                      {ticket.state !== 'VOID' && (
-                          <Button onClick={() => setReassignment(!reassignment)}>
-                            {reassignment ? 'Cancel' : 'Reassign'}
-                          </Button>
-                      )}
-                      {ticket.state !== 'VOID' &&
-                      (assignment?.state === 'ACCEPTED' || assignment?.state === 'PENDING') && (
-                          <div>
-                            <TicketReject ticketId={ticket.id} />
-                          </div>
-                      )}
-
-                      <hr />
-
-                      <Heading>Assignment dashboard login link</Heading>
-                      <LoginLinkRequest account={assignee} />
-
-                      <hr />
-
-                      <Heading>Assignment dashboard login link generate</Heading>
-                      <LoginLinkGenerate account={assignee} />
-
-                      <hr />
-
-                      <Heading>Ticket access information</Heading>
-                      <Text>
-                        Booking reference:
-                        <Tooltip copyToClip value={bookingRef}>
-                          <TextHighlight>{bookingRef}</TextHighlight>
-                        </Tooltip>
-                      </Text>
-                      {assignment?.state === 'ACCEPTED' && (
-                          <>
-                            <Text>
-                              App login email:
-                              <Tooltip copyToClip value={assignment?.appLoginEmail || assignee?.email}>
-                                <TextHighlight>
-                                  {assignment?.appLoginEmail || assignee?.email}
-                                </TextHighlight>
-                              </Tooltip>
-                            </Text>
-                            {loginEmailChange && (
-                                <UpdateAppLoginEmail
-                                    bookingRef={bookingRef}
-                                    resetLoginEmailChange={setLoginEmailChange}
-                                />
-                            )}
-                            <Button onClick={() => setLoginEmailChange(!loginEmailChange)}>
-                              {loginEmailChange ? 'Cancel' : 'Update App Login Email'}
-                            </Button>
-                          </>
-                      )}
-
-                      {assignee && (
-                          <>
-                            <hr />
-                            <Heading>User account information</Heading>
-                            <Text>
-                              Identity email:
-                              <Tooltip copyToClip value={assignee?.email}>
-                                <TextHighlight>{assignee?.email}</TextHighlight>
-                              </Tooltip>
-                            </Text>
-                            {identityEmailChange && (
-                                <IdentityEmailUpdate
-                                    accountId={assignee?.id}
-                                    resetIdentityEmailChange={setIdentityEmailChange}
-                                />
-                            )}
-                            <Button onClick={() => setIdentityEmailChange(!identityEmailChange)}>
-                              {identityEmailChange ? 'Cancel' : 'Update Identity Email'}
-                            </Button>
-                          </>
-                      )}
-                    </div>
+                {isTitoTicket ? (
+                  <ErrorInfoModal
+                    alertHeader={bookingRef}
+                    alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
+        to Tito to void the ticket."
+                    closeModal={closeTitoWarningModal}
+                    headerText="Unable to void ticket"
+                    isOpen={isTitoWarningModalOpen}
+                  />
+                ) : ticket?.state === 'VOID' ? (
+                  <TicketUnvoidModal
+                    bookingRef={bookingRef}
+                    closeModal={closeTicketUnvoidModal}
+                    isOpen={isTicketUnvoidModalOpen}
+                  />
+                ) : (
+                  <TicketVoidModal
+                    bookingRef={bookingRef}
+                    closeModal={closeTicketVoidModal}
+                    isOpen={isTicketVoidModalOpen}
+                  />
                 )}
-                {(assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID') ||
-                ticket.state === 'LOCKED' ? (
-                    <div>
-                      <hr />
-                      <Heading>Ticket operation</Heading>
-                      {ticket.state === 'LOCKED' && <TicketUnlock bookingRef={ticket?.bookingRef} />}
-                      {assignment && assignment.state !== 'ACCEPTED' && ticket.state !== 'VOID' && (
-                          <div>
-                            <TicketClaim ticketId={ticket.id} />
-                          </div>
-                      )}
-                    </div>
-                ) : null}
-                <div>
-                  <hr />
-                  <Heading>History changes</Heading>
-                  <Button onClick={() => setShowAuditTrail(!showAuditTrail)}>
-                    {showAuditTrail ? 'Hide' : 'Load History Changes'}
-                  </Button>
-                  {showAuditTrail && (
-                      <AuditTrail
-                          bookingRef={bookingRef}
-                          conferenceSlug={conferenceSlug as string}
-                          token={token as string}
-                      />
+
+                <Modal
+                  noPadding
+                  isOpen={isHistoryModalOpen}
+                  onRequestClose={closeHistoryModal}
+                >
+                  <AuditTrail
+                    bookingRef={bookingRef}
+                    conferenceSlug={conferenceSlug as string}
+                    token={token as string}
+                  />
+                </Modal>
+              </StyledInnerContainerCard>
+              <StyledHistoryChanges>
+                <Button as={SecondaryButton} onClick={openHistoryModal}>
+                  Load history changes
+                </Button>
+              </StyledHistoryChanges>
+            </TicketActionsContainerCard>
+
+            <AccountDetailsContainer>
+              <ContainerCard title="User account details">
+                <ContainerCardInner>
+                  {assignment && assignment.assignee && (
+                    <UpdateUniqueUserIdentifier
+                      accountId={assignment.assignee.id}
+                      email={assignment.assignee?.email}
+                    />
                   )}
-                </div>
-              </div>
-            </StyledContainer>
-        )}
-      </>
-  )
-}
 
-export default ticketDetails
+                  {assignment?.state === 'ACCEPTED' && (
+                    <UpdateAppLoginEmail
+                      bookingRef={bookingRef}
+                      email={assignment?.appLoginEmail || assignee?.email}
+                    />
+                  )}
+
+                  {assignee && (
+                    <>
+                      <SpacingBottomSm>
+                        <StyledLabel>
+                          Assignment dashboard login link
+                        </StyledLabel>
+                        <LoginLinkActions assignee={assignee} />
+                      </SpacingBottomSm>
+                    </>
+                  )}
+                </ContainerCardInner>
+              </ContainerCard>
+              <UserProfileInformation account={assignee} />
+            </AccountDetailsContainer>
+          </RowContainer>
+        </PageContainer>
+      )}
+    </>
+  );
+};
+
+export default TicketDetails;

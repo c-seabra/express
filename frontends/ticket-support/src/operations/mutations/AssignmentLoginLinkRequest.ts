@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
-export const ASSIGNMENT_LOGIN_LINK = gql`
+const ASSIGNMENT_LOGIN_LINK = gql`
   mutation AssignmentMagicLinkLoginRequest($email: String!) {
     assignmentMagicLinkLoginRequest(input: { email: $email }) {
       userErrors {
@@ -9,6 +9,6 @@ export const ASSIGNMENT_LOGIN_LINK = gql`
       }
     }
   }
-`
+`;
 
-export default ASSIGNMENT_LOGIN_LINK
+export default ASSIGNMENT_LOGIN_LINK;

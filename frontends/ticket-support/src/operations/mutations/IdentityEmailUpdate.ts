@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
-export const IDENTITY_EMAIL_UPDATE = gql`
+const IDENTITY_EMAIL_UPDATE = gql`
   mutation assignmentAccountUpdate($accountId: ID!, $email: String!) {
     assignmentAccountUpdate(input: { accountId: $accountId, email: $email }) {
       account {
@@ -13,6 +13,6 @@ export const IDENTITY_EMAIL_UPDATE = gql`
       }
     }
   }
-`
+`;
 
-export default IDENTITY_EMAIL_UPDATE
+export default IDENTITY_EMAIL_UPDATE;
