@@ -6,10 +6,7 @@ export const ATTENDANCE_APPEARANCE_SELECTIONS_UPDATE_MUTATION = gql`
     $unlockStartup: Boolean!
   ) {
     attendanceAppearanceSelectionsUpdate(
-      input: {
-        attendanceIds: $attendanceIds
-        unlockStartup: $unlockStartup
-  	  }
+      input: { attendanceIds: $attendanceIds, unlockStartup: $unlockStartup }
     ) {
       userErrors {
         message

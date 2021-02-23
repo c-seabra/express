@@ -32,7 +32,6 @@ const useAttendanceAppearanceSelectionsUpdateMutation = ({
     ATTENDANCE_APPEARANCE_SELECTIONS_UPDATE_MUTATION,
     {
       onCompleted: ({ attendanceAppearanceSelectionsUpdate }) => {
-        console.log(attendanceAppearanceSelectionsUpdate)
         if (attendanceAppearanceSelectionsUpdate?.userErrors[0]) {
           errorMessage(
             attendanceAppearanceSelectionsUpdate?.userErrors[0].message,

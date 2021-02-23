@@ -21,20 +21,16 @@ const AttendanceAppearanceSelectionList = ({
 }: AtendanceAppearanceSelectionListProps): ReactElement => {
   const [unlockStartup, setUnlockStartup] = useState<boolean>(false);
   const [hasAccepted, setHasAccepted] = useState<boolean>(false);
-  const ids = list.map((item) => (
-    item.appearance.id
-  ));
+  const ids = list.map((item) => item.appearance.id);
 
   const handleUnlock = () => {
     setUnlockStartup(list[0]?.status === 'submitted');
   };
 
   const checkHasAccepted = () => {
-    const item = list.find(
-      (selection) => selection.status === 'accepted',
-    );
+    const item = list.find((selection) => selection.status === 'accepted');
     setHasAccepted(item !== undefined);
-  }
+  };
 
   useEffect(() => {
     checkHasAccepted();
@@ -45,7 +41,7 @@ const AttendanceAppearanceSelectionList = ({
     attendanceAppearanceSelectionsUpdateMutation,
   } = useAttendanceAppearanceSelectionsUpdateMutation({
     attendanceIds: ids,
-    unlockStartup
+    unlockStartup,
   });
 
   const submit = async () => {
