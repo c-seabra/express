@@ -19,13 +19,19 @@ const TicketUnvoidModal = ({
 }: TicketUnvoidModalProps) => {
   const { unvoidTicket } = useTicketUnvoidOperation();
   const setMutation = (e: TicketsUnvoidArgs) => {
-    return unvoidTicket({ bookingRef, reason: e.reason });
+    return unvoidTicket({
+      bookingRef,
+      reason: e.reason,
+      sendEmailNotification: e.sendEmailNotification,
+    });
   };
 
   return (
     <ReasonAlertModal
+      isNotificationOptionVisible
+      checkboxLabel="Notify ticket assignee by email?"
       alertHeader={bookingRef}
-      alertText="This action shall unvoid the ticket and ticket holder will again have access to the conference."
+      alertText="This action shall unvoid the ticket and ticket assignee will again have access to the conference."
       cancelText="No, keep order"
       closeModal={closeModal}
       headerText="Are you sure you want to unvoid ticket"

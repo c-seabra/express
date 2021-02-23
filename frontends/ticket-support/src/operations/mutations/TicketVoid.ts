@@ -10,6 +10,7 @@ import {
 export type TicketsVoidArgs = {
   bookingRef: string;
   reason: string;
+  sendEmailNotification?: boolean;
 };
 
 export const useTicketVoidOperation = () => {
@@ -30,17 +31,24 @@ export const useTicketVoidOperation = () => {
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
   });
 
-  const voidTicket = async ({ reason, bookingRef }: TicketsVoidArgs) => {
+  const voidTicket = async ({
+    reason,
+    bookingRef,
+    sendEmailNotification,
+  }: TicketsVoidArgs) => {
     await voidTicketMutation({
       context: {
         headers: {
-          'x-admin-reason': reason,
+          'x-reason': reason,
         },
         slug: conferenceSlug,
         token,
       },
       variables: {
-        input: { reference: bookingRef },
+        input: {
+          disableEmailNotification: !sendEmailNotification,
+          reference: bookingRef,
+        },
       },
     });
   };

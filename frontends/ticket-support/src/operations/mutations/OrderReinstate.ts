@@ -14,6 +14,7 @@ export type OrderReinstateRequest = {
   id: string;
   reason: string;
   refetch?: any;
+  sendEmailNotification?: boolean;
   storeId?: string;
 };
 
@@ -33,6 +34,7 @@ export const useOrderReinstateMutation = () => {
     reason,
     id,
     refetch,
+    sendEmailNotification,
   }: OrderReinstateRequest) => {
     await reinstateOrderMutation({
       context: {
@@ -44,6 +46,9 @@ export const useOrderReinstateMutation = () => {
       },
       variables: {
         commerceOrderUpdate: {
+          metadata: {
+            disableEmailNotification: !sendEmailNotification,
+          },
           status: CommerceOrderStatus.Reinstated,
         },
         id,
