@@ -14,10 +14,12 @@ type AttendanceAppearanceSelectionUpdateData = {
 
 type AttendanceAppearanceSelectionUpdateArgs = {
   attendanceIds: string[] | undefined;
+  unlockStartup: boolean | false;
 }
 
 const useAttendanceAppearanceSelectionsUpdateMutation = ({
   attendanceIds,
+  unlockStartup,
 }: AttendanceAppearanceSelectionUpdateArgs) => {
   const { conferenceSlug, token } = useAppContext();
   const success = useSuccessSnackbar();
@@ -51,6 +53,7 @@ const useAttendanceAppearanceSelectionsUpdateMutation = ({
       refetchQueries: ['AttendanceDetailsQuery'],
       variables: {
         attendanceIds,
+        unlockStartup,
       },
     });
   };
