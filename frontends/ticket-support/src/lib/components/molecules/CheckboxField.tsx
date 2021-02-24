@@ -25,6 +25,7 @@ const LabelFieldContainer = styled.label`
   display: inline-block;
   margin: 0.6em 1em;
   cursor: pointer;
+  font-weight: 400;
 `;
 
 const Label = styled.div<{ required?: boolean }>`
