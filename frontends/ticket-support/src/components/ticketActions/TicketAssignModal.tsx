@@ -146,7 +146,7 @@ const TicketAssignModal = ({
 
                 {isAssigned && (
                   <>
-                    <Spacing bottom="24px" top="8px">
+                    <Spacing top="8px">
                       <FieldWrapper
                         required
                         label="Please specify the reason for your actions"
@@ -156,6 +156,7 @@ const TicketAssignModal = ({
                     </Spacing>
                     <StyledRow>
                       <CheckboxField
+                        color="#E15554"
                         label="Send email notification to new and old assignee"
                         name="notify"
                       />
@@ -163,7 +164,7 @@ const TicketAssignModal = ({
                   </>
                 )}
 
-                <Spacing bottom="53px">
+                <Spacing bottom="53px" top="24px">
                   <StyledActionRow>
                     <DisabledButton onClick={closeModal}>Cancel</DisabledButton>
                     <ErrorButton type="submit">Confirm</ErrorButton>
