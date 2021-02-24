@@ -14,6 +14,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 import MainNavigation from '../../lib/components/molecules/MainNavigation';
 import ROUTES from '../../lib/constants/routes';
+import AttendanceAppearanceSelectionDetails from '../attendanceAppearanceSelection/AttendanceAppearanceSelectionDetails';
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard';
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard';
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard';
@@ -88,8 +89,11 @@ const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
                 <Route exact path="/">
                   <Redirect to="/settings" />
                 </Route>
-                <Route path="/dashboard/:attendanceId">
+                <Route exact path="/dashboard/:attendanceId">
                   <AttendanceDetailsDashboard />
+                </Route>
+                <Route path="/dashboard/:attendanceId/selection/:selectionId">
+                  <AttendanceAppearanceSelectionDetails />
                 </Route>
                 <Route path="/settings">
                   <SettingsDashboard />
