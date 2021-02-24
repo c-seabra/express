@@ -39,6 +39,7 @@ export const HeaderText = styled.div`
 export const AlertText = styled(HeaderText)`
   color: #e15554;
 `;
+
 export const FieldWrapper = styled(TextAreaField)`
   min-width: 580px;
   text-align: left;
