@@ -332,14 +332,15 @@ const TicketDetails = (): ReactElement => {
             </TicketActionsContainerCard>
 
             <AccountDetailsContainer>
+              <TicketAssignModal
+                closeModal={closeTicketAssignModal}
+                isOpen={isTicketAssignModalOpen}
+                ticket={ticket}
+              />
+
               {ticket?.state === 'UNASSIGNED' && (
                 <ContainerCard>
-                  <AssignTicketBox onClickAction={openTicketAssignModal}/>
-                  <TicketAssignModal
-                      closeModal={closeTicketAssignModal}
-                      isOpen={isTicketAssignModalOpen}
-                      ticket={ticket}
-                  />
+                  <AssignTicketBox onClickAction={openTicketAssignModal} />
                 </ContainerCard>
               )}
 
