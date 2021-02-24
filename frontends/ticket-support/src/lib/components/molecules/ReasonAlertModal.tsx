@@ -7,6 +7,7 @@ import { Spacing } from '../../../components/templates/Spacing';
 import STATIC_MESSAGES from '../../constants/messages';
 import { DisabledButton, ErrorButton } from '../atoms/Button';
 import Icon from '../atoms/Icon';
+import CheckboxField from './CheckboxField';
 import Modal from './Modal';
 import TextAreaField from './TextAreaField';
 
@@ -22,7 +23,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Text = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0;
   line-height: 28px;
   max-width: 580px;
@@ -48,6 +49,12 @@ export const FieldWrapper = styled(TextAreaField)`
   textarea {
     height: 77px;
   }
+  padding: 0;
+`;
+
+const StyledRow = styled.div`
+  display: flex;
+  min-width: 590px;
 `;
 
 export const StyledActionRow = styled.div`
@@ -73,8 +80,10 @@ type ReasonAlertModalProps = {
   alertHeader: string;
   alertText: string;
   cancelText: string;
+  checkboxLabel?: string;
   closeModal: () => void;
   headerText: string;
+  isNotificationOptionVisible?: boolean;
   isOpen: boolean;
   mutationCallback: (values?: any) => void;
   submitText: string;
@@ -82,6 +91,7 @@ type ReasonAlertModalProps = {
 
 const confirmSchema = Yup.object().shape({
   reason: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  sendEmailNotification: Yup.boolean(),
 });
 
 const ReasonAlertModal = ({
@@ -91,7 +101,9 @@ const ReasonAlertModal = ({
   headerText,
   alertText,
   alertHeader,
+  checkboxLabel,
   mutationCallback,
+  isNotificationOptionVisible,
   submitText = 'Submit',
 }: ReasonAlertModalProps) => {
   const [formControls, setFormControls] = useState<
@@ -116,6 +128,7 @@ const ReasonAlertModal = ({
       <Formik
         initialValues={{
           reason: '',
+          sendEmailNotification: false,
         }}
         validateOnBlur={false}
         validateOnChange={false}
@@ -151,7 +164,7 @@ const ReasonAlertModal = ({
                   <Text>{alertText}</Text>
                 </Spacing>
 
-                <Spacing bottom="8px" top="8px">
+                <Spacing top="8px">
                   <FieldWrapper
                     required
                     label="Please specify the reason for your actions"
@@ -159,6 +172,18 @@ const ReasonAlertModal = ({
                     name="reason"
                   />
                 </Spacing>
+
+                {isNotificationOptionVisible && (
+                  <Spacing bottom="66px">
+                    <StyledRow>
+                      <CheckboxField
+                        color="#E15554"
+                        label={checkboxLabel}
+                        name="sendEmailNotification"
+                      />
+                    </StyledRow>
+                  </Spacing>
+                )}
 
                 <Spacing bottom="50px">
                   <StyledActionRow>

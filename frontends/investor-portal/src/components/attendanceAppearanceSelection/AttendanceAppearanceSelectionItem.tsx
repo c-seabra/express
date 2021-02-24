@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 import {
   DestructiveButton,
@@ -24,13 +25,23 @@ const AttendanceAppearanceSelectionItem = ({
     selectionId: selection.id,
   });
 
+  const history = useHistory();
+  const { attendanceId } = useParams<{ attendanceId: string }>();
+
   return (
     <ListItem>
       <Column>{selection.appearance.company.name}</Column>
       <Column>{new Date(selection.updatedAt).toDateString()}</Column>
       <Column>{selection.status}</Column>
       <Column>
-        <SecondaryButton style={{ marginLeft: 10 }}>Edit</SecondaryButton>
+        <SecondaryButton
+          style={{ marginLeft: 10 }}
+          onClick={() =>
+            history.push(`/dashboard/${attendanceId}/selection/${selection.id}`)
+          }
+        >
+          Edit
+        </SecondaryButton>
         <DestructiveButton style={{ marginLeft: 10 }} onClick={openModal}>
           Delete
         </DestructiveButton>

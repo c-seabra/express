@@ -1,53 +1,9 @@
 import { ApolloError, gql } from '@apollo/client';
+import { Order } from '@websummit/graphql/src/@types/operations';
 
 export type OrderByRefQuery = {
   data?: {
-    order: {
-      completedAt: string;
-      lastUpdatedAt: string;
-      owner: {
-        email: string;
-        firstName: string;
-        lastName: string;
-      };
-      source: string;
-      sourceId: string;
-      state: string;
-      summary: {
-        ticketType: {
-          name: string;
-        };
-        tickets: number;
-      };
-      tickets: {
-        edges: [
-          {
-            node: {
-              assignment: {
-                assignee: {
-                  email: string;
-                  firstName: string;
-                  lastName: string;
-                };
-                state: string;
-              };
-              bookingRef: string;
-              order: {
-                owner: {
-                  email: string;
-                  firstName: string;
-                  lastName: string;
-                };
-              };
-              state: string;
-              ticketType: {
-                name: string;
-              };
-            };
-          },
-        ];
-      };
-    };
+    order: Order;
   };
   error?: ApolloError;
   loading?: boolean;

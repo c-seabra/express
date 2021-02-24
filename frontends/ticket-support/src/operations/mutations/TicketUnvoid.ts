@@ -6,11 +6,11 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '../../lib/hooks/useSnackbarMessage';
-import { Ticket } from '../../lib/types';
 
 export type TicketsUnvoidArgs = {
   bookingRef: string;
   reason: string;
+  sendEmailNotification?: boolean;
 };
 
 export const useTicketUnvoidOperation = () => {
@@ -31,17 +31,24 @@ export const useTicketUnvoidOperation = () => {
     refetchQueries: ['TicketAuditTrail', 'Ticket'],
   });
 
-  const unvoidTicket = async ({ reason, bookingRef }: TicketsUnvoidArgs) => {
+  const unvoidTicket = async ({
+    reason,
+    bookingRef,
+    sendEmailNotification,
+  }: TicketsUnvoidArgs) => {
     await voidTicketMutation({
       context: {
         headers: {
-          'x-admin-reason': reason,
+          'x-reason': reason,
         },
         slug: conferenceSlug,
         token,
       },
       variables: {
-        input: { reference: bookingRef },
+        input: {
+          disableEmailNotification: !sendEmailNotification,
+          reference: bookingRef,
+        },
       },
     });
   };
