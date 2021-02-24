@@ -33,9 +33,7 @@ const useAttendanceAppearancesUpdateMutation = ({
     {
       onCompleted: ({ attendanceAppearancesUpdate }) => {
         if (attendanceAppearancesUpdate?.userErrors[0]) {
-          errorMessage(
-            attendanceAppearancesUpdate?.userErrors[0].message,
-          );
+          errorMessage(attendanceAppearancesUpdate?.userErrors[0].message);
         } else {
           success(attendanceAppearancesUpdate?.successMessage);
         }
