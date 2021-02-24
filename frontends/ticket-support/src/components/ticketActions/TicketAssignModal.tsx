@@ -22,7 +22,6 @@ import { Ticket } from '../../lib/types';
 import { Spacing } from '../templates/Spacing';
 
 const ContentContainer = styled.div`
-  width: 450px;
   font-size: 0.85rem;
   font-weight: 400;
 `;
@@ -30,11 +29,17 @@ const ContentContainer = styled.div`
 const StyledRow = styled.div`
   display: flex;
   justify-content: space-between;
+  min-width: 580px;
 `;
 
 const StyledInput = styled(TextInputField)`
   width: 100%;
   text-align: left;
+  margin-right: 16px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 type TicketAssignModalProps = {
@@ -119,13 +124,13 @@ const TicketAssignModal = ({
 
                 <Spacing bottom="24px">
                   <StyledRow>
-                    <TextInputField
+                    <StyledInput
                       required
                       label="First name"
                       name="firstName"
                       placeholder="John"
                     />
-                    <TextInputField
+                    <StyledInput
                       label="Last name"
                       name="lastName"
                       placeholder="Doe"
