@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Icon from '../../lib/components/atoms/Icon';
 import { Button } from '../../lib/components/atoms/Button';
+import Icon from '../../lib/components/atoms/Icon';
 import { Spacing } from '../templates/Spacing';
 
 const BoxNode = styled.div`
@@ -29,6 +29,10 @@ const StyledHeader = styled(StyledMessage)`
   font-weight: 500;
 `;
 
+const StyledButton = styled(Button)`
+  min-width: 200px;
+`;
+
 const IconWrapper = styled.div`
   > .material-icons {
     font-size: 48px;
@@ -49,7 +53,7 @@ const AssignTicketBox = ({ onClickAction }: AssignTicketBoxProps) => {
         </IconWrapper>
       </Spacing>
 
-      <Spacing bottom="16px">
+      <Spacing bottom="28px">
         <StyledHeader>Assign your ticket</StyledHeader>
         <StyledMessage>
           Please assign this ticket to see the user account details
@@ -57,7 +61,7 @@ const AssignTicketBox = ({ onClickAction }: AssignTicketBoxProps) => {
       </Spacing>
 
       <Spacing bottom="90px">
-        <Button onClick={onClickAction}>Assign now</Button>
+        <StyledButton onClick={onClickAction}>Assign now</StyledButton>
       </Spacing>
     </BoxNode>
   );
