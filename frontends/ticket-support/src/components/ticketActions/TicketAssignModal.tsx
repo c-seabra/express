@@ -58,6 +58,8 @@ const TicketAssignModal = ({
   closeModal,
   ticket,
 }: TicketAssignModalProps) => {
+  const isAssigned = ticket.assignment !== null;
+  console.log(isAssigned)
   const { assignTicket } = useAssignTicketMutation();
   const [isFirstStepFilled, setFirstStepFilled] = useState(false);
 
@@ -72,7 +74,7 @@ const TicketAssignModal = ({
       key={isOpen.toString()}
       withDefaultFooter
       isOpen={isOpen}
-      title="Reassign ticket"
+      title={ isAssigned ? 'Reassign ticket' : 'Assign ticket'}
       onRequestClose={handleClose}
     >
       <ContentContainer>
@@ -102,7 +104,7 @@ const TicketAssignModal = ({
               {isFirstStepFilled ? (
                 <>
                   <ConfirmationText>
-                    Are you sure you want to&nbsp;<span>reassign</span>
+                    Are you sure you want to&nbsp;<span>{ isAssigned ? 'reassign' : 'assign'}</span>
                     &nbsp;ticket&nbsp;
                     <span>{ticket.bookingRef}</span>?
                   </ConfirmationText>
