@@ -23,7 +23,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Text = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0;
   line-height: 28px;
   max-width: 580px;
