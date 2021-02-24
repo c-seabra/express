@@ -53,7 +53,12 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
     case 'PENDING':
       return (
         <>
-          <TextButton onClick={openModal}>Claim ticket</TextButton>
+          <TextButton onClick={openModal}>
+            <StyledWrapper>
+              <Icon>content_paste</Icon>
+            </StyledWrapper>
+            Claim ticket
+          </TextButton>
           <ClaimTicketModal
             isOpen={isOpen}
             ticket={ticket}
@@ -82,9 +87,7 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
   }
 };
 
-const TicketStateActions = ({
-  ticket,
-}: TicketStateActionsProps) => {
+const TicketStateActions = ({ ticket }: TicketStateActionsProps) => {
   return (
     <>
       <TicketStateContainer>
