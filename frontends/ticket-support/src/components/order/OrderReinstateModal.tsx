@@ -23,14 +23,21 @@ const OrderReinstateModal = ({
 }: OrderReinstateModalProps) => {
   const { reinstateOrder } = useOrderReinstateMutation();
   const setMutation = (e: OrderReinstateRequest) => {
-    return reinstateOrder({ id: sourceId, reason: e.reason, refetch });
+    return reinstateOrder({
+      id: sourceId,
+      reason: e.reason,
+      refetch,
+      sendEmailNotification: e.sendEmailNotification,
+    });
   };
 
   return (
     <ReasonAlertModal
+      isNotificationOptionVisible
       alertHeader={`${orderRef}`}
-      alertText="This will reset the ticket assignment and the previous ticket holder will lose access to the ticket. They will be notified by email."
+      alertText="This action will reinstate the order and un-void the tickets under it.  Do you want to proceed with this action?"
       cancelText="No, keep order"
+      checkboxLabel="Notify order owner by email?"
       closeModal={closeModal}
       headerText="Are you sure you want to reinstate order"
       isOpen={isOpen}

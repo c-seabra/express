@@ -25,6 +25,7 @@ const LabelFieldContainer = styled.label`
   display: inline-block;
   margin: 0.6em 1em;
   cursor: pointer;
+  font-weight: 400;
 `;
 
 const Label = styled.div<{ required?: boolean }>`
@@ -42,7 +43,11 @@ const Label = styled.div<{ required?: boolean }>`
     `}
 `;
 
-const Indicator = styled.div<{ isChecked?: boolean; isError?: boolean }>`
+const Indicator = styled.div<{
+  color?: string;
+  isChecked?: boolean;
+  isError?: boolean;
+}>`
   width: 1.2em;
   height: 1.2em;
   background: #fff;
@@ -57,7 +62,7 @@ const Indicator = styled.div<{ isChecked?: boolean; isError?: boolean }>`
   ${(props) =>
     props.isChecked &&
     css`
-      background-color: #0067e9;
+      background-color: ${props.color ? props.color : '#0067e9'};
     `};
 
   ${Label}:hover & {
@@ -92,9 +97,13 @@ const Error = styled.div`
   margin-top: 4px;
 `;
 
-type CheckboxFieldProps = HTMLProps<HTMLInputElement> & { name: string };
+type CheckboxFieldProps = HTMLProps<HTMLInputElement> & {
+  color?: string;
+  name: string;
+};
 
 const CheckboxField = ({
+  color,
   className,
   label,
   name,
@@ -110,6 +119,7 @@ const CheckboxField = ({
               <>
                 <Input type="checkbox" {...field} />
                 <Indicator
+                  color={color}
                   isChecked={!!meta.value}
                   isError={meta.touched && !!meta.error}
                 />

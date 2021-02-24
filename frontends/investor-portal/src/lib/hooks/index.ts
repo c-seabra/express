@@ -4,4 +4,5 @@ export { default as useAttendanceAppearanceSelectionDestroyMutation } from './us
 export { default as useEventUpdateMutation } from './useEventUpdateMutation';
 export { default as useInvestorSessionCreateMutation } from './useInvestorSessionCreateMutation';
 export { default as useInvestorAccessGrantMutation } from './useInvestorAccessGrantMutation';
+export { default as useSessionTimeslotParticipationCreateMutation } from './useSessionTimeslotParticipationCreateMutation';
 export { default as useAttendanceInvestorSessionUpdateMutation } from './useAttendanceInvestorSessionUpdateMutation';

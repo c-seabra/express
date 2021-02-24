@@ -55,6 +55,7 @@ const commerceOrderItemFragment = gql`
     lastUpdatedAt
     lastUpdatedBy
     price
+    priceIncludingTax
     product {
       ...CommerceProduct
     }
@@ -65,6 +66,7 @@ const commerceOrderItemFragment = gql`
       ...CommerceTax
     }
     taxTotal
+    total
   }
   ${commerceProductFragment}
   ${commerceTaxFragment}
@@ -115,7 +117,7 @@ const commerceCustomerFragment = gql`
 `;
 
 const COMMERCE_GET_ORDER = gql`
-  query commerceGetOrder($id: ID!, $storeId: ID!) {
+  query commerceGetOrder($id: ID!, $storeId: ID) {
     commerceGetOrder(id: $id, storeId: $storeId) {
       billed
       createdAt
