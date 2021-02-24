@@ -18,6 +18,8 @@ import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
 import { useAppContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
+import { Spacing } from '../templates/Spacing';
+import AssignTicketBox from '../ticketActions/AssignTicketBox';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';
 import TicketAssignModal from '../ticketActions/TicketAssignModal';
 import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
@@ -27,7 +29,6 @@ import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail';
 import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier';
 import UserProfileInformation from '../userProfileInformation/UserProfileInformation';
 import TicketStateActions from './TicketStateActions';
-import AssignTicketBox from '../ticketActions/AssignTicketBox';
 
 const PageContainer = styled.div`
   max-width: 1440px;
@@ -340,7 +341,9 @@ const TicketDetails = (): ReactElement => {
 
               {ticket?.state === 'UNASSIGNED' && (
                 <ContainerCard>
-                  <AssignTicketBox onClickAction={openTicketAssignModal} />
+                  <Spacing bottom="36px" left="24px" right="24px" top="36px">
+                    <AssignTicketBox onClickAction={openTicketAssignModal} />
+                  </Spacing>
                 </ContainerCard>
               )}
 
