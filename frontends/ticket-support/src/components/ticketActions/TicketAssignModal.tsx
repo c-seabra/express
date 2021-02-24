@@ -22,7 +22,6 @@ import { Ticket } from '../../lib/types';
 import { Spacing } from '../templates/Spacing';
 
 const ContentContainer = styled.div`
-  padding: 2rem 0;
   width: 450px;
   font-size: 0.85rem;
   font-weight: 400;
@@ -31,6 +30,11 @@ const ContentContainer = styled.div`
 const StyledRow = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const StyledInput = styled(TextInputField)`
+  width: 100%;
+  text-align: left;
 `;
 
 type TicketAssignModalProps = {
@@ -99,6 +103,20 @@ const TicketAssignModal = ({
                   <AlertText>{ticket.bookingRef}</AlertText>
                 </Spacing>
 
+                <Spacing bottom="40px" top="24px">
+                  {isAssigned ? (
+                    <Text>
+                      Email notifications will be sent to the new assignee, old
+                      assignee, and order owner
+                    </Text>
+                  ) : (
+                    <Text>
+                      Email notifications will be sent to the new assignee and
+                      order owner
+                    </Text>
+                  )}
+                </Spacing>
+
                 <Spacing bottom="24px">
                   <StyledRow>
                     <TextInputField
@@ -114,27 +132,13 @@ const TicketAssignModal = ({
                     />
                   </StyledRow>
                   <StyledRow>
-                    <TextInputField
+                    <StyledInput
                       required
                       label="Email address"
                       name="email"
                       placeholder="john.doe@example.com"
                     />
                   </StyledRow>
-                </Spacing>
-
-                <Spacing bottom="40px" top="24px">
-                  {isAssigned ? (
-                    <Text>
-                      Email notifications will be sent to the new assignee, old
-                      assignee, and order owner
-                    </Text>
-                  ) : (
-                    <Text>
-                      Email notifications will be sent to the new assignee and
-                      order owner
-                    </Text>
-                  )}
                 </Spacing>
 
                 {isAssigned && (
