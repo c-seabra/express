@@ -14,7 +14,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 import MainNavigation from '../../lib/components/molecules/MainNavigation';
 import ROUTES from '../../lib/constants/routes';
-import AttendanceAppearanceSelectionDetails from '../attendanceAppearanceSelection/AttendanceAppearanceSelectionDetails.tsx';
+import AttendanceAppearanceSelectionDetails from '../attendanceAppearanceSelection/AttendanceAppearanceSelectionDetails';
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard';
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard';
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard';
