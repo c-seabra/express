@@ -76,7 +76,6 @@ const TicketAssignModal = ({
   ticket,
 }: TicketAssignModalProps) => {
   const isAssigned = ticket.assignment !== null;
-  console.log(isAssigned);
   const { assignTicket } = useAssignTicketMutation();
   const [isFirstStepFilled, setFirstStepFilled] = useState(false);
 
@@ -101,13 +100,9 @@ const TicketAssignModal = ({
           validateOnChange={false}
           validationSchema={isFirstStepFilled ? confirmSchema : assignSchema}
           onSubmit={async (values) => {
-            if (isFirstStepFilled) {
-              await assignTicket({ ...values, ticketId: ticket.id });
+            await assignTicket({ ...values, ticketId: ticket.id });
 
-              handleClose();
-            } else {
-              setFirstStepFilled(true);
-            }
+            handleClose();
           }}
         >
           {({ values }) => (
@@ -188,57 +183,6 @@ const TicketAssignModal = ({
                 </Spacing>
               </Wrapper>
             </Form>
-
-            // <StyledForm>
-            //   {isFirstStepFilled ? (
-            //     <>
-            //       <ConfirmationText>
-            //         Are you sure you want to&nbsp;<span>{ isAssigned ? 'reassign' : 'assign'}</span>
-            //         &nbsp;ticket&nbsp;
-            //         <span>{ticket.bookingRef}</span>?
-            //       </ConfirmationText>
-            //       <TextInputField
-            //         required
-            //         label="Specify a reason for the reassignment"
-            //         name="reason"
-            //       />
-            //       <CheckboxField
-            //         label="Send email notification to new and old assignee"
-            //         name="notify"
-            //       />
-            //       {values.notify && (
-            //         <WarningMessage>
-            //           Email notifications will be sent to the new assignee, old
-            //           assignee, and order owner
-            //         </WarningMessage>
-            //       )}
-            //     </>
-            //   ) : (
-            //     <>
-            //       <TextInputField
-            //         required
-            //         label="First name"
-            //         name="firstName"
-            //         placeholder="John"
-            //       />
-            //       <TextInputField
-            //         label="Last name"
-            //         name="lastName"
-            //         placeholder="Doe"
-            //       />
-            //       <TextInputField
-            //         required
-            //         label="Email"
-            //         name="email"
-            //         placeholder="john.doe@example.com"
-            //       />
-            //     </>
-            //   )}
-            //   <Modal.DefaultFooter
-            //     submitText={isFirstStepFilled ? 'Confirm' : 'Reassign ticket'}
-            //     onCancelClick={handleClose}
-            //   />
-            // </StyledForm>
           )}
         </Formik>
       </ContentContainer>
