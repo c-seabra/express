@@ -16,7 +16,7 @@ const VoidState = styled(Badge)`
   color: #d8d8d8;
 `;
 
-const StatePlate = ({ state }: { state: string }) => {
+const StatePlate = ({ state }: { state?: string }) => {
   switch (state) {
     case 'ACTIVE':
       return (

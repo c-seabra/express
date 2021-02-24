@@ -132,7 +132,7 @@ const orderRefundSchema = () =>
 
 const getFullRefundInitialValues = (order: CommerceOrder) => {
   return {
-    amount: order.total,
+    amount: order.billed,
   };
 };
 
