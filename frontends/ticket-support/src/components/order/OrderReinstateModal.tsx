@@ -35,7 +35,7 @@ const OrderReinstateModal = ({
     <ReasonAlertModal
       isNotificationOptionVisible
       alertHeader={`${orderRef}`}
-      alertText="This action will reinstate the Order and un-void the tickets under it.  Do you want to proceed with this action?"
+      alertText="This action will reinstate the order and un-void the tickets under it.  Do you want to proceed with this action?"
       cancelText="No, keep order"
       checkboxLabel="Notify order owner by email?"
       closeModal={closeModal}
