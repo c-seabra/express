@@ -142,7 +142,7 @@ const TicketAssignModal = ({
                   <StyledRow>
                     <TextInputField
                       required
-                      label="Email"
+                      label="Email address"
                       name="email"
                       placeholder="john.doe@example.com"
                     />
