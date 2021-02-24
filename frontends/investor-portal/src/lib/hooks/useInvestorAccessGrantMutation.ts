@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client';
 
 import { useAppContext } from '../../components/app/AppContext';
 import { INVESTOR_ACCESS_GRANT_MUTATION } from '../../operations/mutations/InvestorAccessGrantMutation';
-import { Attendance, Error } from '../types';
+import { Attendance, Dispatcher, Error } from '../types';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
@@ -20,9 +20,9 @@ type InvestorAccessGrantData = {
 
 type InvestorAccessArgs = {
   bookingReferences: string[];
-  setAttendances: React.Dispatch<React.SetStateAction<Attendance[]>>;
-  setInvalidBookingReferences: React.Dispatch<React.SetStateAction<string[]>>;
-  setUpdating: React.Dispatch<React.SetStateAction<boolean>>;
+  setAttendances: Dispatcher<Attendance[]>;
+  setInvalidBookingReferences: Dispatcher<string[]>;
+  setUpdating: Dispatcher<boolean>;
   startupSelectionsCount: number | undefined;
 };
 
