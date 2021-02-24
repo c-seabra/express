@@ -19,13 +19,14 @@ export type Attendance = {
   attendanceAppearanceSelections?: {
     edges: [{ node: AttendanceAppearanceSelection }];
   };
+  bookingRef?: string;
   id: string;
   investorSession?: {
     endsAt: any;
     startsAt: any;
   };
-  name: string;
-  pendingSelectionCount: number;
+  name?: string;
+  pendingSelectionCount?: number;
 };
 
 export type AttendanceAppearanceSelection = {

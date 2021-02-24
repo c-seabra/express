@@ -3,13 +3,8 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { Button } from '../../lib/components/atoms';
 import { LabeledInput } from '../../lib/components/molecules';
 import { useInvestorAccessGrantMutation } from '../../lib/hooks';
+import { Attendance } from '../../lib/types';
 import { AccessForm, SpacingBottom } from './InvestorAccessDashboard.styled';
-
-type Attendance = {
-  bookingRef: string;
-  id: string;
-  name?: string;
-};
 
 type InvestorAccessFormProps = {
   defaultSelectionsCount: number | undefined;
@@ -42,7 +37,10 @@ const InvestorAccessForm = ({
         .split(bookingRefSeparator)
         .filter((id) => validBookingRefMatcher.exec(id))
         .map((id) => id.toUpperCase());
-      setBookingReferences(sanitizedBookingReferences);
+      const uniqueBookingReferences = Array.from(
+        new Set(sanitizedBookingReferences),
+      );
+      setBookingReferences(uniqueBookingReferences);
     }
   };
 
@@ -77,9 +75,6 @@ const InvestorAccessForm = ({
           <LabeledInput
             label="Insert a booking reference(s) as pasted from single spreadsheet column:"
             type="textarea"
-            onBlur={(e) => {
-              parseBookingReferencesString(e.target.value);
-            }}
             onChange={(e) => {
               parseBookingReferencesString(e.target.value);
             }}
@@ -96,16 +91,13 @@ const InvestorAccessForm = ({
             min="1"
             type="number"
             onChange={(e) => {
-              setStartupSelectionsCount(parseInt(e.target.value, 10));
+              setStartupSelectionsCount(+e.target.value);
             }}
           />
         </SpacingBottom>
         <SpacingBottom>
           {bookingReferences?.length !== 0 && (
-            <Button type="submit">
-              Grant access to {bookingReferences?.length} Investor
-              {bookingReferences?.length > 1 ? 's' : ''}
-            </Button>
+            <Button type="submit">Grant access</Button>
           )}
         </SpacingBottom>
         <SpacingBottom>

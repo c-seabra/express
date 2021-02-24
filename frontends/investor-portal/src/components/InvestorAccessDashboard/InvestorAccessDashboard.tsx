@@ -5,6 +5,7 @@ import { ContainerCard } from '../../lib/components/atoms';
 import { Breadcrumb, Breadcrumbs } from '../../lib/components/molecules';
 import { useEventQuery } from '../../lib/hooks';
 import Loader from '../../lib/Loading';
+import { Attendance } from '../../lib/types';
 import Warning from '../settingsActions/Warning';
 import {
   BreadcrumbsContainer,
@@ -15,11 +16,6 @@ import InvestorAccessForm from './InvestorAccessForm';
 import InvestorAccessList from './InvestorAccessList';
 
 const InvestorAccessDashboard = (): ReactElement => {
-  type Attendance = {
-    bookingRef: string;
-    id: string;
-    name?: string;
-  };
   const [attendances, setAttendances] = useState<Array<Attendance>>([]);
   const [updating, setUpdating] = useState<boolean>(false);
   const [defaultSelectionsCount, setDefaultSelectionsCount] = useState<

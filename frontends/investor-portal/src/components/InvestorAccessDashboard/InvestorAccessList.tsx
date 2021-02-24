@@ -3,13 +3,8 @@ import React, { ReactElement, useState } from 'react';
 import { Button, Icon, ListItem } from '../../lib/components';
 import { ListColumn } from '../../lib/components/atoms';
 import { ItemListHeader } from '../../lib/components/molecules';
+import { Attendance } from '../../lib/types';
 import { SpacingBottom } from './InvestorAccessDashboard.styled';
-
-type Attendance = {
-  bookingRef: string;
-  id: string;
-  name?: string;
-};
 
 type InvestorAccessListProps = {
   attendances: Array<Attendance>;
@@ -34,7 +29,7 @@ const InvestorAccessList = ({
               toggleDetails();
             }}
           >
-            Toggle detail panel
+            Display entry information
           </Button>
         )}
       </SpacingBottom>
