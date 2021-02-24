@@ -3,8 +3,8 @@ import ATTENDANCES_LIST from '../../operations/queries/Attendances';
 import { Attendance } from '../types';
 import usePaginatedQuery from './usePaginatedQuery';
 
-const ATTENDANCES_PER_PAGE = 25
-const INVESTORS_TYPE = 'INVESTOR'
+const ATTENDANCES_PER_PAGE = 25;
+const INVESTORS_TYPE = 'INVESTOR';
 
 const useAttendancesQuery = ({
   initialPage,

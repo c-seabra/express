@@ -1,20 +1,20 @@
-import React, { ReactElement } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { ReactElement } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { ListItem } from '../../lib/components'
-import { Attendance } from '../../lib/types'
-import { Column, NarrowColumn } from './AttendanceListHeader.styled'
+import { ListItem } from '../../lib/components';
+import { Attendance } from '../../lib/types';
+import { Column, NarrowColumn } from './AttendanceListHeader.styled';
 
 const AttendanceItem = ({
   attendance,
   isChecked,
   onCheckboxChange,
 }: {
-  attendance: Attendance
-  isChecked: boolean
-  onCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  attendance: Attendance;
+  isChecked: boolean;
+  onCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }): ReactElement => {
-  const history = useHistory()
+  const history = useHistory();
 
   return (
     <ListItem>
@@ -29,10 +29,12 @@ const AttendanceItem = ({
         />
       </NarrowColumn>
       <Column>{attendance.id}</Column>
-      <Column onClick={() => history.push(`/dashboard/${attendance.id}`)}>{attendance.name}</Column>
+      <Column onClick={() => history.push(`/dashboard/${attendance.id}`)}>
+        {attendance.name}
+      </Column>
       <Column>{attendance.pendingSelectionCount}</Column>
     </ListItem>
-  )
-}
+  );
+};
 
-export default AttendanceItem
+export default AttendanceItem;

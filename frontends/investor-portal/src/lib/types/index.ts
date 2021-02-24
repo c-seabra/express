@@ -6,9 +6,9 @@ export type PageInfo = {
 };
 
 export type UserError = {
-  message: string
-  path: string[]
-}
+  message: string;
+  path: string[];
+};
 
 export type Attendance = {
   attendanceAppearanceSelections?: {

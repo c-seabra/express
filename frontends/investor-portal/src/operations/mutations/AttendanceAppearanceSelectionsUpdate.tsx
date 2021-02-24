@@ -1,8 +1,10 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const ATTENDANCE_APPEARANCE_SELECTION_UPDATE = gql`
   mutation attendanceAppearanceSelectionsUpdate($attendanceIds: [ID!]!) {
-    attendanceAppearanceSelectionUpdate(input: { attendanceIds: $attendanceIds }) {
+    attendanceAppearanceSelectionUpdate(
+      input: { attendanceIds: $attendanceIds }
+    ) {
       successMessage
       userErrors {
         path
@@ -10,6 +12,6 @@ const ATTENDANCE_APPEARANCE_SELECTION_UPDATE = gql`
       }
     }
   }
-`
+`;
 
-export default ATTENDANCE_APPEARANCE_SELECTION_UPDATE
+export default ATTENDANCE_APPEARANCE_SELECTION_UPDATE;

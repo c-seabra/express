@@ -1,15 +1,19 @@
-import React from 'react'
+import React from 'react';
 
-import { Column, ListHeaderItem, NarrowColumn } from './AttendanceListHeader.styled'
+import {
+  Column,
+  ListHeaderItem,
+  NarrowColumn,
+} from './AttendanceListHeader.styled';
 
 const AttendanceListHeader = ({
   isChecked,
   isDisabled,
   onCheckboxChange,
 }: {
-  isChecked: boolean
-  isDisabled: boolean
-  onCheckboxChange: (e: React.FormEvent<HTMLInputElement>) => void
+  isChecked: boolean;
+  isDisabled: boolean;
+  onCheckboxChange: (e: React.FormEvent<HTMLInputElement>) => void;
 }) => {
   return (
     <ListHeaderItem>
@@ -26,7 +30,7 @@ const AttendanceListHeader = ({
       <Column>Name</Column>
       <Column>Pending selections</Column>
     </ListHeaderItem>
-  )
-}
+  );
+};
 
-export default AttendanceListHeader
+export default AttendanceListHeader;

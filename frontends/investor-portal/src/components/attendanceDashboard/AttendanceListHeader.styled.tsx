@@ -15,7 +15,7 @@ export const Column = styled(ColumnStyles)`
 
 export const NarrowColumn = styled(ColumnStyles)`
   width: 3%;
-`
+`;
 
 export const ListHeaderItem = styled(ListItem)`
   font-weight: 600;
