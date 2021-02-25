@@ -377,14 +377,20 @@ const TicketDetails = (): ReactElement => {
                           <StyledLabel>
                             Assignment dashboard login link
                           </StyledLabel>
-                          <LoginLinkActions assignee={assignee} />
+                          <LoginLinkActions
+                            isTicketVoided={isTicketVoided}
+                            assignee={assignee}
+                          />
                         </SpacingBottomSm>
                       </>
                     )}
                   </ContainerCardInner>
                 </ContainerCard>
               )}
-              <UserProfileInformation account={assignee} isDisabled={isTicketVoided} />
+              <UserProfileInformation
+                account={assignee}
+                isDisabled={isTicketVoided}
+              />
             </AccountDetailsContainer>
           </RowContainer>
         </PageContainer>
