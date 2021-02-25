@@ -3,15 +3,15 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { Button } from '../../lib/components/atoms';
 import { LabeledInput } from '../../lib/components/molecules';
 import { useInvestorAccessGrantMutation } from '../../lib/hooks';
-import { Attendance, Dispatcher } from '../../lib/types';
+import { Attendance } from '../../lib/types';
 import { AccessForm, SpacingBottom } from './InvestorAccessDashboard.styled';
 
 type InvestorAccessFormProps = {
   defaultSelectionsCount: number | undefined;
   invalidBookingReferences: string[];
-  setAttendances: Dispatcher<Attendance[]>;
-  setInvalidBookingReferences: Dispatcher<string[]>;
-  setUpdating: Dispatcher<boolean>;
+  setAttendances: (arg: Attendance[]) => void;
+  setInvalidBookingReferences: (arg: string[]) => void;
+  setUpdating: (arg: boolean) => void;
 };
 
 const InvestorAccessForm = ({
