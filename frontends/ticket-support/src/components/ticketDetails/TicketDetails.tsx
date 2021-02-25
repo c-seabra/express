@@ -180,6 +180,7 @@ const TicketDetails = (): ReactElement => {
     })(false)(source);
   };
   const isTitoTicket = sourceOfSale && isFromTito(sourceOfSale);
+  const isTicketVoided = ticket?.state === 'VOID';
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: event?.name || 'Home',
@@ -251,12 +252,18 @@ const TicketDetails = (): ReactElement => {
                 {ticket?.state !== 'UNASSIGNED' && (
                   <StyledInnerContainerCard>
                     <SpacingBottomSm>
-                      <PrimaryButton onClick={openTicketAssignModal}>
+                      <PrimaryButton
+                        disabled={isTicketVoided}
+                        onClick={openTicketAssignModal}
+                      >
                         Reassign
                       </PrimaryButton>
                     </SpacingBottomSm>
                     <SpacingBottomSm>
-                      <PrimaryButton onClick={openUnassignTicketModal}>
+                      <PrimaryButton
+                        disabled={isTicketVoided}
+                        onClick={openUnassignTicketModal}
+                      >
                         Unassign
                       </PrimaryButton>
                       <UnassignTicketModal
@@ -266,7 +273,7 @@ const TicketDetails = (): ReactElement => {
                       />
                     </SpacingBottomSm>
 
-                    {ticket?.state === 'VOID' ? (
+                    {isTicketVoided ? (
                       <Button
                         onClick={
                           isTitoTicket
