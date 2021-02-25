@@ -18,8 +18,8 @@ import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
 import { useAppContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
-import OrderCancelModal from '../order/OrderCancelModal';
-import OrderReinstateModal from '../order/OrderReinstateModal';
+import { Spacing } from '../templates/Spacing';
+import AssignTicketBox from '../ticketActions/AssignTicketBox';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';
 import TicketAssignModal from '../ticketActions/TicketAssignModal';
 import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
@@ -109,10 +109,7 @@ const StyledInnerContainerCard = styled.span`
   display: flex;
   flex-direction: column;
   padding: 32px;
-`;
-
-const StyledInnerContainerCardWithBorder = styled(StyledInnerContainerCard)`
-  border-bottom: 1px solid #dcdfe5;
+  border-top: 1px solid #dcdfe5;
 `;
 
 const PrimaryButton = styled(Button)`
@@ -235,7 +232,7 @@ const TicketDetails = (): ReactElement => {
 
           <RowContainer>
             <TicketActionsContainerCard noPadding>
-              <StyledInnerContainerCardWithBorder>
+              <StyledInnerContainerCard>
                 <StyledPairContainer>
                   <StyledLabel>Ticket reference</StyledLabel>
                   <StyledValue>{bookingRef}</StyledValue>
@@ -249,73 +246,78 @@ const TicketDetails = (): ReactElement => {
                 <StyledPairContainer>
                   <TicketStateActions ticket={ticket} />
                 </StyledPairContainer>
-              </StyledInnerContainerCardWithBorder>
+              </StyledInnerContainerCard>
+              <>
+                {ticket?.state !== 'UNASSIGNED' && (
+                  <StyledInnerContainerCard>
+                    <SpacingBottomSm>
+                      <PrimaryButton onClick={openTicketAssignModal}>
+                        Reassign
+                      </PrimaryButton>
+                    </SpacingBottomSm>
+                    <SpacingBottomSm>
+                      <PrimaryButton onClick={openUnassignTicketModal}>
+                        Unassign
+                      </PrimaryButton>
+                      <UnassignTicketModal
+                        isOpen={isUnassignTicketModalOpen}
+                        ticket={ticket}
+                        onRequestClose={closeUnassignTicketModal}
+                      />
+                    </SpacingBottomSm>
 
-              <StyledInnerContainerCard>
-                <SpacingBottomSm>
-                  <PrimaryButton onClick={openTicketAssignModal}>
-                    Reassign
-                  </PrimaryButton>
-                  <TicketAssignModal
-                    closeModal={closeTicketAssignModal}
-                    isOpen={isTicketAssignModalOpen}
-                    ticket={ticket}
-                  />
-                </SpacingBottomSm>
-                <SpacingBottomSm>
-                  <PrimaryButton onClick={openUnassignTicketModal}>
-                    Unassign
-                  </PrimaryButton>
-                  <UnassignTicketModal
-                    isOpen={isUnassignTicketModalOpen}
-                    ticket={ticket}
-                    onRequestClose={closeUnassignTicketModal}
-                  />
-                </SpacingBottomSm>
+                    {ticket?.state === 'VOID' ? (
+                      <Button
+                        onClick={
+                          isTitoTicket
+                            ? openTitoWarningModal
+                            : openTicketUnvoidModal
+                        }
+                      >
+                        Unvoid
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={
+                          isTitoTicket
+                            ? openTitoWarningModal
+                            : openTicketVoidModal
+                        }
+                      >
+                        Void
+                      </Button>
+                    )}
 
-                {ticket?.state === 'VOID' ? (
-                  <Button
-                    onClick={
-                      isTitoTicket
-                        ? openTitoWarningModal
-                        : openTicketUnvoidModal
-                    }
-                  >
-                    Unvoid
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={
-                      isTitoTicket ? openTitoWarningModal : openTicketVoidModal
-                    }
-                  >
-                    Void
-                  </Button>
-                )}
-
-                {isTitoTicket ? (
-                  <ErrorInfoModal
-                    alertHeader={bookingRef}
-                    alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
+                    {isTitoTicket ? (
+                      <ErrorInfoModal
+                        alertHeader={bookingRef}
+                        alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
         to Tito to void the ticket."
-                    closeModal={closeTitoWarningModal}
-                    headerText="Unable to void ticket"
-                    isOpen={isTitoWarningModalOpen}
-                  />
-                ) : ticket?.state === 'VOID' ? (
-                  <TicketUnvoidModal
-                    bookingRef={bookingRef}
-                    closeModal={closeTicketUnvoidModal}
-                    isOpen={isTicketUnvoidModalOpen}
-                  />
-                ) : (
-                  <TicketVoidModal
-                    bookingRef={bookingRef}
-                    closeModal={closeTicketVoidModal}
-                    isOpen={isTicketVoidModalOpen}
-                  />
+                        closeModal={closeTitoWarningModal}
+                        headerText="Unable to void ticket"
+                        isOpen={isTitoWarningModalOpen}
+                      />
+                    ) : ticket?.state === 'VOID' ? (
+                      <TicketUnvoidModal
+                        bookingRef={bookingRef}
+                        closeModal={closeTicketUnvoidModal}
+                        isOpen={isTicketUnvoidModalOpen}
+                      />
+                    ) : (
+                      <TicketVoidModal
+                        bookingRef={bookingRef}
+                        closeModal={closeTicketVoidModal}
+                        isOpen={isTicketVoidModalOpen}
+                      />
+                    )}
+                  </StyledInnerContainerCard>
                 )}
+              </>
 
+              <StyledHistoryChanges>
+                <SecondaryButton onClick={openHistoryModal}>
+                  Load history changes
+                </SecondaryButton>
                 <Modal
                   noPadding
                   isOpen={isHistoryModalOpen}
@@ -327,43 +329,54 @@ const TicketDetails = (): ReactElement => {
                     token={token as string}
                   />
                 </Modal>
-              </StyledInnerContainerCard>
-              <StyledHistoryChanges>
-                <Button as={SecondaryButton} onClick={openHistoryModal}>
-                  Load history changes
-                </Button>
               </StyledHistoryChanges>
             </TicketActionsContainerCard>
 
             <AccountDetailsContainer>
-              <ContainerCard title="User account details">
-                <ContainerCardInner>
-                  {assignment && assignment.assignee && (
-                    <UpdateUniqueUserIdentifier
-                      accountId={assignment.assignee.id}
-                      email={assignment.assignee?.email}
-                    />
-                  )}
+              <TicketAssignModal
+                closeModal={closeTicketAssignModal}
+                isOpen={isTicketAssignModalOpen}
+                ticket={ticket}
+              />
 
-                  {assignment?.state === 'ACCEPTED' && (
-                    <UpdateAppLoginEmail
-                      bookingRef={bookingRef}
-                      email={assignment?.appLoginEmail || assignee?.email}
-                    />
-                  )}
+              {ticket?.state === 'UNASSIGNED' && (
+                <ContainerCard>
+                  <Spacing bottom="36px" left="24px" right="24px" top="36px">
+                    <AssignTicketBox onClickAction={openTicketAssignModal} />
+                  </Spacing>
+                </ContainerCard>
+              )}
 
-                  {assignee && (
-                    <>
-                      <SpacingBottomSm>
-                        <StyledLabel>
-                          Assignment dashboard login link
-                        </StyledLabel>
-                        <LoginLinkActions assignee={assignee} />
-                      </SpacingBottomSm>
-                    </>
-                  )}
-                </ContainerCardInner>
-              </ContainerCard>
+              {ticket?.state !== 'UNASSIGNED' && (
+                <ContainerCard title="User account details">
+                  <ContainerCardInner>
+                    {assignment && assignment.assignee && (
+                      <UpdateUniqueUserIdentifier
+                        accountId={assignment.assignee.id}
+                        email={assignment.assignee?.email}
+                      />
+                    )}
+
+                    {assignment?.state === 'ACCEPTED' && (
+                      <UpdateAppLoginEmail
+                        bookingRef={bookingRef}
+                        email={assignment?.appLoginEmail || assignee?.email}
+                      />
+                    )}
+
+                    {assignee && (
+                      <>
+                        <SpacingBottomSm>
+                          <StyledLabel>
+                            Assignment dashboard login link
+                          </StyledLabel>
+                          <LoginLinkActions assignee={assignee} />
+                        </SpacingBottomSm>
+                      </>
+                    )}
+                  </ContainerCardInner>
+                </ContainerCard>
+              )}
               <UserProfileInformation account={assignee} />
             </AccountDetailsContainer>
           </RowContainer>

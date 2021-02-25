@@ -2,6 +2,8 @@ import styled, { css } from 'styled-components';
 
 type SpacingRules = {
   bottom?: string;
+  left?: string;
+  right?: string;
   top?: string;
 };
 
@@ -16,6 +18,18 @@ export const Spacing = styled.div<SpacingRules>`
     props.bottom &&
     css`
       margin-bottom: ${props.bottom};
+    `}
+
+  ${(props) =>
+    props.left &&
+    css`
+      margin-left: ${props.left};
+    `}
+
+  ${(props) =>
+    props.right &&
+    css`
+      margin-right: ${props.right};
     `}
 `;
 
