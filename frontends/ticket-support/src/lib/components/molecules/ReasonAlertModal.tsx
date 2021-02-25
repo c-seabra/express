@@ -45,7 +45,7 @@ export const FieldWrapper = styled(TextAreaField)`
   min-width: 580px;
   text-align: left;
   padding: 0;
-  
+
   textarea {
     height: 77px;
   }

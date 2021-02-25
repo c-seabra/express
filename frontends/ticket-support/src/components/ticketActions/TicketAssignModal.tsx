@@ -68,7 +68,7 @@ const TicketAssignModal = ({
   ticket,
 }: TicketAssignModalProps) => {
   const isAssigned = ticket.assignment !== null;
-  const assignPhrase = isAssigned ? 'reassign' : 'assign'
+  const assignPhrase = isAssigned ? 'reassign' : 'assign';
   const { assignTicket } = useAssignTicketOperation();
   const handleClose = () => {
     closeModal();
@@ -89,7 +89,7 @@ const TicketAssignModal = ({
           validateOnChange={false}
           validationSchema={isAssigned ? confirmSchema : assignSchema}
           onSubmit={async (values) => {
-            console.log(values)
+            console.log(values);
             await assignTicket({ ...values, ticketId: ticket.id });
 
             handleClose();
@@ -104,7 +104,9 @@ const TicketAssignModal = ({
                   </IconWrapper>
                 </Spacing>
 
-                <HeaderText>Are you sure you want to {assignPhrase} ticket</HeaderText>
+                <HeaderText>
+                  Are you sure you want to {assignPhrase} ticket
+                </HeaderText>
 
                 <Spacing bottom="40px">
                   <AlertText>{ticket.bookingRef}</AlertText>
