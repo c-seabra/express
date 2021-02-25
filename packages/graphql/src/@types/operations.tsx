@@ -1312,6 +1312,7 @@ export type TicketReleaseActionsTitoCheckoutAction = {
 export type Price = {
   __typename?: 'Price';
   exTax: Money;
+  /** @deprecated This field is only here for compatibility reasons.You should not use it because we no longer support tax lines, the returned value is hardcoded to an empty array. */
   taxLines: Array<TaxLine>;
   total: Money;
   totalTax: Money;
@@ -2944,6 +2945,7 @@ export type CommerceTax = {
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
+  metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   rateAmount: Scalars['Int'];
   rateType: CommerceTaxRateType;
@@ -3141,6 +3143,7 @@ export type CommerceSale = {
   active: Maybe<Scalars['Boolean']>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
+  description: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
@@ -3156,6 +3159,7 @@ export type CommerceSaleProduct = {
   active: Maybe<Scalars['Boolean']>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
+  description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
@@ -5065,6 +5069,7 @@ export type CommerceOrderItemCreateOrUpdate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
   priceIncludingTax?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
   productMetadata?: Maybe<Scalars['JSON']>;
@@ -5113,6 +5118,7 @@ export type CommerceSaleCreate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -5126,6 +5132,7 @@ export type CommerceSaleProductCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -5139,6 +5146,7 @@ export type CommerceSaleProductCreate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5187,6 +5195,7 @@ export type CommerceSaleCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
@@ -5335,6 +5344,7 @@ export type CommerceSaleUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
@@ -5349,6 +5359,7 @@ export type CommerceSaleProductUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -6088,6 +6099,7 @@ export type CommerceOrderItemCreate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
   priceIncludingTax?: Maybe<Scalars['Int']>;
   product: Scalars['ID'];
   productMetadata?: Maybe<Scalars['JSON']>;
@@ -6105,6 +6117,7 @@ export type CommerceOrderItemUpdate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
   priceIncludingTax?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
   productMetadata?: Maybe<Scalars['JSON']>;
@@ -6328,6 +6341,7 @@ export type TicketAssignMutationVariables = Exact<{
   lastName?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   ticketId: Scalars['ID'];
+  notify?: Maybe<Scalars['Boolean']>;
 }>;
 
 export type TicketAssignMutation = { __typename?: 'Mutation' } & {
@@ -10177,6 +10191,14 @@ export const TicketAssignDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'ticketId' },
                       },
                     },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'notify' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'notify' },
+                      },
+                    },
                   ],
                   kind: 'ObjectValue',
                 },
@@ -10335,6 +10357,14 @@ export const TicketAssignDocument: DocumentNode = {
             name: { kind: 'Name', value: 'ticketId' },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'notify' },
+          },
+        },
       ],
     },
   ],
@@ -10362,6 +10392,7 @@ export type TicketAssignMutationFn = Apollo.MutationFunction<
  *      lastName: // value for 'lastName'
  *      email: // value for 'email'
  *      ticketId: // value for 'ticketId'
+ *      notify: // value for 'notify'
  *   },
  * });
  */
