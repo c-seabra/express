@@ -384,7 +384,6 @@ const TicketDetails = (): ReactElement => {
                   </ContainerCardInner>
                 </ContainerCard>
               )}
-              <UserProfileInformation account={assignee} />
               <UserProfileInformation account={assignee} isDisabled={isTicketVoided} />
             </AccountDetailsContainer>
           </RowContainer>
