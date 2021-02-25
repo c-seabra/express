@@ -17,7 +17,7 @@ import {
   Wrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
 import TextInputField from '../../lib/components/molecules/TextInputField';
-import useAssignTicketMutation from '../../lib/hooks/useTicketAssignMutation';
+import useAssignTicketOperation from '../../lib/hooks/useTicketAssignMutation';
 import { Ticket } from '../../lib/types';
 import { Spacing } from '../templates/Spacing';
 
@@ -68,7 +68,7 @@ const TicketAssignModal = ({
   ticket,
 }: TicketAssignModalProps) => {
   const isAssigned = ticket.assignment !== null;
-  const { assignTicket } = useAssignTicketMutation();
+  const { assignTicket } = useAssignTicketOperation();
   const handleClose = () => {
     closeModal();
   };
