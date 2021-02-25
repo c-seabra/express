@@ -6,6 +6,7 @@ export const TICKET_ASSIGN_MUTATION = gql`
     $lastName: String
     $email: String!
     $ticketId: ID!
+    $notify: Boolean
   ) {
     ticketAssign(
       input: {
@@ -13,6 +14,7 @@ export const TICKET_ASSIGN_MUTATION = gql`
         lastName: $lastName
         email: $email
         ticketId: $ticketId
+        notify: $notify
       }
     ) {
       ticket {
