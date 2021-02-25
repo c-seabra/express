@@ -17,6 +17,10 @@ const StyledForm = styled(Form)`
   flex-direction: column;
 `;
 
+const StyledFieldset = styled.fieldset`
+  border: none;
+`;
+
 const Row = styled.div`
   display: flex;
   width: 100%;
@@ -91,9 +95,13 @@ const genderOptions = [
 
 type UserProfileInformationProps = {
   account?: Account;
+  isDisabled?: boolean;
 };
 
-const UserProfileInformation = ({ account }: UserProfileInformationProps) => {
+const UserProfileInformation = ({
+  account,
+  isDisabled,
+}: UserProfileInformationProps) => {
   const { event } = useEventDataQuery();
   const { updateProfile } = useProfileAdminUpdateMutation({
     accountId: account?.id,
@@ -123,47 +131,51 @@ const UserProfileInformation = ({ account }: UserProfileInformationProps) => {
         onSubmit={updateProfile}
       >
         {({ resetForm }) => (
-          <StyledForm>
-            <Row>
-              <TextInputField required label="First name" name="firstName" />
-              <TextInputField label="Last name" name="lastName" />
-            </Row>
-            <Row>
-              <TextInputField label="Phone number" name="phoneNumber" />
-              <SelectField
-                label="Gender"
-                name="gender"
-                options={genderOptions}
-              />
-            </Row>
-            <Row>
-              <TextInputField label="City" name="city" />
-              <TextInputField label="Company name" name="companyName" />
-            </Row>
-            <Row>
-              <SelectField
-                label="Company size"
-                name="companySizeId"
-                options={companySizeOptions}
-              />
-              <SelectField
-                label="Industry"
-                name="industryId"
-                options={industryOptions}
-              />
-            </Row>
-            <TextInputField required label="Job title" name="jobTitle" />
-            <TextAreaField label="Bio" maxLength={255} name="bio" />
-            <ButtonRow>
-              <SecondaryButton
-                type="button"
-                onClick={() => resetForm({ values: getInitialValues(account) })}
-              >
-                Cancel
-              </SecondaryButton>
-              <Button type="submit">Save</Button>
-            </ButtonRow>
-          </StyledForm>
+          <StyledFieldset disabled={isDisabled}>
+            <StyledForm>
+              <Row>
+                <TextInputField required label="First name" name="firstName" />
+                <TextInputField label="Last name" name="lastName" />
+              </Row>
+              <Row>
+                <TextInputField label="Phone number" name="phoneNumber" />
+                <SelectField
+                  label="Gender"
+                  name="gender"
+                  options={genderOptions}
+                />
+              </Row>
+              <Row>
+                <TextInputField label="City" name="city" />
+                <TextInputField label="Company name" name="companyName" />
+              </Row>
+              <Row>
+                <SelectField
+                  label="Company size"
+                  name="companySizeId"
+                  options={companySizeOptions}
+                />
+                <SelectField
+                  label="Industry"
+                  name="industryId"
+                  options={industryOptions}
+                />
+              </Row>
+              <TextInputField required label="Job title" name="jobTitle" />
+              <TextAreaField label="Bio" maxLength={255} name="bio" />
+              <ButtonRow>
+                <SecondaryButton
+                  type="button"
+                  onClick={() =>
+                    resetForm({ values: getInitialValues(account) })
+                  }
+                >
+                  Cancel
+                </SecondaryButton>
+                <Button type="submit">Save</Button>
+              </ButtonRow>
+            </StyledForm>
+          </StyledFieldset>
         )}
       </Formik>
     </ContainerCard>
