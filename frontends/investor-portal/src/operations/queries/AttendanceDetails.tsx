@@ -15,6 +15,8 @@ export const ATTENDANCE_DETAILS_QUERY = gql`
               id
               status
               updatedAt
+              startsAt
+              endsAt
               appearance {
                 id
                 company {
