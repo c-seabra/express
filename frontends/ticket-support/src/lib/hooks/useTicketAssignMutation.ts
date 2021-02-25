@@ -22,7 +22,7 @@ const useAssignTicketOperation = () => {
       if (ticketAssign?.userErrors[0]) {
         error(ticketAssign?.userErrors[0].message);
       } else {
-        success('Ticket reassigned successfully');
+        success('Ticket assigned successfully');
       }
     },
     onError: (e) => error(e.message),
