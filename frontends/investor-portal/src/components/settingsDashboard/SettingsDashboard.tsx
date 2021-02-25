@@ -51,7 +51,7 @@ const SettingsDashboard: React.FC = () => {
       reader.readAsDataURL(uploadedFile);
       reader.onload = () => setSponsorLogo(reader.result as string);
     }
-  }
+  };
 
   const usableDateString = (dateString: string | undefined) => {
     if (dateString === undefined || dateString === null) {
@@ -141,8 +141,8 @@ const SettingsDashboard: React.FC = () => {
                     defaultValue={sponsorLogoUrl}
                     label="Upload a SVG file"
                     type="file"
-                    onChange={ (e) => {
-                      handleUpload(e.target.files?.[0])
+                    onChange={(e) => {
+                      handleUpload(e.target.files?.[0]);
                     }}
                   />
                 </FormArea>
