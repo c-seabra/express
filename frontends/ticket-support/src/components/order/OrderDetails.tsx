@@ -348,11 +348,7 @@ const OrderDetails = (): ReactElement => {
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
-                <ContainerCard
-                  noPadding
-                  color="#DF0079"
-                  title="Ticket information"
-                >
+                <ContainerCard noPadding title="Ticket information">
                   <TicketList list={tickets.edges.map(({ node }) => node)} />
                 </ContainerCard>
               </div>
