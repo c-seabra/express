@@ -8,16 +8,18 @@ export const ATTENDANCE_DETAILS_QUERY = gql`
         endsAt
       }
       name
-      attendanceAppearanceSelections {
-        edges {
-          node {
-            id
-            status
-            updatedAt
-            appearance {
+      attendanceAppearanceSelectionsDetails{
+        attendanceAppearanceSelections {
+          edges {
+            node {
               id
-              company {
-                name
+              status
+              updatedAt
+              appearance {
+                id
+                company {
+                  name
+                }
               }
             }
           }

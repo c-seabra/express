@@ -11,9 +11,8 @@ export type UserError = {
 };
 
 export type Attendance = {
-  attendanceAppearanceSelections?: {
-    edges: [{ node: AttendanceAppearanceSelection }];
-  };
+  acceptedSelectionCount: number;
+  attendanceAppearanceSelectionsDetails: AttendanceAppearanceSelectionsDetails
   companyName: string;
   id: string;
   investorSession?: {
@@ -21,14 +20,26 @@ export type Attendance = {
     startsAt: any;
   };
   name: string;
-  pendingSelectionCount: number;
+
 };
+
+export type AttendanceAppearanceSelectionsDetails = {
+  acceptedSelectionCount?: number;
+  attendanceAppearanceSelections?: {
+    edges: [{ node: AttendanceAppearanceSelection }];
+  };
+  pendingSelectionCount?: number;
+  rejectedSelectionCount?: number;
+  submittedSelectionCount?: number;
+}
 
 export type AttendanceAppearanceSelection = {
   appearance: Appearance;
+  endsAt: string;
   id: string;
   participations: [Attendance];
   sessionTimeslotId: string;
+  startsAt: string;
   status: string;
   updatedAt: string;
 };
