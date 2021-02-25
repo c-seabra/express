@@ -6595,6 +6595,28 @@ export type CommerceCustomerFragment = {
     >;
   };
 
+export type CommerceTransactionFragment = {
+  __typename?: 'CommerceTransaction';
+} & Pick<
+  CommerceTransaction,
+  | 'amount'
+  | 'createdAt'
+  | 'createdBy'
+  | 'currency'
+  | 'id'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'metadata'
+  | 'refundedTransaction'
+  | 'status'
+  | 'timestamp'
+  | 'type'
+> & {
+    paymentMethod: Maybe<
+      { __typename?: 'CommercePaymentMethod' } & CommercePaymentMethodFragment
+    >;
+  };
+
 export type CommerceGetOrderQueryVariables = Exact<{
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
@@ -6633,6 +6655,15 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
           {
             __typename?: 'CommercePaymentMethod';
           } & CommercePaymentMethodFragment
+        >;
+        transactions: Maybe<
+          Array<
+            Maybe<
+              {
+                __typename?: 'CommerceTransaction';
+              } & CommerceTransactionFragment
+            >
+          >
         >;
       }
   >;
@@ -7675,26 +7706,6 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
   ],
   kind: 'Document',
 };
-export const CommercePaymentMethodFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
 export const CommerceAddressFragmentDoc: DocumentNode = {
   definitions: [
     {
@@ -7786,6 +7797,87 @@ export const CommerceCustomerFragmentDoc: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceAddress' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommercePaymentMethodFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommerceTransactionFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTransaction' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommercePaymentMethod' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refundedTransaction' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTransaction' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
       },
     },
   ],
@@ -11234,6 +11326,19 @@ export const CommerceGetOrderDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'subTotal' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'total' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'transactions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'CommerceTransaction' },
+                      },
+                    ],
+                  },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'url' } },
               ],
             },
@@ -11465,6 +11570,47 @@ export const CommerceGetOrderDocument: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceCustomer' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTransaction' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommercePaymentMethod' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refundedTransaction' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTransaction' },
       },
     },
   ],

@@ -1,5 +1,9 @@
 import { useQuery } from '@apollo/client';
-import { CommerceOrderPaymentStatus } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceOrderPaymentStatus,
+  CommerceTransaction,
+  CommerceTransactionType,
+} from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
@@ -28,6 +32,7 @@ import TicketList from '../ticketList/TicketList';
 import OrderCancelModal from './OrderCancelModal';
 import OrderDetailsSummary from './OrderDetailsSummary';
 import OrderOwnerDetails from './OrderOwnerDetails';
+import OrderRefundsSummary from './OrderRefundsSummary';
 import OrderReinstateModal from './OrderReinstateModal';
 import OrderSummary from './OrderSummary';
 
@@ -170,6 +175,12 @@ const OrderDetails = (): ReactElement => {
     },
   ];
 
+  const refunds: CommerceTransaction[] = commerceOrder?.transactions
+    ?.filter(Boolean)
+    ?.filter(
+      (transaction) => transaction?.type === CommerceTransactionType.Refund,
+    ) as CommerceTransaction[];
+
   return (
     <>
       <Helmet>
@@ -297,12 +308,22 @@ const OrderDetails = (): ReactElement => {
               </SpacingBottom>
 
               <SpacingBottom>
-                <OrderSummary
-                  commerceOrder={commerceOrder}
-                  error={commerceOrderError}
-                  loading={loadingCommerceOrder}
-                />
+                {!isTitoOrder && (
+                  <OrderSummary
+                    commerceOrder={commerceOrder}
+                    error={commerceOrderError}
+                    loading={loadingCommerceOrder}
+                  />
+                )}
               </SpacingBottom>
+              {refunds?.length > 0 && (
+                <SpacingBottom>
+                  <OrderRefundsSummary
+                    currencySymbol={commerceOrder?.currencySymbol}
+                    refunds={refunds}
+                  />
+                </SpacingBottom>
+              )}
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
