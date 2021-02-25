@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import React, { ReactElement } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -32,6 +34,9 @@ const AttendanceAppearanceSelectionItem = ({
     <ListItem>
       <Column>{selection.appearance.company.name}</Column>
       <Column>{new Date(selection.updatedAt).toDateString()}</Column>
+      <Column>
+        {moment(selection.startsAt).format('ddd HH:mm')} - {moment(selection.endsAt).format('HH:mm')}
+      </Column>
       <Column>{selection.status}</Column>
       <Column>
         <SecondaryButton
