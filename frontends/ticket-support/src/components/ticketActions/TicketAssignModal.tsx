@@ -89,7 +89,6 @@ const TicketAssignModal = ({
           validateOnChange={false}
           validationSchema={isAssigned ? confirmSchema : assignSchema}
           onSubmit={async (values) => {
-            console.log(values);
             await assignTicket({ ...values, ticketId: ticket.id });
 
             handleClose();
