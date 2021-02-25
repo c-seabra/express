@@ -5,7 +5,7 @@ export const EVENT_UPDATE = gql`
     $investorMeetingsDefaultStartupSelections: Int!
     $investorMeetingsMeetingsPerSession: Int!
     $investorMeetingsSessionDuration: Int!
-    $investorMeetingsSponsorLogo: Upload
+    $investorMeetingsSponsorLogo: String
     $investorMeetingsStartupPortalOpeningAt: ISO8601DateTime
     $investorMeetingsStartupPortalClosingAt: ISO8601DateTime
     $investorMeetingsStartupSelectionDeadline: ISO8601DateTime
