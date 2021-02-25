@@ -7,7 +7,10 @@ const AttendanceListHeader = () => {
     <ListHeaderItem>
       <Column>ID</Column>
       <Column>Name</Column>
-      <Column>Pending selections</Column>
+      <Column>Accepted</Column>
+      <Column>Pending</Column>
+      <Column>Rejected</Column>
+      <Column>Submitted</Column>
     </ListHeaderItem>
   );
 };
