@@ -93,7 +93,7 @@ const TicketAssignModal = ({
             handleClose();
           }}
         >
-          {({ values }) => (
+          {() => (
             <Form>
               <Wrapper>
                 <Spacing bottom="10px">
