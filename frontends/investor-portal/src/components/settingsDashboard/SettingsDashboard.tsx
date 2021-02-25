@@ -28,7 +28,7 @@ const SettingsDashboard: React.FC = () => {
     setDefaultStartupSelections,
   ] = useState<number>();
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin');
-  const [sponsorLogo, setSponsorLogo] = useState<File | undefined>();
+  const [sponsorLogo, setSponsorLogo] = useState<string | undefined>();
   const [meetingsPerSession, setMeetingsPerSession] = useState<
     number | undefined
   >();
@@ -44,9 +44,13 @@ const SettingsDashboard: React.FC = () => {
     string | undefined
   >();
 
-  const handleUpload = (uploadedFile?: File) => {
-    setSponsorLogoUrl(URL.createObjectURL(uploadedFile));
-    setSponsorLogo(uploadedFile);
+  const handleUpload = (uploadedFile?: Blob) => {
+    if (uploadedFile !== undefined) {
+      setSponsorLogoUrl(URL.createObjectURL(uploadedFile));
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadedFile);
+      reader.onload = () => setSponsorLogo(reader.result as string);
+    }
   };
 
   const usableDateString = (dateString: string | undefined) => {
