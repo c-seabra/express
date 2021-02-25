@@ -8,7 +8,7 @@ export const ATTENDANCE_DETAILS_QUERY = gql`
         endsAt
       }
       name
-      attendanceAppearanceSelectionsDetails{
+      attendanceAppearanceSelectionsDetails {
         attendanceAppearanceSelections {
           edges {
             node {

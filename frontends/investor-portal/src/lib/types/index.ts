@@ -12,7 +12,7 @@ export type UserError = {
 
 export type Attendance = {
   acceptedSelectionCount: number;
-  attendanceAppearanceSelectionsDetails: AttendanceAppearanceSelectionsDetails
+  attendanceAppearanceSelectionsDetails: AttendanceAppearanceSelectionsDetails;
   companyName: string;
   id: string;
   investorSession?: {
@@ -20,7 +20,6 @@ export type Attendance = {
     startsAt: string | undefined;
   };
   name: string;
-
 };
 
 export type AttendanceAppearanceSelectionsDetails = {
@@ -31,7 +30,7 @@ export type AttendanceAppearanceSelectionsDetails = {
   pendingSelectionCount?: number;
   rejectedSelectionCount?: number;
   submittedSelectionCount?: number;
-}
+};
 
 export type AttendanceAppearanceSelection = {
   appearance: Appearance;

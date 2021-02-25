@@ -26,10 +26,27 @@ const AttendanceItem = ({
     <ListItem onClick={() => history.push(`/dashboard/${attendance.id}`)}>
       <Column>{attendance.id}</Column>
       <Column>{attendance.name}</Column>
-      <Column>{attendance.attendanceAppearanceSelectionsDetails.acceptedSelectionCount}</Column>
-      <Column>{attendance.attendanceAppearanceSelectionsDetails.pendingSelectionCount}</Column>
-      <Column>{attendance.attendanceAppearanceSelectionsDetails.rejectedSelectionCount}</Column>
-      <Column>{attendance.attendanceAppearanceSelectionsDetails.submittedSelectionCount}</Column>
+      <Column>
+        {
+          attendance.attendanceAppearanceSelectionsDetails
+            .acceptedSelectionCount
+        }
+      </Column>
+      <Column>
+        {attendance.attendanceAppearanceSelectionsDetails.pendingSelectionCount}
+      </Column>
+      <Column>
+        {
+          attendance.attendanceAppearanceSelectionsDetails
+            .rejectedSelectionCount
+        }
+      </Column>
+      <Column>
+        {
+          attendance.attendanceAppearanceSelectionsDetails
+            .submittedSelectionCount
+        }
+      </Column>
     </ListItem>
   );
 };

@@ -33,9 +33,12 @@ const AttendanceAppearanceSelectionItem = ({
       <Column>{selection.appearance.company.name}</Column>
       <Column>{new Date(selection.updatedAt).toDateString()}</Column>
       <Column>
-          {selection.startsAt &&
-            <div>{moment(selection.startsAt).format('ddd HH:mm')} - {moment(selection.endsAt).format('ddd HH:mm')}</div>
-          }
+        {selection.startsAt && (
+          <div>
+            {moment(selection.startsAt).format('ddd HH:mm')} -{' '}
+            {moment(selection.endsAt).format('ddd HH:mm')}
+          </div>
+        )}
       </Column>
       <Column>{selection.status}</Column>
       <Column>
