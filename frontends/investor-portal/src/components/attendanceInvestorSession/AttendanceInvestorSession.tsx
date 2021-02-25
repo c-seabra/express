@@ -11,8 +11,8 @@ import { StyledForm } from './AttendanceInvestorSession.styled';
 
 type AttendanceInvestorSessionType = {
   attendanceId: string;
-  currentEndsAt: string;
-  currentStartsAt: string;
+  currentEndsAt: string | undefined;
+  currentStartsAt: string | undefined;
   selections: AttendanceAppearanceSelection[];
 };
 

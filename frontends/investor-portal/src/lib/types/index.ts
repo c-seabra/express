@@ -16,8 +16,8 @@ export type Attendance = {
   companyName: string;
   id: string;
   investorSession?: {
-    endsAt: any;
-    startsAt: any;
+    endsAt: string | undefined;
+    startsAt: string | undefined;
   };
   name: string;
 

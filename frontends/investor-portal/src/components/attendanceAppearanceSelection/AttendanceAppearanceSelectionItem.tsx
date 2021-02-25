@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 import React, { ReactElement } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -11,8 +10,7 @@ import {
 } from '../../lib/components';
 import { useAttendanceAppearanceSelectionDestroyMutation } from '../../lib/hooks';
 import { AttendanceAppearanceSelection } from '../../lib/types';
-import Column from './AttendanceAppearanceSelectionColumn.styled';
-import { ListItem } from './AttendanceAppearanceSelectionColumn.styled';
+import Column, { ListItem } from './AttendanceAppearanceSelectionColumn.styled';
 
 const AttendanceAppearanceSelectionItem = ({
   selection,
