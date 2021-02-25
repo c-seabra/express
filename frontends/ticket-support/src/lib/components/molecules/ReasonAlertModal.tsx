@@ -49,7 +49,6 @@ export const FieldWrapper = styled(TextAreaField)`
   textarea {
     height: 77px;
   }
-  padding: 0;
 `;
 
 const StyledRow = styled.div`
