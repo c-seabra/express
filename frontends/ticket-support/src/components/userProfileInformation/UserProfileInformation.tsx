@@ -163,17 +163,19 @@ const UserProfileInformation = ({
               </Row>
               <TextInputField required label="Job title" name="jobTitle" />
               <TextAreaField label="Bio" maxLength={255} name="bio" />
-              <ButtonRow>
-                <SecondaryButton
-                  type="button"
-                  onClick={() =>
-                    resetForm({ values: getInitialValues(account) })
-                  }
-                >
-                  Cancel
-                </SecondaryButton>
-                <Button type="submit">Save</Button>
-              </ButtonRow>
+              {!isDisabled && (
+                <ButtonRow>
+                  <SecondaryButton
+                    type="button"
+                    onClick={() =>
+                      resetForm({ values: getInitialValues(account) })
+                    }
+                  >
+                    Cancel
+                  </SecondaryButton>
+                  <Button type="submit">Save</Button>
+                </ButtonRow>
+              )}
             </StyledForm>
           </StyledFieldset>
         )}
