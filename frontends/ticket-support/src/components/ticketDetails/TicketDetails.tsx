@@ -378,8 +378,8 @@ const TicketDetails = (): ReactElement => {
                             Assignment dashboard login link
                           </StyledLabel>
                           <LoginLinkActions
-                            isTicketVoided={isTicketVoided}
                             assignee={assignee}
+                            isTicketVoided={isTicketVoided}
                           />
                         </SpacingBottomSm>
                       </>
