@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
 
 const StyledWarning = styled.div`
   font-style: italic;

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 const EVENT_LIST = gql`
   query EventListQuery {

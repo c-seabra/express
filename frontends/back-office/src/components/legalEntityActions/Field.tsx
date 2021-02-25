@@ -1,5 +1,5 @@
-import React, { SetStateAction } from "react";
-import styled from "styled-components";
+import React, { SetStateAction } from 'react';
+import styled from 'styled-components';
 
 const StyledField = styled.label`
   display: flex;
@@ -18,7 +18,7 @@ const StyledField = styled.label`
 const Field = ({
   label,
   fieldName,
-  fieldType = "text",
+  fieldType = 'text',
   onChange,
   required = false,
 }: {
@@ -32,7 +32,7 @@ const Field = ({
     <StyledField>
       <span>
         {label}
-        {required && "*"}
+        {required && '*'}
       </span>
       <input
         name={fieldName}

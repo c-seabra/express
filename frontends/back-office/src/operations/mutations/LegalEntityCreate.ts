@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const LEGAL_ENTITY_CREATE_MUTATION = gql`
   mutation LegalEntityCreate(

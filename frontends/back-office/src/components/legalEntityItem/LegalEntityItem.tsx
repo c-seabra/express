@@ -1,7 +1,8 @@
-import console from "console";
-import React from "react";
-import styled from "styled-components";
-import { Address } from "../../lib/types";
+import console from 'console';
+import React from 'react';
+import styled from 'styled-components';
+
+import { Address } from '../../lib/types';
 
 const ColumnStyles = styled.div`
   display: flex;
@@ -63,12 +64,12 @@ const LegalEntityItem = ({
   email,
   address,
 }: {
+  address?: Address;
+  email?: string;
   name: string;
   regNumber?: string;
-  website?: string;
   taxNumber?: string;
-  email?: string;
-  address?: Address;
+  website?: string;
 }) => {
   return (
     <StyledListItem>
@@ -78,8 +79,8 @@ const LegalEntityItem = ({
       <Column>{taxNumber}</Column>
       <Column>{email}</Column>
       <div>
-        {address?.lineOne}, {address?.lineTwo}, {address?.region}, {address?.city},{" "}
-        {address?.postalCode}, {address?.country?.name}
+        {address?.lineOne}, {address?.lineTwo}, {address?.region},{' '}
+        {address?.city}, {address?.postalCode}, {address?.country?.name}
       </div>
     </StyledListItem>
   );

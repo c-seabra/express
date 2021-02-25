@@ -1,20 +1,20 @@
 export type Address = {
-  id: string;
   city: string;
-  postalCode: string;
+  country: Country;
+  id: string;
   lineOne: string;
   lineTwo: string;
+  postalCode: string;
   region: string;
-  country: Country;
 };
 
 export type AddressInput = {
   city: string;
-  postalCode: string;
+  countryId: string;
   lineOne: string;
   lineTwo: string;
+  postalCode: string;
   region: string;
-  countryId: string;
 };
 
 export type Country = {
@@ -23,61 +23,61 @@ export type Country = {
 };
 
 export enum Currency {
-  "USD",
-  "EUR",
-  "CAD",
-  "CNY",
-  "RUB",
-  "JPY",
-  "GBP",
-  "AUD",
-  "CHF",
-  "HKD",
-  "NZD",
-  "SEK",
-  "KRW",
-  "SGD",
-  "NOK",
-  "MXN",
-  "INR",
-  "ZAR",
-  "TRY",
-  "BRL",
-  "TWD",
-  "DKK",
-  "PLN",
-  "THB",
-  "IDR",
-  "HUF",
-  "CZK",
-  "ILS",
-  "CLP",
-  "PHP",
-  "AED",
-  "COP",
-  "SAR",
-  "MYR",
-  "RON",
+  'USD',
+  'EUR',
+  'CAD',
+  'CNY',
+  'RUB',
+  'JPY',
+  'GBP',
+  'AUD',
+  'CHF',
+  'HKD',
+  'NZD',
+  'SEK',
+  'KRW',
+  'SGD',
+  'NOK',
+  'MXN',
+  'INR',
+  'ZAR',
+  'TRY',
+  'BRL',
+  'TWD',
+  'DKK',
+  'PLN',
+  'THB',
+  'IDR',
+  'HUF',
+  'CZK',
+  'ILS',
+  'CLP',
+  'PHP',
+  'AED',
+  'COP',
+  'SAR',
+  'MYR',
+  'RON',
 }
 
 export type Event = {
+  baseUrl?: string;
+  country?: Country;
+  currency?: Currency;
+  description?: string;
+  endDate?: string;
   id: string;
   name: string;
   slug?: string;
-  description?: string;
   startDate?: string;
-  endDate?: string;
-  country?: Country;
-  currency?: Currency;
-  baseUrl?: string;
 };
 
 export type LegalEntity = {
+  address?: Address;
+  email?: string;
   id: string;
   name: string;
   regNumber?: string;
-  website?: string;
   taxNumber?: string;
-  email?: string;
-  address?: Address;
+  website?: string;
 };

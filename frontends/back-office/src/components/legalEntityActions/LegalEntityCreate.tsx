@@ -1,11 +1,11 @@
-import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
-import styled from "styled-components";
+import { useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
-import Warning from "./Warning";
-import Field from "./Field";
-import { useAppContext } from "../app/AppContext";
-import { LEGAL_ENTITY_CREATE_MUTATION } from "../../operations/mutations/LegalEntityCreate";
+import { LEGAL_ENTITY_CREATE_MUTATION } from '../../operations/mutations/LegalEntityCreate';
+import { useAppContext } from '../app/AppContext';
+import Field from './Field';
+import Warning from './Warning';
 
 const Row = styled.div`
   display: flex;
@@ -58,29 +58,29 @@ const LegalEntityCreate: React.FC<{}> = () => {
       },
       onCompleted: ({ legalEntityCreate }) => {
         if (legalEntityCreate?.legalEntity?.id) {
-          setError("");
+          setError('');
         }
         if (legalEntityCreate?.userErrors.length) {
           setError(legalEntityCreate.userErrors[0]?.message);
         }
       },
-      refetchQueries: ["LegalEntityListQuery"],
+      refetchQueries: ['LegalEntityListQuery'],
       variables: {
-        name,
-        regNumber,
-        website,
-        taxNumber,
-        email,
         address: {
           city,
-          postalCode,
+          countryId,
           lineOne,
           lineTwo,
+          postalCode,
           region,
-          countryId,
         },
+        email,
+        name,
+        regNumber,
+        taxNumber,
+        website,
       },
-    }
+    },
   );
 
   return (

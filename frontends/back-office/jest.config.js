@@ -1,12 +1,12 @@
 module.exports = {
-  rootDir: "src",
-  transform: {
-    "^.+\\.(j|t)sx?$": "babel-jest",
-  },
   moduleNameMapper: {
-    "\\.(css)$": "identity-obj-proxy",
+    '\\.(css)$': 'identity-obj-proxy',
   },
+  rootDir: 'src',
   setupFilesAfterEnv: [
-    "../node_modules/@testing-library/jest-dom/dist/index.js",
+    '../node_modules/@testing-library/jest-dom/dist/index.js',
   ],
+  transform: {
+    '^.+\\.(j|t)sx?$': 'babel-jest',
+  },
 };

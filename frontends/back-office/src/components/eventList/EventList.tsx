@@ -1,45 +1,65 @@
-import { ApolloError } from "@apollo/client";
-import React, { ReactElement } from "react";
+import { ApolloError, useQuery } from '@apollo/client';
+import React, { ReactElement } from 'react';
 
-import Loader from "../../lib/Loading";
-import { Event } from "../../lib/types";
-import EventCreate from "../eventActions/EventCreate";
-import EventItem, { EventListHeader } from "../eventItem/EventItem";
+import Loader from '../../lib/Loading';
+import { Event } from '../../lib/types';
+import EVENT_LIST from '../../operations/queries/EventList';
+import { useAppContext } from '../app/AppContext';
+import EventCreate from '../eventActions/EventCreate';
+import EventItem, { EventListHeader } from '../eventItem/EventItem';
 
-type EventListProps = {
-  error?: ApolloError;
-  list: Event[];
-  loading?: boolean;
-};
+const EventList = ({}): ReactElement => {
+  const { conferenceSlug, token } = useAppContext();
 
-const EventList = ({
-  list = [],
-  loading,
-  error,
-}: EventListProps): ReactElement => {
+  const {
+    loading,
+    error,
+    data,
+  }: {
+    data?: {
+      events: {
+        edges: [
+          {
+            node: Event;
+          },
+        ];
+      };
+    };
+    error?: ApolloError;
+    loading?: boolean;
+  } = useQuery(EVENT_LIST, {
+    context: {
+      slug: conferenceSlug,
+      token,
+    },
+  });
+
   if (loading) {
     return <Loader />;
   }
 
   if (error) {
+    console.log({ error });
     return <>{error.message}</>;
   }
+
+  const events = data?.events.edges.map((node) => node.node);
 
   return (
     <>
       <h4>Events</h4>
       <EventCreate />
       <EventListHeader />
-      {list.map((event) => (
+      {events?.map((event) => (
         <EventItem
           key={event.id}
-          name={event.name}
-          description={event?.description}
-          slug={event?.slug}
-          startDate={event?.startDate}
-          endDate={event?.endDate}
           country={event?.country}
           currency={event?.currency}
+          description={event?.description}
+          endDate={event?.endDate}
+          name={event.name}
+          slug={event?.slug}
+          startDate={event?.startDate}
         />
       ))}
     </>

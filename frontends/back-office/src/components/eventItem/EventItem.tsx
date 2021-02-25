@@ -1,6 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { Currency } from "../../lib/types";
+import React from 'react';
+import styled from 'styled-components';
+
+import { Currency } from '../../lib/types';
 
 const ColumnStyles = styled.div`
   display: flex;
@@ -66,17 +67,17 @@ const EventItem = ({
   currency,
   baseUrl,
 }: {
-  name: string;
-  description?: string;
-  slug?: string;
-  startDate?: string;
-  endDate?: string;
-  timezone?: string;
+  baseUrl?: string;
   country?: {
     name: string;
   };
   currency?: Currency;
-  baseUrl?: string;
+  description?: string;
+  endDate?: string;
+  name: string;
+  slug?: string;
+  startDate?: string;
+  timezone?: string;
 }) => {
   return (
     <StyledListItem>

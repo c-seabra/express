@@ -1,11 +1,11 @@
-import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
-import styled from "styled-components";
+import { useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
-import Warning from "./Warning";
-import Field from "./Field";
-import { useAppContext } from "../app/AppContext";
-import { EVENT_CREATE_MUTATION } from "../../operations/mutations/EventCreate";
+import { EVENT_CREATE_MUTATION } from '../../operations/mutations/EventCreate';
+import { useAppContext } from '../app/AppContext';
+import Field from './Field';
+import Warning from './Warning';
 
 const Row = styled.form`
   display: flex;
@@ -53,22 +53,22 @@ const EventCreate: React.FC<{}> = () => {
     },
     onCompleted: ({ eventCreate }) => {
       if (eventCreate?.event?.id) {
-        setError("");
+        setError('');
       }
       if (eventCreate?.userErrors.length) {
         setError(eventCreate.userErrors[0]?.message);
       }
     },
-    refetchQueries: ["EventListQuery"],
+    refetchQueries: ['EventListQuery'],
     variables: {
-      name,
+      countryId,
+      currency,
       description,
-      taxNumber,
+      endDate,
+      name,
       slug,
       startDate,
-      endDate,
-      currency,
-      countryId,
+      taxNumber,
     },
   });
 
@@ -89,7 +89,11 @@ const EventCreate: React.FC<{}> = () => {
             onChange={setDescription}
           />
           <Field fieldName="slug" label="Slug" onChange={setSlug} />
-          <Field fieldName="taxNumber" label="Tax number" onChange={setTaxNumber} />
+          <Field
+            fieldName="taxNumber"
+            label="Tax number"
+            onChange={setTaxNumber}
+          />
         </Row>
 
         <Row>

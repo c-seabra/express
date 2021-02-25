@@ -1,7 +1,7 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
 
-import Loading from "./svgs/Loading";
+import Loading from './svgs/Loading';
 
 const rotate = keyframes`
   0% { transform: rotate(0deg); }
