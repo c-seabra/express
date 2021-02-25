@@ -146,41 +146,6 @@ const OrderDetails = (): ReactElement => {
 
   const owner = order?.owner;
   const tickets = order?.tickets;
-  const missingDataAbbr = 'N/A';
-  const formatSourceOfSale = (source: string): string =>
-    switchCase({
-      TICKET_MACHINE: 'Ticket Machine',
-      TITO: 'Tito',
-    })(missingDataAbbr)(source) as string;
-
-  const {
-    loading: mockedLoading,
-    error: mockedError,
-    orderDetails,
-    orderSummary,
-  } = {
-    error: false,
-    loading: false,
-    orderDetails: {
-      createdOn: order?.completedAt,
-      email: owner?.email,
-      lastUpdatedOn: order?.lastUpdatedAt,
-      name: owner?.firstName,
-      orderReference: orderRef,
-      sourceOfSale: order && formatSourceOfSale(order?.source || ''),
-      status: order?.state,
-      surname: owner?.lastName,
-    },
-    orderSummary: {
-      billedAmount: missingDataAbbr,
-      discountCodeApplied: missingDataAbbr, // Mocked until fully integrated with BE
-      discountedAmount: missingDataAbbr, // Mocked until fully integrated with BE
-      orderType: order?.summary?.ticketType?.name,
-      purchasedTotal: order?.summary?.tickets,
-      salesTaxApplied: missingDataAbbr, // Mocked until fully integrated with BE
-      ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
-    },
-  };
 
   const isFromTito = (source: string): boolean => {
     return switchCase({
@@ -316,9 +281,8 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderDetailsSummary
-                  commerceOrder={commerceOrder}
-                  error={commerceOrderError || error}
-                  loading={loadingCommerceOrder || loading}
+                  error={error}
+                  loading={loading}
                   order={order}
                   orderReference={orderRef}
                 />
@@ -326,23 +290,17 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderOwnerDetails
-                  email={orderDetails.email}
-                  firstName={orderDetails.name}
-                  lastName={orderDetails.surname || ''}
+                  email={owner?.email}
+                  firstName={owner?.firstName}
+                  lastName={owner?.lastName || ''}
                 />
               </SpacingBottom>
 
               <SpacingBottom>
                 <OrderSummary
-                  billedAmount={orderSummary.billedAmount}
-                  discountCodeApplied={orderSummary.discountCodeApplied}
-                  discountedAmount={orderSummary.discountedAmount}
-                  error={mockedError}
-                  loading={mockedLoading}
-                  orderType={orderSummary.orderType}
-                  purchasedTotal={orderSummary.purchasedTotal}
-                  salesTaxApplied={orderSummary.salesTaxApplied}
-                  ticketPrice={orderSummary.ticketPrice}
+                  commerceOrder={commerceOrder}
+                  error={commerceOrderError}
+                  loading={loadingCommerceOrder}
                 />
               </SpacingBottom>
             </div>

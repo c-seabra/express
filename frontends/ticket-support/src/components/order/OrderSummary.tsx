@@ -1,8 +1,16 @@
-import React, { ReactElement } from 'react';
+import { ApolloError } from '@apollo/client';
+import {
+  CommerceOrder,
+  CommerceOrderItem,
+  CommerceTaxRateType,
+} from '@websummit/graphql/src/@types/operations';
+import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
 import Loader from '../../lib/Loading';
+import { Spacing } from '../templates/Spacing';
 import Warning from '../ticketActions/Warning';
 
 // Containers
@@ -10,58 +18,76 @@ const StyledContainer = styled.div`
   display: flex;
 `;
 
-const StyledColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  margin-right: 4rem;
-`;
-
-// Headers
-const StyledLabel = styled.label`
-  color: #c2c0c2;
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1.5rem;
-
-  margin-bottom: 1rem;
-`;
-
-const StyledValue = styled.span`
-  color: #0c1439;
-  font-size: 0.875rem;
-  letter-spacing: 0;
-  line-height: 1.5rem;
-`;
-
 type Props = {
-  billedAmount?: string;
-  discountCodeApplied?: string;
-  discountedAmount?: string;
-  error: boolean;
+  commerceOrder: CommerceOrder;
+  error?: ApolloError;
   loading: boolean;
-  orderType?: string;
-  purchasedTotal?: number;
-  salesTaxApplied?: string;
-  ticketPrice?: string;
 };
+
+const missingDataAbbr = 'N/A';
+
+const commerceOrderTable = (
+  commerceOrder?: CommerceOrder,
+): ColumnDescriptor<CommerceOrderItem>[] => [
+  {
+    header: 'Ticket type',
+    renderCell: (item) => item.itemName,
+  },
+  {
+    header: 'Quantity',
+    renderCell: (item) => item.quantity,
+  },
+  {
+    header: 'Tax',
+    renderCell: (item) => (
+      <>
+        {item.tax?.name}&nbsp;{item.tax?.rateAmount}
+        {item.tax?.rateType === CommerceTaxRateType.Percentage && '%'}
+        &nbsp;({item.tax?.country})
+      </>
+    ),
+  },
+  {
+    header: 'Ticket value (incl. Tax)',
+    renderCell: (item) => (
+      <>
+        {commerceOrder?.currencySymbol}&nbsp;
+        {item.priceIncludingTax}
+      </>
+    ),
+  },
+  {
+    header: 'Discount code',
+    renderCell: () => missingDataAbbr,
+  },
+  {
+    header: 'Complimentary sale',
+    renderCell: () => missingDataAbbr,
+  },
+  {
+    header: 'Payment method',
+    renderCell: () => <>{commerceOrder?.paymentMethod?.name}</>,
+  },
+];
 
 const OrderSummary = ({
   loading,
   error,
-  orderType,
-  purchasedTotal,
-  discountCodeApplied,
-  discountedAmount,
-  salesTaxApplied,
-  ticketPrice,
-  billedAmount,
+  commerceOrder,
 }: Props): ReactElement => {
+  const commerceOrderTableShape = useMemo(
+    () => commerceOrderTable(commerceOrder),
+    [commerceOrder],
+  );
+
   return (
-    <ContainerCard title="Order summary">
+    <ContainerCard noPadding title="Order summary">
       <StyledContainer>
-        {loading && <Loader />}
+        {loading && (
+          <Spacing top="2rem">
+            <Loader />
+          </Spacing>
+        )}
         {error && (
           <Warning>
             <span>{error}</span>
@@ -69,43 +95,10 @@ const OrderSummary = ({
         )}
 
         {!loading && !error && (
-          <>
-            <StyledContainer>
-              <StyledColumnContainer>
-                <StyledLabel>Ticket Type</StyledLabel>
-                <StyledValue>{orderType}</StyledValue>
-              </StyledColumnContainer>
-              <StyledColumnContainer>
-                <StyledLabel>Qty purchased</StyledLabel>
-                <StyledValue>{purchasedTotal}</StyledValue>
-              </StyledColumnContainer>
-
-              <StyledColumnContainer>
-                <StyledLabel>Ticket Price (incl. Tax)</StyledLabel>
-                <StyledValue>{ticketPrice}</StyledValue>
-              </StyledColumnContainer>
-
-              <StyledColumnContainer>
-                <StyledLabel>Billed Amount</StyledLabel>
-                <StyledValue>{billedAmount}</StyledValue>
-              </StyledColumnContainer>
-
-              <StyledColumnContainer>
-                <StyledLabel>Discount Code applied</StyledLabel>
-                <StyledValue>{discountCodeApplied}</StyledValue>
-              </StyledColumnContainer>
-
-              <StyledColumnContainer>
-                <StyledLabel>Discounted amount</StyledLabel>
-                <StyledValue>{discountedAmount}</StyledValue>
-              </StyledColumnContainer>
-
-              <StyledColumnContainer>
-                <StyledLabel>Sales Tax Applied</StyledLabel>
-                <StyledValue>{salesTaxApplied}</StyledValue>
-              </StyledColumnContainer>
-            </StyledContainer>
-          </>
+          <Table<CommerceOrderItem>
+            items={commerceOrder?.items}
+            tableShape={commerceOrderTableShape}
+          />
         )}
       </StyledContainer>
     </ContainerCard>
