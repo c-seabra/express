@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 
-import AttendanceTable from '../attendanceTable/AttendanceTable';
 import { PageContainer } from '../settingsDashboard/SettingsDashboard.styled';
+import AttendanceTable from './AttendanceTable';
 
 const AttendanceDashboard = (): ReactElement => {
   return (

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const ATTENDANCES_LIST = gql`
-  query(
+  query Attendances(
     $first: Int
     $filter: AttendanceFilter
     $after: String
