@@ -77,7 +77,8 @@ const AttendanceTable = (): ReactElement => {
 
   useEffect(() => {
     const activeCheckboxesCount = results.filter(
-      (attendance) => attendance.pendingSelectionCount,
+      (attendance) =>
+        attendance.attendanceAppearanceSelectionsDetails.pendingSelectionCount,
     ).length;
     setHeaderCheckbox(
       results.length > 0 &&
@@ -85,7 +86,10 @@ const AttendanceTable = (): ReactElement => {
         activeCheckboxesCount === selectedValues.length,
     );
     setHeaderCheckboxDisabled(
-      !results.filter((result) => result.pendingSelectionCount).length,
+      !results.filter(
+        (result) =>
+          result.attendanceAppearanceSelectionsDetails.pendingSelectionCount,
+      ).length,
     );
   }, [selectedValues, results]);
 
@@ -107,7 +111,11 @@ const AttendanceTable = (): ReactElement => {
       headerCheckbox
         ? []
         : results
-            .filter((attendance) => attendance.pendingSelectionCount)
+            .filter(
+              (attendance) =>
+                attendance.attendanceAppearanceSelectionsDetails
+                  .pendingSelectionCount,
+            )
             .map((result) => result.id),
     );
   };
