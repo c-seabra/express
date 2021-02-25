@@ -28,7 +28,7 @@ const OrderOwnerDetails = ({
   email,
 }: OrderOwnerDetailsProps): ReactElement => {
   return (
-    <ContainerCard color="#00AFA9" title="Owner details">
+    <ContainerCard title="Owner details">
       <OwnerDetails>
         <LabeledInput disabled label="First name" value={firstName} />
         <LabeledInput disabled label="Last name" value={lastName} />

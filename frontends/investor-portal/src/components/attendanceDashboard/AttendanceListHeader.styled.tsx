@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { ListItem } from '../../lib/components';
 
 export const ColumnStyles = styled.div`
-  text-align: center;
   display: flex;
   align-items: center;
   padding: 0 0.25rem;
@@ -11,6 +10,10 @@ export const ColumnStyles = styled.div`
 `;
 export const Column = styled(ColumnStyles)`
   width: 15%;
+`;
+
+export const NarrowColumn = styled(ColumnStyles)`
+  width: 3%;
 `;
 
 export const ListHeaderItem = styled(ListItem)`
