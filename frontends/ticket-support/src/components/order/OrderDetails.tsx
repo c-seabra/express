@@ -291,7 +291,6 @@ const OrderDetails = (): ReactElement => {
                   error={error}
                   loading={loading}
                   order={order as Order}
-                  orderReference={orderRef}
                 />
               </SpacingBottom>
 
