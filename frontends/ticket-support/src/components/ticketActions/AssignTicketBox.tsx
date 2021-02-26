@@ -40,31 +40,41 @@ const IconWrapper = styled.div`
   }
 `;
 
-type AssignTicketBoxProps = {
-  onClickAction: () => void;
+type BlockMessageProps = {
+  buttonText?: string;
+  header: string;
+  iconName?: string;
+  message: string;
+  onClickAction?: () => void;
 };
 
-const AssignTicketBox = ({ onClickAction }: AssignTicketBoxProps) => {
+const BlockMessage = ({
+  header,
+  message,
+  iconName = 'info',
+  onClickAction,
+  buttonText,
+}: BlockMessageProps) => {
   return (
     <BoxNode>
       <Spacing bottom="16px" top="65px">
         <IconWrapper>
-          <Icon>info</Icon>
+          <Icon>{iconName}</Icon>
         </IconWrapper>
       </Spacing>
 
       <Spacing bottom="28px">
-        <StyledHeader>Assign your ticket</StyledHeader>
-        <StyledMessage>
-          Please assign this ticket to see the user account details
-        </StyledMessage>
+        <StyledHeader>{header}</StyledHeader>
+        <StyledMessage>{message}</StyledMessage>
       </Spacing>
 
-      <Spacing bottom="90px">
-        <StyledButton onClick={onClickAction}>Assign now</StyledButton>
-      </Spacing>
+      {onClickAction && (
+        <Spacing bottom="90px">
+          <StyledButton onClick={onClickAction}>{buttonText}</StyledButton>
+        </Spacing>
+      )}
     </BoxNode>
   );
 };
 
-export default AssignTicketBox;
+export default BlockMessage;
