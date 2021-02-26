@@ -57,22 +57,22 @@ const BlockMessage = ({
 }: BlockMessageProps) => {
   return (
     <BoxNode>
-      <Spacing bottom="16px" top="65px">
-        <IconWrapper>
-          <Icon>{iconName}</Icon>
-        </IconWrapper>
-      </Spacing>
-
-      <Spacing bottom="28px">
-        <StyledHeader>{header}</StyledHeader>
-        <StyledMessage>{message}</StyledMessage>
-      </Spacing>
-
-      {onClickAction && (
-        <Spacing bottom="90px">
-          <StyledButton onClick={onClickAction}>{buttonText}</StyledButton>
+      <Spacing bottom="90px">
+        <Spacing bottom="16px" top="65px">
+          <IconWrapper>
+            <Icon>{iconName}</Icon>
+          </IconWrapper>
         </Spacing>
-      )}
+
+        <Spacing bottom="28px">
+          <StyledHeader>{header}</StyledHeader>
+          <StyledMessage>{message}</StyledMessage>
+        </Spacing>
+
+        {onClickAction && (
+          <StyledButton onClick={onClickAction}>{buttonText}</StyledButton>
+        )}
+      </Spacing>
     </BoxNode>
   );
 };
