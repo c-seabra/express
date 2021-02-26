@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const ColumnStyles = styled.div`
