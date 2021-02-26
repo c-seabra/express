@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Spacing } from '../templates/Spacing';
-import Icon from '../atoms/Icon';
+
 import { Button } from '../atoms/Button';
+import Icon from '../atoms/Icon';
+import { Spacing } from '../templates/Spacing';
 
 const BoxNode = styled.div`
   display: flex;
@@ -14,6 +15,11 @@ const BoxNode = styled.div`
   & > * {
     margin-right: 1rem;
   }
+`;
+
+const InnerBox = styled(Spacing)`
+  display: flex;
+  justify-content: center;
 `;
 
 const StyledMessage = styled.div`
@@ -57,11 +63,11 @@ const BlockMessage = ({
   return (
     <BoxNode>
       <Spacing bottom="90px">
-        <Spacing bottom="16px" top="65px">
+        <InnerBox bottom="16px" top="65px">
           <IconWrapper>
             <Icon>{iconName}</Icon>
           </IconWrapper>
-        </Spacing>
+        </InnerBox>
 
         <Spacing bottom="28px">
           <StyledHeader>{header}</StyledHeader>
