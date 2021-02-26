@@ -98,7 +98,9 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
                 <option
                   key={i}
                   disabled={item.available === '0'}
-                  value={moment.tz(item.startsAt, eventTimezone).format('YYYY-MM-DDTHH:mm')}
+                  value={moment
+                    .tz(item.startsAt, eventTimezone)
+                    .format('YYYY-MM-DDTHH:mm')}
                 >
                   {moment.tz(item?.startsAt, eventTimezone).format('dddd')}:{' '}
                   {moment.tz(item?.startsAt, eventTimezone).format('HH:mm')} -{' '}

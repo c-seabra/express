@@ -15,7 +15,7 @@ type SessionsSummaryProps = {
 
 const SessionsSummary = ({
   investorSessionsSummaries,
-  timezone
+  timezone,
 }: SessionsSummaryProps): ReactElement => {
   return (
     <>
