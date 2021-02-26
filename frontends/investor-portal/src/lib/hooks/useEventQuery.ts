@@ -14,6 +14,9 @@ const useEventQuery = () => {
 
   const { data, error, loading } = useQuery<EventData>(EVENT_QUERY, {
     context: { slug: conferenceSlug, token },
+    variables: {
+      slug: conferenceSlug,
+    },
   });
 
   return {

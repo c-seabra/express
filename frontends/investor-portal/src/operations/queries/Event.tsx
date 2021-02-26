@@ -35,8 +35,8 @@ export type EventQuery = {
 };
 
 export const EVENT_QUERY = gql`
-  query EventQuery {
-    event {
+  query EventQuery($slug: String!) {
+    event(slug: $slug) {
       configuration {
         investorMeetingConfiguration {
           defaultStartupSelections
