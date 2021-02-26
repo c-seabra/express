@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import Loader from '../../lib/Loading';
 import { formatDefaultDateTime } from '../../lib/utils/time';
-import { Spacing } from '../templates/Spacing';
+import { Spacing } from '../../lib/components/templates/Spacing';
 import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
 

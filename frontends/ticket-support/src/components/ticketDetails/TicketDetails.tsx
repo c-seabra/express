@@ -18,7 +18,7 @@ import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
 import { useAppContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
-import { Spacing } from '../templates/Spacing';
+import { Spacing } from '../../lib/components/templates/Spacing';
 import AssignTicketBox from '../ticketActions/AssignTicketBox';
 import BlockMessage from '../ticketActions/AssignTicketBox';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';

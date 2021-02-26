@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { Spacing } from '../components/templates/Spacing';
+import { Spacing } from './components/templates/Spacing';
 import { SecondaryButton } from './components/atoms/Button';
 
 const PaginationContainer = styled.div`

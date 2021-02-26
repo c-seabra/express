@@ -20,7 +20,7 @@ import TextAreaField from '../../lib/components/molecules/TextAreaField';
 import { VALIDATION_MESSAGES } from '../../lib/constants/messages';
 import useRefund from '../../lib/hooks/useRefund';
 import { useErrorSnackbar } from '../../lib/hooks/useSnackbarMessage';
-import { Spacing } from '../templates/Spacing';
+import { Spacing } from '../../lib/components/templates/Spacing';
 
 const StyledForm = styled(Form)`
   display: flex;

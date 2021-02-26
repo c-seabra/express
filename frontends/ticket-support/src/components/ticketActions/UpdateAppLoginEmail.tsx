@@ -8,7 +8,7 @@ import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
 import STATIC_MESSAGES from '../../lib/constants/messages';
-import { SpacingBottom, SpacingBottomXs } from '../templates/Spacing';
+import { SpacingBottom, SpacingBottomXs } from '../../lib/components/templates/Spacing';
 import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal';
 
 const StyledActions = styled.span`

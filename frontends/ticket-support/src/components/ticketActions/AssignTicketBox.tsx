@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Button } from '../../lib/components/atoms/Button';
 import Icon from '../../lib/components/atoms/Icon';
-import { Spacing } from '../templates/Spacing';
+import { Spacing } from '../../lib/components/templates/Spacing';
 
 const BoxNode = styled.div`
   display: flex;

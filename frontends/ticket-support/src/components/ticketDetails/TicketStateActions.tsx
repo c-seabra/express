@@ -8,7 +8,7 @@ import { Ticket } from '../../lib/types';
 import ClaimTicketModal from '../ticketActions/ClaimTicketModal';
 import TicketUnlockModal from '../ticketActions/TicketUnlockModal';
 import StatePlate from '../ticketItem/StatePlate';
-import { Spacing } from '../templates/Spacing';
+import { Spacing } from '../../lib/components/templates/Spacing';
 
 const TicketStateContainer = styled.div``;
 
