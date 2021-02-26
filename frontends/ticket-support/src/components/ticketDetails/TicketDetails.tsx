@@ -362,8 +362,8 @@ const TicketDetails = (): ReactElement => {
                 <ContainerCard>
                   <Spacing bottom="36px" left="24px" right="24px" top="36px">
                     <BlockMessage
-                      header="Assign your ticket"
-                      message="Please assign this ticket to see the user account details"
+                      header="This ticket is voided"
+                      message="A voided ticket cannot be used for a conference"
                     />
                   </Spacing>
                 </ContainerCard>
