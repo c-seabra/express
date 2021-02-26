@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import { Button } from '../../lib/components/atoms/Button';
-import Icon from '../../lib/components/atoms/Icon';
-import { Spacing } from '../../lib/components/templates/Spacing';
+import { Spacing } from '../templates/Spacing';
+import Icon from '../atoms/Icon';
+import { Button } from '../atoms/Button';
 
 const BoxNode = styled.div`
   display: flex;

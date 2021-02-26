@@ -19,8 +19,6 @@ import { switchCase } from '../../lib/utils/logic';
 import { useAppContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
 import { Spacing } from '../../lib/components/templates/Spacing';
-import AssignTicketBox from '../ticketActions/AssignTicketBox';
-import BlockMessage from '../ticketActions/AssignTicketBox';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';
 import TicketAssignModal from '../ticketActions/TicketAssignModal';
 import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
@@ -30,6 +28,7 @@ import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail';
 import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier';
 import UserProfileInformation from '../userProfileInformation/UserProfileInformation';
 import TicketStateActions from './TicketStateActions';
+import BlockMessage from "../../lib/components/molecules/BlockMessage";
 
 const PageContainer = styled.div`
   max-width: 1440px;
