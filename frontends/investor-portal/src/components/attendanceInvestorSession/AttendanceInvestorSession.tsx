@@ -77,9 +77,9 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
       <StyledForm>
         {currentStartsAt && (
           <span>
-            {moment(currentStartsAt).format('dddd')}:{' '}
-            {moment(currentStartsAt).format('HH:mm')} -{' '}
-            {moment(currentEndsAt).format('HH:mm')}
+            {moment.tz(currentStartsAt, eventTimezone).format('dddd')}:{' '}
+            {moment.tz(currentStartsAt, eventTimezone).format('HH:mm')} -{' '}
+            {moment.tz(currentEndsAt, eventTimezone).format('HH:mm')}
           </span>
         )}
         {!currentStartsAt && (
@@ -98,7 +98,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
                 <option
                   key={i}
                   disabled={item.available === '0'}
-                  value={item.startsAt}
+                  value={moment.tz(item.startsAt, eventTimezone).format('YYYY-MM-DDTHH:mm')}
                 >
                   {moment.tz(item?.startsAt, eventTimezone).format('dddd')}:{' '}
                   {moment.tz(item?.startsAt, eventTimezone).format('HH:mm')} -{' '}
