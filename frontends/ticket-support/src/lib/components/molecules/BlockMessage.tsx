@@ -75,7 +75,9 @@ const BlockMessage = ({
         </Spacing>
 
         {onClickAction && (
-          <StyledButton onClick={onClickAction}>{buttonText}</StyledButton>
+          <InnerBox>
+            <StyledButton onClick={onClickAction}>{buttonText}</StyledButton>
+          </InnerBox>
         )}
       </Spacing>
     </BoxNode>
