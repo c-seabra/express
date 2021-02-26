@@ -4,12 +4,12 @@ import { useMutation } from '@apollo/client';
 import moment from 'moment';
 
 import { useAppContext } from '../../components/app/AppContext';
-import EVENT_UPDATE from '../../operations/mutations/EventUpdate';
+import INVESTOR_MEETING_CONFIGURATION_UPDATE from '../../operations/mutations/InvestorMeetingConfigurationUpdate';
 import { UserError } from '../types';
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type EventUpdateData = {
-  eventUpdate: {
+  investorMeetingConfigurationUpdate: {
     successMessage: string;
     userErrors: UserError[];
   };
@@ -48,13 +48,15 @@ const useEventUpdateMutation = ({
   };
 
   const [updateEvent, { data, error, loading }] = useMutation<EventUpdateData>(
-    EVENT_UPDATE,
+    INVESTOR_MEETING_CONFIGURATION_UPDATE,
     {
-      onCompleted: ({ eventUpdate }) => {
-        if (eventUpdate?.userErrors[0]) {
-          errorMessage(eventUpdate?.userErrors[0].message);
+      onCompleted: ({ investorMeetingConfigurationUpdate }) => {
+        if (investorMeetingConfigurationUpdate?.userErrors[0]) {
+          errorMessage(
+            investorMeetingConfigurationUpdate?.userErrors[0].message,
+          );
         } else {
-          success(eventUpdate.successMessage);
+          success(investorMeetingConfigurationUpdate.successMessage);
         }
       },
       onError: (e) => errorMessage(e.message),
