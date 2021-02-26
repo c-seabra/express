@@ -219,6 +219,7 @@ const SettingsDashboard: React.FC = () => {
             {investorSessionsSummary && (
               <SessionsSummary
                 investorSessionsSummaries={investorSessionsSummary}
+                timezone={eventTimezone}
               />
             )}
           </SpacingBottom>

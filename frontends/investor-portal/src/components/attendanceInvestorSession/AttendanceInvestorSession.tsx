@@ -100,9 +100,9 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
                   disabled={item.available === '0'}
                   value={item.startsAt}
                 >
-                  {moment(item?.startsAt).format('dddd')}:{' '}
-                  {moment(item?.startsAt).format('HH:mm')} -{' '}
-                  {moment(item?.endsAt).format('HH:mm')}
+                  {moment.tz(item?.startsAt, eventTimezone).format('dddd')}:{' '}
+                  {moment.tz(item?.startsAt, eventTimezone).format('HH:mm')} -{' '}
+                  {moment.tz(item?.endsAt, eventTimezone).format('HH:mm')}
                 </option>
               ))}
             </Select>
