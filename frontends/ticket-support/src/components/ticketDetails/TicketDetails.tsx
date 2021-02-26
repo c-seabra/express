@@ -6,19 +6,20 @@ import styled from 'styled-components';
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
+import BlockMessage from '../../lib/components/molecules/BlockMessage';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import Breadcrumbs, {
   Breadcrumb,
 } from '../../lib/components/molecules/Breadcrumbs';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
+import { Spacing } from '../../lib/components/templates/Spacing';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery';
 import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
 import { useAppContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';
 import TicketAssignModal from '../ticketActions/TicketAssignModal';
 import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
@@ -28,7 +29,6 @@ import UpdateAppLoginEmail from '../ticketActions/UpdateAppLoginEmail';
 import UpdateUniqueUserIdentifier from '../ticketActions/UpdateUniqueUserIdentifier';
 import UserProfileInformation from '../userProfileInformation/UserProfileInformation';
 import TicketStateActions from './TicketStateActions';
-import BlockMessage from "../../lib/components/molecules/BlockMessage";
 
 const PageContainer = styled.div`
   max-width: 1440px;
@@ -249,7 +249,7 @@ const TicketDetails = (): ReactElement => {
                 </StyledPairContainer>
               </StyledInnerContainerCard>
               <StyledInnerContainerCard>
-                {ticket?.state !== 'UNASSIGNED' && (
+                {ticket?.state !== 'UNASSIGNED' && assignment && (
                   <>
                     <SpacingBottomSm>
                       <PrimaryButton
@@ -357,7 +357,7 @@ const TicketDetails = (): ReactElement => {
                 </ContainerCard>
               )}
 
-              {ticket?.state === 'VOID' && (
+              {ticket?.state === 'VOID' && !assignment && (
                 <ContainerCard>
                   <Spacing bottom="36px" left="24px" right="24px" top="36px">
                     <BlockMessage
@@ -368,7 +368,7 @@ const TicketDetails = (): ReactElement => {
                 </ContainerCard>
               )}
 
-              {ticket?.state !== 'UNASSIGNED' && (
+              {ticket?.state !== 'UNASSIGNED' && assignment && (
                 <ContainerCard title="User account details">
                   <ContainerCardInner>
                     {assignment && assignment.assignee && (
@@ -386,17 +386,15 @@ const TicketDetails = (): ReactElement => {
                     )}
 
                     {assignee && (
-                      <>
-                        <SpacingBottomSm>
-                          <StyledLabel>
-                            Assignment dashboard login link
-                          </StyledLabel>
-                          <LoginLinkActions
-                            assignee={assignee}
-                            isTicketVoided={isTicketVoided}
-                          />
-                        </SpacingBottomSm>
-                      </>
+                      <SpacingBottomSm>
+                        <StyledLabel>
+                          Assignment dashboard login link
+                        </StyledLabel>
+                        <LoginLinkActions
+                          assignee={assignee}
+                          isTicketVoided={isTicketVoided}
+                        />
+                      </SpacingBottomSm>
                     )}
                   </ContainerCardInner>
                 </ContainerCard>
