@@ -20,6 +20,7 @@ import { useAppContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
 import { Spacing } from '../templates/Spacing';
 import AssignTicketBox from '../ticketActions/AssignTicketBox';
+import BlockMessage from '../ticketActions/AssignTicketBox';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';
 import TicketAssignModal from '../ticketActions/TicketAssignModal';
 import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
@@ -347,7 +348,23 @@ const TicketDetails = (): ReactElement => {
               {ticket?.state === 'UNASSIGNED' && (
                 <ContainerCard>
                   <Spacing bottom="36px" left="24px" right="24px" top="36px">
-                    <AssignTicketBox onClickAction={openTicketAssignModal} />
+                    <BlockMessage
+                      buttonText="Assign now"
+                      header="Assign your ticket"
+                      message="Please assign this ticket to see the user account details"
+                      onClickAction={openTicketAssignModal}
+                    />
+                  </Spacing>
+                </ContainerCard>
+              )}
+
+              {ticket?.state === 'VOID' && (
+                <ContainerCard>
+                  <Spacing bottom="36px" left="24px" right="24px" top="36px">
+                    <BlockMessage
+                      header="Assign your ticket"
+                      message="Please assign this ticket to see the user account details"
+                    />
                   </Spacing>
                 </ContainerCard>
               )}
