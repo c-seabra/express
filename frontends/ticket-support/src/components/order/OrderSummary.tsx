@@ -59,7 +59,7 @@ const OrderSummary = ({
   billedAmount,
 }: Props): ReactElement => {
   return (
-    <ContainerCard color="#008BEE" title="Order summary">
+    <ContainerCard title="Order summary">
       <StyledContainer>
         {loading && <Loader />}
         {error && (

@@ -68,14 +68,14 @@ export const TicketListHeader = () => {
   return (
     <ListHeaderItem>
       <Column>Ticket reference</Column>
-      <Column>First name</Column>
-      <Column>Last name</Column>
       <Column>Ticket Type</Column>
       <Column>Assigned To</Column>
       <Email>Email Used</Email>
       <Column>Assignment Status</Column>
       <BadgeColumn>Ticket Status</BadgeColumn>
       <Email>Ticket Owner Email</Email>
+      <Column>First name</Column>
+      <Column>Last name</Column>
     </ListHeaderItem>
   );
 };
@@ -102,8 +102,6 @@ const TicketItem = ({
   return (
     <StyledListItem onClick={handleOnClick}>
       <TicketReference>{bookingRef}</TicketReference>
-      <Column>{orderOwner?.firstName || ''}</Column>
-      <Column>{orderOwner?.lastName || ''}</Column>
       <Column>{ticketTypeName}</Column>
       <Column>
         {assignment?.assignee?.firstName} {assignment?.assignee?.lastName}
@@ -116,6 +114,8 @@ const TicketItem = ({
         <StatePlate state={ticketState} />
       </BadgeColumn>
       <Email>{orderOwner?.email}</Email>
+      <Column>{orderOwner?.firstName || ''}</Column>
+      <Column>{orderOwner?.lastName || ''}</Column>
     </StyledListItem>
   );
 };
