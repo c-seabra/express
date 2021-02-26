@@ -8,7 +8,7 @@ import INVESTOR_MEETING_CONFIGURATION_UPDATE from '../../operations/mutations/In
 import { UserError } from '../types';
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
-type EventUpdateData = {
+type InvestorMeetingConfigurationUpdateData = {
   investorMeetingConfigurationUpdate: {
     successMessage: string;
     userErrors: UserError[];
@@ -26,7 +26,7 @@ type InvestorMeetingsArgs = {
   startupSelectionDeadline: string | undefined;
 };
 
-const useEventUpdateMutation = ({
+const useInvestorMeetingConfigurationUpdateMutation = ({
   eventTimezone,
   defaultStartupSelections,
   meetingsPerSession,
@@ -47,7 +47,10 @@ const useEventUpdateMutation = ({
     return moment(dateString).tz(eventTimezone, true).format();
   };
 
-  const [updateEvent, { data, error, loading }] = useMutation<EventUpdateData>(
+  const [
+    updateInvestorMeetingConfiguration,
+    { data, error, loading },
+  ] = useMutation<InvestorMeetingConfigurationUpdateData>(
     INVESTOR_MEETING_CONFIGURATION_UPDATE,
     {
       onCompleted: ({ investorMeetingConfigurationUpdate }) => {
@@ -63,8 +66,8 @@ const useEventUpdateMutation = ({
     },
   );
 
-  const updateEventMutation = async () => {
-    await updateEvent({
+  const investorMeetingConfigurationUpdateMutation = async () => {
+    await updateInvestorMeetingConfiguration({
       context: {
         slug: conferenceSlug,
         token,
@@ -91,9 +94,9 @@ const useEventUpdateMutation = ({
   return {
     data,
     error,
+    investorMeetingConfigurationUpdateMutation,
     loading,
-    updateEventMutation,
   };
 };
 
-export default useEventUpdateMutation;
+export default useInvestorMeetingConfigurationUpdateMutation;
