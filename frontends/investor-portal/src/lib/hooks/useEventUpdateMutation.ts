@@ -20,7 +20,7 @@ type InvestorMeetingsArgs = {
   eventTimezone: string;
   meetingsPerSession: number | undefined;
   sessionDuration: number | undefined;
-  sponsorLogo: File | undefined;
+  sponsorLogo: string | undefined;
   startupPortalClosingAt: string | undefined;
   startupPortalOpeningAt: string | undefined;
   startupSelectionDeadline: string | undefined;
