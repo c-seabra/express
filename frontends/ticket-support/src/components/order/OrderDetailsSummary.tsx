@@ -1,6 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import { Order } from '@websummit/graphql/src/@types/operations';
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
@@ -17,12 +17,10 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-const orderDetailsTableShape = (
-  orderRef?: string,
-): ColumnDescriptor<Order>[] => [
+const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
   {
     header: 'Order reference #',
-    renderCell: () => orderRef,
+    renderCell: (order) => order.reference,
   },
   {
     header: 'Last updated',
@@ -40,26 +38,27 @@ const orderDetailsTableShape = (
     header: 'Order status',
     renderCell: (order) => <StatePlate state={order?.state} />,
   },
+  {
+    header: 'Total (incl. Tax)',
+    renderCell: (order) => (
+      <>
+        {order?.currency}&nbsp;{order?.amount}
+      </>
+    ),
+  },
 ];
 
 type Props = {
   error?: ApolloError;
   loading: boolean;
-  order?: Order;
-  orderReference?: string;
+  order?: Order | null;
 };
 
 const OrderDetailsSummary = ({
   loading,
   error,
   order,
-  orderReference,
 }: Props): ReactElement => {
-  const orderDetailsShape = useMemo(
-    () => orderDetailsTableShape(orderReference),
-    [orderReference],
-  );
-
   return (
     <ContainerCard noPadding title="Order details">
       <StyledContainer>
@@ -74,7 +73,7 @@ const OrderDetailsSummary = ({
           </Warning>
         )}
         {!loading && !error && order && (
-          <Table<Order> items={[order]} tableShape={orderDetailsShape} />
+          <Table<Order> items={[order]} tableShape={orderDetailsTableShape} />
         )}
       </StyledContainer>
     </ContainerCard>

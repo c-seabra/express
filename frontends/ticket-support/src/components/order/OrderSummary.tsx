@@ -3,6 +3,7 @@ import {
   CommerceOrder,
   CommerceOrderItem,
   CommerceTaxRateType,
+  Order,
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
@@ -90,7 +91,7 @@ const OrderSummary = ({
         )}
         {error && (
           <Warning>
-            <span>{error}</span>
+            <span>{error.message}</span>
           </Warning>
         )}
 
@@ -99,6 +100,50 @@ const OrderSummary = ({
             items={commerceOrder?.items}
             tableShape={commerceOrderTableShape}
           />
+        )}
+      </StyledContainer>
+    </ContainerCard>
+  );
+};
+
+const titoOrderTableShape: ColumnDescriptor<Order>[] = [
+  {
+    header: 'Ticket type',
+    renderCell: (order) => order?.summary?.ticketType?.name,
+  },
+  {
+    header: 'Quantity',
+    renderCell: (order) => order?.ticketsSummary?.all?.count,
+  },
+];
+
+type TitoOrderSummaryProps = {
+  error: ApolloError | undefined;
+  loading: boolean;
+  order?: Order | null;
+};
+
+export const TitoOrderSummary = ({
+  order,
+  loading,
+  error,
+}: TitoOrderSummaryProps) => {
+  return (
+    <ContainerCard noPadding title="Order summary">
+      <StyledContainer>
+        {loading && (
+          <Spacing top="2rem">
+            <Loader />
+          </Spacing>
+        )}
+        {error && (
+          <Warning>
+            <span>{error.message}</span>
+          </Warning>
+        )}
+
+        {!loading && !error && order && (
+          <Table<Order> items={[order]} tableShape={titoOrderTableShape} />
         )}
       </StyledContainer>
     </ContainerCard>

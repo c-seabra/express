@@ -89,7 +89,10 @@ const Table = <T extends unknown & { id: string | null }>({
   const renderTableRow = useCallback(
     (item: typeof items[0]) =>
       tableShape.map((columnShape) => (
-        <Column key={`${columnShape?.header}-${item.id || ''}`}>
+        <Column
+          key={`${columnShape?.header}-${item.id || ''}`}
+          width={columnShape.width}
+        >
           {columnShape.renderCell(item)}
         </Column>
       )),
