@@ -1,8 +1,10 @@
-import { useQuery } from '@apollo/client';
 import {
   CommerceOrderPaymentStatus,
   CommerceTransaction,
   CommerceTransactionType,
+  Order,
+  Ticket,
+  useOrderByRefQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
@@ -22,9 +24,6 @@ import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
 import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
-import ORDER_QUERY, {
-  OrderByRefQuery,
-} from '../../operations/queries/OrderByRef';
 import { useAppContext } from '../app/AppContext';
 import OrderRefundModal from '../orderActions/OrderRefundModal';
 import Warning from '../ticketActions/Warning';
@@ -34,7 +33,7 @@ import OrderDetailsSummary from './OrderDetailsSummary';
 import OrderOwnerDetails from './OrderOwnerDetails';
 import OrderRefundsSummary from './OrderRefundsSummary';
 import OrderReinstateModal from './OrderReinstateModal';
-import OrderSummary from './OrderSummary';
+import OrderSummary, { TitoOrderSummary } from './OrderSummary';
 
 const PageContainer = styled.section`
   padding: 1rem;
@@ -125,18 +124,15 @@ const OrderDetails = (): ReactElement => {
     closeModal: closeTitoWarningModal,
   } = useModalState();
 
-  const { loading, error, data, refetch }: OrderByRefQuery = useQuery(
-    ORDER_QUERY,
-    {
-      context: {
-        slug: conferenceSlug,
-        token,
-      },
-      variables: {
-        reference: orderRef,
-      },
+  const { data, loading, error, refetch } = useOrderByRefQuery({
+    context: {
+      slug: conferenceSlug,
+      token,
     },
-  );
+    variables: {
+      reference: orderRef,
+    },
+  });
 
   const order = data?.order;
   const sourceId = order?.sourceId || '';
@@ -193,7 +189,7 @@ const OrderDetails = (): ReactElement => {
         {loading && <Loader />}
         {error && (
           <Warning>
-            <span>{error}</span>
+            <span>{error.message}</span>
           </Warning>
         )}
         {!loading && !error && (
@@ -294,7 +290,7 @@ const OrderDetails = (): ReactElement => {
                 <OrderDetailsSummary
                   error={error}
                   loading={loading}
-                  order={order}
+                  order={order as Order}
                   orderReference={orderRef}
                 />
               </SpacingBottom>
@@ -308,7 +304,13 @@ const OrderDetails = (): ReactElement => {
               </SpacingBottom>
 
               <SpacingBottom>
-                {!isTitoOrder && (
+                {isTitoOrder ? (
+                  <TitoOrderSummary
+                    error={error}
+                    loading={loading}
+                    order={order as Order}
+                  />
+                ) : (
                   <OrderSummary
                     commerceOrder={commerceOrder}
                     error={commerceOrderError}
@@ -328,7 +330,9 @@ const OrderDetails = (): ReactElement => {
             {tickets && tickets.edges?.length > 0 && (
               <div>
                 <ContainerCard noPadding title="Ticket information">
-                  <TicketList list={tickets.edges.map(({ node }) => node)} />
+                  <TicketList
+                    list={tickets.edges.map(({ node }) => node as Ticket)}
+                  />
                 </ContainerCard>
               </div>
             )}
