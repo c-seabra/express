@@ -1,5 +1,11 @@
-import { useQuery } from '@apollo/client';
-import { CommerceOrderPaymentStatus } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceOrderPaymentStatus,
+  CommerceTransaction,
+  CommerceTransactionType,
+  Order,
+  Ticket,
+  useOrderByRefQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
@@ -18,9 +24,6 @@ import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
 import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
-import ORDER_QUERY, {
-  OrderByRefQuery,
-} from '../../operations/queries/OrderByRef';
 import { useAppContext } from '../app/AppContext';
 import OrderRefundModal from '../orderActions/OrderRefundModal';
 import Warning from '../ticketActions/Warning';
@@ -28,8 +31,9 @@ import TicketList from '../ticketList/TicketList';
 import OrderCancelModal from './OrderCancelModal';
 import OrderDetailsSummary from './OrderDetailsSummary';
 import OrderOwnerDetails from './OrderOwnerDetails';
+import OrderRefundsSummary from './OrderRefundsSummary';
 import OrderReinstateModal from './OrderReinstateModal';
-import OrderSummary from './OrderSummary';
+import OrderSummary, { TitoOrderSummary } from './OrderSummary';
 
 const PageContainer = styled.section`
   padding: 1rem;
@@ -120,18 +124,15 @@ const OrderDetails = (): ReactElement => {
     closeModal: closeTitoWarningModal,
   } = useModalState();
 
-  const { loading, error, data, refetch }: OrderByRefQuery = useQuery(
-    ORDER_QUERY,
-    {
-      context: {
-        slug: conferenceSlug,
-        token,
-      },
-      variables: {
-        reference: orderRef,
-      },
+  const { data, loading, error, refetch } = useOrderByRefQuery({
+    context: {
+      slug: conferenceSlug,
+      token,
     },
-  );
+    variables: {
+      reference: orderRef,
+    },
+  });
 
   const order = data?.order;
   const sourceId = order?.sourceId || '';
@@ -146,41 +147,6 @@ const OrderDetails = (): ReactElement => {
 
   const owner = order?.owner;
   const tickets = order?.tickets;
-  const missingDataAbbr = 'N/A';
-  const formatSourceOfSale = (source: string): string =>
-    switchCase({
-      TICKET_MACHINE: 'Ticket Machine',
-      TITO: 'Tito',
-    })(missingDataAbbr)(source) as string;
-
-  const {
-    loading: mockedLoading,
-    error: mockedError,
-    orderDetails,
-    orderSummary,
-  } = {
-    error: false,
-    loading: false,
-    orderDetails: {
-      createdOn: order?.completedAt,
-      email: owner?.email,
-      lastUpdatedOn: order?.lastUpdatedAt,
-      name: owner?.firstName,
-      orderReference: orderRef,
-      sourceOfSale: order && formatSourceOfSale(order?.source || ''),
-      status: order?.state,
-      surname: owner?.lastName,
-    },
-    orderSummary: {
-      billedAmount: missingDataAbbr,
-      discountCodeApplied: missingDataAbbr, // Mocked until fully integrated with BE
-      discountedAmount: missingDataAbbr, // Mocked until fully integrated with BE
-      orderType: order?.summary?.ticketType?.name,
-      purchasedTotal: order?.summary?.tickets,
-      salesTaxApplied: missingDataAbbr, // Mocked until fully integrated with BE
-      ticketPrice: missingDataAbbr, // Mocked until fully integrated with BE
-    },
-  };
 
   const isFromTito = (source: string): boolean => {
     return switchCase({
@@ -205,6 +171,12 @@ const OrderDetails = (): ReactElement => {
     },
   ];
 
+  const refunds: CommerceTransaction[] = commerceOrder?.transactions
+    ?.filter(Boolean)
+    ?.filter(
+      (transaction) => transaction?.type === CommerceTransactionType.Refund,
+    ) as CommerceTransaction[];
+
   return (
     <>
       <Helmet>
@@ -217,7 +189,7 @@ const OrderDetails = (): ReactElement => {
         {loading && <Loader />}
         {error && (
           <Warning>
-            <span>{error}</span>
+            <span>{error.message}</span>
           </Warning>
         )}
         {!loading && !error && (
@@ -316,40 +288,50 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderDetailsSummary
-                  commerceOrder={commerceOrder}
-                  error={commerceOrderError || error}
-                  loading={loadingCommerceOrder || loading}
-                  order={order}
-                  orderReference={orderRef}
+                  error={error}
+                  loading={loading}
+                  order={order as Order}
                 />
               </SpacingBottom>
 
               <SpacingBottom>
                 <OrderOwnerDetails
-                  email={orderDetails.email}
-                  firstName={orderDetails.name}
-                  lastName={orderDetails.surname || ''}
+                  email={owner?.email}
+                  firstName={owner?.firstName}
+                  lastName={owner?.lastName || ''}
                 />
               </SpacingBottom>
 
               <SpacingBottom>
-                <OrderSummary
-                  billedAmount={orderSummary.billedAmount}
-                  discountCodeApplied={orderSummary.discountCodeApplied}
-                  discountedAmount={orderSummary.discountedAmount}
-                  error={mockedError}
-                  loading={mockedLoading}
-                  orderType={orderSummary.orderType}
-                  purchasedTotal={orderSummary.purchasedTotal}
-                  salesTaxApplied={orderSummary.salesTaxApplied}
-                  ticketPrice={orderSummary.ticketPrice}
-                />
+                {isTitoOrder ? (
+                  <TitoOrderSummary
+                    error={error}
+                    loading={loading}
+                    order={order as Order}
+                  />
+                ) : (
+                  <OrderSummary
+                    commerceOrder={commerceOrder}
+                    error={commerceOrderError}
+                    loading={loadingCommerceOrder}
+                  />
+                )}
               </SpacingBottom>
+              {refunds?.length > 0 && (
+                <SpacingBottom>
+                  <OrderRefundsSummary
+                    currencySymbol={commerceOrder?.currencySymbol}
+                    refunds={refunds}
+                  />
+                </SpacingBottom>
+              )}
             </div>
             {tickets && tickets.edges?.length > 0 && (
               <div>
                 <ContainerCard noPadding title="Ticket information">
-                  <TicketList list={tickets.edges.map(({ node }) => node)} />
+                  <TicketList
+                    list={tickets.edges.map(({ node }) => node as Ticket)}
+                  />
                 </ContainerCard>
               </div>
             )}
