@@ -63,6 +63,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
       </BorderBottom>
       <ContainerCard color="#4688D9" title="Startup Confirmations">
         <AttendanceAppearanceSelectionsList
+          attendanceId={attendanceId}
           error={error}
           list={selections}
           loading={loading}

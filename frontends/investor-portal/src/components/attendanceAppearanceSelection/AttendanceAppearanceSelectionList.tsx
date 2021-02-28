@@ -1,7 +1,7 @@
 import { ApolloError } from '@apollo/client';
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { useAttendanceAppearancesUpdateMutation } from '../../lib/hooks';
+import { useAttendanceAppearanceSelectionUpdateMutationUnlock } from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import { AttendanceAppearanceSelection } from '../../lib/types';
 import AttendanceAppearanceSelectionItem from './AttendanceAppearanceSelectionItem';
@@ -9,22 +9,27 @@ import RightButton from './AttendanceAppearanceSelectionList.styled';
 import AttendanceAppearanceSelectionListHeader from './AttendanceAppearanceSelectionListHeader';
 
 type AtendanceAppearanceSelectionListProps = {
+  attendanceId: string;
   error?: ApolloError;
   list: AttendanceAppearanceSelection[];
   loading: boolean;
 };
 
 const AttendanceAppearanceSelectionList = ({
+  attendanceId,
   list = [],
   loading,
   error,
 }: AtendanceAppearanceSelectionListProps): ReactElement => {
-  const [unlockStartup, setUnlockStartup] = useState<boolean>(false);
   const [hasAccepted, setHasAccepted] = useState<boolean>(false);
-  const ids = list.map((item) => item.appearance.id);
+  const [status, setStatus] = useState<string>('');
 
-  const handleUnlock = () => {
-    setUnlockStartup(list[0]?.status === 'submitted');
+  const handleStatus = () => {
+    if (list[0]?.status === 'submitted') {
+      setStatus('pending');
+    } else if (list[0]?.status === 'pending') {
+      setStatus('submitted');
+    }
   };
 
   const checkHasAccepted = () => {
@@ -34,19 +39,19 @@ const AttendanceAppearanceSelectionList = ({
 
   useEffect(() => {
     checkHasAccepted();
-    handleUnlock();
+    handleStatus();
   });
 
   const {
-    attendanceAppearancesUpdateMutation,
-  } = useAttendanceAppearancesUpdateMutation({
-    appearanceIds: ids,
-    unlockStartup,
+    unlockUpdateAttendanceAppearanceSelections,
+  } = useAttendanceAppearanceSelectionUpdateMutationUnlock({
+    attendanceIds: [attendanceId],
+    status,
   });
 
   const submit = async () => {
-    await attendanceAppearancesUpdateMutation();
-    handleUnlock();
+    await unlockUpdateAttendanceAppearanceSelections();
+    handleStatus();
   };
 
   if (loading) {
@@ -68,7 +73,7 @@ const AttendanceAppearanceSelectionList = ({
       ))}
       {!hasAccepted && (
         <RightButton onClick={submit}>
-          {unlockStartup ? 'Unlock Startups' : 'Submit'}
+          {status === 'pending' ? 'Unlock Startups' : 'Submit'}
         </RightButton>
       )}
     </>

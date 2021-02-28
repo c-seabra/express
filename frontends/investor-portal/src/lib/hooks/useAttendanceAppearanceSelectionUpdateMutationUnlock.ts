@@ -6,13 +6,13 @@ import { UserError } from '../types';
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type SelectionUpdateData = {
-  attendanceAppearanceSelectionUpdate: {
+  attendanceAppearanceSelectionUpdateUnlock: {
     successMessage: string;
     userErrors: UserError[];
   };
 };
 
-const useAttendanceAppearanceSelectionUpdateMutation = ({
+const useAttendanceAppearanceSelectionUpdateMutationUnlock = ({
   attendanceIds,
   status,
 }: {
@@ -34,30 +34,30 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
   };
 
   const [
-    attendanceAppearanceSelectionUpdateMutation,
+    attendanceAppearanceSelectionUpdateMutationUnlock,
   ] = useMutation<SelectionUpdateData>(ATTENDANCE_APPEARANCE_SELECTION_UPDATE, {
     context,
-    onCompleted: ({ attendanceAppearanceSelectionUpdate }) => {
-      if (attendanceAppearanceSelectionUpdate?.userErrors[0]) {
+    onCompleted: ({ attendanceAppearanceSelectionUpdateUnlock }) => {
+      if (attendanceAppearanceSelectionUpdateUnlock?.userErrors[0]) {
         errorMessage(
-          attendanceAppearanceSelectionUpdate?.userErrors[0].message,
+          attendanceAppearanceSelectionUpdateUnlock?.userErrors[0].message,
         );
       } else {
-        success(attendanceAppearanceSelectionUpdate.successMessage);
+        success(attendanceAppearanceSelectionUpdateUnlock?.successMessage);
       }
     },
     onError: (e) => errorMessage(e.message),
-    refetchQueries: ['Attendances'],
+    refetchQueries: ['AttendanceDetailsQuery'],
     variables,
   });
 
-  const updateAttendanceAppearanceSelections = async () => {
-    await attendanceAppearanceSelectionUpdateMutation();
+  const unlockUpdateAttendanceAppearanceSelections = async () => {
+    await attendanceAppearanceSelectionUpdateMutationUnlock();
   };
 
   return {
-    updateAttendanceAppearanceSelections,
+    unlockUpdateAttendanceAppearanceSelections,
   };
 };
 
-export default useAttendanceAppearanceSelectionUpdateMutation;
+export default useAttendanceAppearanceSelectionUpdateMutationUnlock;
