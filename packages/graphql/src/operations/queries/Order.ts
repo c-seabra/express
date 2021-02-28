@@ -1,18 +1,56 @@
-import { ApolloError, gql } from '@apollo/client';
-import { Order } from '@websummit/graphql/src/@types/operations';
+import { gql } from '@apollo/client';
 
-export type OrderByRefQuery = {
-  data?: {
-    order: Order;
-  };
-  error?: ApolloError;
-  loading?: boolean;
-  refetch?: any;
-};
+const ticketsSummaryFragment = gql`
+  fragment TicketsSummary on TicketsSummary {
+    all {
+      count
+      active {
+        count
+        assigned {
+          count
+          accepted {
+            count
+          }
+          checkedIn {
+            count
+          }
+          duplicate {
+            count
+          }
+          locked {
+            count
+          }
+          pending {
+            count
+          }
+        }
+        unassigned {
+          count
+          neverAssigned {
+            count
+          }
+          rejected {
+            count
+          }
+        }
+      }
+      void {
+        count
+      }
+    }
+  }
+`;
 
-const ORDER_QUERY = gql`
+export default gql`
   query OrderByRef($reference: String!) {
     order(reference: $reference) {
+      id
+      ticketsSummary {
+        ...TicketsSummary
+      }
+      amount
+      currency
+      reference
       completedAt
       lastUpdatedAt
       state
@@ -68,5 +106,5 @@ const ORDER_QUERY = gql`
       }
     }
   }
+  ${ticketsSummaryFragment}
 `;
-export default ORDER_QUERY;
