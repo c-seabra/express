@@ -3,7 +3,7 @@ import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { Spacing } from '../../../components/templates/Spacing';
+import { Spacing } from '../templates/Spacing';
 import STATIC_MESSAGES from '../../constants/messages';
 import { DisabledButton, ErrorButton } from '../atoms/Button';
 import Icon from '../atoms/Icon';
