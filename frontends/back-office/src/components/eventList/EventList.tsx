@@ -48,7 +48,6 @@ const EventList = ({}): ReactElement => {
   return (
     <>
       <h4>Events</h4>
-      <EventCreate />
       <EventListHeader />
       {events?.map((event) => (
         <EventItem

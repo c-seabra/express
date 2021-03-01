@@ -10,8 +10,9 @@ import {
 } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Event } from '../../lib/types';
+import EventCreate from '../eventActions/EventCreate';
 import EventList from '../eventList/EventList';
+import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
 import AppContext from './AppContext';
 
@@ -52,13 +53,17 @@ const App = ({ token, apiURL = '' }: GraphQLParams) => {
               <Route exact path="/">
                 <Redirect to="/events" />
               </Route>
-              <Route path="/events">
-                <StyledSection>
-                  <EventList />
-                </StyledSection>
+              <Route exact path="/events">
+                <EventList />
               </Route>
-              <Route path="/legal_entities">
+              <Route exact path="/events/new">
+                <EventCreate />
+              </Route>
+              <Route exact path="/legal_entities">
                 <LegalEntityList />
+              </Route>
+              <Route exact path="/legal_entities/new">
+                <LegalEntityCreate />
               </Route>
             </Switch>
           </StyledContainer>

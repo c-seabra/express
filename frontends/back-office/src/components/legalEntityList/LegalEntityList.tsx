@@ -49,7 +49,6 @@ const LegalEntityList = (): ReactElement => {
   return (
     <>
       <h4>Legal Entity</h4>
-      <LegalEntityCreate />
       <LegalEntityListHeader />
       {legalEntities?.map((legalEntity) => (
         <LegalEntityItem
