@@ -116,6 +116,27 @@ const commerceCustomerFragment = gql`
   ${commerceAddressFragment}
 `;
 
+const commerceTransactionFragment = gql`
+  fragment CommerceTransaction on CommerceTransaction {
+    amount
+    createdAt
+    createdBy
+    currency
+    id
+    lastUpdatedAt
+    lastUpdatedBy
+    metadata
+    paymentMethod {
+      ...CommercePaymentMethod
+    }
+    refundedTransaction
+    status
+    timestamp
+    type
+  }
+  ${commercePaymentMethodFragment}
+`;
+
 const COMMERCE_GET_ORDER = gql`
   query commerceGetOrder($id: ID!, $storeId: ID) {
     commerceGetOrder(id: $id, storeId: $storeId) {
@@ -145,12 +166,16 @@ const COMMERCE_GET_ORDER = gql`
       subTotal
       taxTotal
       total
+      transactions {
+        ...CommerceTransaction
+      }
       url
     }
   }
   ${commerceCustomerFragment}
   ${commercePaymentMethodFragment}
   ${commerceOrderItemFragment}
+  ${commerceTransactionFragment}
 `;
 
 export default COMMERCE_GET_ORDER;
