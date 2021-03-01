@@ -7,13 +7,14 @@ export type PageInfo = {
 
 export type UserError = {
   message: string;
-  path: string;
+  path: string[];
 };
 
 export type Attendance = {
   attendanceAppearanceSelections?: {
     edges: [{ node: AttendanceAppearanceSelection }];
   };
+  companyName: string;
   id: string;
   investorSession?: {
     endsAt: any;
@@ -26,6 +27,8 @@ export type Attendance = {
 export type AttendanceAppearanceSelection = {
   appearance: Appearance;
   id: string;
+  participations: [Attendance];
+  sessionTimeslotId: string;
   status: string;
   updatedAt: string;
 };

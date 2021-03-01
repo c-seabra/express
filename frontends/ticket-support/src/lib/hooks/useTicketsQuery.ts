@@ -1,6 +1,7 @@
+import { Ticket } from '@websummit/graphql/src/@types/operations';
+
 import { useAppContext } from '../../components/app/AppContext';
 import TICKET_LIST from '../../operations/queries/TicketList';
-import { Ticket } from '../types';
 import usePaginatedQuery from './usePaginatedQuery';
 
 const TICKETS_PER_PAGE = 20;

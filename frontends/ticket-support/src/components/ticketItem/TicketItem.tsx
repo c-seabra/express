@@ -1,3 +1,7 @@
+import {
+  Assignment,
+  AssignmentUser,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -64,16 +68,25 @@ export const TicketListHeader = () => {
   return (
     <ListHeaderItem>
       <Column>Ticket reference</Column>
-      <Column>First name</Column>
-      <Column>Last name</Column>
       <Column>Ticket Type</Column>
       <Column>Assigned To</Column>
       <Email>Email Used</Email>
       <Column>Assignment Status</Column>
       <BadgeColumn>Ticket Status</BadgeColumn>
       <Email>Ticket Owner Email</Email>
+      <Column>First name</Column>
+      <Column>Last name</Column>
     </ListHeaderItem>
   );
+};
+
+type TicketItemProps = {
+  assignment?: Assignment | null;
+  bookingRef: string;
+  handleOnClick?: () => void;
+  orderOwner?: AssignmentUser | null;
+  ticketState: string;
+  ticketTypeName: string | null;
 };
 
 const TicketItem = ({
@@ -83,32 +96,12 @@ const TicketItem = ({
   orderOwner,
   ticketTypeName,
   handleOnClick,
-}: {
-  assignment?: {
-    assignee?: {
-      email?: string;
-      firstName?: string;
-      lastName?: string;
-    };
-    state: string;
-  };
-  bookingRef: string;
-  handleOnClick?: () => void;
-  orderOwner?: {
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-  };
-  ticketState: string;
-  ticketTypeName: string;
-}) => {
+}: TicketItemProps) => {
   const assignmentState = !assignment ? 'UNASSIGNED' : assignment?.state;
 
   return (
     <StyledListItem onClick={handleOnClick}>
       <TicketReference>{bookingRef}</TicketReference>
-      <Column>{orderOwner?.firstName}</Column>
-      <Column>{orderOwner?.lastName}</Column>
       <Column>{ticketTypeName}</Column>
       <Column>
         {assignment?.assignee?.firstName} {assignment?.assignee?.lastName}
@@ -121,6 +114,8 @@ const TicketItem = ({
         <StatePlate state={ticketState} />
       </BadgeColumn>
       <Email>{orderOwner?.email}</Email>
+      <Column>{orderOwner?.firstName || ''}</Column>
+      <Column>{orderOwner?.lastName || ''}</Column>
     </StyledListItem>
   );
 };
