@@ -125,6 +125,11 @@ const OrderDetails = (): ReactElement => {
     isOpen: isTitoWarningModalOpen,
     closeModal: closeTitoWarningModal,
   } = useModalState();
+  const {
+    openModal: openTransferWarningModal,
+    isOpen: isTransferWarningModalOpen,
+    closeModal: closeTransferWarningModal,
+  } = useModalState();
 
   const { data, loading, error, refetch } = useOrderByRefQuery({
     context: {
@@ -312,7 +317,9 @@ const OrderDetails = (): ReactElement => {
                         {!isOwnerDetailsEditOn ? (
                           <Link
                             onClick={
-                              isTitoOrder ? openTitoWarningModal : openEditMode
+                              isTitoOrder
+                                ? openTransferWarningModal
+                                : openEditMode
                             }
                           >
                             <Icon>create</Icon>
@@ -324,14 +331,13 @@ const OrderDetails = (): ReactElement => {
                   }}
                 />
                 <ErrorInfoModal
-                    alertHeader={orderRef}
-                    alertText="As this order was created in Tito, it cannot be transferred using Ticket Machine. Please go
+                  alertHeader={orderRef}
+                  alertText="As this order was created in Tito, it cannot be transferred using Ticket Machine. Please go
             to Tito to transfer ownership of the order."
-                    closeModal={closeTitoWarningModal}
-                    headerText="Unable to transfer ownership order"
-                    isOpen={isTitoWarningModalOpen}
+                  closeModal={closeTransferWarningModal}
+                  headerText="Unable to transfer ownership order"
+                  isOpen={isTransferWarningModalOpen}
                 />
-
               </SpacingBottom>
 
               <SpacingBottom>
