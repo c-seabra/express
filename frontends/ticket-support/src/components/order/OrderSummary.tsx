@@ -10,8 +10,8 @@ import styled from 'styled-components';
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
+import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
-import { Spacing } from '../templates/Spacing';
 import Warning from '../ticketActions/Warning';
 
 // Containers
