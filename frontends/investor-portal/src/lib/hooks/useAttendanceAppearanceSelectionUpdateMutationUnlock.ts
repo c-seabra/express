@@ -6,7 +6,7 @@ import { UserError } from '../types';
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type SelectionUpdateData = {
-  attendanceAppearanceSelectionUpdateUnlock: {
+  attendanceAppearanceSelectionUpdate: {
     successMessage: string;
     userErrors: UserError[];
   };
@@ -37,13 +37,13 @@ const useAttendanceAppearanceSelectionUpdateMutationUnlock = ({
     attendanceAppearanceSelectionUpdateMutationUnlock,
   ] = useMutation<SelectionUpdateData>(ATTENDANCE_APPEARANCE_SELECTION_UPDATE, {
     context,
-    onCompleted: ({ attendanceAppearanceSelectionUpdateUnlock }) => {
-      if (attendanceAppearanceSelectionUpdateUnlock?.userErrors[0]) {
+    onCompleted: ({ attendanceAppearanceSelectionUpdate }) => {
+      if (attendanceAppearanceSelectionUpdate?.userErrors[0]) {
         errorMessage(
-          attendanceAppearanceSelectionUpdateUnlock?.userErrors[0].message,
+          attendanceAppearanceSelectionUpdate?.userErrors[0].message,
         );
       } else {
-        success(attendanceAppearanceSelectionUpdateUnlock?.successMessage);
+        success(attendanceAppearanceSelectionUpdate?.successMessage);
       }
     },
     onError: (e) => errorMessage(e.message),
