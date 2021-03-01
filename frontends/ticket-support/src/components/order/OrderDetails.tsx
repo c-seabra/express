@@ -310,7 +310,11 @@ const OrderDetails = (): ReactElement => {
                     return (
                       <>
                         {!isOwnerDetailsEditOn ? (
-                          <Link onClick={openEditMode}>
+                          <Link
+                            onClick={
+                              isTitoOrder ? openTitoWarningModal : openEditMode
+                            }
+                          >
                             <Icon>create</Icon>
                             <span>Edit</span>
                           </Link>
@@ -319,6 +323,15 @@ const OrderDetails = (): ReactElement => {
                     );
                   }}
                 />
+                <ErrorInfoModal
+                    alertHeader={orderRef}
+                    alertText="As this order was created in Tito, it cannot be transfered using Ticket Machine. Please go
+            to Tito to transfer ownership of the order."
+                    closeModal={closeTitoWarningModal}
+                    headerText="Unable to transfer ownership order"
+                    isOpen={isTitoWarningModalOpen}
+                />
+
               </SpacingBottom>
 
               <SpacingBottom>
