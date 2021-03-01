@@ -27,8 +27,8 @@ type LinkProps = {
   onClick?: () => void;
 };
 
-const Link = ({ children }: LinkProps) => {
-  return <StyledLink>{children}</StyledLink>;
+const Link = ({ children, onClick }: LinkProps) => {
+  return <StyledLink onClick={onClick}>{children}</StyledLink>;
 };
 
 export default Link;
