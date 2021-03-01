@@ -10,6 +10,7 @@ import Link from '../../lib/components/atoms/Link';
 import LabeledInput from '../../lib/components/molecules/LabeledInput';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
+import TextInputField from "../../lib/components/molecules/TextInputField";
 
 type OrderOwnerDetailsProps = {
   editModeOn?: boolean;
@@ -122,23 +123,20 @@ const OrderOwnerDetails = ({
             <Form>
               editModeOn: {Boolean(editModeOn).toString()}
               <OwnerDetails>
-                <LabeledInput
+                <TextInputField
                   disabled={!editModeOn}
                   label="First name"
                   name="firstName"
-                  value={firstName}
                 />
-                <LabeledInput
+                <TextInputField
                   disabled={!editModeOn}
                   label="Last name"
                   name="lastName"
-                  value={lastName}
                 />
-                <LabeledInput
+                <TextInputField
                   disabled={!editModeOn}
                   label="Email"
                   name="email"
-                  value={email}
                 />
               </OwnerDetails>
 
