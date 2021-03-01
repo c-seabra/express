@@ -6,7 +6,7 @@ import {
   Ticket,
   useOrderByRefQuery,
 } from '@websummit/graphql/src/@types/operations';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,6 +14,8 @@ import styled from 'styled-components';
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
+import Icon from '../../lib/components/atoms/Icon';
+import Link from '../../lib/components/atoms/Link';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import Breadcrumbs, {
   Breadcrumb,
@@ -155,6 +157,9 @@ const OrderDetails = (): ReactElement => {
     })(false)(source);
   };
   const isTitoOrder = order && isFromTito(order?.source || '');
+  const [isOwnerDetailsEditOn, setIsOwnerDetailsEditOn] = useState(false);
+  const openEditMode = () => setIsOwnerDetailsEditOn(true);
+  const closeEditMode = () => setIsOwnerDetailsEditOn(false);
 
   const { event } = useEventDataQuery();
   const breadcrumbsRoutes: Breadcrumb[] = [
@@ -296,10 +301,23 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderOwnerDetails
-                  editModeOn
+                  closeEditMode={closeEditMode}
+                  editModeOn={isOwnerDetailsEditOn}
                   email={owner?.email}
                   firstName={owner?.firstName}
                   lastName={owner?.lastName || ''}
+                  renderActions={() => {
+                    return (
+                      <>
+                        {!isOwnerDetailsEditOn ? (
+                          <Link onClick={openEditMode}>
+                            <Icon>create</Icon>
+                            <span>Edit</span>
+                          </Link>
+                        ) : null}
+                      </>
+                    );
+                  }}
                 />
               </SpacingBottom>
 
