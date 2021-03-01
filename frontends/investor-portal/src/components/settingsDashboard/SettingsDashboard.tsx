@@ -8,7 +8,10 @@ import Breadcrumbs, {
 } from '../../lib/components/molecules/Breadcrumbs';
 import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput';
 import LabeledInput from '../../lib/components/molecules/LabeledInput';
-import { useEventQuery, useEventUpdateMutation } from '../../lib/hooks';
+import {
+  useEventQuery,
+  useInvestorMeetingConfigurationUpdateMutation,
+} from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import Warning from '../settingsActions/Warning';
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm';
@@ -88,7 +91,9 @@ const SettingsDashboard: React.FC = () => {
 
   const investorSessionsSummary = data?.event.investorSessionsSummary;
 
-  const { updateEventMutation } = useEventUpdateMutation({
+  const {
+    investorMeetingConfigurationUpdateMutation,
+  } = useInvestorMeetingConfigurationUpdateMutation({
     defaultStartupSelections,
     eventTimezone,
     meetingsPerSession,
@@ -130,7 +135,7 @@ const SettingsDashboard: React.FC = () => {
               <ConfigurationPanel
                 onSubmit={async (e) => {
                   e.preventDefault();
-                  await updateEventMutation();
+                  await investorMeetingConfigurationUpdateMutation();
                 }}
               >
                 <FormArea>
@@ -219,6 +224,7 @@ const SettingsDashboard: React.FC = () => {
             {investorSessionsSummary && (
               <SessionsSummary
                 investorSessionsSummaries={investorSessionsSummary}
+                timezone={eventTimezone}
               />
             )}
           </SpacingBottom>
