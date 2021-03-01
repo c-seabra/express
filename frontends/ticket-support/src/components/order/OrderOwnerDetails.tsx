@@ -141,7 +141,7 @@ const OrderOwnerDetails = ({
               </OwnerDetails>
 
               {editModeOn && (
-                <StyledActions top="32px">
+                <StyledActions top="16px">
                   <Spacing right="16px">
                     <SecondaryButton onClick={closeEditMode}>
                       Cancel
