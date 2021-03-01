@@ -43,7 +43,7 @@ const StyledTextarea = styled.textarea<{
   &:disabled {
     background-color: rgba(239, 239, 239, 0.3);
   }
-  
+
   ${(props) =>
     props.fieldHeight &&
     css`
