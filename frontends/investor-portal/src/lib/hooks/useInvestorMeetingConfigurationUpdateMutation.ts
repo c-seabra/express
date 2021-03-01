@@ -4,12 +4,12 @@ import { useMutation } from '@apollo/client';
 import moment from 'moment';
 
 import { useAppContext } from '../../components/app/AppContext';
-import EVENT_UPDATE from '../../operations/mutations/EventUpdate';
+import INVESTOR_MEETING_CONFIGURATION_UPDATE from '../../operations/mutations/InvestorMeetingConfigurationUpdate';
 import { UserError } from '../types';
 import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
-type EventUpdateData = {
-  eventUpdate: {
+type InvestorMeetingConfigurationUpdateData = {
+  investorMeetingConfigurationUpdate: {
     successMessage: string;
     userErrors: UserError[];
   };
@@ -26,7 +26,7 @@ type InvestorMeetingsArgs = {
   startupSelectionDeadline: string | undefined;
 };
 
-const useEventUpdateMutation = ({
+const useInvestorMeetingConfigurationUpdateMutation = ({
   eventTimezone,
   defaultStartupSelections,
   meetingsPerSession,
@@ -47,22 +47,27 @@ const useEventUpdateMutation = ({
     return moment(dateString).tz(eventTimezone, true).format();
   };
 
-  const [updateEvent, { data, error, loading }] = useMutation<EventUpdateData>(
-    EVENT_UPDATE,
+  const [
+    updateInvestorMeetingConfiguration,
+    { data, error, loading },
+  ] = useMutation<InvestorMeetingConfigurationUpdateData>(
+    INVESTOR_MEETING_CONFIGURATION_UPDATE,
     {
-      onCompleted: ({ eventUpdate }) => {
-        if (eventUpdate?.userErrors[0]) {
-          errorMessage(eventUpdate?.userErrors[0].message);
+      onCompleted: ({ investorMeetingConfigurationUpdate }) => {
+        if (investorMeetingConfigurationUpdate?.userErrors[0]) {
+          errorMessage(
+            investorMeetingConfigurationUpdate?.userErrors[0].message,
+          );
         } else {
-          success(eventUpdate.successMessage);
+          success(investorMeetingConfigurationUpdate.successMessage);
         }
       },
       onError: (e) => errorMessage(e.message),
     },
   );
 
-  const updateEventMutation = async () => {
-    await updateEvent({
+  const investorMeetingConfigurationUpdateMutation = async () => {
+    await updateInvestorMeetingConfiguration({
       context: {
         slug: conferenceSlug,
         token,
@@ -89,9 +94,9 @@ const useEventUpdateMutation = ({
   return {
     data,
     error,
+    investorMeetingConfigurationUpdateMutation,
     loading,
-    updateEventMutation,
   };
 };
 
-export default useEventUpdateMutation;
+export default useInvestorMeetingConfigurationUpdateMutation;

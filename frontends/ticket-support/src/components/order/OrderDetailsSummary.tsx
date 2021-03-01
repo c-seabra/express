@@ -8,7 +8,7 @@ import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
 import Loader from '../../lib/Loading';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
-import { Spacing } from '../templates/Spacing';
+import { Spacing } from '../../lib/components/templates/Spacing';
 import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
 

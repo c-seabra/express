@@ -8,7 +8,7 @@ import Modal from '../../lib/components/molecules/Modal';
 import TextInputField from '../../lib/components/molecules/TextInputField';
 import STATIC_MESSAGES from '../../lib/constants/messages';
 import useUpdateLoginMutation from '../../lib/hooks/useUpdateAppLoginEmail';
-import { SpacingBottom } from '../templates/Spacing';
+import { SpacingBottom } from '../../lib/components/templates/Spacing';
 
 const ContentContainer = styled.div`
   padding: 2rem 0;

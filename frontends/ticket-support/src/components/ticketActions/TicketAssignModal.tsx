@@ -19,7 +19,7 @@ import {
 import TextInputField from '../../lib/components/molecules/TextInputField';
 import useAssignTicketOperation from '../../lib/hooks/useTicketAssignMutation';
 import { Ticket } from '../../lib/types';
-import { Spacing } from '../templates/Spacing';
+import { Spacing } from '../../lib/components/templates/Spacing';
 
 const ContentContainer = styled.div`
   font-size: 0.85rem;
