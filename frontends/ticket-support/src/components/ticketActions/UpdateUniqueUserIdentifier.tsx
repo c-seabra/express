@@ -7,8 +7,11 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
+import {
+  SpacingBottom,
+  SpacingBottomXs,
+} from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
-import { SpacingBottom, SpacingBottomXs } from '../../lib/components/templates/Spacing';
 import UpdateUniqueUserIdentifierModal from './UpdateUniqueUserIdentifierModal';
 
 const StyledActions = styled.span`
@@ -31,6 +34,7 @@ const StyledLabel = styled.span`
 type UpdateUniqueUserIdentifierProps = {
   accountId: string;
   email?: string;
+  isDisabled?: boolean;
 };
 
 const confirmSchema = Yup.object().shape({
@@ -42,6 +46,7 @@ const confirmSchema = Yup.object().shape({
 const UpdateUniqueUserIdentifier = ({
   email,
   accountId,
+  isDisabled = false,
 }: UpdateUniqueUserIdentifierProps) => {
   const { isOpen, openModal, closeModal } = useModalState();
   const [editMode, setEditMode] = useState(false);
@@ -90,6 +95,7 @@ const UpdateUniqueUserIdentifier = ({
             <Form>
               <EditableTextInputField
                 required
+                disabled={isDisabled}
                 editModeOn={editMode}
                 name="email"
                 placeholder="Type email"

@@ -7,8 +7,11 @@ import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
+import {
+  SpacingBottom,
+  SpacingBottomXs,
+} from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
-import { SpacingBottom, SpacingBottomXs } from '../../lib/components/templates/Spacing';
 import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal';
 
 const StyledActions = styled.span`
@@ -31,6 +34,7 @@ const StyledLabel = styled.span`
 type UpdateAppLoginEmailProps = {
   bookingRef: string;
   email?: string;
+  isDisabled?: boolean;
 };
 
 const confirmSchema = Yup.object().shape({
@@ -42,6 +46,7 @@ const confirmSchema = Yup.object().shape({
 const UpdateAppLoginEmail = ({
   email,
   bookingRef,
+  isDisabled = false,
 }: UpdateAppLoginEmailProps) => {
   const { isOpen, openModal, closeModal } = useModalState();
   const [editMode, setEditMode] = useState(false);
@@ -90,6 +95,7 @@ const UpdateAppLoginEmail = ({
             <Form>
               <EditableTextInputField
                 required
+                disabled={isDisabled}
                 editModeOn={editMode}
                 name="email"
                 placeholder="Type email"
