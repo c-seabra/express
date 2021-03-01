@@ -5,18 +5,17 @@ import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
-import Icon from '../../lib/components/atoms/Icon';
-import Link from '../../lib/components/atoms/Link';
-import LabeledInput from '../../lib/components/molecules/LabeledInput';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
-import TextInputField from "../../lib/components/molecules/TextInputField";
+import TextInputField from '../../lib/components/molecules/TextInputField';
 
 type OrderOwnerDetailsProps = {
   editModeOn?: boolean;
   email?: string;
   firstName?: string;
   lastName?: string;
+  renderActions?: () => ReactElement;
+  closeEditMode?: any;
 };
 
 const OwnerDetails = styled.div`
@@ -42,11 +41,9 @@ const OrderOwnerDetails = ({
   lastName,
   email,
   editModeOn = false,
+  renderActions,
+  closeEditMode,
 }: OrderOwnerDetailsProps): ReactElement => {
-  const [isOpen, setOpen] = useState(editModeOn);
-  const openEditMode = () => setOpen(true);
-  const closeEditMode = () => setOpen(false);
-
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void;
@@ -84,21 +81,7 @@ const OrderOwnerDetails = ({
   //
 
   return (
-    <ContainerCard
-      renderActions={() => {
-        return (
-          <>
-            {isOpen ? (
-              <Link onClick={openEditMode}>
-                <Icon>create</Icon>
-                <span>Edit</span>
-              </Link>
-            ) : null}
-          </>
-        );
-      }}
-      title="Owner details"
-    >
+    <ContainerCard renderActions={renderActions} title="Owner details">
       <Formik
         initialValues={{
           email,
@@ -139,7 +122,6 @@ const OrderOwnerDetails = ({
                   name="email"
                 />
               </OwnerDetails>
-
               {editModeOn && (
                 <StyledActions top="16px">
                   <Spacing right="16px">
