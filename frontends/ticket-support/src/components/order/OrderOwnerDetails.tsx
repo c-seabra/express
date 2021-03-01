@@ -1,10 +1,15 @@
-import React, { ReactElement } from 'react';
+import { Form, Formik } from 'formik';
+import React, { FormEvent, ReactElement, useState } from 'react';
 import styled from 'styled-components';
+import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import Icon from '../../lib/components/atoms/Icon';
+import Link from '../../lib/components/atoms/Link';
 import LabeledInput from '../../lib/components/molecules/LabeledInput';
 import { Spacing } from '../../lib/components/templates/Spacing';
+import STATIC_MESSAGES from '../../lib/constants/messages';
 
 type OrderOwnerDetailsProps = {
   editModeOn?: boolean;
@@ -37,25 +42,122 @@ const OrderOwnerDetails = ({
   email,
   editModeOn = false,
 }: OrderOwnerDetailsProps): ReactElement => {
-  return (
-    // <ContainerCard title="Owner details" renderActions={(props) => <Button {...props} />}>
-    <ContainerCard title="Owner details">
-      <>
-        <OwnerDetails>
-          <LabeledInput disabled={!editModeOn} label="First name" value={firstName} />
-          <LabeledInput disabled={!editModeOn} label="Last name" value={lastName} />
-          <LabeledInput disabled={!editModeOn} label="Email" value={email} />
-        </OwnerDetails>
+  const [isOpen, setOpen] = useState(editModeOn);
+  const openEditMode = () => setOpen(true);
+  const closeEditMode = () => setOpen(false);
 
-        {editModeOn && (
-          <StyledActions top="32px">
-            <Spacing right="16px">
-              <SecondaryButton onClick={() => null}>Cancel</SecondaryButton>
-            </Spacing>
-            <Button onClick={() => null}>Save</Button>
-          </StyledActions>
-        )}
-      </>
+  const [formControls, setFormControls] = useState<
+    | {
+        boundReset?: () => void;
+        boundSubmit?: (event?: FormEvent) => void;
+      }
+    | undefined
+  >();
+
+  const handleClose = () => {
+    if (formControls?.boundReset) {
+      formControls.boundReset();
+    }
+
+    setFormControls(undefined);
+    // closeModal();
+  };
+
+  const confirmSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(STATIC_MESSAGES.VALIDATION.EMAIL)
+      .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+    firstName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+    lastName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  });
+
+  // const { reinstateOrder } = useOrderReinstateMutation();
+  // const setMutation = (e: OrderReinstateRequest) => {
+  //   return reinstateOrder({
+  //     id: sourceId,
+  //     reason: e.reason,
+  //     refetch,
+  //     sendEmailNotification: e.sendEmailNotification,
+  //   });
+  // };
+  //
+
+  return (
+    <ContainerCard
+      renderActions={() => {
+        return (
+          <>
+            {isOpen ? (
+              <Link onClick={openEditMode}>
+                <Icon>create</Icon>
+                <span>Edit</span>
+              </Link>
+            ) : null}
+          </>
+        );
+      }}
+      title="Owner details"
+    >
+      <Formik
+        initialValues={{
+          email,
+          firstName,
+          lastName,
+        }}
+        validateOnBlur={false}
+        validateOnChange={false}
+        validationSchema={confirmSchema}
+        onSubmit={async (values) => {
+          // await mutationCallback(values);
+          // handleClose();
+        }}
+      >
+        {({ submitForm, resetForm }) => {
+          // Binding submit form to submit programmatically from outside the <Formik> component
+          if (!formControls) {
+            setFormControls({ boundReset: resetForm, boundSubmit: submitForm });
+          }
+
+          return (
+            <Form>
+              editModeOn: {Boolean(editModeOn).toString()}
+              <OwnerDetails>
+                <LabeledInput
+                  disabled={!editModeOn}
+                  label="First name"
+                  name="firstName"
+                  value={firstName}
+                />
+                <LabeledInput
+                  disabled={!editModeOn}
+                  label="Last name"
+                  name="lastName"
+                  value={lastName}
+                />
+                <LabeledInput
+                  disabled={!editModeOn}
+                  label="Email"
+                  name="email"
+                  value={email}
+                />
+              </OwnerDetails>
+
+              {editModeOn && (
+                <StyledActions top="32px">
+                  <Spacing right="16px">
+                    <SecondaryButton onClick={closeEditMode}>
+                      Cancel
+                    </SecondaryButton>
+                  </Spacing>
+                  <Button type="submit" onClick={() => null}>
+                    Save
+                  </Button>
+                </StyledActions>
+              )}
+            </Form>
+          );
+        }}
+      </Formik>
     </ContainerCard>
   );
 };
