@@ -54,6 +54,7 @@ type ContainerCardProps = {
   children?: ReactElement | ReactElement[];
   className?: string;
   noPadding?: boolean;
+  renderActions?: () => ReactElement;
   title?: string;
 };
 
@@ -62,10 +63,12 @@ const ContainerCard = ({
   noPadding,
   className,
   title,
+  renderActions,
 }: ContainerCardProps): ReactElement => {
   return (
     <Container className={className}>
       {title && <HeaderBar>{title}</HeaderBar>}
+        {renderActions}
       <Card hasTitle={!!title}>
         <ChildrenWrapper noPadding={noPadding}>{children}</ChildrenWrapper>
       </Card>

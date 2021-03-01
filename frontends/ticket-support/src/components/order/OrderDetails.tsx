@@ -296,6 +296,7 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderOwnerDetails
+                  editModeOn
                   email={owner?.email}
                   firstName={owner?.firstName}
                   lastName={owner?.lastName || ''}
