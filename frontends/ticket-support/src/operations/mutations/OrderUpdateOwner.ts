@@ -1,4 +1,4 @@
-import { useProfileUpdateMutation } from '@websummit/graphql/src/@types/operations';
+import { useProfileAdminUpdateMutation } from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
 import {
@@ -7,9 +7,9 @@ import {
 } from '../../lib/hooks/useSnackbarMessage';
 
 export type OrderUpdateOwnerRequest = {
+  accountId: string;
   firstName: string;
   lastName?: string;
-  orderRef: string;
   reason: string;
   refetch?: any;
   sendEmailNotification?: boolean;
@@ -20,10 +20,10 @@ export const useOrderUpdateOwnerOperation = () => {
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
-  const [updateOwnerOrderMutation] = useProfileUpdateMutation({
-    onCompleted: ({ assignmentProfileUpdate }) => {
-      if (assignmentProfileUpdate?.userErrors) {
-        errSnackbar(assignmentProfileUpdate.userErrors[0].message);
+  const [updateOwnerOrderMutation] = useProfileAdminUpdateMutation({
+    onCompleted: ({ assignmentProfileAdminUpdate }) => {
+      if (assignmentProfileAdminUpdate?.userErrors) {
+        errSnackbar(assignmentProfileAdminUpdate.userErrors[0].message);
       } else {
         snackbar('Order owner updated');
       }
@@ -32,11 +32,11 @@ export const useOrderUpdateOwnerOperation = () => {
   });
 
   const updateOwnerOrder = async ({
+    accountId,
     reason,
     firstName,
     lastName,
-    orderRef,
-    sendEmailNotification,
+    // sendEmailNotification,
     refetch,
   }: OrderUpdateOwnerRequest) => {
     await updateOwnerOrderMutation({
@@ -49,14 +49,10 @@ export const useOrderUpdateOwnerOperation = () => {
       },
       variables: {
         profile: {
-          companySizeId: '?',
+          accountId,
           firstName,
-          industryId: '?',
           jobTitle: '?',
           lastName,
-          marketingConsent: '?',
-          personalisationConsent: '?',
-          ticketId: '?',
         },
       },
     });
