@@ -97,15 +97,18 @@ const OrderOwnerDetails = ({
         validateOnChange={false}
         validationSchema={confirmSchema}
         onSubmit={(values) => {
-          console.log('OrderOwnerDetails', values);
           if (email !== values.email) {
             openOrderTransferModal();
+
           } else if (
             firstName !== values.firstName ||
             lastName !== values.lastName
           ) {
             openOrderDetailsUpdateModal();
           }
+
+          // TODO callback for closing editMode
+
         }}
       >
         {({ values, submitForm, resetForm }) => {
@@ -145,11 +148,14 @@ const OrderOwnerDetails = ({
                 {editModeOn && (
                   <StyledActions top="16px">
                     <Spacing right="16px">
-                      <SecondaryButton onClick={closeEditMode}>
+                      <SecondaryButton onClick={() => {
+                        resetForm();
+                        closeEditMode();
+                      }}>
                         Cancel
                       </SecondaryButton>
                     </Spacing>
-                    <Button type="submit" onClick={() => null}>
+                    <Button type="submit" onClick={closeEditMode}>
                       Save
                     </Button>
                   </StyledActions>
