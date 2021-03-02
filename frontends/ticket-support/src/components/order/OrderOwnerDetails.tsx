@@ -10,6 +10,7 @@ import TextInputField from '../../lib/components/molecules/TextInputField';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
 import OrderTransferModal from './OrderTransferModal';
+import OrderUpdateOwnerDetailsModal from './OrderUpdateOwnerDetailsModal';
 
 type OrderOwnerDetailsProps = {
   closeEditMode?: any;
@@ -62,15 +63,6 @@ const OrderOwnerDetails = ({
     | undefined
   >();
 
-  // const handleClose = () => {
-  //   if (formControls?.boundReset) {
-  //     formControls.boundReset();
-  //   }
-  //
-  //   setFormControls(undefined);
-  //   // closeModal();
-  // };
-
   const confirmSchema = Yup.object().shape({
     email: Yup.string()
       .email(STATIC_MESSAGES.VALIDATION.EMAIL)
@@ -83,6 +75,12 @@ const OrderOwnerDetails = ({
     openModal: openOrderTransferModal,
     isOpen: isOrderTransferModalOpen,
     closeModal: closeOrderTransferModal,
+  } = useModalState();
+
+  const {
+    openModal: openOrderDetailsUpdateModal,
+    isOpen: isOrderDetailsUpdateModalOpen,
+    closeModal: closeOrderDetailsUpdateModal,
   } = useModalState();
 
   return (
@@ -104,6 +102,7 @@ const OrderOwnerDetails = ({
             firstName !== values.firstName ||
             lastName !== values.lastName
           ) {
+            openOrderDetailsUpdateModal();
           }
 
           // await mutationCallback(values);
@@ -128,6 +127,16 @@ const OrderOwnerDetails = ({
                   orderRef={orderRef}
                   refetch={refetch}
                 />
+
+                <OrderUpdateOwnerDetailsModal
+                  closeModal={closeOrderDetailsUpdateModal}
+                  firstName={values?.firstName || ''}
+                  isOpen={isOrderDetailsUpdateModalOpen}
+                  lastName={values.lastName}
+                  orderRef={orderRef}
+                  refetch={refetch}
+                />
+
                 <OwnerDetails>
                   <TextInputField label="First name" name="firstName" />
                   <TextInputField label="Last name" name="lastName" />
