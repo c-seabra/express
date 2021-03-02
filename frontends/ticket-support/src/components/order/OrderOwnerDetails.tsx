@@ -39,6 +39,10 @@ const StyledActions = styled(Spacing)`
   justify-content: flex-end;
 `;
 
+const StyledFieldset = styled.fieldset`
+  border: none;
+`;
+
 const OrderOwnerDetails = ({
   firstName,
   lastName,
@@ -94,8 +98,10 @@ const OrderOwnerDetails = ({
           console.log('OrderOwnerDetails', values);
           if (email !== values.email) {
             openOrderTransferModal();
-          } else if (firstName !== values.firstName || lastName !== values.lastName) {
-
+          } else if (
+            firstName !== values.firstName ||
+            lastName !== values.lastName
+          ) {
           }
 
           // await mutationCallback(values);
@@ -110,43 +116,33 @@ const OrderOwnerDetails = ({
 
           return (
             <Form>
-              <OrderTransferModal
-                closeModal={closeOrderTransferModal}
-                isOpen={isOrderTransferModalOpen}
-                orderRef={orderRef}
-              />
-              editModeOn: {Boolean(editModeOn).toString()}
-              <br />
-              values: {JSON.stringify(values)}
-              <OwnerDetails>
-                <TextInputField
-                  disabled={!editModeOn}
-                  label="First name"
-                  name="firstName"
+              <StyledFieldset disabled={!editModeOn}>
+                <OrderTransferModal
+                  closeModal={closeOrderTransferModal}
+                  isOpen={isOrderTransferModalOpen}
+                  orderRef={orderRef}
                 />
-                <TextInputField
-                  disabled={!editModeOn}
-                  label="Last name"
-                  name="lastName"
-                />
-                <TextInputField
-                  disabled={!editModeOn}
-                  label="Email"
-                  name="email"
-                />
-              </OwnerDetails>
-              {editModeOn && (
-                <StyledActions top="16px">
-                  <Spacing right="16px">
-                    <SecondaryButton onClick={closeEditMode}>
-                      Cancel
-                    </SecondaryButton>
-                  </Spacing>
-                  <Button type="submit" onClick={() => null}>
-                    Save
-                  </Button>
-                </StyledActions>
-              )}
+                editModeOn: {Boolean(editModeOn).toString()}
+                <br />
+                values: {JSON.stringify(values)}
+                <OwnerDetails>
+                  <TextInputField label="First name" name="firstName" />
+                  <TextInputField label="Last name" name="lastName" />
+                  <TextInputField label="Email" name="email" />
+                </OwnerDetails>
+                {editModeOn && (
+                  <StyledActions top="16px">
+                    <Spacing right="16px">
+                      <SecondaryButton onClick={closeEditMode}>
+                        Cancel
+                      </SecondaryButton>
+                    </Spacing>
+                    <Button type="submit" onClick={() => null}>
+                      Save
+                    </Button>
+                  </StyledActions>
+                )}
+              </StyledFieldset>
             </Form>
           );
         }}
