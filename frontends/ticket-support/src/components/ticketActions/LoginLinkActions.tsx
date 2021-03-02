@@ -40,8 +40,10 @@ const LoginLinkGeneratorContainer = styled.div`
 
 const LoginLinkActions = ({
   assignee,
+  isTicketVoided,
 }: {
   assignee: Account;
+  isTicketVoided: boolean;
 }): ReactElement => {
   const [
     lastLoginLinkRequestedAt,
@@ -79,10 +81,10 @@ const LoginLinkActions = ({
       </Text>
       <RowContainer>
         <LoginLinkGeneratorContainer>
-          <LoginLinkGenerate assignee={assignee} />
+          <LoginLinkGenerate assignee={assignee} isDisabled={isTicketVoided} />
         </LoginLinkGeneratorContainer>
 
-        <SecondaryButton onClick={openModal}>
+        <SecondaryButton disabled={isTicketVoided} onClick={openModal}>
           Send assignee login link email
         </SecondaryButton>
         <SendLoginLinkModal

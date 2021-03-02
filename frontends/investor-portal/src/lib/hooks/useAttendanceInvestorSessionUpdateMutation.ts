@@ -51,7 +51,7 @@ const useAttendanceInvestorSessionUpdateMutation = ({
         slug: conferenceSlug,
         token,
       },
-      refetchQueries: ['EventQuery'],
+      refetchQueries: ['EventQuery', 'AttendanceDetailsQuery'],
       variables: {
         attendanceId,
         startsAt,
