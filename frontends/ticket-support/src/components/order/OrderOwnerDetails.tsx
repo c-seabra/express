@@ -79,18 +79,6 @@ const OrderOwnerDetails = ({
     closeModal: closeOrderTransferModal,
   } = useModalState();
 
-  // const { reinstateOrder } = useOrderReinstateMutation();
-  // const setMutation = (e: OrderReinstateRequest) => {
-  //   return reinstateOrder({
-  //     id: sourceId,
-  //     reason: e.reason,
-  //     refetch,
-  //     sendEmailNotification: e.sendEmailNotification,
-  //   });
-  // };
-  //
-  const initialEmail = email;
-
   return (
     <ContainerCard renderActions={renderActions} title="Owner details">
       <Formik
@@ -104,8 +92,10 @@ const OrderOwnerDetails = ({
         validationSchema={confirmSchema}
         onSubmit={async (values) => {
           console.log('OrderOwnerDetails', values);
-          if (initialEmail !== values.email) {
+          if (email !== values.email) {
             openOrderTransferModal();
+          } else if (firstName !== values.firstName || lastName !== values.lastName) {
+
           }
 
           // await mutationCallback(values);
