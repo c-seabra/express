@@ -110,7 +110,7 @@ const OrderOwnerDetails = ({
             openOrderDetailsUpdateModal();
           }
 
-          // TODO callback for closing editMode
+          closeEditMode();
         }}
       >
         {({ values, submitForm, resetForm }) => {
