@@ -4787,10 +4787,10 @@ export type AssignmentProfileAdminUpdateInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   companyName?: Maybe<Scalars['String']>;
   companySizeId?: Maybe<Scalars['ID']>;
-  firstName: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
   gender?: Maybe<Scalars['String']>;
   industryId?: Maybe<Scalars['ID']>;
-  jobTitle: Scalars['String'];
+  jobTitle?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
 };
@@ -7208,7 +7208,7 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
         } & TicketsSummaryFragment;
         owner: { __typename?: 'AssignmentUser' } & Pick<
           AssignmentUser,
-          'firstName' | 'lastName' | 'email'
+          'id' | 'firstName' | 'lastName' | 'email'
         >;
         summary: { __typename?: 'OrderSummary' } & Pick<
           OrderSummary,
@@ -7231,7 +7231,7 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
                   order: { __typename?: 'Order' } & {
                     owner: { __typename?: 'AssignmentUser' } & Pick<
                       AssignmentUser,
-                      'firstName' | 'lastName' | 'email'
+                      'firstName' | 'lastName' | 'email' | 'id'
                     >;
                   };
                   assignment: Maybe<
@@ -13394,6 +13394,7 @@ export const OrderByRefDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'firstName' },
@@ -13511,6 +13512,13 @@ export const OrderByRefDocument: DocumentNode = {
                                                 name: {
                                                   kind: 'Name',
                                                   value: 'email',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
                                                 },
                                               },
                                             ],
