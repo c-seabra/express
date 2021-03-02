@@ -159,9 +159,7 @@ const OrderOwnerDetails = ({
                         Cancel
                       </SecondaryButton>
                     </Spacing>
-                    <Button type="submit" onClick={() => null}>
-                      Save
-                    </Button>
+                    <Button type="submit">Save</Button>
                   </StyledActions>
                 )}
               </StyledFieldset>

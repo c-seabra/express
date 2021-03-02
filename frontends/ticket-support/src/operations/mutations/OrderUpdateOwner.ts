@@ -39,7 +39,6 @@ export const useOrderUpdateOwnerOperation = () => {
     reason,
     firstName,
     lastName,
-    // sendEmailNotification,
     refetch,
   }: OrderUpdateOwnerRequest) => {
     await updateOwnerOrderMutation({

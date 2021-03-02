@@ -338,7 +338,7 @@ const OrderDetails = (): ReactElement => {
                   alertText="As this order was created in Tito, it cannot be transferred using Ticket Machine. Please go
             to Tito to transfer ownership of the order."
                   closeModal={closeTransferWarningModal}
-                  headerText="Unable to transfer ownership order"
+                  headerText="Unable to transfer order ownership"
                   isOpen={isTransferWarningModalOpen}
                 />
               </SpacingBottom>
