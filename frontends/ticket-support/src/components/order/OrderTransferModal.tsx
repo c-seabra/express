@@ -27,7 +27,6 @@ const OrderTransferModal = ({
 }: OrderTransferModalProps) => {
   const { transferOrder } = useOrderTransferOperation();
   const setMutation = (e: OrderTransferRequest) => {
-    console.log('transferOrder', e, email);
     return transferOrder({
       email,
       firstName,
