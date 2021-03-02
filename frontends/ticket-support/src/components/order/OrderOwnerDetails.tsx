@@ -121,6 +121,10 @@ const OrderOwnerDetails = ({
                   closeModal={closeOrderTransferModal}
                   isOpen={isOrderTransferModalOpen}
                   orderRef={orderRef}
+                  firstName={values.firstName}
+                  lastName={values.lastName}
+                  email={values.email}
+
                 />
                 editModeOn: {Boolean(editModeOn).toString()}
                 <br />

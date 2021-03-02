@@ -10,19 +10,26 @@ type OrderTransferModalProps = {
   closeModal: () => void;
   isOpen: boolean;
   orderRef: string;
+  email: string;
+  firstName: string;
+  lastName?: string;
 };
 
 const OrderTransferModal = ({
   isOpen,
   closeModal,
   orderRef,
+  email,
+  firstName,
+  lastName,
 }: OrderTransferModalProps) => {
   const { transferOrder } = useOrderTransferOperation();
   const setMutation = (e: OrderTransferRequest) => {
+    console.log('transferOrder', e, email);
     return transferOrder({
-      email: e.email,
-      firstName: e.firstName,
-      lastName: e.lastName,
+      email,
+      firstName,
+      lastName,
       orderRef,
       reason: e.reason,
       sendEmailNotification: e.sendEmailNotification,
