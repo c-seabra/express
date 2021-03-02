@@ -33,6 +33,10 @@ const StyledInput = styled.input<{ isError?: boolean }>`
   box-sizing: border-box;
   width: 100%;
   color: #07143e;
+
+  &:disabled {
+    background-color: rgba(239, 239, 239, 0.3);
+  }
 `;
 
 const Error = styled.div`
