@@ -28,7 +28,7 @@ const OwnerDetails = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 100%;
+  padding: 20px 0 0 10px;
 
   & > div {
     min-width: 30%;
@@ -86,7 +86,11 @@ const OrderOwnerDetails = ({
   } = useModalState();
 
   return (
-    <ContainerCard renderActions={renderActions} title="Owner details">
+    <ContainerCard
+      noPadding
+      renderActions={renderActions}
+      title="Owner details"
+    >
       <Formik
         initialValues={{
           email,
