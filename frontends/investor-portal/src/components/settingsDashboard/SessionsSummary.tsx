@@ -10,10 +10,12 @@ import {
 
 type SessionsSummaryProps = {
   investorSessionsSummaries: [InvestorSessionsSummary];
+  timezone: string;
 };
 
 const SessionsSummary = ({
   investorSessionsSummaries,
+  timezone,
 }: SessionsSummaryProps): ReactElement => {
   return (
     <>
@@ -32,9 +34,9 @@ const SessionsSummary = ({
             className={item.claimed === item.count ? 'full' : 'available'}
           >
             <span>
-              {moment(item?.startsAt).format('dddd')}:{' '}
-              {moment(item?.startsAt).format('HH:mm')} -{' '}
-              {moment(item?.endsAt).format('HH:mm')}
+              {moment.tz(item?.startsAt, timezone).format('dddd')}:{' '}
+              {moment.tz(item?.startsAt, timezone).format('HH:mm')} -{' '}
+              {moment.tz(item?.endsAt, timezone).format('HH:mm')}
             </span>
             <span>
               {item.claimed} claimed out of {item.count}

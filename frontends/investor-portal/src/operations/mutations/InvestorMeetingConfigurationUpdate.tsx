@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const EVENT_UPDATE = gql`
-  mutation eventUpdate(
+export const INVESTOR_MEETING_CONFIGURATION_UPDATE = gql`
+  mutation investorMeetingConfigurationUpdate(
     $investorMeetingsDefaultStartupSelections: Int!
     $investorMeetingsMeetingsPerSession: Int!
     $investorMeetingsSessionDuration: Int!
@@ -10,7 +10,7 @@ export const EVENT_UPDATE = gql`
     $investorMeetingsStartupPortalClosingAt: ISO8601DateTime
     $investorMeetingsStartupSelectionDeadline: ISO8601DateTime
   ) {
-    eventUpdate(
+    investorMeetingConfigurationUpdate(
       input: {
         investorMeetingConfiguration: {
           investorMeetingsDefaultStartupSelections: $investorMeetingsDefaultStartupSelections
@@ -32,4 +32,4 @@ export const EVENT_UPDATE = gql`
   }
 `;
 
-export default EVENT_UPDATE;
+export default INVESTOR_MEETING_CONFIGURATION_UPDATE;
