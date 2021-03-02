@@ -12,6 +12,7 @@ export type OrderTransferRequest = {
   lastName?: string;
   orderRef: string;
   reason: string;
+  refetch?: any;
   sendEmailNotification?: boolean;
 };
 
@@ -25,6 +26,7 @@ export const useOrderTransferOperation = () => {
       snackbar('Order transferred');
     },
     onError: (e) => errSnackbar(e.message),
+    refetchQueries: ['Order', 'CommerceOrder'],
   });
 
   const transferOrder = async ({
@@ -34,6 +36,7 @@ export const useOrderTransferOperation = () => {
     lastName,
     orderRef,
     sendEmailNotification,
+    refetch,
   }: OrderTransferRequest) => {
     await transferOrderMutation({
       context: {
@@ -55,6 +58,10 @@ export const useOrderTransferOperation = () => {
         },
       },
     });
+
+    // Hacky solution
+    // there is a race condition after successful mutation order gets null
+    setTimeout(() => refetch(), 1000);
   };
 
   return {

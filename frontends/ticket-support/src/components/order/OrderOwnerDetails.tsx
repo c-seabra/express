@@ -18,6 +18,7 @@ type OrderOwnerDetailsProps = {
   firstName?: string;
   lastName?: string;
   orderRef: string;
+  refetch?: any;
   renderActions?: () => ReactElement;
 };
 
@@ -51,6 +52,7 @@ const OrderOwnerDetails = ({
   renderActions,
   closeEditMode,
   orderRef,
+  refetch,
 }: OrderOwnerDetailsProps): ReactElement => {
   const [formControls, setFormControls] = useState<
     | {
@@ -60,14 +62,14 @@ const OrderOwnerDetails = ({
     | undefined
   >();
 
-  const handleClose = () => {
-    if (formControls?.boundReset) {
-      formControls.boundReset();
-    }
-
-    setFormControls(undefined);
-    // closeModal();
-  };
+  // const handleClose = () => {
+  //   if (formControls?.boundReset) {
+  //     formControls.boundReset();
+  //   }
+  //
+  //   setFormControls(undefined);
+  //   // closeModal();
+  // };
 
   const confirmSchema = Yup.object().shape({
     email: Yup.string()
@@ -94,7 +96,7 @@ const OrderOwnerDetails = ({
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}
-        onSubmit={async (values) => {
+        onSubmit={(values) => {
           console.log('OrderOwnerDetails', values);
           if (email !== values.email) {
             openOrderTransferModal();
@@ -119,16 +121,13 @@ const OrderOwnerDetails = ({
               <StyledFieldset disabled={!editModeOn}>
                 <OrderTransferModal
                   closeModal={closeOrderTransferModal}
+                  email={values.email || ''}
+                  firstName={values?.firstName || ''}
                   isOpen={isOrderTransferModalOpen}
-                  orderRef={orderRef}
-                  firstName={values.firstName}
                   lastName={values.lastName}
-                  email={values.email}
-
+                  orderRef={orderRef}
+                  refetch={refetch}
                 />
-                editModeOn: {Boolean(editModeOn).toString()}
-                <br />
-                values: {JSON.stringify(values)}
                 <OwnerDetails>
                   <TextInputField label="First name" name="firstName" />
                   <TextInputField label="Last name" name="lastName" />

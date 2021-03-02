@@ -8,11 +8,12 @@ import {
 
 type OrderTransferModalProps = {
   closeModal: () => void;
-  isOpen: boolean;
-  orderRef: string;
   email: string;
   firstName: string;
+  isOpen: boolean;
   lastName?: string;
+  orderRef: string;
+  refetch?: any;
 };
 
 const OrderTransferModal = ({
@@ -22,6 +23,7 @@ const OrderTransferModal = ({
   email,
   firstName,
   lastName,
+  refetch,
 }: OrderTransferModalProps) => {
   const { transferOrder } = useOrderTransferOperation();
   const setMutation = (e: OrderTransferRequest) => {
@@ -32,6 +34,7 @@ const OrderTransferModal = ({
       lastName,
       orderRef,
       reason: e.reason,
+      refetch,
       sendEmailNotification: e.sendEmailNotification,
     });
   };

@@ -312,6 +312,7 @@ const OrderDetails = (): ReactElement => {
                   firstName={owner?.firstName}
                   lastName={owner?.lastName || ''}
                   orderRef={orderRef}
+                  refetch={refetch}
                   renderActions={() => {
                     return (
                       <>
