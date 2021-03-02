@@ -148,7 +148,7 @@ const OrderOwnerDetails = ({
                   <TextInputField label="Email" name="email" />
                 </OwnerDetails>
                 {editModeOn && (
-                  <StyledActions top="16px">
+                  <StyledActions bottom="16px">
                     <Spacing right="16px">
                       <SecondaryButton
                         onClick={() => {
