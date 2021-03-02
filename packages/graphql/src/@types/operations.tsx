@@ -41,7 +41,6 @@ export type Scalars = {
   /** An ISO 8601-encoded date */
   ISO8601Date: any;
   Date: string;
-  Upload: JsonObject;
   /** Input type for dynamic zone link of MenuItem */
   MenuItemLinkDynamicZoneInput: JsonObject;
   /** Input type for dynamic zone content of WebPage */
@@ -50,6 +49,8 @@ export type Scalars = {
   Long: number;
   /** A time string with format: HH:mm:ss.SSS */
   Time: string;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: JsonObject;
 };
 
 export type Query = {
@@ -80,6 +81,7 @@ export type Query = {
   admins: AdminConnection;
   appearances: AppearanceConnection;
   attendance: Maybe<Attendee>;
+  attendanceAppearanceSelection: AttendanceAppearanceSelection;
   attendances: AttendeeConnection;
   chatChannel: Maybe<ChatChannel>;
   chatChannels: Maybe<ChatChannelConnection>;
@@ -128,6 +130,10 @@ export type Query = {
   commerceGetCategory: Maybe<CommerceCategory>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
   commerceGetCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{id}* */
+  commerceGetDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
+  commerceGetDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{id}* */
   commerceGetOrder: Maybe<CommerceOrder>;
   /** *Equivalent to GET /commerce/paymentGateways/{id}* */
@@ -148,6 +154,10 @@ export type Query = {
   commerceListCategories: Maybe<Array<Maybe<CommerceCategory>>>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers* */
   commerceListCustomers: Maybe<Array<Maybe<CommerceCustomer>>>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems* */
+  commerceListDealItems: Maybe<Array<Maybe<CommerceDealItem>>>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals* */
+  commerceListDeals: Maybe<Array<Maybe<CommerceDeal>>>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders* */
   commerceListOrders: Maybe<Array<Maybe<CommerceOrder>>>;
   /** *Equivalent to GET /commerce/paymentGateways* */
@@ -320,6 +330,10 @@ export type QueryAttendanceArgs = {
   id: Scalars['ID'];
 };
 
+export type QueryAttendanceAppearanceSelectionArgs = {
+  id: Scalars['ID'];
+};
+
 export type QueryAttendancesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -447,6 +461,17 @@ export type QueryCommerceGetCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type QueryCommerceGetDealArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetDealItemArgs = {
+  dealId: Scalars['ID'];
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type QueryCommerceGetOrderArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
@@ -494,6 +519,19 @@ export type QueryCommerceListCategoriesArgs = {
 
 export type QueryCommerceListCustomersArgs = {
   orderId: Scalars['ID'];
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceListDealItemsArgs = {
+  dealId: Scalars['ID'];
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceListDealsArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   storeId?: Maybe<Scalars['ID']>;
@@ -1742,6 +1780,7 @@ export type Attendee = {
   gender: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   industry: Maybe<Industry>;
+  investorSession: Maybe<InvestorSession>;
   jobTitle: Maybe<Scalars['String']>;
   lastName: Maybe<Scalars['String']>;
   marketingConsent: Maybe<Scalars['Boolean']>;
@@ -1753,6 +1792,7 @@ export type Attendee = {
   phoneNumber: Maybe<Scalars['String']>;
   role: Maybe<Scalars['String']>;
   seekingTopics: TopicConnection;
+  similarAttendees: AttendeeConnection;
 };
 
 export type AttendeeAttendanceAppearanceSelectionsArgs = {
@@ -1770,6 +1810,13 @@ export type AttendeeOfferingTopicsArgs = {
 };
 
 export type AttendeeSeekingTopicsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type AttendeeSimilarAttendeesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1800,7 +1847,9 @@ export type AttendanceAppearanceSelection = {
   attendance: Attendee;
   createdAt: Scalars['String'];
   id: Scalars['ID'];
+  participations: Maybe<Array<Attendee>>;
   priority: Maybe<Scalars['Int']>;
+  sessionTimeslotId: Maybe<Scalars['ID']>;
   status: Scalars['String'];
   submittedAt: Maybe<Scalars['String']>;
   updatedAt: Scalars['String'];
@@ -1888,6 +1937,15 @@ export type Industry = {
   name: Scalars['String'];
 };
 
+export type InvestorSession = {
+  __typename?: 'InvestorSession';
+  attendanceId: Maybe<Scalars['ID']>;
+  endsAt: Scalars['ISO8601DateTime'];
+  id: Scalars['ID'];
+  startsAt: Scalars['ISO8601DateTime'];
+  tableNumber: Scalars['Int'];
+};
+
 /** The connection type for Topic. */
 export type TopicConnection = {
   __typename?: 'TopicConnection';
@@ -1910,6 +1968,24 @@ export type Topic = {
   __typename?: 'Topic';
   id: Scalars['ID'];
   name: Scalars['String'];
+};
+
+/** The connection type for Attendee. */
+export type AttendeeConnection = {
+  __typename?: 'AttendeeConnection';
+  /** A list of edges. */
+  edges: Array<AttendeeEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type AttendeeEdge = {
+  __typename?: 'AttendeeEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Attendee;
 };
 
 /** The connection type for Admin. */
@@ -1974,24 +2050,6 @@ export enum Attendance {
   /** Speaker */
   Speaker = 'SPEAKER',
 }
-
-/** The connection type for Attendee. */
-export type AttendeeConnection = {
-  __typename?: 'AttendeeConnection';
-  /** A list of edges. */
-  edges: Array<AttendeeEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type AttendeeEdge = {
-  __typename?: 'AttendeeEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Attendee;
-};
 
 export type ChatChannel = {
   __typename?: 'ChatChannel';
@@ -2383,15 +2441,6 @@ export type TimeZone = {
   __typename?: 'TimeZone';
   displayName: Scalars['String'];
   ianaName: Scalars['String'];
-};
-
-export type InvestorSession = {
-  __typename?: 'InvestorSession';
-  attendanceId: Maybe<Scalars['ID']>;
-  endsAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  startsAt: Scalars['ISO8601DateTime'];
-  tableNumber: Scalars['Int'];
 };
 
 /** The connection type for InvestorSession. */
@@ -3003,6 +3052,41 @@ export type CommerceUser = {
   name: Scalars['String'];
 };
 
+export type CommerceDeal = {
+  __typename?: 'CommerceDeal';
+  active: Maybe<Scalars['Boolean']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<Scalars['ID']>;
+  dealItems: Maybe<Array<CommerceDealItem>>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<Scalars['ID']>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+};
+
+export type CommerceDealItem = {
+  __typename?: 'CommerceDealItem';
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<Scalars['ID']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<Scalars['ID']>;
+  max: Scalars['Int'];
+  metadata: Maybe<Scalars['JSON']>;
+  min: Scalars['Int'];
+  product: Maybe<CommerceProduct>;
+  rateAmount: Scalars['Int'];
+  rateType: CommerceDealItemRateType;
+  step: Scalars['Int'];
+};
+
+export enum CommerceDealItemRateType {
+  Absolute = 'ABSOLUTE',
+  Percentage = 'PERCENTAGE',
+}
+
 export type CommerceOrder = {
   __typename?: 'CommerceOrder';
   billed: Maybe<Scalars['Int']>;
@@ -3011,6 +3095,7 @@ export type CommerceOrder = {
   currency: Maybe<Scalars['String']>;
   currencySymbol: Maybe<Scalars['String']>;
   customer: Maybe<CommerceCustomer>;
+  deals: Maybe<Array<CommerceDeal>>;
   id: Maybe<Scalars['ID']>;
   invoiceUrl: Maybe<Scalars['String']>;
   items: Array<CommerceOrderItem>;
@@ -3083,6 +3168,7 @@ export enum CommerceOrderStatus {
 export type CommerceTaxSummary = {
   __typename?: 'CommerceTaxSummary';
   name: Maybe<Scalars['String']>;
+  netTotal: Maybe<Scalars['Int']>;
   rateAmount: Maybe<Scalars['Int']>;
   rateType: Maybe<CommerceTaxSummaryRateType>;
   taxId: Scalars['ID'];
@@ -3178,6 +3264,7 @@ export type CommerceStore = {
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
   currency: Scalars['String'];
+  deals: Maybe<Array<CommerceDeal>>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
@@ -3247,7 +3334,9 @@ export type Mutation = {
   adminCreate: Maybe<AdminCreatePayload>;
   adminUnassignRole: Maybe<AdminUnassignRolePayload>;
   adminUpdate: Maybe<AdminUpdatePayload>;
+  attendanceAppearanceSelectionDestroy: Maybe<AttendanceAppearanceSelectionDestroyPayload>;
   attendanceAppearanceSelectionUpdate: Maybe<AttendanceAppearanceSelectionsUpdatePayload>;
+  attendanceInvestorSessionUpdate: Maybe<AttendanceInvestorSessionUpdatePayload>;
   attendeeProfileUpdate: Maybe<AttendeeProfileUpdatePayload>;
   authenticateByToken: Maybe<AuthenticateByTokenPayload>;
   connectionRequestAccept: Maybe<ConnectionRequestAcceptPayload>;
@@ -3258,6 +3347,7 @@ export type Mutation = {
   magicLinkGenerate: Maybe<MagicLinkGeneratePayload>;
   magicLinkScheduleDelivery: Maybe<MagicLinkScheduleDeliveryPayload>;
   myConnectionsEmailSend: Maybe<MyConnectionsEmailSendPayload>;
+  sessionTimeslotParticipationCreate: Maybe<SessionTimeslotParticipationCreatePayload>;
   userRoleCreate: Maybe<UserRoleCreatePayload>;
   userRoleUpdate: Maybe<UserRoleUpdatePayload>;
   assignmentAccountUpdate: Maybe<AssignmentAccountUpdatePayload>;
@@ -3286,6 +3376,10 @@ export type Mutation = {
   commerceCreateCategory: Maybe<CommerceCategory>;
   /** *Equivalent to POST /commerce/stores/{storeId}/orders/{orderId}/customers* */
   commerceCreateCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/deals* */
+  commerceCreateDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/deals/{dealId}/dealItems* */
+  commerceCreateDealItem: Maybe<CommerceDealItem>;
   /**
    * *Equivalent to POST /commerce/stores/{storeId}/orders*
    * # Creating an Order
@@ -3316,6 +3410,10 @@ export type Mutation = {
   commerceDeleteCategory: Maybe<CommerceCategory>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
   commerceDeleteCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/deals/{id}* */
+  commerceDeleteDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
+  commerceDeleteDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/paymentMethods/{id}* */
   commerceDeletePaymentMethod: Maybe<CommercePaymentMethod>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/products/{id}* */
@@ -3332,6 +3430,10 @@ export type Mutation = {
   commerceUpdateCategory: Maybe<CommerceCategory>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
   commerceUpdateCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/deals/{id}* */
+  commerceUpdateDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
+  commerceUpdateDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{id}* */
   commerceUpdateOrder: Maybe<CommerceOrder>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/paymentMethods/{id}* */
@@ -3449,8 +3551,16 @@ export type MutationAdminUpdateArgs = {
   input: AdminUpdateInput;
 };
 
+export type MutationAttendanceAppearanceSelectionDestroyArgs = {
+  input: AttendanceAppearanceSelectionDestroyInput;
+};
+
 export type MutationAttendanceAppearanceSelectionUpdateArgs = {
   input: AttendanceAppearanceSelectionsUpdateInput;
+};
+
+export type MutationAttendanceInvestorSessionUpdateArgs = {
+  input: AttendanceInvestorSessionUpdateInput;
 };
 
 export type MutationAttendeeProfileUpdateArgs = {
@@ -3491,6 +3601,10 @@ export type MutationMagicLinkScheduleDeliveryArgs = {
 
 export type MutationMyConnectionsEmailSendArgs = {
   input: MyConnectionsEmailSendInput;
+};
+
+export type MutationSessionTimeslotParticipationCreateArgs = {
+  input: SessionTimeslotParticipationCreateInput;
 };
 
 export type MutationUserRoleCreateArgs = {
@@ -3596,6 +3710,17 @@ export type MutationCommerceCreateCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceCreateDealArgs = {
+  commerceDealCreate: CommerceDealCreate;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceCreateDealItemArgs = {
+  commerceDealItemCreate: CommerceDealItemCreate;
+  dealId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceCreateOrderArgs = {
   commerceOrderCreate: CommerceOrderCreate;
   storeId?: Maybe<Scalars['ID']>;
@@ -3648,6 +3773,17 @@ export type MutationCommerceDeleteCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceDeleteDealArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceDeleteDealItemArgs = {
+  dealId: Scalars['ID'];
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceDeletePaymentMethodArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
@@ -3688,6 +3824,19 @@ export type MutationCommerceUpdateCustomerArgs = {
   commerceCustomerUpdate: CommerceCustomerUpdate;
   id: Scalars['ID'];
   orderId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdateDealArgs = {
+  commerceDealUpdate: CommerceDealUpdate;
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdateDealItemArgs = {
+  commerceDealItemUpdate: CommerceDealItemUpdate;
+  dealId: Scalars['ID'];
+  id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
@@ -4226,6 +4375,22 @@ export type AdminUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
+/** Autogenerated input type of AttendanceAppearanceSelectionDestroy */
+export type AttendanceAppearanceSelectionDestroyInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+/** Autogenerated return type of AttendanceAppearanceSelectionDestroy */
+export type AttendanceAppearanceSelectionDestroyPayload = {
+  __typename?: 'AttendanceAppearanceSelectionDestroyPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
 /** Autogenerated input type of AttendanceAppearanceSelectionsUpdate */
 export type AttendanceAppearanceSelectionsUpdateInput = {
   attendanceIds: Array<Scalars['ID']>;
@@ -4239,7 +4404,8 @@ export type AttendanceAppearanceSelectionsUpdatePayload = {
   attendances: Maybe<AttendeeConnection>;
   /** A unique identifier for the client performing the mutation. */
   clientMutationId: Maybe<Scalars['String']>;
-  errors: Array<Error>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
 /** Autogenerated return type of AttendanceAppearanceSelectionsUpdate */
@@ -4250,13 +4416,26 @@ export type AttendanceAppearanceSelectionsUpdatePayloadAttendancesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type Error = {
-  __typename?: 'Error';
-  /** A description of the error */
-  message: Scalars['String'];
-  /** Which input value this error came from */
-  path: Maybe<Array<Scalars['String']>>;
-  type: Scalars['String'];
+/** Autogenerated input type of AttendanceInvestorSessionUpdate */
+export type AttendanceInvestorSessionUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  investorSessionConfiguration?: Maybe<InvestorSessionConfiguration>;
+};
+
+export type InvestorSessionConfiguration = {
+  attendanceId: Scalars['ID'];
+  startsAt?: Maybe<Scalars['ISO8601DateTime']>;
+  unlockInvestor: Scalars['Boolean'];
+};
+
+/** Autogenerated return type of AttendanceInvestorSessionUpdate */
+export type AttendanceInvestorSessionUpdatePayload = {
+  __typename?: 'AttendanceInvestorSessionUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
 /** Autogenerated input type of AttendeeProfileUpdate */
@@ -4324,6 +4503,15 @@ export type ConnectionRequestAcceptPayload = {
   errors: Array<Error>;
 };
 
+export type Error = {
+  __typename?: 'Error';
+  /** A description of the error */
+  message: Scalars['String'];
+  /** Which input value this error came from */
+  path: Maybe<Array<Scalars['String']>>;
+  type: Scalars['String'];
+};
+
 /** Autogenerated input type of ConnectionRequestCreate */
 export type ConnectionRequestCreateInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -4371,7 +4559,7 @@ export type InvestorMeetingConfiguration = {
   investorMeetingsDefaultStartupSelections?: Maybe<Scalars['Int']>;
   investorMeetingsMeetingsPerSession?: Maybe<Scalars['Int']>;
   investorMeetingsSessionDuration?: Maybe<Scalars['Int']>;
-  investorMeetingsSponsorLogo?: Maybe<Scalars['Upload']>;
+  investorMeetingsSponsorLogo?: Maybe<Scalars['String']>;
   investorMeetingsStartupPortalClosingAt?: Maybe<Scalars['ISO8601DateTime']>;
   investorMeetingsStartupPortalOpeningAt?: Maybe<Scalars['ISO8601DateTime']>;
   investorMeetingsStartupSelectionDeadline?: Maybe<Scalars['ISO8601DateTime']>;
@@ -4464,6 +4652,24 @@ export type MyConnectionsEmailSendPayload = {
   clientMutationId: Maybe<Scalars['String']>;
   errors: Array<Error>;
   recipient: User;
+};
+
+/** Autogenerated input type of SessionTimeslotParticipationCreate */
+export type SessionTimeslotParticipationCreateInput = {
+  attendanceId: Scalars['ID'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  sessionTimeslotId: Scalars['ID'];
+};
+
+/** Autogenerated return type of SessionTimeslotParticipationCreate */
+export type SessionTimeslotParticipationCreatePayload = {
+  __typename?: 'SessionTimeslotParticipationCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  participations: Maybe<Array<Attendee>>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
 /** Autogenerated input type of UserRoleCreate */
@@ -5021,6 +5227,44 @@ export type CommerceUserCreateOrUpdate = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type CommerceDealCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+};
+
+export type CommerceDealItemCreateOrUpdate = {
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+  product?: Maybe<Scalars['ID']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceDealItemRateType>;
+  step?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceDealItemCreate = {
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  max: Scalars['Int'];
+  min: Scalars['Int'];
+  product: Scalars['ID'];
+  rateAmount: Scalars['Int'];
+  rateType: CommerceDealItemRateType;
+  step: Scalars['Int'];
+};
+
 export type CommerceOrderCreate = {
   billed?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Date']>;
@@ -5028,6 +5272,7 @@ export type CommerceOrderCreate = {
   currency?: Maybe<Scalars['String']>;
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   invoiceUrl?: Maybe<Scalars['String']>;
   items: Array<CommerceOrderItemCreateOrUpdate>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
@@ -5061,6 +5306,18 @@ export type CommerceCustomerCreateOrUpdate = {
   vatNumber?: Maybe<Scalars['String']>;
 };
 
+export type CommerceDealCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type CommerceOrderItemCreateOrUpdate = {
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
@@ -5081,6 +5338,7 @@ export type CommerceOrderItemCreateOrUpdate = {
 
 export type CommerceTaxSummaryCreateOrUpdate = {
   name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxSummaryRateType>;
   taxId?: Maybe<Scalars['ID']>;
@@ -5163,6 +5421,7 @@ export type CommerceStoreCreate = {
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
   currency: Scalars['String'];
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5287,6 +5546,32 @@ export type CommerceCustomerUpdate = {
   vatNumber?: Maybe<Scalars['String']>;
 };
 
+export type CommerceDealUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CommerceDealItemUpdate = {
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+  product?: Maybe<Scalars['ID']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceDealItemRateType>;
+  step?: Maybe<Scalars['Int']>;
+};
+
 export type CommerceOrderUpdate = {
   billed?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Date']>;
@@ -5294,6 +5579,7 @@ export type CommerceOrderUpdate = {
   currency?: Maybe<Scalars['String']>;
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   id?: Maybe<Scalars['ID']>;
   invoiceUrl?: Maybe<Scalars['String']>;
   items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
@@ -5377,6 +5663,7 @@ export type CommerceStoreUpdate = {
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
   currency?: Maybe<Scalars['String']>;
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -6176,6 +6463,7 @@ export type CommerceTaxDetailUpdate = {
 
 export type CommerceTaxSummaryCreate = {
   name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxSummaryRateType>;
   taxId: Scalars['ID'];
@@ -6185,6 +6473,7 @@ export type CommerceTaxSummaryCreate = {
 
 export type CommerceTaxSummaryUpdate = {
   name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxSummaryRateType>;
   taxId?: Maybe<Scalars['ID']>;
@@ -6292,6 +6581,31 @@ export type UpdateCommerceOrderMutationVariables = Exact<{
 export type UpdateCommerceOrderMutation = { __typename?: 'Mutation' } & {
   commerceUpdateOrder: Maybe<
     { __typename?: 'CommerceOrder' } & Pick<CommerceOrder, 'status'>
+  >;
+};
+
+export type OrderTransferMutationVariables = Exact<{
+  input: OrderUpdateInput;
+}>;
+
+export type OrderTransferMutation = { __typename?: 'Mutation' } & {
+  orderUpdate: Maybe<
+    { __typename?: 'OrderUpdatePayload' } & Pick<
+      OrderUpdatePayload,
+      'clientMutationId'
+    > & {
+        order: Maybe<
+          { __typename?: 'Order' } & {
+            owner: { __typename?: 'AssignmentUser' } & Pick<
+              AssignmentUser,
+              'email'
+            >;
+          }
+        >;
+        userErrors: Array<
+          { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+        >;
+      }
   >;
 };
 
@@ -10239,6 +10553,137 @@ export type UpdateCommerceOrderMutationResult = Apollo.MutationResult<UpdateComm
 export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<
   UpdateCommerceOrderMutation,
   UpdateCommerceOrderMutationVariables
+>;
+export const OrderTransferDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'OrderTransfer' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'orderUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'order' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'owner' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'OrderUpdateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type OrderTransferMutationFn = Apollo.MutationFunction<
+  OrderTransferMutation,
+  OrderTransferMutationVariables
+>;
+
+/**
+ * __useOrderTransferMutation__
+ *
+ * To run a mutation, you first call `useOrderTransferMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOrderTransferMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [orderTransferMutation, { data, loading, error }] = useOrderTransferMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useOrderTransferMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    OrderTransferMutation,
+    OrderTransferMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    OrderTransferMutation,
+    OrderTransferMutationVariables
+  >(OrderTransferDocument, baseOptions);
+}
+export type OrderTransferMutationHookResult = ReturnType<
+  typeof useOrderTransferMutation
+>;
+export type OrderTransferMutationResult = Apollo.MutationResult<OrderTransferMutation>;
+export type OrderTransferMutationOptions = Apollo.BaseMutationOptions<
+  OrderTransferMutation,
+  OrderTransferMutationVariables
 >;
 export const TicketMagicLoginLinkRequestDocument: DocumentNode = {
   definitions: [
