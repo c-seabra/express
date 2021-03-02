@@ -7,6 +7,7 @@ import {
 } from '../../operations/mutations/OrderUpdateOwner';
 
 type OrderUpdateOwnerDetailsModalProps = {
+  accountId: string;
   closeModal: () => void;
   firstName: string;
   isOpen: boolean;
@@ -16,6 +17,7 @@ type OrderUpdateOwnerDetailsModalProps = {
 };
 
 const OrderUpdateOwnerDetailsModal = ({
+  accountId,
   isOpen,
   closeModal,
   orderRef,
@@ -26,9 +28,9 @@ const OrderUpdateOwnerDetailsModal = ({
   const { updateOwnerOrder } = useOrderUpdateOwnerOperation();
   const setMutation = (e: OrderUpdateOwnerRequest) => {
     return updateOwnerOrder({
+      accountId,
       firstName,
       lastName,
-      orderRef,
       reason: e.reason,
       refetch,
       sendEmailNotification: e.sendEmailNotification,

@@ -154,6 +154,8 @@ const OrderDetails = (): ReactElement => {
 
   const owner = order?.owner;
   const tickets = order?.tickets;
+  // const customerId = commerceOrder?.customer?.id || '';
+  const customerId = owner?.id || '';
 
   const isFromTito = (source: string): boolean => {
     return switchCase({
@@ -306,6 +308,7 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderOwnerDetails
+                  accountId={customerId}
                   closeEditMode={closeEditMode}
                   editModeOn={isOwnerDetailsEditOn}
                   email={owner?.email}

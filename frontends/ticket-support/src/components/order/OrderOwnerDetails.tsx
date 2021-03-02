@@ -13,6 +13,7 @@ import OrderTransferModal from './OrderTransferModal';
 import OrderUpdateOwnerDetailsModal from './OrderUpdateOwnerDetailsModal';
 
 type OrderOwnerDetailsProps = {
+  accountId?: string;
   closeEditMode?: any;
   editModeOn?: boolean;
   email?: string;
@@ -46,6 +47,7 @@ const StyledFieldset = styled.fieldset`
 `;
 
 const OrderOwnerDetails = ({
+  accountId,
   firstName,
   lastName,
   email,
@@ -104,9 +106,6 @@ const OrderOwnerDetails = ({
           ) {
             openOrderDetailsUpdateModal();
           }
-
-          // await mutationCallback(values);
-          // handleClose();
         }}
       >
         {({ values, submitForm, resetForm }) => {
@@ -129,8 +128,9 @@ const OrderOwnerDetails = ({
                 />
 
                 <OrderUpdateOwnerDetailsModal
+                  accountId={accountId as string}
                   closeModal={closeOrderDetailsUpdateModal}
-                  firstName={values?.firstName || ''}
+                  firstName={values?.firstName as string}
                   isOpen={isOrderDetailsUpdateModalOpen}
                   lastName={values.lastName}
                   orderRef={orderRef}
