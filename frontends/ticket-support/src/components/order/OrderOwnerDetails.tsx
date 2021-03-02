@@ -99,7 +99,6 @@ const OrderOwnerDetails = ({
         onSubmit={(values) => {
           if (email !== values.email) {
             openOrderTransferModal();
-
           } else if (
             firstName !== values.firstName ||
             lastName !== values.lastName
@@ -108,7 +107,6 @@ const OrderOwnerDetails = ({
           }
 
           // TODO callback for closing editMode
-
         }}
       >
         {({ values, submitForm, resetForm }) => {
@@ -148,14 +146,16 @@ const OrderOwnerDetails = ({
                 {editModeOn && (
                   <StyledActions top="16px">
                     <Spacing right="16px">
-                      <SecondaryButton onClick={() => {
-                        resetForm();
-                        closeEditMode();
-                      }}>
+                      <SecondaryButton
+                        onClick={() => {
+                          resetForm();
+                          closeEditMode();
+                        }}
+                      >
                         Cancel
                       </SecondaryButton>
                     </Spacing>
-                    <Button type="submit" onClick={closeEditMode}>
+                    <Button type="submit" onClick={() => null}>
                       Save
                     </Button>
                   </StyledActions>
