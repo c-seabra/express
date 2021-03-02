@@ -22,7 +22,10 @@ export const useOrderUpdateOwnerOperation = () => {
 
   const [updateOwnerOrderMutation] = useProfileAdminUpdateMutation({
     onCompleted: ({ assignmentProfileAdminUpdate }) => {
-      if (assignmentProfileAdminUpdate?.userErrors) {
+      if (
+        assignmentProfileAdminUpdate?.userErrors &&
+        assignmentProfileAdminUpdate?.userErrors.length > 0
+      ) {
         errSnackbar(assignmentProfileAdminUpdate.userErrors[0].message);
       } else {
         snackbar('Order owner updated');
@@ -51,7 +54,6 @@ export const useOrderUpdateOwnerOperation = () => {
         profile: {
           accountId,
           firstName,
-          jobTitle: '?',
           lastName,
         },
       },
