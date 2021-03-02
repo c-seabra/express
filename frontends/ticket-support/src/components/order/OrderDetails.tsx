@@ -311,6 +311,7 @@ const OrderDetails = (): ReactElement => {
                   email={owner?.email}
                   firstName={owner?.firstName}
                   lastName={owner?.lastName || ''}
+                  orderRef={orderRef}
                   renderActions={() => {
                     return (
                       <>

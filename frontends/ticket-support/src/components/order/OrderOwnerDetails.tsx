@@ -5,17 +5,20 @@ import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import { useModalState } from '../../lib/components/molecules/Modal';
+import TextInputField from '../../lib/components/molecules/TextInputField';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
-import TextInputField from '../../lib/components/molecules/TextInputField';
+import OrderTransferModal from './OrderTransferModal';
 
 type OrderOwnerDetailsProps = {
+  closeEditMode?: any;
   editModeOn?: boolean;
   email?: string;
   firstName?: string;
   lastName?: string;
+  orderRef: string;
   renderActions?: () => ReactElement;
-  closeEditMode?: any;
 };
 
 const OwnerDetails = styled.div`
@@ -43,6 +46,7 @@ const OrderOwnerDetails = ({
   editModeOn = false,
   renderActions,
   closeEditMode,
+  orderRef,
 }: OrderOwnerDetailsProps): ReactElement => {
   const [formControls, setFormControls] = useState<
     | {
@@ -69,6 +73,12 @@ const OrderOwnerDetails = ({
     lastName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   });
 
+  const {
+    openModal: openOrderTransferModal,
+    isOpen: isOrderTransferModalOpen,
+    closeModal: closeOrderTransferModal,
+  } = useModalState();
+
   // const { reinstateOrder } = useOrderReinstateMutation();
   // const setMutation = (e: OrderReinstateRequest) => {
   //   return reinstateOrder({
@@ -79,6 +89,7 @@ const OrderOwnerDetails = ({
   //   });
   // };
   //
+  const initialEmail = email;
 
   return (
     <ContainerCard renderActions={renderActions} title="Owner details">
@@ -92,11 +103,16 @@ const OrderOwnerDetails = ({
         validateOnChange={false}
         validationSchema={confirmSchema}
         onSubmit={async (values) => {
+          console.log('OrderOwnerDetails', values);
+          if (initialEmail !== values.email) {
+            openOrderTransferModal();
+          }
+
           // await mutationCallback(values);
           // handleClose();
         }}
       >
-        {({ submitForm, resetForm }) => {
+        {({ values, submitForm, resetForm }) => {
           // Binding submit form to submit programmatically from outside the <Formik> component
           if (!formControls) {
             setFormControls({ boundReset: resetForm, boundSubmit: submitForm });
@@ -104,7 +120,14 @@ const OrderOwnerDetails = ({
 
           return (
             <Form>
+              <OrderTransferModal
+                closeModal={closeOrderTransferModal}
+                isOpen={isOrderTransferModalOpen}
+                orderRef={orderRef}
+              />
               editModeOn: {Boolean(editModeOn).toString()}
+              <br />
+              values: {JSON.stringify(values)}
               <OwnerDetails>
                 <TextInputField
                   disabled={!editModeOn}
