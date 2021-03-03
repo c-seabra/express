@@ -1,13 +1,14 @@
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 
 import {
-  Button,
   ContainerCard,
+  FilterButton,
   Heading,
   Modal,
   SecondaryButton,
   useModalState,
 } from '../../lib/components';
+import PopupButton from '../../lib/components/molecules/PopupButton';
 import useAttendanceAppearanceSelectionUpdateMutation from '../../lib/hooks/useAttendanceAppearanceSelectionUpdateMutation';
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import useSearchState from '../../lib/hooks/useSearchState';
@@ -17,15 +18,17 @@ import AttendanceItem from './AttendanceItem';
 import AttendanceListHeader from './AttendanceListHeader';
 import {
   FiltersSearchContainer,
+  PopupFiltersContainer,
   SearchFilters,
   StyledSearchInput,
 } from './AttendanceTable.styled';
+import SelectionStatusesCategoryList from './SelectionStatusesCategoryList';
 
 type AttendanceSearchState = {
   page: string;
   searchQuery?: string;
+  selectionStatuses?: string;
   type: string;
-  withPendingSelections?: boolean;
 };
 
 const AttendanceTable = (): ReactElement => {
@@ -57,8 +60,8 @@ const AttendanceTable = (): ReactElement => {
   } = useAttendancesQuery({
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
+    selectionStatuses: searchState.selectionStatuses,
     type: searchState.type,
-    withPendingSelections: searchState.withPendingSelections,
   });
 
   const onCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,16 +111,6 @@ const AttendanceTable = (): ReactElement => {
     }
   };
 
-  const onPendingSelectionsFilterChange = () => {
-    setSearchState(prevState => ({
-      ...prevState,
-      withPendingSelections: !prevState?.withPendingSelections,
-    }))
-  }
-  const onPendingSelectionsFilterOff = () => {
-    setSearchState(prevState => ({ ...prevState, withPendingSelections: false }))
-  }
-
   const onHeaderCheckboxChange = () => {
     setHeaderCheckbox(!headerCheckbox);
     setSelectedValues(
@@ -145,6 +138,15 @@ const AttendanceTable = (): ReactElement => {
     closeModal();
   };
 
+  const handleSelectionStatusFilterChange = (selectedTypes: string[]) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      selectionStatuses:
+        selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
+    }));
+    setSelectedValues([]);
+  };
+
   return (
     <>
       <SearchFilters>
@@ -167,15 +169,6 @@ const AttendanceTable = (): ReactElement => {
             title="Are you sure?"
             onRequestClose={closeModal}
           />
-          {searchState.withPendingSelections ? (
-            <Button style={{ marginLeft: 10 }} onClick={onPendingSelectionsFilterChange}>
-              Filter pending selections
-            </Button>
-          ) : (
-            <SecondaryButton style={{ marginLeft: 10 }} onClick={onPendingSelectionsFilterChange}>
-              Filter pending selections
-            </SecondaryButton>
-          )}
           <StyledSearchInput
             defaultValue={searchQuery}
             placeholder="Search by Attendance name."
@@ -184,6 +177,16 @@ const AttendanceTable = (): ReactElement => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKey}
           />
+          <PopupButton renderButton={(props) => <FilterButton {...props} />}>
+            <PopupFiltersContainer>
+              <SelectionStatusesCategoryList
+                initialValues={searchState?.selectionStatuses?.split(',')}
+                onSelectionStatusFilterChange={
+                  handleSelectionStatusFilterChange
+                }
+              />
+            </PopupFiltersContainer>
+          </PopupButton>
         </FiltersSearchContainer>
       </SearchFilters>
       {!loading && !error ? (

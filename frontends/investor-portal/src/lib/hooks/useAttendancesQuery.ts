@@ -10,14 +10,14 @@ const useAttendancesQuery = ({
   initialPage,
   perPage = ATTENDANCES_PER_PAGE,
   searchQuery,
+  selectionStatuses,
   type = INVESTORS_TYPE,
-  withPendingSelections,
 }: {
   initialPage: string;
   perPage?: number;
   searchQuery?: string;
+  selectionStatuses?: string;
   type?: string;
-  withPendingSelections?: boolean;
 }) => {
   const { conferenceSlug, token } = useAppContext();
 
@@ -27,8 +27,8 @@ const useAttendancesQuery = ({
   };
 
   const filter = {
+    selectionStatuses: selectionStatuses?.split(','),
     type,
-    withPendingSelections: Boolean(withPendingSelections),
   };
 
   const variables = {
