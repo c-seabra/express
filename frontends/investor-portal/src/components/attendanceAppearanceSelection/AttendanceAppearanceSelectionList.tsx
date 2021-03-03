@@ -5,7 +5,7 @@ import { useAttendanceAppearanceSelectionUpdateMutation } from '../../lib/hooks'
 import Loader from '../../lib/Loading';
 import { AttendanceAppearanceSelection } from '../../lib/types';
 import AttendanceAppearanceSelectionItem from './AttendanceAppearanceSelectionItem';
-import RightButton from './AttendanceAppearanceSelectionList.styled';
+import SubmitButton from './AttendanceAppearanceSelectionList.styled';
 import AttendanceAppearanceSelectionListHeader from './AttendanceAppearanceSelectionListHeader';
 
 type AtendanceAppearanceSelectionListProps = {
@@ -72,9 +72,9 @@ const AttendanceAppearanceSelectionList = ({
         />
       ))}
       {!hasAccepted && (
-        <RightButton onClick={submit}>
+        <SubmitButton onClick={submit}>
           {status === 'pending' ? 'Unlock Startups' : 'Submit'}
-        </RightButton>
+        </SubmitButton>
       )}
     </>
   );
