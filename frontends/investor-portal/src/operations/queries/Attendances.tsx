@@ -18,7 +18,12 @@ const ATTENDANCES_LIST = gql`
         node {
           id
           name
-          pendingSelectionCount
+          attendanceAppearanceSelectionsDetails {
+            acceptedSelectionCount
+            pendingSelectionCount
+            rejectedSelectionCount
+            submittedSelectionCount
+          }
         }
       }
       pageInfo {
