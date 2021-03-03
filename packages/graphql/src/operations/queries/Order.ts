@@ -55,6 +55,7 @@ export default gql`
       lastUpdatedAt
       state
       owner {
+        id
         firstName
         lastName
         email
@@ -81,6 +82,7 @@ export default gql`
                 firstName
                 lastName
                 email
+                id
               }
             }
             assignment {

@@ -6538,6 +6538,38 @@ export type AssignmentAuthenticateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type ProfileAdminUpdateMutationVariables = Exact<{
+  profile: AssignmentProfileAdminUpdateInput;
+}>;
+
+export type ProfileAdminUpdateMutation = { __typename?: 'Mutation' } & {
+  assignmentProfileAdminUpdate: Maybe<
+    { __typename?: 'AssignmentProfileAdminUpdatePayload' } & Pick<
+      AssignmentProfileAdminUpdatePayload,
+      'successMessage'
+    > & {
+        userErrors: Array<
+          { __typename?: 'UserError' } & Pick<UserError, 'path' | 'message'>
+        >;
+        profile: Maybe<
+          { __typename?: 'AssignmentUser' } & Pick<
+            AssignmentUser,
+            | 'email'
+            | 'firstName'
+            | 'lastName'
+            | 'jobTitle'
+            | 'companyName'
+            | 'companySizeId'
+            | 'industryId'
+            | 'phoneNumber'
+            | 'city'
+            | 'passportNumber'
+          >
+        >;
+      }
+  >;
+};
+
 export type ProfileUpdateMutationVariables = Exact<{
   profile: AssignmentProfileUpdateInput;
 }>;
@@ -6581,6 +6613,31 @@ export type UpdateCommerceOrderMutationVariables = Exact<{
 export type UpdateCommerceOrderMutation = { __typename?: 'Mutation' } & {
   commerceUpdateOrder: Maybe<
     { __typename?: 'CommerceOrder' } & Pick<CommerceOrder, 'status'>
+  >;
+};
+
+export type OrderTransferMutationVariables = Exact<{
+  input: OrderUpdateInput;
+}>;
+
+export type OrderTransferMutation = { __typename?: 'Mutation' } & {
+  orderUpdate: Maybe<
+    { __typename?: 'OrderUpdatePayload' } & Pick<
+      OrderUpdatePayload,
+      'clientMutationId'
+    > & {
+        order: Maybe<
+          { __typename?: 'Order' } & {
+            owner: { __typename?: 'AssignmentUser' } & Pick<
+              AssignmentUser,
+              'email'
+            >;
+          }
+        >;
+        userErrors: Array<
+          { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+        >;
+      }
   >;
 };
 
@@ -7151,7 +7208,7 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
         } & TicketsSummaryFragment;
         owner: { __typename?: 'AssignmentUser' } & Pick<
           AssignmentUser,
-          'firstName' | 'lastName' | 'email'
+          'id' | 'firstName' | 'lastName' | 'email'
         >;
         summary: { __typename?: 'OrderSummary' } & Pick<
           OrderSummary,
@@ -7174,7 +7231,7 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
                   order: { __typename?: 'Order' } & {
                     owner: { __typename?: 'AssignmentUser' } & Pick<
                       AssignmentUser,
-                      'firstName' | 'lastName' | 'email'
+                      'firstName' | 'lastName' | 'email' | 'id'
                     >;
                   };
                   assignment: Maybe<
@@ -10243,6 +10300,161 @@ export type AssignmentAuthenticateMutationOptions = Apollo.BaseMutationOptions<
   AssignmentAuthenticateMutation,
   AssignmentAuthenticateMutationVariables
 >;
+export const ProfileAdminUpdateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'profileAdminUpdate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'profile' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignmentProfileAdminUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'successMessage' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profile' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'jobTitle' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'companyName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'companySizeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'industryId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'phoneNumber' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'passportNumber' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'AssignmentProfileAdminUpdateInput',
+              },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'profile' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type ProfileAdminUpdateMutationFn = Apollo.MutationFunction<
+  ProfileAdminUpdateMutation,
+  ProfileAdminUpdateMutationVariables
+>;
+
+/**
+ * __useProfileAdminUpdateMutation__
+ *
+ * To run a mutation, you first call `useProfileAdminUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProfileAdminUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [profileAdminUpdateMutation, { data, loading, error }] = useProfileAdminUpdateMutation({
+ *   variables: {
+ *      profile: // value for 'profile'
+ *   },
+ * });
+ */
+export function useProfileAdminUpdateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ProfileAdminUpdateMutation,
+    ProfileAdminUpdateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    ProfileAdminUpdateMutation,
+    ProfileAdminUpdateMutationVariables
+  >(ProfileAdminUpdateDocument, baseOptions);
+}
+export type ProfileAdminUpdateMutationHookResult = ReturnType<
+  typeof useProfileAdminUpdateMutation
+>;
+export type ProfileAdminUpdateMutationResult = Apollo.MutationResult<ProfileAdminUpdateMutation>;
+export type ProfileAdminUpdateMutationOptions = Apollo.BaseMutationOptions<
+  ProfileAdminUpdateMutation,
+  ProfileAdminUpdateMutationVariables
+>;
 export const ProfileUpdateDocument: DocumentNode = {
   definitions: [
     {
@@ -10528,6 +10740,137 @@ export type UpdateCommerceOrderMutationResult = Apollo.MutationResult<UpdateComm
 export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<
   UpdateCommerceOrderMutation,
   UpdateCommerceOrderMutationVariables
+>;
+export const OrderTransferDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'OrderTransfer' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'orderUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'order' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'owner' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'OrderUpdateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type OrderTransferMutationFn = Apollo.MutationFunction<
+  OrderTransferMutation,
+  OrderTransferMutationVariables
+>;
+
+/**
+ * __useOrderTransferMutation__
+ *
+ * To run a mutation, you first call `useOrderTransferMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOrderTransferMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [orderTransferMutation, { data, loading, error }] = useOrderTransferMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useOrderTransferMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    OrderTransferMutation,
+    OrderTransferMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    OrderTransferMutation,
+    OrderTransferMutationVariables
+  >(OrderTransferDocument, baseOptions);
+}
+export type OrderTransferMutationHookResult = ReturnType<
+  typeof useOrderTransferMutation
+>;
+export type OrderTransferMutationResult = Apollo.MutationResult<OrderTransferMutation>;
+export type OrderTransferMutationOptions = Apollo.BaseMutationOptions<
+  OrderTransferMutation,
+  OrderTransferMutationVariables
 >;
 export const TicketMagicLoginLinkRequestDocument: DocumentNode = {
   definitions: [
@@ -13051,6 +13394,7 @@ export const OrderByRefDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'firstName' },
@@ -13168,6 +13512,13 @@ export const OrderByRefDocument: DocumentNode = {
                                                 name: {
                                                   kind: 'Name',
                                                   value: 'email',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
                                                 },
                                               },
                                             ],
