@@ -21,7 +21,10 @@ const AttendanceItem = ({
       <NarrowColumn>
         <input
           checked={isChecked}
-          disabled={attendance.pendingSelectionCount === 0}
+          disabled={
+            attendance.attendanceAppearanceSelectionsDetails
+              .pendingSelectionCount === 0
+          }
           name="select"
           type="checkbox"
           value={attendance.id}
@@ -32,7 +35,27 @@ const AttendanceItem = ({
       <Column onClick={() => history.push(`/dashboard/${attendance.id}`)}>
         {attendance.name}
       </Column>
-      <Column>{attendance.pendingSelectionCount}</Column>
+      <Column>
+        {
+          attendance.attendanceAppearanceSelectionsDetails
+            .acceptedSelectionCount
+        }
+      </Column>
+      <Column>
+        {attendance.attendanceAppearanceSelectionsDetails.pendingSelectionCount}
+      </Column>
+      <Column>
+        {
+          attendance.attendanceAppearanceSelectionsDetails
+            .rejectedSelectionCount
+        }
+      </Column>
+      <Column>
+        {
+          attendance.attendanceAppearanceSelectionsDetails
+            .submittedSelectionCount
+        }
+      </Column>
     </ListItem>
   );
 };

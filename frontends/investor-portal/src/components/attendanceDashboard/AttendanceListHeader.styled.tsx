@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { ListItem } from '../../lib/components';
 
 export const ColumnStyles = styled.div`
-  text-align: center;
   display: flex;
   align-items: center;
   padding: 0 0.25rem;

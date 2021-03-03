@@ -38,7 +38,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
   });
 
   const selections: AttendanceAppearanceSelection[] =
-    data?.attendance.attendanceAppearanceSelections?.edges.flatMap(
+    data?.attendance.attendanceAppearanceSelectionsDetails.attendanceAppearanceSelections?.edges.map(
       (edge) => edge.node,
     ) || [];
 
