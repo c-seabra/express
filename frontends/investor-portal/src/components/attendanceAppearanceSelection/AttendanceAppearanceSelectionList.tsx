@@ -21,24 +21,27 @@ const AttendanceAppearanceSelectionList = ({
   loading,
   error,
 }: AtendanceAppearanceSelectionListProps): ReactElement => {
-  const [hasAccepted, setHasAccepted] = useState<boolean>(false);
+  const [hideAction, setHideAction] = useState<boolean>(false);
   const [status, setStatus] = useState<string>('');
 
   const handleStatus = () => {
-    if (list.find((selection) => selection.status === 'submitted')) {
+    const statuses = list
+      .map((l) => {
+        return l.status;
+      })
+      .filter((v, i, a) => a.indexOf(v) === i);
+    if (statuses.length === 1 && statuses[0] === 'rejected') {
+      setHideAction(true);
+    } else if (statuses.some((x) => x === 'accepted')) {
+      setHideAction(true);
+    } else if (statuses.some((x) => x === 'submitted')) {
       setStatus('pending');
-    } else if (list.find((selection) => selection.status === 'pending')) {
+    } else if (statuses.some((x) => x === 'pending')) {
       setStatus('submitted');
     }
   };
 
-  const checkHasAccepted = () => {
-    const item = list.find((selection) => selection.status === 'accepted');
-    setHasAccepted(item !== undefined);
-  };
-
   useEffect(() => {
-    checkHasAccepted();
     handleStatus();
   });
 
@@ -71,7 +74,7 @@ const AttendanceAppearanceSelectionList = ({
           selection={selection}
         />
       ))}
-      {!hasAccepted && (
+      {!hideAction && (
         <SubmitButton onClick={submit}>
           {status === 'pending' ? 'Unlock Startups' : 'Submit'}
         </SubmitButton>
