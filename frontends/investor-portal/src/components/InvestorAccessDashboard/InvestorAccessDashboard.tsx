@@ -38,7 +38,7 @@ const InvestorAccessDashboard = (): ReactElement => {
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: data?.event.name || 'Home',
-      redirectUrl: '/',
+      redirectUrl: '/dashboard',
     },
     {
       label: 'Investor Access',
