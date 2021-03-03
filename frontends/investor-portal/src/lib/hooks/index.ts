@@ -1,5 +1,3 @@
-import { from } from '@apollo/client';
-
 export { default as useEventQuery } from './useEventQuery';
 
 export { default as useAttendanceAppearanceSelectionDestroyMutation } from './useAttendanceAppearanceSelectionDestroyMutation';
