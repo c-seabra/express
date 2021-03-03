@@ -25,9 +25,9 @@ const AttendanceAppearanceSelectionList = ({
   const [status, setStatus] = useState<string>('');
 
   const handleStatus = () => {
-    if (list[0]?.status === 'submitted') {
+    if (list.find((selection) => selection.status === 'submitted')) {
       setStatus('pending');
-    } else if (list[0]?.status === 'pending') {
+    } else if (list.find((selection) => selection.status === 'pending')) {
       setStatus('submitted');
     }
   };
