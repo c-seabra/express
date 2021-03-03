@@ -47,7 +47,7 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
       }
     },
     onError: (e) => errorMessage(e.message),
-    refetchQueries: ['Attendances'],
+    refetchQueries: ['Attendances', 'AttendanceDetailsQuery'],
     variables,
   });
 

@@ -7,4 +7,4 @@ export { default as useInvestorMeetingConfigurationUpdateMutation } from './useI
 export { default as useInvestorSessionCreateMutation } from './useInvestorSessionCreateMutation';
 export { default as useSessionTimeslotParticipationCreateMutation } from './useSessionTimeslotParticipationCreateMutation';
 export { default as useAttendanceInvestorSessionUpdateMutation } from './useAttendanceInvestorSessionUpdateMutation';
-export { default as useAttendanceAppearanceSelectionUpdateMutationUnlock } from './useAttendanceAppearanceSelectionUpdateMutationUnlock';
+export { default as useAttendanceAppearanceSelectionUpdateMutation } from './useAttendanceAppearanceSelectionUpdateMutation';

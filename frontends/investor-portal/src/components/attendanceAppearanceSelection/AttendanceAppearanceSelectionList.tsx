@@ -1,7 +1,7 @@
 import { ApolloError } from '@apollo/client';
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { useAttendanceAppearanceSelectionUpdateMutationUnlock } from '../../lib/hooks';
+import { useAttendanceAppearanceSelectionUpdateMutation } from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import { AttendanceAppearanceSelection } from '../../lib/types';
 import AttendanceAppearanceSelectionItem from './AttendanceAppearanceSelectionItem';
@@ -43,14 +43,14 @@ const AttendanceAppearanceSelectionList = ({
   });
 
   const {
-    unlockUpdateAttendanceAppearanceSelections,
-  } = useAttendanceAppearanceSelectionUpdateMutationUnlock({
+    updateAttendanceAppearanceSelections,
+  } = useAttendanceAppearanceSelectionUpdateMutation({
     attendanceIds: [attendanceId],
     status,
   });
 
   const submit = async () => {
-    await unlockUpdateAttendanceAppearanceSelections();
+    await updateAttendanceAppearanceSelections();
     handleStatus();
   };
 
