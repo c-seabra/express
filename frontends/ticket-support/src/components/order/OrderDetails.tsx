@@ -6,7 +6,7 @@ import {
   Ticket,
   useOrderByRefQuery,
 } from '@websummit/graphql/src/@types/operations';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,6 +14,8 @@ import styled from 'styled-components';
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
+import Icon from '../../lib/components/atoms/Icon';
+import Link from '../../lib/components/atoms/Link';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import Breadcrumbs, {
   Breadcrumb,
@@ -123,6 +125,11 @@ const OrderDetails = (): ReactElement => {
     isOpen: isTitoWarningModalOpen,
     closeModal: closeTitoWarningModal,
   } = useModalState();
+  const {
+    openModal: openTransferWarningModal,
+    isOpen: isTransferWarningModalOpen,
+    closeModal: closeTransferWarningModal,
+  } = useModalState();
 
   const { data, loading, error, refetch } = useOrderByRefQuery({
     context: {
@@ -155,6 +162,9 @@ const OrderDetails = (): ReactElement => {
     })(false)(source);
   };
   const isTitoOrder = order && isFromTito(order?.source || '');
+  const [isOwnerDetailsEditOn, setIsOwnerDetailsEditOn] = useState(false);
+  const openEditMode = () => setIsOwnerDetailsEditOn(true);
+  const closeEditMode = () => setIsOwnerDetailsEditOn(false);
 
   const { event } = useEventDataQuery();
   const breadcrumbsRoutes: Breadcrumb[] = [
@@ -296,9 +306,40 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderOwnerDetails
+                  accountId={owner?.id}
+                  closeEditMode={closeEditMode}
+                  editModeOn={isOwnerDetailsEditOn}
                   email={owner?.email}
                   firstName={owner?.firstName}
                   lastName={owner?.lastName || ''}
+                  orderRef={orderRef}
+                  refetch={refetch}
+                  renderActions={() => {
+                    return (
+                      <>
+                        {!isOwnerDetailsEditOn ? (
+                          <Link
+                            onClick={
+                              isTitoOrder
+                                ? openTransferWarningModal
+                                : openEditMode
+                            }
+                          >
+                            <Icon>create</Icon>
+                            <span>Edit</span>
+                          </Link>
+                        ) : null}
+                      </>
+                    );
+                  }}
+                />
+                <ErrorInfoModal
+                  alertHeader={orderRef}
+                  alertText="As this order was created in Tito, it cannot be transferred using Ticket Machine. Please go
+            to Tito to transfer ownership of the order."
+                  closeModal={closeTransferWarningModal}
+                  headerText="Unable to transfer order ownership"
+                  isOpen={isTransferWarningModalOpen}
                 />
               </SpacingBottom>
 
