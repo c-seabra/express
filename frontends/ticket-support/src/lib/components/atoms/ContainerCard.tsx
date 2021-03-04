@@ -9,6 +9,8 @@ const Container = styled.div`
 `;
 
 const HeaderBar = styled.div`
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   height: 48px;
   margin: 0;
@@ -19,7 +21,7 @@ const HeaderBar = styled.div`
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
-  padding: 0.8rem 0 0.5rem 1.5rem;
+  padding: 0.8rem 1.5rem 0.5rem 1.5rem;
   border-bottom: none;
   box-sizing: border-box;
 `;
@@ -54,6 +56,7 @@ type ContainerCardProps = {
   children?: ReactElement | ReactElement[];
   className?: string;
   noPadding?: boolean;
+  renderActions?: () => ReactElement;
   title?: string;
 };
 
@@ -62,10 +65,16 @@ const ContainerCard = ({
   noPadding,
   className,
   title,
+  renderActions,
 }: ContainerCardProps): ReactElement => {
   return (
     <Container className={className}>
-      {title && <HeaderBar>{title}</HeaderBar>}
+      {title && (
+        <HeaderBar>
+          {title}
+          {renderActions && renderActions()}
+        </HeaderBar>
+      )}
       <Card hasTitle={!!title}>
         <ChildrenWrapper noPadding={noPadding}>{children}</ChildrenWrapper>
       </Card>
