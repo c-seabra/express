@@ -3,7 +3,12 @@ import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { DestructiveButton, Label, Modal, useModalState } from '../../lib/components';
+import {
+  DestructiveButton,
+  Label,
+  Modal,
+  useModalState,
+} from '../../lib/components';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import { useInvestorPortalRevokeAccessMutation } from '../../lib/hooks';
 import { Attendance, AttendanceAppearanceSelection } from '../../lib/types';
@@ -12,7 +17,10 @@ import { useAppContext } from '../app/AppContext';
 import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection';
 import AttendanceInvestorSession from '../attendanceInvestorSession/AttendanceInvestorSession';
 import { BorderBottom } from '../settingsDashboard/SettingsDashboard.styled';
-import { ContentContainer, DashboardDetailsContainer } from './AttendanceDetailsDashboard.styled';
+import {
+  ContentContainer,
+  DashboardDetailsContainer,
+} from './AttendanceDetailsDashboard.styled';
 
 const AttendanceDetailsDashboard = (): ReactElement => {
   const { isOpen, openModal, closeModal } = useModalState();
@@ -48,15 +56,13 @@ const AttendanceDetailsDashboard = (): ReactElement => {
   const startsAt = data?.attendance.investorSession?.startsAt;
   const endsAt = data?.attendance.investorSession?.endsAt;
 
-  const {
-    investorRevokeMutation,
-  } = useInvestorPortalRevokeAccessMutation({
+  const { investorRevokeMutation } = useInvestorPortalRevokeAccessMutation({
     attendanceId,
   });
 
   const goBackToDashboard = () => {
-    history.replace('/dashboard/')
-  }
+    history.replace('/dashboard/');
+  };
 
   return (
     <DashboardDetailsContainer>
@@ -86,7 +92,10 @@ const AttendanceDetailsDashboard = (): ReactElement => {
       <BorderBottom>
         <ContainerCard color="#00ACA8" title="Remove Investor">
           <ContentContainer>
-            <p>By taking this action you will be removing access to the Invesort portal, along with deleting this investors selections.</p>
+            <p>
+              By taking this action you will be removing access to the Invesort
+              portal, along with deleting this investors selections.
+            </p>
             <DestructiveButton style={{ marginLeft: 10 }} onClick={openModal}>
               Delete investor
             </DestructiveButton>

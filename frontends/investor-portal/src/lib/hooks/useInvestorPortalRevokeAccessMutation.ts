@@ -14,7 +14,7 @@ type InvestorPortalRevokeAccessData = {
 };
 
 type investorPortalRevokeAccesssArgs = {
-  attendanceId: string
+  attendanceId: string;
 };
 
 const useInvestorPortalRevokeAccessMutation = ({
@@ -55,11 +55,11 @@ const useInvestorPortalRevokeAccessMutation = ({
           },
           query: ATTENDANCES_LIST,
           variables: {
-            after: "",
-            filter: {type: "INVESTOR"},
+            after: '',
+            filter: { type: 'INVESTOR' },
             first: 25,
-          }
-        }
+          },
+        },
       ],
       variables: {
         attendanceId,
