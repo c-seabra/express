@@ -41,18 +41,17 @@ const useInvestorPortalRevokeAccessMutation = ({
     },
   );
 
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
+
   const investorRevokeMutation = async () => {
     await investorPortalRevokeAccessMutation({
-      context: {
-        slug: conferenceSlug,
-        token,
-      },
+      context,
       refetchQueries: [
         {
-          context: {
-            slug: conferenceSlug,
-            token,
-          },
+          context,
           query: ATTENDANCES_LIST,
           variables: {
             after: '',
