@@ -30,9 +30,10 @@ const AttendanceAppearanceSelectionList = ({
         return l.status;
       })
       .filter((v, i, a) => a.indexOf(v) === i);
-    if (statuses.length === 1 && statuses[0] === 'rejected') {
-      setHideAction(true);
-    } else if (statuses.some((x) => x === 'accepted')) {
+    if (
+      statuses.some((x) => x === 'accepted') ||
+      statuses.some((x) => x === 'rejected')
+    ) {
       setHideAction(true);
     } else if (statuses.some((x) => x === 'submitted')) {
       setStatus('pending');
