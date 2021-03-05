@@ -51,10 +51,7 @@ const commerceOrderTable = (
   {
     header: 'Ticket value (incl. Tax)',
     renderCell: (item) => (
-      <>
-        {commerceOrder?.currencySymbol}&nbsp;
-        {item.priceIncludingTax}
-      </>
+      <>{commerceOrder?.currencySymbol}&nbsp; item.total / item.quantity</>
     ),
   },
   {
