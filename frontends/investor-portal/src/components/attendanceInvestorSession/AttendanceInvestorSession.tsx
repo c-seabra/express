@@ -26,7 +26,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin');
   const [selected, setSelected] = useState<boolean>(false);
   const [unlockInvestor, setUnlockInvestor] = useState<boolean>(false);
-  const [hasAccepted, setHasAccepted] = useState<boolean>(false);
+  const [hideAction, setHideAction] = useState<boolean>(false);
 
   const { data } = useEventQuery();
 
@@ -36,11 +36,12 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     setUnlockInvestor(currentStartsAt !== undefined && selected === false);
   };
 
-  const checkHasAccepted = () => {
+  const checkForInvalidStatus = () => {
     const item = selections.find(
-      (selection) => selection.status === 'accepted',
+      (selection) =>
+        selection.status === 'accepted' || selection.status === 'rejected',
     );
-    setHasAccepted(item !== undefined);
+    setHideAction(item !== undefined);
   };
 
   const styledDateForMutation = (dateString?: string) => {
@@ -51,7 +52,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   };
 
   useEffect(() => {
-    checkHasAccepted();
+    checkForInvalidStatus();
     handleUnlock();
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin');
   });
@@ -85,7 +86,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
         {!currentStartsAt && (
           <div>Investor has not selected a session timeslot</div>
         )}
-        {!hasAccepted && (
+        {!hideAction && (
           <>
             <Select
               onChange={(e) => {
