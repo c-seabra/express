@@ -10,16 +10,24 @@ export type UserError = {
   path: string[];
 };
 
+export type Error = {
+  message: string;
+  path: string;
+};
+
 export type Attendance = {
-  acceptedSelectionCount: number;
+  attendanceAppearanceSelections?: {
+    edges: [{ node: AttendanceAppearanceSelection }];
+  };
   attendanceAppearanceSelectionsDetails: AttendanceAppearanceSelectionsDetails;
+  bookingRef?: string;
   companyName: string;
   id: string;
   investorSession?: {
     endsAt: string | undefined;
     startsAt: string | undefined;
   };
-  name: string;
+  name?: string;
 };
 
 export type AttendanceAppearanceSelectionsDetails = {
