@@ -234,7 +234,7 @@ In the root `tsconfig.json` file, ensure that there is a mapping to your package
 
 ```
 “paths”: {
-      “@websummit/ws-components”: [“packages/ws-components/src”],
+      “@websummit/components”: [“packages/components/src”],
       “@websummit/ws-lib-example”: [“packages/ws-lib-example/src”]
     },
 ```
