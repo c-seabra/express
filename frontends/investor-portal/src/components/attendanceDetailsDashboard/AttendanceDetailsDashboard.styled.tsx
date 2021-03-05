@@ -21,3 +21,8 @@ export const Select = styled(StyledLabel)`
     padding-right: 1rem;
   }
 `;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
