@@ -14,8 +14,10 @@ type SelectionUpdateData = {
 
 const useAttendanceAppearanceSelectionUpdateMutation = ({
   attendanceIds,
+  status,
 }: {
   attendanceIds: string[];
+  status: string;
 }) => {
   const { conferenceSlug, token } = useAppContext();
   const success = useSuccessSnackbar();
@@ -28,6 +30,7 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
 
   const variables = {
     attendanceIds,
+    status,
   };
 
   const [
@@ -44,7 +47,7 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
       }
     },
     onError: (e) => errorMessage(e.message),
-    refetchQueries: ['Attendances'],
+    refetchQueries: ['Attendances', 'AttendanceDetailsQuery'],
     variables,
   });
 
