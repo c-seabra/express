@@ -38,7 +38,7 @@ const Form: React.FC = () => {
   const onSingleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // @ts-ignore
-    const email: string = e.target.email.value.toLowerCase()
+    const email: string = e.target.email.value.toLowerCase();
 
     console.log(email);
     if (setTicketsList && staffList) {

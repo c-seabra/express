@@ -1,6 +1,6 @@
-import React, {useContext, useState} from 'react'
-import {AppContext, Ticket, TicketList} from '../app/App'
-import styled from 'styled-components'
+import React, { useContext, useState } from 'react';
+import { AppContext, Ticket, TicketList } from '../app/App';
+import styled from 'styled-components';
 
 import { Ticket, TicketList } from '../app/App';
 
@@ -22,10 +22,11 @@ function capitalizeFirstLetter(input: string) {
   return input.charAt(0).toUpperCase() + input.slice(1);
 }
 
-const Upload: React.FC<{setAssignees: (list:TicketList) => void}> = ({setAssignees}) => {
-  const [error, setError] = useState('')
-  const { staffList } = useContext(AppContext)
-
+const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
+  setAssignees,
+}) => {
+  const [error, setError] = useState('');
+  const { staffList } = useContext(AppContext);
 
   const onUpload = () => {
     const input = document.getElementById('csvFileInput') as HTMLInputElement;
@@ -38,25 +39,28 @@ const Upload: React.FC<{setAssignees: (list:TicketList) => void}> = ({setAssigne
     };
 
     const process = (fileReader: ProgressEvent<FileReader>) => {
-      const csv = fileReader?.target?.result as string
-      if(csv) {
-        const lines = csv.split('\n')
-        const result = []
+      const csv = fileReader?.target?.result as string;
+      if (csv) {
+        const lines = csv.split('\n');
+        const result = [];
 
         for (let i = 0; i <= lines.length - 1; i++) {
-          const email = lines[i].replace(/(\r\n|\n|\r|)/gm, '').replace(/,$/g,'').toLowerCase()
+          const email = lines[i]
+            .replace(/(\r\n|\n|\r|)/gm, '')
+            .replace(/,$/g, '')
+            .toLowerCase();
           if (staffList) {
-            let staff = staffList[email]
+            let staff = staffList[email];
             if (!staff) {
-              const name = email.split('@')[0]
-              const [firstName, lastName] = name.split('.')
+              const name = email.split('@')[0];
+              const [firstName, lastName] = name.split('.');
               staff = {
                 email,
                 firstName: capitalizeFirstLetter(firstName),
-                lastName: capitalizeFirstLetter(lastName)
-              }
+                lastName: capitalizeFirstLetter(lastName),
+              };
             }
-            result.push(staff)
+            result.push(staff);
           }
         }
 

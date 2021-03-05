@@ -10,11 +10,16 @@ export type StatusType = {
   type: 'PENDING' | 'SUCCESS' | 'ERROR';
 };
 
-type AssigneeItemProvider = Staff & {index: number}
+type AssigneeItemProvider = Staff & { index: number };
 
-
-const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({index, bookingRef, firstName, lastName, email}) => {
-  const {storesToken, conference} = useContext(AppContext)
+const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
+  index,
+  bookingRef,
+  firstName,
+  lastName,
+  email,
+}) => {
+  const { storesToken, conference } = useContext(AppContext);
   const [status, setStatus] = useState<StatusType>({
     message: 'Assignment is still processing.',
     type: 'PENDING',
@@ -41,18 +46,18 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({index, bookingRef
     lastName: string;
     email: string;
     bookingReference?: string;
-  }
+  };
   type Product = {
     product: string;
     quantity: number;
     metadata?: {
-      assignees?: Assignee[]
-    }
-  }
+      assignees?: Assignee[];
+    };
+  };
 
   useEffect(() => {
     const productsList: Product[] = [];
-    if(conference.staffProductId) {
+    if (conference.staffProductId) {
       productsList.push({
         product: conference.staffProductId,
         quantity: 1,
@@ -76,8 +81,8 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({index, bookingRef
     if (conference.guestProductId) {
       productsList.push({
         product: conference.guestProductId,
-        quantity: 20
-      })
+        quantity: 20,
+      });
     }
 
     if (productsList.length == 0) {
@@ -90,7 +95,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({index, bookingRef
       ticketAccept({
         context: {
           storesToken: storesToken,
-          slug: conference.slug
+          slug: conference.slug,
         },
         variables: {
           storeId: conference.storeId,
@@ -98,25 +103,25 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({index, bookingRef
             customer: {
               email,
               firstName,
-              lastName
+              lastName,
             },
             items: productsList,
             metadata: {
               disableOrderEmail: true,
               disableEmailNotification: true,
             },
-            status: "COMPLETE"
-          }
-        }
+            status: 'COMPLETE',
+          },
+        },
       }).catch((e) => {
-        console.error(e)
+        console.error(e);
         setStatus({
           message: `Unable to create this ticket - ${bookingRef}`,
-          type: 'ERROR'
-        })
-      })
+          type: 'ERROR',
+        });
+      });
     }, index * 50);
-  }, [])
+  }, []);
 
   return (
     <AssigneeItem

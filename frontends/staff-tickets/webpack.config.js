@@ -19,14 +19,14 @@ module.exports = (webpackConfigEnv, argv) => {
     // modify the webpack config however you'd like to by adding to this object
     plugins: [
       new ReplacePlugin({
-        include: [
-          /src\/Websummit-.+.tsx$/
+        include: [/src\/Websummit-.+.tsx$/],
+        patterns: [
+          {
+            regex: /process\.env\.[A-Z_]+/g,
+            value: (match) => JSON.stringify(process.env[match]),
+          },
         ],
-        patterns: [{
-          regex: /process\.env\.[A-Z_]+/g,
-          value: (match) => JSON.stringify(process.env[match])
-        }],
-      })
-    ]
+      }),
+    ],
   });
 };
