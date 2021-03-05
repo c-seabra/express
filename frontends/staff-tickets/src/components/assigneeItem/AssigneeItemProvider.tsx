@@ -49,7 +49,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     firstName: string;
     lastName: string;
   };
-  
+
   type Product = {
     metadata?: {
       assignees?: Assignee[];
