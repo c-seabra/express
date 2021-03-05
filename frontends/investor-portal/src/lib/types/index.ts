@@ -51,6 +51,13 @@ export type AttendanceAppearanceSelection = {
   updatedAt: string;
 };
 
+export enum AttendanceAppearanceSelectionsStatus {
+  ACCEPTED = 'Accepted',
+  PENDING = 'Pending',
+  REJECTED = 'Rejected',
+  SUBMITTED = 'Submitted',
+}
+
 export type Appearance = {
   company: Company;
   id: string;

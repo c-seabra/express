@@ -22,3 +22,4 @@ export { default as PopupModal } from './atoms/PopupModal';
 export { default as Modal, useModalState } from './molecules/Modal';
 export { default as Tooltip } from './atoms/Tooltip';
 export { default as Select } from './atoms/Select';
+export { default as FilterButton } from './atoms/FilterButton';

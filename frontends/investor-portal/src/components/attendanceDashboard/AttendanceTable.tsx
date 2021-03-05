@@ -2,11 +2,13 @@ import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 
 import {
   ContainerCard,
+  FilterButton,
   Heading,
   Modal,
   SecondaryButton,
   useModalState,
 } from '../../lib/components';
+import PopupButton from '../../lib/components/molecules/PopupButton';
 import { useAttendanceAppearanceSelectionUpdateMutation } from '../../lib/hooks';
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import useSearchState from '../../lib/hooks/useSearchState';
@@ -16,11 +18,14 @@ import AttendanceItem from './AttendanceItem';
 import AttendanceListHeader from './AttendanceListHeader';
 import {
   FiltersSearchContainer,
+  PopupFiltersContainer,
   SearchFilters,
   StyledSearchInput,
 } from './AttendanceTable.styled';
+import SelectionStatusesCategoryList from './SelectionStatusesCategoryList';
 
 type AttendanceSearchState = {
+  attendanceAppearanceSelectionsStatus?: string;
   page: string;
   searchQuery?: string;
   type: string;
@@ -53,6 +58,8 @@ const AttendanceTable = (): ReactElement => {
     nextPage,
     previousPage,
   } = useAttendancesQuery({
+    attendanceAppearanceSelectionsStatus:
+      searchState.attendanceAppearanceSelectionsStatus,
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
     type: searchState.type,
@@ -133,6 +140,15 @@ const AttendanceTable = (): ReactElement => {
     closeModal();
   };
 
+  const handleSelectionStatusFilterChange = (selectedTypes: string[]) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      attendanceAppearanceSelectionsStatus:
+        selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
+    }));
+    setSelectedValues([]);
+  };
+
   return (
     <>
       <SearchFilters>
@@ -163,6 +179,18 @@ const AttendanceTable = (): ReactElement => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKey}
           />
+          <PopupButton renderButton={(props) => <FilterButton {...props} />}>
+            <PopupFiltersContainer>
+              <SelectionStatusesCategoryList
+                initialValues={searchState?.attendanceAppearanceSelectionsStatus?.split(
+                  ',',
+                )}
+                onSelectionStatusFilterChange={
+                  handleSelectionStatusFilterChange
+                }
+              />
+            </PopupFiltersContainer>
+          </PopupButton>
         </FiltersSearchContainer>
       </SearchFilters>
       {!loading && !error ? (
