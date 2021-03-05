@@ -7,16 +7,16 @@ const ATTENDANCES_PER_PAGE = 25;
 const INVESTORS_TYPE = 'INVESTOR';
 
 const useAttendancesQuery = ({
+  attendanceAppearanceSelectionsStatus,
   initialPage,
   perPage = ATTENDANCES_PER_PAGE,
   searchQuery,
-  selectionStatuses,
   type = INVESTORS_TYPE,
 }: {
+  attendanceAppearanceSelectionsStatus?: string;
   initialPage: string;
   perPage?: number;
   searchQuery?: string;
-  selectionStatuses?: string;
   type?: string;
 }) => {
   const { conferenceSlug, token } = useAppContext();
@@ -27,7 +27,7 @@ const useAttendancesQuery = ({
   };
 
   const filter = {
-    selectionStatuses: selectionStatuses?.split(','),
+    attendanceAppearanceSelectionsStatus: attendanceAppearanceSelectionsStatus?.split(','),
     type,
   };
 

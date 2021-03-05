@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { CategoryItem } from '../components/molecules/CategoryList';
-import { SelectionStatus } from '../types';
+import { AttendanceAppearanceSelectionsStatus } from '../types';
 
 const useSelectionStatusesCategoryList = ({
   initialValues = [],
@@ -15,7 +15,7 @@ const useSelectionStatusesCategoryList = ({
   >(initialValues);
 
   const selectionStatusesOptions: CategoryItem[] = Object.entries(
-    SelectionStatus,
+    AttendanceAppearanceSelectionsStatus,
   ).map(([key, value]) => ({
     isSelected: selectedSelectionStatuses?.some((status) => key === status),
     label: value,
