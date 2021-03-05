@@ -58,7 +58,8 @@ const AttendanceTable = (): ReactElement => {
     nextPage,
     previousPage,
   } = useAttendancesQuery({
-    attendanceAppearanceSelectionsStatus: searchState.attendanceAppearanceSelectionsStatus,
+    attendanceAppearanceSelectionsStatus:
+      searchState.attendanceAppearanceSelectionsStatus,
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
     type: searchState.type,
@@ -181,7 +182,9 @@ const AttendanceTable = (): ReactElement => {
           <PopupButton renderButton={(props) => <FilterButton {...props} />}>
             <PopupFiltersContainer>
               <SelectionStatusesCategoryList
-                initialValues={searchState?.attendanceAppearanceSelectionsStatus?.split(',')}
+                initialValues={searchState?.attendanceAppearanceSelectionsStatus?.split(
+                  ',',
+                )}
                 onSelectionStatusFilterChange={
                   handleSelectionStatusFilterChange
                 }

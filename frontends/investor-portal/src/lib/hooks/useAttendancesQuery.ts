@@ -27,7 +27,9 @@ const useAttendancesQuery = ({
   };
 
   const filter = {
-    attendanceAppearanceSelectionsStatus: attendanceAppearanceSelectionsStatus?.split(','),
+    attendanceAppearanceSelectionsStatus: attendanceAppearanceSelectionsStatus?.split(
+      ',',
+    ),
     type,
   };
 
