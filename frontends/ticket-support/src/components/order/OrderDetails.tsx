@@ -1,4 +1,3 @@
-// import { Button, SecondaryButton } from '@websummit/components/atoms/Button';
 import {
   Button,
   SecondaryButton,
