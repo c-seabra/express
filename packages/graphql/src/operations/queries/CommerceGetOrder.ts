@@ -55,7 +55,6 @@ const commerceOrderItemFragment = gql`
     lastUpdatedAt
     lastUpdatedBy
     price
-    priceIncludingTax
     product {
       ...CommerceProduct
     }

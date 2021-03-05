@@ -68,7 +68,7 @@ const StatePlate = ({ state }: { state?: string }) => {
       );
     default:
       return (
-        <Tooltip content={`This ticket is in ${state} state`}>
+        <Tooltip content={`This ticket is in ${state || 'no'} state`}>
           <UnassignedState>{state}</UnassignedState>
         </Tooltip>
       );

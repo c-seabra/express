@@ -47,7 +47,7 @@ const Breadcrumbs = ({ routes, children }: Props) => {
     <StyledContainer>
       {routes &&
         routes.map((route: Breadcrumb, index: number) => (
-          <li key={`b_id-${index}`}>
+          <li key={`${route.label}-${atob(route.redirectUrl || '/')}`}>
             <NavLink
               activeClassName="active"
               className={route.redirectUrl ? '' : 'disabled'}

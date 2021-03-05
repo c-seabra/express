@@ -13,13 +13,12 @@ import {
   HeaderText,
   IconWrapper,
   StyledActionRow,
-  Text,
   Wrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
 import TextInputField from '../../lib/components/molecules/TextInputField';
+import { Spacing } from '../../lib/components/templates/Spacing';
 import useAssignTicketOperation from '../../lib/hooks/useTicketAssignMutation';
 import { Ticket } from '../../lib/types';
-import { Spacing } from '../../lib/components/templates/Spacing';
 
 const ContentContainer = styled.div`
   font-size: 0.85rem;

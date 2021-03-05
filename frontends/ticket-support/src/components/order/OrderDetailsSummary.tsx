@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
+import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
 
