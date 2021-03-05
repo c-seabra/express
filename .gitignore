@@ -49,3 +49,6 @@ builds/
 *.sw?
 .DS_Store
 
+coverage
+*/coverage
+*/*/coverage
