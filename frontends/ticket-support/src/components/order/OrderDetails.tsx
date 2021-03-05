@@ -1,3 +1,8 @@
+// import { Button, SecondaryButton } from '@websummit/components/atoms/Button';
+import {
+  Button,
+  SecondaryButton,
+} from '@websummit/components/src/atoms/Button';
 import {
   CommerceOrderPaymentStatus,
   CommerceTransaction,
@@ -11,7 +16,6 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';
