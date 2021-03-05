@@ -42,25 +42,23 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   });
 
   type Assignee = {
+    bookingReference?: string;
+    email: string;
     firstName: string;
     lastName: string;
-    email: string;
-    bookingReference?: string;
   };
   type Product = {
-    product: string;
-    quantity: number;
     metadata?: {
       assignees?: Assignee[];
     };
+    product: string;
+    quantity: number;
   };
 
   useEffect(() => {
     const productsList: Product[] = [];
     if (conference.staffProductId) {
       productsList.push({
-        product: conference.staffProductId,
-        quantity: 1,
         metadata: {
           assignees: [
             {
@@ -73,6 +71,8 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
             },
           ],
         },
+        product: conference.staffProductId,
+        quantity: 1,
       });
     }
 
@@ -92,11 +92,10 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     setTimeout(() => {
       ticketAccept({
         context: {
-          storesToken: token,
           slug: conference.slug,
+          storesToken: token,
         },
         variables: {
-          storeId: conference.storeId,
           input: {
             customer: {
               email,
@@ -105,11 +104,12 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
             },
             items: productsList,
             metadata: {
-              disableOrderEmail: true,
               disableEmailNotification: true,
+              disableOrderEmail: true,
             },
             status: 'COMPLETE',
           },
+          storeId: conference.storeId,
         },
       }).catch((e) => {
         console.error(e);

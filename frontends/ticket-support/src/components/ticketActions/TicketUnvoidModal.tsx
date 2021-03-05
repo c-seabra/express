@@ -29,10 +29,10 @@ const TicketUnvoidModal = ({
   return (
     <ReasonAlertModal
       isNotificationOptionVisible
-      checkboxLabel="Notify ticket assignee by email?"
       alertHeader={bookingRef}
       alertText="This action shall unvoid the ticket and ticket assignee will again have access to the conference."
       cancelText="No, keep order"
+      checkboxLabel="Notify ticket assignee by email?"
       closeModal={closeModal}
       headerText="Are you sure you want to unvoid ticket"
       isOpen={isOpen}

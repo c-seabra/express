@@ -28,12 +28,12 @@ const AssigneeList: React.FC<{ list: TicketList }> = ({ list }) => {
           );
         return (
           <AssigneeItemProvider
-            index={index}
             key={bookingRef}
             bookingRef={bookingRef}
-            firstName={firstName}
-            lastName={lastName}
             email={email}
+            firstName={firstName}
+            index={index}
+            lastName={lastName}
           />
         );
       })}
