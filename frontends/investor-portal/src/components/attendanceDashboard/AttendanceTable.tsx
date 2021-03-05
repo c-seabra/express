@@ -25,9 +25,9 @@ import {
 import SelectionStatusesCategoryList from './SelectionStatusesCategoryList';
 
 type AttendanceSearchState = {
+  attendanceAppearanceSelectionsStatus?: string;
   page: string;
   searchQuery?: string;
-  selectionStatuses?: string;
   type: string;
 };
 
@@ -58,9 +58,9 @@ const AttendanceTable = (): ReactElement => {
     nextPage,
     previousPage,
   } = useAttendancesQuery({
+    attendanceAppearanceSelectionsStatus: searchState.attendanceAppearanceSelectionsStatus,
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
-    selectionStatuses: searchState.selectionStatuses,
     type: searchState.type,
   });
 
@@ -141,7 +141,7 @@ const AttendanceTable = (): ReactElement => {
   const handleSelectionStatusFilterChange = (selectedTypes: string[]) => {
     setSearchState((prevState) => ({
       ...prevState,
-      selectionStatuses:
+      attendanceAppearanceSelectionsStatus:
         selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
     }));
     setSelectedValues([]);
@@ -180,7 +180,7 @@ const AttendanceTable = (): ReactElement => {
           <PopupButton renderButton={(props) => <FilterButton {...props} />}>
             <PopupFiltersContainer>
               <SelectionStatusesCategoryList
-                initialValues={searchState?.selectionStatuses?.split(',')}
+                initialValues={searchState?.attendanceAppearanceSelectionsStatus?.split(',')}
                 onSelectionStatusFilterChange={
                   handleSelectionStatusFilterChange
                 }
