@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-
-import { AppContext, Staff } from '../app/App';
-import AssigneeItem from './AssigneeItem';
 import {
   CommerceOrderStatus,
   useCreateOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
+import React, { useContext, useEffect, useState } from 'react';
+
+import { AppContext, Staff } from '../app/App';
+import AssigneeItem from './AssigneeItem';
 
 export type StatusType = {
   message: string;

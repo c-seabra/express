@@ -53,7 +53,7 @@ const commerceOrderTable = (
     renderCell: (item) => (
       <>
         {commerceOrder?.currencySymbol}&nbsp;
-        {'Luís said this is not used :)'}
+        Luís said this is not used :)
       </>
     ),
   },
