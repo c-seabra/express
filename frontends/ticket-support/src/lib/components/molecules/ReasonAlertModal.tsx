@@ -84,7 +84,7 @@ type ReasonAlertModalProps = {
   headerText: string;
   isNotificationOptionVisible?: boolean;
   isOpen: boolean;
-  mutationCallback: (values?: any) => void;
+  mutationCallback: (values?: any) => Promise<void>;
   submitText: string;
 };
 

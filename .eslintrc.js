@@ -128,9 +128,19 @@ module.exports = {
     // disabled but might be nice in the future
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
+    // better to maintain without but not business critical to fix
+    'import/no-cycle': 'off',
+    'import/no-named-as-default': 'off',
 
     // disabled because they make no sense for us
     camelcase: 'off',
+    'no-plusplus': 'off',
+    'no-alert': 'off',
+    'no-console': 'off',
+    'no-unused-vars': 'off',
     'import/prefer-default-export': 'off',
     'no-underscore-dangle': 'off',
     'import/no-extraneous-dependencies': 'off',

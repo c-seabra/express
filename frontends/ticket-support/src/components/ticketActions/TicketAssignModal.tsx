@@ -13,7 +13,6 @@ import {
   HeaderText,
   IconWrapper,
   StyledActionRow,
-  Text,
   Wrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
 import TextInputField from '../../lib/components/molecules/TextInputField';

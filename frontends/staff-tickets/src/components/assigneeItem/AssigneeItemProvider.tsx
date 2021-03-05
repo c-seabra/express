@@ -1,7 +1,6 @@
 import { useMutation } from '@apollo/client';
 import React, { useContext, useEffect, useState } from 'react';
 
-import CREATE_ORDER_MUTATION from '../../operations/mutations/CreateOrder';
 import { AppContext, Staff } from '../app/App';
 import AssigneeItem from './AssigneeItem';
 
@@ -25,7 +24,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     type: 'PENDING',
   });
 
-  const [ticketAccept] = useMutation(CREATE_ORDER_MUTATION, {
+  const [ticketAccept] = useCreateOrder({
     onCompleted: ({ ticketAccept }: any) => {
       if (ticketAccept?.userErrors.length) {
         setStatus({

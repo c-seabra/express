@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
-import { AppContext, Ticket, TicketList } from '../app/App';
+import { AppContext, TicketList } from '../app/App';
 
 const Field = styled.label`
   display: flex;
@@ -32,7 +32,7 @@ const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
     const { files } = input;
 
     const errorHandler = (evt: ProgressEvent<FileReader>) => {
-      if (evt?.target?.error?.name == 'NotReadableError') {
+      if (evt?.target?.error?.name === 'NotReadableError') {
         setError('Unable to read uploaded file');
       }
     };

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const CREATE_ORDER_MUTATION = gql`
+export const CREATE_ORDER = gql`
   mutation createOrder($storeId: ID!, $input: CommerceOrderCreate!) {
     commerceCreateOrder(storeId: $storeId, commerceOrderCreate: $input) {
       id
@@ -17,4 +17,4 @@ export const CREATE_ORDER_MUTATION = gql`
   }
 `;
 
-export default CREATE_ORDER_MUTATION;
+export default CREATE_ORDER;
