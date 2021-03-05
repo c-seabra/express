@@ -7,7 +7,7 @@ import {
   SecondaryButton,
   useModalState,
 } from '../../lib/components';
-import useAttendanceAppearanceSelectionUpdateMutation from '../../lib/hooks/useAttendanceAppearanceSelectionUpdateMutation';
+import { useAttendanceAppearanceSelectionUpdateMutation } from '../../lib/hooks';
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import useSearchState from '../../lib/hooks/useSearchState';
 import Loader from '../../lib/Loading';
@@ -124,6 +124,7 @@ const AttendanceTable = (): ReactElement => {
     updateAttendanceAppearanceSelections,
   } = useAttendanceAppearanceSelectionUpdateMutation({
     attendanceIds: selectedValues,
+    status: 'submitted',
   });
 
   const onUpdateConfirmed = async () => {
