@@ -1,8 +1,11 @@
-import { useMutation } from '@apollo/client';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { AppContext, Staff } from '../app/App';
 import AssigneeItem from './AssigneeItem';
+import {
+  CommerceOrderStatus,
+  useCreateOrderMutation,
+} from '@websummit/graphql/src/@types/operations';
 
 export type StatusType = {
   message: string;
@@ -24,7 +27,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     type: 'PENDING',
   });
 
-  const [ticketAccept] = useCreateOrder({
+  const [ticketAccept] = useCreateOrderMutation({
     onCompleted: ({ ticketAccept }: any) => {
       if (ticketAccept?.userErrors.length) {
         setStatus({
@@ -106,9 +109,9 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
               disableEmailNotification: true,
               disableOrderEmail: true,
             },
-            status: 'COMPLETE',
+            status: CommerceOrderStatus.Complete,
           },
-          storeId: conference.storeId,
+          storeId: conference.storeId || '',
         },
       }).catch((e) => {
         console.error(e);
