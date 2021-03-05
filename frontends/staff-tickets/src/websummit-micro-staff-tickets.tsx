@@ -1614,7 +1614,7 @@ const lifecycles = singleSpaReact({
   React,
   ReactDOM,
   rootComponent: (props) => (
-    <App {...props} conference={cc21} staffList={staffList} />
+    <App {...props} conference={prod_cc21} staffList={staffList} />
   ),
 });
 

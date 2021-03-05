@@ -19,7 +19,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   lastName,
   email,
 }) => {
-  const { storesToken, conference } = useContext(AppContext);
+  const { token, conference } = useContext(AppContext);
   const [status, setStatus] = useState<StatusType>({
     message: 'Assignment is still processing.',
     type: 'PENDING',
@@ -73,8 +73,6 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
             },
           ],
         },
-        product: conference.staffProductId,
-        quantity: 1,
       });
     }
 
@@ -94,7 +92,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     setTimeout(() => {
       ticketAccept({
         context: {
-          storesToken: storesToken,
+          storesToken: token,
           slug: conference.slug,
         },
         variables: {

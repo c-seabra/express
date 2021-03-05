@@ -2,8 +2,6 @@ import React, { useContext, useState } from 'react';
 import { AppContext, Ticket, TicketList } from '../app/App';
 import styled from 'styled-components';
 
-import { Ticket, TicketList } from '../app/App';
-
 const Field = styled.label`
   display: flex;
   flex-direction: column;
