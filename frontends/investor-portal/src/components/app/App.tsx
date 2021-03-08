@@ -12,10 +12,12 @@ import {
 import SnackbarProvider from 'react-simple-snackbar';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import MainNavigation from '../../lib/components/molecules/MainNavigation';
+import { MainNavigation } from '../../lib/components/molecules';
 import ROUTES from '../../lib/constants/routes';
+import AttendanceAppearanceSelectionDetails from '../attendanceAppearanceSelection/AttendanceAppearanceSelectionDetails';
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard';
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard';
+import InvestorAccessDashboard from '../InvestorAccessDashboard/InvestorAccessDashboard';
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard';
 import AppContext from './AppContext';
 
@@ -49,7 +51,7 @@ const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
-  }, [token]);
+  }, [token, tokenPayload.conf_slug]);
 
   const apolloClient = initApollo({ apiURL });
 
@@ -88,11 +90,17 @@ const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
                 <Route exact path="/">
                   <Redirect to="/settings" />
                 </Route>
-                <Route path="/dashboard/:attendanceId">
+                <Route exact path="/dashboard/:attendanceId">
                   <AttendanceDetailsDashboard />
+                </Route>
+                <Route path="/dashboard/:attendanceId/selection/:selectionId">
+                  <AttendanceAppearanceSelectionDetails />
                 </Route>
                 <Route path="/settings">
                   <SettingsDashboard />
+                </Route>
+                <Route path="/investor_access">
+                  <InvestorAccessDashboard />
                 </Route>
                 <Route path="/dashboard">
                   <AttendanceDashboard />

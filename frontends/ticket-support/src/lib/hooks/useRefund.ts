@@ -12,7 +12,7 @@ const useRefund = ({ order }: { order: CommerceOrder }) => {
 
   const fullRefund = async (reason: string) => {
     await createCommerceTransaction({
-      amount: order.total,
+      amount: order.billed,
       paymentMethod: order.paymentMethod?.id || null,
       reason,
       type: CommerceTransactionType.Refund,

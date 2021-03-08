@@ -41,7 +41,6 @@ export type Scalars = {
   /** An ISO 8601-encoded date */
   ISO8601Date: any;
   Date: string;
-  Upload: JsonObject;
   /** Input type for dynamic zone link of MenuItem */
   MenuItemLinkDynamicZoneInput: JsonObject;
   /** Input type for dynamic zone content of WebPage */
@@ -50,6 +49,8 @@ export type Scalars = {
   Long: number;
   /** A time string with format: HH:mm:ss.SSS */
   Time: string;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: JsonObject;
 };
 
 export type Query = {
@@ -80,12 +81,12 @@ export type Query = {
   admins: AdminConnection;
   appearances: AppearanceConnection;
   attendance: Maybe<Attendee>;
+  attendanceAppearanceSelection: AttendanceAppearanceSelection;
   attendances: AttendeeConnection;
   chatChannel: Maybe<ChatChannel>;
   chatChannels: Maybe<ChatChannelConnection>;
   /** @deprecated As we consider more to develop more generic APIs, the term "event" is preferrable to "conference". */
   conference: Maybe<Conference>;
-  event: Maybe<Event>;
   formAttendeeProfileUpdate: Maybe<DynamicForm>;
   investorSession: Maybe<InvestorSession>;
   investorSessions: Maybe<InvestorSessionConnection>;
@@ -128,6 +129,10 @@ export type Query = {
   commerceGetCategory: Maybe<CommerceCategory>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
   commerceGetCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{id}* */
+  commerceGetDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
+  commerceGetDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{id}* */
   commerceGetOrder: Maybe<CommerceOrder>;
   /** *Equivalent to GET /commerce/paymentGateways/{id}* */
@@ -148,6 +153,10 @@ export type Query = {
   commerceListCategories: Maybe<Array<Maybe<CommerceCategory>>>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers* */
   commerceListCustomers: Maybe<Array<Maybe<CommerceCustomer>>>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems* */
+  commerceListDealItems: Maybe<Array<Maybe<CommerceDealItem>>>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals* */
+  commerceListDeals: Maybe<Array<Maybe<CommerceDeal>>>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders* */
   commerceListOrders: Maybe<Array<Maybe<CommerceOrder>>>;
   /** *Equivalent to GET /commerce/paymentGateways* */
@@ -169,6 +178,18 @@ export type Query = {
   commerceListStores: Maybe<Array<Maybe<CommerceStore>>>;
   /** *Equivalent to GET /commerce/stores/{storeId}/taxes* */
   commerceListTaxes: Maybe<Array<Maybe<CommerceTax>>>;
+  /** Retrieves all countries. */
+  countries: EventConfigurationCountryConnection;
+  /** Returns an event by slug. */
+  event: Maybe<Event>;
+  /** Retrieves all events. */
+  events: EventConnection;
+  /** Retrieves all legal_entities. */
+  legalEntities: LegalEntityConnection;
+  /** Returns a legal_entity by id. */
+  legalEntity: LegalEntity;
+  /** Retrieves all tax rates. */
+  taxRates: TaxRateConnection;
 };
 
 export type QueryBrandingArgs = {
@@ -320,6 +341,10 @@ export type QueryAttendanceArgs = {
   id: Scalars['ID'];
 };
 
+export type QueryAttendanceAppearanceSelectionArgs = {
+  id: Scalars['ID'];
+};
+
 export type QueryAttendancesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -347,11 +372,6 @@ export type QueryChatChannelsArgs = {
 };
 
 export type QueryConferenceArgs = {
-  id?: Maybe<Scalars['ID']>;
-  slug?: Maybe<Scalars['ID']>;
-};
-
-export type QueryEventArgs = {
   id?: Maybe<Scalars['ID']>;
   slug?: Maybe<Scalars['ID']>;
 };
@@ -447,6 +467,17 @@ export type QueryCommerceGetCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type QueryCommerceGetDealArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetDealItemArgs = {
+  dealId: Scalars['ID'];
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type QueryCommerceGetOrderArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
@@ -499,6 +530,19 @@ export type QueryCommerceListCustomersArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type QueryCommerceListDealItemsArgs = {
+  dealId: Scalars['ID'];
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceListDealsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type QueryCommerceListOrdersArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -544,6 +588,43 @@ export type QueryCommerceListTaxesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCountriesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryEventArgs = {
+  slug?: Maybe<Scalars['String']>;
+};
+
+export type QueryEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filter?: Maybe<EventFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryLegalEntitiesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryLegalEntityArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryTaxRatesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type AppConfig = {
@@ -625,6 +706,7 @@ export type Branding = {
   updatedAt: Scalars['DateTime'];
   title: Maybe<Scalars['String']>;
   googleFontsUrl: Maybe<Scalars['String']>;
+  typekitFontsUrl: Maybe<Scalars['String']>;
   theme: Maybe<Scalars['JSON']>;
   logo: Maybe<UploadFile>;
   headerBranding: Maybe<UploadFile>;
@@ -652,6 +734,7 @@ export type BrandingGroupBy = {
   updatedAt: Maybe<Array<Maybe<BrandingConnectionUpdatedAt>>>;
   title: Maybe<Array<Maybe<BrandingConnectionTitle>>>;
   googleFontsUrl: Maybe<Array<Maybe<BrandingConnectionGoogleFontsUrl>>>;
+  typekitFontsUrl: Maybe<Array<Maybe<BrandingConnectionTypekitFontsUrl>>>;
   theme: Maybe<Array<Maybe<BrandingConnectionTheme>>>;
   logo: Maybe<Array<Maybe<BrandingConnectionLogo>>>;
   headerBranding: Maybe<Array<Maybe<BrandingConnectionHeaderBranding>>>;
@@ -696,6 +779,12 @@ export type BrandingConnectionTitle = {
 
 export type BrandingConnectionGoogleFontsUrl = {
   __typename?: 'BrandingConnectionGoogleFontsUrl';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnectionTypekitFontsUrl = {
+  __typename?: 'BrandingConnectionTypekitFontsUrl';
   key: Maybe<Scalars['String']>;
   connection: Maybe<BrandingConnection>;
 };
@@ -1312,6 +1401,7 @@ export type TicketReleaseActionsTitoCheckoutAction = {
 export type Price = {
   __typename?: 'Price';
   exTax: Money;
+  /** @deprecated This field is only here for compatibility reasons.You should not use it because we no longer support tax lines, the returned value is hardcoded to an empty array. */
   taxLines: Array<TaxLine>;
   total: Money;
   totalTax: Money;
@@ -1729,9 +1819,10 @@ export type TicketCategoryEdge = {
 
 export type Attendee = {
   __typename?: 'Attendee';
-  attendanceAppearanceSelections: Maybe<AttendanceAppearanceSelectionConnection>;
+  attendanceAppearanceSelectionsDetails: Maybe<AttendanceAppearanceSelectionsDetails>;
   avatarUrl: Maybe<Scalars['String']>;
   bio: Maybe<Scalars['String']>;
+  bookingRef: Maybe<Scalars['String']>;
   city: Maybe<Scalars['String']>;
   companyName: Maybe<Scalars['String']>;
   companySize: Maybe<CompanySize>;
@@ -1741,6 +1832,7 @@ export type Attendee = {
   gender: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   industry: Maybe<Industry>;
+  investorSession: Maybe<InvestorSession>;
   jobTitle: Maybe<Scalars['String']>;
   lastName: Maybe<Scalars['String']>;
   marketingConsent: Maybe<Scalars['Boolean']>;
@@ -1752,13 +1844,7 @@ export type Attendee = {
   phoneNumber: Maybe<Scalars['String']>;
   role: Maybe<Scalars['String']>;
   seekingTopics: TopicConnection;
-};
-
-export type AttendeeAttendanceAppearanceSelectionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+  similarAttendees: AttendeeConnection;
 };
 
 export type AttendeeOfferingTopicsArgs = {
@@ -1769,6 +1855,29 @@ export type AttendeeOfferingTopicsArgs = {
 };
 
 export type AttendeeSeekingTopicsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type AttendeeSimilarAttendeesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type AttendanceAppearanceSelectionsDetails = {
+  __typename?: 'AttendanceAppearanceSelectionsDetails';
+  acceptedSelectionCount: Scalars['Int'];
+  attendanceAppearanceSelections: Maybe<AttendanceAppearanceSelectionConnection>;
+  pendingSelectionCount: Scalars['Int'];
+  rejectedSelectionCount: Scalars['Int'];
+  submittedSelectionCount: Scalars['Int'];
+};
+
+export type AttendanceAppearanceSelectionsDetailsAttendanceAppearanceSelectionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1798,14 +1907,28 @@ export type AttendanceAppearanceSelection = {
   appearance: Appearance;
   attendance: Attendee;
   createdAt: Scalars['String'];
+  endsAt: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  participations: Maybe<Array<Attendee>>;
   priority: Maybe<Scalars['Int']>;
+  sessionTimeslotId: Maybe<Scalars['ID']>;
+  startsAt: Maybe<Scalars['String']>;
   status: Scalars['String'];
   submittedAt: Maybe<Scalars['String']>;
   updatedAt: Scalars['String'];
 };
 
 export type AttendanceAppearanceSelectionCreatedAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type AttendanceAppearanceSelectionEndsAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type AttendanceAppearanceSelectionStartsAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
@@ -1887,6 +2010,15 @@ export type Industry = {
   name: Scalars['String'];
 };
 
+export type InvestorSession = {
+  __typename?: 'InvestorSession';
+  attendanceId: Maybe<Scalars['ID']>;
+  endsAt: Scalars['ISO8601DateTime'];
+  id: Scalars['ID'];
+  startsAt: Scalars['ISO8601DateTime'];
+  tableNumber: Scalars['Int'];
+};
+
 /** The connection type for Topic. */
 export type TopicConnection = {
   __typename?: 'TopicConnection';
@@ -1909,6 +2041,24 @@ export type Topic = {
   __typename?: 'Topic';
   id: Scalars['ID'];
   name: Scalars['String'];
+};
+
+/** The connection type for Attendee. */
+export type AttendeeConnection = {
+  __typename?: 'AttendeeConnection';
+  /** A list of edges. */
+  edges: Array<AttendeeEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type AttendeeEdge = {
+  __typename?: 'AttendeeEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Attendee;
 };
 
 /** The connection type for Admin. */
@@ -1964,8 +2114,22 @@ export type AppearanceEdge = {
 };
 
 export type AttendanceFilter = {
+  attendanceAppearanceSelectionsStatus?: Maybe<
+    Array<AttendanceAppearanceSelectionsStatus>
+  >;
   type?: Maybe<Attendance>;
 };
+
+export enum AttendanceAppearanceSelectionsStatus {
+  /** Accepted */
+  Accepted = 'ACCEPTED',
+  /** Pending */
+  Pending = 'PENDING',
+  /** Rejected */
+  Rejected = 'REJECTED',
+  /** Submitted */
+  Submitted = 'SUBMITTED',
+}
 
 export enum Attendance {
   /** Investor */
@@ -1973,24 +2137,6 @@ export enum Attendance {
   /** Speaker */
   Speaker = 'SPEAKER',
 }
-
-/** The connection type for Attendee. */
-export type AttendeeConnection = {
-  __typename?: 'AttendeeConnection';
-  /** A list of edges. */
-  edges: Array<AttendeeEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type AttendeeEdge = {
-  __typename?: 'AttendeeEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Attendee;
-};
 
 export type ChatChannel = {
   __typename?: 'ChatChannel';
@@ -2316,83 +2462,6 @@ export type ConferenceScheduleTrackTimeslotsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type Event = {
-  __typename?: 'Event';
-  brandName: Scalars['String'];
-  companySizes: Maybe<Array<CompanySize>>;
-  configuration: Maybe<ConferenceConfiguration>;
-  description: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  industries: Maybe<Array<Industry>>;
-  investorSessionsSummary: Maybe<Array<InvestorSessionsSummary>>;
-  name: Scalars['String'];
-  passportRequired: Maybe<Scalars['Boolean']>;
-  slug: Scalars['String'];
-  timeZone: Maybe<TimeZone>;
-  /** @deprecated Use `timeZone` */
-  timezone: Maybe<Scalars['String']>;
-};
-
-export type ConferenceConfiguration = {
-  __typename?: 'ConferenceConfiguration';
-  algoliaKey: Maybe<Scalars['String']>;
-  investorMeetingConfiguration: Maybe<ConferenceInvestorMeetingConfiguration>;
-  pubnubPublishKey: Maybe<Scalars['String']>;
-  pubnubSecretKey: Maybe<Scalars['String']>;
-  pubnubSubscribeKey: Maybe<Scalars['String']>;
-};
-
-export type ConferenceInvestorMeetingConfiguration = {
-  __typename?: 'ConferenceInvestorMeetingConfiguration';
-  defaultStartupSelections: Maybe<Scalars['Int']>;
-  meetingsPerSession: Maybe<Scalars['Int']>;
-  notifyOfficeHoursInvitees: Maybe<Scalars['Boolean']>;
-  sessionDuration: Maybe<Scalars['Int']>;
-  sponsorLogoUrl: Maybe<Scalars['String']>;
-  startupPortalClosingAt: Maybe<Scalars['String']>;
-  startupPortalOpeningAt: Maybe<Scalars['String']>;
-  startupSelectionDeadline: Maybe<Scalars['String']>;
-};
-
-export type ConferenceInvestorMeetingConfigurationStartupPortalClosingAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type ConferenceInvestorMeetingConfigurationStartupPortalOpeningAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type ConferenceInvestorMeetingConfigurationStartupSelectionDeadlineArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type InvestorSessionsSummary = {
-  __typename?: 'InvestorSessionsSummary';
-  available: Maybe<Scalars['ID']>;
-  claimed: Maybe<Scalars['ID']>;
-  count: Maybe<Scalars['ID']>;
-  endsAt: Maybe<Scalars['ISO8601DateTime']>;
-  startsAt: Maybe<Scalars['ISO8601DateTime']>;
-};
-
-export type TimeZone = {
-  __typename?: 'TimeZone';
-  displayName: Scalars['String'];
-  ianaName: Scalars['String'];
-};
-
-export type InvestorSession = {
-  __typename?: 'InvestorSession';
-  attendanceId: Maybe<Scalars['ID']>;
-  endsAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  startsAt: Scalars['ISO8601DateTime'];
-  tableNumber: Scalars['Int'];
-};
-
 /** The connection type for InvestorSession. */
 export type InvestorSessionConnection = {
   __typename?: 'InvestorSessionConnection';
@@ -2637,6 +2706,7 @@ export type Order = {
   completedAt: Scalars['ISO8601DateTime'];
   currency: Scalars['String'];
   id: Scalars['ID'];
+  invoiceUrl: Maybe<Scalars['String']>;
   lastUpdatedAt: Scalars['ISO8601DateTime'];
   owner: AssignmentUser;
   reference: Scalars['String'];
@@ -2944,6 +3014,7 @@ export type CommerceTax = {
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
+  metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   rateAmount: Scalars['Int'];
   rateType: CommerceTaxRateType;
@@ -3001,6 +3072,41 @@ export type CommerceUser = {
   name: Scalars['String'];
 };
 
+export type CommerceDeal = {
+  __typename?: 'CommerceDeal';
+  active: Maybe<Scalars['Boolean']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<Scalars['ID']>;
+  dealItems: Maybe<Array<CommerceDealItem>>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<Scalars['ID']>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+};
+
+export type CommerceDealItem = {
+  __typename?: 'CommerceDealItem';
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<Scalars['ID']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<Scalars['ID']>;
+  max: Scalars['Int'];
+  metadata: Maybe<Scalars['JSON']>;
+  min: Scalars['Int'];
+  product: Maybe<CommerceProduct>;
+  rateAmount: Scalars['Int'];
+  rateType: CommerceDealItemRateType;
+  step: Scalars['Int'];
+};
+
+export enum CommerceDealItemRateType {
+  Absolute = 'ABSOLUTE',
+  Percentage = 'PERCENTAGE',
+}
+
 export type CommerceOrder = {
   __typename?: 'CommerceOrder';
   billed: Maybe<Scalars['Int']>;
@@ -3009,6 +3115,9 @@ export type CommerceOrder = {
   currency: Maybe<Scalars['String']>;
   currencySymbol: Maybe<Scalars['String']>;
   customer: Maybe<CommerceCustomer>;
+  deal: Maybe<CommerceDeal>;
+  deals: Maybe<Array<CommerceDeal>>;
+  discountTotal: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['ID']>;
   invoiceUrl: Maybe<Scalars['String']>;
   items: Array<CommerceOrderItem>;
@@ -3028,12 +3137,14 @@ export type CommerceOrder = {
   total: Maybe<Scalars['Int']>;
   transactions: Maybe<Array<Maybe<CommerceTransaction>>>;
   url: Maybe<Scalars['String']>;
+  valueTotal: Maybe<Scalars['Int']>;
 };
 
 export type CommerceOrderItem = {
   __typename?: 'CommerceOrderItem';
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
+  discountTotal: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['ID']>;
   itemName: Maybe<Scalars['String']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
@@ -3046,6 +3157,8 @@ export type CommerceOrderItem = {
   subTotal: Maybe<Scalars['Int']>;
   tax: Maybe<CommerceTax>;
   taxTotal: Maybe<Scalars['Int']>;
+  total: Maybe<Scalars['Int']>;
+  valueTotal: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethod = {
@@ -3079,6 +3192,7 @@ export enum CommerceOrderStatus {
 export type CommerceTaxSummary = {
   __typename?: 'CommerceTaxSummary';
   name: Maybe<Scalars['String']>;
+  netTotal: Maybe<Scalars['Int']>;
   rateAmount: Maybe<Scalars['Int']>;
   rateType: Maybe<CommerceTaxSummaryRateType>;
   taxId: Scalars['ID'];
@@ -3139,6 +3253,7 @@ export type CommerceSale = {
   active: Maybe<Scalars['Boolean']>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
+  description: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
@@ -3154,6 +3269,7 @@ export type CommerceSaleProduct = {
   active: Maybe<Scalars['Boolean']>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
+  description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
@@ -3172,6 +3288,7 @@ export type CommerceStore = {
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
   currency: Scalars['String'];
+  deals: Maybe<Array<CommerceDeal>>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
@@ -3214,6 +3331,212 @@ export type CommerceStoreBilling = {
   vatNumber: Scalars['String'];
 };
 
+/** The connection type for EventConfigurationCountry. */
+export type EventConfigurationCountryConnection = {
+  __typename?: 'EventConfigurationCountryConnection';
+  /** A list of edges. */
+  edges: Array<EventConfigurationCountryEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type EventConfigurationCountryEdge = {
+  __typename?: 'EventConfigurationCountryEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: EventConfigurationCountry;
+};
+
+export type EventConfigurationCountry = {
+  __typename?: 'EventConfigurationCountry';
+  code: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type Event = {
+  __typename?: 'Event';
+  baseUrl: Maybe<Scalars['String']>;
+  country: Maybe<EventConfigurationCountry>;
+  currency: Maybe<CurrencyCode>;
+  description: Maybe<Scalars['String']>;
+  endDate: Maybe<Scalars['ISO8601Date']>;
+  id: Scalars['ID'];
+  legalEntity: Maybe<LegalEntity>;
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  startDate: Maybe<Scalars['ISO8601Date']>;
+  taxNumber: Scalars['String'];
+  taxRate: Maybe<TaxRate>;
+  timezone: Maybe<Scalars['String']>;
+  brandName: Scalars['String'];
+  companySizes: Maybe<Array<CompanySize>>;
+  configuration: Maybe<ConferenceConfiguration>;
+  industries: Maybe<Array<Industry>>;
+  investorSessionsSummary: Maybe<Array<InvestorSessionsSummary>>;
+  passportRequired: Maybe<Scalars['Boolean']>;
+  timeZone: Maybe<TimeZone>;
+};
+
+export type LegalEntity = {
+  __typename?: 'LegalEntity';
+  address: Maybe<Address>;
+  email: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+  regNumber: Maybe<Scalars['String']>;
+  taxNumber: Maybe<Scalars['String']>;
+  taxRate: Maybe<TaxRate>;
+  website: Maybe<Scalars['String']>;
+};
+
+export type Address = {
+  __typename?: 'Address';
+  city: Maybe<Scalars['String']>;
+  country: Maybe<EventConfigurationCountry>;
+  id: Scalars['ID'];
+  lineOne: Maybe<Scalars['String']>;
+  lineTwo: Maybe<Scalars['String']>;
+  postalCode: Maybe<Scalars['String']>;
+  region: Maybe<Scalars['String']>;
+};
+
+export type TaxRate = {
+  __typename?: 'TaxRate';
+  country: EventConfigurationCountry;
+  event: Event;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  rateType: RateType;
+  taxType: TaxType;
+  value: Scalars['Float'];
+};
+
+export enum RateType {
+  Absolute = 'ABSOLUTE',
+  Percentage = 'PERCENTAGE',
+}
+
+export enum TaxType {
+  Accommodation = 'ACCOMMODATION',
+  Standard = 'STANDARD',
+}
+
+export type ConferenceConfiguration = {
+  __typename?: 'ConferenceConfiguration';
+  algoliaKey: Maybe<Scalars['String']>;
+  investorMeetingConfiguration: Maybe<ConferenceInvestorMeetingConfiguration>;
+  pubnubPublishKey: Maybe<Scalars['String']>;
+  pubnubSecretKey: Maybe<Scalars['String']>;
+  pubnubSubscribeKey: Maybe<Scalars['String']>;
+};
+
+export type ConferenceInvestorMeetingConfiguration = {
+  __typename?: 'ConferenceInvestorMeetingConfiguration';
+  defaultStartupSelections: Maybe<Scalars['Int']>;
+  meetingsPerSession: Maybe<Scalars['Int']>;
+  notifyOfficeHoursInvitees: Maybe<Scalars['Boolean']>;
+  sessionDuration: Maybe<Scalars['Int']>;
+  sponsorLogoUrl: Maybe<Scalars['String']>;
+  startupPortalClosingAt: Maybe<Scalars['String']>;
+  startupPortalOpeningAt: Maybe<Scalars['String']>;
+  startupSelectionDeadline: Maybe<Scalars['String']>;
+};
+
+export type ConferenceInvestorMeetingConfigurationStartupPortalClosingAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type ConferenceInvestorMeetingConfigurationStartupPortalOpeningAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type ConferenceInvestorMeetingConfigurationStartupSelectionDeadlineArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type InvestorSessionsSummary = {
+  __typename?: 'InvestorSessionsSummary';
+  available: Maybe<Scalars['ID']>;
+  claimed: Maybe<Scalars['ID']>;
+  count: Maybe<Scalars['ID']>;
+  endsAt: Maybe<Scalars['ISO8601DateTime']>;
+  startsAt: Maybe<Scalars['ISO8601DateTime']>;
+};
+
+export type TimeZone = {
+  __typename?: 'TimeZone';
+  displayName: Scalars['String'];
+  ianaName: Scalars['String'];
+};
+
+export type EventFilter = {
+  endDateAfter?: Maybe<Scalars['ISO8601Date']>;
+  endDateBefore?: Maybe<Scalars['ISO8601Date']>;
+  startDateAfter?: Maybe<Scalars['ISO8601Date']>;
+  startDateBefore?: Maybe<Scalars['ISO8601Date']>;
+};
+
+/** The connection type for Event. */
+export type EventConnection = {
+  __typename?: 'EventConnection';
+  /** A list of edges. */
+  edges: Array<EventEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type EventEdge = {
+  __typename?: 'EventEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Event;
+};
+
+/** The connection type for LegalEntity. */
+export type LegalEntityConnection = {
+  __typename?: 'LegalEntityConnection';
+  /** A list of edges. */
+  edges: Array<LegalEntityEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type LegalEntityEdge = {
+  __typename?: 'LegalEntityEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: LegalEntity;
+};
+
+/** The connection type for TaxRate. */
+export type TaxRateConnection = {
+  __typename?: 'TaxRateConnection';
+  /** A list of edges. */
+  edges: Array<TaxRateEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type TaxRateEdge = {
+  __typename?: 'TaxRateEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TaxRate;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createBranding: Maybe<CreateBrandingPayload>;
@@ -3241,17 +3564,22 @@ export type Mutation = {
   adminCreate: Maybe<AdminCreatePayload>;
   adminUnassignRole: Maybe<AdminUnassignRolePayload>;
   adminUpdate: Maybe<AdminUpdatePayload>;
+  attendanceAppearanceSelectionDestroy: Maybe<AttendanceAppearanceSelectionDestroyPayload>;
   attendanceAppearanceSelectionUpdate: Maybe<AttendanceAppearanceSelectionsUpdatePayload>;
+  attendanceInvestorSessionUpdate: Maybe<AttendanceInvestorSessionUpdatePayload>;
   attendeeProfileUpdate: Maybe<AttendeeProfileUpdatePayload>;
   authenticateByToken: Maybe<AuthenticateByTokenPayload>;
   connectionRequestAccept: Maybe<ConnectionRequestAcceptPayload>;
   connectionRequestCreate: Maybe<ConnectionRequestCreatePayload>;
   connectionRequestReject: Maybe<ConnectionRequestRejectPayload>;
-  eventUpdate: Maybe<EventUpdatePayload>;
+  investorAccessGrant: Maybe<InvestorAccessGrantPayload>;
+  investorMeetingConfigurationUpdate: Maybe<InvestorMeetingConfigurationUpdatePayload>;
+  investorPortalRevokeAccess: Maybe<InvestorPortalRevokeAccessPayload>;
   investorSessionsCreate: Maybe<InvestorSessionsCreatePayload>;
   magicLinkGenerate: Maybe<MagicLinkGeneratePayload>;
   magicLinkScheduleDelivery: Maybe<MagicLinkScheduleDeliveryPayload>;
   myConnectionsEmailSend: Maybe<MyConnectionsEmailSendPayload>;
+  sessionTimeslotParticipationCreate: Maybe<SessionTimeslotParticipationCreatePayload>;
   userRoleCreate: Maybe<UserRoleCreatePayload>;
   userRoleUpdate: Maybe<UserRoleUpdatePayload>;
   assignmentAccountUpdate: Maybe<AssignmentAccountUpdatePayload>;
@@ -3280,6 +3608,10 @@ export type Mutation = {
   commerceCreateCategory: Maybe<CommerceCategory>;
   /** *Equivalent to POST /commerce/stores/{storeId}/orders/{orderId}/customers* */
   commerceCreateCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/deals* */
+  commerceCreateDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/deals/{dealId}/dealItems* */
+  commerceCreateDealItem: Maybe<CommerceDealItem>;
   /**
    * *Equivalent to POST /commerce/stores/{storeId}/orders*
    * # Creating an Order
@@ -3310,6 +3642,10 @@ export type Mutation = {
   commerceDeleteCategory: Maybe<CommerceCategory>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
   commerceDeleteCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/deals/{id}* */
+  commerceDeleteDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
+  commerceDeleteDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/paymentMethods/{id}* */
   commerceDeletePaymentMethod: Maybe<CommercePaymentMethod>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/products/{id}* */
@@ -3326,6 +3662,10 @@ export type Mutation = {
   commerceUpdateCategory: Maybe<CommerceCategory>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
   commerceUpdateCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/deals/{id}* */
+  commerceUpdateDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
+  commerceUpdateDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{id}* */
   commerceUpdateOrder: Maybe<CommerceOrder>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/paymentMethods/{id}* */
@@ -3340,6 +3680,12 @@ export type Mutation = {
   commerceUpdateStore: Maybe<CommerceStore>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/taxes/{id}* */
   commerceUpdateTax: Maybe<CommerceTax>;
+  eventCreate: Maybe<EventCreatePayload>;
+  eventUpdate: Maybe<EventUpdatePayload>;
+  legalEntityCreate: Maybe<LegalEntityCreatePayload>;
+  legalEntityUpdate: Maybe<LegalEntityUpdatePayload>;
+  taxRateCreate: Maybe<TaxRateCreatePayload>;
+  taxRateUpdate: Maybe<TaxRateUpdatePayload>;
 };
 
 export type MutationCreateBrandingArgs = {
@@ -3443,8 +3789,16 @@ export type MutationAdminUpdateArgs = {
   input: AdminUpdateInput;
 };
 
+export type MutationAttendanceAppearanceSelectionDestroyArgs = {
+  input: AttendanceAppearanceSelectionDestroyInput;
+};
+
 export type MutationAttendanceAppearanceSelectionUpdateArgs = {
   input: AttendanceAppearanceSelectionsUpdateInput;
+};
+
+export type MutationAttendanceInvestorSessionUpdateArgs = {
+  input: AttendanceInvestorSessionUpdateInput;
 };
 
 export type MutationAttendeeProfileUpdateArgs = {
@@ -3467,8 +3821,16 @@ export type MutationConnectionRequestRejectArgs = {
   input: ConnectionRequestRejectInput;
 };
 
-export type MutationEventUpdateArgs = {
-  input: EventUpdateInput;
+export type MutationInvestorAccessGrantArgs = {
+  input: InvestorAccessGrantInput;
+};
+
+export type MutationInvestorMeetingConfigurationUpdateArgs = {
+  input: InvestorMeetingConfigurationUpdateInput;
+};
+
+export type MutationInvestorPortalRevokeAccessArgs = {
+  input: InvestorPortalRevokeAccessInput;
 };
 
 export type MutationInvestorSessionsCreateArgs = {
@@ -3485,6 +3847,10 @@ export type MutationMagicLinkScheduleDeliveryArgs = {
 
 export type MutationMyConnectionsEmailSendArgs = {
   input: MyConnectionsEmailSendInput;
+};
+
+export type MutationSessionTimeslotParticipationCreateArgs = {
+  input: SessionTimeslotParticipationCreateInput;
 };
 
 export type MutationUserRoleCreateArgs = {
@@ -3590,6 +3956,17 @@ export type MutationCommerceCreateCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceCreateDealArgs = {
+  commerceDealCreate: CommerceDealCreate;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceCreateDealItemArgs = {
+  commerceDealItemCreate: CommerceDealItemCreate;
+  dealId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceCreateOrderArgs = {
   commerceOrderCreate: CommerceOrderCreate;
   storeId?: Maybe<Scalars['ID']>;
@@ -3642,6 +4019,17 @@ export type MutationCommerceDeleteCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceDeleteDealArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceDeleteDealItemArgs = {
+  dealId: Scalars['ID'];
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceDeletePaymentMethodArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
@@ -3682,6 +4070,19 @@ export type MutationCommerceUpdateCustomerArgs = {
   commerceCustomerUpdate: CommerceCustomerUpdate;
   id: Scalars['ID'];
   orderId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdateDealArgs = {
+  commerceDealUpdate: CommerceDealUpdate;
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdateDealItemArgs = {
+  commerceDealItemUpdate: CommerceDealItemUpdate;
+  dealId: Scalars['ID'];
+  id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
@@ -3727,6 +4128,30 @@ export type MutationCommerceUpdateTaxArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationEventCreateArgs = {
+  input: EventCreateInput;
+};
+
+export type MutationEventUpdateArgs = {
+  input: EventUpdateInput;
+};
+
+export type MutationLegalEntityCreateArgs = {
+  input: LegalEntityCreateInput;
+};
+
+export type MutationLegalEntityUpdateArgs = {
+  input: LegalEntityUpdateInput;
+};
+
+export type MutationTaxRateCreateArgs = {
+  input: TaxRateCreateInput;
+};
+
+export type MutationTaxRateUpdateArgs = {
+  input: TaxRateUpdateInput;
+};
+
 export type CreateBrandingInput = {
   data?: Maybe<BrandingInput>;
 };
@@ -3734,6 +4159,7 @@ export type CreateBrandingInput = {
 export type BrandingInput = {
   title?: Maybe<Scalars['String']>;
   googleFontsUrl?: Maybe<Scalars['String']>;
+  typekitFontsUrl?: Maybe<Scalars['String']>;
   theme?: Maybe<Scalars['JSON']>;
   events?: Maybe<Array<Scalars['ID']>>;
   logo?: Maybe<Scalars['ID']>;
@@ -3764,6 +4190,7 @@ export type InputId = {
 export type EditBrandingInput = {
   title?: Maybe<Scalars['String']>;
   googleFontsUrl?: Maybe<Scalars['String']>;
+  typekitFontsUrl?: Maybe<Scalars['String']>;
   theme?: Maybe<Scalars['JSON']>;
   events?: Maybe<Array<Scalars['ID']>>;
   logo?: Maybe<Scalars['ID']>;
@@ -4220,11 +4647,28 @@ export type AdminUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
+/** Autogenerated input type of AttendanceAppearanceSelectionDestroy */
+export type AttendanceAppearanceSelectionDestroyInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+/** Autogenerated return type of AttendanceAppearanceSelectionDestroy */
+export type AttendanceAppearanceSelectionDestroyPayload = {
+  __typename?: 'AttendanceAppearanceSelectionDestroyPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
 /** Autogenerated input type of AttendanceAppearanceSelectionsUpdate */
 export type AttendanceAppearanceSelectionsUpdateInput = {
   attendanceIds: Array<Scalars['ID']>;
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
+  status: Scalars['String'];
 };
 
 /** Autogenerated return type of AttendanceAppearanceSelectionsUpdate */
@@ -4233,7 +4677,8 @@ export type AttendanceAppearanceSelectionsUpdatePayload = {
   attendances: Maybe<AttendeeConnection>;
   /** A unique identifier for the client performing the mutation. */
   clientMutationId: Maybe<Scalars['String']>;
-  errors: Array<Error>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
 /** Autogenerated return type of AttendanceAppearanceSelectionsUpdate */
@@ -4244,13 +4689,26 @@ export type AttendanceAppearanceSelectionsUpdatePayloadAttendancesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type Error = {
-  __typename?: 'Error';
-  /** A description of the error */
-  message: Scalars['String'];
-  /** Which input value this error came from */
-  path: Maybe<Array<Scalars['String']>>;
-  type: Scalars['String'];
+/** Autogenerated input type of AttendanceInvestorSessionUpdate */
+export type AttendanceInvestorSessionUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  investorSessionConfiguration?: Maybe<InvestorSessionConfiguration>;
+};
+
+export type InvestorSessionConfiguration = {
+  attendanceId: Scalars['ID'];
+  startsAt?: Maybe<Scalars['ISO8601DateTime']>;
+  unlockInvestor: Scalars['Boolean'];
+};
+
+/** Autogenerated return type of AttendanceInvestorSessionUpdate */
+export type AttendanceInvestorSessionUpdatePayload = {
+  __typename?: 'AttendanceInvestorSessionUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
 /** Autogenerated input type of AttendeeProfileUpdate */
@@ -4318,6 +4776,15 @@ export type ConnectionRequestAcceptPayload = {
   errors: Array<Error>;
 };
 
+export type Error = {
+  __typename?: 'Error';
+  /** A description of the error */
+  message: Scalars['String'];
+  /** Which input value this error came from */
+  path: Maybe<Array<Scalars['String']>>;
+  type: Scalars['String'];
+};
+
 /** Autogenerated input type of ConnectionRequestCreate */
 export type ConnectionRequestCreateInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -4354,8 +4821,27 @@ export type ConnectionRequestRejectPayload = {
   errors: Array<Error>;
 };
 
-/** Autogenerated input type of EventUpdate */
-export type EventUpdateInput = {
+/** Autogenerated input type of InvestorAccessGrant */
+export type InvestorAccessGrantInput = {
+  bookingReferences: Array<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  startupSelectionsCount: Scalars['Int'];
+};
+
+/** Autogenerated return type of InvestorAccessGrant */
+export type InvestorAccessGrantPayload = {
+  __typename?: 'InvestorAccessGrantPayload';
+  attendances: Maybe<Array<Attendee>>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  errors: Array<Error>;
+  invalidBookingReferences: Maybe<Array<Scalars['String']>>;
+  successMessage: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated input type of InvestorMeetingConfigurationUpdate */
+export type InvestorMeetingConfigurationUpdateInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
   investorMeetingConfiguration?: Maybe<InvestorMeetingConfiguration>;
@@ -4365,16 +4851,32 @@ export type InvestorMeetingConfiguration = {
   investorMeetingsDefaultStartupSelections?: Maybe<Scalars['Int']>;
   investorMeetingsMeetingsPerSession?: Maybe<Scalars['Int']>;
   investorMeetingsSessionDuration?: Maybe<Scalars['Int']>;
-  investorMeetingsSponsorLogo?: Maybe<Scalars['Upload']>;
+  investorMeetingsSponsorLogo?: Maybe<Scalars['String']>;
   investorMeetingsStartupPortalClosingAt?: Maybe<Scalars['ISO8601DateTime']>;
   investorMeetingsStartupPortalOpeningAt?: Maybe<Scalars['ISO8601DateTime']>;
   investorMeetingsStartupSelectionDeadline?: Maybe<Scalars['ISO8601DateTime']>;
   notifyOfficeHoursInvitees?: Maybe<Scalars['Boolean']>;
 };
 
-/** Autogenerated return type of EventUpdate */
-export type EventUpdatePayload = {
-  __typename?: 'EventUpdatePayload';
+/** Autogenerated return type of InvestorMeetingConfigurationUpdate */
+export type InvestorMeetingConfigurationUpdatePayload = {
+  __typename?: 'InvestorMeetingConfigurationUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of InvestorPortalRevokeAccess */
+export type InvestorPortalRevokeAccessInput = {
+  attendanceId: Scalars['ID'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of InvestorPortalRevokeAccess */
+export type InvestorPortalRevokeAccessPayload = {
+  __typename?: 'InvestorPortalRevokeAccessPayload';
   /** A unique identifier for the client performing the mutation. */
   clientMutationId: Maybe<Scalars['String']>;
   successMessage: Maybe<Scalars['String']>;
@@ -4458,6 +4960,24 @@ export type MyConnectionsEmailSendPayload = {
   clientMutationId: Maybe<Scalars['String']>;
   errors: Array<Error>;
   recipient: User;
+};
+
+/** Autogenerated input type of SessionTimeslotParticipationCreate */
+export type SessionTimeslotParticipationCreateInput = {
+  attendanceId: Scalars['ID'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  sessionTimeslotId: Scalars['ID'];
+};
+
+/** Autogenerated return type of SessionTimeslotParticipationCreate */
+export type SessionTimeslotParticipationCreatePayload = {
+  __typename?: 'SessionTimeslotParticipationCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  participations: Maybe<Array<Attendee>>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
 /** Autogenerated input type of UserRoleCreate */
@@ -4575,10 +5095,10 @@ export type AssignmentProfileAdminUpdateInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   companyName?: Maybe<Scalars['String']>;
   companySizeId?: Maybe<Scalars['ID']>;
-  firstName: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
   gender?: Maybe<Scalars['String']>;
   industryId?: Maybe<Scalars['ID']>;
-  jobTitle: Scalars['String'];
+  jobTitle?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
 };
@@ -5015,6 +5535,44 @@ export type CommerceUserCreateOrUpdate = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type CommerceDealCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+};
+
+export type CommerceDealItemCreateOrUpdate = {
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+  product?: Maybe<Scalars['ID']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceDealItemRateType>;
+  step?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceDealItemCreate = {
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  max: Scalars['Int'];
+  min: Scalars['Int'];
+  product: Scalars['ID'];
+  rateAmount: Scalars['Int'];
+  rateType: CommerceDealItemRateType;
+  step: Scalars['Int'];
+};
+
 export type CommerceOrderCreate = {
   billed?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Date']>;
@@ -5022,6 +5580,9 @@ export type CommerceOrderCreate = {
   currency?: Maybe<Scalars['String']>;
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
+  deal?: Maybe<Scalars['ID']>;
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
+  discountTotal?: Maybe<Scalars['Int']>;
   invoiceUrl?: Maybe<Scalars['String']>;
   items: Array<CommerceOrderItemCreateOrUpdate>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
@@ -5037,6 +5598,7 @@ export type CommerceOrderCreate = {
   taxes?: Maybe<Array<CommerceTaxSummaryCreateOrUpdate>>;
   total?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
+  valueTotal?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceCustomerCreateOrUpdate = {
@@ -5055,6 +5617,18 @@ export type CommerceCustomerCreateOrUpdate = {
   vatNumber?: Maybe<Scalars['String']>;
 };
 
+export type CommerceDealCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type CommerceOrderItemCreateOrUpdate = {
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
@@ -5063,15 +5637,19 @@ export type CommerceOrderItemCreateOrUpdate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity?: Maybe<Scalars['Int']>;
   subTotal?: Maybe<Scalars['Int']>;
   tax?: Maybe<CommerceTaxCreateOrUpdate>;
+  total?: Maybe<Scalars['Int']>;
+  valueTotal?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceTaxSummaryCreateOrUpdate = {
   name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxSummaryRateType>;
   taxId?: Maybe<Scalars['ID']>;
@@ -5109,6 +5687,7 @@ export type CommerceSaleCreate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -5122,6 +5701,7 @@ export type CommerceSaleProductCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -5135,6 +5715,7 @@ export type CommerceSaleProductCreate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5151,6 +5732,7 @@ export type CommerceStoreCreate = {
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
   currency: Scalars['String'];
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5183,6 +5765,7 @@ export type CommerceSaleCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
@@ -5274,6 +5857,32 @@ export type CommerceCustomerUpdate = {
   vatNumber?: Maybe<Scalars['String']>;
 };
 
+export type CommerceDealUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CommerceDealItemUpdate = {
+  createdAt?: Maybe<Scalars['Date']>;
+  createdBy?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  lastUpdatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+  product?: Maybe<Scalars['ID']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceDealItemRateType>;
+  step?: Maybe<Scalars['Int']>;
+};
+
 export type CommerceOrderUpdate = {
   billed?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Date']>;
@@ -5281,6 +5890,9 @@ export type CommerceOrderUpdate = {
   currency?: Maybe<Scalars['String']>;
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
+  deal?: Maybe<Scalars['ID']>;
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
+  discountTotal?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   invoiceUrl?: Maybe<Scalars['String']>;
   items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
@@ -5297,6 +5909,7 @@ export type CommerceOrderUpdate = {
   taxes?: Maybe<Array<CommerceTaxSummaryCreateOrUpdate>>;
   total?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
+  valueTotal?: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethodUpdate = {
@@ -5331,6 +5944,7 @@ export type CommerceSaleUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
@@ -5345,6 +5959,7 @@ export type CommerceSaleProductUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -5362,6 +5977,7 @@ export type CommerceStoreUpdate = {
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
   currency?: Maybe<Scalars['String']>;
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -5390,6 +6006,155 @@ export type CommerceTaxUpdate = {
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxRateType>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+};
+
+/** Autogenerated input type of EventCreate */
+export type EventCreateInput = {
+  baseUrl?: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['ID']>;
+  currency?: Maybe<CurrencyCode>;
+  description?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['String']>;
+  legalEntityId?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  startDate?: Maybe<Scalars['String']>;
+  taxNumber: Scalars['String'];
+  timezone?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of EventCreate */
+export type EventCreatePayload = {
+  __typename?: 'EventCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  event: Maybe<Event>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of EventUpdate */
+export type EventUpdateInput = {
+  baseUrl?: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['ID']>;
+  currency?: Maybe<CurrencyCode>;
+  description?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['String']>;
+  legalEntityId?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  slug: Scalars['String'];
+  startDate?: Maybe<Scalars['String']>;
+  taxNumber?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of EventUpdate */
+export type EventUpdatePayload = {
+  __typename?: 'EventUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  event: Maybe<Event>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of LegalEntityCreate */
+export type LegalEntityCreateInput = {
+  address?: Maybe<AddressInput>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+  regNumber?: Maybe<Scalars['String']>;
+  taxNumber?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+};
+
+export type AddressInput = {
+  city: Scalars['String'];
+  countryId: Scalars['ID'];
+  lineOne: Scalars['String'];
+  lineTwo?: Maybe<Scalars['String']>;
+  postalCode: Scalars['String'];
+  region: Scalars['String'];
+};
+
+/** Autogenerated return type of LegalEntityCreate */
+export type LegalEntityCreatePayload = {
+  __typename?: 'LegalEntityCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  legalEntity: Maybe<LegalEntity>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of LegalEntityUpdate */
+export type LegalEntityUpdateInput = {
+  address?: Maybe<AddressInput>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+  regNumber?: Maybe<Scalars['String']>;
+  taxNumber?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of LegalEntityUpdate */
+export type LegalEntityUpdatePayload = {
+  __typename?: 'LegalEntityUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  legalEntity: Maybe<LegalEntity>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of TaxRateCreate */
+export type TaxRateCreateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  countryId: Scalars['ID'];
+  eventId: Scalars['ID'];
+  name: Scalars['String'];
+  rateType: RateType;
+  taxType: TaxType;
+  value: Scalars['Float'];
+};
+
+/** Autogenerated return type of TaxRateCreate */
+export type TaxRateCreatePayload = {
+  __typename?: 'TaxRateCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  taxRate: Maybe<TaxRate>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of TaxRateUpdate */
+export type TaxRateUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['ID']>;
+  eventId?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  rateType?: Maybe<RateType>;
+  taxType?: Maybe<TaxType>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+/** Autogenerated return type of TaxRateUpdate */
+export type TaxRateUpdatePayload = {
+  __typename?: 'TaxRateUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  taxRate: Maybe<TaxRate>;
+  userErrors: Array<UserError>;
 };
 
 export type AppConfigInput = {
@@ -6084,11 +6849,14 @@ export type CommerceOrderItemCreate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
   product: Scalars['ID'];
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity: Scalars['Int'];
   subTotal?: Maybe<Scalars['Int']>;
   tax?: Maybe<CommerceTaxCreateOrUpdate>;
+  total?: Maybe<Scalars['Int']>;
+  valueTotal?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceOrderItemUpdate = {
@@ -6099,11 +6867,14 @@ export type CommerceOrderItemUpdate = {
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity?: Maybe<Scalars['Int']>;
   subTotal?: Maybe<Scalars['Int']>;
   tax?: Maybe<CommerceTaxCreateOrUpdate>;
+  total?: Maybe<Scalars['Int']>;
+  valueTotal?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceStoreBillingCreate = {
@@ -6155,6 +6926,7 @@ export type CommerceTaxDetailUpdate = {
 
 export type CommerceTaxSummaryCreate = {
   name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxSummaryRateType>;
   taxId: Scalars['ID'];
@@ -6164,6 +6936,7 @@ export type CommerceTaxSummaryCreate = {
 
 export type CommerceTaxSummaryUpdate = {
   name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxSummaryRateType>;
   taxId?: Maybe<Scalars['ID']>;
@@ -6228,6 +7001,38 @@ export type AssignmentAuthenticateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type ProfileAdminUpdateMutationVariables = Exact<{
+  profile: AssignmentProfileAdminUpdateInput;
+}>;
+
+export type ProfileAdminUpdateMutation = { __typename?: 'Mutation' } & {
+  assignmentProfileAdminUpdate: Maybe<
+    { __typename?: 'AssignmentProfileAdminUpdatePayload' } & Pick<
+      AssignmentProfileAdminUpdatePayload,
+      'successMessage'
+    > & {
+        userErrors: Array<
+          { __typename?: 'UserError' } & Pick<UserError, 'path' | 'message'>
+        >;
+        profile: Maybe<
+          { __typename?: 'AssignmentUser' } & Pick<
+            AssignmentUser,
+            | 'email'
+            | 'firstName'
+            | 'lastName'
+            | 'jobTitle'
+            | 'companyName'
+            | 'companySizeId'
+            | 'industryId'
+            | 'phoneNumber'
+            | 'city'
+            | 'passportNumber'
+          >
+        >;
+      }
+  >;
+};
+
 export type ProfileUpdateMutationVariables = Exact<{
   profile: AssignmentProfileUpdateInput;
 }>;
@@ -6262,6 +7067,28 @@ export type ProfileUpdateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CreateOrderMutationVariables = Exact<{
+  storeId: Scalars['ID'];
+  input: CommerceOrderCreate;
+}>;
+
+export type CreateOrderMutation = { __typename?: 'Mutation' } & {
+  commerceCreateOrder: Maybe<
+    { __typename?: 'CommerceOrder' } & Pick<
+      CommerceOrder,
+      'id' | 'reference' | 'locked' | 'status' | 'metadata'
+    > & {
+        items: Array<
+          { __typename?: 'CommerceOrderItem' } & {
+            product: Maybe<
+              { __typename?: 'CommerceProduct' } & Pick<CommerceProduct, 'name'>
+            >;
+          }
+        >;
+      }
+  >;
+};
+
 export type UpdateCommerceOrderMutationVariables = Exact<{
   commerceOrderUpdate: CommerceOrderUpdate;
   id: Scalars['ID'];
@@ -6271,6 +7098,31 @@ export type UpdateCommerceOrderMutationVariables = Exact<{
 export type UpdateCommerceOrderMutation = { __typename?: 'Mutation' } & {
   commerceUpdateOrder: Maybe<
     { __typename?: 'CommerceOrder' } & Pick<CommerceOrder, 'status'>
+  >;
+};
+
+export type OrderTransferMutationVariables = Exact<{
+  input: OrderUpdateInput;
+}>;
+
+export type OrderTransferMutation = { __typename?: 'Mutation' } & {
+  orderUpdate: Maybe<
+    { __typename?: 'OrderUpdatePayload' } & Pick<
+      OrderUpdatePayload,
+      'clientMutationId'
+    > & {
+        order: Maybe<
+          { __typename?: 'Order' } & {
+            owner: { __typename?: 'AssignmentUser' } & Pick<
+              AssignmentUser,
+              'email'
+            >;
+          }
+        >;
+        userErrors: Array<
+          { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+        >;
+      }
   >;
 };
 
@@ -6320,6 +7172,7 @@ export type TicketAssignMutationVariables = Exact<{
   lastName?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   ticketId: Scalars['ID'];
+  notify?: Maybe<Scalars['Boolean']>;
 }>;
 
 export type TicketAssignMutation = { __typename?: 'Mutation' } & {
@@ -6523,6 +7376,7 @@ export type CommerceOrderItemFragment = {
   | 'quantity'
   | 'subTotal'
   | 'taxTotal'
+  | 'total'
 > & {
     product: Maybe<
       { __typename?: 'CommerceProduct' } & CommerceProductFragment
@@ -6571,9 +7425,31 @@ export type CommerceCustomerFragment = {
     >;
   };
 
+export type CommerceTransactionFragment = {
+  __typename?: 'CommerceTransaction';
+} & Pick<
+  CommerceTransaction,
+  | 'amount'
+  | 'createdAt'
+  | 'createdBy'
+  | 'currency'
+  | 'id'
+  | 'lastUpdatedAt'
+  | 'lastUpdatedBy'
+  | 'metadata'
+  | 'refundedTransaction'
+  | 'status'
+  | 'timestamp'
+  | 'type'
+> & {
+    paymentMethod: Maybe<
+      { __typename?: 'CommercePaymentMethod' } & CommercePaymentMethodFragment
+    >;
+  };
+
 export type CommerceGetOrderQueryVariables = Exact<{
   id: Scalars['ID'];
-  storeId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
 }>;
 
 export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
@@ -6609,6 +7485,15 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
           {
             __typename?: 'CommercePaymentMethod';
           } & CommercePaymentMethodFragment
+        >;
+        transactions: Maybe<
+          Array<
+            Maybe<
+              {
+                __typename?: 'CommerceTransaction';
+              } & CommerceTransactionFragment
+            >
+          >
         >;
       }
   >;
@@ -6751,6 +7636,117 @@ export type MyTicketsQuery = { __typename?: 'Query' } & {
       }
     >;
   };
+};
+
+export type TicketsSummaryFragment = { __typename?: 'TicketsSummary' } & {
+  all: { __typename?: 'All' } & Pick<All, 'count'> & {
+      active: { __typename?: 'Active' } & Pick<Active, 'count'> & {
+          assigned: { __typename?: 'Assigned' } & Pick<Assigned, 'count'> & {
+              accepted: { __typename?: 'Accepted' } & Pick<Accepted, 'count'>;
+              checkedIn: { __typename?: 'CheckedIn' } & Pick<
+                CheckedIn,
+                'count'
+              >;
+              duplicate: { __typename?: 'Duplicate' } & Pick<
+                Duplicate,
+                'count'
+              >;
+              locked: { __typename?: 'Locked' } & Pick<Locked, 'count'>;
+              pending: { __typename?: 'Pending' } & Pick<Pending, 'count'>;
+            };
+          unassigned: { __typename?: 'Unassigned' } & Pick<
+            Unassigned,
+            'count'
+          > & {
+              neverAssigned: { __typename?: 'NeverAssigned' } & Pick<
+                NeverAssigned,
+                'count'
+              >;
+              rejected: { __typename?: 'Rejected' } & Pick<Rejected, 'count'>;
+            };
+        };
+      void: { __typename?: 'Void' } & Pick<Void, 'count'>;
+    };
+};
+
+export type OrderByRefQueryVariables = Exact<{
+  reference: Scalars['String'];
+}>;
+
+export type OrderByRefQuery = { __typename?: 'Query' } & {
+  order: Maybe<
+    { __typename?: 'Order' } & Pick<
+      Order,
+      | 'id'
+      | 'amount'
+      | 'currency'
+      | 'reference'
+      | 'completedAt'
+      | 'lastUpdatedAt'
+      | 'state'
+      | 'source'
+      | 'sourceId'
+    > & {
+        ticketsSummary: {
+          __typename?: 'TicketsSummary';
+        } & TicketsSummaryFragment;
+        owner: { __typename?: 'AssignmentUser' } & Pick<
+          AssignmentUser,
+          'id' | 'firstName' | 'lastName' | 'email'
+        >;
+        summary: { __typename?: 'OrderSummary' } & Pick<
+          OrderSummary,
+          'tickets'
+        > & {
+            ticketType: Maybe<
+              { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
+            >;
+          };
+        tickets: { __typename?: 'TicketConnection' } & {
+          edges: Array<
+            { __typename?: 'TicketEdge' } & {
+              node: { __typename?: 'Ticket' } & Pick<
+                Ticket,
+                'id' | 'bookingRef' | 'state'
+              > & {
+                  ticketType: Maybe<
+                    { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
+                  >;
+                  order: { __typename?: 'Order' } & {
+                    owner: { __typename?: 'AssignmentUser' } & Pick<
+                      AssignmentUser,
+                      'firstName' | 'lastName' | 'email' | 'id'
+                    >;
+                  };
+                  assignment: Maybe<
+                    { __typename?: 'Assignment' } & Pick<
+                      Assignment,
+                      'id' | 'appLoginEmail' | 'state'
+                    > & {
+                        assigner: Maybe<
+                          { __typename?: 'AssignmentUser' } & Pick<
+                            AssignmentUser,
+                            'id' | 'email' | 'firstName' | 'lastName'
+                          >
+                        >;
+                        assignee: Maybe<
+                          { __typename?: 'AssignmentUser' } & Pick<
+                            AssignmentUser,
+                            | 'id'
+                            | 'email'
+                            | 'firstName'
+                            | 'lastName'
+                            | 'lastLoginTokenCreatedAt'
+                          >
+                        >;
+                      }
+                  >;
+                };
+            }
+          >;
+        };
+      }
+  >;
 };
 
 export type OrderTicketsQueryVariables = Exact<{
@@ -7561,6 +8557,7 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'total' } },
         ],
       },
       typeCondition: {
@@ -7644,26 +8641,6 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceProduct' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommercePaymentMethodFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
       },
     },
   ],
@@ -7760,6 +8737,252 @@ export const CommerceCustomerFragmentDoc: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceAddress' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommercePaymentMethodFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const CommerceTransactionFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTransaction' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommercePaymentMethod' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refundedTransaction' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTransaction' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export const TicketsSummaryFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketsSummary' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'all' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'active' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'assigned' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'count' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'accepted' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'checkedIn' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'duplicate' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'locked' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'pending' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'unassigned' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'count' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'neverAssigned' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rejected' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'void' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'TicketsSummary' },
       },
     },
   ],
@@ -9560,6 +10783,161 @@ export type AssignmentAuthenticateMutationOptions = Apollo.BaseMutationOptions<
   AssignmentAuthenticateMutation,
   AssignmentAuthenticateMutationVariables
 >;
+export const ProfileAdminUpdateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'profileAdminUpdate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'profile' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignmentProfileAdminUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'successMessage' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profile' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'jobTitle' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'companyName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'companySizeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'industryId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'phoneNumber' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'passportNumber' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'AssignmentProfileAdminUpdateInput',
+              },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'profile' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type ProfileAdminUpdateMutationFn = Apollo.MutationFunction<
+  ProfileAdminUpdateMutation,
+  ProfileAdminUpdateMutationVariables
+>;
+
+/**
+ * __useProfileAdminUpdateMutation__
+ *
+ * To run a mutation, you first call `useProfileAdminUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProfileAdminUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [profileAdminUpdateMutation, { data, loading, error }] = useProfileAdminUpdateMutation({
+ *   variables: {
+ *      profile: // value for 'profile'
+ *   },
+ * });
+ */
+export function useProfileAdminUpdateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ProfileAdminUpdateMutation,
+    ProfileAdminUpdateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    ProfileAdminUpdateMutation,
+    ProfileAdminUpdateMutationVariables
+  >(ProfileAdminUpdateDocument, baseOptions);
+}
+export type ProfileAdminUpdateMutationHookResult = ReturnType<
+  typeof useProfileAdminUpdateMutation
+>;
+export type ProfileAdminUpdateMutationResult = Apollo.MutationResult<ProfileAdminUpdateMutation>;
+export type ProfileAdminUpdateMutationOptions = Apollo.BaseMutationOptions<
+  ProfileAdminUpdateMutation,
+  ProfileAdminUpdateMutationVariables
+>;
 export const ProfileUpdateDocument: DocumentNode = {
   definitions: [
     {
@@ -9720,6 +11098,144 @@ export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileUpdateMutation,
   ProfileUpdateMutationVariables
 >;
+export const CreateOrderDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'createOrder' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'storeId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'storeId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceOrderCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateOrder' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'locked' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'product' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'storeId' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceOrderCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CreateOrderMutationFn = Apollo.MutationFunction<
+  CreateOrderMutation,
+  CreateOrderMutationVariables
+>;
+
+/**
+ * __useCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
+ *   variables: {
+ *      storeId: // value for 'storeId'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateOrderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateOrderMutation,
+    CreateOrderMutationVariables
+  >,
+) {
+  return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(
+    CreateOrderDocument,
+    baseOptions,
+  );
+}
+export type CreateOrderMutationHookResult = ReturnType<
+  typeof useCreateOrderMutation
+>;
+export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
+export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<
+  CreateOrderMutation,
+  CreateOrderMutationVariables
+>;
 export const UpdateCommerceOrderDocument: DocumentNode = {
   definitions: [
     {
@@ -9845,6 +11361,137 @@ export type UpdateCommerceOrderMutationResult = Apollo.MutationResult<UpdateComm
 export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<
   UpdateCommerceOrderMutation,
   UpdateCommerceOrderMutationVariables
+>;
+export const OrderTransferDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'OrderTransfer' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'orderUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'order' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'owner' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'OrderUpdateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type OrderTransferMutationFn = Apollo.MutationFunction<
+  OrderTransferMutation,
+  OrderTransferMutationVariables
+>;
+
+/**
+ * __useOrderTransferMutation__
+ *
+ * To run a mutation, you first call `useOrderTransferMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOrderTransferMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [orderTransferMutation, { data, loading, error }] = useOrderTransferMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useOrderTransferMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    OrderTransferMutation,
+    OrderTransferMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    OrderTransferMutation,
+    OrderTransferMutationVariables
+  >(OrderTransferDocument, baseOptions);
+}
+export type OrderTransferMutationHookResult = ReturnType<
+  typeof useOrderTransferMutation
+>;
+export type OrderTransferMutationResult = Apollo.MutationResult<OrderTransferMutation>;
+export type OrderTransferMutationOptions = Apollo.BaseMutationOptions<
+  OrderTransferMutation,
+  OrderTransferMutationVariables
 >;
 export const TicketMagicLoginLinkRequestDocument: DocumentNode = {
   definitions: [
@@ -10165,6 +11812,14 @@ export const TicketAssignDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'ticketId' },
                       },
                     },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'notify' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'notify' },
+                      },
+                    },
                   ],
                   kind: 'ObjectValue',
                 },
@@ -10323,6 +11978,14 @@ export const TicketAssignDocument: DocumentNode = {
             name: { kind: 'Name', value: 'ticketId' },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'notify' },
+          },
+        },
       ],
     },
   ],
@@ -10350,6 +12013,7 @@ export type TicketAssignMutationFn = Apollo.MutationFunction<
  *      lastName: // value for 'lastName'
  *      email: // value for 'email'
  *      ticketId: // value for 'ticketId'
+ *      notify: // value for 'notify'
  *   },
  * });
  */
@@ -11191,6 +12855,19 @@ export const CommerceGetOrderDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'subTotal' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'total' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'transactions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'CommerceTransaction' },
+                      },
+                    ],
+                  },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'url' } },
               ],
             },
@@ -11208,10 +12885,7 @@ export const CommerceGetOrderDocument: DocumentNode = {
         },
         {
           kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           variable: {
             kind: 'Variable',
             name: { kind: 'Name', value: 'storeId' },
@@ -11341,6 +13015,7 @@ export const CommerceGetOrderDocument: DocumentNode = {
             },
           },
           { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'total' } },
         ],
       },
       typeCondition: {
@@ -11423,6 +13098,47 @@ export const CommerceGetOrderDocument: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceCustomer' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceTransaction' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommercePaymentMethod' },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refundedTransaction' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceTransaction' },
       },
     },
   ],
@@ -12243,6 +13959,549 @@ export type MyTicketsLazyQueryHookResult = ReturnType<
 export type MyTicketsQueryResult = Apollo.QueryResult<
   MyTicketsQuery,
   MyTicketsQueryVariables
+>;
+export const OrderByRefDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'OrderByRef' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'reference' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'reference' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'order' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketsSummary' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'TicketsSummary' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'completedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedAt' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'owner' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'source' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'sourceId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'summary' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ticketType' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tickets' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tickets' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'edges' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRef' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'state' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'ticketType' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'order' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'owner',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'firstName',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'lastName',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'email',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'assignment' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'appLoginEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'state',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'assigner',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'email',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'firstName',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'lastName',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'assignee',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'email',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'firstName',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'lastName',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value:
+                                                    'lastLoginTokenCreatedAt',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'reference' },
+          },
+        },
+      ],
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TicketsSummary' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'all' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'active' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'assigned' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'count' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'accepted' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'checkedIn' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'duplicate' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'locked' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'pending' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'unassigned' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'count' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'neverAssigned' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rejected' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'count' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'void' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'TicketsSummary' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useOrderByRefQuery__
+ *
+ * To run a query within a React component, call `useOrderByRefQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrderByRefQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrderByRefQuery({
+ *   variables: {
+ *      reference: // value for 'reference'
+ *   },
+ * });
+ */
+export function useOrderByRefQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    OrderByRefQuery,
+    OrderByRefQueryVariables
+  >,
+) {
+  return Apollo.useQuery<OrderByRefQuery, OrderByRefQueryVariables>(
+    OrderByRefDocument,
+    baseOptions,
+  );
+}
+export function useOrderByRefLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    OrderByRefQuery,
+    OrderByRefQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<OrderByRefQuery, OrderByRefQueryVariables>(
+    OrderByRefDocument,
+    baseOptions,
+  );
+}
+export type OrderByRefQueryHookResult = ReturnType<typeof useOrderByRefQuery>;
+export type OrderByRefLazyQueryHookResult = ReturnType<
+  typeof useOrderByRefLazyQuery
+>;
+export type OrderByRefQueryResult = Apollo.QueryResult<
+  OrderByRefQuery,
+  OrderByRefQueryVariables
 >;
 export const OrderTicketsDocument: DocumentNode = {
   definitions: [

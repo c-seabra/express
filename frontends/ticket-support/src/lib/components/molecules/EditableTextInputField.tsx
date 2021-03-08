@@ -103,7 +103,7 @@ const EditableTextInputField = ({
   placeholder,
   editModeOn = false,
   onEdit,
-  disabled,
+  disabled = false,
 }: EditableTextInputFieldProps) => {
   return (
     <FieldContainer className={className}>
@@ -120,7 +120,7 @@ const EditableTextInputField = ({
               disabled={(onEdit && !editModeOn) || disabled}
               placeholder={placeholder}
             />
-            {onEdit && !editModeOn && (
+            {onEdit && !editModeOn && disabled && (
               <StyledActions onClick={onEdit}>
                 <IconWrapper>
                   <Icon>mode</Icon>

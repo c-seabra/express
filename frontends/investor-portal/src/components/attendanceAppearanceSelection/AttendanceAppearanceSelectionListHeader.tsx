@@ -8,6 +8,7 @@ const AttendanceAppearanceSelectionListHeader = () => {
     <ListHeaderItem>
       <Column>Company Name</Column>
       <Column>Updated At</Column>
+      <Column>Session Timeslot</Column>
       <Column>Status</Column>
       <Column />
     </ListHeaderItem>

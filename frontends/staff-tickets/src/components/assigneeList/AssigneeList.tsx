@@ -17,18 +17,13 @@ const AssigneeList: React.FC<{ list: TicketList }> = ({ list }) => {
   return (
     <StyledList>
       <AssigneeListHeader />
-      {list.map(({ firstName, lastName, email, bookingRef }) => {
+      {list.map(({ firstName, lastName, email, bookingRef }, index) => {
         if (!bookingRef && !email)
           return (
             <AssigneeItem
               bookingRef={bookingRef || '???'}
-              email={email}
               firstName={firstName}
               lastName={lastName}
-              status={{
-                message: 'Not enough information provided',
-                type: 'ERROR',
-              }}
             />
           );
         return (
@@ -37,6 +32,7 @@ const AssigneeList: React.FC<{ list: TicketList }> = ({ list }) => {
             bookingRef={bookingRef}
             email={email}
             firstName={firstName}
+            index={index}
             lastName={lastName}
           />
         );

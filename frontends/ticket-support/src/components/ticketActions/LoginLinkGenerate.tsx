@@ -8,7 +8,15 @@ import { Account } from '../../lib/types';
 import { TextHighlight } from '../order/OrderDetails';
 import GenerateLoginLinkModal from './GenerateLoginLinkModal';
 
-const LoginLinkGenerate = ({ assignee }: { assignee: Account }) => {
+type LoginLinkGenerateProps = {
+  assignee: Account;
+  isDisabled: boolean;
+};
+
+const LoginLinkGenerate = ({
+  assignee,
+  isDisabled = false,
+}: LoginLinkGenerateProps) => {
   const { isOpen, closeModal, openModal } = useModalState();
 
   const { generateLoginLink, loading, error, data } = useMagicLinkMutation({
@@ -28,7 +36,7 @@ const LoginLinkGenerate = ({ assignee }: { assignee: Account }) => {
 
   return (
     <>
-      <SecondaryButton type="button" onClick={openModal}>
+      <SecondaryButton disabled={isDisabled} type="button" onClick={openModal}>
         Generate login link
       </SecondaryButton>
       <GenerateLoginLinkModal

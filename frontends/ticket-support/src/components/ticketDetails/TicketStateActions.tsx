@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { TextButton } from '../../lib/components/atoms/Button';
 import Icon from '../../lib/components/atoms/Icon';
 import { useModalState } from '../../lib/components/molecules/Modal';
+import { Spacing } from '../../lib/components/templates/Spacing';
 import { Ticket } from '../../lib/types';
 import ClaimTicketModal from '../ticketActions/ClaimTicketModal';
 import TicketUnlockModal from '../ticketActions/TicketUnlockModal';
@@ -52,7 +53,12 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
     case 'PENDING':
       return (
         <>
-          <TextButton onClick={openModal}>Claim ticket</TextButton>
+          <TextButton onClick={openModal}>
+            <StyledWrapper>
+              <Icon>content_paste</Icon>
+            </StyledWrapper>
+            Claim ticket
+          </TextButton>
           <ClaimTicketModal
             isOpen={isOpen}
             ticket={ticket}
@@ -83,13 +89,24 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
 
 const TicketStateActions = ({ ticket }: TicketStateActionsProps) => {
   return (
-    <TicketStateContainer>
-      <StyledLabel>Ticket status</StyledLabel>
-      <StateActionContainer>
-        <StatePlate state={ticket?.state} />
-        <TicketAction ticket={ticket} />
-      </StateActionContainer>
-    </TicketStateContainer>
+    <>
+      <TicketStateContainer>
+        <StyledLabel>Ticket status</StyledLabel>
+        <StateActionContainer>
+          <StatePlate state={ticket?.state} />
+          <TicketAction ticket={ticket} />
+        </StateActionContainer>
+      </TicketStateContainer>
+
+      <Spacing top="24px">
+        <TicketStateContainer>
+          <StyledLabel>Assignment status</StyledLabel>
+          <StateActionContainer>
+            <StatePlate state={ticket?.assignment?.state || 'Unassigned'} />
+          </StateActionContainer>
+        </TicketStateContainer>
+      </Spacing>
+    </>
   );
 };
 

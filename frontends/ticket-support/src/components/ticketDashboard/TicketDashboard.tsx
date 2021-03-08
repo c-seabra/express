@@ -61,6 +61,8 @@ const TicketDashboard = (): ReactElement => {
     if (currentPage) {
       setSearchState({ ...searchState, page: currentPage });
     }
+    // todo: I hope we know what we are doing here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const ticketStatusOptions = [

@@ -53,9 +53,9 @@ export const AppContext = createContext<StaffTicketContext>({
 });
 
 const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
-  if (!token) return null;
-
   const [ticketsList, setTicketList] = useState<TicketList>();
+
+  if (!token) return null;
 
   const apolloClient = initApollo({ apiURL });
 

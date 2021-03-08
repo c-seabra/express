@@ -8,28 +8,31 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const ColorBar = styled.div<{ color?: string }>`
+const HeaderBar = styled.div`
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  height: 25px;
+  height: 48px;
   margin: 0;
   border-radius: 4px 4px 0 0;
+  background-color: #f8f8f8;
   border: 1px solid #dde0e5;
+  color: #0c1439;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 0.8rem 1.5rem 0.5rem 1.5rem;
   border-bottom: none;
-
-  ${(props) =>
-    props.color &&
-    css`
-      background-color: ${props.color};
-      border: 1px solid ${props.color};
-    `}
+  box-sizing: border-box;
 `;
 
-const Card = styled.div<{ isColorBar: boolean }>`
+const Card = styled.div<{ hasTitle: boolean }>`
   width: 100%;
+  box-sizing: border-box;
   border: 1px solid #dde0e5;
   background-color: #ffffff;
   ${(props) =>
-    props.isColorBar
+    props.hasTitle
       ? css`
           border-radius: 0 0 4px 4px;
           border-top: none;
@@ -37,22 +40,6 @@ const Card = styled.div<{ isColorBar: boolean }>`
       : css`
           border-radius: 4px;
         `}
-`;
-
-const Title = styled.div<{ noPadding?: boolean }>`
-  color: #0c1439;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.5px;
-  line-height: 32px;
-  ${(props) =>
-    props.noPadding &&
-    css`
-      padding: 1rem 1.8rem 0;
-    `};
-
-  // TODO PP: spacing needs to be evaluated as modifier to box
-  margin-bottom: 40px;
 `;
 
 const ChildrenWrapper = styled.div<{ noPadding?: boolean }>`
@@ -68,26 +55,28 @@ const ChildrenWrapper = styled.div<{ noPadding?: boolean }>`
 type ContainerCardProps = {
   children?: ReactElement | ReactElement[];
   className?: string;
-  color?: string;
   noPadding?: boolean;
+  renderActions?: () => ReactElement;
   title?: string;
 };
 
 const ContainerCard = ({
   children,
-  color,
   noPadding,
   className,
   title,
+  renderActions,
 }: ContainerCardProps): ReactElement => {
   return (
     <Container className={className}>
-      {color && <ColorBar color={color} />}
-      <Card isColorBar={!!color}>
-        <ChildrenWrapper noPadding={noPadding}>
-          {title && <Title noPadding={noPadding}>{title}</Title>}
-          {children}
-        </ChildrenWrapper>
+      {title && (
+        <HeaderBar>
+          {title}
+          {renderActions && renderActions()}
+        </HeaderBar>
+      )}
+      <Card hasTitle={!!title}>
+        <ChildrenWrapper noPadding={noPadding}>{children}</ChildrenWrapper>
       </Card>
     </Container>
   );

@@ -6,9 +6,9 @@ import * as Yup from 'yup';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import Modal from '../../lib/components/molecules/Modal';
 import TextInputField from '../../lib/components/molecules/TextInputField';
+import { SpacingBottom } from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
 import useUpdateLoginMutation from '../../lib/hooks/useUpdateAppLoginEmail';
-import { SpacingBottom } from '../templates/Spacing';
 
 const ContentContainer = styled.div`
   padding: 2rem 0;

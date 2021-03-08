@@ -8,7 +8,10 @@ import Breadcrumbs, {
 } from '../../lib/components/molecules/Breadcrumbs';
 import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput';
 import LabeledInput from '../../lib/components/molecules/LabeledInput';
-import { useEventQuery, useEventUpdateMutation } from '../../lib/hooks';
+import {
+  useEventQuery,
+  useInvestorMeetingConfigurationUpdateMutation,
+} from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import Warning from '../settingsActions/Warning';
 import InvestorSessionsCreateForm from './InvestorSessionsCreateForm';
@@ -28,7 +31,7 @@ const SettingsDashboard: React.FC = () => {
     setDefaultStartupSelections,
   ] = useState<number>();
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin');
-  const [sponsorLogo, setSponsorLogo] = useState<File | undefined>();
+  const [sponsorLogo, setSponsorLogo] = useState<string | undefined>();
   const [meetingsPerSession, setMeetingsPerSession] = useState<
     number | undefined
   >();
@@ -44,9 +47,13 @@ const SettingsDashboard: React.FC = () => {
     string | undefined
   >();
 
-  const handleUpload = (uploadedFile?: File) => {
-    setSponsorLogoUrl(URL.createObjectURL(uploadedFile));
-    setSponsorLogo(uploadedFile);
+  const handleUpload = (uploadedFile?: Blob) => {
+    if (uploadedFile !== undefined) {
+      setSponsorLogoUrl(URL.createObjectURL(uploadedFile));
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadedFile);
+      reader.onload = () => setSponsorLogo(reader.result as string);
+    }
   };
 
   const usableDateString = (dateString: string | undefined) => {
@@ -84,7 +91,9 @@ const SettingsDashboard: React.FC = () => {
 
   const investorSessionsSummary = data?.event.investorSessionsSummary;
 
-  const { updateEventMutation } = useEventUpdateMutation({
+  const {
+    investorMeetingConfigurationUpdateMutation,
+  } = useInvestorMeetingConfigurationUpdateMutation({
     defaultStartupSelections,
     eventTimezone,
     meetingsPerSession,
@@ -126,7 +135,7 @@ const SettingsDashboard: React.FC = () => {
               <ConfigurationPanel
                 onSubmit={async (e) => {
                   e.preventDefault();
-                  await updateEventMutation();
+                  await investorMeetingConfigurationUpdateMutation();
                 }}
               >
                 <FormArea>
@@ -215,6 +224,7 @@ const SettingsDashboard: React.FC = () => {
             {investorSessionsSummary && (
               <SessionsSummary
                 investorSessionsSummaries={investorSessionsSummary}
+                timezone={eventTimezone}
               />
             )}
           </SpacingBottom>

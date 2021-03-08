@@ -11,8 +11,8 @@ import { StyledForm } from './AttendanceInvestorSession.styled';
 
 type AttendanceInvestorSessionType = {
   attendanceId: string;
-  currentEndsAt: string;
-  currentStartsAt: string;
+  currentEndsAt: string | undefined;
+  currentStartsAt: string | undefined;
   selections: AttendanceAppearanceSelection[];
 };
 
@@ -26,7 +26,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin');
   const [selected, setSelected] = useState<boolean>(false);
   const [unlockInvestor, setUnlockInvestor] = useState<boolean>(false);
-  const [hasAccepted, setHasAccepted] = useState<boolean>(false);
+  const [hideAction, setHideAction] = useState<boolean>(false);
 
   const { data } = useEventQuery();
 
@@ -36,11 +36,12 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
     setUnlockInvestor(currentStartsAt !== undefined && selected === false);
   };
 
-  const checkHasAccepted = () => {
+  const checkForInvalidStatus = () => {
     const item = selections.find(
-      (selection) => selection.status === 'accepted',
+      (selection) =>
+        selection.status === 'accepted' || selection.status === 'rejected',
     );
-    setHasAccepted(item !== undefined);
+    setHideAction(item !== undefined);
   };
 
   const styledDateForMutation = (dateString?: string) => {
@@ -51,7 +52,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   };
 
   useEffect(() => {
-    checkHasAccepted();
+    checkForInvalidStatus();
     handleUnlock();
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin');
   });
@@ -77,15 +78,15 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
       <StyledForm>
         {currentStartsAt && (
           <span>
-            {moment(currentStartsAt).format('dddd')}:{' '}
-            {moment(currentStartsAt).format('HH:mm')} -{' '}
-            {moment(currentEndsAt).format('HH:mm')}
+            {moment.tz(currentStartsAt, eventTimezone).format('dddd')}:{' '}
+            {moment.tz(currentStartsAt, eventTimezone).format('HH:mm')} -{' '}
+            {moment.tz(currentEndsAt, eventTimezone).format('HH:mm')}
           </span>
         )}
         {!currentStartsAt && (
           <div>Investor has not selected a session timeslot</div>
         )}
-        {!hasAccepted && (
+        {!hideAction && (
           <>
             <Select
               onChange={(e) => {
@@ -98,11 +99,13 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
                 <option
                   key={i}
                   disabled={item.available === '0'}
-                  value={item.startsAt}
+                  value={moment
+                    .tz(item.startsAt, eventTimezone)
+                    .format('YYYY-MM-DDTHH:mm')}
                 >
-                  {moment(item?.startsAt).format('dddd')}:{' '}
-                  {moment(item?.startsAt).format('HH:mm')} -{' '}
-                  {moment(item?.endsAt).format('HH:mm')}
+                  {moment.tz(item?.startsAt, eventTimezone).format('dddd')}:{' '}
+                  {moment.tz(item?.startsAt, eventTimezone).format('HH:mm')} -{' '}
+                  {moment.tz(item?.endsAt, eventTimezone).format('HH:mm')}
                 </option>
               ))}
             </Select>

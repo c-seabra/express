@@ -1,38 +1,43 @@
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { WarningMessage } from '../../lib/components/atoms/Messages';
+import { DisabledButton, ErrorButton } from '../../lib/components/atoms/Button';
+import Icon from '../../lib/components/atoms/Icon';
 import CheckboxField from '../../lib/components/molecules/CheckboxField';
 import Modal from '../../lib/components/molecules/Modal';
+import {
+  AlertText,
+  FieldWrapper,
+  HeaderText,
+  IconWrapper,
+  StyledActionRow,
+  Wrapper,
+} from '../../lib/components/molecules/ReasonAlertModal';
 import TextInputField from '../../lib/components/molecules/TextInputField';
-import useAssignTicketMutation from '../../lib/hooks/useTicketAssignMutation';
+import { Spacing } from '../../lib/components/templates/Spacing';
+import useAssignTicketOperation from '../../lib/hooks/useTicketAssignMutation';
 import { Ticket } from '../../lib/types';
 
 const ContentContainer = styled.div`
-  padding: 2rem 0;
-  width: 450px;
   font-size: 0.85rem;
   font-weight: 400;
 `;
 
-const ConfirmationText = styled.div`
+const StyledRow = styled.div`
   display: flex;
-  font-size: 1rem;
-  font-weight: 400;
-  padding-bottom: 2rem;
-  color: #07143e;
-
-  span {
-    font-weight: 600;
-    color: #0067e9;
-  }
+  justify-content: space-between;
+  min-width: 580px;
 `;
 
-const StyledForm = styled(Form)`
-  & > * {
-    margin-bottom: 0.5rem;
+const StyledInput = styled(TextInputField)`
+  width: 100%;
+  text-align: left;
+  margin-right: 16px;
+
+  &:last-child {
+    margin-right: 0;
   }
 `;
 
@@ -49,6 +54,9 @@ const assignSchema = Yup.object().shape({
 });
 
 const confirmSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+  firstName: Yup.string().required('Required'),
+  lastName: Yup.string(),
   notify: Yup.boolean(),
   reason: Yup.string().required('Required'),
 });
@@ -58,23 +66,15 @@ const TicketAssignModal = ({
   closeModal,
   ticket,
 }: TicketAssignModalProps) => {
-  const { assignTicket } = useAssignTicketMutation();
-  const [isFirstStepFilled, setFirstStepFilled] = useState(false);
-
+  const isAssigned = ticket.assignment !== null;
+  const assignPhrase = isAssigned ? 'reassign' : 'assign';
+  const { assignTicket } = useAssignTicketOperation();
   const handleClose = () => {
-    setFirstStepFilled(false);
-
     closeModal();
   };
 
   return (
-    <Modal
-      key={isOpen.toString()}
-      withDefaultFooter
-      isOpen={isOpen}
-      title="Reassign ticket"
-      onRequestClose={handleClose}
-    >
+    <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <ContentContainer>
         <Formik
           initialValues={{
@@ -86,68 +86,80 @@ const TicketAssignModal = ({
           }}
           validateOnBlur={false}
           validateOnChange={false}
-          validationSchema={isFirstStepFilled ? confirmSchema : assignSchema}
+          validationSchema={isAssigned ? confirmSchema : assignSchema}
           onSubmit={async (values) => {
-            if (isFirstStepFilled) {
-              await assignTicket({ ...values, ticketId: ticket.id });
+            await assignTicket({ ...values, ticketId: ticket.id });
 
-              handleClose();
-            } else {
-              setFirstStepFilled(true);
-            }
+            handleClose();
           }}
         >
-          {({ values }) => (
-            <StyledForm>
-              {isFirstStepFilled ? (
-                <>
-                  <ConfirmationText>
-                    Are you sure you want to&nbsp;<span>reassign</span>
-                    &nbsp;ticket&nbsp;
-                    <span>{ticket.bookingRef}</span>?
-                  </ConfirmationText>
-                  <TextInputField
-                    required
-                    label="Specify a reason for the reassignment"
-                    name="reason"
-                  />
-                  <CheckboxField
-                    label="Send email notification to new and old assignee"
-                    name="notify"
-                  />
-                  {values.notify && (
-                    <WarningMessage>
-                      Email notifications will be sent to the new assignee, old
-                      assignee, and order owner
-                    </WarningMessage>
-                  )}
-                </>
-              ) : (
-                <>
-                  <TextInputField
+          {() => (
+            <Form>
+              <Wrapper>
+                <Spacing bottom="10px">
+                  <IconWrapper>
+                    <Icon>error</Icon>
+                  </IconWrapper>
+                </Spacing>
+
+                <HeaderText>
+                  Are you sure you want to {assignPhrase} ticket
+                </HeaderText>
+
+                <Spacing bottom="40px">
+                  <AlertText>{ticket.bookingRef}</AlertText>
+                </Spacing>
+
+                <StyledRow>
+                  <StyledInput
                     required
                     label="First name"
                     name="firstName"
                     placeholder="John"
                   />
-                  <TextInputField
+                  <StyledInput
                     label="Last name"
                     name="lastName"
                     placeholder="Doe"
                   />
-                  <TextInputField
+                </StyledRow>
+                <StyledRow>
+                  <StyledInput
                     required
-                    label="Email"
+                    label="Email address"
                     name="email"
                     placeholder="john.doe@example.com"
                   />
-                </>
-              )}
-              <Modal.DefaultFooter
-                submitText={isFirstStepFilled ? 'Confirm' : 'Reassign ticket'}
-                onCancelClick={handleClose}
-              />
-            </StyledForm>
+                </StyledRow>
+
+                {isAssigned && (
+                  <>
+                    <Spacing top="8px">
+                      <FieldWrapper
+                        required
+                        label="Please specify the reason for your actions"
+                        maxLength={255}
+                        name="reason"
+                      />
+                    </Spacing>
+                    <StyledRow>
+                      <CheckboxField
+                        color="#E15554"
+                        label="Send email notification to new and old assignee"
+                        name="notify"
+                      />
+                    </StyledRow>
+                  </>
+                )}
+
+                <Spacing bottom="53px" top="24px">
+                  <StyledActionRow>
+                    <DisabledButton onClick={closeModal}>Cancel</DisabledButton>
+                    <ErrorButton type="submit">Confirm</ErrorButton>
+                  </StyledActionRow>
+                </Spacing>
+              </Wrapper>
+            </Form>
           )}
         </Formik>
       </ContentContainer>

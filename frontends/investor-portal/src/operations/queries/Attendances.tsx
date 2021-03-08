@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const ATTENDANCES_LIST = gql`
-  query(
+  query Attendances(
     $first: Int
     $filter: AttendanceFilter
     $after: String
@@ -18,7 +18,12 @@ const ATTENDANCES_LIST = gql`
         node {
           id
           name
-          pendingSelectionCount
+          attendanceAppearanceSelectionsDetails {
+            acceptedSelectionCount
+            pendingSelectionCount
+            rejectedSelectionCount
+            submittedSelectionCount
+          }
         }
       }
       pageInfo {

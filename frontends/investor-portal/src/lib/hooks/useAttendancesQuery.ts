@@ -3,15 +3,17 @@ import ATTENDANCES_LIST from '../../operations/queries/Attendances';
 import { Attendance } from '../types';
 import usePaginatedQuery from './usePaginatedQuery';
 
-const ATTENDANCES_PER_PAGE = 5;
+const ATTENDANCES_PER_PAGE = 25;
 const INVESTORS_TYPE = 'INVESTOR';
 
 const useAttendancesQuery = ({
+  attendanceAppearanceSelectionsStatus,
   initialPage,
   perPage = ATTENDANCES_PER_PAGE,
   searchQuery,
   type = INVESTORS_TYPE,
 }: {
+  attendanceAppearanceSelectionsStatus?: string;
   initialPage: string;
   perPage?: number;
   searchQuery?: string;
@@ -24,7 +26,12 @@ const useAttendancesQuery = ({
     token,
   };
 
-  const filter = { type };
+  const filter = {
+    attendanceAppearanceSelectionsStatus: attendanceAppearanceSelectionsStatus?.split(
+      ',',
+    ),
+    type,
+  };
 
   const variables = {
     filter,

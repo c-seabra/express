@@ -7,6 +7,11 @@ export type PageInfo = {
 
 export type UserError = {
   message: string;
+  path: string[];
+};
+
+export type Error = {
+  message: string;
   path: string;
 };
 
@@ -14,24 +19,48 @@ export type Attendance = {
   attendanceAppearanceSelections?: {
     edges: [{ node: AttendanceAppearanceSelection }];
   };
+  attendanceAppearanceSelectionsDetails: AttendanceAppearanceSelectionsDetails;
+  bookingRef?: string;
+  companyName: string;
   id: string;
   investorSession?: {
-    endsAt: any;
-    startsAt: any;
+    endsAt: string | undefined;
+    startsAt: string | undefined;
   };
-  name: string;
-  pendingSelectionCount: number;
+  name?: string;
+};
+
+export type AttendanceAppearanceSelectionsDetails = {
+  acceptedSelectionCount?: number;
+  attendanceAppearanceSelections?: {
+    edges: [{ node: AttendanceAppearanceSelection }];
+  };
+  pendingSelectionCount?: number;
+  rejectedSelectionCount?: number;
+  submittedSelectionCount?: number;
 };
 
 export type AttendanceAppearanceSelection = {
   appearance: Appearance;
+  endsAt: string;
   id: string;
+  participations: [Attendance];
+  sessionTimeslotId: string;
+  startsAt: string;
   status: string;
   updatedAt: string;
 };
 
+export enum AttendanceAppearanceSelectionsStatus {
+  ACCEPTED = 'Accepted',
+  PENDING = 'Pending',
+  REJECTED = 'Rejected',
+  SUBMITTED = 'Submitted',
+}
+
 export type Appearance = {
   company: Company;
+  id: string;
 };
 
 export type Company = {

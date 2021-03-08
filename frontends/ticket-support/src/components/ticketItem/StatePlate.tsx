@@ -16,7 +16,7 @@ const VoidState = styled(Badge)`
   color: #d8d8d8;
 `;
 
-const StatePlate = ({ state }: { state: string }) => {
+const StatePlate = ({ state }: { state?: string }) => {
   switch (state) {
     case 'ACTIVE':
       return (
@@ -68,7 +68,7 @@ const StatePlate = ({ state }: { state: string }) => {
       );
     default:
       return (
-        <Tooltip content={`This ticket is in ${state} state`}>
+        <Tooltip content={`This ticket is in ${state || 'no'} state`}>
           <UnassignedState>{state}</UnassignedState>
         </Tooltip>
       );
