@@ -11,6 +11,7 @@ import {
 import styled from 'styled-components';
 
 import EventCreate from '../eventActions/EventCreate';
+import EventUpdate from '../eventActions/EventUpdate';
 import EventList from '../eventList/EventList';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
@@ -58,6 +59,9 @@ const App = ({ token, apiURL = '' }: GraphQLParams) => {
               </Route>
               <Route exact path="/events/new">
                 <EventCreate />
+              </Route>
+              <Route exact path="/events/:slug/edit">
+                <EventUpdate />
               </Route>
               <Route exact path="/legal_entities">
                 <LegalEntityList />

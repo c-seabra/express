@@ -70,6 +70,7 @@ export type Event = {
   name: string;
   slug?: string;
   startDate?: string;
+  taxNumber?: string;
 };
 
 export type LegalEntity = {

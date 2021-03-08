@@ -20,13 +20,17 @@ const Field = ({
   fieldName,
   fieldType = 'text',
   onChange,
+  readOnly = false,
   required = false,
+  value = undefined,
 }: {
   fieldName: string;
   fieldType?: string;
   label?: string;
   onChange: (val: string) => void;
+  readOnly?: boolean;
   required?: boolean;
+  value?: string | undefined;
 }) => {
   return (
     <StyledField>
@@ -36,8 +40,10 @@ const Field = ({
       </span>
       <input
         name={fieldName}
+        readOnly={readOnly}
         required={required}
         type={fieldType}
+        value={value}
         onChange={(e) => onChange(e.target.value)}
       />
     </StyledField>

@@ -5,7 +5,6 @@ import Loader from '../../lib/Loading';
 import { Event } from '../../lib/types';
 import EVENT_LIST from '../../operations/queries/EventList';
 import { useAppContext } from '../app/AppContext';
-import EventCreate from '../eventActions/EventCreate';
 import EventItem, { EventListHeader } from '../eventItem/EventItem';
 
 const EventList = ({}): ReactElement => {
@@ -39,7 +38,6 @@ const EventList = ({}): ReactElement => {
   }
 
   if (error) {
-    console.log({ error });
     return <>{error.message}</>;
   }
 
