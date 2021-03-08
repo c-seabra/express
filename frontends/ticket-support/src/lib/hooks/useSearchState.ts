@@ -23,12 +23,16 @@ const useSearchState = <T = SearchState>({
     if (processInitialSearchState) {
       processInitialSearchState(searchState);
     }
+    // todo: I hope we know what we are doing here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const state = (searchState as unknown) as SearchState;
     const url = searchStateToUrl({ pathname, searchState: state });
     history.push(url);
+    // todo: I hope we know what we are doing here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchState]);
 
   return {
