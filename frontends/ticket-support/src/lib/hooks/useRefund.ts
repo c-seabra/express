@@ -1,32 +1,47 @@
 import {
   CommerceOrder,
+  CommerceTaxDetailCreateOrUpdate,
   CommerceTransactionType,
 } from '@websummit/graphql/src/@types/operations';
 
 import useCommerceCreateTransactionMutation from '../../operations/mutations/CommerceCreateTransaction';
+import { TotalInCents } from '../utils/price';
+
+type RefundArgs = {
+  amount: TotalInCents | null;
+  paymentMethod?: string;
+  reason: string | null;
+  taxDetails?: CommerceTaxDetailCreateOrUpdate | null;
+};
 
 const useRefund = ({ order }: { order: CommerceOrder }) => {
   const createCommerceTransaction = useCommerceCreateTransactionMutation({
     orderId: order.id,
   });
 
-  const fullRefund = async (reason: string) => {
+  const fullRefund = async ({
+    reason,
+    paymentMethod,
+  }: Pick<RefundArgs, 'reason' | 'paymentMethod'>) => {
     await createCommerceTransaction({
       amount: order.billed,
-      paymentMethod: order.paymentMethod?.id || null,
+      paymentMethod,
       reason,
       type: CommerceTransactionType.Refund,
     });
   };
 
-  const partialRefund = async (
-    reason: string | null,
-    amount: number | null,
-  ) => {
+  const partialRefund = async ({
+    reason,
+    amount,
+    taxDetails,
+    paymentMethod,
+  }: RefundArgs) => {
     await createCommerceTransaction({
       amount,
-      paymentMethod: order.paymentMethod?.id || null,
+      paymentMethod,
       reason,
+      taxDetails: taxDetails ? [taxDetails] : undefined,
       type: CommerceTransactionType.Refund,
     });
   };

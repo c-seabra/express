@@ -8,6 +8,7 @@ import {
   CommerceTransactionType,
   Order,
   Ticket,
+  useCommerceListPaymentMethodsQuery,
   useOrderByRefQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement, useState } from 'react';
@@ -151,8 +152,13 @@ const OrderDetails = (): ReactElement => {
     commerceOrder,
     loadingCommerceOrder,
     commerceOrderError,
+    refetch: refetchCommerceOrder,
   } = useSingleCommerceOrderQuery({
     id: sourceId,
+  });
+
+  const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
+    context: { slug: conferenceSlug, token },
   });
 
   const owner = order?.owner;
@@ -287,11 +293,15 @@ const OrderDetails = (): ReactElement => {
                         ? 'Order refunded'
                         : 'Refund order'}
                     </Button>
-                    {commerceOrder && (
+                    {commerceOrder && paymentMethodsData && (
                       <OrderRefundModal
                         commerceOrder={commerceOrder}
                         isOpen={isRefundModalOpen}
                         orderRef={orderRef}
+                        paymentMethods={
+                          paymentMethodsData?.commerceListPaymentMethods
+                        }
+                        refetchCommerceOrder={refetchCommerceOrder}
                         onRequestClose={closeRefundModal}
                       />
                     )}

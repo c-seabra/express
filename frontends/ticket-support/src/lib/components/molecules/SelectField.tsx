@@ -47,8 +47,8 @@ const Error = styled.div`
 
 type SelectFieldOption = {
   disabled?: boolean;
-  label: string;
-  value: string;
+  label?: string;
+  value?: string;
 };
 
 type SelectFieldProps = {

@@ -1,4 +1,7 @@
-import { CommerceOrder } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceOrder,
+  CommercePaymentMethod,
+} from '@websummit/graphql/src/@types/operations';
 import { Form, Formik, useFormikContext } from 'formik';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -21,6 +24,7 @@ import { Spacing } from '../../lib/components/templates/Spacing';
 import { VALIDATION_MESSAGES } from '../../lib/constants/messages';
 import useRefund from '../../lib/hooks/useRefund';
 import { useErrorSnackbar } from '../../lib/hooks/useSnackbarMessage';
+import { fromCents, toCents, Total } from '../../lib/utils/price';
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -76,36 +80,11 @@ const refundTypes = {
   partial: 'partial',
 };
 
-const refundMethods = {
-  CREDIT: 'credit',
-  DEFAULT: 'default',
-  REFUNDED: 'refunded',
-};
-
-const refundMethodOptions = [
-  {
-    label: "Full refund via customer's payment method",
-    value: refundMethods.DEFAULT,
-  },
-  {
-    // TODO - remove disabled when option is allowed
-    disabled: true,
-    label: 'Record transaction as refunded',
-    value: refundMethods.REFUNDED,
-  },
-  {
-    // TODO - remove disabled when option is allowed
-    disabled: true,
-    label: 'Credit value to future event',
-    value: refundMethods.CREDIT,
-  },
-];
-
 const refundShape = {
   amount: Yup.number()
     .typeError('Amount must be a number')
     .required(VALIDATION_MESSAGES.REQUIRED),
-  method: Yup.string().required(VALIDATION_MESSAGES.REQUIRED),
+  paymentMethod: Yup.string(),
   reason: Yup.string().required(VALIDATION_MESSAGES.REQUIRED),
   type: Yup.mixed().oneOf([refundTypes.full, refundTypes.partial]),
 };
@@ -132,7 +111,7 @@ const orderRefundSchema = () =>
 
 const getFullRefundInitialValues = (order: CommerceOrder) => {
   return {
-    amount: order.billed,
+    amount: fromCents(order.billed),
   };
 };
 
@@ -163,7 +142,7 @@ const DependentTaxRateAmountInputField = ({
     values: { amount, taxRefundAmount, refundTax },
     setFieldValue,
   } = useFormikContext<{
-    amount: number;
+    amount: Total;
     refundTax: boolean;
     taxRefundAmount: number;
   }>();
@@ -171,7 +150,7 @@ const DependentTaxRateAmountInputField = ({
   useEffect(() => {
     setFieldValue(
       'taxRefundAmount',
-      (amount - amount / ((100 + taxRate) / 100) || 0).toFixed(2),
+      fromCents(toCents(amount) - toCents(amount) / ((100 + taxRate) / 100)),
     );
   }, [amount, setFieldValue, taxRate, taxTotal]);
 
@@ -187,9 +166,36 @@ const DependentTaxRateAmountInputField = ({
   );
 };
 
+const autoRefundOption = {
+  label: "Refund via customer's payment method",
+  value: undefined,
+};
+
+const getRefundMethodOptions = (
+  methods?: (Partial<CommercePaymentMethod> | null)[] | null,
+) => {
+  if (!methods) {
+    return [];
+  }
+
+  return [
+    autoRefundOption,
+    ...methods
+      .filter(Boolean)
+      .filter(
+        (method) =>
+          (method?.configuration as { refundMethod?: string }).refundMethod ===
+          'true',
+      )
+      .map((method) => ({ label: method?.name, value: method?.id || '' })),
+  ];
+};
+
 type OrderRefundModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
   commerceOrder: CommerceOrder;
   orderRef: string;
+  paymentMethods?: (Partial<CommercePaymentMethod> | null)[] | null;
+  refetchCommerceOrder: () => void;
 };
 
 const OrderRefundModal = ({
@@ -197,10 +203,14 @@ const OrderRefundModal = ({
   isOpen,
   onRequestClose,
   orderRef,
+  paymentMethods,
+  refetchCommerceOrder,
 }: OrderRefundModalProps) => {
   const [isConfirmStep, setConfirmStep] = useState(false);
   const { fullRefund, partialRefund } = useRefund({ order: commerceOrder });
   const error = useErrorSnackbar();
+
+  const refundMethodOptions = getRefundMethodOptions(paymentMethods);
 
   const orderInitialValues = getFullRefundInitialValues(commerceOrder);
 
@@ -217,25 +227,49 @@ const OrderRefundModal = ({
       <Formik
         initialValues={{
           ...orderInitialValues,
-          method: refundMethods.DEFAULT,
+          paymentMethod: undefined,
           reason: '',
           refundTax: false,
-          taxRefundAmount: commerceOrder.taxTotal,
+          taxRefundAmount: fromCents(commerceOrder.taxTotal),
           type: refundTypes.full,
         }}
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={orderRefundSchema}
         onSubmit={async (values) => {
+          const {
+            type,
+            reason,
+            paymentMethod,
+            amount,
+            taxRefundAmount,
+            refundTax,
+          } = values;
+
           if (isConfirmStep) {
-            if (values.type === 'full') {
-              await fullRefund(values.reason);
-            } else if ((commerceOrder.total || 0) < (values.amount || 0)) {
+            if (type === 'full') {
+              await fullRefund({
+                paymentMethod,
+                reason,
+              });
+            } else if ((commerceOrder.total || 0) < (amount || 0)) {
               error('Refund amount cannot be bigger than the total');
             } else {
-              await partialRefund(values.reason, values.amount);
+              await partialRefund({
+                amount,
+                paymentMethod,
+                reason,
+                taxDetails:
+                  refundTax && taxRefundAmount
+                    ? {
+                        taxId: tax?.id,
+                        total: toCents(taxRefundAmount),
+                      }
+                    : undefined,
+              });
             }
 
+            setTimeout(refetchCommerceOrder, 1000);
             handleClose();
           } else {
             setConfirmStep(true);
@@ -300,7 +334,7 @@ const OrderRefundModal = ({
                 <SelectField
                   required
                   label="How would you like this order to be refunded"
-                  name="method"
+                  name="paymentMethod"
                   options={refundMethodOptions}
                 />
                 <TextAreaField
