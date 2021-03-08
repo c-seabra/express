@@ -11,7 +11,9 @@ type RefundArgs = {
   amount: TotalInCents | null;
   paymentMethod?: string;
   reason: string | null;
-  taxDetails?: CommerceTaxDetailCreateOrUpdate | null;
+  taxDetails?:
+    | (CommerceTaxDetailCreateOrUpdate & { total?: TotalInCents })
+    | null;
 };
 
 const useRefund = ({ order }: { order: CommerceOrder }) => {

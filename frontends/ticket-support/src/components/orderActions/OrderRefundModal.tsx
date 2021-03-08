@@ -256,7 +256,7 @@ const OrderRefundModal = ({
               error('Refund amount cannot be bigger than the total');
             } else {
               await partialRefund({
-                amount,
+                amount: toCents(amount),
                 paymentMethod,
                 reason,
                 taxDetails:

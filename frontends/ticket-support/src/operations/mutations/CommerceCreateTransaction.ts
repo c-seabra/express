@@ -10,6 +10,7 @@ import {
   useSuccessSnackbar,
 } from '../../lib/hooks/useSnackbarMessage';
 import { CommerceTransaction } from '../../lib/types';
+import { TotalInCents } from '../../lib/utils/price';
 
 const commercePaymentMethodFragment = gql`
   fragment CommercePaymentMethod on CommercePaymentMethod {
@@ -85,7 +86,9 @@ const useCommerceCreateTransactionMutation = ({
     amount: number | null;
     paymentMethod?: string | null;
     reason: string | null;
-    taxDetails?: CommerceTaxDetailCreateOrUpdate[] | null;
+    taxDetails?:
+      | (CommerceTaxDetailCreateOrUpdate & { total?: TotalInCents })[]
+      | null;
     type: CommerceTransactionType | null;
   }) => {
     await createTransactionMutation({
