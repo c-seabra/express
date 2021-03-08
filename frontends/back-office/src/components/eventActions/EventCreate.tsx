@@ -41,7 +41,7 @@ const EventCreate: React.FC<{}> = () => {
   const [error, setError] = useState<string | undefined>();
 
   const createEvent = () => {
-    if (name) {
+    if (name && slug) {
       eventCreateMutation();
     }
   };
@@ -82,13 +82,13 @@ const EventCreate: React.FC<{}> = () => {
         }}
       >
         <Row>
+          <Field fieldName="slug" label="Slug" onChange={setSlug} />
           <Field required fieldName="name" label="Name" onChange={setName} />
           <Field
             fieldName="description"
             label="Description"
             onChange={setDescription}
           />
-          <Field fieldName="slug" label="Slug" onChange={setSlug} />
           <Field
             fieldName="taxNumber"
             label="Tax number"

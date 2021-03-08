@@ -2,10 +2,10 @@ import { gql } from '@apollo/client';
 
 export const EVENT_CREATE_MUTATION = gql`
   mutation EventCreate(
-    $slug: String
+    $slug: String!
     $name: String!
     $description: String
-    $taxNumber: String!
+    $taxNumber: String
     $startDate: String
     $endDate: String
     $timezone: String
@@ -40,6 +40,7 @@ export const EVENT_CREATE_MUTATION = gql`
         timezone
         baseUrl
         country {
+          id
           name
         }
         currency
