@@ -50,9 +50,16 @@ const commerceOrderTable = (
   },
   {
     header: 'Ticket value (incl. Tax)',
-    renderCell: (item) => (
-      <>{commerceOrder?.currencySymbol}&nbsp; item.total / item.quantity</>
-    ),
+    renderCell: ({ total, quantity }: CommerceOrderItem) => {
+      const pricePerItem = total ? total / quantity : 'N/A';
+
+      return (
+        <>
+          {commerceOrder?.currencySymbol}
+          {pricePerItem}
+        </>
+      );
+    },
   },
   {
     header: 'Discount code',
