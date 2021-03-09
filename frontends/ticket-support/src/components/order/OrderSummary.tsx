@@ -41,18 +41,21 @@ const commerceOrderTable = (
   },
   {
     header: 'Tax',
-    renderCell: (item) => (
-      <>
-        {item.tax?.name}&nbsp;{item.tax?.rateAmount}
-        {item.tax?.rateType === CommerceTaxRateType.Percentage && '%'}
-        &nbsp;({item.tax?.country})
-      </>
-    ),
+    renderCell: (item) =>
+      item.total === 0 ? (
+        missingDataAbbr
+      ) : (
+        <>
+          {item.tax?.name} & nbsp;{item.tax?.rateAmount}
+          {item.tax?.rateType === CommerceTaxRateType.Percentage && '%'}
+          &nbsp;({item.tax?.country})
+        </>
+      ),
   },
   {
     header: 'Ticket value (incl. Tax)',
     renderCell: ({ total, quantity }: CommerceOrderItem) => {
-      const pricePerItem = total ? formatDisplayPrice(total / quantity) : 'N/A';
+      const pricePerItem = total ? formatDisplayPrice(total / quantity) : '0';
 
       return (
         <>
@@ -72,7 +75,9 @@ const commerceOrderTable = (
   },
   {
     header: 'Payment method',
-    renderCell: () => <>{commerceOrder?.paymentMethod?.name}</>,
+    renderCell: () => (
+      <>{commerceOrder?.paymentMethod?.name || missingDataAbbr}</>
+    ),
   },
 ];
 
