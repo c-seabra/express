@@ -68,6 +68,8 @@ const MoneyInputField = ({
         {({ meta, field }: FieldProps<number>) => (
           <CurrencyInput
             customInput={meta.error ? StyledErrorInput : StyledInput}
+            decimalScale={2}
+            decimalsLimit={2}
             defaultValue={field.value || 0}
             disabled={disabled}
             name={field.name}
