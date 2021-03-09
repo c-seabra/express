@@ -1,4 +1,7 @@
 import { ApolloError } from '@apollo/client';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
 import {
   CommerceOrder,
   CommerceOrderItem,
@@ -9,7 +12,6 @@ import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
-import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
 import { formatDisplayPrice } from '../../lib/utils/price';
@@ -46,7 +48,7 @@ const commerceOrderTable = (
         missingDataAbbr
       ) : (
         <>
-          {item.tax?.name} & nbsp;{item.tax?.rateAmount}
+          {item.tax?.name}&nbsp;{item.tax?.rateAmount}
           {item.tax?.rateType === CommerceTaxRateType.Percentage && '%'}
           &nbsp;({item.tax?.country})
         </>
