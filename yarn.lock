@@ -200,10 +200,10 @@
   dependencies:
     universal-analytics "^0.4.20"
 
-"@analytics/google-tag-manager@0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@analytics/google-tag-manager/-/google-tag-manager-0.2.3.tgz#f01fa1df479146141e1af6e1eb92d10f235442da"
-  integrity sha512-eKyg1vpzCjTUAs8XoEjBsEArao0ayfIUUCyVenV+0hsOhRBUO9bujhlDL2q1QaFCjk3tco8wyNuESGH6hc8Wew==
+"@analytics/google-tag-manager@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@analytics/google-tag-manager/-/google-tag-manager-0.5.0.tgz#172c90c0ef6a25f2dc1d06fd60d724dfd99afc3c"
+  integrity sha512-Md1qeNlEGViEEaljoYvKtGgRyi41v9VaKqoxCDXbcvssQCio/Ha0qcOiObtFZDPKfYFke8Fm+nzE6AjUcm2vuA==
 
 "@analytics/storage-utils@^0.2.4":
   version "0.2.4"
