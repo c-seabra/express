@@ -24,7 +24,7 @@
     "codegen:fix": "yarn codegen:fix-fragments && yarn codegen:fix-types",
     "codegen:fix-fragments": "eslint packages/graphql/src/@types/fragments.ts --fix --cache --no-ignore",
     "codegen:fix-types": "eslint packages/graphql/src/@types/operations.tsx --fix --cache --no-ignore",
-    "fix": "eslint . --ext js,ts,tsx --fix",
+    "fix": "eslint . --ext js,ts,tsx --fix --cache",
     "format": "yarn pretty",
     "is-pretty": "prettier --config ./.prettierrc.json --check .",
     "lint": "eslint . --ext js,ts,tsx",
