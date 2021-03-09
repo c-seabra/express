@@ -50,6 +50,7 @@ const TicketDashboard = (): ReactElement => {
     isBackwardsDisabled,
     nextPage,
     previousPage,
+    resetPage,
   } = useTicketsQuery({
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
@@ -74,10 +75,16 @@ const TicketDashboard = (): ReactElement => {
     { isSelected: false, label: 'All', value: 'all' },
   ];
 
+  const onFilter = () => {
+    resetPage();
+    setSearchState((prevState) => ({ ...prevState, page: '' }));
+  };
+
   const handleSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const element = e.currentTarget as HTMLInputElement;
       setSearchState({ ...searchState, searchQuery: element.value });
+      onFilter();
     }
   };
 
@@ -100,14 +107,18 @@ const TicketDashboard = (): ReactElement => {
         ticketStatus: undefined,
       }));
     }
+    onFilter();
   };
 
-  const handleTicketTypesFilterChange = (selectedTypes: string[]) =>
+  const handleTicketTypesFilterChange = (selectedTypes: string[]) => {
     setSearchState((prevState) => ({
       ...prevState,
       ticketTypeIds:
         selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
     }));
+
+    onFilter();
+  };
 
   const ticketTypes = useTicketTypesQuery();
 
