@@ -7499,6 +7499,23 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceListPaymentMethodsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type CommerceListPaymentMethodsQuery = { __typename?: 'Query' } & {
+  commerceListPaymentMethods: Maybe<
+    Array<
+      Maybe<
+        { __typename?: 'CommercePaymentMethod' } & Pick<
+          CommercePaymentMethod,
+          'id' | 'name' | 'configuration'
+        >
+      >
+    >
+  >;
+};
+
 export type TaEventDataQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -13193,6 +13210,84 @@ export type CommerceGetOrderLazyQueryHookResult = ReturnType<
 export type CommerceGetOrderQueryResult = Apollo.QueryResult<
   CommerceGetOrderQuery,
   CommerceGetOrderQueryVariables
+>;
+export const CommerceListPaymentMethodsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListPaymentMethods' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListPaymentMethods' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'configuration' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListPaymentMethodsQuery__
+ *
+ * To run a query within a React component, call `useCommerceListPaymentMethodsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListPaymentMethodsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListPaymentMethodsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCommerceListPaymentMethodsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListPaymentMethodsQuery,
+    CommerceListPaymentMethodsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListPaymentMethodsQuery,
+    CommerceListPaymentMethodsQueryVariables
+  >(CommerceListPaymentMethodsDocument, baseOptions);
+}
+export function useCommerceListPaymentMethodsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListPaymentMethodsQuery,
+    CommerceListPaymentMethodsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListPaymentMethodsQuery,
+    CommerceListPaymentMethodsQueryVariables
+  >(CommerceListPaymentMethodsDocument, baseOptions);
+}
+export type CommerceListPaymentMethodsQueryHookResult = ReturnType<
+  typeof useCommerceListPaymentMethodsQuery
+>;
+export type CommerceListPaymentMethodsLazyQueryHookResult = ReturnType<
+  typeof useCommerceListPaymentMethodsLazyQuery
+>;
+export type CommerceListPaymentMethodsQueryResult = Apollo.QueryResult<
+  CommerceListPaymentMethodsQuery,
+  CommerceListPaymentMethodsQueryVariables
 >;
 export const TaEventDataDocument: DocumentNode = {
   definitions: [

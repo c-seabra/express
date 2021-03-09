@@ -12,6 +12,7 @@ import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
+import { formatDisplayPrice } from '../../lib/utils/price';
 import Warning from '../ticketActions/Warning';
 
 // Containers
@@ -51,11 +52,11 @@ const commerceOrderTable = (
   {
     header: 'Ticket value (incl. Tax)',
     renderCell: ({ total, quantity }: CommerceOrderItem) => {
-      const pricePerItem = total ? total / quantity : 'N/A';
+      const pricePerItem = total ? formatDisplayPrice(total / quantity) : 'N/A';
 
       return (
         <>
-          {commerceOrder?.currencySymbol}
+          {commerceOrder?.currencySymbol}&nbsp;
           {pricePerItem}
         </>
       );
