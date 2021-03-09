@@ -2,6 +2,9 @@ import {
   Button,
   SecondaryButton,
 } from '@websummit/components/src/atoms/Button';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 import {
   CommerceOrderPaymentStatus,
   CommerceTransaction,
@@ -20,9 +23,6 @@ import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
-import Breadcrumbs, {
-  Breadcrumb,
-} from '../../lib/components/molecules/Breadcrumbs';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';

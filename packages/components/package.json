@@ -7,16 +7,22 @@
   "author": "Chris Bowes",
   "main": "src/index",
   "types": "src/index",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "build:standalone": "yarn run clean && yarn run compile",
     "clean": "rimraf -rf ./dist",
-    "compile": "tsc -p tsconfig.build.json",
+    "compile": "tsc -p tsconfig.build.json --noEmit",
     "prepublishOnly": "yarn run build",
     "test": "yarn run build"
   },
-  "peerDependencies": {
-    "react": "*"
+  "dependencies": {
+    "react": "*",
+    "react-router-dom": "*",
+    "react-modal": "*",
+    "styled-components": "*"
   },
   "devDependencies": {}
 }

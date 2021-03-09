@@ -9,8 +9,12 @@
   ],
   "scripts": {
     "build": "lerna run build",
+    "build:frontends": "lerna run build --ignore @websummit/*",
     "build:packages": "lerna run build --ignore @websummit-micro/*",
     "build:standalone": "lerna run build:standalone",
+    "compile": "lerna run compile",
+    "compile:frontends": "lerna run compile --ignore @websummit/*",
+    "compile:packages": "lerna run compile --ignore @websummit-micro/*",
     "check": "yarn build && yarn build:standalone && yarn lint && yarn is-pretty",
     "clean": "lerna run clean",
     "codegen": "lerna run codegen && yarn codegen:fix && yarn codegen:prettier",
