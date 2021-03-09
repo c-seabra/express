@@ -81,7 +81,7 @@ const AttendanceTable = (): ReactElement => {
       setSearchState({ ...searchState, page: currentPage });
       setSelectedValues([]);
     }
-  }, [currentPage]);
+  }, [currentPage, searchState, setSearchState]);
 
   useEffect(() => {
     const activeCheckboxesCount = results.filter(

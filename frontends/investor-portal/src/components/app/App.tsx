@@ -42,7 +42,6 @@ const StyledMainNavigationContainer = styled.section`
 `;
 
 const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
-  if (!token) return null;
 
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
   const [conferenceSlug, setConferenceSlug] = useState<string>(
@@ -52,6 +51,8 @@ const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
   }, [token, tokenPayload.conf_slug]);
+
+  if (!token) return null;
 
   const apolloClient = initApollo({ apiURL });
 

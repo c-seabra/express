@@ -41,15 +41,15 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
 
   const [ticketAccept] = useMutation(TICKET_ACCEPT_MUTATION, {
     onCompleted: ({
-      ticketAccept,
+      ticketAcceptData,
     }: {
-      ticketAccept: {
+      ticketAcceptData: {
         userErrors: [{ message: string }];
       };
     }) => {
-      if (ticketAccept?.userErrors.length) {
+      if (ticketAcceptData?.userErrors.length) {
         setClaimStatus({
-          message: ticketAccept.userErrors[0].message,
+          message: ticketAcceptData.userErrors[0].message,
           type: 'ERROR',
         });
       } else {
@@ -78,39 +78,6 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     });
   };
 
-  const [ticketAssign] = useMutation(TICKET_ASSIGN_MUTATION, {
-    onCompleted: ({
-      ticketAssign,
-    }: {
-      ticketAssign: {
-        ticket: {
-          assignment: {
-            assignee: Assignee;
-            state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
-          };
-        };
-        userErrors: [{ message: string }];
-      };
-    }) => {
-      if (ticketAssign?.ticket?.assignment?.assignee) {
-        setStatus({
-          message: 'Assignment has been successful',
-          type: 'SUCCESS',
-        });
-        if (hasAutoClaim && data?.ticket?.id) claimTicket(data?.ticket?.id);
-      }
-      if (ticketAssign?.userErrors.length) {
-        setStatus({
-          message: ticketAssign.userErrors[0].message,
-          type: 'ERROR',
-        });
-        setClaimStatus({
-          message: `${ticketAssign.userErrors[0].message} - and can not auto claim`,
-          type: 'ERROR',
-        });
-      }
-    },
-  });
 
   const { data: newAssignmentUserData } = useQuery(ASSIGNMENT_USER, {
     context: {
@@ -177,8 +144,8 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       slug: conferenceSlug,
       token,
     },
-    onCompleted: (data) => {
-      if (!data?.ticket?.id) {
+    onCompleted: (ticketData) => {
+      if (!ticketData?.ticket?.id) {
         setStatus({
           message: `Cannot find Ticket ID for - ${bookingRef}. Your role might not be sufficient for this action.`,
           type: 'ERROR',
@@ -188,19 +155,54 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
           type: 'ERROR',
         });
       }
-      if (data?.ticket?.userErrors?.length) {
+      if (ticketData?.ticket?.userErrors?.length) {
         setStatus({
-          message: data?.ticket?.userErrors?.[0]?.message,
+          message: ticketData?.ticket?.userErrors?.[0]?.message,
           type: 'ERROR',
         });
         setClaimStatus({
-          message: `${data?.ticket?.userErrors?.[0]?.message} - and can not auto claim`,
+          message: `${ticketData?.ticket?.userErrors?.[0]?.message} - and can not auto claim`,
           type: 'ERROR',
         });
       }
     },
     variables: {
       reference: bookingRef,
+    },
+  });
+
+
+  const [ticketAssign] = useMutation(TICKET_ASSIGN_MUTATION, {
+    onCompleted: ({
+                    ticketAssignData,
+                  }: {
+      ticketAssignData: {
+        ticket: {
+          assignment: {
+            assignee: Assignee;
+            state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+          };
+        };
+        userErrors: [{ message: string }];
+      };
+    }) => {
+      if (ticketAssignData?.ticket?.assignment?.assignee) {
+        setStatus({
+          message: 'Assignment has been successful',
+          type: 'SUCCESS',
+        });
+        if (hasAutoClaim && data?.ticket?.id) claimTicket(data?.ticket?.id);
+      }
+      if (ticketAssignData?.userErrors.length) {
+        setStatus({
+          message: ticketAssignData.userErrors[0].message,
+          type: 'ERROR',
+        });
+        setClaimStatus({
+          message: `${ticketAssignData.userErrors[0].message} - and can not auto claim`,
+          type: 'ERROR',
+        });
+      }
     },
   });
 
@@ -301,7 +303,9 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
         type: 'ERROR',
       });
     }
-  }, [data?.ticket?.id as string, error, newAssignmentUserData]);
+    // todo: this whole setup is a horrible hack tbh
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.ticket?.id, error, newAssignmentUserData]);
   if (loading) return null;
 
   return (
