@@ -1,36 +1,44 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { TicketList } from '../app/App'
-import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider'
-import AssigneeItem from '../assigneeItem/AssigneeItem'
-import AssigneeListHeader from './AssigneeListHeader'
+import { TicketList } from '../app/App';
+import AssigneeItem from '../assigneeItem/AssigneeItem';
+import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider';
+import AssigneeListHeader from './AssigneeListHeader';
 
 const StyledList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-`
+`;
 
-const AssigneeList: React.FC<{list: TicketList}> = ({list}) => {
-  if (!list || list?.length < 0) return null
+const AssigneeList: React.FC<{ list: TicketList }> = ({ list }) => {
+  if (!list || list?.length < 0) return null;
   return (
     <StyledList>
       <AssigneeListHeader />
-      {list.map(({firstName, lastName, email, bookingRef }) => {
-        if (!bookingRef && !email) return (
-          <AssigneeItem
-            bookingRef={bookingRef || '???'}
-            firstName={firstName}
-            lastName={lastName}
+      {list.map(({ firstName, lastName, email, bookingRef }, index) => {
+        if (!bookingRef && !email)
+          return (
+            <AssigneeItem
+              bookingRef={bookingRef || '???'}
+              firstName={firstName}
+              lastName={lastName}
+            />
+          );
+        return (
+          <AssigneeItemProvider
+            key={bookingRef}
+            bookingRef={bookingRef}
             email={email}
-            status={{message: 'Not enough information provided', type: 'ERROR'}}
+            firstName={firstName}
+            index={index}
+            lastName={lastName}
           />
-        )
-        return <AssigneeItemProvider key={bookingRef} bookingRef={bookingRef} firstName={firstName} lastName={lastName} email={email} />
+        );
       })}
     </StyledList>
-  )
-}
+  );
+};
 
-export default AssigneeList
+export default AssigneeList;

@@ -1,43 +1,45 @@
-import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet'
+import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import FilterButton from '../../lib/components/atoms/FilterButton'
-import TextHeading from '../../lib/components/atoms/Heading'
-import CategoryList, { CategoryItem } from '../../lib/components/molecules/CategoryList'
-import PopupButton from '../../lib/components/molecules/PopupButton'
-import useSearchState from '../../lib/hooks/useSearchState'
-import useTicketsQuery from '../../lib/hooks/useTicketsQuery'
-import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery'
-import Pagination from '../../lib/Pagination'
-import { TicketStatus } from '../../lib/types'
-import TicketList from '../ticketList/TicketList'
-import TicketTypesCategoryList from '../ticketTypesCategoryList/TicketTypesCategoryList'
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import FilterButton from '../../lib/components/atoms/FilterButton';
+import TextHeading from '../../lib/components/atoms/Heading';
+import CategoryList, {
+  CategoryItem,
+} from '../../lib/components/molecules/CategoryList';
+import PopupButton from '../../lib/components/molecules/PopupButton';
+import useSearchState from '../../lib/hooks/useSearchState';
+import useTicketsQuery from '../../lib/hooks/useTicketsQuery';
+import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
+import Pagination from '../../lib/Pagination';
+import { TicketStatus } from '../../lib/types';
+import TicketList from '../ticketList/TicketList';
+import TicketTypesCategoryList from '../ticketTypesCategoryList/TicketTypesCategoryList';
 import {
   DashboardContainer,
   FiltersSearchContainer,
   PopupFiltersContainer,
   SearchFilters,
   StyledSearchInput,
-} from './TicketDashboard.styled'
+} from './TicketDashboard.styled';
 
 type TicketSearchState = {
-  page: string
-  searchQuery: string
-  ticketStatus?: string
-  ticketTypeIds?: string
-}
+  page: string;
+  searchQuery: string;
+  ticketStatus?: string;
+  ticketTypeIds?: string;
+};
 
 const TicketDashboard = (): ReactElement => {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('');
 
   const processInitialSearchState = (state: TicketSearchState) => {
-    if (state.searchQuery) setSearchQuery(state.searchQuery)
-  }
+    if (state.searchQuery) setSearchQuery(state.searchQuery);
+  };
 
   const { searchState, setSearchState } = useSearchState<TicketSearchState>({
     processInitialSearchState,
-  })
+  });
 
   const {
     results,
@@ -53,13 +55,15 @@ const TicketDashboard = (): ReactElement => {
     searchQuery: searchState.searchQuery,
     status: searchState.ticketStatus,
     ticketTypeIds: searchState?.ticketTypeIds?.split(','),
-  })
+  });
 
   useEffect(() => {
     if (currentPage) {
-      setSearchState({ ...searchState, page: currentPage })
+      setSearchState({ ...searchState, page: currentPage });
     }
-  }, [currentPage])
+    // todo: I hope we know what we are doing here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage]);
 
   const ticketStatusOptions = [
     ...Object.entries(TicketStatus).map(([key, value]) => ({
@@ -68,34 +72,44 @@ const TicketDashboard = (): ReactElement => {
       value: key,
     })),
     { isSelected: false, label: 'All', value: 'all' },
-  ]
+  ];
 
   const handleSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      const element = e.currentTarget as HTMLInputElement
-      setSearchState({ ...searchState, searchQuery: element.value })
+      const element = e.currentTarget as HTMLInputElement;
+      setSearchState({ ...searchState, searchQuery: element.value });
     }
-  }
+  };
 
-  const handleTicketStatusFilterChange = ({ isSelected, value }: CategoryItem) => {
+  const handleTicketStatusFilterChange = ({
+    isSelected,
+    value,
+  }: CategoryItem) => {
     if (isSelected) {
       if (value === 'all') {
-        setSearchState(prevState => ({ ...prevState, ticketStatus: undefined }))
+        setSearchState((prevState) => ({
+          ...prevState,
+          ticketStatus: undefined,
+        }));
       } else {
-        setSearchState(prevState => ({ ...prevState, ticketStatus: value }))
+        setSearchState((prevState) => ({ ...prevState, ticketStatus: value }));
       }
     } else {
-      setSearchState(prevState => ({ ...prevState, ticketStatus: undefined }))
+      setSearchState((prevState) => ({
+        ...prevState,
+        ticketStatus: undefined,
+      }));
     }
-  }
+  };
 
   const handleTicketTypesFilterChange = (selectedTypes: string[]) =>
-    setSearchState(prevState => ({
+    setSearchState((prevState) => ({
       ...prevState,
-      ticketTypeIds: selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
-    }))
+      ticketTypeIds:
+        selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
+    }));
 
-  const ticketTypes = useTicketTypesQuery()
+  const ticketTypes = useTicketTypesQuery();
 
   return (
     <DashboardContainer>
@@ -109,10 +123,10 @@ const TicketDashboard = (): ReactElement => {
             defaultValue={searchQuery}
             placeholder="Search by name, reference or email of ticket or order"
             type="text"
-            onChange={e => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKey}
           />
-          <PopupButton renderButton={props => <FilterButton {...props} />}>
+          <PopupButton renderButton={(props) => <FilterButton {...props} />}>
             <PopupFiltersContainer>
               <TicketTypesCategoryList
                 initialValues={searchState?.ticketTypeIds?.split(',')}
@@ -141,7 +155,7 @@ const TicketDashboard = (): ReactElement => {
         />
       )}
     </DashboardContainer>
-  )
-}
+  );
+};
 
-export default TicketDashboard
+export default TicketDashboard;

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const INVESTOR_SESSIONS_CREATE_MUTATION = gql`
   mutation investorSessionsCreate(
@@ -22,6 +22,6 @@ export const INVESTOR_SESSIONS_CREATE_MUTATION = gql`
       }
     }
   }
-`
+`;
 
-export default INVESTOR_SESSIONS_CREATE_MUTATION
+export default INVESTOR_SESSIONS_CREATE_MUTATION;

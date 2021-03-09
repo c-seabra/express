@@ -1,100 +1,83 @@
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import { ApolloError } from '@apollo/client';
+import { Order } from '@websummit/graphql/src/@types/operations';
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import Loader from '../../lib/Loading'
-import { formatDefaultDateTime } from '../../lib/utils/time'
-import Warning from '../ticketActions/Warning'
-import StatePlate from '../ticketItem/StatePlate'
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
+import { Spacing } from '../../lib/components/templates/Spacing';
+import Loader from '../../lib/Loading';
+import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
+import { formatDefaultDateTime } from '../../lib/utils/time';
+import Warning from '../ticketActions/Warning';
+import StatePlate from '../ticketItem/StatePlate';
 
-// Containers
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
-const StyledGridContainer = styled.section`
-  display: grid;
-  grid-gap: 8px;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(2, 32px);
-  align-items: center;
-`
-
-// Headers
-const StyledLabel = styled.label`
-  color: #c2c0c2;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 24px;
-`
-
-const StyledValue = styled.p`
-  color: #0c1439;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 24;
-`
+const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
+  {
+    header: 'Order reference #',
+    renderCell: (order) => order.reference,
+  },
+  {
+    header: 'Last updated',
+    renderCell: (order) => formatDefaultDateTime(order?.lastUpdatedAt),
+  },
+  {
+    header: 'Date created',
+    renderCell: (order) => formatDefaultDateTime(order?.completedAt),
+  },
+  {
+    header: 'Source of sale',
+    renderCell: (order) => formatSourceOfSale(order?.source || ''),
+  },
+  {
+    header: 'Order status',
+    renderCell: (order) => <StatePlate state={order?.state} />,
+  },
+  {
+    header: 'Total (incl. Tax)',
+    renderCell: (order) => (
+      <>
+        {order?.currency}&nbsp;{order?.amount}
+      </>
+    ),
+  },
+];
 
 type Props = {
-  createdOn?: string
-  error: boolean
-  lastUpdatedOn?: string
-  loading: boolean
-  orderReference?: string
-  orderStatus?: string
-  sourceOfSale?: string
-}
+  error?: ApolloError;
+  loading: boolean;
+  order?: Order | null;
+};
 
 const OrderDetailsSummary = ({
   loading,
   error,
-  orderReference,
-  createdOn,
-  lastUpdatedOn,
-  sourceOfSale,
-  orderStatus,
+  order,
 }: Props): ReactElement => {
-  const missingDataAbbr = 'MD'
-
   return (
-    <ContainerCard color="#654DA0" title="Order details">
+    <ContainerCard noPadding title="Order details">
       <StyledContainer>
-        {loading && <Loader />}
+        {loading && (
+          <Spacing top="2rem">
+            <Loader />
+          </Spacing>
+        )}
         {error && (
           <Warning>
-            <span>{error}</span>
+            <span>{error.message}</span>
           </Warning>
         )}
-
-        {!loading && !error && (
-          <>
-            <StyledGridContainer>
-              <StyledLabel>Order reference #</StyledLabel>
-              <StyledLabel>Last updated</StyledLabel>
-              <StyledLabel>Date created</StyledLabel>
-              <StyledLabel>Source of sale</StyledLabel>
-              <StyledLabel>Order status</StyledLabel>
-
-              <StyledValue>#{orderReference}</StyledValue>
-              <StyledValue>
-                {(lastUpdatedOn && formatDefaultDateTime(lastUpdatedOn)) || missingDataAbbr}
-              </StyledValue>
-
-              <StyledValue>
-                {(createdOn && formatDefaultDateTime(createdOn)) || missingDataAbbr}
-              </StyledValue>
-
-              <StyledValue>{sourceOfSale}</StyledValue>
-
-              <StatePlate state={orderStatus || missingDataAbbr} />
-            </StyledGridContainer>
-          </>
+        {!loading && !error && order && (
+          <Table<Order> items={[order]} tableShape={orderDetailsTableShape} />
         )}
       </StyledContainer>
     </ContainerCard>
-  )
-}
+  );
+};
 
-export default OrderDetailsSummary
+export default OrderDetailsSummary;

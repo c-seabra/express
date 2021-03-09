@@ -1,7 +1,8 @@
-import React, { ReactElement, useState } from 'react'
-import ReactModal from 'react-modal'
+import React, { ReactElement, useState } from 'react';
+import ReactModal from 'react-modal';
 
-import { Button, DestructiveButton, SecondaryButton, Icon } from '..'
+import { Button, DestructiveButton, SecondaryButton } from '../atoms/Button';
+import Icon from '../atoms/Icon';
 import {
   DefaultFooterSpacer,
   ExitActionContainer,
@@ -10,43 +11,45 @@ import {
   ModalFooter,
   ModalHeader,
   ModalTitle,
-} from './Modal.styled'
+} from './Modal.styled';
 
-export const useModalState = ({ initialState = false }: { initialState?: boolean } = {}) => {
-  const [isOpen, setOpen] = useState(initialState)
+export const useModalState = ({
+  initialState = false,
+}: { initialState?: boolean } = {}) => {
+  const [isOpen, setOpen] = useState(initialState);
 
   return {
     closeModal: () => setOpen(false),
     isOpen,
     openModal: () => setOpen(true),
-    toggleModal: () => setOpen(prevState => !prevState),
-  }
-}
+    toggleModal: () => setOpen((prevState) => !prevState),
+  };
+};
 
 export type ModalProps = {
-  children?: ReactElement | ReactElement[] | string
-  defaultFooterIsDestructive?: boolean
-  defaultFooterNegativeButtonAction?: () => void
-  defaultFooterNegativeButtonText?: string
-  defaultFooterPositiveButtonAction?: () => void
-  defaultFooterPositiveButtonText?: string
-  description?: string
-  isOpen: boolean
-  noPadding?: boolean
-  onRequestClose: () => void
-  renderFooter?: () => ReactElement
-  title?: string
-  withDefaultFooter?: boolean
-  withoutDefaultActions?: boolean
-}
+  children?: ReactElement | ReactElement[] | string;
+  defaultFooterIsDestructive?: boolean;
+  defaultFooterNegativeButtonAction?: () => void;
+  defaultFooterNegativeButtonText?: string;
+  defaultFooterPositiveButtonAction?: () => void;
+  defaultFooterPositiveButtonText?: string;
+  description?: string;
+  isOpen: boolean;
+  noPadding?: boolean;
+  onRequestClose: () => void;
+  renderFooter?: () => ReactElement;
+  title?: string;
+  withDefaultFooter?: boolean;
+  withoutDefaultActions?: boolean;
+};
 
 type FooterProps = {
-  isDestructive: boolean
-  negativeButtonAction: () => void
-  negativeButtonText: string
-  positiveButtonAction: () => void
-  positiveButtonText: string
-}
+  isDestructive: boolean;
+  negativeButtonAction: () => void;
+  negativeButtonText: string;
+  positiveButtonAction: () => void;
+  positiveButtonText: string;
+};
 
 const DefaultModalFooter = ({
   isDestructive,
@@ -70,7 +73,7 @@ const DefaultModalFooter = ({
       </DestructiveButton>
     )}
   </ModalFooter>
-)
+);
 
 const Modal = ({
   title,
@@ -102,10 +105,14 @@ const Modal = ({
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
     },
-  }
+  };
 
   return (
-    <ReactModal isOpen={isOpen} style={customStyles} onRequestClose={onRequestClose}>
+    <ReactModal
+      isOpen={isOpen}
+      style={customStyles}
+      onRequestClose={onRequestClose}
+    >
       <ModalContainer>
         <ModalHeader title={title}>
           {title && <ModalTitle>{title}</ModalTitle>}
@@ -130,9 +137,9 @@ const Modal = ({
         )}
       </ModalContainer>
     </ReactModal>
-  )
-}
+  );
+};
 
-Modal.DefaultFooter = DefaultModalFooter
+Modal.DefaultFooter = DefaultModalFooter;
 
-export default Modal
+export default Modal;

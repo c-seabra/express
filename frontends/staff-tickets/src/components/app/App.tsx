@@ -1,91 +1,90 @@
-import React, { createContext, useState } from 'react'
-import styled from 'styled-components'
+import { ApolloProvider } from '@apollo/client';
+import { GraphQLParams, initApollo } from '@websummit/graphql';
+import React, { createContext, useState } from 'react';
+import styled from 'styled-components';
 
-import AssigneeList from '../assigneeList/AssigneeList'
-import Form from '../form/Form'
-import {ApolloProvider} from "@apollo/client";
-import initApollo from "../../lib/apollo/apolloClient";
+import AssigneeList from '../assigneeList/AssigneeList';
+import Form from '../form/Form';
 
-const StlyedContainer = styled.section`
+const StyledContainer = styled.section`
   padding: 1rem;
   max-width: 1024px;
   width: 100%;
   margin: 0 auto;
   font-size: 16px;
-`
+`;
 const StyledSection = styled.section`
   padding: 1rem;
-`
+`;
 
-export type StaffList = { [index:string] : Staff }
+export type StaffList = { [index: string]: Staff };
 export type Staff = {
-  email: string
-  bookingRef?: string
-  firstName: string
-  lastName: string
-}
+  bookingRef?: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+};
 
-export type TicketList = Array<Staff>
-export type SetTicketList = (tickets: TicketList) => void
-export type Ticket = Staff
+export type TicketList = Array<Staff>;
+export type SetTicketList = (tickets: TicketList) => void;
+export type Ticket = Staff;
 
 export type Conference = {
-  slug: string;
-  storeId?: string;
-  staffProductId?: string;
   guestProductId?: string;
-}
+  slug: string;
+  staffProductId?: string;
+  storeId?: string;
+};
 
-export type StaffTicketContext = {
-  ticketsList?: TicketList;
-  setTicketsList?: SetTicketList;
+export type StaffTicketContext = GraphQLParams & {
   conference: Conference;
-  token: string;
+  setTicketsList?: SetTicketList;
   staffList: StaffList;
-  apiURL: string;
-}
+  ticketsList?: TicketList;
+};
 
 export const AppContext = createContext<StaffTicketContext>({
+  apiURL: '',
   conference: {
     slug: '',
   },
-  token: '',
   staffList: {},
-  apiURL: '',
-})
+  token: '',
+});
 
-const App = ({token, staffList, conference, apiURL}:StaffTicketContext) => {
-  if (!token) return null
+const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
+  const [ticketsList, setTicketList] = useState<TicketList>();
 
-  const [ticketsList, setTicketList] = useState<TicketList>()
+  if (!token) return null;
 
-  const apolloClient = initApollo(apiURL);
+  const apolloClient = initApollo({ apiURL });
 
   return (
     <ApolloProvider client={apolloClient}>
-    <AppContext.Provider
-      value={{
-        token,
-        ticketsList: ticketsList,
-        setTicketsList: setTicketList,
-        conference: conference,
-        staffList: staffList,
-        apiURL: apiURL,
-      }}
-    >
-      <StlyedContainer>
-        <StyledSection>
-          <h2>Ticket Assignment - Staff ticket creation tool</h2>
-          <Form />
-        </StyledSection>
-        <StyledSection>
-          {ticketsList && ticketsList?.length > 0 && <AssigneeList list={ticketsList} />}
-        </StyledSection>
-      </StlyedContainer>
-    </AppContext.Provider>
+      <AppContext.Provider
+        value={{
+          apiURL,
+          conference,
+          setTicketsList: setTicketList,
+          staffList,
+          ticketsList,
+          token,
+        }}
+      >
+        <StyledContainer>
+          <StyledSection>
+            <h2>Ticket Assignment - Staff ticket creation tool</h2>
+            <Form />
+          </StyledSection>
+          <StyledSection>
+            {ticketsList && ticketsList?.length > 0 && (
+              <AssigneeList list={ticketsList} />
+            )}
+          </StyledSection>
+        </StyledContainer>
+      </AppContext.Provider>
     </ApolloProvider>
-      )
+  );
+};
 
-}
-
-export default App
+export default App;

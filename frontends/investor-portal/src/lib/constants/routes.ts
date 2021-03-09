@@ -1,16 +1,16 @@
 export type Route = {
-  children?: Route[]
-  hasChildren?: boolean
-  isActive?: boolean
+  children?: Route[];
+  hasChildren?: boolean;
+  isActive?: boolean;
   meta?: {
-    description?: string
-  }
-  path: string
-}
+    description?: string;
+  };
+  path: string;
+};
 
 export type Routes = {
-  [routeName: string]: Route
-}
+  [routeName: string]: Route;
+};
 // Order is important here for rendering purpose
 const ROUTES: Routes = {
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
@@ -20,12 +20,18 @@ const ROUTES: Routes = {
     path: '/dashboard',
   },
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+  INVESTOR_ACCESS: {
+    isActive: true,
+    meta: { description: 'Investor Access' },
+    path: '/investor_access',
+  },
+  // eslint-disable-next-line sort-keys-fix/sort-keys-fix
   SETTINGS_ADMIN: {
     hasChildren: false,
     isActive: true,
     meta: { description: 'Settings' },
     path: '/settings',
   },
-}
+};
 
-export default ROUTES
+export default ROUTES;

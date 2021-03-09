@@ -1,32 +1,42 @@
-import React from 'react'
+import React from 'react';
 
-import { Tooltip } from '../../lib/components'
-import { SecondaryButton } from '../../lib/components/atoms/Button'
-import { useModalState } from '../../lib/components/molecules/Modal'
-import useMagicLinkMutation from '../../lib/hooks/useMagicLinkMutation'
-import { Account } from '../../lib/types'
-import { TextHighlight } from '../order/OrderDetails'
-import GenerateLoginLinkModal from './GenerateLoginLinkModal'
+import { Tooltip } from '../../lib/components';
+import { SecondaryButton } from '../../lib/components/atoms/Button';
+import { useModalState } from '../../lib/components/molecules/Modal';
+import useMagicLinkMutation from '../../lib/hooks/useMagicLinkMutation';
+import { Account } from '../../lib/types';
+import { TextHighlight } from '../order/OrderDetails';
+import GenerateLoginLinkModal from './GenerateLoginLinkModal';
 
-const LoginLinkGenerate = ({ assignee }: { assignee: Account }) => {
-  const { isOpen, closeModal, openModal } = useModalState()
+type LoginLinkGenerateProps = {
+  assignee: Account;
+  isDisabled: boolean;
+};
 
-  const { generateLoginLink, loading, error, data } = useMagicLinkMutation({ assignee })
+const LoginLinkGenerate = ({
+  assignee,
+  isDisabled = false,
+}: LoginLinkGenerateProps) => {
+  const { isOpen, closeModal, openModal } = useModalState();
 
-  if (loading) return <p>Generating login link...</p>
+  const { generateLoginLink, loading, error, data } = useMagicLinkMutation({
+    assignee,
+  });
 
-  if (error) return <p>Error generating login link. Reason {error.message}</p>
+  if (loading) return <p>Generating login link...</p>;
+
+  if (error) return <p>Error generating login link. Reason {error.message}</p>;
 
   if (data)
     return (
       <Tooltip copyToClip value={data.assignmentMagicLinkGenerate.loginLink}>
         <TextHighlight>Generated login link</TextHighlight>
       </Tooltip>
-    )
+    );
 
   return (
     <>
-      <SecondaryButton type="button" onClick={openModal}>
+      <SecondaryButton disabled={isDisabled} type="button" onClick={openModal}>
         Generate login link
       </SecondaryButton>
       <GenerateLoginLinkModal
@@ -35,7 +45,7 @@ const LoginLinkGenerate = ({ assignee }: { assignee: Account }) => {
         onRequestClose={closeModal}
       />
     </>
-  )
-}
+  );
+};
 
-export default LoginLinkGenerate
+export default LoginLinkGenerate;

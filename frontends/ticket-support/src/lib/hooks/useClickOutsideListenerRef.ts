@@ -1,10 +1,10 @@
-import { RefObject, useEffect } from 'react'
+import { RefObject, useEffect } from 'react';
 
 const useClickOutsideListenerRef = (
   ref: RefObject<HTMLElement>,
   handler: (event?: MouseEvent | TouchEvent) => void,
   // Node which is some container which click shouldn't trigger the handler
-  domNode?: HTMLElement | null
+  domNode?: HTMLElement | null,
 ) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
@@ -13,20 +13,20 @@ const useClickOutsideListenerRef = (
         ref.current.contains(event.target as Node) ||
         domNode?.contains(event.target as Node)
       ) {
-        return
+        return;
       }
 
-      handler(event)
-    }
+      handler(event);
+    };
 
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
 
     return () => {
-      document.removeEventListener('mousedown', listener)
-      document.removeEventListener('touchstart', listener)
-    }
-  }, [domNode, ref, handler])
-}
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [domNode, ref, handler]);
+};
 
-export default useClickOutsideListenerRef
+export default useClickOutsideListenerRef;

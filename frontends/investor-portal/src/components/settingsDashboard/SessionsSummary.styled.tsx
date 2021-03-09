@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const SpacingBottom = styled.div`
   margin-bottom: 2.5rem;
-`
+`;
 
 export const StyledGridContainer = styled.section`
   display: grid;
@@ -11,7 +11,7 @@ export const StyledGridContainer = styled.section`
   align-items: center;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
-`
+`;
 
 export const StyledColumnContainer = styled.div`
   justify-content: center;
@@ -33,4 +33,12 @@ export const StyledColumnContainer = styled.div`
     background-color: #0067e9;
     color: #fff;
   }
-`
+`;
+
+export const StyledNoticeContainer = styled.div`
+  align-items: center;
+  display: flex;
+  font-size: 1.25rem;
+  justify-content: center;
+  text-align: center;
+`;

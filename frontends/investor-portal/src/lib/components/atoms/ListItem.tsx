@@ -1,21 +1,22 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const ListItem = styled.li`
   font-size: 0.85rem;
   display: flex;
   padding: 0.75rem;
   background-color: #fff;
+  justify-content: space-between;
 
-  binvestor-bottom: 1px solid #dde0e5;
+  border-bottom: 1px solid #dde0e5;
 
   &:last-child {
-    binvestor-bottom: none;
+    border-bottom: none;
   }
 
   &:hover {
     background-color: #dde0e5;
     cursor: pointer;
   }
-`
+`;
 
-export default ListItem
+export default ListItem;

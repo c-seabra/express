@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { ReactElement } from 'react';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 const StyledContainer = styled.nav`
   display: flex;
@@ -25,29 +25,29 @@ const StyledContainer = styled.nav`
       color: gray;
     }
   }
-`
+`;
 
 const SeparatorContainer = styled.span`
   margin: 0 16px;
   color: #7e8496;
-`
+`;
 
 type Props = {
-  children?: ReactElement
-  routes?: Breadcrumb[]
-}
+  children?: ReactElement;
+  routes?: Breadcrumb[];
+};
 
 export type Breadcrumb = {
-  label?: string
-  redirectUrl?: string
-}
+  label?: string;
+  redirectUrl?: string;
+};
 
 const Breadcrumbs = ({ routes, children }: Props) => {
   return (
     <StyledContainer>
       {routes &&
         routes.map((route: Breadcrumb, index: number) => (
-          <li key={`b_id-${index}`}>
+          <li key={`${route.label}`}>
             <NavLink
               activeClassName="active"
               className={route.redirectUrl ? '' : 'disabled'}
@@ -56,13 +56,15 @@ const Breadcrumbs = ({ routes, children }: Props) => {
               {route?.label}
             </NavLink>
 
-            {routes.length - 1 !== index && <SeparatorContainer>/</SeparatorContainer>}
+            {routes.length - 1 !== index && (
+              <SeparatorContainer>/</SeparatorContainer>
+            )}
           </li>
         ))}
 
       {!routes && { children }}
     </StyledContainer>
-  )
-}
+  );
+};
 
-export default Breadcrumbs
+export default Breadcrumbs;

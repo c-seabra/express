@@ -1,21 +1,25 @@
-import { Form, Formik } from 'formik'
-import React from 'react'
-import styled from 'styled-components'
-import * as Yup from 'yup'
+import { Form, Formik } from 'formik';
+import React from 'react';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
-import { Button, SecondaryButton } from '../../lib/components/atoms/Button'
-import ContainerCard from '../../lib/components/atoms/ContainerCard'
-import SelectField from '../../lib/components/molecules/SelectField'
-import TextAreaField from '../../lib/components/molecules/TextAreaField'
-import TextInputField from '../../lib/components/molecules/TextInputField'
-import useEventDataQuery from '../../lib/hooks/useEventDataQuery'
-import useProfileAdminUpdateMutation from '../../lib/hooks/useProfileAdminUpdateMutation'
-import { Account } from '../../lib/types'
+import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
+import ContainerCard from '../../lib/components/atoms/ContainerCard';
+import SelectField from '../../lib/components/molecules/SelectField';
+import TextAreaField from '../../lib/components/molecules/TextAreaField';
+import TextInputField from '../../lib/components/molecules/TextInputField';
+import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
+import useProfileAdminUpdateMutation from '../../lib/hooks/useProfileAdminUpdateMutation';
+import { Account } from '../../lib/types';
 
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
-`
+`;
+
+const StyledFieldset = styled.fieldset`
+  border: none;
+`;
 
 const Row = styled.div`
   display: flex;
@@ -25,7 +29,7 @@ const Row = styled.div`
   & > div {
     width: 48%;
   }
-`
+`;
 
 const ButtonRow = styled.div`
   display: flex;
@@ -34,7 +38,7 @@ const ButtonRow = styled.div`
   ${SecondaryButton} {
     margin-right: 8px;
   }
-`
+`;
 
 const userProfileSchema = Yup.object().shape({
   bio: Yup.string().nullable(),
@@ -47,7 +51,7 @@ const userProfileSchema = Yup.object().shape({
   jobTitle: Yup.string().nullable().required('Required'),
   lastName: Yup.string().nullable(),
   phoneNumber: Yup.string().nullable(),
-})
+});
 
 // This function gets rid of unwanted fields like graphql's `__typename`
 const getInitialValues = (account: Account) => {
@@ -62,7 +66,7 @@ const getInitialValues = (account: Account) => {
     jobTitle,
     lastName,
     phoneNumber,
-  } = account
+  } = account;
 
   return {
     bio,
@@ -75,41 +79,47 @@ const getInitialValues = (account: Account) => {
     jobTitle,
     lastName,
     phoneNumber,
-  }
-}
+  };
+};
 
 const blankOption = {
   label: '',
   value: 'null',
-}
+};
 
 // This is for now consistent with Omnia however, it should be expanded for inclusivity
 const genderOptions = [
   blankOption,
-  ...['Male', 'Female'].map(gender => ({ label: gender, value: gender })),
-]
+  ...['Male', 'Female'].map((gender) => ({ label: gender, value: gender })),
+];
 
 type UserProfileInformationProps = {
-  account?: Account
-}
+  account?: Account;
+  isDisabled?: boolean;
+};
 
-const UserProfileInformation = ({ account }: UserProfileInformationProps) => {
-  const { event } = useEventDataQuery()
-  const { updateProfile } = useProfileAdminUpdateMutation({ accountId: account?.id })
-  if (!account) return null
+const UserProfileInformation = ({
+  account,
+  isDisabled,
+}: UserProfileInformationProps) => {
+  const { event } = useEventDataQuery();
+  const { updateProfile } = useProfileAdminUpdateMutation({
+    accountId: account?.id,
+  });
+  if (!account) return null;
 
   const industryOptions = [
     blankOption,
-    ...(event?.industries?.map(industry => ({
+    ...(event?.industries?.map((industry) => ({
       label: industry.name,
       value: industry.id,
     })) || []),
-  ]
+  ];
 
-  const companySizeOptions = event?.companySizes?.map(companySize => ({
+  const companySizeOptions = event?.companySizes?.map((companySize) => ({
     label: companySize.name,
     value: companySize.id,
-  }))
+  }));
 
   return (
     <ContainerCard title="User profile information">
@@ -121,39 +131,57 @@ const UserProfileInformation = ({ account }: UserProfileInformationProps) => {
         onSubmit={updateProfile}
       >
         {({ resetForm }) => (
-          <StyledForm>
-            <Row>
-              <TextInputField required label="First name" name="firstName" />
-              <TextInputField label="Last name" name="lastName" />
-            </Row>
-            <Row>
-              <TextInputField label="Phone number" name="phoneNumber" />
-              <SelectField label="Gender" name="gender" options={genderOptions} />
-            </Row>
-            <Row>
-              <TextInputField label="City" name="city" />
-              <TextInputField label="Company name" name="companyName" />
-            </Row>
-            <Row>
-              <SelectField label="Company size" name="companySizeId" options={companySizeOptions} />
-              <SelectField label="Industry" name="industryId" options={industryOptions} />
-            </Row>
-            <TextInputField required label="Job title" name="jobTitle" />
-            <TextAreaField label="Bio" maxLength={255} name="bio" />
-            <ButtonRow>
-              <SecondaryButton
-                type="button"
-                onClick={() => resetForm({ values: getInitialValues(account) })}
-              >
-                Cancel
-              </SecondaryButton>
-              <Button type="submit">Save</Button>
-            </ButtonRow>
-          </StyledForm>
+          <StyledFieldset disabled={isDisabled}>
+            <StyledForm>
+              <Row>
+                <TextInputField required label="First name" name="firstName" />
+                <TextInputField label="Last name" name="lastName" />
+              </Row>
+              <Row>
+                <TextInputField label="Phone number" name="phoneNumber" />
+                <SelectField
+                  label="Gender"
+                  name="gender"
+                  options={genderOptions}
+                />
+              </Row>
+              <Row>
+                <TextInputField label="City" name="city" />
+                <TextInputField label="Company name" name="companyName" />
+              </Row>
+              <Row>
+                <SelectField
+                  label="Company size"
+                  name="companySizeId"
+                  options={companySizeOptions}
+                />
+                <SelectField
+                  label="Industry"
+                  name="industryId"
+                  options={industryOptions}
+                />
+              </Row>
+              <TextInputField required label="Job title" name="jobTitle" />
+              <TextAreaField label="Bio" maxLength={255} name="bio" />
+              {!isDisabled && (
+                <ButtonRow>
+                  <SecondaryButton
+                    type="button"
+                    onClick={() =>
+                      resetForm({ values: getInitialValues(account) })
+                    }
+                  >
+                    Cancel
+                  </SecondaryButton>
+                  <Button type="submit">Save</Button>
+                </ButtonRow>
+              )}
+            </StyledForm>
+          </StyledFieldset>
         )}
       </Formik>
     </ContainerCard>
-  )
-}
+  );
+};
 
-export default UserProfileInformation
+export default UserProfileInformation;

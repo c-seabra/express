@@ -1,15 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { TextButton } from '../../lib/components/atoms/Button'
-import Icon from '../../lib/components/atoms/Icon'
-import { useModalState } from '../../lib/components/molecules/Modal'
-import { Ticket } from '../../lib/types'
-import ClaimTicketModal from '../ticketActions/ClaimTicketModal'
-import TicketUnlockModal from '../ticketActions/TicketUnlockModal'
-import StatePlate from '../ticketItem/StatePlate'
+import { TextButton } from '../../lib/components/atoms/Button';
+import Icon from '../../lib/components/atoms/Icon';
+import { useModalState } from '../../lib/components/molecules/Modal';
+import { Spacing } from '../../lib/components/templates/Spacing';
+import { Ticket } from '../../lib/types';
+import ClaimTicketModal from '../ticketActions/ClaimTicketModal';
+import TicketUnlockModal from '../ticketActions/TicketUnlockModal';
+import StatePlate from '../ticketItem/StatePlate';
 
-const TicketStateContainer = styled.div``
+const TicketStateContainer = styled.div``;
 
 const StyledLabel = styled.span`
   color: #091a46;
@@ -17,7 +18,7 @@ const StyledLabel = styled.span`
   font-weight: 300;
   letter-spacing: 0;
   line-height: 24px;
-`
+`;
 
 const StateActionContainer = styled.div`
   margin-top: 8px;
@@ -25,7 +26,7 @@ const StateActionContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
 const StyledWrapper = styled.span`
   height: 19px;
@@ -34,28 +35,37 @@ const StyledWrapper = styled.span`
   .material-icons {
     font-size: 16px;
   }
-`
+`;
 
 type TicketStateActionsProps = {
-  ticket: Ticket
-}
+  ticket: Ticket;
+};
 
 const TicketAction = ({ ticket }: { ticket: Ticket }) => {
-  const { isOpen, openModal, closeModal } = useModalState()
+  const { isOpen, openModal, closeModal } = useModalState();
   const {
     openModal: openTicketUnlockModal,
     isOpen: isTicketUnlockModalOpen,
     closeModal: closeTicketUnlockModal,
-  } = useModalState()
+  } = useModalState();
 
   switch (ticket?.state) {
     case 'PENDING':
       return (
         <>
-          <TextButton onClick={openModal}>Claim ticket</TextButton>
-          <ClaimTicketModal isOpen={isOpen} ticket={ticket} onRequestClose={closeModal} />
+          <TextButton onClick={openModal}>
+            <StyledWrapper>
+              <Icon>content_paste</Icon>
+            </StyledWrapper>
+            Claim ticket
+          </TextButton>
+          <ClaimTicketModal
+            isOpen={isOpen}
+            ticket={ticket}
+            onRequestClose={closeModal}
+          />
         </>
-      )
+      );
     case 'LOCKED':
       return (
         <>
@@ -71,22 +81,33 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
             ticket={ticket}
           />
         </>
-      )
+      );
     default:
-      return null
+      return null;
   }
-}
+};
 
 const TicketStateActions = ({ ticket }: TicketStateActionsProps) => {
   return (
-    <TicketStateContainer>
-      <StyledLabel>Ticket status</StyledLabel>
-      <StateActionContainer>
-        <StatePlate state={ticket?.state} />
-        <TicketAction ticket={ticket} />
-      </StateActionContainer>
-    </TicketStateContainer>
-  )
-}
+    <>
+      <TicketStateContainer>
+        <StyledLabel>Ticket status</StyledLabel>
+        <StateActionContainer>
+          <StatePlate state={ticket?.state} />
+          <TicketAction ticket={ticket} />
+        </StateActionContainer>
+      </TicketStateContainer>
 
-export default TicketStateActions
+      <Spacing top="24px">
+        <TicketStateContainer>
+          <StyledLabel>Assignment status</StyledLabel>
+          <StateActionContainer>
+            <StatePlate state={ticket?.assignment?.state || 'Unassigned'} />
+          </StateActionContainer>
+        </TicketStateContainer>
+      </Spacing>
+    </>
+  );
+};
+
+export default TicketStateActions;

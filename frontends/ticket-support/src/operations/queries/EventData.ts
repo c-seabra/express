@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 const EVENT_DATA = gql`
   query taEventData($slug: String!) {
@@ -11,6 +11,6 @@ const EVENT_DATA = gql`
       passportRequired
     }
   }
-`
+`;
 
-export default EVENT_DATA
+export default EVENT_DATA;
