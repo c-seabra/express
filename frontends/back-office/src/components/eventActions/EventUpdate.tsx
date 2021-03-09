@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Loader from '../../lib/Loading';
-import { Currency, Event } from '../../lib/types';
+import { Currency, Event, StatusType } from '../../lib/types';
 import { EVENT_UPDATE_MUTATION } from '../../operations/mutations/EventUpdate';
 import EVENT_QUERY from '../../operations/queries/Event';
 import { useAppContext } from '../app/AppContext';
@@ -32,7 +31,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const EventUpdate: React.FC<{}> = () => {
+const EventUpdate: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const { token } = useAppContext();
 
@@ -43,7 +42,7 @@ const EventUpdate: React.FC<{}> = () => {
   const [endDate, setEndDate] = useState<string | undefined>();
   const [currency, setCurrency] = useState<Currency | undefined>();
   const [countryId, setCountryId] = useState<string | undefined>();
-  const [updateError, setUpdateError] = useState<string | undefined>();
+  const [updateError, setUpdateError] = useState<StatusType>();
 
   const {
     error,
@@ -75,13 +74,7 @@ const EventUpdate: React.FC<{}> = () => {
       setCurrency(event?.currency);
       setCountryId(event?.country?.id);
     }
-  }, [data]);
-
-  const updateEvent = () => {
-    if (slug) {
-      eventUpdateMutation();
-    }
-  };
+  }, [data, error]);
 
   const [eventUpdateMutation] = useMutation(EVENT_UPDATE_MUTATION, {
     context: {
@@ -89,11 +82,17 @@ const EventUpdate: React.FC<{}> = () => {
       token,
     },
     onCompleted: ({ eventUpdate }) => {
-      if (eventUpdate?.userErrors.length == 0) {
-        setUpdateError('');
+      if (eventUpdate?.userErrors.length === 0) {
+        setUpdateError({
+          message: '',
+          type: 'PENDING',
+        });
       }
       if (eventUpdate?.userErrors.length) {
-        setUpdateError(eventUpdate.userErrors[0]?.message);
+        setUpdateError({
+          message: eventUpdate.userErrors[0]?.message,
+          type: 'ERROR',
+        });
       }
     },
     refetchQueries: ['EventListQuery'],
@@ -109,9 +108,20 @@ const EventUpdate: React.FC<{}> = () => {
     },
   });
 
+  const updateEvent = () => {
+    if (slug) {
+      eventUpdateMutation().catch(() => {
+        setUpdateError({
+          message: `Unable to update event - ${slug}`,
+          type: 'ERROR',
+        });
+      });
+    }
+  };
+
   return (
     <div>
-      {updateError && <Warning>{updateError}</Warning>}
+      {updateError && <Warning>{updateError.message}</Warning>}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -124,7 +134,7 @@ const EventUpdate: React.FC<{}> = () => {
             fieldName="slug"
             label="Slug"
             value={slug}
-            onChange={() => void 0}
+            onChange={() => undefined}
           />
           <Field
             required

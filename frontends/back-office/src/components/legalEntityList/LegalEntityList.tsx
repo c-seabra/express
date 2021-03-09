@@ -5,7 +5,6 @@ import Loader from '../../lib/Loading';
 import { LegalEntity } from '../../lib/types';
 import LEGAL_ENTITY_LIST from '../../operations/queries/LegalEntityList';
 import { useAppContext } from '../app/AppContext';
-import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityItem, {
   LegalEntityListHeader,
 } from '../legalEntityItem/LegalEntityItem';

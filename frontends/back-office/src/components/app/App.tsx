@@ -1,7 +1,7 @@
-import { ApolloError, ApolloProvider, useQuery } from '@apollo/client';
-import { GraphQLParams, initApollo } from '@websummit/graphql';
+import { ApolloProvider } from '@apollo/client';
+import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   HashRouter as Router,
   Redirect,
@@ -28,12 +28,22 @@ const StyledSection = styled.section`
   padding: 1rem;
 `;
 
-const App = ({ token, apiURL = '' }: GraphQLParams) => {
-  if (!token) return null;
+type AppProps = {
+  apiURL: string;
+  token: string;
+};
+
+const App = ({ token, apiURL }: AppProps) => {
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
   const [conferenceSlug, setConferenceSlug] = useState<string>(
     tokenPayload.conf_slug,
   );
+
+  useEffect(() => {
+    setConferenceSlug(tokenPayload.conf_slug);
+  }, [tokenPayload.conf_slug]);
+
+  if (!token) return null;
 
   const apolloClient = initApollo({ apiURL });
 

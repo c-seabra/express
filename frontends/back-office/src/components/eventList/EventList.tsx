@@ -1,5 +1,5 @@
 import { ApolloError, useQuery } from '@apollo/client';
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import Loader from '../../lib/Loading';
 import { Event } from '../../lib/types';
@@ -7,7 +7,7 @@ import EVENT_LIST from '../../operations/queries/EventList';
 import { useAppContext } from '../app/AppContext';
 import EventItem, { EventListHeader } from '../eventItem/EventItem';
 
-const EventList = ({}): ReactElement => {
+const EventList: React.FC = () => {
   const { conferenceSlug, token } = useAppContext();
 
   const {

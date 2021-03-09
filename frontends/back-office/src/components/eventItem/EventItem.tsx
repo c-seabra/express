@@ -51,7 +51,9 @@ export const EventListHeader = () => {
       <Column>Start date</Column>
       <Column>End Date</Column>
       <Column>Country</Column>
+      <Column>Timezone</Column>
       <Column>Currency</Column>
+      <Column>Base URL</Column>
     </ListHeaderItem>
   );
 };
@@ -87,6 +89,7 @@ const EventItem = ({
       <Column>{startDate}</Column>
       <Column>{endDate}</Column>
       <Column>{country?.name}</Column>
+      <Column>{timezone}</Column>
       <Column>{currency}</Column>
       <Column>{baseUrl}</Column>
     </StyledListItem>

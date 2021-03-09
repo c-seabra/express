@@ -82,3 +82,8 @@ export type LegalEntity = {
   taxNumber?: string;
   website?: string;
 };
+
+export type StatusType = {
+  message: string;
+  type: 'PENDING' | 'SUCCESS' | 'ERROR';
+};

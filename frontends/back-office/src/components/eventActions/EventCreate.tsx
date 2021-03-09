@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { StatusType } from '../../lib/types';
 import { EVENT_CREATE_MUTATION } from '../../operations/mutations/EventCreate';
 import { useAppContext } from '../app/AppContext';
 import Field from './Field';
@@ -28,7 +29,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const EventCreate: React.FC<{}> = () => {
+const EventCreate: React.FC = () => {
   const { conferenceSlug, token } = useAppContext();
   const [name, setName] = useState<string | undefined>();
   const [description, setDescription] = useState<string | undefined>();
@@ -38,13 +39,7 @@ const EventCreate: React.FC<{}> = () => {
   const [endDate, setEndDate] = useState<string | undefined>();
   const [currency, setCurrency] = useState<string | undefined>();
   const [countryId, setCountryId] = useState<string | undefined>();
-  const [error, setError] = useState<string | undefined>();
-
-  const createEvent = () => {
-    if (name && slug) {
-      eventCreateMutation();
-    }
-  };
+  const [error, setError] = useState<StatusType>();
 
   const [eventCreateMutation] = useMutation(EVENT_CREATE_MUTATION, {
     context: {
@@ -53,10 +48,16 @@ const EventCreate: React.FC<{}> = () => {
     },
     onCompleted: ({ eventCreate }) => {
       if (eventCreate?.event?.id) {
-        setError('');
+        setError({
+          message: '',
+          type: 'PENDING',
+        });
       }
       if (eventCreate?.userErrors.length) {
-        setError(eventCreate.userErrors[0]?.message);
+        setError({
+          message: eventCreate.userErrors[0]?.message,
+          type: 'PENDING',
+        });
       }
     },
     refetchQueries: ['EventListQuery'],
@@ -72,9 +73,20 @@ const EventCreate: React.FC<{}> = () => {
     },
   });
 
+  const createEvent = () => {
+    if (name && slug) {
+      eventCreateMutation().catch(() => {
+        setError({
+          message: `Unable to create event - ${slug}`,
+          type: 'ERROR',
+        });
+      });
+    }
+  };
+
   return (
     <div>
-      {error && <Warning>{error}</Warning>}
+      {error && <Warning>{error.message}</Warning>}
       <form
         onSubmit={(e) => {
           e.preventDefault();

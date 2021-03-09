@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { StatusType } from '../../lib/types';
 import { LEGAL_ENTITY_CREATE_MUTATION } from '../../operations/mutations/LegalEntityCreate';
 import { useAppContext } from '../app/AppContext';
 import Field from './Field';
@@ -28,7 +29,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const LegalEntityCreate: React.FC<{}> = () => {
+const LegalEntityCreate: React.FC = () => {
   const { conferenceSlug, token } = useAppContext();
   const [name, setName] = useState<string | undefined>();
   const [regNumber, setRegNumber] = useState<string | undefined>();
@@ -41,13 +42,7 @@ const LegalEntityCreate: React.FC<{}> = () => {
   const [city, setCity] = useState<string | undefined>();
   const [postalCode, setPostalCode] = useState<string | undefined>();
   const [countryId, setCountryId] = useState<string | undefined>();
-  const [error, setError] = useState<string | undefined>();
-
-  const createLegalEntity = () => {
-    if (name) {
-      legalEntityCreateMutation();
-    }
-  };
+  const [error, setError] = useState<StatusType>();
 
   const [legalEntityCreateMutation] = useMutation(
     LEGAL_ENTITY_CREATE_MUTATION,
@@ -58,10 +53,16 @@ const LegalEntityCreate: React.FC<{}> = () => {
       },
       onCompleted: ({ legalEntityCreate }) => {
         if (legalEntityCreate?.legalEntity?.id) {
-          setError('');
+          setError({
+            message: legalEntityCreate.userErrors[0]?.message,
+            type: 'PENDING',
+          });
         }
         if (legalEntityCreate?.userErrors.length) {
-          setError(legalEntityCreate.userErrors[0]?.message);
+          setError({
+            message: legalEntityCreate.userErrors[0]?.message,
+            type: 'ERROR',
+          });
         }
       },
       refetchQueries: ['LegalEntityListQuery'],
@@ -83,9 +84,20 @@ const LegalEntityCreate: React.FC<{}> = () => {
     },
   );
 
+  const createLegalEntity = () => {
+    if (name) {
+      legalEntityCreateMutation().catch(() => {
+        setError({
+          message: `Unable to create legal entity - ${name}`,
+          type: 'ERROR',
+        });
+      });
+    }
+  };
+
   return (
     <div>
-      {error && <Warning>{error}</Warning>}
+      {error && <Warning>{error.message}</Warning>}
       <form
         onSubmit={(e) => {
           e.preventDefault();
