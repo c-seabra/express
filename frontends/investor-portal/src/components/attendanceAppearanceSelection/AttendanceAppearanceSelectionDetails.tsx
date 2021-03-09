@@ -1,12 +1,12 @@
 import { ApolloError } from '@apollo/client';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
 import { Button, ContainerCard } from '../../lib/components';
-import Breadcrumbs, {
-  Breadcrumb,
-} from '../../lib/components/molecules/Breadcrumbs';
 import LabeledInput from '../../lib/components/molecules/LabeledInput';
 import { useSessionTimeslotParticipationCreateMutation } from '../../lib/hooks';
 import useAttendanceAppearanceSelectionQuery from '../../lib/hooks/useAttendanceAppearanceSelectionQuery';

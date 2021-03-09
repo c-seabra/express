@@ -27,7 +27,7 @@ const Upload: React.FC<{ setAssignees: (list: AssigneesList) => void }> = ({
     const { files } = input;
 
     const errorHandler = (evt: ProgressEvent<FileReader>) => {
-      if (evt?.target?.error?.name == 'NotReadableError') {
+      if (evt?.target?.error?.name === 'NotReadableError') {
         setError('Unable to read uploaded file');
       }
     };

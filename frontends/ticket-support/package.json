@@ -16,6 +16,7 @@
     "@apollo/client": "*",
     "@apollo/react-common": "*",
     "@websummit/components": "*",
+    "@websummit/glue": "*",
     "@websummit/graphql": "*",
     "formik": "*",
     "isomorphic-unfetch": "*",

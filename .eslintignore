@@ -1,5 +1,6 @@
 .gitignore
 .prettierignore
+.eslintrc.js
 yarn.lock
 node_modules
 yarn-error.log

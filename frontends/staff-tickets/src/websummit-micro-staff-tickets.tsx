@@ -1582,6 +1582,9 @@ const staffList = {
   },
 };
 
+/*
+// conferences for manual config
+
 const ws20: Conference = {
   guestProductId: '65e53977-9efa-4937-bdf7-340a8a131862',
   slug: 'ws20',
@@ -1595,12 +1598,6 @@ const tfh20: Conference = {
   storeId: '7ada51b5-eed4-44f9-852c-9ef5b20e16a1',
 };
 
-const prod_cc21: Conference = {
-  slug: 'cc21',
-  staffProductId: '6c607f74-d375-48ae-a705-97035e494c96',
-  storeId: '32d6f737-1ce9-4ac1-9c23-8e4668292268',
-};
-
 const prod_tfh20: Conference = {
   slug: 'tfh20',
   staffProductId: 'b4cb4ae6-bd23-4714-b98a-d00d6eced94a',
@@ -1610,11 +1607,18 @@ const prod_tfh20: Conference = {
 const sandboxApiUrl = 'https://catalyst.cluster.cilabs.net/graphql';
 const prodApiUrl = 'https://api.cilabs.com/catalyst';
 
+*/
+const prod_cc21: Conference = {
+  slug: 'cc21',
+  staffProductId: '6c607f74-d375-48ae-a705-97035e494c96',
+  storeId: '32d6f737-1ce9-4ac1-9c23-8e4668292268',
+};
+
 const lifecycles = singleSpaReact({
   React,
   ReactDOM,
   rootComponent: (props) => (
-    <App {...props} conference={prod_cc21} staffList={staffList} />
+    <App conference={prod_cc21} staffList={staffList} {...props} />
   ),
 });
 

@@ -1,8 +1,10 @@
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { ContainerCard } from '../../lib/components/atoms';
-import { Breadcrumb, Breadcrumbs } from '../../lib/components/molecules';
 import { useEventQuery } from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import { Attendance } from '../../lib/types';
