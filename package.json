@@ -9,8 +9,12 @@
   ],
   "scripts": {
     "build": "lerna run build",
+    "build:frontends": "lerna run build --ignore @websummit/*",
     "build:packages": "lerna run build --ignore @websummit-micro/*",
     "build:standalone": "lerna run build:standalone",
+    "compile": "lerna run compile",
+    "compile:frontends": "lerna run compile --ignore @websummit/*",
+    "compile:packages": "lerna run compile --ignore @websummit-micro/*",
     "check": "yarn build && yarn build:standalone && yarn lint && yarn is-pretty",
     "clean": "lerna run clean",
     "codegen": "lerna run codegen && yarn codegen:fix && yarn codegen:prettier",
@@ -20,25 +24,21 @@
     "codegen:fix": "yarn codegen:fix-fragments && yarn codegen:fix-types",
     "codegen:fix-fragments": "eslint packages/graphql/src/@types/fragments.ts --fix --cache --no-ignore",
     "codegen:fix-types": "eslint packages/graphql/src/@types/operations.tsx --fix --cache --no-ignore",
-    "fix": "eslint . --ext js,ts,tsx --fix",
+    "fix": "eslint . --ext js,ts,tsx --fix --cache",
     "format": "yarn pretty",
     "is-pretty": "prettier --config ./.prettierrc.json --check .",
     "lint": "eslint . --ext js,ts,tsx",
     "pretty": "prettier --config ./.prettierrc.json --write .",
     "pub": "lerna publish",
-    "ready": "yarn build && yarn build:standalone && yarn fix && yarn pretty",
+    "ready": "yarn fix && yarn pretty",
     "start": "yarn install && yarn build:packages && yarn start:single-spa --stream",
     "start:single-spa": "lerna run start --scope @websummit-micro/*",
     "test": "lerna run test"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged || true"
+      "pre-commit": "yarn ready || true"
     }
-  },
-  "lint-staged": {
-    "*.ts": "eslint --cache --fix",
-    "*.{ts,js,md,json,yml}": "prettier --config ./.prettierrc.json --write"
   },
   "devDependencies": {
     "@analytics/google-analytics": "0.5.2",

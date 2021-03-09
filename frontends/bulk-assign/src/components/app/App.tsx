@@ -1,10 +1,4 @@
 import { ApolloProvider } from '@apollo/client';
-import {
-  Conference,
-  SetTicketList,
-  StaffList,
-  TicketList,
-} from '@websummit-micro/staff-tickets/src/components/app/App';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
@@ -42,15 +36,16 @@ export type BulkAssignContext = GraphQLParams & {
 export const AppContext = createContext<BulkAssignContext>({});
 
 const App = ({ token, apiURL = '' }: BulkAssignContext) => {
-  if (!token) return null;
-  const tokenPayload: { conf_slug: string; email: string } = jwt(token);
-
-  useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug);
-  }, [token]);
+  const tokenPayload: { conf_slug: string; email: string } = token
+    ? jwt(token)
+    : { conf_slug: '', email: '' };
 
   const [assigneesList, setAssigneesList] = useState<AssigneesList>();
   const [conferenceSlug, setConferenceSlug] = useState<string>();
+
+  useEffect(() => {
+    setConferenceSlug(tokenPayload.conf_slug);
+  }, [tokenPayload.conf_slug]);
 
   const apolloClient = initApollo({ apiURL });
 

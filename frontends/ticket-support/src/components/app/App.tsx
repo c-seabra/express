@@ -1,8 +1,4 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  NormalizedCacheObject,
-} from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
@@ -20,7 +16,6 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Logo from '../../lib/components/atoms/Logo';
 import MainNavigation from '../../lib/components/molecules/MainNavigation';
 import ROUTES from '../../lib/constants/routes';
-import { Conference } from '../../lib/types';
 import OrderDetails from '../order/OrderDetails';
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
 import TicketDashboard from '../ticketDashboard/TicketDashboard';
@@ -59,8 +54,6 @@ type AppProps = {
 };
 
 const App = ({ token, apiURL }: AppProps) => {
-  if (!token) return null;
-
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
   const [conferenceSlug, setConferenceSlug] = useState<string>(
     tokenPayload.conf_slug,
@@ -68,7 +61,9 @@ const App = ({ token, apiURL }: AppProps) => {
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
-  }, [token]);
+  }, [tokenPayload.conf_slug]);
+
+  if (!token) return null;
 
   const apolloClient = initApollo({ apiURL });
 

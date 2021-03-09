@@ -28,10 +28,10 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   });
 
   const [ticketAccept] = useCreateOrderMutation({
-    onCompleted: ({ ticketAccept }: any) => {
-      if (ticketAccept?.userErrors.length) {
+    onCompleted: ({ ticketAccept: ticketAcceptResult }: any) => {
+      if (ticketAcceptResult?.userErrors.length) {
         setStatus({
-          message: ticketAccept.userErrors[0].message,
+          message: ticketAcceptResult.userErrors[0].message,
           type: 'ERROR',
         });
       } else {
@@ -86,7 +86,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       });
     }
 
-    if (productsList.length == 0) {
+    if (productsList.length === 0) {
       setStatus({
         message: `No Staff ticket product configured for this conference, please contact engineering!`,
         type: 'ERROR',
@@ -117,11 +117,14 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       }).catch((e) => {
         console.error(e);
         setStatus({
-          message: `Unable to create this ticket - ${bookingRef}`,
+          message: `Unable to create this ticket - ${
+            bookingRef || 'no booking ref provided'
+          }`,
           type: 'ERROR',
         });
       });
     }, index * 50);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

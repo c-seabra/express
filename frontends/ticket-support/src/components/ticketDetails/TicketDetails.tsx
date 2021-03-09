@@ -1,3 +1,6 @@
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
@@ -8,9 +11,6 @@ import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
 import BlockMessage from '../../lib/components/molecules/BlockMessage';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
-import Breadcrumbs, {
-  Breadcrumb,
-} from '../../lib/components/molecules/Breadcrumbs';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
 import { Spacing } from '../../lib/components/templates/Spacing';
@@ -199,6 +199,36 @@ const TicketDetails = (): ReactElement => {
     },
   ];
 
+  let voidUnVoidModal: JSX.Element;
+  if (isTitoTicket) {
+    voidUnVoidModal = (
+      <ErrorInfoModal
+        alertHeader={bookingRef}
+        alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
+        to Tito to void the ticket."
+        closeModal={closeTitoWarningModal}
+        headerText="Unable to void ticket"
+        isOpen={isTitoWarningModalOpen}
+      />
+    );
+  } else if (ticket?.state === 'VOID') {
+    voidUnVoidModal = (
+      <TicketUnvoidModal
+        bookingRef={bookingRef}
+        closeModal={closeTicketUnvoidModal}
+        isOpen={isTicketUnvoidModalOpen}
+      />
+    );
+  } else {
+    voidUnVoidModal = (
+      <TicketVoidModal
+        bookingRef={bookingRef}
+        closeModal={closeTicketVoidModal}
+        isOpen={isTicketVoidModalOpen}
+      />
+    );
+  }
+
   return (
     <>
       <Helmet>
@@ -295,28 +325,7 @@ const TicketDetails = (): ReactElement => {
                   </Button>
                 )}
 
-                {isTitoTicket ? (
-                  <ErrorInfoModal
-                    alertHeader={bookingRef}
-                    alertText="As this ticket was created in Tito, it cannot be voided using Ticket Machine. Please go
-        to Tito to void the ticket."
-                    closeModal={closeTitoWarningModal}
-                    headerText="Unable to void ticket"
-                    isOpen={isTitoWarningModalOpen}
-                  />
-                ) : ticket?.state === 'VOID' ? (
-                  <TicketUnvoidModal
-                    bookingRef={bookingRef}
-                    closeModal={closeTicketUnvoidModal}
-                    isOpen={isTicketUnvoidModalOpen}
-                  />
-                ) : (
-                  <TicketVoidModal
-                    bookingRef={bookingRef}
-                    closeModal={closeTicketVoidModal}
-                    isOpen={isTicketVoidModalOpen}
-                  />
-                )}
+                {voidUnVoidModal}
               </StyledInnerContainerCard>
 
               <StyledHistoryChanges>

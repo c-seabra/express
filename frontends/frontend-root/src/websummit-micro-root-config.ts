@@ -30,7 +30,7 @@ applications.forEach((app) => {
   // its some magic to wrap the function in our own
   // and splice in the values we have
   const oldFunc = app.customProps;
-  // eslint-disable-next-line no-param-reassign
+  // eslint-disable-next-line no-param-reassign,func-names
   app.customProps = function (e, n) {
     const existing = oldFunc instanceof Function ? oldFunc(e, n) : oldFunc;
     return {
