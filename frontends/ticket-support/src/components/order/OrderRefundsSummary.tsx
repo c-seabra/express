@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
+import { formatDisplayPrice } from '../../lib/utils/price';
 import { formatDefaultDateTime } from '../../lib/utils/time';
 import StatePlate from '../ticketItem/StatePlate';
 
@@ -23,7 +24,8 @@ const tableShape = (
     header: 'Refund amount',
     renderCell: (refund) => (
       <>
-        {currencySymbol || refund?.currency}&nbsp;{refund?.amount}
+        {currencySymbol || refund?.currency}&nbsp;
+        {formatDisplayPrice(refund?.amount)}
       </>
     ),
     width: '20%',
