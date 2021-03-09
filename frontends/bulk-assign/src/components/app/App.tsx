@@ -42,7 +42,9 @@ export type BulkAssignContext = GraphQLParams & {
 export const AppContext = createContext<BulkAssignContext>({});
 
 const App = ({ token, apiURL = '' }: BulkAssignContext) => {
-  const tokenPayload: { conf_slug: string; email: string } = token ? jwt(token) : {conf_slug: '', email: ''};
+  const tokenPayload: { conf_slug: string; email: string } = token
+    ? jwt(token)
+    : { conf_slug: '', email: '' };
 
   const [assigneesList, setAssigneesList] = useState<AssigneesList>();
   const [conferenceSlug, setConferenceSlug] = useState<string>();

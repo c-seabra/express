@@ -78,7 +78,6 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     });
   };
 
-
   const { data: newAssignmentUserData } = useQuery(ASSIGNMENT_USER, {
     context: {
       slug: conferenceSlug,
@@ -171,11 +170,10 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     },
   });
 
-
   const [ticketAssign] = useMutation(TICKET_ASSIGN_MUTATION, {
     onCompleted: ({
-                    ticketAssignData,
-                  }: {
+      ticketAssignData,
+    }: {
       ticketAssignData: {
         ticket: {
           assignment: {

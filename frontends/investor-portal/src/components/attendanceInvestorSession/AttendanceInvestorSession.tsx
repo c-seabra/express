@@ -48,7 +48,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
 
     setUnlockInvestor(currentStartsAt !== undefined && selected === false);
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin');
-  }, [currentStartsAt, selected, selections, data?.event.timeZone.ianaName] );
+  }, [currentStartsAt, selected, selections, data?.event.timeZone.ianaName]);
 
   const startsAt = styledDateForMutation(newStartsAt);
 
