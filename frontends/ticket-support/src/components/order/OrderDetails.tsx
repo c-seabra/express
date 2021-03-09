@@ -331,7 +331,7 @@ const OrderDetails = (): ReactElement => {
                     return (
                       <>
                         {!isOwnerDetailsEditOn ? (
-                          <Link
+                          <button
                             onClick={
                               isTitoOrder
                                 ? openTransferWarningModal
@@ -340,7 +340,7 @@ const OrderDetails = (): ReactElement => {
                           >
                             <Icon>create</Icon>
                             <span>Edit</span>
-                          </Link>
+                          </button>
                         ) : null}
                       </>
                     );
