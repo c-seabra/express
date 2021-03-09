@@ -57,6 +57,7 @@ const AttendanceTable = (): ReactElement => {
     isBackwardsDisabled,
     nextPage,
     previousPage,
+    resetPage,
   } = useAttendancesQuery({
     attendanceAppearanceSelectionsStatus:
       searchState.attendanceAppearanceSelectionsStatus,
@@ -105,10 +106,12 @@ const AttendanceTable = (): ReactElement => {
       const element = e.currentTarget as HTMLInputElement;
       setSearchState((prevState) => ({
         ...prevState,
+        page: '',
         searchQuery: element.value,
       }));
       setSearchQuery(element.value);
       setSelectedValues([]);
+      resetPage();
     }
   };
 
@@ -145,8 +148,10 @@ const AttendanceTable = (): ReactElement => {
       ...prevState,
       attendanceAppearanceSelectionsStatus:
         selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
+      page: '',
     }));
     setSelectedValues([]);
+    resetPage();
   };
 
   return (
