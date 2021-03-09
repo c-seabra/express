@@ -1,10 +1,4 @@
 import { ApolloProvider } from '@apollo/client';
-import {
-  Conference,
-  SetTicketList,
-  StaffList,
-  TicketList,
-} from '@websummit-micro/staff-tickets/src/components/app/App';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
