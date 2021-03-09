@@ -19,7 +19,6 @@ import styled from 'styled-components';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';
-import Link from '../../lib/components/atoms/Link';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import Breadcrumbs, {
   Breadcrumb,
@@ -190,6 +189,40 @@ const OrderDetails = (): ReactElement => {
     },
   ];
 
+  let cancelReinstateModal: JSX.Element;
+  if (isTitoOrder) {
+    cancelReinstateModal = (
+      <ErrorInfoModal
+        alertHeader={orderRef}
+        alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
+            to Tito to cancel the order."
+        closeModal={closeTitoWarningModal}
+        headerText="Unable to cancel order"
+        isOpen={isTitoWarningModalOpen}
+      />
+    );
+  } else if (order?.state === 'CANCELLED') {
+    cancelReinstateModal = (
+      <OrderReinstateModal
+        closeModal={closeOrderReinstateModal}
+        isOpen={isOrderReinstateModalOpen}
+        orderRef={orderRef}
+        refetch={refetch}
+        sourceId={sourceId}
+      />
+    );
+  } else {
+    cancelReinstateModal = (
+      <OrderCancelModal
+        closeModal={closeOrderCancelModal}
+        isOpen={isOrderCancelModalOpen}
+        orderRef={orderRef}
+        refetch={refetch}
+        sourceId={sourceId}
+      />
+    );
+  }
+
   const refunds: CommerceTransaction[] = commerceOrder?.transactions
     ?.filter(Boolean)
     ?.filter(
@@ -254,32 +287,7 @@ const OrderDetails = (): ReactElement => {
                         Cancel order
                       </ButtonWithSpacing>
                     )}
-                    {isTitoOrder ? (
-                      <ErrorInfoModal
-                        alertHeader={orderRef}
-                        alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
-            to Tito to cancel the order."
-                        closeModal={closeTitoWarningModal}
-                        headerText="Unable to cancel order"
-                        isOpen={isTitoWarningModalOpen}
-                      />
-                    ) : order?.state === 'CANCELLED' ? (
-                      <OrderReinstateModal
-                        closeModal={closeOrderReinstateModal}
-                        isOpen={isOrderReinstateModalOpen}
-                        orderRef={orderRef}
-                        refetch={refetch}
-                        sourceId={sourceId}
-                      />
-                    ) : (
-                      <OrderCancelModal
-                        closeModal={closeOrderCancelModal}
-                        isOpen={isOrderCancelModalOpen}
-                        orderRef={orderRef}
-                        refetch={refetch}
-                        sourceId={sourceId}
-                      />
-                    )}
+                    {cancelReinstateModal}
                     <Button
                       disabled={
                         !commerceOrder ||
@@ -331,7 +339,7 @@ const OrderDetails = (): ReactElement => {
                     return (
                       <>
                         {!isOwnerDetailsEditOn ? (
-                          <button
+                          <button type='button'
                             onClick={
                               isTitoOrder
                                 ? openTransferWarningModal
