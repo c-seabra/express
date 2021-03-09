@@ -1,5 +1,15 @@
 {
   "extends": [
     "config:base"
-  ]
+  ], 
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
+  ],
+  "branchConcurrentLimit": 2,
+  "bumpVersion": "patch",
+  "dependencyDashboard": true,
+  "rangeStrategy": "pin"
 }
