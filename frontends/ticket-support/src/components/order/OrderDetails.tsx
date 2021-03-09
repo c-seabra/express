@@ -339,7 +339,8 @@ const OrderDetails = (): ReactElement => {
                     return (
                       <>
                         {!isOwnerDetailsEditOn ? (
-                          <button type='button'
+                          <button
+                            type="button"
                             onClick={
                               isTitoOrder
                                 ? openTransferWarningModal

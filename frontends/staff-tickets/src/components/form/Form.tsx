@@ -37,8 +37,9 @@ const Form: React.FC = () => {
   };
   const onSingleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // @ts-ignore
-    const email: string = e.target.email.value.toLowerCase().trim();
+    // some hackery because ts is not smart enough for this type to work
+    const emailField = (e.target as any).email.value as string;
+    const email: string = emailField.toLowerCase().trim();
 
     console.log(email);
     if (setTicketsList && staffList) {

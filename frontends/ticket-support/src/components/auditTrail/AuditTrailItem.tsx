@@ -254,7 +254,9 @@ const AuditTrailItem = ({ trail }: AuditTrail) => {
                 />
 
                 <InlineChange
-                  current={additionalContext.assignments.current?.assignee_email}
+                  current={
+                    additionalContext.assignments.current?.assignee_email
+                  }
                   label="Assignee email change"
                   prev={additionalContext.assignments.previous?.assignee_email}
                 />
@@ -266,7 +268,9 @@ const AuditTrailItem = ({ trail }: AuditTrail) => {
                 />
 
                 <InlineChange
-                  current={additionalContext.assignments.current?.assigner_email}
+                  current={
+                    additionalContext.assignments.current?.assigner_email
+                  }
                   label="Assigneer email change"
                   prev={additionalContext.assignments.previous?.assigner_email}
                 />
@@ -278,9 +282,13 @@ const AuditTrailItem = ({ trail }: AuditTrail) => {
                   Previous assignee -{' '}
                   {additionalContext.assignee.previous_assignee || noDataLabel}
                 </div>
-                <div>Assigner - {additionalContext.assignee.assigner || noDataLabel}</div>
                 <div>
-                  New Assignee - {additionalContext.assignee.assignee || noDataLabel}
+                  Assigner -{' '}
+                  {additionalContext.assignee.assigner || noDataLabel}
+                </div>
+                <div>
+                  New Assignee -{' '}
+                  {additionalContext.assignee.assignee || noDataLabel}
                 </div>
               </DetailContainer>
             )}
