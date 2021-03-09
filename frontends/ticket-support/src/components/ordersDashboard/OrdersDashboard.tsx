@@ -1,3 +1,4 @@
+import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
@@ -9,7 +10,6 @@ import CategoryList, {
 } from '../../lib/components/molecules/CategoryList';
 import PopupButton from '../../lib/components/molecules/PopupButton';
 import useOrdersQuery from '../../lib/hooks/useOrdersQuery';
-import useSearchState from '../../lib/hooks/useSearchState';
 import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
 import Pagination from '../../lib/Pagination';
 import { OrderState } from '../../lib/types';

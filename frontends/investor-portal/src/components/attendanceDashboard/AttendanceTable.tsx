@@ -1,3 +1,4 @@
+import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 
 import {
@@ -11,7 +12,6 @@ import {
 import PopupButton from '../../lib/components/molecules/PopupButton';
 import { useAttendanceAppearanceSelectionUpdateMutation } from '../../lib/hooks';
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
-import useSearchState from '../../lib/hooks/useSearchState';
 import Loader from '../../lib/Loading';
 import Pagination from '../../lib/Pagination';
 import AttendanceItem from './AttendanceItem';

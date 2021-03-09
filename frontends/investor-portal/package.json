@@ -16,6 +16,7 @@
     "@apollo/client": "*",
     "@apollo/react-common": "*",
     "@graphql-typed-document-node/core": "*",
+    "@websummit/glue": "*",
     "@websummit/graphql": "*",
     "apollo-upload-client": "*",
     "babel-plugin-styled-components": "*",
