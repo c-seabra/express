@@ -11,9 +11,14 @@ const StyledLink = styled.a`
   cursor: pointer;
   text-decoration: none;
   font-weight: 400;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  
 
   &:hover {
     color: #013d8d;
+    background-color: transparent;
   }
 
   > .material-icons {
@@ -22,13 +27,13 @@ const StyledLink = styled.a`
   }
 `;
 
-type LinkProps = {
+type ButtonLinkProps = {
   children?: ReactElement | ReactElement[];
   onClick?: () => void;
 };
 
-const Link = ({ children, onClick }: LinkProps) => {
-  return <StyledLink onClick={onClick}>{children}</StyledLink>;
+const ButtonLink = ({ children, onClick }: ButtonLinkProps) => {
+  return <StyledLink as="button" onClick={onClick}>{children}</StyledLink>;
 };
 
-export default Link;
+export default ButtonLink;
