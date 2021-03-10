@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { StatusType } from '../../lib/types';
 import { LEGAL_ENTITY_CREATE_MUTATION } from '../../operations/mutations/LegalEntityCreate';
 import { useAppContext } from '../app/AppContext';
+import CountrySelect from '../countries/CountrySelect';
 import Field from './Field';
 import Warning from './Warning';
 
@@ -54,7 +55,7 @@ const LegalEntityCreate: React.FC = () => {
       onCompleted: ({ legalEntityCreate }) => {
         if (legalEntityCreate?.legalEntity?.id) {
           setError({
-            message: `Host - ${name} successfully created`,
+            message: `Host successfully created`,
             type: 'SUCCESS',
           });
         }
@@ -88,7 +89,7 @@ const LegalEntityCreate: React.FC = () => {
     if (name) {
       legalEntityCreateMutation().catch(() => {
         setError({
-          message: `Unable to create legal entity - ${name}`,
+          message: `Unable to create legal entity - ${name.toString()}`,
           type: 'ERROR',
         });
       });
@@ -147,12 +148,7 @@ const LegalEntityCreate: React.FC = () => {
             label="Postal Code"
             onChange={setPostalCode}
           />
-          <Field
-            required
-            fieldName="countryId"
-            label="Country"
-            onChange={setCountryId}
-          />
+          <CountrySelect required value={countryId} onChange={setCountryId} />
         </Row>
 
         <SubmitButton type="submit">Submit</SubmitButton>

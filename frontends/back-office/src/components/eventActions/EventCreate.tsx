@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { StatusType } from '../../lib/types';
 import { EVENT_CREATE_MUTATION } from '../../operations/mutations/EventCreate';
 import { useAppContext } from '../app/AppContext';
+import CountrySelect from '../countries/CountrySelect';
 import Field from './Field';
 import Warning from './Warning';
 
@@ -49,7 +50,7 @@ const EventCreate: React.FC = () => {
     onCompleted: ({ eventCreate }) => {
       if (eventCreate?.event?.id) {
         setError({
-          message: `Event - ${slug} successfully created`,
+          message: `Event successfully created`,
           type: 'SUCCESS',
         });
       }
@@ -77,7 +78,7 @@ const EventCreate: React.FC = () => {
     if (name && slug) {
       eventCreateMutation().catch(() => {
         setError({
-          message: `Unable to create event - ${slug}`,
+          message: `Unable to create event - ${slug.toString()}`,
           type: 'ERROR',
         });
       });
@@ -116,11 +117,7 @@ const EventCreate: React.FC = () => {
             onChange={setStartDate}
           />
           <Field fieldName="endDate" label="End Date" onChange={setEndDate} />
-          <Field
-            fieldName="countryId"
-            label="Country"
-            onChange={setCountryId}
-          />
+          <CountrySelect value={countryId} onChange={setCountryId} />
         </Row>
         <SubmitButton type="submit">Submit</SubmitButton>
       </form>

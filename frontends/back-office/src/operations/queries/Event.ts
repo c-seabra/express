@@ -12,6 +12,7 @@ const EVENT_QUERY = gql`
       timezone
       baseUrl
       country {
+        id
         name
       }
       currency

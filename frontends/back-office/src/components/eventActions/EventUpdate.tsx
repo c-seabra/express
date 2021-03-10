@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Currency, Event, StatusType } from '../../lib/types';
+import { Event, StatusType } from '../../lib/types';
 import { EVENT_UPDATE_MUTATION } from '../../operations/mutations/EventUpdate';
 import EVENT_QUERY from '../../operations/queries/Event';
 import { useAppContext } from '../app/AppContext';
+import CountrySelect from '../countries/CountrySelect';
 import Field from './Field';
 import Warning from './Warning';
 
@@ -71,8 +72,8 @@ const EventUpdate: React.FC = () => {
       setTaxNumber(event?.taxNumber);
       setStartDate(event?.startDate);
       setEndDate(event?.endDate);
-      if (event?.currency != undefined) {
-        setCurrency((event.currency).toString());
+      if (event?.currency !== undefined) {
+        setCurrency(event.currency.toString());
       }
       setCountryId(event?.country?.id);
     }
@@ -86,7 +87,7 @@ const EventUpdate: React.FC = () => {
     onCompleted: ({ eventUpdate }) => {
       if (eventUpdate?.userErrors.length === 0) {
         setUpdateError({
-          message: `Event - ${slug} successfully updated`,
+          message: `Event - ${slug.toString()} successfully updated`,
           type: 'SUCCESS',
         });
       }
@@ -160,7 +161,12 @@ const EventUpdate: React.FC = () => {
         </Row>
 
         <Row>
-          <Field fieldName="currency" label="Currency" value={currency} onChange={setCurrency} />
+          <Field
+            fieldName="currency"
+            label="Currency"
+            value={currency}
+            onChange={setCurrency}
+          />
           <Field
             fieldName="startDate"
             label="Start Date"
@@ -173,12 +179,7 @@ const EventUpdate: React.FC = () => {
             value={endDate}
             onChange={setEndDate}
           />
-          <Field
-            fieldName="countryId"
-            label="Country"
-            value={countryId}
-            onChange={setCountryId}
-          />
+          <CountrySelect value={countryId} onChange={setCountryId} />
         </Row>
         <SubmitButton type="submit">Submit</SubmitButton>
       </form>
