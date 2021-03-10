@@ -1,10 +1,12 @@
 import { ApolloError } from '@apollo/client';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
 import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
-import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
