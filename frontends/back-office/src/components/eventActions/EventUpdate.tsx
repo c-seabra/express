@@ -84,8 +84,8 @@ const EventUpdate: React.FC = () => {
     onCompleted: ({ eventUpdate }) => {
       if (eventUpdate?.userErrors.length === 0) {
         setUpdateError({
-          message: '',
-          type: 'PENDING',
+          message: `Event - ${slug} successfully updated`,
+          type: 'SUCCESS',
         });
       }
       if (eventUpdate?.userErrors.length) {

@@ -49,8 +49,8 @@ const EventCreate: React.FC = () => {
     onCompleted: ({ eventCreate }) => {
       if (eventCreate?.event?.id) {
         setError({
-          message: '',
-          type: 'PENDING',
+          message: `Event - ${slug} successfully created`,
+          type: 'SUCCESS',
         });
       }
       if (eventCreate?.userErrors.length) {

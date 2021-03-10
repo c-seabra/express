@@ -54,8 +54,8 @@ const LegalEntityCreate: React.FC = () => {
       onCompleted: ({ legalEntityCreate }) => {
         if (legalEntityCreate?.legalEntity?.id) {
           setError({
-            message: legalEntityCreate.userErrors[0]?.message,
-            type: 'PENDING',
+            message: `Host - ${name} successfully created`,
+            type: 'SUCCESS',
           });
         }
         if (legalEntityCreate?.userErrors.length) {
