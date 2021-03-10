@@ -201,7 +201,7 @@
     "react-modal": "3.12.1",
     "react-router-dom": "5.2.0",
     "react-simple-snackbar": "1.1.10",
-    "single-spa": "5.9.1",
+    "single-spa": "5.9.2",
     "single-spa-layout": "1.4.0",
     "single-spa-react": "3.2.0",
     "styled-components": "5.2.1",
