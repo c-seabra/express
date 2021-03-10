@@ -34,7 +34,7 @@ const StyledLabel = styled.span`
 type UpdateUniqueUserIdentifierProps = {
   accountId: string;
   email?: string;
-  isDisabled?: boolean;
+  withEditMode?: boolean;
 };
 
 const confirmSchema = Yup.object().shape({
@@ -46,7 +46,7 @@ const confirmSchema = Yup.object().shape({
 const UpdateUniqueUserIdentifier = ({
   email,
   accountId,
-  isDisabled = false,
+  withEditMode = false,
 }: UpdateUniqueUserIdentifierProps) => {
   const { isOpen, openModal, closeModal } = useModalState();
   const [editMode, setEditMode] = useState(false);
@@ -99,7 +99,7 @@ const UpdateUniqueUserIdentifier = ({
                 name="email"
                 placeholder="Type email"
                 value={email || 'N/A'}
-                withEditMode={isDisabled}
+                withEditMode={withEditMode}
                 onEdit={editAction}
               />
               {editMode && (

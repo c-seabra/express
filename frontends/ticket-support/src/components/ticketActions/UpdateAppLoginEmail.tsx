@@ -34,7 +34,7 @@ const StyledLabel = styled.span`
 type UpdateAppLoginEmailProps = {
   bookingRef: string;
   email?: string;
-  isDisabled?: boolean;
+  withEditMode?: boolean;
 };
 
 const confirmSchema = Yup.object().shape({
@@ -46,7 +46,7 @@ const confirmSchema = Yup.object().shape({
 const UpdateAppLoginEmail = ({
   email,
   bookingRef,
-  isDisabled = false,
+  withEditMode = false,
 }: UpdateAppLoginEmailProps) => {
   const { isOpen, openModal, closeModal } = useModalState();
   const [editMode, setEditMode] = useState(false);
@@ -99,7 +99,7 @@ const UpdateAppLoginEmail = ({
                 name="email"
                 placeholder="Type email"
                 value={email || 'N/A'}
-                withEditMode={isDisabled}
+                withEditMode={withEditMode}
                 onEdit={editAction}
               />
               {editMode && (
