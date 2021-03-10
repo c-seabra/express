@@ -95,11 +95,11 @@ const UpdateAppLoginEmail = ({
             <Form>
               <EditableTextInputField
                 required
-                disabled={isDisabled}
-                editModeOn={editMode}
+                editModeActive={editMode}
                 name="email"
                 placeholder="Type email"
                 value={email || 'N/A'}
+                withEditMode={isDisabled}
                 onEdit={editAction}
               />
               {editMode && (
