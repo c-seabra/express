@@ -19624,10 +19624,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-single-spa-layout@*, single-spa-layout@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/single-spa-layout/-/single-spa-layout-1.4.0.tgz#716f5cfada1609a403d5d6c47f9b3daa24001d7b"
-  integrity sha512-CWGl2hRZq4n8ki2ilqHSTnsV/cKEkKWuM7LKXaUJMQqS2glBBbVu2yDT/sXP+DBfotqsvArm9svC9v0cKmfAOw==
+single-spa-layout@*, single-spa-layout@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/single-spa-layout/-/single-spa-layout-1.5.0.tgz#ba45f76aeee85b873797fe793d0a5aebd3b82c15"
+  integrity sha512-zPfcmeWDrTF01NMCKEJmEaiWzNCYDft3BWhV68gfwQy9W9dowOpgwENPgO4KDFH2686Plyk2qXDaGuMFHjCT9Q==
   dependencies:
     "@types/parse5" "^5.0.3"
     merge2 "^1.4.1"
