@@ -14,7 +14,6 @@ const StyledLink = styled.a`
   border: none;
   background-color: transparent;
   outline: none;
-  
 
   &:hover {
     color: #013d8d;
@@ -33,7 +32,11 @@ type ButtonLinkProps = {
 };
 
 const ButtonLink = ({ children, onClick }: ButtonLinkProps) => {
-  return <StyledLink as="button" onClick={onClick}>{children}</StyledLink>;
+  return (
+    <StyledLink as="button" onClick={onClick}>
+      {children}
+    </StyledLink>
+  );
 };
 
 export default ButtonLink;
