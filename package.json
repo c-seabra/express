@@ -136,7 +136,7 @@
     "graphql-tag": "2.11.0",
     "graphql-toolkit": "0.7.5",
     "graphql-tools": "5.0.0",
-    "html-webpack-plugin": "4.5.1",
+    "html-webpack-plugin": "4.5.2",
     "husky": "4.3.8",
     "identity-obj-proxy": "3.0.0",
     "indefinite": "2.4.1",
