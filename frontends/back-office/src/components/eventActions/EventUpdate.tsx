@@ -40,7 +40,7 @@ const EventUpdate: React.FC = () => {
   const [taxNumber, setTaxNumber] = useState<string | undefined>();
   const [startDate, setStartDate] = useState<string | undefined>();
   const [endDate, setEndDate] = useState<string | undefined>();
-  const [currency, setCurrency] = useState<Currency | undefined>();
+  const [currency, setCurrency] = useState<string | undefined>();
   const [countryId, setCountryId] = useState<string | undefined>();
   const [updateError, setUpdateError] = useState<StatusType>();
 
@@ -71,7 +71,9 @@ const EventUpdate: React.FC = () => {
       setTaxNumber(event?.taxNumber);
       setStartDate(event?.startDate);
       setEndDate(event?.endDate);
-      setCurrency(event?.currency);
+      if (event?.currency != undefined) {
+        setCurrency((event.currency).toString());
+      }
       setCountryId(event?.country?.id);
     }
   }, [data, error]);
@@ -158,7 +160,7 @@ const EventUpdate: React.FC = () => {
         </Row>
 
         <Row>
-          {/* <Field fieldName="currency" label="Currency" onChange={setCurrency} /> */}
+          <Field fieldName="currency" label="Currency" value={currency} onChange={setCurrency} />
           <Field
             fieldName="startDate"
             label="Start Date"
