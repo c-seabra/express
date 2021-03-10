@@ -145,7 +145,7 @@
     "jest-cli": "26.6.3",
     "jest-styled-components": "7.0.3",
     "js-cookie": "2.2.1",
-    "json-schema": "0.2.5",
+    "json-schema": "0.3.0",
     "lerna": "3.22.1",
     "libphonenumber-js": "1.9.10",
     "lodash": "4.17.20",
