@@ -1,13 +1,13 @@
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
 import BlockMessage from '../../lib/components/molecules/BlockMessage';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';

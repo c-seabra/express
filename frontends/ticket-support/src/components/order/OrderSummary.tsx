@@ -1,4 +1,5 @@
 import { ApolloError } from '@apollo/client';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
@@ -11,7 +12,6 @@ import {
 import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
 import { formatDisplayPrice } from '../../lib/utils/price';
