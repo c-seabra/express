@@ -8,7 +8,7 @@ import { EVENT_UPDATE_MUTATION } from '../../operations/mutations/EventUpdate';
 import EVENT_QUERY from '../../operations/queries/Event';
 import { useAppContext } from '../app/AppContext';
 import CountrySelect from '../countries/CountrySelect';
-import Field from './Field';
+import Field from '../fields/Field';
 import Warning from './Warning';
 
 const Row = styled.form`

@@ -6,7 +6,7 @@ import { StatusType } from '../../lib/types';
 import { LEGAL_ENTITY_CREATE_MUTATION } from '../../operations/mutations/LegalEntityCreate';
 import { useAppContext } from '../app/AppContext';
 import CountrySelect from '../countries/CountrySelect';
-import Field from './Field';
+import Field from '../fields/Field';
 import Warning from './Warning';
 
 const Row = styled.div`

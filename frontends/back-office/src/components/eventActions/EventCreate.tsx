@@ -6,7 +6,7 @@ import { StatusType } from '../../lib/types';
 import { EVENT_CREATE_MUTATION } from '../../operations/mutations/EventCreate';
 import { useAppContext } from '../app/AppContext';
 import CountrySelect from '../countries/CountrySelect';
-import Field from './Field';
+import Field from '../fields/Field';
 import Warning from './Warning';
 
 const Row = styled.form`
@@ -95,7 +95,7 @@ const EventCreate: React.FC = () => {
         }}
       >
         <Row>
-          <Field fieldName="slug" label="Slug" onChange={setSlug} />
+          <Field required fieldName="slug" label="Slug" onChange={setSlug} />
           <Field required fieldName="name" label="Name" onChange={setName} />
           <Field
             fieldName="description"
