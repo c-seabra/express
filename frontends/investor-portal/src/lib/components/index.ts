@@ -17,7 +17,6 @@ export { default as Icon } from './atoms/Icon';
 export { default as Input } from './atoms/Input';
 export { default as Label } from './atoms/Label';
 export { default as ListItem } from './atoms/ListItem';
-export { default as Logo } from './atoms/Logo';
 export { default as PopupModal } from './atoms/PopupModal';
 export { default as Modal, useModalState } from './molecules/Modal';
 export { default as Tooltip } from './atoms/Tooltip';

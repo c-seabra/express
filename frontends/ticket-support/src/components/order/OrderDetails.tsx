@@ -2,12 +2,16 @@ import {
   Button,
   SecondaryButton,
 } from '@websummit/components/src/atoms/Button';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 import {
   CommerceOrderPaymentStatus,
   CommerceTransaction,
   CommerceTransactionType,
   Order,
   Ticket,
+  useCommerceListPaymentMethodsQuery,
   useOrderByRefQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement, useState } from 'react';
@@ -18,11 +22,7 @@ import styled from 'styled-components';
 import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';
-import Link from '../../lib/components/atoms/Link';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
-import Breadcrumbs, {
-  Breadcrumb,
-} from '../../lib/components/molecules/Breadcrumbs';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
@@ -151,8 +151,13 @@ const OrderDetails = (): ReactElement => {
     commerceOrder,
     loadingCommerceOrder,
     commerceOrderError,
+    refetch: refetchCommerceOrder,
   } = useSingleCommerceOrderQuery({
     id: sourceId,
+  });
+
+  const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
+    context: { slug: conferenceSlug, token },
   });
 
   const owner = order?.owner;
@@ -183,6 +188,40 @@ const OrderDetails = (): ReactElement => {
       label: `Order ${orderRef}`,
     },
   ];
+
+  let cancelReinstateModal: JSX.Element;
+  if (isTitoOrder) {
+    cancelReinstateModal = (
+      <ErrorInfoModal
+        alertHeader={orderRef}
+        alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
+            to Tito to cancel the order."
+        closeModal={closeTitoWarningModal}
+        headerText="Unable to cancel order"
+        isOpen={isTitoWarningModalOpen}
+      />
+    );
+  } else if (order?.state === 'CANCELLED') {
+    cancelReinstateModal = (
+      <OrderReinstateModal
+        closeModal={closeOrderReinstateModal}
+        isOpen={isOrderReinstateModalOpen}
+        orderRef={orderRef}
+        refetch={refetch}
+        sourceId={sourceId}
+      />
+    );
+  } else {
+    cancelReinstateModal = (
+      <OrderCancelModal
+        closeModal={closeOrderCancelModal}
+        isOpen={isOrderCancelModalOpen}
+        orderRef={orderRef}
+        refetch={refetch}
+        sourceId={sourceId}
+      />
+    );
+  }
 
   const refunds: CommerceTransaction[] = commerceOrder?.transactions
     ?.filter(Boolean)
@@ -248,32 +287,7 @@ const OrderDetails = (): ReactElement => {
                         Cancel order
                       </ButtonWithSpacing>
                     )}
-                    {isTitoOrder ? (
-                      <ErrorInfoModal
-                        alertHeader={orderRef}
-                        alertText="As this order was created in Tito, it cannot be canceled using Ticket Machine. Please go
-            to Tito to cancel the order."
-                        closeModal={closeTitoWarningModal}
-                        headerText="Unable to cancel order"
-                        isOpen={isTitoWarningModalOpen}
-                      />
-                    ) : order?.state === 'CANCELLED' ? (
-                      <OrderReinstateModal
-                        closeModal={closeOrderReinstateModal}
-                        isOpen={isOrderReinstateModalOpen}
-                        orderRef={orderRef}
-                        refetch={refetch}
-                        sourceId={sourceId}
-                      />
-                    ) : (
-                      <OrderCancelModal
-                        closeModal={closeOrderCancelModal}
-                        isOpen={isOrderCancelModalOpen}
-                        orderRef={orderRef}
-                        refetch={refetch}
-                        sourceId={sourceId}
-                      />
-                    )}
+                    {cancelReinstateModal}
                     <Button
                       disabled={
                         !commerceOrder ||
@@ -287,11 +301,15 @@ const OrderDetails = (): ReactElement => {
                         ? 'Order refunded'
                         : 'Refund order'}
                     </Button>
-                    {commerceOrder && (
+                    {commerceOrder && paymentMethodsData && (
                       <OrderRefundModal
                         commerceOrder={commerceOrder}
                         isOpen={isRefundModalOpen}
                         orderRef={orderRef}
+                        paymentMethods={
+                          paymentMethodsData?.commerceListPaymentMethods
+                        }
+                        refetchCommerceOrder={refetchCommerceOrder}
                         onRequestClose={closeRefundModal}
                       />
                     )}
@@ -321,7 +339,8 @@ const OrderDetails = (): ReactElement => {
                     return (
                       <>
                         {!isOwnerDetailsEditOn ? (
-                          <Link
+                          <button
+                            type="button"
                             onClick={
                               isTitoOrder
                                 ? openTransferWarningModal
@@ -330,7 +349,7 @@ const OrderDetails = (): ReactElement => {
                           >
                             <Icon>create</Icon>
                             <span>Edit</span>
-                          </Link>
+                          </button>
                         ) : null}
                       </>
                     );

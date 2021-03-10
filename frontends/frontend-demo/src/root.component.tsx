@@ -1,11 +1,11 @@
 import { meaningOfLife } from '@websummit/ws-lib-example';
 import React from 'react';
-import ReactDom from 'react-dom';
 
 export default function Root(props: any) {
+  const { name } = props;
   return (
     <section>
-      {props.name} is mounted with {meaningOfLife}!<h2>props:</h2>
+      {name} is mounted with {meaningOfLife}!<h2>props:</h2>
       <pre>{JSON.stringify(props, null, 2)}</pre>
     </section>
   );

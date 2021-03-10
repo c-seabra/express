@@ -37,6 +37,7 @@ const AssigneeList: React.FC<{ list: AssigneesList }> = ({ list }) => {
           );
         return (
           <AssigneeItemProvider
+            key={`${bookingRef}-${email}`}
             autoClaim={autoClaim}
             bookingRef={bookingRef.toUpperCase()}
             email={email}

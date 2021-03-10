@@ -32,18 +32,6 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
 
   const investorSessionsSummary = data?.event.investorSessionsSummary;
 
-  const handleUnlock = () => {
-    setUnlockInvestor(currentStartsAt !== undefined && selected === false);
-  };
-
-  const checkForInvalidStatus = () => {
-    const item = selections.find(
-      (selection) =>
-        selection.status === 'accepted' || selection.status === 'rejected',
-    );
-    setHideAction(item !== undefined);
-  };
-
   const styledDateForMutation = (dateString?: string) => {
     if (dateString === undefined || dateString === '') {
       return undefined;
@@ -52,10 +40,15 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   };
 
   useEffect(() => {
-    checkForInvalidStatus();
-    handleUnlock();
+    const item = selections.find(
+      (selection) =>
+        selection.status === 'accepted' || selection.status === 'rejected',
+    );
+    setHideAction(item !== undefined);
+
+    setUnlockInvestor(currentStartsAt !== undefined && selected === false);
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin');
-  });
+  }, [currentStartsAt, selected, selections, data?.event.timeZone.ianaName]);
 
   const startsAt = styledDateForMutation(newStartsAt);
 
@@ -70,7 +63,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
 
   const submit = async () => {
     await attendanceInvestorSessionUpdateMutation();
-    handleUnlock();
+    setUnlockInvestor(currentStartsAt !== undefined && selected === false);
   };
 
   return (
