@@ -5,7 +5,7 @@ module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
     argv,
     orgName: 'websummit-micro',
-    projectName: 'back-office',
+    projectName: 'events',
     webpackConfigEnv,
   });
 

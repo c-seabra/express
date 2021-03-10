@@ -59,7 +59,7 @@ const config = {
     filename: 'frontends.[name].bundle.js',
     library: ['frontends', '[name]'],
     libraryTarget: 'window',
-    path: path.resolve(__dirname, '../../builds/back-office'),
+    path: path.resolve(__dirname, '../../builds/events'),
   },
   plugins: [new CleanWebpackPlugin()],
   resolve: {
