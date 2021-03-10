@@ -2,12 +2,7 @@ import { ApolloProvider } from '@apollo/client';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
-import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import EventCreate from '../eventActions/EventCreate';
@@ -62,15 +57,12 @@ const App = ({ token, apiURL }: AppProps) => {
             </StyledSection>
             <Switch>
               <Route exact path="/">
-                <Redirect to="/events" />
-              </Route>
-              <Route exact path="/events">
                 <EventList />
               </Route>
-              <Route exact path="/events/new">
+              <Route exact path="/new">
                 <EventCreate />
               </Route>
-              <Route exact path="/events/:slug/edit">
+              <Route exact path="/:slug/edit">
                 <EventUpdate />
               </Route>
               <Route exact path="/legal_entities">
