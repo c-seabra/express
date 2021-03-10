@@ -1,8 +1,8 @@
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import FilterButton from '../../lib/components/atoms/FilterButton';
 import TextHeading from '../../lib/components/atoms/Heading';
 import CategoryList, {
