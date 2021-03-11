@@ -11,8 +11,8 @@ import EVENT_LIST from '@websummit/graphql/src/operations/queries/EventList';
 import React from 'react';
 import styled from 'styled-components';
 
-import EventList from '../eventList/EventList';
 import Loader from '../../lib/Loading';
+import EventList from '../eventList/EventList';
 
 const NoEventsPlaceholder = () => {
   const FlexRow = styled.div`
@@ -67,11 +67,11 @@ const EventPage = () => {
     <>
       {loading && <Loader />}
 
-      {!loading && hasEvents ? (
+      {hasEvents ? (
         <EventList error={error} events={events} />
       ) : (
         <>
-          <NoEventsPlaceholder />
+          {!loading && <NoEventsPlaceholder />}
           {/* <img alt="events placeholder" src={NoEventsPlaceholderImage} /> */}
         </>
       )}
