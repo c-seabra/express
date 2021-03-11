@@ -1,22 +1,34 @@
-import React from 'react';
-
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
+import React from 'react';
+
 import { formatDefaultDateTime } from '../../../../ticket-support/src/lib/utils/time';
 import { Event } from '../../lib/types';
+import styled from "styled-components";
+
+const StyledHeader = styled.span`
+  color: #0C1439;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 24px;
+`;
+
+const StyledName = styled.span`
+  color: #0067E9;
+`;
 
 type EventListProps = {
   error: any;
   events: any;
 };
-
 const EventList = ({ error, events }: EventListProps) => {
   const tableShape: ColumnDescriptor<Event>[] = [
     {
       header: 'Name',
-      renderCell: (event) => event.name || 'N/A',
+      renderCell: (event) => <StyledName>{event.name || 'N/A'}</StyledName>,
       width: '20%',
     },
     {
@@ -30,7 +42,7 @@ const EventList = ({ error, events }: EventListProps) => {
     },
     {
       header: 'Location',
-      renderCell: (event) => event.country?.name,
+      renderCell: (event) => event.country?.name || 'N/A',
     },
     // TODO check if we can get it via events query
     // {
@@ -45,7 +57,7 @@ const EventList = ({ error, events }: EventListProps) => {
 
   return (
     <>
-      <h4>All events</h4>
+      <StyledHeader>All events</StyledHeader>
       <ContainerCard noPadding>
         <Table<Event> items={events} tableShape={tableShape} />
       </ContainerCard>
