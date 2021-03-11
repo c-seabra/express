@@ -72,7 +72,7 @@ export type Query = {
   accessPermissions: AccessPermissionConnection;
   ticketCategories: TicketCategoryConnection;
   ticketRelease: Maybe<TicketRelease>;
-  ticketReleasePhase: TicketReleasePhase;
+  ticketReleasePhase: Maybe<TicketReleasePhase>;
   ticketReleasePhases: TicketReleasePhaseConnection;
   ticketReleases: TicketReleaseConnection;
   ticketType: Maybe<TicketType>;
@@ -1194,7 +1194,6 @@ export type TicketType = {
   description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
-  product: Maybe<StoreProduct>;
   /** If no arguments given, it returns current release */
   release: Maybe<TicketRelease>;
   releasePhases: TicketReleasePhaseConnection;
@@ -1334,11 +1333,6 @@ export type TicketCategoryTicketTypesArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
-};
-
-export type StoreProduct = {
-  __typename?: 'StoreProduct';
-  id: Scalars['ID'];
 };
 
 /** A ticket release combines a ticket type and a release phase, e.g. Early-Bird General Attendee */
@@ -2702,6 +2696,7 @@ export type PaperTrailVersion = {
 
 export type Order = {
   __typename?: 'Order';
+  /** @deprecated No longer used. Will always return 0 to maintain backwards compatiability. */
   amount: Scalars['Float'];
   completedAt: Scalars['ISO8601DateTime'];
   currency: Scalars['String'];
@@ -3369,7 +3364,7 @@ export type Event = {
   slug: Scalars['String'];
   startDate: Maybe<Scalars['ISO8601Date']>;
   taxNumber: Scalars['String'];
-  taxRate: Maybe<TaxRate>;
+  taxRates: Maybe<TaxRateConnection>;
   timezone: Maybe<Scalars['String']>;
   brandName: Scalars['String'];
   companySizes: Maybe<Array<CompanySize>>;
@@ -3378,6 +3373,13 @@ export type Event = {
   investorSessionsSummary: Maybe<Array<InvestorSessionsSummary>>;
   passportRequired: Maybe<Scalars['Boolean']>;
   timeZone: Maybe<TimeZone>;
+};
+
+export type EventTaxRatesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type LegalEntity = {
@@ -3424,6 +3426,24 @@ export enum TaxType {
   Accommodation = 'ACCOMMODATION',
   Standard = 'STANDARD',
 }
+
+/** The connection type for TaxRate. */
+export type TaxRateConnection = {
+  __typename?: 'TaxRateConnection';
+  /** A list of edges. */
+  edges: Array<TaxRateEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type TaxRateEdge = {
+  __typename?: 'TaxRateEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TaxRate;
+};
 
 export type ConferenceConfiguration = {
   __typename?: 'ConferenceConfiguration';
@@ -3517,24 +3537,6 @@ export type LegalEntityEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node: LegalEntity;
-};
-
-/** The connection type for TaxRate. */
-export type TaxRateConnection = {
-  __typename?: 'TaxRateConnection';
-  /** A list of edges. */
-  edges: Array<TaxRateEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type TaxRateEdge = {
-  __typename?: 'TaxRateEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: TaxRate;
 };
 
 export type Mutation = {
@@ -6021,7 +6023,7 @@ export type EventCreateInput = {
   name: Scalars['String'];
   slug: Scalars['String'];
   startDate?: Maybe<Scalars['String']>;
-  taxNumber: Scalars['String'];
+  taxNumber?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
 
@@ -7516,6 +7518,39 @@ export type CommerceListPaymentMethodsQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type EventListQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type EventListQueryQuery = { __typename?: 'Query' } & {
+  events: { __typename?: 'EventConnection' } & {
+    edges: Array<
+      { __typename?: 'EventEdge' } & Pick<EventEdge, 'cursor'> & {
+          node: { __typename?: 'Event' } & Pick<
+            Event,
+            | 'id'
+            | 'name'
+            | 'description'
+            | 'slug'
+            | 'startDate'
+            | 'endDate'
+            | 'timezone'
+            | 'baseUrl'
+          > & {
+              country: Maybe<
+                { __typename?: 'EventConfigurationCountry' } & Pick<
+                  EventConfigurationCountry,
+                  'name'
+                >
+              >;
+            };
+        }
+    >;
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
+    >;
+  };
+};
+
 export type TaEventDataQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -7882,14 +7917,19 @@ export type TicketReleasePhaseQueryVariables = Exact<{
 }>;
 
 export type TicketReleasePhaseQuery = { __typename?: 'Query' } & {
-  ticketReleasePhase: { __typename?: 'TicketReleasePhase' } & Pick<
-    TicketReleasePhase,
-    'id' | 'name' | 'active' | 'status' | 'startsAt' | 'endsAt'
-  > & {
-      nextPhase: Maybe<
-        { __typename?: 'TicketReleasePhase' } & Pick<TicketReleasePhase, 'name'>
-      >;
-    };
+  ticketReleasePhase: Maybe<
+    { __typename?: 'TicketReleasePhase' } & Pick<
+      TicketReleasePhase,
+      'id' | 'name' | 'active' | 'status' | 'startsAt' | 'endsAt'
+    > & {
+        nextPhase: Maybe<
+          { __typename?: 'TicketReleasePhase' } & Pick<
+            TicketReleasePhase,
+            'name'
+          >
+        >;
+      }
+  >;
 };
 
 export type TicketReleasesQueryVariables = Exact<{
@@ -13288,6 +13328,170 @@ export type CommerceListPaymentMethodsLazyQueryHookResult = ReturnType<
 export type CommerceListPaymentMethodsQueryResult = Apollo.QueryResult<
   CommerceListPaymentMethodsQuery,
   CommerceListPaymentMethodsQueryVariables
+>;
+export const EventListQueryDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'EventListQuery' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'events' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'startDate' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'endDate' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'timezone' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'baseUrl' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useEventListQueryQuery__
+ *
+ * To run a query within a React component, call `useEventListQueryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventListQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventListQueryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useEventListQueryQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    EventListQueryQuery,
+    EventListQueryQueryVariables
+  >,
+) {
+  return Apollo.useQuery<EventListQueryQuery, EventListQueryQueryVariables>(
+    EventListQueryDocument,
+    baseOptions,
+  );
+}
+export function useEventListQueryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EventListQueryQuery,
+    EventListQueryQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<EventListQueryQuery, EventListQueryQueryVariables>(
+    EventListQueryDocument,
+    baseOptions,
+  );
+}
+export type EventListQueryQueryHookResult = ReturnType<
+  typeof useEventListQueryQuery
+>;
+export type EventListQueryLazyQueryHookResult = ReturnType<
+  typeof useEventListQueryLazyQuery
+>;
+export type EventListQueryQueryResult = Apollo.QueryResult<
+  EventListQueryQuery,
+  EventListQueryQueryVariables
 >;
 export const TaEventDataDocument: DocumentNode = {
   definitions: [
