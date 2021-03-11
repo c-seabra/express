@@ -11,6 +11,7 @@ import EVENT_LIST from '@websummit/graphql/src/operations/queries/EventList';
 import React from 'react';
 import styled from 'styled-components';
 
+import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
 import Loader from '../../lib/Loading';
 import EventList from '../eventList/EventList';
 
@@ -38,18 +39,20 @@ const NoEventsPlaceholder = () => {
 
   return (
     <FlexCol>
-      <ContainerCard noPadding>
-        <FlexRow>
-          <FlexCol>
-            <HeaderText>No Events Found</HeaderText>
-            <span>
-              You haven&apos;t created any events yet, but we are showing you a
-              preview of what things will look like when you do.
-            </span>
-          </FlexCol>
-          <Button>Create new event</Button>
-        </FlexRow>
-      </ContainerCard>
+      <Spacing bottom="6rem" top="4.125rem">
+        <ContainerCard noPadding>
+          <FlexRow>
+            <FlexCol>
+              <HeaderText>No Events Found</HeaderText>
+              <span>
+                You haven&apos;t created any events yet, but we are showing you
+                a preview of what things will look like when you do.
+              </span>
+            </FlexCol>
+            <Button>Create new event</Button>
+          </FlexRow>
+        </ContainerCard>
+      </Spacing>
 
       <p>test</p>
       {/* <img alt="events placeholder" src={NoEventsPlaceholderImage} /> */}

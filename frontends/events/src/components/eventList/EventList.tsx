@@ -3,13 +3,14 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import React from 'react';
+import styled from 'styled-components';
 
+import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
 import { formatDefaultDateTime } from '../../../../ticket-support/src/lib/utils/time';
 import { Event } from '../../lib/types';
-import styled from "styled-components";
 
 const StyledHeader = styled.span`
-  color: #0C1439;
+  color: #0c1439;
   font-size: 24px;
   font-weight: 500;
   letter-spacing: 0;
@@ -17,7 +18,7 @@ const StyledHeader = styled.span`
 `;
 
 const StyledName = styled.span`
-  color: #0067E9;
+  color: #0067e9;
 `;
 
 type EventListProps = {
@@ -58,7 +59,9 @@ const EventList = ({ error, events }: EventListProps) => {
 
   return (
     <>
-      <StyledHeader>All events</StyledHeader>
+      <Spacing bottom="1.5rem">
+        <StyledHeader>All events</StyledHeader>
+      </Spacing>
       <ContainerCard noPadding>
         <Table<Event> items={events} tableShape={tableShape} />
       </ContainerCard>
