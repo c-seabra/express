@@ -64,29 +64,18 @@ type EventListQueryResponse = {
 };
 
 const EventPage = () => {
-  const { conferenceSlug, token } = useAppContext();
-
-  const { loading, error, data }: EventListQueryResponse = useQuery(
-    EVENT_LIST,
-    {
-      context: {
-        slug: conferenceSlug,
-        token,
-      },
-    },
-  );
-  // const hasEvents = false;
+  const { loading, error, data }: EventListQueryResponse = useQuery(EVENT_LIST);
   const hasEvents = data?.events && data?.events?.edges.length;
-  const mappedEvents = data?.events && data?.events.edges.map((node) => node.node);
+  const events = data?.events && data?.events.edges.map((node) => node.node);
 
   return (
     <>
       {hasEvents ? (
-        <EventList error={error} events={mappedEvents} loading={loading} />
+        <EventList error={error} events={events} loading={loading} />
       ) : (
         <>
           <NoEventsPlaceholder />
-          {/*<img alt="events placeholder" src={NoEventsPlaceholderImage} />*/}
+          {/* <img alt="events placeholder" src={NoEventsPlaceholderImage} /> */}
         </>
       )}
     </>
