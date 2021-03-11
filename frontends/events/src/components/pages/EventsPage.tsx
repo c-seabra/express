@@ -37,18 +37,23 @@ const NoEventsPlaceholder = () => {
   `;
 
   return (
-    <ContainerCard noPadding>
-      <FlexRow>
-        <FlexCol>
-          <HeaderText>No Events Found</HeaderText>
-          <span>
+      <FlexCol>
+        <ContainerCard noPadding>
+          <FlexRow>
+            <FlexCol>
+              <HeaderText>No Events Found</HeaderText>
+              <span>
             You haven&apos;t created any events yet, but we are showing you a
             preview of what things will look like when you do.
           </span>
-        </FlexCol>
-        <Button>Create new event</Button>
-      </FlexRow>
-    </ContainerCard>
+            </FlexCol>
+            <Button>Create new event</Button>
+          </FlexRow>
+        </ContainerCard>
+
+        <p>test</p>
+        {/* <img alt="events placeholder" src={NoEventsPlaceholderImage} /> */}
+      </FlexCol>
   );
 };
 
@@ -72,7 +77,6 @@ const EventPage = () => {
       ) : (
         <>
           {!loading && <NoEventsPlaceholder />}
-          {/* <img alt="events placeholder" src={NoEventsPlaceholderImage} /> */}
         </>
       )}
     </>
