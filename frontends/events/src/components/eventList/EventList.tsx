@@ -16,26 +16,27 @@ const EventList = ({ error, events }: EventListProps) => {
   const tableShape: ColumnDescriptor<Event>[] = [
     {
       header: 'Name',
-      renderCell: (event) => event.name,
+      renderCell: (event) => event.name || 'N/A',
       width: '20%',
     },
     {
       header: 'Start date',
-      renderCell: (event) => formatDefaultDateTime(event.startDate),
+      renderCell: (event) => formatDefaultDateTime(event.startDate) || 'N/A',
       width: '20%',
     },
     {
       header: 'End date',
-      renderCell: (event) => formatDefaultDateTime(event.endDate),
+      renderCell: (event) => formatDefaultDateTime(event.endDate) || 'N/A',
     },
     {
       header: 'Location',
-      renderCell: (event) => event.country,
+      renderCell: (event) => event.country?.name,
     },
-    {
-      header: 'Created by',
-      renderCell: (event) => 'cby',
-    },
+    // TODO check if we can get it via events query
+    // {
+    //   header: 'Created by',
+    //   renderCell: (event) => event.createdBy,
+    // },
   ];
 
   if (error) {
