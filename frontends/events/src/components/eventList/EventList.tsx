@@ -51,6 +51,7 @@ const EventList = ({ error, events }: EventListProps) => {
     // },
   ];
 
+  // TODO lift up error and reuse useQuery hook for error handling
   if (error) {
     return <>{error.message}</>;
   }
