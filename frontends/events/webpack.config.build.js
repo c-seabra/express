@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const config = {
   entry: {
-    backOffice: './src/index.js',
+    events: './src/index.js',
   },
   module: {
     rules: [
@@ -87,7 +87,7 @@ module.exports = (env, argv) => {
         env: process.env.ENV,
         filename: './index.html',
         template: 'template.html',
-        title: 'backOffice',
+        title: 'events',
         token: process.env.TOKEN,
       }),
     ]);
