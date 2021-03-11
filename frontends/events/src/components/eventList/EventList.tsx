@@ -2,6 +2,7 @@ import React from 'react';
 
 import Loader from '../../lib/Loading';
 import EventItem, { EventListHeader } from '../eventItem/EventItem';
+import { Event } from '../../lib/types';
 
 type EventListProps = {
   error: any;
@@ -18,13 +19,11 @@ const EventList = ({loading, error, events}: EventListProps) => {
     return <>{error.message}</>;
   }
 
-  const mappedEvents = events.edges.map((node) => node.node);
-
   return (
     <>
-      <h4>Events</h4>
+      <h4>All events</h4>
       <EventListHeader />
-      {mappedEvents?.map((event) => (
+      {events?.map((event: Event) => (
         <EventItem
           key={event.id}
           country={event?.country}

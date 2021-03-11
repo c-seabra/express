@@ -4,6 +4,8 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import React from 'react';
 import styled from 'styled-components';
 
+// import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder';
+// import NoEventsPlaceholderImage from './no-events-placeholder.png';
 import { Event } from '../../lib/types';
 import EVENT_LIST from '../../operations/queries/EventList';
 import { useAppContext } from '../app/AppContext';
@@ -47,39 +49,45 @@ const NoEventsPlaceholder = () => {
   );
 };
 
+type EventListQueryResponse = {
+  data?: {
+    events: {
+      edges: [
+        {
+          node: Event;
+        },
+      ];
+    };
+  };
+  error?: ApolloError;
+  loading?: boolean;
+};
+
 const EventPage = () => {
   const { conferenceSlug, token } = useAppContext();
 
-  const {
-    loading,
-    error,
-    data,
-  }: {
-    data?: {
-      events: {
-        edges: [
-          {
-            node: Event;
-          },
-        ];
-      };
-    };
-    error?: ApolloError;
-    loading?: boolean;
-  } = useQuery(EVENT_LIST, {
-    context: {
-      slug: conferenceSlug,
-      token,
+  const { loading, error, data }: EventListQueryResponse = useQuery(
+    EVENT_LIST,
+    {
+      context: {
+        slug: conferenceSlug,
+        token,
+      },
     },
-  });
-  const hasEvents = false;
+  );
+  // const hasEvents = false;
+  const hasEvents = data?.events && data?.events?.edges.length;
+  const mappedEvents = data?.events && data?.events.edges.map((node) => node.node);
 
   return (
     <>
       {hasEvents ? (
-        <EventList error={error} events={data} loading={loading} />
+        <EventList error={error} events={mappedEvents} loading={loading} />
       ) : (
-        <NoEventsPlaceholder />
+        <>
+          <NoEventsPlaceholder />
+          {/*<img alt="events placeholder" src={NoEventsPlaceholderImage} />*/}
+        </>
       )}
     </>
   );
