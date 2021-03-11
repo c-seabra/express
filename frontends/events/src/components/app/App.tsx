@@ -19,9 +19,6 @@ const StyledContainer = styled.section`
   margin: 0 auto;
   font-size: 16px;
 `;
-const StyledSection = styled.section`
-  padding: 1rem;
-`;
 
 type AppProps = {
   apiURL: string;
@@ -52,9 +49,6 @@ const App = ({ token, apiURL }: AppProps) => {
           }}
         >
           <StyledContainer>
-            <StyledSection>
-              <h2>Back Office</h2>
-            </StyledSection>
             <Switch>
               <Route exact path="/">
                 <EventList />
