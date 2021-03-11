@@ -14,10 +14,8 @@ import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
-  padding: 1rem;
-  max-width: 1024px;
-  width: 100%;
   margin: 0 auto;
+  max-width: 1440px;
   background-color: #f2f3f6;
 `;
 
