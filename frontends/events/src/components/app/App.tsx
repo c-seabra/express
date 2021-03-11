@@ -7,9 +7,9 @@ import styled from 'styled-components';
 
 import EventCreate from '../eventActions/EventCreate';
 import EventUpdate from '../eventActions/EventUpdate';
-import EventList from '../eventList/EventList';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
+import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
@@ -57,7 +57,7 @@ const App = ({ token, apiURL }: AppProps) => {
             </StyledSection>
             <Switch>
               <Route exact path="/">
-                <EventList />
+                <EventsPage />
               </Route>
               <Route exact path="/new">
                 <EventCreate />
