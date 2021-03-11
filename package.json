@@ -205,7 +205,7 @@
     "single-spa-layout": "1.5.0",
     "single-spa-react": "3.2.0",
     "styled-components": "5.2.1",
-    "yup": "0.32.8"
+    "yup": "0.32.9"
   },
   "dependencies": {
     "lint-staged": "10.5.4"
