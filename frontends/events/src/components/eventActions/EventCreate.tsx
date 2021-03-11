@@ -87,6 +87,7 @@ const EventCreate: React.FC = () => {
 
   return (
     <div>
+      <h4>Create event</h4>
       {error && <Warning>{error.message}</Warning>}
       <form
         onSubmit={(e) => {

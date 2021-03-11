@@ -72,7 +72,7 @@ const EventUpdate: React.FC = () => {
       setTaxNumber(event?.taxNumber);
       setStartDate(event?.startDate);
       setEndDate(event?.endDate);
-      if (event?.currency !== undefined) {
+      if (event && event.currency) {
         setCurrency(event.currency.toString());
       }
       setCountryId(event?.country?.id);
@@ -124,6 +124,7 @@ const EventUpdate: React.FC = () => {
 
   return (
     <div>
+      <h4>Update event - {slug}</h4>
       {updateError && <Warning>{updateError.message}</Warning>}
       <form
         onSubmit={(e) => {
