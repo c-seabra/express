@@ -184,7 +184,7 @@ const getRefundMethodOptions = (
       .filter(Boolean)
       .filter(
         (method) =>
-          (method?.configuration as { refundMethod?: string }).refundMethod ===
+          (method?.configuration as { refundMethod?: string })?.refundMethod ===
           'true',
       )
       .map((method) => ({ label: method?.name, value: method?.id || '' })),
