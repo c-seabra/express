@@ -1,15 +1,18 @@
 import { ApolloError, useQuery } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import {
+  EventListQueryQuery,
+  useEventListQueryQuery,
+} from '@websummit/graphql/src/@types/operations';
+// import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder';
+// import NoEventsPlaceholderImage from './no-events-placeholder.png';
+import EVENT_LIST from '@websummit/graphql/src/operations/queries/EventList';
 import React from 'react';
 import styled from 'styled-components';
 
-// import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder';
-// import NoEventsPlaceholderImage from './no-events-placeholder.png';
-import { Event } from '../../lib/types';
-import EVENT_LIST from '../../operations/queries/EventList';
-import { useAppContext } from '../app/AppContext';
 import EventList from '../eventList/EventList';
+import Loader from '../../lib/Loading';
 
 const NoEventsPlaceholder = () => {
   const FlexRow = styled.div`
@@ -50,15 +53,7 @@ const NoEventsPlaceholder = () => {
 };
 
 type EventListQueryResponse = {
-  data?: {
-    events: {
-      edges: [
-        {
-          node: Event;
-        },
-      ];
-    };
-  };
+  data?: EventListQueryQuery;
   error?: ApolloError;
   loading?: boolean;
 };
@@ -70,8 +65,10 @@ const EventPage = () => {
 
   return (
     <>
-      {hasEvents ? (
-        <EventList error={error} events={events} loading={loading} />
+      {loading && <Loader />}
+
+      {!loading && hasEvents ? (
+        <EventList error={error} events={events} />
       ) : (
         <>
           <NoEventsPlaceholder />

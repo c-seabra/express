@@ -5,16 +5,14 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import { formatDefaultDateTime } from '../../../../ticket-support/src/lib/utils/time';
-import Loader from '../../lib/Loading';
 import { Event } from '../../lib/types';
 
 type EventListProps = {
   error: any;
   events: any;
-  loading: boolean;
 };
 
-const EventList = ({ loading, error, events }: EventListProps) => {
+const EventList = ({ error, events }: EventListProps) => {
   const tableShape: ColumnDescriptor<Event>[] = [
     {
       header: 'Name',
@@ -39,10 +37,6 @@ const EventList = ({ loading, error, events }: EventListProps) => {
       renderCell: (event) => 'cby',
     },
   ];
-
-  if (loading) {
-    return <Loader />;
-  }
 
   if (error) {
     return <>{error.message}</>;
