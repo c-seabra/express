@@ -10,7 +10,7 @@ import { Spacing } from '../../../../../packages/components/src/templates/Spacin
 import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
 import EventList from '../eventList/EventList';
-import UpcomingEvents from "../templates/UpcomingEvents";
+import UpcomingEvents from '../templates/UpcomingEvents';
 
 const FlexRow = styled.div`
   display: flex;
