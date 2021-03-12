@@ -1,15 +1,13 @@
 import { ApolloError, useQuery } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import {
-  EventListQueryQuery,
-} from '@websummit/graphql/src/@types/operations';
-import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
+import { EventListQueryQuery } from '@websummit/graphql/src/@types/operations';
 import EVENT_LIST from '@websummit/graphql/src/operations/queries/EventList';
 import React from 'react';
 import styled from 'styled-components';
 
 import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
+import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
 import EventList from '../eventList/EventList';
 
@@ -52,7 +50,7 @@ const NoEventsPlaceholder = () => {
         </ContainerCard>
       </Spacing>
 
-       <img alt="events placeholder" src={NoEventsPlaceholderImage} />
+      <img alt="events placeholder" src={NoEventsPlaceholderImage} />
     </FlexCol>
   );
 };

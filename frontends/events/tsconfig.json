@@ -2,5 +2,5 @@
   "extends": "../../tsconfig.json",
   "typeRoots": ["node_modules/@types"],
   "include": ["src/**/*", "../../conferenceInput"],
-  "exclude": ["src/index.js", "src/lib/apollo/*.js"],
+  "exclude": ["src/index.js", "src/lib/apollo/*.js"]
 }
