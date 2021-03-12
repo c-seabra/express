@@ -26,6 +26,8 @@ export type Scalars = {
    */
   DateTime: string;
   JSON: AnyJson;
+  /** An ISO 8601-encoded date */
+  ISO8601Date: any;
   /** A valid JSON schema for building HTML forms, see: https://react-jsonschema-form.readthedocs.io/en/latest */
   JSONSchemaForm: JsonObject;
   /** A valid email address */
@@ -38,8 +40,6 @@ export type Scalars = {
   URL: string;
   /** Valid markdown, ready for translation to HTML, JSX, etc. */
   Markdown: string;
-  /** An ISO 8601-encoded date */
-  ISO8601Date: any;
   Date: string;
   /** Input type for dynamic zone link of MenuItem */
   MenuItemLinkDynamicZoneInput: JsonObject;
@@ -1202,6 +1202,7 @@ export type TicketType = {
    * The combination of ticket type and release phase is captured in the concept of a "TicketRelease".
    */
   releases: TicketReleaseConnection;
+  versions: Maybe<Array<PaperTrailVersion>>;
   assignmentProperties: Maybe<AssignmentProperties>;
 };
 
@@ -1325,6 +1326,7 @@ export type TicketCategory = {
   id: Scalars['ID'];
   name: Scalars['String'];
   ticketTypes: TicketTypeConnection;
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
 /** A ticket category groups ticket types by their common denominator */
@@ -1333,6 +1335,22 @@ export type TicketCategoryTicketTypesArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+};
+
+export type PaperTrailVersion = {
+  __typename?: 'PaperTrailVersion';
+  command: Maybe<Scalars['String']>;
+  context: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['ISO8601Date']>;
+  event: Scalars['String'];
+  id: Scalars['Int'];
+  itemId: Scalars['ID'];
+  itemType: Scalars['String'];
+  object: Maybe<Scalars['String']>;
+  objectChanges: Maybe<Scalars['String']>;
+  reason: Maybe<Scalars['String']>;
+  sourceLocation: Maybe<Scalars['String']>;
+  whodunnit: Maybe<Scalars['String']>;
 };
 
 /** A ticket release combines a ticket type and a release phase, e.g. Early-Bird General Attendee */
@@ -1354,6 +1372,7 @@ export type TicketRelease = {
   /** The corresponding source entity from third-party provider, e.g. from Tito */
   source: Maybe<SourceTicketReleaseUnion>;
   ticketType: TicketType;
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
 export type TicketReleaseAction =
@@ -1480,6 +1499,7 @@ export type TicketReleasePhase = {
   previousPhase: Maybe<TicketReleasePhase>;
   startsAt: Scalars['ISO8601DateTime'];
   status: TicketReleasePhaseStatus;
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
 /** Possible release phase states */
@@ -2677,22 +2697,6 @@ export enum AssignmentState {
   Duplicate = 'DUPLICATE',
   Pending = 'PENDING',
 }
-
-export type PaperTrailVersion = {
-  __typename?: 'PaperTrailVersion';
-  command: Maybe<Scalars['String']>;
-  context: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['ISO8601Date']>;
-  event: Scalars['String'];
-  id: Scalars['Int'];
-  itemId: Scalars['ID'];
-  itemType: Scalars['String'];
-  object: Maybe<Scalars['String']>;
-  objectChanges: Maybe<Scalars['String']>;
-  reason: Maybe<Scalars['String']>;
-  sourceLocation: Maybe<Scalars['String']>;
-  whodunnit: Maybe<Scalars['String']>;
-};
 
 export type Order = {
   __typename?: 'Order';
@@ -7520,7 +7524,9 @@ export type CommerceListPaymentMethodsQuery = { __typename?: 'Query' } & {
   >;
 };
 
-export type EventListQueryQueryVariables = Exact<{ [key: string]: never }>;
+export type EventListQueryQueryVariables = Exact<{
+  filter?: Maybe<EventFilter>;
+}>;
 
 export type EventListQueryQuery = { __typename?: 'Query' } & {
   events: { __typename?: 'EventConnection' } & {
@@ -13349,6 +13355,16 @@ export const EventListQueryDocument: DocumentNode = {
         kind: 'SelectionSet',
         selections: [
           {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+            ],
             kind: 'Field',
             name: { kind: 'Name', value: 'events' },
             selectionSet: {
@@ -13472,6 +13488,19 @@ export const EventListQueryDocument: DocumentNode = {
           },
         ],
       },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'EventFilter' },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+        },
+      ],
     },
   ],
   kind: 'Document',
@@ -13489,6 +13518,7 @@ export const EventListQueryDocument: DocumentNode = {
  * @example
  * const { data, loading, error } = useEventListQueryQuery({
  *   variables: {
+ *      filter: // value for 'filter'
  *   },
  * });
  */

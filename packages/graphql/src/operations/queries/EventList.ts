@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const EVENT_LIST = gql`
-  query EventListQuery {
-    events {
+  query EventListQuery($filter: EventFilter) {
+    events(filter: $filter) {
       edges {
         cursor
         node {
