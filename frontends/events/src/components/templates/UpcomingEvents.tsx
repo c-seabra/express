@@ -81,7 +81,7 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
                       <ConfNameText>{event.name || 'N/A'}</ConfNameText>
                     </Spacing>
                     <Text>Start date: {event.startDate || 'N/A'}</Text>
-                    <Text>Location: {event.location || 'N/A'}</Text>
+                    <Text>Location: {event.country?.name || 'N/A'}</Text>
                     {/* TODO Add state representation */}
                     {/*<Text>State: {event. || 'N/A'}</Text>*/}
                     <Spacing top="22px">
