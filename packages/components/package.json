@@ -22,7 +22,8 @@
     "react": "*",
     "react-router-dom": "*",
     "react-modal": "*",
-    "styled-components": "*"
+    "styled-components": "*",
+    "formik": "*"
   },
   "devDependencies": {}
 }
