@@ -55,7 +55,7 @@ const EventList: React.FC = () => {
           description={event?.description}
           endDate={event?.endDate}
           name={event.name}
-          slug={event?.slug}
+          slug={event.slug}
           startDate={event?.startDate}
         />
       ))}

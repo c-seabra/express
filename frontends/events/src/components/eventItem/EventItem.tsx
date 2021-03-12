@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Currency } from '../../lib/types';
@@ -77,12 +78,14 @@ const EventItem = ({
   description?: string;
   endDate?: string;
   name: string;
-  slug?: string;
+  slug: string;
   startDate?: string;
   timezone?: string;
 }) => {
+  const history = useHistory();
+
   return (
-    <StyledListItem>
+    <StyledListItem onClick={() => history.push(`/${slug.toString()}/edit`)}>
       <Column>{name}</Column>
       <Column>{slug}</Column>
       <Column>{description}</Column>

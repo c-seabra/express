@@ -1,6 +1,6 @@
 import { ApolloError, useMutation, useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Event, StatusType } from '../../lib/types';
@@ -35,6 +35,7 @@ const SubmitButton = styled.button`
 const EventUpdate: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const { token } = useAppContext();
+  const history = useHistory();
 
   const [name, setName] = useState<string | undefined>();
   const [description, setDescription] = useState<string | undefined>();
@@ -65,6 +66,9 @@ const EventUpdate: React.FC = () => {
   });
 
   useEffect(() => {
+    if (data && !data.event) {
+      history.push(`/new`);
+    }
     if (!error && data && data.event) {
       const { event } = data;
       setName(event?.name);
@@ -77,7 +81,7 @@ const EventUpdate: React.FC = () => {
       }
       setCountryId(event?.country?.id);
     }
-  }, [data, error]);
+  }, [data, error, history]);
 
   const [eventUpdateMutation] = useMutation(EVENT_UPDATE_MUTATION, {
     context: {
