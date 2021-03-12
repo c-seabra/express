@@ -73,7 +73,7 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
         <FlexRow>
           {events &&
             events.map((event: Event) => (
-              <StyledContainerCard key={event.ID} noPadding>
+              <StyledContainerCard key={event.id} noPadding>
                 <ColouredHeader color="red" />
                 <StyledFlexCol>
                   <>
