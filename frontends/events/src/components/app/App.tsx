@@ -16,12 +16,12 @@ import AppContext from './AppContext';
 const StyledContainer = styled.section`
   margin: 0 auto;
   max-width: 1440px;
-  background-color: #f2f3f6;
 `;
 
 const GlobalStyle = createGlobalStyle`
   html {
     font-size: 16px;
+    background-color: #f2f3f6;
   }
   body, input, textarea, select {
     font-family: 'Inter', sans-serif;

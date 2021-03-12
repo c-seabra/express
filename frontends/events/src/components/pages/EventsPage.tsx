@@ -3,10 +3,8 @@ import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import {
   EventListQueryQuery,
-  useEventListQueryQuery,
 } from '@websummit/graphql/src/@types/operations';
-// import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder';
-// import NoEventsPlaceholderImage from './no-events-placeholder.png';
+import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import EVENT_LIST from '@websummit/graphql/src/operations/queries/EventList';
 import React from 'react';
 import styled from 'styled-components';
@@ -54,8 +52,7 @@ const NoEventsPlaceholder = () => {
         </ContainerCard>
       </Spacing>
 
-      <p>test</p>
-      {/* <img alt="events placeholder" src={NoEventsPlaceholderImage} /> */}
+       <img alt="events placeholder" src={NoEventsPlaceholderImage} />
     </FlexCol>
   );
 };
