@@ -5,6 +5,7 @@ import {
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import {
   CommerceOrderPaymentStatus,
   CommerceTransaction,
@@ -19,7 +20,6 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';

@@ -1,8 +1,10 @@
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
 import { CommerceTransaction } from '@websummit/graphql/src/@types/operations';
 import React, { useMemo } from 'react';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
-import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
 import { formatDisplayPrice } from '../../lib/utils/price';
 import { formatDefaultDateTime } from '../../lib/utils/time';
 import StatePlate from '../ticketItem/StatePlate';

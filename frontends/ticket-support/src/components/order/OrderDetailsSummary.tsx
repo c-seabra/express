@@ -1,10 +1,12 @@
 import { ApolloError } from '@apollo/client';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
 import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
-import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
@@ -16,20 +18,6 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-// Currently, the `Order` entity from Ticket Assignment (which we are displaying here)
-// does not have a `currencySymbol` attribute as opposed to `CommerceOrder`.
-// This is why this function exists
-const toCurrencySymbol = (currency = '') => {
-  switch (currency.toLowerCase()) {
-    case 'eur':
-      return '€';
-    case 'usd':
-      return '$';
-    default:
-      return currency;
-  }
-};
 
 const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
   {
@@ -51,14 +39,6 @@ const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
   {
     header: 'Order status',
     renderCell: (order) => <StatePlate state={order?.state} />,
-  },
-  {
-    header: 'Total (incl. Tax)',
-    renderCell: (order) => (
-      <>
-        {toCurrencySymbol(order?.currency)}&nbsp;{order?.amount}
-      </>
-    ),
   },
 ];
 
