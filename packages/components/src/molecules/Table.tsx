@@ -36,6 +36,12 @@ const StyledListItem = styled.li`
   }
 `;
 
+const StyledFooter = styled(StyledListItem)`
+  &:hover {
+    background-color: transparent;
+  }
+`;
+
 const ListHeaderItem = styled(StyledListItem)`
   font-weight: 600;
   text-align: center;
@@ -73,6 +79,7 @@ export type ColumnDescriptor<T> = {
 export type TableProps<T> = {
   items?: T[];
   onRowClick?: (item: T) => void;
+  renderFooter?: () => ReactNode;
   tableShape: ColumnDescriptor<T>[];
 };
 
@@ -80,6 +87,7 @@ const Table = <T extends unknown & { id: string | null }>({
   tableShape = [],
   items = [],
   onRowClick = () => null,
+  renderFooter,
 }: TableProps<T>): ReactElement => {
   const renderTableRow = useCallback(
     (item: typeof items[0], index?: number) =>
@@ -101,6 +109,9 @@ const Table = <T extends unknown & { id: string | null }>({
           {renderTableRow(item, index)}
         </StyledListItem>
       ))}
+      {renderFooter && (
+        <StyledFooter key="table-footer">{renderFooter()}</StyledFooter>
+      )}
     </StyledContainer>
   );
 };

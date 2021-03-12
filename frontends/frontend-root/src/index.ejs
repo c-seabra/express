@@ -55,7 +55,8 @@
         "@websummit-micro/ticket-support": "//localhost:9002/websummit-micro-ticket-support.js",
         "@websummit-micro/staff-tickets": "//localhost:9003/websummit-micro-staff-tickets.js",
         "@websummit-micro/bulk-assign": "//localhost:9004/websummit-micro-bulk-assign.js",
-        "@websummit-micro/investor-portal": "//localhost:9005/websummit-micro-investor-portal.js"
+        "@websummit-micro/investor-portal": "//localhost:9005/websummit-micro-investor-portal.js",
+        "@websummit-micro/events": "//localhost:9006/websummit-micro-events.js"
       }
     }
   </script>
@@ -99,6 +100,9 @@
         </route>
         <route path="investor-portal">
           <application name="@websummit-micro/investor-portal"></application>
+        </route>
+        <route path="events">
+          <application name="@websummit-micro/events"></application>
         </route>
       </main>
     </single-spa-router>

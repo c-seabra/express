@@ -19,20 +19,6 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-// Currently, the `Order` entity from Ticket Assignment (which we are displaying here)
-// does not have a `currencySymbol` attribute as opposed to `CommerceOrder`.
-// This is why this function exists
-const toCurrencySymbol = (currency = '') => {
-  switch (currency.toLowerCase()) {
-    case 'eur':
-      return '€';
-    case 'usd':
-      return '$';
-    default:
-      return currency;
-  }
-};
-
 const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
   {
     header: 'Order reference #',
@@ -53,14 +39,6 @@ const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
   {
     header: 'Order status',
     renderCell: (order) => <StatePlate state={order?.state} />,
-  },
-  {
-    header: 'Total (incl. Tax)',
-    renderCell: (order) => (
-      <>
-        {toCurrencySymbol(order?.currency)}&nbsp;{order?.amount}
-      </>
-    ),
   },
 ];
 
