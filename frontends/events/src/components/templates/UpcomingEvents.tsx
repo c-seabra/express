@@ -63,9 +63,13 @@ const ConfNameText = styled.h1`
 
 type UpcomingEventProps = {
   events: any;
+  onElementClick?: (item: Event) => void;
 };
 
-const UpcomingEvents = ({ events }: UpcomingEventProps) => {
+const UpcomingEvents = ({
+  events,
+  onElementClick = () => null,
+}: UpcomingEventProps) => {
   const colors = ['#F8BA26', '#F15A2C', '#CB1977', '#654DA0'];
 
   return (
@@ -89,7 +93,9 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
                     {/* TODO Add state representation */}
                     {/* <Text>State: {event. || 'N/A'}</Text> */}
                     <Spacing top="22px">
-                      <Button>View event</Button>
+                      <Button onClick={() => onElementClick(event)}>
+                        View event
+                      </Button>
                     </Spacing>
                   </>
                 </StyledFlexCol>
