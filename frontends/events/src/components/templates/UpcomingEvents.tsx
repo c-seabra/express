@@ -1,9 +1,9 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { Event } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
-import { Event } from '@websummit/graphql/src/@types/operations';
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 
 const FlexRow = styled.div`
   display: flex;
@@ -24,45 +24,48 @@ const StyledHeader = styled.span`
   line-height: 24px;
 `;
 
+const Text = styled.span`
+  color: #0c1439;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 24px;
+`;
+
+// Related only to this template
+const StyledContainerCard = styled(ContainerCard)`
+  margin-right: 3.8125rem;
+  max-width: 300px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+
+const ColouredHeader = styled(FlexRow)<{ color?: string }>`
+  background-color: ${(props) => props.color || '#F8BA26'};
+  border-radius: 5px 5px 0 0;
+  height: 72px;
+`;
+
+const StyledFlexCol = styled(FlexCol)`
+  padding: 21px 29px 26px;
+`;
+
+const ConfNameText = styled.h1`
+  color: #0c1439;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 32px;
+  margin: 0;
+`;
+
 type UpcomingEventProps = {
   events: any;
 };
 
 const UpcomingEvents = ({ events }: UpcomingEventProps) => {
-  const StyledContainerCard = styled(ContainerCard)`
-    margin-right: 3.8125rem;
-    max-width: 300px;
-
-    &:last-child {
-      margin-right: 0;
-    }
-  `;
-
-  const ColouredHeader = styled(FlexRow)<{ color?: string }>`
-    background-color: ${(props) => props.color || '#F8BA26'};
-    border-radius: 5px 5px 0 0;
-    height: 72px;
-  `;
-
-  const StyledFlexCol = styled(FlexCol)`
-    padding: 21px 29px 26px;
-  `;
-
-  const ConfNameText = styled.h1`
-    color: #0c1439;
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: -0.5px;
-    line-height: 32px;
-    margin: 0;
-  `;
-
-  const Text = styled.span`
-    color: #0c1439;
-    font-size: 14px;
-    letter-spacing: 0;
-    line-height: 24px;
-  `;
+  const colors = ['#F8BA26', '#F15A2C', '#CB1977', '#654DA0'];
 
   return (
     <FlexCol>
@@ -72,9 +75,9 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
         </Spacing>
         <FlexRow>
           {events &&
-            events.map((event: Event) => (
+            events.map((event: Event, index: number) => (
               <StyledContainerCard key={event.id} noPadding>
-                <ColouredHeader color="red" />
+                <ColouredHeader color={colors[index % (colors.length - 1)]} />
                 <StyledFlexCol>
                   <>
                     <Spacing bottom="10px">
@@ -83,7 +86,7 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
                     <Text>Start date: {event.startDate || 'N/A'}</Text>
                     <Text>Location: {event.country?.name || 'N/A'}</Text>
                     {/* TODO Add state representation */}
-                    {/*<Text>State: {event. || 'N/A'}</Text>*/}
+                    {/* <Text>State: {event. || 'N/A'}</Text> */}
                     <Spacing top="22px">
                       <Button>View event</Button>
                     </Spacing>
