@@ -64,29 +64,33 @@ const Indicator = styled.div<{
   }
 `;
 
+const checkmark = css`
+  display: block;
+  top: 0;
+  left: 0.4em;
+  width: 25%;
+  height: 65%;
+  border: solid #fff;
+  border-width: 0 0.2em 0.2em 0;
+  transform: rotate(45deg);
+`;
+
+const dash = css`
+  display: block;
+  top: 0;
+  left: 0.2em;
+  width: 61%;
+  height: 42%;
+  border: solid #fff;
+  border-width: 0 0 0.2em;
+`;
+
 const getIndicatorForState = (state: GroupCheckedState) => {
   switch (state) {
     case 'all':
-      return css`
-        display: block;
-        top: 0;
-        left: 0.4em;
-        width: 25%;
-        height: 65%;
-        border: solid #fff;
-        border-width: 0 0.2em 0.2em 0;
-        transform: rotate(45deg);
-      `;
+      return checkmark;
     case 'some':
-      return css`
-        display: block;
-        top: 0;
-        left: 0.2em;
-        width: 61%;
-        height: 42%;
-        border: solid #fff;
-        border-width: 0 0 0.2em;
-      `;
+      return dash;
     case 'none':
     default:
       return '';
