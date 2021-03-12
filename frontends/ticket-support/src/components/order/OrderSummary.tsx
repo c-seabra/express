@@ -83,6 +83,24 @@ const commerceOrderTable = (
   },
 ];
 
+const Footer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const TotalText = styled.div`
+  font-weight: 600;
+  text-align: left;
+
+  width: 15%;
+`;
+
+const Total = styled.div`
+  width: 14%;
+  text-align: left;
+`;
+
 const OrderSummary = ({
   loading,
   error,
@@ -110,6 +128,15 @@ const OrderSummary = ({
         {!loading && !error && (
           <Table<CommerceOrderItem>
             items={commerceOrder?.items}
+            renderFooter={() => (
+              <Footer>
+                <TotalText>Order total (incl. Tax)</TotalText>
+                <Total>
+                  {commerceOrder?.currencySymbol}&nbsp;
+                  {formatDisplayPrice(commerceOrder?.total)}
+                </Total>
+              </Footer>
+            )}
             tableShape={commerceOrderTableShape}
           />
         )}
