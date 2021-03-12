@@ -102,9 +102,11 @@ const useCommerceCreateTransactionMutation = ({
       variables: {
         commerceTransactionCreate: {
           amount: Number(amount),
-          paymentMethod: {
-            id: paymentMethod,
-          },
+          paymentMethod: paymentMethod
+            ? {
+                id: paymentMethod,
+              }
+            : undefined,
           taxDetails,
           type,
         },

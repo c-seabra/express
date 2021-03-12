@@ -68,7 +68,7 @@ export type Event = {
   endDate?: string;
   id: string;
   name: string;
-  slug?: string;
+  slug: string;
   startDate?: string;
   taxNumber?: string;
 };

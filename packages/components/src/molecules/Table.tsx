@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode, useCallback } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -15,14 +15,7 @@ const ColumnStyles = styled.div`
 `;
 
 const Column = styled(ColumnStyles)<{ width?: string }>`
-  ${(props) =>
-    props.width
-      ? css`
-          width: ${props.width};
-        `
-      : css`
-          width: 15%;
-        `}
+  width: ${(props) => props.width || '15%'};
 `;
 
 const StyledListItem = styled.li`
@@ -43,6 +36,12 @@ const StyledListItem = styled.li`
   }
 `;
 
+const StyledFooter = styled(StyledListItem)`
+  &:hover {
+    background-color: transparent;
+  }
+`;
+
 const ListHeaderItem = styled(StyledListItem)`
   font-weight: 600;
   text-align: center;
@@ -56,12 +55,14 @@ const ListHeaderItem = styled(StyledListItem)`
 const TableHeader = ({
   headers = [],
 }: {
-  headers: { header: string; width?: string }[];
+  headers: { header: string | ReactNode; width?: string }[];
 }): ReactElement => {
   return (
     <ListHeaderItem>
-      {headers.map(({ header, width }) => (
-        <Column key={header} width={width}>
+      {headers.map(({ header, width }, index) => (
+        // Headers won't change as opposed to table items
+        // eslint-disable-next-line react/no-array-index-key
+        <Column key={index} width={width}>
           {header}
         </Column>
       ))}
@@ -70,14 +71,15 @@ const TableHeader = ({
 };
 
 export type ColumnDescriptor<T> = {
-  header: string;
-  renderCell: (item: T) => string | number | ReactNode;
+  header: string | ReactNode;
+  renderCell: (item: T, index?: number) => string | number | ReactNode;
   width?: string;
 };
 
-type TableProps<T> = {
+export type TableProps<T> = {
   items?: T[];
   onRowClick?: (item: T) => void;
+  renderFooter?: () => ReactNode;
   tableShape: ColumnDescriptor<T>[];
 };
 
@@ -85,15 +87,13 @@ const Table = <T extends unknown & { id: string | null }>({
   tableShape = [],
   items = [],
   onRowClick = () => null,
+  renderFooter,
 }: TableProps<T>): ReactElement => {
   const renderTableRow = useCallback(
-    (item: typeof items[0]) =>
+    (item: typeof items[0], index?: number) =>
       tableShape.map((columnShape) => (
-        <Column
-          key={`${columnShape?.header}-${item.id || ''}`}
-          width={columnShape.width}
-        >
-          {columnShape.renderCell(item)}
+        <Column key={`${item.id || ''}`} width={columnShape.width}>
+          {columnShape.renderCell(item, index)}
         </Column>
       )),
     [tableShape],
@@ -104,11 +104,14 @@ const Table = <T extends unknown & { id: string | null }>({
       <TableHeader
         headers={tableShape.map(({ header, width }) => ({ header, width }))}
       />
-      {items.map((item) => (
+      {items.map((item, index) => (
         <StyledListItem key={item.id} onClick={() => onRowClick(item)}>
-          {renderTableRow(item)}
+          {renderTableRow(item, index)}
         </StyledListItem>
       ))}
+      {renderFooter && (
+        <StyledFooter key="table-footer">{renderFooter()}</StyledFooter>
+      )}
     </StyledContainer>
   );
 };
