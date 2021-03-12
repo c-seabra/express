@@ -2,13 +2,13 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { Event } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
 import { formatDefaultDateTime } from '../../../../ticket-support/src/lib/utils/time';
-import { Event } from '../../lib/types';
 
 const StyledHeader = styled.span`
   color: #0c1439;
@@ -47,11 +47,11 @@ const EventList = ({ error, events }: EventListProps) => {
       header: 'Location',
       renderCell: (event) => event.country?.name || 'N/A',
     },
-    // TODO check if we can get it via events query
-    // {
-    //   header: 'Created by',
-    //   renderCell: (event) => event.createdBy,
-    // },
+    {
+      header: 'Created by',
+      renderCell: (event) =>
+        (event.versions && event.versions[0].whodunnit) || 'N/A',
+    },
   ];
 
   // TODO lift up error and reuse useQuery hook for error handling

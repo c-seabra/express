@@ -17,6 +17,11 @@ const EVENT_LIST = gql`
           country {
             name
           }
+          versions {
+            event
+            createdAt
+            whodunnit
+          }
         }
       }
       pageInfo {

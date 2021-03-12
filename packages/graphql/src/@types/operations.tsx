@@ -3366,6 +3366,7 @@ export type Event = {
   taxNumber: Scalars['String'];
   taxRates: Maybe<TaxRateConnection>;
   timezone: Maybe<Scalars['String']>;
+  versions: Maybe<Array<PaperTrailVersion>>;
   brandName: Scalars['String'];
   companySizes: Maybe<Array<CompanySize>>;
   configuration: Maybe<ConferenceConfiguration>;
@@ -3392,6 +3393,7 @@ export type LegalEntity = {
   regNumber: Maybe<Scalars['String']>;
   taxNumber: Maybe<Scalars['String']>;
   taxRate: Maybe<TaxRate>;
+  versions: Maybe<Array<PaperTrailVersion>>;
   website: Maybe<Scalars['String']>;
 };
 
@@ -7539,6 +7541,14 @@ export type EventListQueryQuery = { __typename?: 'Query' } & {
                 { __typename?: 'EventConfigurationCountry' } & Pick<
                   EventConfigurationCountry,
                   'name'
+                >
+              >;
+              versions: Maybe<
+                Array<
+                  { __typename?: 'PaperTrailVersion' } & Pick<
+                    PaperTrailVersion,
+                    'event' | 'createdAt' | 'whodunnit'
+                  >
                 >
               >;
             };
@@ -13401,6 +13411,27 @@ export const EventListQueryDocument: DocumentNode = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'versions' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'event' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'whodunnit' },
                                   },
                                 ],
                               },

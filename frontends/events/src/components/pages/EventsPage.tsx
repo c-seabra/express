@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
 import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
+import { useAppContext } from '../app/AppContext';
 import EventList from '../eventList/EventList';
 import UpcomingEvents from '../templates/UpcomingEvents';
 
@@ -64,7 +65,16 @@ type EventListQueryResponse = {
 };
 
 const EventPage = () => {
-  const { loading, error, data }: EventListQueryResponse = useQuery(EVENT_LIST);
+  const { conferenceSlug, token } = useAppContext();
+  const { loading, error, data }: EventListQueryResponse = useQuery(
+    EVENT_LIST,
+    {
+      context: {
+        slug: conferenceSlug,
+        token,
+      },
+    },
+  );
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);
 
