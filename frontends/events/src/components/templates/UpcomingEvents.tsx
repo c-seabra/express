@@ -7,9 +7,7 @@ import { Spacing } from '../../../../../packages/components/src/templates/Spacin
 
 const FlexRow = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 26px 36px;
 `;
 
 // Good candidate to move to package templates
@@ -18,23 +16,21 @@ const FlexCol = styled.div`
   flex-direction: column;
 `;
 
-const HeaderText = styled.h1`
+const StyledHeader = styled.span`
   color: #0c1439;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 500;
   letter-spacing: 0;
-  line-height: 32px;
-  margin: 0;
+  line-height: 24px;
 `;
 
 type UpcomingEventProps = {
-  // error: any;
   events: any;
 };
 
 const UpcomingEvents = ({ events }: UpcomingEventProps) => {
   const StyledContainerCard = styled(ContainerCard)`
-    margin-right: 20px;
+    margin-right: 3.8125rem;
     max-width: 300px;
 
     &:last-child {
@@ -42,13 +38,14 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
     }
   `;
 
-  const StyledHeader = styled(FlexRow)`
-    background-color: red;
-    //height: 50px;
+  const ColouredHeader = styled(FlexRow)<{ color?: string }>`
+    background-color: ${(props) => props.color || '#F8BA26'};
+    border-radius: 5px 5px 0 0;
+    height: 72px;
   `;
 
   const StyledFlexCol = styled(FlexCol)`
-    padding: 21px 29px;
+    padding: 21px 29px 26px;
   `;
 
   const ConfNameText = styled.h1`
@@ -70,12 +67,14 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
   return (
     <FlexCol>
       <Spacing bottom="6rem" top="4.125rem">
-        <HeaderText>Upcoming events</HeaderText>
+        <Spacing bottom="1.5rem">
+          <StyledHeader>Upcoming events</StyledHeader>
+        </Spacing>
         <FlexRow>
           {events &&
             events.map((event: any) => (
               <StyledContainerCard key={event.ID} noPadding>
-                <StyledHeader />
+                <ColouredHeader color="red" />
                 <StyledFlexCol>
                   <>
                     <Spacing bottom="10px">
