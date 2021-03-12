@@ -11,28 +11,29 @@ import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png
 import Loader from '../../lib/Loading';
 import EventList from '../eventList/EventList';
 
+const FlexRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px 36px;
+`;
+
+// Good candidate to move to package templates
+const FlexCol = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const HeaderText = styled.h1`
+  color: #0c1439;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 32px;
+  margin: 0;
+`;
+
 const NoEventsPlaceholder = () => {
-  const FlexRow = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 26px 36px;
-  `;
-
-  const FlexCol = styled.div`
-    display: flex;
-    flex-direction: column;
-  `;
-
-  const HeaderText = styled.h1`
-    color: #0c1439;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 32px;
-    margin: 0;
-  `;
-
   return (
     <FlexCol>
       <Spacing bottom="6rem" top="4.125rem">
@@ -55,6 +56,71 @@ const NoEventsPlaceholder = () => {
   );
 };
 
+type UpcomingEventProps = {
+  // error: any;
+  events: any;
+};
+
+const UpcomingEvents = ({ events }: UpcomingEventProps) => {
+  const StyledContainerCard = styled(ContainerCard)`
+    margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  `;
+
+  const StyledHeader = styled(FlexRow)`
+    background-color: red;
+    //height: 50px;
+  `;
+
+  const StyledFlexCol = styled(FlexCol)`
+    padding: 21px 29px;
+  `;
+
+  const ConfNameText = styled.h1`
+    color: #0c1439;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    line-height: 32px;
+    margin: 0;
+  `;
+
+  return (
+    <FlexCol>
+      <Spacing bottom="6rem" top="4.125rem">
+        <HeaderText>Upcoming events</HeaderText>
+        <FlexRow>
+          {events &&
+            events.map((event: any) => (
+              <StyledContainerCard key={event.ID} noPadding>
+                <StyledHeader />
+                <StyledFlexCol>
+                  <>
+                    <Spacing bottom="10px">
+                      <ConfNameText>{event.name || 'N/A'}</ConfNameText>
+                    </Spacing>
+                    <span>Start date: {event.startDate || 'N/A'}</span>
+                    <span>Location: {event.location || 'N/A'}</span>
+                  </>
+                </StyledFlexCol>
+              </StyledContainerCard>
+            ))}
+        </FlexRow>
+
+        {!events ||
+          (events && events.length === 0 && (
+            <ContainerCard>
+              <>No upcoming events</>
+            </ContainerCard>
+          ))}
+      </Spacing>
+    </FlexCol>
+  );
+};
+
 type EventListQueryResponse = {
   data?: EventListQueryQuery;
   error?: ApolloError;
@@ -71,7 +137,10 @@ const EventPage = () => {
       {loading && <Loader />}
 
       {hasEvents ? (
-        <EventList error={error} events={events} />
+        <>
+          <UpcomingEvents events={events} />
+          <EventList error={error} events={events} />
+        </>
       ) : (
         <>{!loading && <NoEventsPlaceholder />}</>
       )}
