@@ -8,6 +8,7 @@ import styled from 'styled-components';
 const FlexRow = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 // Good candidate to move to package templates
