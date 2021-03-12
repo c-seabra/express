@@ -2,8 +2,8 @@ import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import React from 'react';
 import styled from 'styled-components';
-
-import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
+import { Event } from '@websummit/graphql/src/@types/operations';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 
 const FlexRow = styled.div`
   display: flex;
@@ -72,7 +72,7 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
         </Spacing>
         <FlexRow>
           {events &&
-            events.map((event: any) => (
+            events.map((event: Event) => (
               <StyledContainerCard key={event.ID} noPadding>
                 <ColouredHeader color="red" />
                 <StyledFlexCol>
@@ -82,6 +82,8 @@ const UpcomingEvents = ({ events }: UpcomingEventProps) => {
                     </Spacing>
                     <Text>Start date: {event.startDate || 'N/A'}</Text>
                     <Text>Location: {event.location || 'N/A'}</Text>
+                    {/* TODO Add state representation */}
+                    {/*<Text>State: {event. || 'N/A'}</Text>*/}
                     <Spacing top="22px">
                       <Button>View event</Button>
                     </Spacing>
