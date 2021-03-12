@@ -1,12 +1,16 @@
 import { ApolloError, useQuery } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import { EventListQueryQuery } from '@websummit/graphql/src/@types/operations';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
+import {
+  Event,
+  EventListQueryQuery,
+} from '@websummit/graphql/src/@types/operations';
 import EVENT_LIST from '@websummit/graphql/src/operations/queries/EventList';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
 import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
@@ -65,6 +69,7 @@ type EventListQueryResponse = {
 };
 
 const EventPage = () => {
+  const history = useHistory();
   const { conferenceSlug, token } = useAppContext();
   const { loading, error, data }: EventListQueryResponse = useQuery(
     EVENT_LIST,
@@ -77,6 +82,10 @@ const EventPage = () => {
   );
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);
+  const redirectToEvent = (item: Event) => {
+    // DO NOT REMOVE - WILL BE USE IN NEXT ITERATION
+    history.push(`/${item.slug.toString()}/view`);
+  };
 
   return (
     <>
@@ -84,7 +93,7 @@ const EventPage = () => {
 
       {hasEvents ? (
         <>
-          <UpcomingEvents events={events} />
+          <UpcomingEvents events={events} onElementClick={redirectToEvent} />
           <EventList error={error} events={events} />
         </>
       ) : (
