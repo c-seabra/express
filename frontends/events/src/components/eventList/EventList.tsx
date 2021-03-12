@@ -3,6 +3,7 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
@@ -26,6 +27,7 @@ type EventListProps = {
   events: any;
 };
 const EventList = ({ error, events }: EventListProps) => {
+  const history = useHistory();
   const tableShape: ColumnDescriptor<Event>[] = [
     {
       header: 'Name',
@@ -57,13 +59,21 @@ const EventList = ({ error, events }: EventListProps) => {
     return <>{error.message}</>;
   }
 
+  const redirectToEvent = (item: Event) => {
+    history.push(`/${item.slug.toString()}/edit`);
+  };
+
   return (
     <>
       <Spacing bottom="1.5rem">
         <StyledHeader>All events</StyledHeader>
       </Spacing>
       <ContainerCard noPadding>
-        <Table<Event> items={events} tableShape={tableShape} />
+        <Table<Event>
+          items={events}
+          tableShape={tableShape}
+          onRowClick={redirectToEvent}
+        />
       </ContainerCard>
     </>
   );
