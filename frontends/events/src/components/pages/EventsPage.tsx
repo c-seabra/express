@@ -68,7 +68,7 @@ type EventListQueryResponse = {
   loading?: boolean;
 };
 
-const todayISO = new Date().toISOString()
+const todayISO = new Date().toISOString();
 
 const EventPage = () => {
   const history = useHistory();
@@ -87,23 +87,25 @@ const EventPage = () => {
   const events = data?.events && data?.events.edges.map((node) => node.node);
 
   // TODO refactor
-  const { loading: loadingAfter, error: errorAfter, data: dataAfter }: EventListQueryResponse = useQuery(
-    EVENT_LIST,
-    {
-      context: {
-        slug: conferenceSlug,
-        token,
-      },
-      variables: {
-        filter: {
-          startDateAfter: todayISO
-          // startDateAfter: '2021-02-12T17:10:14+0000', // new Date()
-        },
+  const {
+    loading: loadingAfter,
+    error: errorAfter,
+    data: dataAfter,
+  }: EventListQueryResponse = useQuery(EVENT_LIST, {
+    context: {
+      slug: conferenceSlug,
+      token,
+    },
+    variables: {
+      filter: {
+        startDateAfter: todayISO,
+        // startDateAfter: '2021-02-12T17:10:14+0000', // new Date()
       },
     },
-  );
+  });
 
-  const eventsAfter = dataAfter?.events && dataAfter?.events.edges.map((node) => node.node);
+  const eventsAfter =
+    dataAfter?.events && dataAfter?.events.edges.map((node) => node.node);
   const redirectToEvent = (item: Event) => {
     // DO NOT REMOVE - WILL BE USE IN NEXT ITERATION
     history.push(`/${item.slug.toString()}/view`);
@@ -115,7 +117,10 @@ const EventPage = () => {
 
       {hasEvents ? (
         <>
-          <UpcomingEvents events={eventsAfter} onElementClick={redirectToEvent} />
+          <UpcomingEvents
+            events={eventsAfter}
+            onElementClick={redirectToEvent}
+          />
           <EventList error={error} events={events} />
         </>
       ) : (
