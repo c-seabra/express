@@ -1,10 +1,10 @@
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal';
-import TextInputField from '../../lib/components/molecules/TextInputField';
 
 const SendLinkModalContent = styled.div`
   padding: 2rem 0;

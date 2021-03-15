@@ -1,4 +1,5 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -7,7 +8,6 @@ import * as Yup from 'yup';
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import SelectField from '../../lib/components/molecules/SelectField';
 import TextAreaField from '../../lib/components/molecules/TextAreaField';
-import TextInputField from '../../lib/components/molecules/TextInputField';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useProfileAdminUpdateMutation from '../../lib/hooks/useProfileAdminUpdateMutation';
 import { Account } from '../../lib/types';
