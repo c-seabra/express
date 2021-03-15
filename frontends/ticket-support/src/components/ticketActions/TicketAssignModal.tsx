@@ -1,3 +1,4 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -5,7 +6,6 @@ import * as Yup from 'yup';
 
 import { DisabledButton, ErrorButton } from '../../lib/components/atoms/Button';
 import Icon from '../../lib/components/atoms/Icon';
-import CheckboxField from '../../lib/components/molecules/CheckboxField';
 import Modal from '../../lib/components/molecules/Modal';
 import {
   AlertText,

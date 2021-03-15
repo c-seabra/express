@@ -1,3 +1,4 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
@@ -7,7 +8,6 @@ import STATIC_MESSAGES from '../../constants/messages';
 import { DisabledButton, ErrorButton } from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import { Spacing } from '../templates/Spacing';
-import CheckboxField from './CheckboxField';
 import Modal from './Modal';
 import TextAreaField from './TextAreaField';
 

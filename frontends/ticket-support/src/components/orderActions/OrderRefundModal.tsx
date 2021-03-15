@@ -1,3 +1,4 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import {
   CommerceOrder,
@@ -10,7 +11,6 @@ import * as Yup from 'yup';
 
 import Icon from '../../lib/components/atoms/Icon';
 import { WarningMessage } from '../../lib/components/atoms/Messages';
-import CheckboxField from '../../lib/components/molecules/CheckboxField';
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal';
 import MoneyInputField from '../../lib/components/molecules/MoneyInputField';
 import RadioField from '../../lib/components/molecules/RadioField';
