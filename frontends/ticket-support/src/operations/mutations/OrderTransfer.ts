@@ -1,10 +1,10 @@
-import { useOrderTransferMutation } from '@websummit/graphql/src/@types/operations';
-
-import { useAppContext } from '../../components/app/AppContext';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
-} from '../../lib/hooks/useSnackbarMessage';
+} from '@websummit/components/src/molecules/Snackbar';
+import { useOrderTransferMutation } from '@websummit/graphql/src/@types/operations';
+
+import { useAppContext } from '../../components/app/AppContext';
 
 export type OrderTransferRequest = {
   email: string;

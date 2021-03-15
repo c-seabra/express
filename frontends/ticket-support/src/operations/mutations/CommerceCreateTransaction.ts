@@ -1,14 +1,14 @@
 import { gql, useMutation } from '@apollo/client';
 import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
+import {
   CommerceTaxDetailCreateOrUpdate,
   CommerceTransactionType,
 } from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
-import {
-  useErrorSnackbar,
-  useSuccessSnackbar,
-} from '../../lib/hooks/useSnackbarMessage';
 import { CommerceTransaction } from '../../lib/types';
 import { TotalInCents } from '../../lib/utils/price';
 

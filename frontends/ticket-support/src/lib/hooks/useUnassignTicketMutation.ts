@@ -1,8 +1,11 @@
 import { useMutation } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 
 import { useAppContext } from '../../components/app/AppContext';
 import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 const useUnassignTicketMutation = ({ ticketId }: { ticketId: string }) => {
   const { conferenceSlug, token } = useAppContext();

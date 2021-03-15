@@ -28,7 +28,6 @@
     "react-currency-input-field": "*",
     "react-modal": "*",
     "react-router-dom": "*",
-    "react-simple-snackbar": "*",
     "styled-components": "*",
     "yup": "*"
   },

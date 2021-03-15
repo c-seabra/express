@@ -1,9 +1,12 @@
 import { useMutation } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 
 import { useAppContext } from '../../components/app/AppContext';
 import { ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION } from '../../operations/mutations';
 import { UserError } from '../types';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type AttendanceAppearanceSelectionDestroyData = {
   attendanceAppearanceSelectionDestroy: {

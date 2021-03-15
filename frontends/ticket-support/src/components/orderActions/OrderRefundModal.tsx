@@ -1,3 +1,4 @@
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import {
   CommerceOrder,
   CommercePaymentMethod,
@@ -23,7 +24,6 @@ import TextAreaField from '../../lib/components/molecules/TextAreaField';
 import { Spacing } from '../../lib/components/templates/Spacing';
 import { VALIDATION_MESSAGES } from '../../lib/constants/messages';
 import useRefund from '../../lib/hooks/useRefund';
-import { useErrorSnackbar } from '../../lib/hooks/useSnackbarMessage';
 import { fromCents, toCents, Total } from '../../lib/utils/price';
 
 const StyledForm = styled(Form)`
