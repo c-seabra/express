@@ -1,25 +1,25 @@
 import { gql } from '@apollo/client';
 
 export const TAX_RATES_LIST = gql`
-query TaxRates {
-  taxRates {
-    edges {
-      node {
-        country {
-           name
-        }
-        event {
+  query TaxRates {
+    taxRates {
+      edges {
+        node {
+          country {
+            name
+          }
+          event {
+            name
+            brandName
+          }
+          id
           name
-          brandName
+          rateType
+          taxType
+          value
         }
-        id
-        name
-        rateType
-        taxType
-        value
       }
     }
   }
-}
 `;
 export default TAX_RATES_LIST;

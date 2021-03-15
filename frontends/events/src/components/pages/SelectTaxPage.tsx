@@ -90,8 +90,8 @@ const mock: TaxRate[] = [
       taxRates: {
         edges: [],
         pageInfo: {
-          hasNextPage: true
-        }
+          hasNextPage: true,
+        },
       },
       timeZone: {
         displayName: 'Eastern Time (US & Canada)',
