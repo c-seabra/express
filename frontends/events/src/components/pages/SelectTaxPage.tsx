@@ -119,8 +119,8 @@ const EventPage = () => {
 
   // const hasTaxes = data?.taxRates && data?.taxRates?.edges.length;
   // const taxes = data?.taxRates && data?.taxRates.edges.map((node) => node.node);
-  const hasTaxes = true
-  const taxes = mock
+  const hasTaxes = true;
+  const taxes = mock;
   const save = () => {
     // TODO add save action
   };
@@ -136,24 +136,28 @@ const EventPage = () => {
       {hasTaxes ? (
         <>
           <ContainerCard noPadding>
-            <Spacing bottom="32px" top="40px">
-              <HeaderText>Tax information</HeaderText>
-            </Spacing>
-
-            <Spacing bottom="32px">
-              <Button>Add a new tax</Button>
-            </Spacing>
-
-            <Spacing bottom="50px">
-              <TaxList error={error} taxes={taxes} />
-            </Spacing>
-
-            <Spacing bottom="32px" top="32">
-              <Spacing right="16px">
-                <SecondaryButton onClick={cancel}>Set up later</SecondaryButton>
+            <Spacing left="37px" right="31px" top="40px">
+              <Spacing bottom="32px">
+                <HeaderText>Tax information</HeaderText>
               </Spacing>
 
-              <Button onClick={save}>Save & continue</Button>
+              <Spacing bottom="32px">
+                <Button>Add a new tax</Button>
+              </Spacing>
+
+              <Spacing bottom="50px">
+                <TaxList error={error} taxes={taxes} />
+              </Spacing>
+
+              <Spacing bottom="32px" top="32">
+                <Spacing right="16px">
+                  <SecondaryButton onClick={cancel}>
+                    Set up later
+                  </SecondaryButton>
+                </Spacing>
+
+                <Button onClick={save}>Save & continue</Button>
+              </Spacing>
             </Spacing>
           </ContainerCard>
         </>
