@@ -89,7 +89,7 @@
     "@typescript-eslint/parser": "3.10.1",
     "@typescript-eslint/typescript-estree": "4.17.0",
     "algoliasearch": "4.8.6",
-    "analytics": "0.7.3",
+    "analytics": "0.7.4",
     "apollo-cache-inmemory": "1.6.6",
     "apollo-client": "2.6.10",
     "apollo-link-context": "1.0.20",
