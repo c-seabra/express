@@ -183,7 +183,7 @@
     "webpack-merge": "5.7.3"
   },
   "resolutions": {
-    "@apollo/client": "3.3.11",
+    "@apollo/client": "3.3.12",
     "@apollo/react-common": "3.1.4",
     "@graphql-typed-document-node/core": "3.1.0",
     "apollo-upload-client": "14.1.3",
