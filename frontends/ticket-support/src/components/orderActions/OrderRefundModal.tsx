@@ -1,3 +1,4 @@
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceOrder,
   CommercePaymentMethod,
@@ -20,7 +21,6 @@ import {
 } from '../../lib/components/molecules/ReasonAlertModal';
 import SelectField from '../../lib/components/molecules/SelectField';
 import TextAreaField from '../../lib/components/molecules/TextAreaField';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import { VALIDATION_MESSAGES } from '../../lib/constants/messages';
 import useRefund from '../../lib/hooks/useRefund';
 import { useErrorSnackbar } from '../../lib/hooks/useSnackbarMessage';
