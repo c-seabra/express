@@ -1,4 +1,4 @@
-import { ApolloError, useQuery } from '@apollo/client';
+import { ApolloError } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
@@ -6,8 +6,8 @@ import {
   Event,
   EventFilter,
   EventListQueryQuery,
+  useEventListQueryQuery,
 } from '@websummit/graphql/src/@types/operations';
-import EVENT_LIST from '@websummit/graphql/src/operations/queries/EventList';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -69,27 +69,7 @@ type EventListQueryResponse = {
   loading?: boolean;
 };
 
-type AppContext = {
-  conferenceSlug?: string;
-  token?: string;
-};
 const todayISO = new Date().toISOString();
-
-const eventsQuery = (
-  _useQuery: any,
-  context: AppContext,
-  filter?: EventFilter,
-) => {
-  return _useQuery(EVENT_LIST, {
-    context: {
-      slug: context.conferenceSlug,
-      token: context.token,
-    },
-    variables: {
-      filter: filter || {},
-    },
-  });
-};
 
 const EventPage = () => {
   const history = useHistory();
@@ -99,10 +79,11 @@ const EventPage = () => {
     token,
   };
 
-  const { loading, error, data }: EventListQueryResponse = eventsQuery(
-    useQuery,
-    context,
-  );
+  const {
+    loading,
+    error,
+    data,
+  }: EventListQueryResponse = useEventListQueryQuery({ context });
 
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);
@@ -111,11 +92,13 @@ const EventPage = () => {
     startDateAfter: todayISO,
   };
 
-  // TODO refactor
   const {
     loading: loadingUpcoming,
     data: dataUpcoming,
-  }: EventListQueryResponse = eventsQuery(useQuery, context, upcomingFilter);
+  }: EventListQueryResponse = useEventListQueryQuery({
+    context,
+    variables: { filter: upcomingFilter },
+  });
 
   const eventsAfter =
     dataUpcoming?.events && dataUpcoming?.events.edges.map((node) => node.node);
