@@ -17,13 +17,24 @@ import styled from 'styled-components';
 
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
+import SideNavigation from '../organisms/SideNavigation';
 import TaxList from '../organisms/TaxList';
 
 const FlexRow = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const FlexRowCentered = styled.div`
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 26px 36px;
+`;
+
+const FlexRowRight = styled(Spacing)`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 // Good candidate to move to package templates
@@ -135,31 +146,44 @@ const EventPage = () => {
 
       {hasTaxes ? (
         <>
-          <ContainerCard noPadding>
-            <Spacing left="37px" right="31px" top="40px">
-              <Spacing bottom="32px">
-                <HeaderText>Tax information</HeaderText>
+          <FlexCol>
+            <FlexRow>
+              <Spacing bottom="30px">
+                <HeaderText>Event setup</HeaderText>
+              </Spacing>
+            </FlexRow>
+            <FlexRow>
+              <Spacing right="3.75rem">
+                <SideNavigation />
               </Spacing>
 
-              <Spacing bottom="32px">
-                <Button>Add a new tax</Button>
-              </Spacing>
+              <ContainerCard noPadding>
+                <Spacing left="37px" right="31px" top="40px">
+                  <Spacing bottom="32px">
+                    <HeaderText>Tax information</HeaderText>
+                  </Spacing>
 
-              <Spacing bottom="50px">
-                <TaxList error={error} taxes={taxes} />
-              </Spacing>
+                  <Spacing bottom="32px">
+                    <Button>Add a new tax</Button>
+                  </Spacing>
 
-              <Spacing bottom="32px" top="32">
-                <Spacing right="16px">
-                  <SecondaryButton onClick={cancel}>
-                    Set up later
-                  </SecondaryButton>
+                  <Spacing bottom="50px">
+                    <TaxList error={error} taxes={taxes} />
+                  </Spacing>
+
+                  <FlexRowRight bottom="32px" top="32">
+                    <Spacing right="16px">
+                      <SecondaryButton onClick={cancel}>
+                        Set up later
+                      </SecondaryButton>
+                    </Spacing>
+
+                    <Button onClick={save}>Save & continue</Button>
+                  </FlexRowRight>
                 </Spacing>
-
-                <Button onClick={save}>Save & continue</Button>
-              </Spacing>
-            </Spacing>
-          </ContainerCard>
+              </ContainerCard>
+            </FlexRow>
+          </FlexCol>
         </>
       ) : (
         <>{!loading && <NoTaxPlaceholder />}</>
