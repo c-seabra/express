@@ -2,22 +2,30 @@ import { ApolloProvider } from '@apollo/client';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import EventCreate from '../eventActions/EventCreate';
 import EventUpdate from '../eventActions/EventUpdate';
-import EventList from '../eventList/EventList';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
+import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
-  padding: 1rem;
-  max-width: 1024px;
-  width: 100%;
   margin: 0 auto;
-  font-size: 16px;
+  max-width: 1440px;
+`;
+
+const GlobalStyle = createGlobalStyle`
+  html {
+    font-size: 16px;
+    background-color: #f2f3f6;
+  }
+  body, input, textarea, select {
+    font-family: 'Inter', sans-serif;
+  }
 `;
 
 type AppProps = {
@@ -49,9 +57,22 @@ const App = ({ token, apiURL }: AppProps) => {
           }}
         >
           <StyledContainer>
+            <Helmet>
+              <link href="https://fonts.gstatic.com" rel="preconnect" />
+              <link
+                href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet"
+              />
+
+              <link
+                href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                rel="stylesheet"
+              />
+            </Helmet>
+            <GlobalStyle />
             <Switch>
               <Route exact path="/">
-                <EventList />
+                <EventsPage />
               </Route>
               <Route exact path="/new">
                 <EventCreate />

@@ -15,12 +15,15 @@
   "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
+    "@websummit/components": "*",
     "@websummit/graphql": "*",
+    "file-loader": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",
     "react": "*",
     "react-dom": "*",
+    "react-helmet": "*",
     "react-router-dom": "*",
     "styled-components": "*"
   }

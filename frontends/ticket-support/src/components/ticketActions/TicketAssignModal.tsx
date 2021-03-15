@@ -1,3 +1,4 @@
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -16,7 +17,6 @@ import {
   Wrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
 import TextInputField from '../../lib/components/molecules/TextInputField';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import useAssignTicketOperation from '../../lib/hooks/useTicketAssignMutation';
 import { Ticket } from '../../lib/types';
 

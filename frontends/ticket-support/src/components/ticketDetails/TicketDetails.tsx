@@ -2,6 +2,7 @@ import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
@@ -13,7 +14,6 @@ import BlockMessage from '../../lib/components/molecules/BlockMessage';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery';
 import Loader from '../../lib/Loading';

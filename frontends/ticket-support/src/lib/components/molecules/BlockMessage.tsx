@@ -1,9 +1,9 @@
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
 
 import { Button } from '../atoms/Button';
 import Icon from '../atoms/Icon';
-import { Spacing } from '../templates/Spacing';
 
 const BoxNode = styled.div`
   display: flex;
