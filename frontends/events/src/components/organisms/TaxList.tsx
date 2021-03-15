@@ -1,16 +1,25 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import Table, {
-  ColumnDescriptor,
-} from '@websummit/components/src/molecules/Table';
+import SelectableTable from '@websummit/components/src/molecules/SelectableTable';
+import { ColumnDescriptor } from '@websummit/components/src/molecules/Table';
 import { TaxRate } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+
+const CapitalizedValue = styled.span`
+  text-transform: lowercase;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
+`;
 
 type TaxesListProps = {
   error: any;
   taxes: any;
   // taxes: TaxRate[];
 };
+
 const TaxList = ({ error, taxes }: TaxesListProps) => {
   const history = useHistory();
   const tableShape: ColumnDescriptor<TaxRate>[] = [
@@ -21,7 +30,9 @@ const TaxList = ({ error, taxes }: TaxesListProps) => {
     },
     {
       header: 'Tax amount %',
-      renderCell: (tax) => tax.value || 'N/A',
+      renderCell: (tax) => {
+        return <>{`${tax.value}%` || 'N/A'}</>;
+      },
       width: '20%',
     },
     {
@@ -30,7 +41,8 @@ const TaxList = ({ error, taxes }: TaxesListProps) => {
     },
     {
       header: 'Tax type',
-      renderCell: (tax) => tax.taxType || 'N/A',
+      renderCell: (tax) =>
+        <CapitalizedValue>{tax.taxType}</CapitalizedValue> || 'N/A',
     },
   ];
 
@@ -39,17 +51,22 @@ const TaxList = ({ error, taxes }: TaxesListProps) => {
     return <>{error.message}</>;
   }
 
-  // const redirectToEvent = (item: Event) => {
-  //   history.push(`/${item.slug.toString()}/edit`);
-  // };
+  const onSelect = () => {
+    // TODO apply onSelect
+  };
+
+  const onSelectAll = () => {
+    // TODO apply onSelectAll
+  };
 
   return (
     <>
       <ContainerCard noPadding>
-        <Table<TaxRate>
+        <SelectableTable<TaxRate>
           items={taxes}
           tableShape={tableShape}
-          // onRowClick={redirectToEvent}
+          onSelect={onSelect}
+          onSelectAll={onSelectAll}
         />
       </ContainerCard>
     </>
