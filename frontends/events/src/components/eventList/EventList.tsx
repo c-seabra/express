@@ -3,12 +3,11 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { formatFullDate } from '@websummit/components/src/utils/time';
 import { Event } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { formatFullDate } from '@websummit/components/src/utils/time';
 
 const StyledHeader = styled.span`
   color: #0c1439;

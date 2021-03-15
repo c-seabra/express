@@ -4,6 +4,7 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   Event,
+  EventFilter,
   EventListQueryQuery,
 } from '@websummit/graphql/src/@types/operations';
 import EVENT_LIST from '@websummit/graphql/src/operations/queries/EventList';
@@ -68,44 +69,57 @@ type EventListQueryResponse = {
   loading?: boolean;
 };
 
+type AppContext = {
+  conferenceSlug?: string;
+  token?: string;
+};
 const todayISO = new Date().toISOString();
+
+const eventsQuery = (
+  _useQuery: any,
+  context: AppContext,
+  filter?: EventFilter,
+) => {
+  return _useQuery(EVENT_LIST, {
+    context: {
+      slug: context.conferenceSlug,
+      token: context.token,
+    },
+    variables: {
+      filter: filter || {},
+    },
+  });
+};
 
 const EventPage = () => {
   const history = useHistory();
   const { conferenceSlug, token } = useAppContext();
-  const { loading, error, data }: EventListQueryResponse = useQuery(
-    EVENT_LIST,
-    {
-      context: {
-        slug: conferenceSlug,
-        token,
-      },
-    },
+  const context = {
+    conferenceSlug,
+    token,
+  };
+
+  const { loading, error, data }: EventListQueryResponse = eventsQuery(
+    useQuery,
+    context,
   );
 
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);
 
+  const upcomingFilter = {
+    startDateAfter: todayISO,
+  };
+
   // TODO refactor
   const {
-    loading: loadingAfter,
-    error: errorAfter,
-    data: dataAfter,
-  }: EventListQueryResponse = useQuery(EVENT_LIST, {
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
-    variables: {
-      filter: {
-        startDateAfter: todayISO,
-        // startDateAfter: '2021-02-12T17:10:14+0000', // new Date()
-      },
-    },
-  });
+    loading: loadingUpcoming,
+    error: errorUpcoming, // TODO Error handling will be expanded when Snackbar will be available in package
+    data: dataUpcoming,
+  }: EventListQueryResponse = eventsQuery(useQuery, context, upcomingFilter);
 
   const eventsAfter =
-    dataAfter?.events && dataAfter?.events.edges.map((node) => node.node);
+    dataUpcoming?.events && dataUpcoming?.events.edges.map((node) => node.node);
   const redirectToEvent = (item: Event) => {
     // DO NOT REMOVE - WILL BE USE IN NEXT ITERATION
     history.push(`/${item.slug.toString()}/view`);
@@ -113,7 +127,7 @@ const EventPage = () => {
 
   return (
     <>
-      {loading && <Loader />}
+      {loading && loadingUpcoming && <Loader />}
 
       {hasEvents ? (
         <>
@@ -124,7 +138,7 @@ const EventPage = () => {
           <EventList error={error} events={events} />
         </>
       ) : (
-        <>{!loading && <NoEventsPlaceholder />}</>
+        <>{!loading && !loadingUpcoming && <NoEventsPlaceholder />}</>
       )}
     </>
   );
