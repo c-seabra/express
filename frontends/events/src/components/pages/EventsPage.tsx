@@ -88,7 +88,7 @@ const EventPage = () => {
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);
 
-  const upcomingFilter = {
+  const upcomingFilter: EventFilter = {
     startDateAfter: todayISO,
   };
 
