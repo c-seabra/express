@@ -2,23 +2,14 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
-import { formatFullDate } from '@websummit/components/src/utils/time';
-import { Event, TaxRate } from '@websummit/graphql/src/@types/operations';
+import { TaxRate } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
-
-// const StyledHeader = styled.span`
-//   color: #0c1439;
-//   font-size: 24px;
-//   font-weight: 500;
-//   letter-spacing: 0;
-//   line-height: 24px;
-// `;
 
 type TaxesListProps = {
   error: any;
-  taxes: TaxRate[];
+  taxes: any;
+  // taxes: TaxRate[];
 };
 const TaxList = ({ error, taxes }: TaxesListProps) => {
   const history = useHistory();

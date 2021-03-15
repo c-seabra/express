@@ -3,8 +3,8 @@ import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
-  EventListQueryQuery, TaxRatesQuery,
-  useEventListQueryQuery, useTaxRatesQuery,
+  TaxRatesQuery,
+  useTaxRatesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -68,11 +68,9 @@ const EventPage = () => {
     token,
   };
 
-  const {
-    loading,
-    error,
-    data,
-  }: EventListQueryResponse = useTaxRatesQuery({ context });
+  const { loading, error, data }: EventListQueryResponse = useTaxRatesQuery({
+    context,
+  });
 
   const hasTaxes = data?.taxRates && data?.taxRates?.edges.length;
   const taxes = data?.taxRates && data?.taxRates.edges.map((node) => node.node);

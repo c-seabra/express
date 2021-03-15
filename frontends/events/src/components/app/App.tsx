@@ -12,6 +12,7 @@ import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
 import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
+import SelectTaxPage from "../pages/SelectTaxPage";
 
 const StyledContainer = styled.section`
   margin: 0 auto;
@@ -76,6 +77,10 @@ const App = ({ token, apiURL }: AppProps) => {
               </Route>
               <Route exact path="/new">
                 <EventCreate />
+              </Route>
+              {/*TEST PATH*/}
+              <Route exact path="/tax">
+                <SelectTaxPage />
               </Route>
               <Route exact path="/:slug/edit">
                 <EventUpdate />
