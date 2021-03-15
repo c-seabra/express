@@ -3,7 +3,7 @@ import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import {HashRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import EventCreate from '../eventActions/EventCreate';
@@ -73,13 +73,16 @@ const App = ({ token, apiURL }: AppProps) => {
             <GlobalStyle />
             <Switch>
               <Route exact path="/">
+                <Redirect to="/list" />
+              </Route>
+              <Route exact path="/list">
                 <EventsPage />
               </Route>
               <Route exact path="/new">
                 <EventCreate />
               </Route>
               {/*TEST PATH*/}
-              <Route exact path="/tax">
+              <Route path="/tax">
                 <SelectTaxPage />
               </Route>
               <Route exact path="/:slug/edit">
