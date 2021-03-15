@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const TAX_RATES_LIST = gql`
-query TaxRates() {
-  taxRates() {
+query TaxRates {
+  taxRates {
     edges {
       node {
         country {
