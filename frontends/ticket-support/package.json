@@ -25,7 +25,6 @@
     "react": "*",
     "react-dom": "*",
     "react-helmet": "*",
-    "react-currency-input-field": "*",
     "react-modal": "*",
     "react-router-dom": "*",
     "styled-components": "*",

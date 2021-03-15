@@ -1,3 +1,4 @@
+import EditableTextInputField from '@websummit/components/src/molecules/EditableTextInputField';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
@@ -5,7 +6,6 @@ import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
-import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
 import {
   SpacingBottom,

@@ -24,7 +24,8 @@
     "react-modal": "*",
     "styled-components": "*",
     "formik": "*",
-    "react-simple-snackbar": "*"
+    "react-simple-snackbar": "*",
+    "react-currency-input-field": "*"
   },
   "devDependencies": {}
 }
