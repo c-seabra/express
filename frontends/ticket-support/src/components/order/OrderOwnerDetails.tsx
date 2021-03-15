@@ -1,10 +1,10 @@
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, ReactElement, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import { useModalState } from '../../lib/components/molecules/Modal';
 import TextInputField from '../../lib/components/molecules/TextInputField';
 import { Spacing } from '../../lib/components/templates/Spacing';
