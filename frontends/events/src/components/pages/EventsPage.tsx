@@ -114,7 +114,6 @@ const EventPage = () => {
   // TODO refactor
   const {
     loading: loadingUpcoming,
-    error: errorUpcoming, // TODO Error handling will be expanded when Snackbar will be available in package
     data: dataUpcoming,
   }: EventListQueryResponse = eventsQuery(useQuery, context, upcomingFilter);
 
