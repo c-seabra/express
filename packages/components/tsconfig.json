@@ -3,6 +3,6 @@
   "compilerOptions": {
     "jsx": "react",
     "esModuleInterop": true,
-    "typeRoots": ["node_modules/@types", "src/typedefs"]
+    "typeRoots": ["node_modules/@types", "src/@types"]
   }
 }

@@ -1,7 +1,5 @@
 import React, { ReactElement } from 'react';
-import {
-  // eslint-disable-next-line import/no-named-default
-  default as _SnackbarProvider,
+import _SnackbarProvider, {
   SnackbarOptions,
   useSnackbar,
 } from 'react-simple-snackbar';
