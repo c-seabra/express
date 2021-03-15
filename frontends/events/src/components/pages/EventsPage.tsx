@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
-import EventList from '../eventList/EventList';
+import EventList from '../organisms/EventList';
 import UpcomingEvents from '../templates/UpcomingEvents';
 
 const FlexRow = styled.div`
