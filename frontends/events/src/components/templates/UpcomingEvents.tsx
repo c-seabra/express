@@ -1,6 +1,7 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { formatFullDate } from '@websummit/components/src/utils/time';
 import { Event } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
@@ -88,7 +89,9 @@ const UpcomingEvents = ({
                     <Spacing bottom="10px">
                       <ConfNameText>{event.name || 'N/A'}</ConfNameText>
                     </Spacing>
-                    <Text>Start date: {event.startDate || 'N/A'}</Text>
+                    <Text>
+                      Start date: {formatFullDate(event.startDate) || 'N/A'}
+                    </Text>
                     <Text>Location: {event.country?.name || 'N/A'}</Text>
                     {/* TODO Add state representation */}
                     {/* <Text>State: {event. || 'N/A'}</Text> */}

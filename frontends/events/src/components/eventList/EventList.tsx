@@ -8,7 +8,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { formatDefaultDateTime } from '../../../../ticket-support/src/lib/utils/time';
+import { formatFullDate } from '@websummit/components/src/utils/time';
 
 const StyledHeader = styled.span`
   color: #0c1439;
@@ -36,12 +36,12 @@ const EventList = ({ error, events }: EventListProps) => {
     },
     {
       header: 'Start date',
-      renderCell: (event) => formatDefaultDateTime(event.startDate) || 'N/A',
+      renderCell: (event) => formatFullDate(event.startDate) || 'N/A',
       width: '20%',
     },
     {
       header: 'End date',
-      renderCell: (event) => formatDefaultDateTime(event.endDate) || 'N/A',
+      renderCell: (event) => formatFullDate(event.endDate) || 'N/A',
     },
     {
       header: 'Location',
