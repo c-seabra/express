@@ -7,7 +7,7 @@ const StyledContainerCard = styled(ContainerCard)`
   max-width: 300px;
 `;
 
-const StyledListElement = styled.ul`
+const StyledList = styled.ul`
   padding: 0;
   margin: 0;
   list-style: none;
@@ -27,16 +27,32 @@ const StyledListElement = styled.ul`
   }
 `;
 
+const ListText = styled.span`
+  color: #0c1439;
+  font-size: 16px;
+  //font-weight: 600; // TODO add variant for selected
+  letter-spacing: 0;
+  line-height: 24px;
+`;
+
 const SideNavigation = () => {
   return (
     <>
       <StyledContainerCard noPadding>
-        <StyledListElement>
-          <li>Event information</li>
-          <li>Tax information</li>
-          <li>Payment methods</li>
-          <li>Billing & invoicing</li>
-        </StyledListElement>
+        <StyledList>
+          <li>
+            <ListText>Event information</ListText>
+          </li>
+          <li>
+            <ListText>Tax information</ListText>
+          </li>
+          <li>
+            <ListText>Payment methods</ListText>
+          </li>
+          <li>
+            <ListText>Billing & invoicing</ListText>
+          </li>
+        </StyledList>
       </StyledContainerCard>
     </>
   );
