@@ -8,6 +8,7 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   TaxRate,
   TaxRatesQuery,
+  TaxType,
   useTaxRatesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
@@ -67,16 +68,40 @@ type EventListQueryResponse = {
 const mock: TaxRate[] = [
   {
     country: {
-      name: 'Poland',
-      id: 'id',
       code: 'code',
+      id: 'id',
+      name: 'Poland',
     },
     event: {
-      name: 'tfh20',
+      baseUrl: null,
+      brandName: 'Collision 2021',
+      country: null,
+      currency: 'CAD',
+      description: '"America’s fastest growing tech conference"',
+      endDate: '2021-04-22',
+      id: 'c1127a35-5a79-4933-9626-924ebf1ebb76',
+      industries: [],
+      investorSessionsSummary: [],
+      legalEntity: null,
+      name: 'Collision 2021 Online',
+      slug: 'cc21',
+      startDate: '2021-04-20',
+      taxNumber: 'change me',
+      taxRates: {
+        edges: [],
+        pageInfo: {
+          hasNextPage: true
+        }
+      },
+      timeZone: {
+        displayName: 'Eastern Time (US & Canada)',
+        ianaName: 'America/New_York',
+      },
+      timezone: 'America/New_York',
     },
     name: 'tax name',
-    taxType: 'STANDARD',
-    value: '23',
+    taxType: TaxType.Standard,
+    value: 23,
   },
 ];
 
@@ -92,15 +117,17 @@ const EventPage = () => {
     context,
   });
 
-  const hasTaxes = data?.taxRates && data?.taxRates?.edges.length;
-  const taxes = data?.taxRates && data?.taxRates.edges.map((node) => node.node);
+  // const hasTaxes = data?.taxRates && data?.taxRates?.edges.length;
+  // const taxes = data?.taxRates && data?.taxRates.edges.map((node) => node.node);
+  const hasTaxes = true
+  const taxes = mock
   const save = () => {
     // TODO add save action
-  }
+  };
 
   const cancel = () => {
     // TODO add cancel action
-  }
+  };
 
   return (
     <>
@@ -108,8 +135,8 @@ const EventPage = () => {
 
       {hasTaxes ? (
         <>
-          <ContainerCard>
-            <Spacing bottom="32px">
+          <ContainerCard noPadding>
+            <Spacing bottom="32px" top="40px">
               <HeaderText>Tax information</HeaderText>
             </Spacing>
 
@@ -121,13 +148,13 @@ const EventPage = () => {
               <TaxList error={error} taxes={taxes} />
             </Spacing>
 
-            <div>
+            <Spacing bottom="32px" top="32">
               <Spacing right="16px">
                 <SecondaryButton onClick={cancel}>Set up later</SecondaryButton>
               </Spacing>
 
               <Button onClick={save}>Save & continue</Button>
-            </div>
+            </Spacing>
           </ContainerCard>
         </>
       ) : (
