@@ -1,4 +1,5 @@
 import { ApolloError } from '@apollo/client';
+import { Icon } from '@material-ui/core';
 import {
   Button,
   SecondaryButton,
@@ -50,6 +51,17 @@ const HeaderText = styled.h1`
   letter-spacing: 0;
   line-height: 32px;
   margin: 0;
+`;
+
+const StyledHr = styled(Spacing)`
+  border-top: 1px solid #dcdfe5;
+`;
+
+const IconWrapper = styled(Icon)`
+  .material-icons {
+    font-size: 20px;
+    height: 22px;
+  }
 `;
 
 const NoTaxPlaceholder = () => {
@@ -164,14 +176,26 @@ const EventPage = () => {
                   </Spacing>
 
                   <Spacing bottom="32px">
-                    <Button>Add a new tax</Button>
+                    <Button>
+                      <IconWrapper>
+                        <Icon>add</Icon>
+                      </IconWrapper>
+                      <span>Add a new tax</span>
+                    </Button>
                   </Spacing>
 
                   <Spacing bottom="50px">
                     <TaxList error={error} taxes={taxes} />
                   </Spacing>
+                </Spacing>
 
-                  <FlexRowRight bottom="32px" top="32">
+                <StyledHr>
+                  <FlexRowRight
+                    bottom="32px"
+                    left="37px"
+                    right="31px"
+                    top="32px"
+                  >
                     <Spacing right="16px">
                       <SecondaryButton onClick={cancel}>
                         Set up later
@@ -180,7 +204,7 @@ const EventPage = () => {
 
                     <Button onClick={save}>Save & continue</Button>
                   </FlexRowRight>
-                </Spacing>
+                </StyledHr>
               </ContainerCard>
             </FlexRow>
           </FlexCol>

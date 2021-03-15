@@ -42,6 +42,7 @@ const SideNavigation = () => {
         <StyledList>
           <li>
             <ListText>Event information</ListText>
+            {/*  TODO add children or icons here*/}
           </li>
           <li>
             <ListText>Tax information</ListText>
