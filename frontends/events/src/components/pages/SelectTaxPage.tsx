@@ -1,8 +1,12 @@
 import { ApolloError } from '@apollo/client';
-import { Button } from '@websummit/components/src/atoms/Button';
+import {
+  Button,
+  SecondaryButton,
+} from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
+  TaxRate,
   TaxRatesQuery,
   useTaxRatesQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -60,6 +64,22 @@ type EventListQueryResponse = {
   loading?: boolean;
 };
 
+const mock: TaxRate[] = [
+  {
+    country: {
+      name: 'Poland',
+      id: 'id',
+      code: 'code',
+    },
+    event: {
+      name: 'tfh20',
+    },
+    name: 'tax name',
+    taxType: 'STANDARD',
+    value: '23',
+  },
+];
+
 const EventPage = () => {
   const history = useHistory();
   const { conferenceSlug, token } = useAppContext();
@@ -74,6 +94,13 @@ const EventPage = () => {
 
   const hasTaxes = data?.taxRates && data?.taxRates?.edges.length;
   const taxes = data?.taxRates && data?.taxRates.edges.map((node) => node.node);
+  const save = () => {
+    // TODO add save action
+  }
+
+  const cancel = () => {
+    // TODO add cancel action
+  }
 
   return (
     <>
@@ -82,9 +109,25 @@ const EventPage = () => {
       {hasTaxes ? (
         <>
           <ContainerCard>
-            <HeaderText>Tax information</HeaderText>
-            <Button>Add a new tax</Button>
-            <TaxList error={error} taxes={taxes} />
+            <Spacing bottom="32px">
+              <HeaderText>Tax information</HeaderText>
+            </Spacing>
+
+            <Spacing bottom="32px">
+              <Button>Add a new tax</Button>
+            </Spacing>
+
+            <Spacing bottom="50px">
+              <TaxList error={error} taxes={taxes} />
+            </Spacing>
+
+            <div>
+              <Spacing right="16px">
+                <SecondaryButton onClick={cancel}>Set up later</SecondaryButton>
+              </Spacing>
+
+              <Button onClick={save}>Save & continue</Button>
+            </div>
           </ContainerCard>
         </>
       ) : (
