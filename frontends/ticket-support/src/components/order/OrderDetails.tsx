@@ -20,6 +20,7 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import ButtonLink from '../../lib/components/atoms/ButtonLink';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
@@ -339,8 +340,7 @@ const OrderDetails = (): ReactElement => {
                     return (
                       <>
                         {!isOwnerDetailsEditOn ? (
-                          <button
-                            type="button"
+                          <ButtonLink
                             onClick={
                               isTitoOrder
                                 ? openTransferWarningModal
@@ -349,7 +349,7 @@ const OrderDetails = (): ReactElement => {
                           >
                             <Icon>create</Icon>
                             <span>Edit</span>
-                          </button>
+                          </ButtonLink>
                         ) : null}
                       </>
                     );

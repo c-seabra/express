@@ -384,7 +384,7 @@ const TicketDetails = (): ReactElement => {
                       <UpdateUniqueUserIdentifier
                         accountId={assignment.assignee.id}
                         email={assignment.assignee?.email}
-                        isDisabled={isTicketVoided}
+                        withEditMode={!isTicketVoided}
                       />
                     )}
 
@@ -392,7 +392,7 @@ const TicketDetails = (): ReactElement => {
                       <UpdateAppLoginEmail
                         bookingRef={bookingRef}
                         email={assignment?.appLoginEmail || assignee?.email}
-                        isDisabled={isTicketVoided}
+                        withEditMode={!isTicketVoided}
                       />
                     )}
 
