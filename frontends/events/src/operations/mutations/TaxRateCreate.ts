@@ -2,13 +2,16 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
-import { useUpdateCommerceOrderMutation } from '@websummit/graphql/src/@types/operations';
+import {
+  RateType,
+  TaxRateCreateInput,
+  useTaxRateCreateMutation,
+} from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
 
 export type TaxRateCreateRequest = {
-  id: string;
-  reason: string;
+  input: TaxRateCreateInput;
   refetch?: any;
 };
 
@@ -17,14 +20,14 @@ export const useTaxRateCreateOperation = () => {
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
-  const [taxRateCreateMutation] = useUpdateCommerceOrderMutation({
+  const [taxRateCreateMutation] = useTaxRateCreateMutation({
     onCompleted: () => {
       snackbar('Tax rate added');
     },
     onError: (e) => errSnackbar(e.message),
   });
 
-  const taxRateCreate = async ({ refetch }: TaxRateCreateRequest) => {
+  const taxRateCreate = async ({ input, refetch }: TaxRateCreateRequest) => {
     await taxRateCreateMutation({
       context: {
         // headers: {
@@ -33,8 +36,9 @@ export const useTaxRateCreateOperation = () => {
         slug: conferenceSlug,
         token,
       },
-      // variables: {
-      // },
+      variables: {
+        input,
+      },
     });
 
     // Hacky solution

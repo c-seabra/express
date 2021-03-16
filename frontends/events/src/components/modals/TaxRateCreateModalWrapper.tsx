@@ -1,6 +1,10 @@
+import {
+  RateType,
+  TaxRateCreateInput,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 
-import {TaxRateCreateRequest, useTaxRateCreateOperation} from '../../operations/mutations/TaxRateCreate';
+import { useTaxRateCreateOperation } from '../../operations/mutations/TaxRateCreate';
 import TaxRateCreateModal from './TaxRateCreateModal';
 
 type TaxRateCreateModalProps = {
@@ -15,9 +19,17 @@ const TaxRateCreateModalWrapper = ({
   refetch,
 }: TaxRateCreateModalProps) => {
   const { taxRateCreate } = useTaxRateCreateOperation();
-  const setMutation = (e: TaxRateCreateRequest) => {
+  const setMutation = (e: TaxRateCreateInput & { country: string }) => {
     console.log(e);
-    return taxRateCreate({ id: e.id, reason: e.reason });
+    const input: TaxRateCreateInput = {
+      countryId: e.country,
+      eventId: e.eventId,
+      name: e.name,
+      rateType: RateType.Percentage,
+      taxType: e.taxType,
+      value: e.value,
+    };
+    return taxRateCreate({ input, refetch });
   };
 
   return (

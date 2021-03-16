@@ -4,6 +4,7 @@ import {
 } from '@websummit/components/src/atoms/Button';
 import Icon from '@websummit/components/src/atoms/Icon';
 import Modal from '@websummit/components/src/molecules/Modal';
+import SelectField from '@websummit/components/src/molecules/SelectField';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
@@ -13,7 +14,6 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import SelectField from '@websummit/components/src/molecules/SelectField';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -82,7 +82,10 @@ type TaxRateCreateModalProps = {
 };
 
 const confirmSchema = Yup.object().shape({
-  amount: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  amount: Yup.number()
+    .min(0, 'Cannot be negative')
+    .max(100, 'Must be less than 100%')
+    .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   country: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   type: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
@@ -113,28 +116,35 @@ const TaxRateCreateModal = ({
     closeModal();
   };
 
-  const taxTypes = [
-    ...([1, 2].map((industry) => ({
+  const blankOption = {
+    label: 'Select one',
+    value: 'null',
+  };
+
+  const countries = [
+    blankOption,
+    ...([1, 2].map((country) => ({
       label: 'test',
       value: 'valuetest',
     })) || []),
   ];
 
-  // const taxTypes = [
-  //     // blankOption,
-  //     ...(event?.industries?.map((industry) => ({
-  //         label: industry.name,
-  //         value: industry.id,
-  //     })) || []),
-  // ];
+  const taxTypes = [
+    blankOption,
+    ...([1, 2].map((taxType) => ({
+      label: 'test',
+      value: 'valuetest',
+    })) || []),
+  ];
 
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Formik
         initialValues={{
-          amount: 23,
-          reason: '',
-          sendEmailNotification: false,
+          amount: '',
+          country: '',
+          name: '',
+          type: '',
         }}
         validateOnBlur={false}
         validateOnChange={false}
@@ -145,7 +155,11 @@ const TaxRateCreateModal = ({
           handleClose();
         }}
       >
-        {({ resetForm }) => {
+        {({ resetForm, submitForm }) => {
+          if (!formControls) {
+            setFormControls({ boundReset: resetForm, boundSubmit: submitForm });
+          }
+
           return (
             <Form>
               <Wrapper>
@@ -160,24 +174,28 @@ const TaxRateCreateModal = ({
                 </Spacing>
 
                 <Spacing top="8px">
-                   <FieldWrapper>
-                  <Spacing bottom="8px">
-                    <TextInputField label="Tax name" name="name" />
-                  </Spacing>
-                  <Spacing bottom="8px">
-                    <TextInputField label="Country of tax" name="country" />
-                  </Spacing>
-                  <Spacing bottom="8px">
-                    <TextInputField label="Tax amount %" name="amount" />
-                  </Spacing>
-                  <Spacing bottom="8px">
-                    <SelectField
-                      label="Tax type"
-                      name="type"
-                      options={taxTypes}
-                    />
-                  </Spacing>
-                   </FieldWrapper>
+                  <FieldWrapper>
+                    <Spacing bottom="8px">
+                      <TextInputField label="Tax name" name="name" />
+                    </Spacing>
+                    <Spacing bottom="8px">
+                      <SelectField
+                        label="Country of tax"
+                        name="country"
+                        options={countries}
+                      />
+                    </Spacing>
+                    <Spacing bottom="8px">
+                      <TextInputField label="Tax amount %" name="amount" />
+                    </Spacing>
+                    <Spacing bottom="8px">
+                      <SelectField
+                        label="Tax type"
+                        name="type"
+                        options={taxTypes}
+                      />
+                    </Spacing>
+                  </FieldWrapper>
                 </Spacing>
 
                 <Spacing bottom="50px">
