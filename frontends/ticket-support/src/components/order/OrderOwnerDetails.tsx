@@ -1,4 +1,6 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, ReactElement, useState } from 'react';
 import styled from 'styled-components';
@@ -6,8 +8,6 @@ import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import { useModalState } from '../../lib/components/molecules/Modal';
-import TextInputField from '../../lib/components/molecules/TextInputField';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
 import OrderTransferModal from './OrderTransferModal';
 import OrderUpdateOwnerDetailsModal from './OrderUpdateOwnerDetailsModal';

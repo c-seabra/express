@@ -1,9 +1,12 @@
 import { useMutation } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 
 import { useAppContext } from '../../components/app/AppContext';
 import IDENTITY_EMAIL_UPDATE from '../../operations/mutations/IdentityEmailUpdate';
 import { Account, UserError } from '../types';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type UpdateUniqueIdentifierResponse = {
   assignmentAccountUpdate: {

@@ -3,11 +3,11 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';

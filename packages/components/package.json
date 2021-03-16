@@ -22,7 +22,10 @@
     "react": "*",
     "react-router-dom": "*",
     "react-modal": "*",
-    "styled-components": "*"
+    "styled-components": "*",
+    "formik": "*",
+    "react-simple-snackbar": "*",
+    "react-currency-input-field": "*"
   },
   "devDependencies": {}
 }

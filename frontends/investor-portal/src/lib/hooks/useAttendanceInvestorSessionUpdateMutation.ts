@@ -1,9 +1,12 @@
 import { useMutation } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 
 import { useAppContext } from '../../components/app/AppContext';
 import { ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION } from '../../operations/mutations/AttendanceInvestorSessionUpdate';
 import { UserError } from '../types';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type AttendanceInvestorSessionUpdateData = {
   attendanceInvestorSessionUpdate: {

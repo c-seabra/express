@@ -1,64 +1,79 @@
-import { ApolloError, useQuery } from '@apollo/client';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { formatFullDate } from '@websummit/components/src/utils/time';
+import { Event } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
-import Loader from '../../lib/Loading';
-import { Event } from '../../lib/types';
-import EVENT_LIST from '../../operations/queries/EventList';
-import { useAppContext } from '../app/AppContext';
-import EventItem, { EventListHeader } from '../eventItem/EventItem';
+const StyledHeader = styled.span`
+  color: #0c1439;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 24px;
+`;
 
-const EventList: React.FC = () => {
-  const { conferenceSlug, token } = useAppContext();
+const StyledName = styled.span`
+  color: #0067e9;
+`;
 
-  const {
-    loading,
-    error,
-    data,
-  }: {
-    data?: {
-      events: {
-        edges: [
-          {
-            node: Event;
-          },
-        ];
-      };
-    };
-    error?: ApolloError;
-    loading?: boolean;
-  } = useQuery(EVENT_LIST, {
-    context: {
-      slug: conferenceSlug,
-      token,
+type EventListProps = {
+  error: any;
+  events: any;
+};
+const EventList = ({ error, events }: EventListProps) => {
+  const history = useHistory();
+  const tableShape: ColumnDescriptor<Event>[] = [
+    {
+      header: 'Name',
+      renderCell: (event) => <StyledName>{event.name || 'N/A'}</StyledName>,
+      width: '20%',
     },
-  });
+    {
+      header: 'Start date',
+      renderCell: (event) => formatFullDate(event.startDate) || 'N/A',
+      width: '20%',
+    },
+    {
+      header: 'End date',
+      renderCell: (event) => formatFullDate(event.endDate) || 'N/A',
+    },
+    {
+      header: 'Location',
+      renderCell: (event) => event.country?.name || 'N/A',
+    },
+    {
+      header: 'Created by',
+      renderCell: (event) =>
+        (event.versions && event.versions[0].whodunnit) || 'N/A',
+    },
+  ];
 
-  if (loading) {
-    return <Loader />;
-  }
-
+  // TODO lift up error and reuse useQuery hook for error handling
   if (error) {
     return <>{error.message}</>;
   }
 
-  const events = data?.events.edges.map((node) => node.node);
+  const redirectToEvent = (item: Event) => {
+    history.push(`/${item.slug.toString()}/edit`);
+  };
 
   return (
     <>
-      <h4>Events</h4>
-      <EventListHeader />
-      {events?.map((event) => (
-        <EventItem
-          key={event.id}
-          country={event?.country}
-          currency={event?.currency}
-          description={event?.description}
-          endDate={event?.endDate}
-          name={event.name}
-          slug={event.slug}
-          startDate={event?.startDate}
+      <Spacing bottom="1.5rem">
+        <StyledHeader>All events</StyledHeader>
+      </Spacing>
+      <ContainerCard noPadding>
+        <Table<Event>
+          items={events}
+          tableShape={tableShape}
+          onRowClick={redirectToEvent}
         />
-      ))}
+      </ContainerCard>
     </>
   );
 };
