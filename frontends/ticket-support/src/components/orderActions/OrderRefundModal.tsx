@@ -1,3 +1,4 @@
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
 import RadioField from '@websummit/components/src/molecules/RadioField';
@@ -21,7 +22,6 @@ import {
   HeaderText,
   IconWrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import { VALIDATION_MESSAGES } from '../../lib/constants/messages';
 import useRefund from '../../lib/hooks/useRefund';
 import { fromCents, toCents, Total } from '../../lib/utils/price';

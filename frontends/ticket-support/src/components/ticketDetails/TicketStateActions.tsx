@@ -1,10 +1,10 @@
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
 
 import { TextButton } from '../../lib/components/atoms/Button';
 import Icon from '../../lib/components/atoms/Icon';
 import { useModalState } from '../../lib/components/molecules/Modal';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import { Ticket } from '../../lib/types';
 import ClaimTicketModal from '../ticketActions/ClaimTicketModal';
 import TicketUnlockModal from '../ticketActions/TicketUnlockModal';

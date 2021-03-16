@@ -3,6 +3,7 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceOrder,
   CommerceOrderItem,
@@ -12,7 +13,6 @@ import {
 import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
 import { formatDisplayPrice } from '../../lib/utils/price';
 import Warning from '../ticketActions/Warning';

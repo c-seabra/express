@@ -53,6 +53,11 @@ const config = {
           },
         ],
       },
+      {
+        exclude: /node_modules/,
+        test: /\.(png|jpg|gif)$/,
+        loader: 'file-loader',
+      },
     ],
   },
   output: {
