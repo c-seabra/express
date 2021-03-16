@@ -5,9 +5,10 @@ import {
 import Icon from '@websummit/components/src/atoms/Icon';
 import Modal from '@websummit/components/src/molecules/Modal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
-import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { upperWord } from '@websummit/components/src/utils/text';
+import { TaxType } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
@@ -128,12 +129,11 @@ const TaxRateCreateModal = ({
       value: 'valuetest',
     })) || []),
   ];
-
   const taxTypes = [
     blankOption,
-    ...([1, 2].map((taxType) => ({
-      label: 'test',
-      value: 'valuetest',
+    ...(Object.values(TaxType).map((taxType) => ({
+      label: upperWord(taxType),
+      value: taxType,
     })) || []),
   ];
 

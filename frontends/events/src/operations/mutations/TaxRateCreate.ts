@@ -3,7 +3,6 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import {
-  RateType,
   TaxRateCreateInput,
   useTaxRateCreateMutation,
 } from '@websummit/graphql/src/@types/operations';
