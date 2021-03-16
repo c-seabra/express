@@ -22,7 +22,7 @@ const TaxRateCreateModalWrapper = ({
 
   return (
     <TaxRateCreateModal
-      alertHeader="Add new tax"
+      alertHeader="Add a new tax"
       cancelText="Cancel"
       closeModal={closeModal}
       isOpen={isOpen}

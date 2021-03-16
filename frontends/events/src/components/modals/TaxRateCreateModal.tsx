@@ -161,16 +161,16 @@ const TaxRateCreateModal = ({
 
                 <Spacing top="8px">
                    <FieldWrapper>
-                  <Spacing bottom="23px">
+                  <Spacing bottom="8px">
                     <TextInputField label="Tax name" name="name" />
                   </Spacing>
-                  <Spacing bottom="23px">
+                  <Spacing bottom="8px">
                     <TextInputField label="Country of tax" name="country" />
                   </Spacing>
-                  <Spacing bottom="23px">
+                  <Spacing bottom="8px">
                     <TextInputField label="Tax amount %" name="amount" />
                   </Spacing>
-                  <Spacing bottom="23px">
+                  <Spacing bottom="8px">
                     <SelectField
                       label="Tax type"
                       name="type"
