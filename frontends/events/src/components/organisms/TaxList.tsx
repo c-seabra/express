@@ -51,7 +51,8 @@ const TaxList = ({ error, taxes }: TaxesListProps) => {
     return <>{error.message}</>;
   }
 
-  const onSelect = () => {
+  const onSelect = (item: any) => {
+    console.log('item', item)
     // TODO apply onSelect
   };
 

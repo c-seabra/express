@@ -7,6 +7,7 @@ import {
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
+  CurrencyCode,
   TaxRate,
   TaxRatesQuery,
   TaxType,
@@ -88,8 +89,60 @@ type EventListQueryResponse = {
   loading?: boolean;
 };
 
-const mock: TaxRate[] = [
+// const mock: TaxRate[] = [
+const mock: any = [
   {
+    id: 1,
+    country: {
+      code: 'code',
+      id: 'id',
+      name: 'Ireland',
+    },
+    event: {
+      baseUrl: null,
+      brandName: 'Collision 2021',
+      companySizes: [100, 200],
+      configuration: {
+        algoliaKey: 'st'
+      },
+      country: null,
+      currency: CurrencyCode.Cad,
+      description: '"America’s fastest growing tech conference"',
+      endDate: '2021-04-22',
+      id: 'c1127a35-5a79-4933-9626-924ebf1ebb76',
+      industries: [],
+      investorSessionsSummary: [],
+      legalEntity: null,
+      name: 'Collision 2021 Online',
+      passportRequired: false,
+      slug: 'cc21',
+      startDate: '2021-04-20',
+      taxNumber: 'change me',
+      taxRates: {
+        edges: [],
+        pageInfo: {
+          endCursor: '10',
+          hasNextPage: true,
+          hasPreviousPage: false,
+          startCursor: '1',
+        },
+      },
+      timeZone: {
+        displayName: 'Eastern Time (US & Canada)',
+        ianaName: 'America/New_York',
+      },
+      timezone: 'America/New_York',
+      versions: [
+        {createdAt: 'test'}
+      ],
+    },
+    name: 'tax name2',
+    taxType: TaxType.Accommodation,
+    value: 19,
+  },
+
+  {
+    id: 2,
     country: {
       code: 'code',
       id: 'id',
@@ -98,22 +151,30 @@ const mock: TaxRate[] = [
     event: {
       baseUrl: null,
       brandName: 'Collision 2021',
+      companySizes: [100, 200],
+      configuration: {
+        algoliaKey: 'st'
+      },
       country: null,
-      currency: 'CAD',
+      currency: CurrencyCode.Cad,
       description: '"America’s fastest growing tech conference"',
       endDate: '2021-04-22',
-      id: 'c1127a35-5a79-4933-9626-924ebf1ebb76',
+      id: 'c1127a35-5a79-4933-9626-924ebf1ebb75',
       industries: [],
       investorSessionsSummary: [],
       legalEntity: null,
       name: 'Collision 2021 Online',
+      passportRequired: false,
       slug: 'cc21',
       startDate: '2021-04-20',
       taxNumber: 'change me',
       taxRates: {
         edges: [],
         pageInfo: {
+          endCursor: '10',
           hasNextPage: true,
+          hasPreviousPage: false,
+          startCursor: '1',
         },
       },
       timeZone: {
@@ -121,11 +182,14 @@ const mock: TaxRate[] = [
         ianaName: 'America/New_York',
       },
       timezone: 'America/New_York',
+      versions: [
+        {createdAt: 'test'}
+      ],
     },
     name: 'tax name',
     taxType: TaxType.Standard,
     value: 23,
-  },
+  }
 ];
 
 const EventPage = () => {
