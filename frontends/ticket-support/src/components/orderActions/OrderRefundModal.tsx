@@ -1,10 +1,10 @@
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
 import RadioField from '@websummit/components/src/molecules/RadioField';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceOrder,
   CommercePaymentMethod,

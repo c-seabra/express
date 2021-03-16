@@ -1,8 +1,8 @@
+import EditableTextInputField from '@websummit/components/src/molecules/EditableTextInputField';
 import {
   SpacingBottom,
   SpacingBottomXs,
 } from '@websummit/components/src/templates/Spacing';
-import EditableTextInputField from '@websummit/components/src/molecules/EditableTextInputField';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
