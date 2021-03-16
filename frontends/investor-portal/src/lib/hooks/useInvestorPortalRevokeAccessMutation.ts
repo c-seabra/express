@@ -1,10 +1,13 @@
 import { useMutation } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 
 import { useAppContext } from '../../components/app/AppContext';
 import INVESTOR_PORTAL_REVOKE_ACCESS_MUTATION from '../../operations/mutations/InvestorPortalRevokeAccess';
 import ATTENDANCES_LIST from '../../operations/queries/Attendances';
 import { UserError } from '../types';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type InvestorPortalRevokeAccessData = {
   investorPortalRevokeAccess: {

@@ -25,7 +25,10 @@ const Label = styled.div<{ required?: boolean }>`
     `}
 `;
 
-const InputContainer = styled.div<{ editModeOn?: boolean; isError?: boolean }>`
+const InputContainer = styled.div<{
+  editModeActive?: boolean;
+  isError?: boolean;
+}>`
   display: flex;
   border: 1px solid ${(props) => (props.isError ? '#e15554' : '#dcdfe5')};
   border-radius: 2px;
@@ -38,7 +41,7 @@ const InputContainer = styled.div<{ editModeOn?: boolean; isError?: boolean }>`
     background-color: #fff;
     border: none;
     color: ${(props) =>
-      props.editModeOn ? 'rgba(7, 20, 62, 0.5)' : '#07143e'};
+      props.editModeActive ? 'rgba(7, 20, 62, 0.5)' : '#07143e'};
     font-size: 16px;
     letter-spacing: 0;
     line-height: 20px;
@@ -90,9 +93,10 @@ const StyledActionsText = styled.span`
 `;
 
 type EditableTextInputFieldProps = HTMLProps<HTMLInputElement> & {
-  editModeOn?: boolean;
+  editModeActive?: boolean;
   name: string;
   onEdit?(): void;
+  withEditMode?: boolean;
 };
 
 const EditableTextInputField = ({
@@ -101,9 +105,9 @@ const EditableTextInputField = ({
   name,
   required,
   placeholder,
-  editModeOn = false,
+  editModeActive = false,
   onEdit,
-  disabled = false,
+  withEditMode = true,
 }: EditableTextInputFieldProps) => {
   return (
     <FieldContainer className={className}>
@@ -111,16 +115,16 @@ const EditableTextInputField = ({
       <Field name={name} required={required}>
         {({ meta, field }: FieldProps) => (
           <InputContainer
-            editModeOn={(onEdit && !editModeOn) || disabled}
+            editModeActive={onEdit && editModeActive}
             isError={meta.touched && !!meta.error}
           >
             <StyledInput
               type="text"
               {...field}
-              disabled={(onEdit && !editModeOn) || disabled}
+              disabled={!editModeActive || !withEditMode}
               placeholder={placeholder}
             />
-            {onEdit && !editModeOn && disabled && (
+            {onEdit && !editModeActive && withEditMode && (
               <StyledActions onClick={onEdit}>
                 <IconWrapper>
                   <Icon>mode</Icon>

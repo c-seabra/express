@@ -1,3 +1,4 @@
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -5,7 +6,6 @@ import * as Yup from 'yup';
 
 import { InfoMessage } from '../../lib/components/atoms/Messages';
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal';
-import TextInputField from '../../lib/components/molecules/TextInputField';
 
 const StyledForm = styled(Form)`
   width: 450px;

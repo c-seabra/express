@@ -1,9 +1,12 @@
 import { useMutation } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 
 import { useAppContext } from '../../components/app/AppContext';
 import MAGIC_LINK_GENERATE from '../../operations/mutations/LoginLinkGenerate';
 import { Account, UserError } from '../types';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type MagicLinkData = {
   assignmentMagicLinkGenerate: {

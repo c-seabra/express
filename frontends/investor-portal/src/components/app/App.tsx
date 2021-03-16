@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client';
+import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
@@ -9,7 +10,6 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import SnackbarProvider from 'react-simple-snackbar';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import { MainNavigation } from '../../lib/components/molecules';

@@ -1,10 +1,13 @@
 import { useMutation } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 import { useState } from 'react';
 
 import { useAppContext } from '../../components/app/AppContext';
 import TICKET_UNLOCK_MUTATION from '../../operations/mutations/TicketUnlock';
 import { Ticket, UserError } from '../types';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type TicketUnlockResponse = {
   response: {

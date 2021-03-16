@@ -1,13 +1,13 @@
 import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
+import {
   CommerceOrderStatus,
   useUpdateCommerceOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
-import {
-  useErrorSnackbar,
-  useSuccessSnackbar,
-} from '../../lib/hooks/useSnackbarMessage';
 
 export type OrderReinstateRequest = {
   commerceOrderUpdate?: { status: string };

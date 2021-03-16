@@ -1,10 +1,10 @@
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import {
   CommerceOrder,
   useCommerceGetOrderQuery,
 } from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
-import { useErrorSnackbar } from './useSnackbarMessage';
 
 const useSingleCommerceOrderQuery = ({ id = '' }: { id?: string }) => {
   const { conferenceSlug, token } = useAppContext();

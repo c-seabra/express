@@ -1,3 +1,5 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
+import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
@@ -7,9 +9,7 @@ import * as Yup from 'yup';
 import STATIC_MESSAGES from '../../constants/messages';
 import { DisabledButton, ErrorButton } from '../atoms/Button';
 import Icon from '../atoms/Icon';
-import CheckboxField from './CheckboxField';
 import Modal from './Modal';
-import TextAreaField from './TextAreaField';
 
 export const Wrapper = styled.div`
   display: flex;
