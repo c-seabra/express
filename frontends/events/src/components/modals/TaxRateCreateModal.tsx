@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
+import SelectField from '@websummit/components/src/molecules/SelectField';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ export const Wrapper = styled.div`
   padding: 0 0;
   font-size: 0.85rem;
   font-weight: 400;
-  min-width: 640px;
+  min-width: 600px;
 `;
 
 export const Text = styled.div`
@@ -34,24 +35,17 @@ export const Text = styled.div`
 `;
 
 export const HeaderText = styled.div`
-  font-size: 26px;
+  color: #0067e9;
+  font-size: 32px;
   font-weight: 500;
   letter-spacing: -0.5px;
   line-height: 40px;
 `;
 
-export const AlertText = styled(HeaderText)`
-  color: #e15554;
-`;
-
-export const FieldWrapper = styled(TextAreaField)`
+export const FieldWrapper = styled.div`
   min-width: 580px;
   text-align: left;
   padding: 0;
-
-  textarea {
-    height: 77px;
-  }
 `;
 
 const StyledRow = styled.div`
@@ -119,6 +113,21 @@ const TaxRateCreateModal = ({
     closeModal();
   };
 
+  const taxTypes = [
+    ...([1, 2].map((industry) => ({
+      label: 'test',
+      value: 'valuetest',
+    })) || []),
+  ];
+
+  // const taxTypes = [
+  //     // blankOption,
+  //     ...(event?.industries?.map((industry) => ({
+  //         label: industry.name,
+  //         value: industry.id,
+  //     })) || []),
+  // ];
+
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Formik
@@ -147,18 +156,28 @@ const TaxRateCreateModal = ({
                 </Spacing>
 
                 <Spacing bottom="40px">
-                  <AlertText>{alertHeader}</AlertText>
-                </Spacing>
-
-                <Spacing bottom="40px" top="24px">
-                  <Text>{alertText}</Text>
+                  <HeaderText>{alertHeader}</HeaderText>
                 </Spacing>
 
                 <Spacing top="8px">
-                  {/* <FieldWrapper> */}
-                  <TextInputField label="Tax name" name="tax-name" />
-
-                  {/* </FieldWrapper> */}
+                   <FieldWrapper>
+                  <Spacing bottom="23px">
+                    <TextInputField label="Tax name" name="name" />
+                  </Spacing>
+                  <Spacing bottom="23px">
+                    <TextInputField label="Country of tax" name="country" />
+                  </Spacing>
+                  <Spacing bottom="23px">
+                    <TextInputField label="Tax amount %" name="amount" />
+                  </Spacing>
+                  <Spacing bottom="23px">
+                    <SelectField
+                      label="Tax type"
+                      name="type"
+                      options={taxTypes}
+                    />
+                  </Spacing>
+                   </FieldWrapper>
                 </Spacing>
 
                 <Spacing bottom="50px">
