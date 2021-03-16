@@ -52,7 +52,7 @@ const TaxList = ({ error, taxes }: TaxesListProps) => {
   }
 
   const onSelect = (item: any) => {
-    console.log('item', item)
+    console.log('item', item);
     // TODO apply onSelect
   };
 

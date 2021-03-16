@@ -18,7 +18,7 @@ const TaxRateCreateModalWrapper = ({
   const { taxRateCreate } = useTaxRateCreateOperation();
   // const setMutation = (e: TaxRateCreateReque) => {
   const setMutation = (e: any) => {
-      console.log(e)
+    console.log(e);
     // return taxRateCreate({ id: e.id, reason: e.reason });
   };
 

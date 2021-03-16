@@ -1,18 +1,18 @@
+import {
+  Button,
+  SecondaryButton,
+} from '@websummit/components/src/atoms/Button';
+import Icon from '@websummit/components/src/atoms/Icon';
+import Modal from '@websummit/components/src/molecules/Modal';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import Icon from '@websummit/components/src/atoms/Icon';
-import Modal from '@websummit/components/src/molecules/Modal';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import {
-  SecondaryButton,
-  Button,
-} from '@websummit/components/src/atoms/Button';
-import TextInputField from "../../../../../packages/components/src/molecules/TextInputField";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ export const StyledActionRow = styled.div`
 export const IconWrapper = styled.div`
   > .material-icons {
     font-size: 40px;
-    color: #0067E9;
+    color: #0067e9;
   }
 `;
 
@@ -83,15 +83,16 @@ type TaxRateCreateModalProps = {
   alertText: string;
   cancelText: string;
   closeModal: () => void;
-  headerText: string;
   isOpen: boolean;
   mutationCallback: (values?: any) => Promise<void>;
   submitText: string;
 };
 
 const confirmSchema = Yup.object().shape({
-  reason: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  sendEmailNotification: Yup.boolean(),
+  amount: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  country: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  type: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
 const TaxRateCreateModal = ({
@@ -124,6 +125,7 @@ const TaxRateCreateModal = ({
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Formik
         initialValues={{
+          amount: 23,
           reason: '',
           sendEmailNotification: false,
         }}
@@ -160,10 +162,10 @@ const TaxRateCreateModal = ({
                 </Spacing>
 
                 <Spacing top="8px">
-                  {/*<FieldWrapper>*/}
-                    <TextInputField label="Tax name" name="tax-name"  />
+                  {/* <FieldWrapper> */}
+                  <TextInputField label="Tax name" name="tax-name" />
 
-                  {/*</FieldWrapper>*/}
+                  {/* </FieldWrapper> */}
                 </Spacing>
 
                 <Spacing bottom="50px">

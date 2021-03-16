@@ -5,6 +5,7 @@ import {
   SecondaryButton,
 } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CurrencyCode,
@@ -19,11 +20,10 @@ import styled from 'styled-components';
 
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
+import TaxRateCreateModal from '../modals/TaxRateCreateModal';
+import TaxRateCreateModalWrapper from '../modals/TaxRateCreateModalWrapper';
 import SideNavigation from '../organisms/SideNavigation';
 import TaxList from '../organisms/TaxList';
-import { useModalState } from '@websummit/components/src/molecules/Modal';
-import TaxRateCreateModal from '../modals/TaxRateCreateModal';
-import TaxRateCreateModalWrapper from "../modals/TaxRateCreateModalWrapper";
 
 const FlexRow = styled.div`
   display: flex;
@@ -95,7 +95,6 @@ type EventListQueryResponse = {
 // const mock: TaxRate[] = [
 const mock: any = [
   {
-    id: 1,
     country: {
       code: 'code',
       id: 'id',
@@ -137,13 +136,13 @@ const mock: any = [
       timezone: 'America/New_York',
       versions: [{ createdAt: 'test' }],
     },
+    id: 1,
     name: 'tax name2',
     taxType: TaxType.Accommodation,
     value: 19,
   },
 
   {
-    id: 2,
     country: {
       code: 'code',
       id: 'id',
@@ -185,6 +184,7 @@ const mock: any = [
       timezone: 'America/New_York',
       versions: [{ createdAt: 'test' }],
     },
+    id: 2,
     name: 'tax name',
     taxType: TaxType.Standard,
     value: 23,
