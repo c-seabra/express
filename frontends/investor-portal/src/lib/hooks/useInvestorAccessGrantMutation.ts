@@ -1,13 +1,13 @@
 import { useMutation } from '@apollo/client';
-
-import { useAppContext } from '../../components/app/AppContext';
-import { INVESTOR_ACCESS_GRANT_MUTATION } from '../../operations/mutations/InvestorAccessGrantMutation';
-import { Attendance, Error } from '../types';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
   useWarningSnackbar,
-} from './useSnackbarMessage';
+} from '@websummit/components/src/molecules/Snackbar';
+
+import { useAppContext } from '../../components/app/AppContext';
+import { INVESTOR_ACCESS_GRANT_MUTATION } from '../../operations/mutations/InvestorAccessGrantMutation';
+import { Attendance, Error } from '../types';
 
 type InvestorAccessGrantData = {
   investorAccessGrant: {

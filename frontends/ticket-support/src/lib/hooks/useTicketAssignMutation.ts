@@ -1,7 +1,10 @@
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 import { useTicketAssignMutation } from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type AssignTicketsArgs = {
   email: string;

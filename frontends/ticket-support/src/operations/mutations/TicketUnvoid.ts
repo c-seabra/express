@@ -1,11 +1,11 @@
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 import { useTicketUnvoidMutation } from '@websummit/graphql/src/@types/operations';
 import { useState } from 'react';
 
 import { useAppContext } from '../../components/app/AppContext';
-import {
-  useErrorSnackbar,
-  useSuccessSnackbar,
-} from '../../lib/hooks/useSnackbarMessage';
 
 export type TicketsUnvoidArgs = {
   bookingRef: string;

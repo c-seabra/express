@@ -1,10 +1,10 @@
-import { useProfileAdminUpdateMutation } from '@websummit/graphql/src/@types/operations';
-
-import { useAppContext } from '../../components/app/AppContext';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
-} from '../../lib/hooks/useSnackbarMessage';
+} from '@websummit/components/src/molecules/Snackbar';
+import { useProfileAdminUpdateMutation } from '@websummit/graphql/src/@types/operations';
+
+import { useAppContext } from '../../components/app/AppContext';
 
 export type OrderUpdateOwnerRequest = {
   accountId: string;

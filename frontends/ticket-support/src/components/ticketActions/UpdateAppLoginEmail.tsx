@@ -1,3 +1,4 @@
+import EditableTextInputField from '@websummit/components/src/molecules/EditableTextInputField';
 import {
   SpacingBottom,
   SpacingBottomXs,
@@ -9,7 +10,6 @@ import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
-import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
 import STATIC_MESSAGES from '../../lib/constants/messages';
 import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal';

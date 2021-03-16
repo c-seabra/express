@@ -1,10 +1,15 @@
 import React, { ReactElement } from 'react';
-import { SnackbarOptions, useSnackbar } from 'react-simple-snackbar';
+import _SnackbarProvider, {
+  SnackbarOptions,
+  useSnackbar,
+} from 'react-simple-snackbar';
 import styled from 'styled-components';
 
-import Icon from '../components/atoms/Icon';
+import Icon from '../atoms/Icon';
 
 type SnackbarType = 'info' | 'success' | 'error' | 'warning';
+
+export const SnackbarProvider = _SnackbarProvider;
 
 const getSnackbarOptions = (snackbarType: SnackbarType): SnackbarOptions => {
   switch (snackbarType) {
