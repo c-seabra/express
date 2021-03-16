@@ -68,7 +68,15 @@ const IconWrapper = styled(Icon)`
   }
 `;
 
-const NoTaxPlaceholder = () => {
+const StyledButton = styled(Button)`
+  padding-left: 16px;
+`;
+
+type NoTaxPlaceholderProps = {
+  action: () => void;
+};
+
+const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
   return (
     <FlexCol>
       <Spacing bottom="6rem" top="4.125rem">
@@ -78,7 +86,7 @@ const NoTaxPlaceholder = () => {
               <HeaderText>No Taxes Found</HeaderText>
               <span>You haven&apos;t created any taxes yet.</span>
             </FlexCol>
-            <Button>Create new tax</Button>
+            <Button onClick={action}>Create new tax</Button>
           </FlexRow>
         </ContainerCard>
       </Spacing>
@@ -207,6 +215,7 @@ const EventPage = () => {
   // const taxes = data?.taxRates && data?.taxRates.edges.map((node) => node.node);
   const hasTaxes = true;
   const taxes = mock;
+  // const taxes = [];
   const {
     openModal: openTaxRateModal,
     isOpen: isTaxRateModalOpen,
@@ -225,65 +234,59 @@ const EventPage = () => {
     <>
       {loading && <Loader />}
 
+      <TaxRateCreateModalWrapper
+        closeModal={closeTaxRateModal}
+        isOpen={isTaxRateModalOpen}
+      />
+
       {hasTaxes ? (
-        <>
-          <FlexCol>
-            <FlexRow>
-              <Spacing bottom="30px">
-                <HeaderText>Event setup</HeaderText>
-              </Spacing>
-            </FlexRow>
-            <FlexRow>
-              <Spacing right="3.75rem">
-                <SideNavigation />
-              </Spacing>
+        <FlexCol>
+          <FlexRow>
+            <Spacing bottom="30px">
+              <HeaderText>Event setup</HeaderText>
+            </Spacing>
+          </FlexRow>
+          <FlexRow>
+            <Spacing right="3.75rem">
+              <SideNavigation />
+            </Spacing>
 
-              <ContainerCard noPadding>
-                <Spacing left="37px" right="31px" top="40px">
-                  <Spacing bottom="32px">
-                    <HeaderText>Tax information</HeaderText>
-                  </Spacing>
-
-                  <Spacing bottom="32px">
-                    <Button onClick={openTaxRateModal}>
-                      <IconWrapper>
-                        <Icon>add</Icon>
-                      </IconWrapper>
-                      <span>Add a new tax</span>
-                    </Button>
-                    <TaxRateCreateModalWrapper
-                      closeModal={closeTaxRateModal}
-                      isOpen={isTaxRateModalOpen}
-                    />
-                  </Spacing>
-
-                  <Spacing bottom="50px">
-                    <TaxList error={error} taxes={taxes} />
-                  </Spacing>
+            <ContainerCard noPadding>
+              <Spacing left="37px" right="31px" top="40px">
+                <Spacing bottom="32px">
+                  <HeaderText>Tax information</HeaderText>
                 </Spacing>
 
-                <StyledHr>
-                  <FlexRowRight
-                    bottom="32px"
-                    left="37px"
-                    right="31px"
-                    top="32px"
-                  >
-                    <Spacing right="16px">
-                      <SecondaryButton onClick={cancel}>
-                        Set up later
-                      </SecondaryButton>
-                    </Spacing>
+                <Spacing bottom="32px">
+                  <StyledButton onClick={openTaxRateModal}>
+                    <IconWrapper>
+                      <Icon>add</Icon>
+                    </IconWrapper>
+                    <span>Add a new tax</span>
+                  </StyledButton>
+                </Spacing>
 
-                    <Button onClick={save}>Save & continue</Button>
-                  </FlexRowRight>
-                </StyledHr>
-              </ContainerCard>
-            </FlexRow>
-          </FlexCol>
-        </>
+                <Spacing bottom="50px">
+                  <TaxList error={error} taxes={taxes} />
+                </Spacing>
+              </Spacing>
+
+              <StyledHr>
+                <FlexRowRight bottom="32px" left="37px" right="31px" top="32px">
+                  <Spacing right="16px">
+                    <SecondaryButton onClick={cancel}>
+                      Set up later
+                    </SecondaryButton>
+                  </Spacing>
+
+                  <Button onClick={save}>Save & continue</Button>
+                </FlexRowRight>
+              </StyledHr>
+            </ContainerCard>
+          </FlexRow>
+        </FlexCol>
       ) : (
-        <>{!loading && <NoTaxPlaceholder />}</>
+        <>{!loading && <NoTaxPlaceholder action={openTaxRateModal} />}</>
       )}
     </>
   );
