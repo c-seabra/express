@@ -21,6 +21,9 @@ import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
 import SideNavigation from '../organisms/SideNavigation';
 import TaxList from '../organisms/TaxList';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
+import TaxRateCreateModal from '../modals/TaxRateCreateModal';
+import TaxRateCreateModalWrapper from "../modals/TaxRateCreateModalWrapper";
 
 const FlexRow = styled.div`
   display: flex;
@@ -103,7 +106,7 @@ const mock: any = [
       brandName: 'Collision 2021',
       companySizes: [100, 200],
       configuration: {
-        algoliaKey: 'st'
+        algoliaKey: 'st',
       },
       country: null,
       currency: CurrencyCode.Cad,
@@ -132,9 +135,7 @@ const mock: any = [
         ianaName: 'America/New_York',
       },
       timezone: 'America/New_York',
-      versions: [
-        {createdAt: 'test'}
-      ],
+      versions: [{ createdAt: 'test' }],
     },
     name: 'tax name2',
     taxType: TaxType.Accommodation,
@@ -153,7 +154,7 @@ const mock: any = [
       brandName: 'Collision 2021',
       companySizes: [100, 200],
       configuration: {
-        algoliaKey: 'st'
+        algoliaKey: 'st',
       },
       country: null,
       currency: CurrencyCode.Cad,
@@ -182,14 +183,12 @@ const mock: any = [
         ianaName: 'America/New_York',
       },
       timezone: 'America/New_York',
-      versions: [
-        {createdAt: 'test'}
-      ],
+      versions: [{ createdAt: 'test' }],
     },
     name: 'tax name',
     taxType: TaxType.Standard,
     value: 23,
-  }
+  },
 ];
 
 const EventPage = () => {
@@ -208,6 +207,12 @@ const EventPage = () => {
   // const taxes = data?.taxRates && data?.taxRates.edges.map((node) => node.node);
   const hasTaxes = true;
   const taxes = mock;
+  const {
+    openModal: openTaxRateModal,
+    isOpen: isTaxRateModalOpen,
+    closeModal: closeTaxRateModal,
+  } = useModalState();
+
   const save = () => {
     // TODO add save action
   };
@@ -240,12 +245,16 @@ const EventPage = () => {
                   </Spacing>
 
                   <Spacing bottom="32px">
-                    <Button>
+                    <Button onClick={openTaxRateModal}>
                       <IconWrapper>
                         <Icon>add</Icon>
                       </IconWrapper>
                       <span>Add a new tax</span>
                     </Button>
+                    <TaxRateCreateModalWrapper
+                      closeModal={closeTaxRateModal}
+                      isOpen={isTaxRateModalOpen}
+                    />
                   </Spacing>
 
                   <Spacing bottom="50px">
