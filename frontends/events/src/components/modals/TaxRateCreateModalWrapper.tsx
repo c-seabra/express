@@ -1,7 +1,6 @@
-import Modal from '@websummit/components/src/molecules/Modal';
 import React from 'react';
 
-import { useTaxRateCreateOperation } from '../../operations/mutations/TaxRateCreate';
+import {TaxRateCreateRequest, useTaxRateCreateOperation} from '../../operations/mutations/TaxRateCreate';
 import TaxRateCreateModal from './TaxRateCreateModal';
 
 type TaxRateCreateModalProps = {
@@ -16,19 +15,16 @@ const TaxRateCreateModalWrapper = ({
   refetch,
 }: TaxRateCreateModalProps) => {
   const { taxRateCreate } = useTaxRateCreateOperation();
-  // const setMutation = (e: TaxRateCreateReque) => {
-  const setMutation = (e: any) => {
+  const setMutation = (e: TaxRateCreateRequest) => {
     console.log(e);
-    // return taxRateCreate({ id: e.id, reason: e.reason });
+    return taxRateCreate({ id: e.id, reason: e.reason });
   };
 
   return (
     <TaxRateCreateModal
       alertHeader="Add new tax"
-      alertText="test"
       cancelText="Cancel"
       closeModal={closeModal}
-      headerText="test"
       isOpen={isOpen}
       mutationCallback={setMutation}
       submitText="Add to event"

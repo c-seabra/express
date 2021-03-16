@@ -80,7 +80,6 @@ export const IconWrapper = styled.div`
 
 type TaxRateCreateModalProps = {
   alertHeader: string;
-  alertText: string;
   cancelText: string;
   closeModal: () => void;
   isOpen: boolean;
@@ -99,7 +98,6 @@ const TaxRateCreateModal = ({
   isOpen,
   closeModal,
   cancelText,
-  alertText,
   alertHeader,
   mutationCallback,
   submitText = 'Submit',
@@ -138,12 +136,7 @@ const TaxRateCreateModal = ({
           handleClose();
         }}
       >
-        {({ submitForm, resetForm }) => {
-          // Binding submit form to submit programmatically from outside the <Formik> component
-          if (!formControls) {
-            setFormControls({ boundReset: resetForm, boundSubmit: submitForm });
-          }
-
+        {({ resetForm }) => {
           return (
             <Form>
               <Wrapper>
