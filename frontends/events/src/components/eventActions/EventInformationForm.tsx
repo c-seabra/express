@@ -148,10 +148,12 @@ const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
       validationSchema={eventInformationSchema}
       onSubmit={async (values) => {
         if (eventInfo?.id) {
-          await updateEvent({ variables: values });
+          await updateEvent({
+            variables: { event: { ...eventInfo, ...values } },
+          });
         } else {
           const { data: mutationResult, errors } = await createEvent({
-            variables: values,
+            variables: { event: values },
           });
 
           if (!errors) {
