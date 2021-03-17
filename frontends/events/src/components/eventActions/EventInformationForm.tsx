@@ -204,7 +204,7 @@ const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
           </FieldRow>
           <TextInputField required label="Event slug" name="slug" />
           <ButtonsContainer>
-            <SecondaryButton onClick={() => resetForm()}>
+            <SecondaryButton type="button" onClick={() => resetForm()}>
               Cancel
             </SecondaryButton>
             <Button type="submit">Save changes</Button>
