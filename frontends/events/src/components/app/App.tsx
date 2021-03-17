@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client';
+import Logo from '@websummit/components/src/atoms/Logo';
 import ROUTES from '@websummit/components/src/constants/routes';
 import MainNavigation from '@websummit/components/src/molecules/MainNavigation';
 import { initApollo } from '@websummit/graphql';
@@ -8,7 +9,6 @@ import { Helmet } from 'react-helmet';
 import { HashRouter as Router, NavLink, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import Logo from '@websummit/components/src/atoms/Logo';
 import EventCreate from '../eventActions/EventCreate';
 import EventUpdate from '../eventActions/EventUpdate';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
