@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode, useCallback } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -16,13 +16,12 @@ const ColumnStyles = styled.div`
 
 const Column = styled(ColumnStyles)<{ width?: string }>`
   width: ${(props) => props.width || '15%'};
+  padding: 1rem 1.5rem;
 `;
 
-const StyledListItem = styled.li`
+const StyledListItem = styled.li<{ isClickable?: boolean }>`
   font-size: 0.85rem;
   display: flex;
-  padding: 1rem 1.5rem;
-  background-color: white;
   color: #0c1439;
 
   border-bottom: 1px solid #dde0e5;
@@ -33,6 +32,11 @@ const StyledListItem = styled.li`
 
   &:hover {
     background-color: #dde0e5;
+    ${(props) =>
+      props?.isClickable &&
+      css`
+        cursor: pointer;
+      `}
   }
 `;
 
@@ -71,13 +75,15 @@ const TableHeader = ({
 };
 
 export type ColumnDescriptor<T> = {
-  header: string | ReactNode;
+  header?: string | ReactNode;
+  overrideStyle?: boolean;
   renderCell: (item: T, index?: number) => string | number | ReactNode;
   width?: string;
 };
 
 export type TableProps<T> = {
   items?: T[];
+  noHeader?: boolean;
   onRowClick?: (item: T) => void;
   renderFooter?: () => ReactNode;
   tableShape: ColumnDescriptor<T>[];
@@ -86,26 +92,37 @@ export type TableProps<T> = {
 const Table = <T extends unknown & { id: string | null }>({
   tableShape = [],
   items = [],
-  onRowClick = () => null,
+  onRowClick,
   renderFooter,
+  noHeader = false,
 }: TableProps<T>): ReactElement => {
   const renderTableRow = useCallback(
     (item: typeof items[0], index?: number) =>
-      tableShape.map((columnShape) => (
-        <Column key={`${item.id || ''}`} width={columnShape.width}>
-          {columnShape.renderCell(item, index)}
-        </Column>
-      )),
+      tableShape.map((columnShape) =>
+        columnShape.overrideStyle ? (
+          columnShape.renderCell(item, index)
+        ) : (
+          <Column key={`${item.id || ''}`} width={columnShape.width}>
+            {columnShape.renderCell(item, index)}
+          </Column>
+        ),
+      ),
     [tableShape],
   );
 
   return (
     <StyledContainer>
-      <TableHeader
-        headers={tableShape.map(({ header, width }) => ({ header, width }))}
-      />
+      {!noHeader && (
+        <TableHeader
+          headers={tableShape.map(({ header, width }) => ({ header, width }))}
+        />
+      )}
       {items.map((item, index) => (
-        <StyledListItem key={item.id} onClick={() => onRowClick(item)}>
+        <StyledListItem
+          key={item.id}
+          isClickable={!!onRowClick}
+          onClick={() => (onRowClick ? onRowClick(item) : null)}
+        >
           {renderTableRow(item, index)}
         </StyledListItem>
       ))}

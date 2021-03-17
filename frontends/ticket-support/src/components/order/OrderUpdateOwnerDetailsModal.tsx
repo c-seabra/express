@@ -42,13 +42,13 @@ const OrderUpdateOwnerDetailsModal = ({
       isNotificationOptionVisible
       alertHeader={orderRef}
       alertText="Are you sure you want to update owner details of this order?"
-      cancelText="No, keep order"
+      cancelText="No, keep details"
       checkboxLabel="Notify order owner by email?"
       closeModal={closeModal}
-      headerText="Update order owner"
+      headerText="Update order owner’s details"
       isOpen={isOpen}
       mutationCallback={setMutation}
-      submitText="Yes, update owner"
+      submitText="Yes, update details"
     />
   );
 };

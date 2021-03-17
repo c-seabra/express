@@ -59,7 +59,7 @@ const EventList = ({ error, events }: EventListProps) => {
   }
 
   const redirectToEvent = (item: Event) => {
-    history.push(`/${item.slug.toString()}/edit`);
+    history.push(`/${item.slug.toString()}/settings`);
   };
 
   return (

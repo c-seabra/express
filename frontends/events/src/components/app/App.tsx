@@ -12,8 +12,7 @@ import {
 } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import EventCreate from '../eventActions/EventCreate';
-import EventUpdate from '../eventActions/EventUpdate';
+import EventSettings from '../eventActions/EventSettings';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
 import EventsPage from '../pages/EventsPage';
@@ -85,15 +84,18 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/list">
                   <EventsPage />
                 </Route>
-                <Route exact path="/new">
-                  <EventCreate />
-                </Route>
                 {/* TEST PATH */}
                 <Route path="/tax">
                   <SelectTaxPage />
                 </Route>
                 <Route exact path="/:slug/edit">
-                  <EventUpdate />
+                  <EventsPage />
+                </Route>
+                <Route exact path="/settings">
+                  <EventSettings />
+                </Route>
+                <Route exact path="/:slug/settings">
+                  <EventSettings />
                 </Route>
                 <Route exact path="/legal_entities">
                   <LegalEntityList />

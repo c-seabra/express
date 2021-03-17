@@ -70,7 +70,7 @@ const OrderOwnerDetails = ({
       .email(STATIC_MESSAGES.VALIDATION.EMAIL)
       .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
     firstName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-    lastName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+    lastName: Yup.string(),
   });
 
   const {

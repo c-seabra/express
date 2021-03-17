@@ -41,6 +41,7 @@ const HeaderText = styled.h1`
 `;
 
 const NoEventsPlaceholder = () => {
+  const history = useHistory();
   return (
     <FlexCol>
       <Spacing bottom="6rem" top="4.125rem">
@@ -53,7 +54,9 @@ const NoEventsPlaceholder = () => {
                 a preview of what things will look like when you do.
               </span>
             </FlexCol>
-            <Button>Create new event</Button>
+            <Button onClick={() => history.push('/settings')}>
+              Create new event
+            </Button>
           </FlexRow>
         </ContainerCard>
       </Spacing>

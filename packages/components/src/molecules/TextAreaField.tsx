@@ -6,7 +6,6 @@ const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 85px;
-  padding-bottom: 1.8rem;
 `;
 
 const Label = styled.div<{ required?: boolean }>`
