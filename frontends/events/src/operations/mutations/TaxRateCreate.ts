@@ -20,8 +20,12 @@ export const useTaxRateCreateOperation = () => {
   const errSnackbar = useErrorSnackbar();
 
   const [taxRateCreateMutation] = useTaxRateCreateMutation({
-    onCompleted: () => {
-      snackbar('Tax rate added');
+    onCompleted: ({ taxRateCreate }) => {
+      if (taxRateCreate?.userErrors) {
+        errSnackbar(taxRateCreate?.userErrors[0].message);
+      } else {
+        snackbar('Tax rate added');
+      }
     },
     onError: (e) => errSnackbar(e.message),
   });
@@ -29,9 +33,6 @@ export const useTaxRateCreateOperation = () => {
   const taxRateCreate = async ({ input, refetch }: TaxRateCreateRequest) => {
     await taxRateCreateMutation({
       context: {
-        // headers: {
-        //   'X-Reason': reason,
-        // },
         slug: conferenceSlug,
         token,
       },

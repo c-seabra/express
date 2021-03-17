@@ -8,10 +8,10 @@ import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { useAppContext } from '../app/AppContext';
+import SelectTaxPage from '../organisms/SelectTax';
+import SelectTax from '../organisms/SelectTax';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
-import SelectTaxPage from "../organisms/SelectTax";
-import SelectTax from "../organisms/SelectTax";
 
 const PageWrapper = styled.div`
   display: flex;
@@ -127,7 +127,7 @@ const EventSettings = () => {
               <EventInformationForm eventInfo={data?.event} />
             )}
             {currentTab.id === 'tax_info' && (
-              <SelectTax />
+              <SelectTax eventId={data?.event?.id as string} />
             )}
           </SettingsSection>
         </SettingsForm>

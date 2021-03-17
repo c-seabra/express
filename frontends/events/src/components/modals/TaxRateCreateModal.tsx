@@ -83,13 +83,13 @@ type TaxRateCreateModalProps = {
 };
 
 const confirmSchema = Yup.object().shape({
-  amount: Yup.number()
-    .min(0, 'Cannot be negative')
-    .max(100, 'Must be less than 100%')
-    .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   country: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   type: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  value: Yup.number()
+    .min(0, 'Cannot be negative')
+    .max(100, 'Must be less than 100%')
+    .required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
 const TaxRateCreateModal = ({
@@ -141,10 +141,10 @@ const TaxRateCreateModal = ({
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Formik
         initialValues={{
-          amount: '',
           country: '',
           name: '',
           type: '',
+          value: '',
         }}
         validateOnBlur={false}
         validateOnChange={false}
@@ -186,7 +186,7 @@ const TaxRateCreateModal = ({
                       />
                     </Spacing>
                     <Spacing bottom="8px">
-                      <TextInputField label="Tax amount %" name="amount" />
+                      <TextInputField label="Tax amount %" name="value" />
                     </Spacing>
                     <Spacing bottom="8px">
                       <SelectField

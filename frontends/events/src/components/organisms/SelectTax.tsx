@@ -9,7 +9,6 @@ import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CurrencyCode,
-  TaxRate,
   TaxRatesQuery,
   TaxType,
   useTaxRatesQuery,
@@ -189,8 +188,11 @@ const mock: any = [
     value: 23,
   },
 ];
-
-const EventPage = () => {
+type SelectTaxProps = {
+  eventId: string;
+  // countries: any
+};
+const SelectTax = ({ eventId }: SelectTaxProps) => {
   const history = useHistory();
   const { conferenceSlug, token } = useAppContext();
   const context = {
@@ -227,6 +229,7 @@ const EventPage = () => {
 
       <TaxRateCreateModalWrapper
         closeModal={closeTaxRateModal}
+        eventId={eventId}
         isOpen={isTaxRateModalOpen}
       />
 
@@ -262,4 +265,4 @@ const EventPage = () => {
   );
 };
 
-export default EventPage;
+export default SelectTax;

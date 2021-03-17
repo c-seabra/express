@@ -15,8 +15,8 @@ import styled, { createGlobalStyle } from 'styled-components';
 import EventSettings from '../eventActions/EventSettings';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
-import EventsPage from '../pages/EventsPage';
 import SelectTaxPage from '../organisms/SelectTax';
+import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
@@ -83,10 +83,6 @@ const App = ({ token, apiURL }: AppProps) => {
                 </Route>
                 <Route exact path="/list">
                   <EventsPage />
-                </Route>
-                {/* TEST PATH */}
-                <Route path="/tax">
-                  <SelectTaxPage />
                 </Route>
                 <Route exact path="/:slug/edit">
                   <EventsPage />

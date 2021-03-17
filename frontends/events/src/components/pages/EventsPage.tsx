@@ -1,6 +1,7 @@
 import { ApolloError } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   Event,
@@ -8,6 +9,7 @@ import {
   EventListQueryQuery,
   useEventListQueryQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { Form } from 'formik';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -17,6 +19,10 @@ import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
 import EventList from '../organisms/EventList';
 import UpcomingEvents from '../templates/UpcomingEvents';
+
+const Flex = styled.div`
+  display: flex;
+`;
 
 const FlexRow = styled.div`
   display: flex;
@@ -116,9 +122,14 @@ const EventPage = () => {
 
       {hasEvents ? (
         <>
-          <Button onClick={() => history.push('/settings')}>
-            Create new event
-          </Button>
+          <Flex>
+            {/* <Form> */}
+            {/*  <TextInputField name="search" placeholder="Search" /> */}
+            {/* </Form> */}
+            <Button onClick={() => history.push('/settings')}>
+              Create new event
+            </Button>
+          </Flex>
 
           <UpcomingEvents
             events={eventsAfter}
