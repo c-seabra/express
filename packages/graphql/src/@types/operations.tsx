@@ -7674,6 +7674,22 @@ export type EventQuery = { __typename?: 'Query' } & {
             'id' | 'name'
           >
         >;
+        taxRates: Maybe<
+          { __typename?: 'TaxRateConnection' } & {
+            edges: Array<
+              { __typename?: 'TaxRateEdge' } & {
+                node: { __typename?: 'TaxRate' } & Pick<
+                  TaxRate,
+                  'id' | 'rateType' | 'name' | 'taxType' | 'value'
+                > & {
+                    country: {
+                      __typename?: 'EventConfigurationCountry';
+                    } & Pick<EventConfigurationCountry, 'name'>;
+                  };
+              }
+            >;
+          }
+        >;
       }
   >;
 };
@@ -7710,6 +7726,22 @@ export type EventListQueryQuery = { __typename?: 'Query' } & {
                     'event' | 'createdAt' | 'whodunnit'
                   >
                 >
+              >;
+              taxRates: Maybe<
+                { __typename?: 'TaxRateConnection' } & {
+                  edges: Array<
+                    { __typename?: 'TaxRateEdge' } & {
+                      node: { __typename?: 'TaxRate' } & Pick<
+                        TaxRate,
+                        'id' | 'rateType' | 'name' | 'taxType' | 'value'
+                      > & {
+                          country: {
+                            __typename?: 'EventConfigurationCountry';
+                          } & Pick<EventConfigurationCountry, 'name'>;
+                        };
+                    }
+                  >;
+                }
               >;
             };
         }
@@ -14119,6 +14151,66 @@ export const EventDocument: DocumentNode = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxRates' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'edges' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rateType' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'country' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'taxType' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'value' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -14277,6 +14369,87 @@ export const EventListQueryDocument: DocumentNode = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'whodunnit' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'taxRates' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'edges' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'node' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rateType',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'country',
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'name',
+                                                      },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'name',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'taxType',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'value',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },

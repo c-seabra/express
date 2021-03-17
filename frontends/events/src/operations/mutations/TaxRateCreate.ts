@@ -21,7 +21,7 @@ export const useTaxRateCreateOperation = () => {
 
   const [taxRateCreateMutation] = useTaxRateCreateMutation({
     onCompleted: ({ taxRateCreate }) => {
-      if (taxRateCreate?.userErrors) {
+      if (taxRateCreate?.userErrors && taxRateCreate?.userErrors.length > 0) {
         errSnackbar(taxRateCreate?.userErrors[0].message);
       } else {
         snackbar('Tax rate added');

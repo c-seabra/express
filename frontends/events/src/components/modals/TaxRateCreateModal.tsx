@@ -8,7 +8,11 @@ import SelectField from '@websummit/components/src/molecules/SelectField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { upperWord } from '@websummit/components/src/utils/text';
-import { TaxType } from '@websummit/graphql/src/@types/operations';
+import {
+  EventConfigurationCountry,
+  TaxType,
+  useCountriesQuery,
+} from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
@@ -100,6 +104,7 @@ const TaxRateCreateModal = ({
   mutationCallback,
   submitText = 'Submit',
 }: TaxRateCreateModalProps) => {
+  const { data } = useCountriesQuery();
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void;
@@ -122,13 +127,20 @@ const TaxRateCreateModal = ({
     value: 'null',
   };
 
-  const countries = [
+  const getCountryOptions = (
+    countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+  ) => [
     blankOption,
-    ...([1, 2].map((country) => ({
-      label: 'test',
-      value: 'valuetest',
-    })) || []),
+    ...countries.map((country) => ({
+      label: country?.name,
+      value: country?.id,
+    })),
   ];
+
+  const countryOptions = getCountryOptions(
+    data?.countries?.edges?.map((edge) => edge.node),
+  );
+
   const taxTypes = [
     blankOption,
     ...(Object.values(TaxType).map((taxType) => ({
@@ -182,7 +194,7 @@ const TaxRateCreateModal = ({
                       <SelectField
                         label="Country of tax"
                         name="country"
-                        options={countries}
+                        options={countryOptions}
                       />
                     </Spacing>
                     <Spacing bottom="8px">

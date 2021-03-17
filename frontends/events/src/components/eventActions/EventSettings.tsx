@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { useAppContext } from '../app/AppContext';
-import SelectTaxPage from '../organisms/SelectTax';
 import SelectTax from '../organisms/SelectTax';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
@@ -95,7 +94,7 @@ const EventSettings = () => {
   const { token } = useAppContext();
   const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
 
-  const { data } = useEventQuery({
+  const { data, loading } = useEventQuery({
     context: {
       token,
     },
@@ -106,6 +105,10 @@ const EventSettings = () => {
   });
 
   const settingsTable = settingsTableShape(currentTab);
+  const taxes =
+    data?.event?.taxRates &&
+    data?.event?.taxRates.edges.map((node) => node.node);
+  console.log(data);
 
   return (
     <PageWrapper>
@@ -127,7 +130,11 @@ const EventSettings = () => {
               <EventInformationForm eventInfo={data?.event} />
             )}
             {currentTab.id === 'tax_info' && (
-              <SelectTax eventId={data?.event?.id as string} />
+              <SelectTax
+                eventId={data?.event?.id as string}
+                loading={loading}
+                taxes={taxes}
+              />
             )}
           </SettingsSection>
         </SettingsForm>

@@ -11,6 +11,7 @@ import {
   CurrencyCode,
   TaxRatesQuery,
   TaxType,
+  useCountriesQuery,
   useTaxRatesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
@@ -47,10 +48,6 @@ const HeaderText = styled.h1`
   margin: 0;
 `;
 
-const StyledHr = styled(Spacing)`
-  border-top: 1px solid #dcdfe5;
-`;
-
 const IconWrapper = styled(Icon)`
   .material-icons {
     font-size: 20px;
@@ -70,150 +67,31 @@ const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
   return (
     <FlexCol>
       <Spacing bottom="6rem" top="4.125rem">
-        <ContainerCard noPadding>
-          <FlexRow>
-            <FlexCol>
-              <HeaderText>No Taxes Found</HeaderText>
-              <span>You haven&apos;t created any taxes yet.</span>
-            </FlexCol>
-            <Button onClick={action}>Create new tax</Button>
-          </FlexRow>
-        </ContainerCard>
+        <FlexRow>
+          <FlexCol>
+            <HeaderText>No Taxes Found</HeaderText>
+            <span>You haven&apos;t created any taxes yet.</span>
+          </FlexCol>
+          <Button onClick={action}>Create new tax</Button>
+        </FlexRow>
       </Spacing>
     </FlexCol>
   );
 };
 
-type EventListQueryResponse = {
-  data?: TaxRatesQuery;
-  error?: ApolloError;
-  loading?: boolean;
-};
-
-// const mock: TaxRate[] = [
-const mock: any = [
-  {
-    country: {
-      code: 'code',
-      id: 'id',
-      name: 'Ireland',
-    },
-    event: {
-      baseUrl: null,
-      brandName: 'Collision 2021',
-      companySizes: [100, 200],
-      configuration: {
-        algoliaKey: 'st',
-      },
-      country: null,
-      currency: CurrencyCode.Cad,
-      description: '"America’s fastest growing tech conference"',
-      endDate: '2021-04-22',
-      id: 'c1127a35-5a79-4933-9626-924ebf1ebb76',
-      industries: [],
-      investorSessionsSummary: [],
-      legalEntity: null,
-      name: 'Collision 2021 Online',
-      passportRequired: false,
-      slug: 'cc21',
-      startDate: '2021-04-20',
-      taxNumber: 'change me',
-      taxRates: {
-        edges: [],
-        pageInfo: {
-          endCursor: '10',
-          hasNextPage: true,
-          hasPreviousPage: false,
-          startCursor: '1',
-        },
-      },
-      timeZone: {
-        displayName: 'Eastern Time (US & Canada)',
-        ianaName: 'America/New_York',
-      },
-      timezone: 'America/New_York',
-      versions: [{ createdAt: 'test' }],
-    },
-    id: 1,
-    name: 'tax name2',
-    taxType: TaxType.Accommodation,
-    value: 19,
-  },
-
-  {
-    country: {
-      code: 'code',
-      id: 'id',
-      name: 'Poland',
-    },
-    event: {
-      baseUrl: null,
-      brandName: 'Collision 2021',
-      companySizes: [100, 200],
-      configuration: {
-        algoliaKey: 'st',
-      },
-      country: null,
-      currency: CurrencyCode.Cad,
-      description: '"America’s fastest growing tech conference"',
-      endDate: '2021-04-22',
-      id: 'c1127a35-5a79-4933-9626-924ebf1ebb75',
-      industries: [],
-      investorSessionsSummary: [],
-      legalEntity: null,
-      name: 'Collision 2021 Online',
-      passportRequired: false,
-      slug: 'cc21',
-      startDate: '2021-04-20',
-      taxNumber: 'change me',
-      taxRates: {
-        edges: [],
-        pageInfo: {
-          endCursor: '10',
-          hasNextPage: true,
-          hasPreviousPage: false,
-          startCursor: '1',
-        },
-      },
-      timeZone: {
-        displayName: 'Eastern Time (US & Canada)',
-        ianaName: 'America/New_York',
-      },
-      timezone: 'America/New_York',
-      versions: [{ createdAt: 'test' }],
-    },
-    id: 2,
-    name: 'tax name',
-    taxType: TaxType.Standard,
-    value: 23,
-  },
-];
 type SelectTaxProps = {
   eventId: string;
-  // countries: any
+  loading: boolean;
+  taxes: any;
 };
-const SelectTax = ({ eventId }: SelectTaxProps) => {
-  const history = useHistory();
-  const { conferenceSlug, token } = useAppContext();
-  const context = {
-    conferenceSlug,
-    token,
-  };
-
-  const { loading, error, data }: EventListQueryResponse = useTaxRatesQuery({
-    context,
-  });
-
-  // const hasTaxes = data?.taxRates && data?.taxRates?.edges.length;
-  // const taxes = data?.taxRates && data?.taxRates.edges.map((node) => node.node);
-  const hasTaxes = true;
-  const taxes = mock;
-  // const taxes = [];
+const SelectTax = ({ loading, eventId, taxes }: SelectTaxProps) => {
   const {
     openModal: openTaxRateModal,
     isOpen: isTaxRateModalOpen,
     closeModal: closeTaxRateModal,
   } = useModalState();
+  // const hasTaxes = data?.taxRates && data?.taxRates?.edges.length;
+  const hasTaxes = taxes.length;
 
   const save = () => {
     // TODO add save action
@@ -246,7 +124,7 @@ const SelectTax = ({ eventId }: SelectTaxProps) => {
             </Spacing>
 
             <Spacing bottom="50px">
-              <TaxList error={error} taxes={taxes} />
+              <TaxList taxes={taxes} />
             </Spacing>
           </Spacing>
 

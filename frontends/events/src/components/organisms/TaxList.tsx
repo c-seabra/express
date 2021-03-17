@@ -3,7 +3,6 @@ import SelectableTable from '@websummit/components/src/molecules/SelectableTable
 import { ColumnDescriptor } from '@websummit/components/src/molecules/Table';
 import { TaxRate } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const CapitalizedValue = styled.span`
@@ -15,13 +14,10 @@ const CapitalizedValue = styled.span`
 `;
 
 type TaxesListProps = {
-  error: any;
   taxes: any;
-  // taxes: TaxRate[];
 };
 
-const TaxList = ({ error, taxes }: TaxesListProps) => {
-  const history = useHistory();
+const TaxList = ({ taxes }: TaxesListProps) => {
   const tableShape: ColumnDescriptor<TaxRate>[] = [
     {
       header: 'Tax name',
@@ -45,11 +41,6 @@ const TaxList = ({ error, taxes }: TaxesListProps) => {
         <CapitalizedValue>{tax.taxType}</CapitalizedValue> || 'N/A',
     },
   ];
-
-  // TODO lift up error and reuse useQuery hook for error handling
-  if (error) {
-    return <>{error.message}</>;
-  }
 
   const onSelect = (item: any) => {
     console.log('item', item);
