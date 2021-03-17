@@ -1,6 +1,5 @@
 import {
   RateType,
-  TaxRateCreateInput,
   TaxType,
 } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
@@ -30,7 +29,7 @@ const TaxRateCreateModalWrapper = ({
     const input = {
       countryId: e.country,
       eventId: e.eventId,
-      name: e.name,
+      name: e.name.trim(),
       rateType: RateType.Percentage,
       taxType: e.type,
       value: e.value, // TODO retrieve event id
