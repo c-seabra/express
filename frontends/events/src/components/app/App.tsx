@@ -1,11 +1,14 @@
 import { ApolloProvider } from '@apollo/client';
+import ROUTES from '@websummit/components/src/constants/routes';
+import MainNavigation from '@websummit/components/src/molecules/MainNavigation';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, NavLink, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
+import Logo from '@websummit/components/src/atoms/Logo';
 import EventCreate from '../eventActions/EventCreate';
 import EventUpdate from '../eventActions/EventUpdate';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
@@ -26,6 +29,17 @@ const GlobalStyle = createGlobalStyle`
   body, input, textarea, select {
     font-family: 'Inter', sans-serif;
   }
+`;
+
+const StyledMainNavigationContainer = styled.section`
+  margin: 20px auto;
+  max-width: 1440px;
+`;
+
+const StyledMainHeader = styled.section`
+  display: flex;
+  margin: 20px auto;
+  max-width: 1440px;
 `;
 
 type AppProps = {
@@ -50,6 +64,15 @@ const App = ({ token, apiURL }: AppProps) => {
   return (
     <ApolloProvider client={apolloClient}>
       <Router>
+        <StyledMainHeader>
+          <NavLink to="/">
+            <Logo />
+          </NavLink>
+        </StyledMainHeader>
+        <StyledMainNavigationContainer>
+          <MainNavigation routes={ROUTES} />
+        </StyledMainNavigationContainer>
+
         <AppContext.Provider
           value={{
             conferenceSlug,
