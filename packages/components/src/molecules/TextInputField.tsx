@@ -55,6 +55,7 @@ const TextInputField = ({
   name,
   required,
   placeholder,
+  type = 'text',
 }: TextInputFieldProps) => {
   return (
     <FieldContainer className={className}>
@@ -63,7 +64,7 @@ const TextInputField = ({
         {({ meta, field }: FieldProps) => (
           <StyledInput
             isError={meta.touched && !!meta.error}
-            type="text"
+            type={type}
             {...field}
             placeholder={placeholder}
           />
