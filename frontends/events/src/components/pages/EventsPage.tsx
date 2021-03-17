@@ -116,6 +116,10 @@ const EventPage = () => {
 
       {hasEvents ? (
         <>
+          <Button onClick={() => history.push('/settings')}>
+            Create new event
+          </Button>
+
           <UpcomingEvents
             events={eventsAfter}
             onElementClick={redirectToEvent}
