@@ -955,6 +955,7 @@ export type WebPageConfig = {
   googleTagManagerId: Maybe<Scalars['String']>;
   googleAnalyticsTrackingId: Maybe<Scalars['String']>;
   baseGoogleAnalyticsTrackingId: Maybe<Scalars['String']>;
+  googleOptimizeId: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
   metaData: Maybe<ComponentSiteConfigMetaData>;
   created_by: Maybe<AdminUser>;
@@ -986,6 +987,9 @@ export type WebPageConfigGroupBy = {
   >;
   baseGoogleAnalyticsTrackingId: Maybe<
     Array<Maybe<WebPageConfigConnectionBaseGoogleAnalyticsTrackingId>>
+  >;
+  googleOptimizeId: Maybe<
+    Array<Maybe<WebPageConfigConnectionGoogleOptimizeId>>
   >;
   metaData: Maybe<Array<Maybe<WebPageConfigConnectionMetaData>>>;
   created_by: Maybe<Array<Maybe<WebPageConfigConnectionCreated_By>>>;
@@ -1036,6 +1040,12 @@ export type WebPageConfigConnectionGoogleAnalyticsTrackingId = {
 
 export type WebPageConfigConnectionBaseGoogleAnalyticsTrackingId = {
   __typename?: 'WebPageConfigConnectionBaseGoogleAnalyticsTrackingId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionGoogleOptimizeId = {
+  __typename?: 'WebPageConfigConnectionGoogleOptimizeId';
   key: Maybe<Scalars['String']>;
   connection: Maybe<WebPageConfigConnection>;
 };
@@ -4284,6 +4294,7 @@ export type WebPageConfigInput = {
   googleTagManagerId?: Maybe<Scalars['String']>;
   googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
   baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
+  googleOptimizeId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
   metaData?: Maybe<ComponentSiteConfigMetaDatumInput>;
   events?: Maybe<Array<Scalars['ID']>>;
@@ -4320,6 +4331,7 @@ export type EditWebPageConfigInput = {
   googleTagManagerId?: Maybe<Scalars['String']>;
   googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
   baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
+  googleOptimizeId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
   metaData?: Maybe<EditComponentSiteConfigMetaDatumInput>;
   events?: Maybe<Array<Scalars['ID']>>;
@@ -7102,17 +7114,7 @@ export type CreateOrderMutation = { __typename?: 'Mutation' } & {
 };
 
 export type EventCreateMutationVariables = Exact<{
-  slug: Scalars['String'];
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  taxNumber?: Maybe<Scalars['String']>;
-  startDate?: Maybe<Scalars['String']>;
-  endDate?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-  currency?: Maybe<CurrencyCode>;
-  baseUrl?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['ID']>;
-  legalEntityId?: Maybe<Scalars['ID']>;
+  event: EventCreateInput;
 }>;
 
 export type EventCreateMutation = { __typename?: 'Mutation' } & {
@@ -7148,17 +7150,7 @@ export type EventCreateMutation = { __typename?: 'Mutation' } & {
 };
 
 export type EventUpdateMutationVariables = Exact<{
-  slug: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  taxNumber?: Maybe<Scalars['String']>;
-  startDate?: Maybe<Scalars['String']>;
-  endDate?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-  currency?: Maybe<CurrencyCode>;
-  baseUrl?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['ID']>;
-  legalEntityId?: Maybe<Scalars['ID']>;
+  event: EventUpdateInput;
 }>;
 
 export type EventUpdateMutation = { __typename?: 'Mutation' } & {
@@ -11469,97 +11461,8 @@ export const EventCreateDocument: DocumentNode = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'slug' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'slug' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'name' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'name' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'description' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'taxNumber' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'taxNumber' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'startDate' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'startDate' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'endDate' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'endDate' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'timezone' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'timezone' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'currency' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'currency' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'baseUrl' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'baseUrl' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'countryId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'countryId' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'legalEntityId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'legalEntityId' },
-                      },
-                    },
-                  ],
-                  kind: 'ObjectValue',
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'event' },
                 },
               },
             ],
@@ -11651,95 +11554,12 @@ export const EventCreateDocument: DocumentNode = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'EventCreateInput' },
             },
           },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'description' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'taxNumber' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'startDate' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'endDate' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'timezone' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'CurrencyCode' },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'currency' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'baseUrl' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'countryId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'legalEntityId' },
+            name: { kind: 'Name', value: 'event' },
           },
         },
       ],
@@ -11765,17 +11585,7 @@ export type EventCreateMutationFn = Apollo.MutationFunction<
  * @example
  * const [eventCreateMutation, { data, loading, error }] = useEventCreateMutation({
  *   variables: {
- *      slug: // value for 'slug'
- *      name: // value for 'name'
- *      description: // value for 'description'
- *      taxNumber: // value for 'taxNumber'
- *      startDate: // value for 'startDate'
- *      endDate: // value for 'endDate'
- *      timezone: // value for 'timezone'
- *      currency: // value for 'currency'
- *      baseUrl: // value for 'baseUrl'
- *      countryId: // value for 'countryId'
- *      legalEntityId: // value for 'legalEntityId'
+ *      event: // value for 'event'
  *   },
  * });
  */
@@ -11813,97 +11623,8 @@ export const EventUpdateDocument: DocumentNode = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'slug' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'slug' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'name' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'name' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'description' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'taxNumber' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'taxNumber' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'startDate' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'startDate' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'endDate' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'endDate' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'timezone' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'timezone' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'currency' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'currency' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'baseUrl' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'baseUrl' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'countryId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'countryId' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'legalEntityId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'legalEntityId' },
-                      },
-                    },
-                  ],
-                  kind: 'ObjectValue',
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'event' },
                 },
               },
             ],
@@ -11995,89 +11716,12 @@ export const EventUpdateDocument: DocumentNode = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'EventUpdateInput' },
             },
           },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'description' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'taxNumber' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'startDate' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'endDate' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'timezone' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'CurrencyCode' },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'currency' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'baseUrl' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'countryId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'legalEntityId' },
+            name: { kind: 'Name', value: 'event' },
           },
         },
       ],
@@ -12103,17 +11747,7 @@ export type EventUpdateMutationFn = Apollo.MutationFunction<
  * @example
  * const [eventUpdateMutation, { data, loading, error }] = useEventUpdateMutation({
  *   variables: {
- *      slug: // value for 'slug'
- *      name: // value for 'name'
- *      description: // value for 'description'
- *      taxNumber: // value for 'taxNumber'
- *      startDate: // value for 'startDate'
- *      endDate: // value for 'endDate'
- *      timezone: // value for 'timezone'
- *      currency: // value for 'currency'
- *      baseUrl: // value for 'baseUrl'
- *      countryId: // value for 'countryId'
- *      legalEntityId: // value for 'legalEntityId'
+ *      event: // value for 'event'
  *   },
  * });
  */

@@ -1,34 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const EVENT_CREATE_MUTATION = gql`
-  mutation EventCreate(
-    $slug: String!
-    $name: String!
-    $description: String
-    $taxNumber: String
-    $startDate: String
-    $endDate: String
-    $timezone: String
-    $currency: CurrencyCode
-    $baseUrl: String
-    $countryId: ID
-    $legalEntityId: ID
-  ) {
-    eventCreate(
-      input: {
-        slug: $slug
-        name: $name
-        description: $description
-        taxNumber: $taxNumber
-        startDate: $startDate
-        endDate: $endDate
-        timezone: $timezone
-        currency: $currency
-        baseUrl: $baseUrl
-        countryId: $countryId
-        legalEntityId: $legalEntityId
-      }
-    ) {
+  mutation EventCreate($event: EventCreateInput!) {
+    eventCreate(input: $event) {
       event {
         id
         name
