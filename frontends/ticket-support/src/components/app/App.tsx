@@ -14,8 +14,8 @@ import {
 import styled, { createGlobalStyle } from 'styled-components';
 
 import Logo from '../../lib/components/atoms/Logo';
-import MainNavigation from '../../lib/components/molecules/MainNavigation';
-import ROUTES from '../../lib/constants/routes';
+import MainNavigation from '@websummit/components/src/molecules/MainNavigation';
+import ROUTES from '@websummit/components/src/constants/routes';
 import OrderDetails from '../order/OrderDetails';
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
 import TicketDashboard from '../ticketDashboard/TicketDashboard';
