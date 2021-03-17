@@ -10,6 +10,8 @@ import styled, { css } from 'styled-components';
 import { useAppContext } from '../app/AppContext';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
+import SelectTaxPage from "../organisms/SelectTax";
+import SelectTax from "../organisms/SelectTax";
 
 const PageWrapper = styled.div`
   display: flex;
@@ -123,6 +125,9 @@ const EventSettings = () => {
           <SettingsSection title={currentTab.title}>
             {currentTab.id === 'event_info' && (
               <EventInformationForm eventInfo={data?.event} />
+            )}
+            {currentTab.id === 'tax_info' && (
+              <SelectTax />
             )}
           </SettingsSection>
         </SettingsForm>

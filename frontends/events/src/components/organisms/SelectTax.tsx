@@ -20,21 +20,12 @@ import styled from 'styled-components';
 
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
-import TaxRateCreateModal from '../modals/TaxRateCreateModal';
 import TaxRateCreateModalWrapper from '../modals/TaxRateCreateModalWrapper';
-import SideNavigation from '../organisms/SideNavigation';
-import TaxList from '../organisms/TaxList';
+import TaxList from './TaxList';
 
 const FlexRow = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const FlexRowCentered = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 26px 36px;
 `;
 
 const FlexRowRight = styled(Spacing)`
@@ -240,51 +231,30 @@ const EventPage = () => {
       />
 
       {hasTaxes ? (
-        <FlexCol>
-          <FlexRow>
-            <Spacing bottom="30px">
-              <HeaderText>Event setup</HeaderText>
+        <>
+          <Spacing top="20px">
+            <Spacing bottom="32px">
+              <StyledButton onClick={openTaxRateModal}>
+                <IconWrapper>
+                  <Icon>add</Icon>
+                </IconWrapper>
+                <span>Add a new tax</span>
+              </StyledButton>
             </Spacing>
-          </FlexRow>
-          <FlexRow>
-            <Spacing right="3.75rem">
-              <SideNavigation />
+
+            <Spacing bottom="50px">
+              <TaxList error={error} taxes={taxes} />
+            </Spacing>
+          </Spacing>
+
+          <FlexRowRight top="32px">
+            <Spacing right="16px">
+              <SecondaryButton onClick={cancel}>Set up later</SecondaryButton>
             </Spacing>
 
-            <ContainerCard noPadding>
-              <Spacing left="37px" right="31px" top="40px">
-                <Spacing bottom="32px">
-                  <HeaderText>Tax information</HeaderText>
-                </Spacing>
-
-                <Spacing bottom="32px">
-                  <StyledButton onClick={openTaxRateModal}>
-                    <IconWrapper>
-                      <Icon>add</Icon>
-                    </IconWrapper>
-                    <span>Add a new tax</span>
-                  </StyledButton>
-                </Spacing>
-
-                <Spacing bottom="50px">
-                  <TaxList error={error} taxes={taxes} />
-                </Spacing>
-              </Spacing>
-
-              <StyledHr>
-                <FlexRowRight bottom="32px" left="37px" right="31px" top="32px">
-                  <Spacing right="16px">
-                    <SecondaryButton onClick={cancel}>
-                      Set up later
-                    </SecondaryButton>
-                  </Spacing>
-
-                  <Button onClick={save}>Save & continue</Button>
-                </FlexRowRight>
-              </StyledHr>
-            </ContainerCard>
-          </FlexRow>
-        </FlexCol>
+            <Button onClick={save}>Save & continue</Button>
+          </FlexRowRight>
+        </>
       ) : (
         <>{!loading && <NoTaxPlaceholder action={openTaxRateModal} />}</>
       )}

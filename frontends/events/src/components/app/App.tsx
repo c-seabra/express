@@ -16,7 +16,7 @@ import EventSettings from '../eventActions/EventSettings';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
 import EventsPage from '../pages/EventsPage';
-import SelectTaxPage from '../pages/SelectTaxPage';
+import SelectTaxPage from '../organisms/SelectTax';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
