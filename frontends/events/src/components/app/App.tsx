@@ -81,9 +81,6 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/">
                   <EventsPage />
                 </Route>
-                <Route exact path="/:slug/edit">
-                  <EventsPage />
-                </Route>
                 <Route exact path="/settings">
                   <EventSettings />
                 </Route>
