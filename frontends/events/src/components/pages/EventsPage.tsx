@@ -9,7 +9,6 @@ import {
   EventListQueryQuery,
   useEventListQueryQuery,
 } from '@websummit/graphql/src/@types/operations';
-import { Form } from 'formik';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -20,8 +19,9 @@ import { useAppContext } from '../app/AppContext';
 import EventList from '../organisms/EventList';
 import UpcomingEvents from '../templates/UpcomingEvents';
 
-const Flex = styled.div`
+const FlexEnd = styled.div`
   display: flex;
+  justify-content: flex-end;
 `;
 
 const FlexRow = styled.div`
@@ -122,14 +122,11 @@ const EventPage = () => {
 
       {hasEvents ? (
         <>
-          <Flex>
-            {/* <Form> */}
-            {/*  <TextInputField name="search" placeholder="Search" /> */}
-            {/* </Form> */}
+          <FlexEnd>
             <Button onClick={() => history.push('/settings')}>
               Create new event
             </Button>
-          </Flex>
+          </FlexEnd>
 
           <UpcomingEvents
             events={eventsAfter}
