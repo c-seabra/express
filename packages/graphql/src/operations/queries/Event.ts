@@ -18,6 +18,7 @@ const EVENT = gql`
       country {
         id
         name
+        code
       }
       currency
       taxRates {
@@ -27,6 +28,8 @@ const EVENT = gql`
             rateType
             country {
               name
+              id
+              code
             }
             name
             taxType

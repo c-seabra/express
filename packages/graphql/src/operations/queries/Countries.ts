@@ -6,6 +6,7 @@ const COUNTRIES = gql`
       edges {
         node {
           name
+          code
           id
         }
       }

@@ -7637,7 +7637,7 @@ export type CountriesQuery = { __typename?: 'Query' } & {
       { __typename?: 'EventConfigurationCountryEdge' } & {
         node: { __typename?: 'EventConfigurationCountry' } & Pick<
           EventConfigurationCountry,
-          'name' | 'id'
+          'name' | 'code' | 'id'
         >;
       }
     >;
@@ -7671,7 +7671,7 @@ export type EventQuery = { __typename?: 'Query' } & {
         country: Maybe<
           { __typename?: 'EventConfigurationCountry' } & Pick<
             EventConfigurationCountry,
-            'id' | 'name'
+            'id' | 'name' | 'code'
           >
         >;
         taxRates: Maybe<
@@ -7684,7 +7684,7 @@ export type EventQuery = { __typename?: 'Query' } & {
                 > & {
                     country: {
                       __typename?: 'EventConfigurationCountry';
-                    } & Pick<EventConfigurationCountry, 'name'>;
+                    } & Pick<EventConfigurationCountry, 'name' | 'id' | 'code'>;
                   };
               }
             >;
@@ -14026,6 +14026,10 @@ export const CountriesDocument: DocumentNode = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'code' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                           ],
@@ -14147,6 +14151,7 @@ export const EventDocument: DocumentNode = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
                     ],
                   },
                 },
@@ -14186,6 +14191,14 @@ export const EventDocument: DocumentNode = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'name' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'code' },
                                         },
                                       ],
                                     },
