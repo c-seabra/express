@@ -1,3 +1,6 @@
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
@@ -11,9 +14,6 @@ import { useAppContext } from '../app/AppContext';
 import SelectTax from '../organisms/SelectTax';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
-import Breadcrumbs, {
-  Breadcrumb,
-} from '@websummit/components/src/molecules/Breadcrumbs';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -134,7 +134,9 @@ const EventSettings = () => {
       label: `${eventName || 'N/A'}`,
     },
   ];
-  const breadcrumbs = data?.event ? breadcrumbsEditRoutes : breadcrumbsNewRoutes;
+  const breadcrumbs = data?.event
+    ? breadcrumbsEditRoutes
+    : breadcrumbsNewRoutes;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Events',
