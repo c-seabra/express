@@ -79,9 +79,6 @@ const App = ({ token, apiURL }: AppProps) => {
               <GlobalStyle />
               <Switch>
                 <Route exact path="/">
-                  <Redirect to="/list" />
-                </Route>
-                <Route exact path="/list">
                   <EventsPage />
                 </Route>
                 <Route exact path="/:slug/edit">
