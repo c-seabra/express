@@ -84,6 +84,7 @@ type TaxRateCreateModalProps = {
   isOpen: boolean;
   mutationCallback: (values?: any) => Promise<void>;
   submitText: string;
+  mode?: 'EDIT' | 'ADD';
 };
 
 const confirmSchema = Yup.object().shape({
@@ -103,6 +104,7 @@ const TaxRateCreateModal = ({
   alertHeader,
   mutationCallback,
   submitText = 'Submit',
+  mode = 'ADD',
 }: TaxRateCreateModalProps) => {
   const { data } = useCountriesQuery();
   const [formControls, setFormControls] = useState<
@@ -149,15 +151,29 @@ const TaxRateCreateModal = ({
     })) || []),
   ];
 
+  const initialValues = (mode: any) => {
+    if (mode === 'ADD') {
+      return {
+        country: '',
+        name: '',
+        type: '',
+        value: '',
+      };
+    }
+
+    if (mode === 'EDIT') {
+      return {
+        country: '',
+        name: 'test edit',
+        type: '',
+        value: '',
+      };
+    }
+  };
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Formik
-        initialValues={{
-          country: '',
-          name: '',
-          type: '',
-          value: '',
-        }}
+        initialValues={initialValues(mode)}
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}

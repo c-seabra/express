@@ -8,6 +8,7 @@ type TaxRateCreateModalProps = {
   closeModal: () => void;
   eventId: string;
   isOpen: boolean;
+  mode?: 'EDIT' | 'ADD';
   refetch?: any;
 };
 
@@ -16,6 +17,7 @@ const TaxRateCreateModalWrapper = ({
   closeModal,
   refetch,
   eventId,
+    mode = 'ADD',
 }: TaxRateCreateModalProps) => {
   const { taxRateCreate } = useTaxRateCreateOperation();
   const setMutation = (e: {
@@ -45,6 +47,7 @@ const TaxRateCreateModalWrapper = ({
       isOpen={isOpen}
       mutationCallback={setMutation}
       submitText="Add to event"
+      mode={mode}
     />
   );
 };
