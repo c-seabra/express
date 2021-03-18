@@ -41,9 +41,8 @@ export const useTaxRateCreateOperation = () => {
       },
     });
 
-    // Hacky solution
-    // there is a race condition after successful mutation order gets null
-    // setTimeout(() => refetch(), 1000);
+    // Hacky solution because refetchQueries is not working
+    setTimeout(() => refetch(), 500);
   };
 
   return {

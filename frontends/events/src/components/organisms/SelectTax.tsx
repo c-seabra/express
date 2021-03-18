@@ -1,25 +1,14 @@
-import { ApolloError } from '@apollo/client';
 import { Icon } from '@material-ui/core';
 import {
   Button,
   SecondaryButton,
 } from '@websummit/components/src/atoms/Button';
-import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {
-  CurrencyCode,
-  TaxRatesQuery,
-  TaxType,
-  useCountriesQuery,
-  useTaxRatesQuery,
-} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Loader from '../../lib/Loading';
-import { useAppContext } from '../app/AppContext';
 import TaxRateCreateModalWrapper from '../modals/TaxRateCreateModalWrapper';
 import TaxList from './TaxList';
 
@@ -66,7 +55,7 @@ type NoTaxPlaceholderProps = {
 const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
   return (
     <FlexCol>
-      <Spacing bottom="6rem" top="4.125rem">
+      <Spacing bottom="2" top="1rem">
         <FlexRow>
           <FlexCol>
             <HeaderText>No Taxes Found</HeaderText>
@@ -82,15 +71,15 @@ const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
 type SelectTaxProps = {
   eventId: string;
   loading: boolean;
+  refetch: any;
   taxes: any;
 };
-const SelectTax = ({ loading, eventId, taxes }: SelectTaxProps) => {
+const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
   const {
     openModal: openTaxRateModal,
     isOpen: isTaxRateModalOpen,
     closeModal: closeTaxRateModal,
   } = useModalState();
-  // const hasTaxes = data?.taxRates && data?.taxRates?.edges.length;
   const hasTaxes = taxes.length;
 
   const save = () => {
@@ -109,6 +98,7 @@ const SelectTax = ({ loading, eventId, taxes }: SelectTaxProps) => {
         closeModal={closeTaxRateModal}
         eventId={eventId}
         isOpen={isTaxRateModalOpen}
+        refetch={refetch}
       />
 
       {hasTaxes ? (
@@ -133,7 +123,9 @@ const SelectTax = ({ loading, eventId, taxes }: SelectTaxProps) => {
               <SecondaryButton onClick={cancel}>Set up later</SecondaryButton>
             </Spacing>
 
-            <Button onClick={save}>Save & continue</Button>
+            <Button disabled onClick={save}>
+              Save & continue
+            </Button>
           </FlexRowRight>
         </>
       ) : (

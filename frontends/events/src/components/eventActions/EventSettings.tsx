@@ -94,7 +94,7 @@ const EventSettings = () => {
   const { token } = useAppContext();
   const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
 
-  const { data, loading } = useEventQuery({
+  const { data, loading, refetch } = useEventQuery({
     context: {
       token,
     },
@@ -108,7 +108,6 @@ const EventSettings = () => {
   const taxes =
     data?.event?.taxRates &&
     data?.event?.taxRates.edges.map((node) => node.node);
-  console.log(data);
 
   return (
     <PageWrapper>
@@ -133,6 +132,7 @@ const EventSettings = () => {
               <SelectTax
                 eventId={data?.event?.id as string}
                 loading={loading}
+                refetch={refetch}
                 taxes={taxes}
               />
             )}
