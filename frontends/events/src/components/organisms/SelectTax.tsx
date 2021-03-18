@@ -82,14 +82,6 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
   } = useModalState();
   const hasTaxes = taxes.length;
 
-  const save = () => {
-    // TODO add save action
-  };
-
-  const cancel = () => {
-    // TODO add cancel action
-  };
-
   return (
     <>
       {loading && <Loader />}
