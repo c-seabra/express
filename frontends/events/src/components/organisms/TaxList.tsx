@@ -44,7 +44,7 @@ const TaxList = ({ taxes }: TaxesListProps) => {
       width: '16%',
     },
   ];
-  
+
   return (
     <>
       <ContainerCard noPadding>
