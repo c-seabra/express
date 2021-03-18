@@ -53,11 +53,6 @@ export const FieldWrapper = styled.div`
   padding: 0;
 `;
 
-const StyledRow = styled.div`
-  display: flex;
-  min-width: 590px;
-`;
-
 export const StyledActionRow = styled.div`
   display: flex;
   justify-content: space-around;

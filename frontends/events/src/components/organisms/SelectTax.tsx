@@ -17,11 +17,6 @@ const FlexRow = styled.div`
   justify-content: space-between;
 `;
 
-const FlexRowRight = styled(Spacing)`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 // Good candidate to move to package templates
 const FlexCol = styled.div`
   display: flex;
