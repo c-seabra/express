@@ -117,16 +117,6 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
               <TaxList taxes={taxes} />
             </Spacing>
           </Spacing>
-
-          <FlexRowRight top="32px">
-            <Spacing right="16px">
-              <SecondaryButton onClick={cancel}>Set up later</SecondaryButton>
-            </Spacing>
-
-            <Button disabled onClick={save}>
-              Save & continue
-            </Button>
-          </FlexRowRight>
         </>
       ) : (
         <>{!loading && <NoTaxPlaceholder action={openTaxRateModal} />}</>

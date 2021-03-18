@@ -112,7 +112,6 @@ const EventPage = () => {
   const eventsAfter =
     dataUpcoming?.events && dataUpcoming?.events.edges.map((node) => node.node);
   const redirectToEvent = (item: Event) => {
-    // DO NOT REMOVE - WILL BE USE IN NEXT ITERATION
     history.push(`/${item.slug.toString()}/view`);
   };
 
