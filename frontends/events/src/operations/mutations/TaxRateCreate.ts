@@ -32,25 +32,19 @@ export const useTaxRateCreateOperation = () => {
 
   const taxRateCreate = async ({ input, refetch }: TaxRateCreateRequest) => {
     await taxRateCreateMutation({
-      // options: {
       awaitRefetchQueries: true,
-
       context: {
         slug: conferenceSlug,
         token,
       },
-
       refetchQueries: ['Event', 'EventListQuery'],
-
       variables: {
         input,
       },
-      // },
     });
 
     // Hacky solution because refetchQueries is not working
     setTimeout(() => {
-      console.log('lol');
       return refetch();
     }, 1000);
   };

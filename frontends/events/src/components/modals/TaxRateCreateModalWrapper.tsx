@@ -3,6 +3,7 @@ import React from 'react';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useTaxRateCreateOperation } from '../../operations/mutations/TaxRateCreate';
+import { useTaxRateUpdateOperation } from '../../operations/mutations/TaxRateUpdate';
 import TaxRateCreateModal from './TaxRateCreateModal';
 
 export type ModalInputMode = 'EDIT' | 'ADD';
@@ -38,35 +39,39 @@ const TaxRateCreateModalWrapper = ({
   };
 
   const { taxRateCreate } = useTaxRateCreateOperation();
+  const { taxRateUpdate } = useTaxRateUpdateOperation();
   const pickMutation = (_mode: ModalInputMode, eventData: any) => {
     let mutation;
     const input = {
       countryId: eventData.country,
       eventId,
+      id: eventData.id,
       name: eventData.name.trim(),
       rateType: RateType.Percentage,
       taxType: eventData.type,
       value: Number(eventData.value),
     };
 
-    if(_mode === 'ADD') {
+    if (_mode === 'ADD') {
       mutation = taxRateCreate({ input, refetch });
     }
 
-    if(_mode === 'EDIT') {
-      mutation = taxRateCreate({ input, refetch });
+    if (_mode === 'EDIT') {
+      mutation = taxRateUpdate({ input, refetch });
     }
 
     return mutation;
-  }
+  };
   const setMutation = (eventData: {
     country: string;
     eventId: string;
+    id: string;
     name: string;
     type: TaxType;
     value: number;
   }) => {
-    return pickMutation(mode, eventData)
+    console.log(eventData);
+    return pickMutation(mode, eventData);
   };
 
   return (
