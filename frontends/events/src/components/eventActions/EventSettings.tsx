@@ -11,6 +11,9 @@ import { useAppContext } from '../app/AppContext';
 import SelectTax from '../organisms/SelectTax';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -65,6 +68,11 @@ const settings: Setting[] = [
   },
 ];
 
+const BreadcrumbsContainer = styled.div`
+  display: flex;
+  margin: 8px 0 8px;
+`;
+
 const Tab = styled.div<{ isSelected?: boolean }>`
   width: 100%;
   height: 100%;
@@ -108,10 +116,40 @@ const EventSettings = () => {
   const taxes =
     data?.event?.taxRates &&
     data?.event?.taxRates.edges.map((node) => node.node);
+  const eventName = data?.event?.name;
+  const breadcrumbsNewRoutes: Breadcrumb[] = [
+    {
+      label: 'Settings',
+    },
+    {
+      label: 'New event',
+    },
+  ];
+
+  const breadcrumbsEditRoutes: Breadcrumb[] = [
+    {
+      label: 'Edit settings',
+    },
+    {
+      label: `${eventName || 'N/A'}`,
+    },
+  ];
+  const breadcrumbs = data?.event ? breadcrumbsEditRoutes : breadcrumbsNewRoutes;
+  const breadcrumbsRoutes: Breadcrumb[] = [
+    {
+      label: 'Events',
+      redirectUrl: '/',
+    },
+    ...breadcrumbs,
+  ];
 
   return (
     <PageWrapper>
       <Header>Event settings</Header>
+      <BreadcrumbsContainer>
+        <Breadcrumbs routes={breadcrumbsRoutes} />
+      </BreadcrumbsContainer>
+
       <SettingsContainer>
         <SettingTabs noPadding>
           <Table<Setting>
