@@ -18,8 +18,25 @@ const EVENT = gql`
       country {
         id
         name
+        code
       }
       currency
+      taxRates {
+        edges {
+          node {
+            id
+            rateType
+            country {
+              name
+              id
+              code
+            }
+            name
+            taxType
+            value
+          }
+        }
+      }
     }
   }
 `;
