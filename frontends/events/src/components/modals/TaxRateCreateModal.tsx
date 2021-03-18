@@ -13,12 +13,13 @@ import {
   TaxType,
   useCountriesQuery,
 } from '@websummit/graphql/src/@types/operations';
-import { Form, Formik } from 'formik';
+import {Form, Formik, FormikValues} from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
+import {ModalInputMode} from "./TaxRateCreateModalWrapper";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -77,9 +78,9 @@ type TaxRateCreateModalProps = {
   cancelText: string;
   closeModal: () => void;
   isOpen: boolean;
+  mode?: ModalInputMode;
   mutationCallback: (values?: any) => Promise<void>;
   submitText: string;
-  mode?: 'EDIT' | 'ADD';
 };
 
 const confirmSchema = Yup.object().shape({
@@ -146,8 +147,8 @@ const TaxRateCreateModal = ({
     })) || []),
   ];
 
-  const initialValues = (mode: any) => {
-    if (mode === 'ADD') {
+  const initialValues = (_mode: ModalInputMode): any => {
+    if (_mode === 'ADD') {
       return {
         country: '',
         name: '',
@@ -156,7 +157,7 @@ const TaxRateCreateModal = ({
       };
     }
 
-    if (mode === 'EDIT') {
+    if (_mode === 'EDIT') {
       return {
         country: '',
         name: 'test edit',
@@ -165,6 +166,7 @@ const TaxRateCreateModal = ({
       };
     }
   };
+
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Formik

@@ -1,15 +1,12 @@
 import { Icon } from '@material-ui/core';
-import {
-  Button,
-  SecondaryButton,
-} from '@websummit/components/src/atoms/Button';
+import { Button } from '@websummit/components/src/atoms/Button';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Loader from '../../lib/Loading';
-import TaxRateCreateModalWrapper from '../modals/TaxRateCreateModalWrapper';
+import TaxRateCreateModalWrapper, {ModalInputMode} from '../modals/TaxRateCreateModalWrapper';
 import TaxList from './TaxList';
 
 const FlexRow = styled.div`
@@ -75,7 +72,17 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
     isOpen: isTaxRateModalOpen,
     closeModal: closeTaxRateModal,
   } = useModalState();
+  const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
   const hasTaxes = taxes.length;
+  const onTaxButtonClick = () => {
+    setModalMode('ADD');
+    openTaxRateModal();
+  };
+
+  const onTaxClick = () => {
+    setModalMode('EDIT');
+    openTaxRateModal();
+  };
 
   return (
     <>
@@ -85,6 +92,7 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
         closeModal={closeTaxRateModal}
         eventId={eventId}
         isOpen={isTaxRateModalOpen}
+        mode={modalMode}
         refetch={refetch}
       />
 
@@ -92,7 +100,7 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
         <>
           <Spacing top="20px">
             <Spacing bottom="32px">
-              <StyledButton onClick={openTaxRateModal}>
+              <StyledButton onClick={onTaxButtonClick}>
                 <IconWrapper>
                   <Icon>add</Icon>
                 </IconWrapper>
@@ -101,7 +109,7 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
             </Spacing>
 
             <Spacing bottom="50px">
-              <TaxList taxes={taxes} />
+              <TaxList taxes={taxes} onTaxClick={onTaxClick} />
             </Spacing>
           </Spacing>
         </>
