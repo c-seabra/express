@@ -7255,6 +7255,23 @@ export type TaxRateCreateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type TaxRateUpdateMutationVariables = Exact<{
+  input: TaxRateUpdateInput;
+}>;
+
+export type TaxRateUpdateMutation = { __typename?: 'Mutation' } & {
+  taxRateUpdate: Maybe<
+    { __typename?: 'TaxRateUpdatePayload' } & {
+      taxRate: Maybe<
+        { __typename?: 'TaxRate' } & Pick<TaxRate, 'id' | 'name' | 'value'>
+      >;
+      userErrors: Array<
+        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
+  >;
+};
+
 export type TicketAcceptMutationVariables = Exact<{
   ticketId: Scalars['ID'];
 }>;
@@ -12321,6 +12338,123 @@ export type TaxRateCreateMutationResult = Apollo.MutationResult<TaxRateCreateMut
 export type TaxRateCreateMutationOptions = Apollo.BaseMutationOptions<
   TaxRateCreateMutation,
   TaxRateCreateMutationVariables
+>;
+export const TaxRateUpdateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'TaxRateUpdate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxRateUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxRate' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'TaxRateUpdateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type TaxRateUpdateMutationFn = Apollo.MutationFunction<
+  TaxRateUpdateMutation,
+  TaxRateUpdateMutationVariables
+>;
+
+/**
+ * __useTaxRateUpdateMutation__
+ *
+ * To run a mutation, you first call `useTaxRateUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTaxRateUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [taxRateUpdateMutation, { data, loading, error }] = useTaxRateUpdateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTaxRateUpdateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TaxRateUpdateMutation,
+    TaxRateUpdateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    TaxRateUpdateMutation,
+    TaxRateUpdateMutationVariables
+  >(TaxRateUpdateDocument, baseOptions);
+}
+export type TaxRateUpdateMutationHookResult = ReturnType<
+  typeof useTaxRateUpdateMutation
+>;
+export type TaxRateUpdateMutationResult = Apollo.MutationResult<TaxRateUpdateMutation>;
+export type TaxRateUpdateMutationOptions = Apollo.BaseMutationOptions<
+  TaxRateUpdateMutation,
+  TaxRateUpdateMutationVariables
 >;
 export const TicketAcceptDocument: DocumentNode = {
   definitions: [
