@@ -6,7 +6,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Loader from '../../lib/Loading';
-import TaxRateCreateModalWrapper, {ModalInputMode} from '../modals/TaxRateCreateModalWrapper';
+import TaxRateCreateModalWrapper, {
+  ModalInputMode,
+} from '../modals/TaxRateCreateModalWrapper';
 import TaxList from './TaxList';
 
 const FlexRow = styled.div`
@@ -73,14 +75,16 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
     closeModal: closeTaxRateModal,
   } = useModalState();
   const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
+  const [prefilledTax, setPrefilledTax] = useState();
   const hasTaxes = taxes.length;
   const onTaxButtonClick = () => {
     setModalMode('ADD');
     openTaxRateModal();
   };
 
-  const onTaxClick = () => {
+  const onTaxClick = (event: any) => {
     setModalMode('EDIT');
+    setPrefilledTax(event);
     openTaxRateModal();
   };
 
@@ -93,6 +97,7 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
         eventId={eventId}
         isOpen={isTaxRateModalOpen}
         mode={modalMode}
+        prefilledTax={prefilledTax}
         refetch={refetch}
       />
 

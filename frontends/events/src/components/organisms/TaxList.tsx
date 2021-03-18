@@ -15,7 +15,7 @@ const CapitalizedValue = styled.span`
 `;
 
 type TaxesListProps = {
-  onTaxClick?: () => void;
+  onTaxClick?: (event: any) => void;
   taxes: any;
 };
 

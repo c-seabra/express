@@ -11,6 +11,7 @@ type TaxRateCreateModalProps = {
   eventId: string;
   isOpen: boolean;
   mode?: ModalInputMode;
+  prefilledTax?: any;
   refetch?: any;
 };
 
@@ -20,11 +21,12 @@ const TaxRateCreateModalWrapper = ({
   refetch,
   eventId,
   mode = 'ADD',
+  prefilledTax,
 }: TaxRateCreateModalProps) => {
   const alertHeaderText = (_mode: string): string => {
     return switchCase({
       ADD: 'Add a new tax',
-      EDIT: `Edit a ${'test'} tax`,
+      EDIT: `Edit a ${prefilledTax?.name || 'N/A'} tax`,
     })('')(_mode);
   };
 
@@ -36,23 +38,35 @@ const TaxRateCreateModalWrapper = ({
   };
 
   const { taxRateCreate } = useTaxRateCreateOperation();
-  const setMutation = (e: {
+  const pickMutation = (_mode: ModalInputMode, eventData: any) => {
+    let mutation;
+    const input = {
+      countryId: eventData.country,
+      eventId,
+      name: eventData.name.trim(),
+      rateType: RateType.Percentage,
+      taxType: eventData.type,
+      value: Number(eventData.value),
+    };
+
+    if(_mode === 'ADD') {
+      mutation = taxRateCreate({ input, refetch });
+    }
+
+    if(_mode === 'EDIT') {
+      mutation = taxRateCreate({ input, refetch });
+    }
+
+    return mutation;
+  }
+  const setMutation = (eventData: {
     country: string;
     eventId: string;
     name: string;
     type: TaxType;
     value: number;
   }) => {
-    const input = {
-      countryId: e.country,
-      eventId,
-      name: e.name.trim(),
-      rateType: RateType.Percentage,
-      taxType: e.type,
-      value: Number(e.value),
-    };
-
-    return taxRateCreate({ input, refetch });
+    return pickMutation(mode, eventData)
   };
 
   return (
@@ -63,6 +77,7 @@ const TaxRateCreateModalWrapper = ({
       isOpen={isOpen}
       mode={mode}
       mutationCallback={setMutation}
+      prefilledTax={prefilledTax}
       submitText={submitText(mode)}
     />
   );

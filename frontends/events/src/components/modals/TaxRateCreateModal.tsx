@@ -13,13 +13,13 @@ import {
   TaxType,
   useCountriesQuery,
 } from '@websummit/graphql/src/@types/operations';
-import {Form, Formik, FormikValues} from 'formik';
+import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import {ModalInputMode} from "./TaxRateCreateModalWrapper";
+import { ModalInputMode } from './TaxRateCreateModalWrapper';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -79,7 +79,8 @@ type TaxRateCreateModalProps = {
   closeModal: () => void;
   isOpen: boolean;
   mode?: ModalInputMode;
-  mutationCallback: (values?: any) => Promise<void>;
+  mutationCallback: (values?: any) => void;
+  prefilledTax?: any;
   submitText: string;
 };
 
@@ -101,6 +102,7 @@ const TaxRateCreateModal = ({
   mutationCallback,
   submitText = 'Submit',
   mode = 'ADD',
+  prefilledTax,
 }: TaxRateCreateModalProps) => {
   const { data } = useCountriesQuery();
   const [formControls, setFormControls] = useState<
@@ -159,10 +161,10 @@ const TaxRateCreateModal = ({
 
     if (_mode === 'EDIT') {
       return {
-        country: '',
-        name: 'test edit',
-        type: '',
-        value: '',
+        country: prefilledTax.country.id,
+        name: prefilledTax.name,
+        type: prefilledTax.taxType.toUpperCase(),
+        value: prefilledTax.value,
       };
     }
   };
@@ -175,7 +177,7 @@ const TaxRateCreateModal = ({
         validateOnChange={false}
         validationSchema={confirmSchema}
         onSubmit={async (values) => {
-          await mutationCallback(values);
+          mutationCallback(values);
 
           handleClose();
         }}
