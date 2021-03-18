@@ -22,23 +22,26 @@ const TaxList = ({ taxes }: TaxesListProps) => {
     {
       header: 'Tax name',
       renderCell: (tax) => tax.name || 'N/A',
-      width: '20%',
     },
     {
       header: 'Tax amount %',
       renderCell: (tax) => {
         return <>{`${tax.value}%` || 'N/A'}</>;
       },
-      width: '20%',
+      width: '14%',
     },
     {
       header: 'Country of tax',
-      renderCell: (tax) => tax.country?.name || 'N/A',
+      renderCell: (tax) => (
+        <>{`${tax.country?.code} - ${tax.country?.name}` || 'N/A'}</>
+      ),
+      width: '20%',
     },
     {
       header: 'Tax type',
       renderCell: (tax) =>
         <CapitalizedValue>{tax.taxType}</CapitalizedValue> || 'N/A',
+      width: '16%',
     },
   ];
 
