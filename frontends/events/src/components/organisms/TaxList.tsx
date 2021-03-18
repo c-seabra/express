@@ -1,6 +1,7 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import Table from '@websummit/components/src/molecules/Table';
-import { ColumnDescriptor } from '@websummit/components/src/molecules/Table';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
 import { TaxRate } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
@@ -48,10 +49,7 @@ const TaxList = ({ taxes }: TaxesListProps) => {
   return (
     <>
       <ContainerCard noPadding>
-        <Table<TaxRate>
-          items={taxes}
-          tableShape={tableShape}
-        />
+        <Table<TaxRate> items={taxes} tableShape={tableShape} />
       </ContainerCard>
     </>
   );
