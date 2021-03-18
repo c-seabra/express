@@ -1,5 +1,5 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import SelectableTable from '@websummit/components/src/molecules/SelectableTable';
+import Table from '@websummit/components/src/molecules/Table';
 import { ColumnDescriptor } from '@websummit/components/src/molecules/Table';
 import { TaxRate } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
@@ -44,24 +44,13 @@ const TaxList = ({ taxes }: TaxesListProps) => {
       width: '16%',
     },
   ];
-
-  const onSelect = (item: any) => {
-    console.log('item', item);
-    // TODO apply onSelect
-  };
-
-  const onSelectAll = () => {
-    // TODO apply onSelectAll
-  };
-
+  
   return (
     <>
       <ContainerCard noPadding>
-        <SelectableTable<TaxRate>
+        <Table<TaxRate>
           items={taxes}
           tableShape={tableShape}
-          onSelect={onSelect}
-          onSelectAll={onSelectAll}
         />
       </ContainerCard>
     </>
