@@ -176,6 +176,14 @@ const EventSettings = () => {
                 taxes={taxes}
               />
             )}
+            {currentTab.id === 'billing_invoicing' && (
+              <BillingInvoicing
+                eventId={data?.event?.id as string}
+                loading={loading}
+                refetch={refetch}
+                taxes={taxes}
+              />
+            )}
           </SettingsSection>
         </SettingsForm>
       </SettingsContainer>
