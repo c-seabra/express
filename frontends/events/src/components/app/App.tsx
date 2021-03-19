@@ -19,6 +19,8 @@ import AppContext from './AppContext';
 const StyledContainer = styled.section`
   margin: 0 auto;
   max-width: 1440px;
+  font-size: 16px;
+  background-color: #f2f3f6;
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -31,24 +33,15 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const StyledMainHeaderContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
-  max-width: 1440px;
-  margin: 0 auto;  
-`;
-
 const StyledMainNavigationContainer = styled.section`
-  //margin: 20px auto;
-  background-color: #ffffff;
+  margin: 20px auto;
+  max-width: 1440px;
 `;
 
 const StyledMainHeader = styled.section`
   display: flex;
-  //margin: 20px auto;
+  margin: 20px auto;
   max-width: 1440px;
-  background-color: #ffffff;
 `;
 
 type AppProps = {
@@ -74,16 +67,14 @@ const App = ({ token, apiURL }: AppProps) => {
     <ApolloProvider client={apolloClient}>
       <SnackbarProvider>
         <Router>
-          <StyledMainHeaderContainer>
-            <StyledMainHeader>
-              <NavLink to="/">
-                <Logo />
-              </NavLink>
-            </StyledMainHeader>
-            <StyledMainNavigationContainer>
-              <MainNavigation routes={ROUTES} />
-            </StyledMainNavigationContainer>
-          </StyledMainHeaderContainer>
+          <StyledMainHeader>
+            <NavLink to="/">
+              <Logo />
+            </NavLink>
+          </StyledMainHeader>
+          <StyledMainNavigationContainer>
+            <MainNavigation routes={ROUTES} />
+          </StyledMainNavigationContainer>
 
           <AppContext.Provider
             value={{
