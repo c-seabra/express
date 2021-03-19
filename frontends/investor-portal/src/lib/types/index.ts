@@ -23,6 +23,7 @@ export type Attendance = {
   bookingRef?: string;
   companyName: string;
   id: string;
+  investorGdprConsent: boolean;
   investorSession?: {
     endsAt: string | undefined;
     startsAt: string | undefined;
