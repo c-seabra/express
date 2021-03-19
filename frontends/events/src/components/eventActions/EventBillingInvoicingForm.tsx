@@ -8,7 +8,6 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
-import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import {
   CurrencyCode,
@@ -26,6 +25,11 @@ import * as Yup from 'yup';
 
 import { useAppContext } from '../app/AppContext';
 
+const FlexCol = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const FieldRow = styled.div`
   display: flex;
   justify-content: space-between;
@@ -36,6 +40,19 @@ const ButtonContainer = styled.div`
   width: 48%;
   display: flex;
   margin-bottom: 2px;
+`;
+
+const Header = styled.div`
+  color: #0c1439;
+  font-weight: 500;
+  font-size: 24px;
+`;
+
+const SubHeader = styled.div`
+  color: #0c1439;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
 `;
 
 type EventBillingFormProps = {
@@ -204,32 +221,49 @@ const EventBillingForm = ({ eventInfo }: EventBillingFormProps) => {
             />
           </FieldRow>
 
-          <FieldRow>
-            <div>Address on Invoice</div>
-            <div>
+          <FlexCol>
+            <Header>Address on Invoice</Header>
+            <SubHeader>
               Provide details of the company hosting the event that will appear
               on the invoice.
-            </div>
+            </SubHeader>
+          </FlexCol>
+
+          <FieldRow>
+            <StyledInputField
+              required
+              label="Address line 1"
+              name="address1"
+              placeholder="Street 1"
+              type="text"
+            />
+            <StyledInputField
+              label="Address line 2"
+              name="address2"
+              placeholder="ABC road"
+              type="text"
+            />
           </FieldRow>
 
           <FieldRow>
-            <StyledSelectField
-              label="Company hosting the event"
-              name="hostCompany"
+            <StyledInputField
+              label="City"
+              name="city"
+              placeholder="Dublin"
+              type="text"
             />
-            <ButtonContainer>
-              <TextButton>Add host company</TextButton>
-            </ButtonContainer>
+            <StyledInputField label="Country" name="country" />
           </FieldRow>
+
           <FieldRow>
-            <StyledSelectField
-              label="Country of event"
-              name="country"
-              options={countryOptions}
+            <StyledInputField label="Region" name="region" />
+            <StyledInputField
+              label="Postal code"
+              name="postalCode"
+              placeholder="R12 AB12"
             />
-            <StyledInputField label="Base event URL" name="url" />
           </FieldRow>
-          <TextInputField required label="Event slug" name="slug" />
+
           <ButtonsContainer>
             <Button type="submit">Save changes</Button>
           </ButtonsContainer>
