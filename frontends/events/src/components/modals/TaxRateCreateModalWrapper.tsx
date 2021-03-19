@@ -72,7 +72,6 @@ const TaxRateCreateModalWrapper = ({
     type: TaxType;
     value: number;
   }) => {
-    console.log(eventData);
     return pickMutation(mode, eventData);
   };
 
