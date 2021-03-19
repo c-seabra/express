@@ -165,28 +165,53 @@ const EventBillingForm = ({ eventInfo }: EventBillingFormProps) => {
     >
       {({ resetForm }) => (
         <Form>
-          <TextInputField required label="Host company name" name="name" />
-          <TextAreaField label="Event description" name="description" />
           <FieldRow>
             <StyledInputField
-              label="Event start date"
-              name="startDate"
-              type="date"
+              required
+              label="Host company name"
+              name="name"
+              placeholder="Websummit"
+              type="text"
             />
             <StyledInputField
-              label="Event end date"
-              name="endDate"
-              type="date"
+              label="Host company’s tax number"
+              name="taxNumber"
+              placeholder="IE1234567AB"
+              type="text"
             />
           </FieldRow>
+
           <FieldRow>
-            <StyledSelectField
-              label="Currency of event"
-              name="currency"
-              options={currencyOptions}
+            <StyledInputField
+              label="Company’s registration number"
+              name="registrationNumber"
+              placeholder="1234"
+              type="text"
             />
-            <StyledSelectField label="Timezone of event" name="timezone" />
+            <StyledInputField
+              label="Company’s email"
+              name="email"
+              placeholder="email@company.com"
+              type="text"
+            />
           </FieldRow>
+
+          <FieldRow>
+            <StyledInputField
+              label="Company’s website"
+              name="text"
+              placeholder="www.website.com"
+            />
+          </FieldRow>
+
+          <FieldRow>
+            <div>Address on Invoice</div>
+            <div>
+              Provide details of the company hosting the event that will appear
+              on the invoice.
+            </div>
+          </FieldRow>
+
           <FieldRow>
             <StyledSelectField
               label="Company hosting the event"
@@ -206,9 +231,6 @@ const EventBillingForm = ({ eventInfo }: EventBillingFormProps) => {
           </FieldRow>
           <TextInputField required label="Event slug" name="slug" />
           <ButtonsContainer>
-            <SecondaryButton type="button" onClick={() => resetForm()}>
-              Cancel
-            </SecondaryButton>
             <Button type="submit">Save changes</Button>
           </ButtonsContainer>
         </Form>
