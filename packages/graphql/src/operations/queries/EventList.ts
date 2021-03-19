@@ -22,6 +22,20 @@ const EVENT_LIST = gql`
             createdAt
             whodunnit
           }
+          taxRates {
+            edges {
+              node {
+                id
+                rateType
+                country {
+                  name
+                }
+                name
+                taxType
+                value
+              }
+            }
+          }
         }
       }
       pageInfo {

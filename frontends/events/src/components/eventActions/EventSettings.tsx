@@ -1,3 +1,6 @@
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
@@ -8,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { useAppContext } from '../app/AppContext';
+import SelectTax from '../organisms/SelectTax';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
 
@@ -64,6 +68,11 @@ const settings: Setting[] = [
   },
 ];
 
+const BreadcrumbsContainer = styled.div`
+  display: flex;
+  margin: 8px 0 8px;
+`;
+
 const Tab = styled.div<{ isSelected?: boolean }>`
   width: 100%;
   height: 100%;
@@ -93,7 +102,7 @@ const EventSettings = () => {
   const { token } = useAppContext();
   const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
 
-  const { data } = useEventQuery({
+  const { data, loading, refetch } = useEventQuery({
     context: {
       token,
     },
@@ -104,10 +113,45 @@ const EventSettings = () => {
   });
 
   const settingsTable = settingsTableShape(currentTab);
+  const taxes =
+    data?.event?.taxRates &&
+    data?.event?.taxRates.edges.map((node) => node.node);
+  const eventName = data?.event?.name;
+  const breadcrumbsNewRoutes: Breadcrumb[] = [
+    {
+      label: 'Settings',
+    },
+    {
+      label: 'New event',
+    },
+  ];
+
+  const breadcrumbsEditRoutes: Breadcrumb[] = [
+    {
+      label: 'Edit settings',
+    },
+    {
+      label: `${eventName || 'N/A'}`,
+    },
+  ];
+  const breadcrumbs = data?.event
+    ? breadcrumbsEditRoutes
+    : breadcrumbsNewRoutes;
+  const breadcrumbsRoutes: Breadcrumb[] = [
+    {
+      label: 'Events',
+      redirectUrl: '/',
+    },
+    ...breadcrumbs,
+  ];
 
   return (
     <PageWrapper>
       <Header>Event settings</Header>
+      <BreadcrumbsContainer>
+        <Breadcrumbs routes={breadcrumbsRoutes} />
+      </BreadcrumbsContainer>
+
       <SettingsContainer>
         <SettingTabs noPadding>
           <Table<Setting>
@@ -123,6 +167,14 @@ const EventSettings = () => {
           <SettingsSection title={currentTab.title}>
             {currentTab.id === 'event_info' && (
               <EventInformationForm eventInfo={data?.event} />
+            )}
+            {currentTab.id === 'tax_info' && (
+              <SelectTax
+                eventId={data?.event?.id as string}
+                loading={loading}
+                refetch={refetch}
+                taxes={taxes}
+              />
             )}
           </SettingsSection>
         </SettingsForm>

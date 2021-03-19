@@ -81,7 +81,9 @@ const AttendanceTable = (): ReactElement => {
       setSearchState({ ...searchState, page: currentPage });
       setSelectedValues([]);
     }
-  }, [currentPage, searchState, setSearchState]);
+    // Disabled because additional triggers caused infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage]);
 
   useEffect(() => {
     const activeCheckboxesCount = results.filter(

@@ -18,6 +18,7 @@ const EVENT = gql`
       country {
         id
         name
+        code
       }
       legalEntity {
         id
@@ -25,6 +26,22 @@ const EVENT = gql`
       }
       taxNumber
       currency
+      taxRates {
+        edges {
+          node {
+            id
+            rateType
+            country {
+              name
+              id
+              code
+            }
+            name
+            taxType
+            value
+          }
+        }
+      }
     }
   }
 `;

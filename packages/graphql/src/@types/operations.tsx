@@ -7238,6 +7238,23 @@ export type TicketMagicLoginLinkRequestMutation = {
   >;
 };
 
+export type TaxRateCreateMutationVariables = Exact<{
+  input: TaxRateCreateInput;
+}>;
+
+export type TaxRateCreateMutation = { __typename?: 'Mutation' } & {
+  taxRateCreate: Maybe<
+    { __typename?: 'TaxRateCreatePayload' } & {
+      taxRate: Maybe<
+        { __typename?: 'TaxRate' } & Pick<TaxRate, 'id' | 'name' | 'value'>
+      >;
+      userErrors: Array<
+        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
+  >;
+};
+
 export type TicketAcceptMutationVariables = Exact<{
   ticketId: Scalars['ID'];
 }>;
@@ -7620,7 +7637,7 @@ export type CountriesQuery = { __typename?: 'Query' } & {
       { __typename?: 'EventConfigurationCountryEdge' } & {
         node: { __typename?: 'EventConfigurationCountry' } & Pick<
           EventConfigurationCountry,
-          'name' | 'id'
+          'name' | 'code' | 'id'
         >;
       }
     >;
@@ -7643,7 +7660,6 @@ export type EventQuery = { __typename?: 'Query' } & {
       | 'endDate'
       | 'timezone'
       | 'baseUrl'
-      | 'taxNumber'
       | 'currency'
     > & {
         timeZone: Maybe<
@@ -7655,11 +7671,24 @@ export type EventQuery = { __typename?: 'Query' } & {
         country: Maybe<
           { __typename?: 'EventConfigurationCountry' } & Pick<
             EventConfigurationCountry,
-            'id' | 'name'
+            'id' | 'name' | 'code'
           >
         >;
-        legalEntity: Maybe<
-          { __typename?: 'LegalEntity' } & Pick<LegalEntity, 'id' | 'name'>
+        taxRates: Maybe<
+          { __typename?: 'TaxRateConnection' } & {
+            edges: Array<
+              { __typename?: 'TaxRateEdge' } & {
+                node: { __typename?: 'TaxRate' } & Pick<
+                  TaxRate,
+                  'id' | 'rateType' | 'name' | 'taxType' | 'value'
+                > & {
+                    country: {
+                      __typename?: 'EventConfigurationCountry';
+                    } & Pick<EventConfigurationCountry, 'name' | 'id' | 'code'>;
+                  };
+              }
+            >;
+          }
         >;
       }
   >;
@@ -7698,6 +7727,22 @@ export type EventListQueryQuery = { __typename?: 'Query' } & {
                   >
                 >
               >;
+              taxRates: Maybe<
+                { __typename?: 'TaxRateConnection' } & {
+                  edges: Array<
+                    { __typename?: 'TaxRateEdge' } & {
+                      node: { __typename?: 'TaxRate' } & Pick<
+                        TaxRate,
+                        'id' | 'rateType' | 'name' | 'taxType' | 'value'
+                      > & {
+                          country: {
+                            __typename?: 'EventConfigurationCountry';
+                          } & Pick<EventConfigurationCountry, 'name'>;
+                        };
+                    }
+                  >;
+                }
+              >;
             };
         }
     >;
@@ -7724,44 +7769,6 @@ export type TaEventDataQuery = { __typename?: 'Query' } & {
       | 'passportRequired'
     >
   >;
-};
-
-export type LegalEntitiesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type LegalEntitiesQuery = { __typename?: 'Query' } & {
-  legalEntities: { __typename?: 'LegalEntityConnection' } & {
-    edges: Array<
-      { __typename?: 'LegalEntityEdge' } & Pick<LegalEntityEdge, 'cursor'> & {
-          node: { __typename?: 'LegalEntity' } & Pick<
-            LegalEntity,
-            'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
-          > & {
-              address: Maybe<
-                { __typename?: 'Address' } & Pick<
-                  Address,
-                  | 'id'
-                  | 'city'
-                  | 'postalCode'
-                  | 'lineOne'
-                  | 'lineTwo'
-                  | 'region'
-                > & {
-                    country: Maybe<
-                      { __typename?: 'EventConfigurationCountry' } & Pick<
-                        EventConfigurationCountry,
-                        'name'
-                      >
-                    >;
-                  }
-              >;
-            };
-        }
-    >;
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      PageInfo,
-      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
-    >;
-  };
 };
 
 export type MyAssignmentDashboardQueryVariables = Exact<{
@@ -8043,6 +8050,27 @@ export type OrderTicketsQuery = { __typename?: 'Query' } & {
               TicketContext,
               'assignable' | 'editable' | 'acceptable' | 'rejectable'
             >;
+          };
+      }
+    >;
+  };
+};
+
+export type TaxRatesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TaxRatesQuery = { __typename?: 'Query' } & {
+  taxRates: { __typename?: 'TaxRateConnection' } & {
+    edges: Array<
+      { __typename?: 'TaxRateEdge' } & {
+        node: { __typename?: 'TaxRate' } & Pick<
+          TaxRate,
+          'id' | 'name' | 'rateType' | 'taxType' | 'value'
+        > & {
+            country: { __typename?: 'EventConfigurationCountry' } & Pick<
+              EventConfigurationCountry,
+              'name'
+            >;
+            event: { __typename?: 'Event' } & Pick<Event, 'name' | 'brandName'>;
           };
       }
     >;
@@ -12177,6 +12205,123 @@ export type TicketMagicLoginLinkRequestMutationOptions = Apollo.BaseMutationOpti
   TicketMagicLoginLinkRequestMutation,
   TicketMagicLoginLinkRequestMutationVariables
 >;
+export const TaxRateCreateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'taxRateCreate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxRateCreate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxRate' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'TaxRateCreateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type TaxRateCreateMutationFn = Apollo.MutationFunction<
+  TaxRateCreateMutation,
+  TaxRateCreateMutationVariables
+>;
+
+/**
+ * __useTaxRateCreateMutation__
+ *
+ * To run a mutation, you first call `useTaxRateCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTaxRateCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [taxRateCreateMutation, { data, loading, error }] = useTaxRateCreateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTaxRateCreateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TaxRateCreateMutation,
+    TaxRateCreateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    TaxRateCreateMutation,
+    TaxRateCreateMutationVariables
+  >(TaxRateCreateDocument, baseOptions);
+}
+export type TaxRateCreateMutationHookResult = ReturnType<
+  typeof useTaxRateCreateMutation
+>;
+export type TaxRateCreateMutationResult = Apollo.MutationResult<TaxRateCreateMutation>;
+export type TaxRateCreateMutationOptions = Apollo.BaseMutationOptions<
+  TaxRateCreateMutation,
+  TaxRateCreateMutationVariables
+>;
 export const TicketAcceptDocument: DocumentNode = {
   definitions: [
     {
@@ -13881,6 +14026,10 @@ export const CountriesDocument: DocumentNode = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'code' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                           ],
@@ -14002,22 +14151,79 @@ export const EventDocument: DocumentNode = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
                     ],
                   },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'legalEntity' },
+                  name: { kind: 'Name', value: 'taxRates' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'edges' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rateType' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'country' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'code' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'taxType' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'value' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
               ],
             },
           },
@@ -14176,6 +14382,87 @@ export const EventListQueryDocument: DocumentNode = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'whodunnit' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'taxRates' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'edges' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'node' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rateType',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'country',
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'name',
+                                                      },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'name',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'taxType',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'value',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
@@ -14387,195 +14674,6 @@ export type TaEventDataLazyQueryHookResult = ReturnType<
 export type TaEventDataQueryResult = Apollo.QueryResult<
   TaEventDataQuery,
   TaEventDataQueryVariables
->;
-export const LegalEntitiesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'legalEntities' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'legalEntities' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'cursor' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'regNumber' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'website' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'taxNumber' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'address' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'city' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'postalCode' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'lineOne' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'lineTwo' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'region' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'country' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'name' },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageInfo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasPreviousPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasNextPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endCursor' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startCursor' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
-
-/**
- * __useLegalEntitiesQuery__
- *
- * To run a query within a React component, call `useLegalEntitiesQuery` and pass it any options that fit your needs.
- * When your component renders, `useLegalEntitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLegalEntitiesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useLegalEntitiesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    LegalEntitiesQuery,
-    LegalEntitiesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(
-    LegalEntitiesDocument,
-    baseOptions,
-  );
-}
-export function useLegalEntitiesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    LegalEntitiesQuery,
-    LegalEntitiesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(
-    LegalEntitiesDocument,
-    baseOptions,
-  );
-}
-export type LegalEntitiesQueryHookResult = ReturnType<
-  typeof useLegalEntitiesQuery
->;
-export type LegalEntitiesLazyQueryHookResult = ReturnType<
-  typeof useLegalEntitiesLazyQuery
->;
-export type LegalEntitiesQueryResult = Apollo.QueryResult<
-  LegalEntitiesQuery,
-  LegalEntitiesQueryVariables
 >;
 export const MyAssignmentDashboardDocument: DocumentNode = {
   definitions: [
@@ -16098,6 +16196,141 @@ export type OrderTicketsLazyQueryHookResult = ReturnType<
 export type OrderTicketsQueryResult = Apollo.QueryResult<
   OrderTicketsQuery,
   OrderTicketsQueryVariables
+>;
+export const TaxRatesDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'TaxRates' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxRates' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'event' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'brandName' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rateType' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'taxType' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'value' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useTaxRatesQuery__
+ *
+ * To run a query within a React component, call `useTaxRatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTaxRatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTaxRatesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTaxRatesQuery(
+  baseOptions?: Apollo.QueryHookOptions<TaxRatesQuery, TaxRatesQueryVariables>,
+) {
+  return Apollo.useQuery<TaxRatesQuery, TaxRatesQueryVariables>(
+    TaxRatesDocument,
+    baseOptions,
+  );
+}
+export function useTaxRatesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TaxRatesQuery,
+    TaxRatesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<TaxRatesQuery, TaxRatesQueryVariables>(
+    TaxRatesDocument,
+    baseOptions,
+  );
+}
+export type TaxRatesQueryHookResult = ReturnType<typeof useTaxRatesQuery>;
+export type TaxRatesLazyQueryHookResult = ReturnType<
+  typeof useTaxRatesLazyQuery
+>;
+export type TaxRatesQueryResult = Apollo.QueryResult<
+  TaxRatesQuery,
+  TaxRatesQueryVariables
 >;
 export const TicketCategoriesDocument: DocumentNode = {
   definitions: [
