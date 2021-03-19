@@ -4,18 +4,12 @@ import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import EventSettings from '../eventActions/EventSettings';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
-import SelectTaxPage from '../organisms/SelectTax';
 import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
 
