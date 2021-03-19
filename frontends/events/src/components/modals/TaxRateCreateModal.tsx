@@ -152,7 +152,7 @@ const TaxRateCreateModal = ({
   const initialValues = (_mode: ModalInputMode) => {
     let values = {
       country: '',
-      id: '',
+      id: undefined,
       name: '',
       type: '',
       value: '',
