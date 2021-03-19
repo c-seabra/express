@@ -16,21 +16,19 @@ import LegalEntityList from '../legalEntityList/LegalEntityList';
 import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
 
-const StyledContainer = styled.section`
-  margin: 0 auto;
-  max-width: 1440px;
-  font-size: 16px;
-  background-color: #f2f3f6;
-`;
-
 const GlobalStyle = createGlobalStyle`
   html {
     font-size: 16px;
-    background-color: #f2f3f6;
   }
   body, input, textarea, select {
     font-family: 'Inter', sans-serif;
   }
+`;
+
+const StyledContainer = styled.section`
+  margin: 0 auto;
+  font-size: 16px;
+  background-color: #f2f3f6;
 `;
 
 const StyledMainNavigationContainer = styled.section`
