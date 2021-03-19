@@ -1,6 +1,7 @@
 import { ApolloError } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   Event,
@@ -15,8 +16,13 @@ import styled from 'styled-components';
 import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
-import EventList from '../eventList/EventList';
+import EventList from '../organisms/EventList';
 import UpcomingEvents from '../templates/UpcomingEvents';
+
+const FlexEnd = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 
 const FlexRow = styled.div`
   display: flex;
@@ -41,6 +47,7 @@ const HeaderText = styled.h1`
 `;
 
 const NoEventsPlaceholder = () => {
+  const history = useHistory();
   return (
     <FlexCol>
       <Spacing bottom="6rem" top="4.125rem">
@@ -53,7 +60,9 @@ const NoEventsPlaceholder = () => {
                 a preview of what things will look like when you do.
               </span>
             </FlexCol>
-            <Button>Create new event</Button>
+            <Button onClick={() => history.push('/settings')}>
+              Create new event
+            </Button>
           </FlexRow>
         </ContainerCard>
       </Spacing>
@@ -103,8 +112,7 @@ const EventPage = () => {
   const eventsAfter =
     dataUpcoming?.events && dataUpcoming?.events.edges.map((node) => node.node);
   const redirectToEvent = (item: Event) => {
-    // DO NOT REMOVE - WILL BE USE IN NEXT ITERATION
-    history.push(`/${item.slug.toString()}/view`);
+    history.push(`/${item.slug.toString()}/settings`);
   };
 
   return (
@@ -113,6 +121,12 @@ const EventPage = () => {
 
       {hasEvents ? (
         <>
+          <FlexEnd>
+            <Button onClick={() => history.push('/settings')}>
+              Create new event
+            </Button>
+          </FlexEnd>
+
           <UpcomingEvents
             events={eventsAfter}
             onElementClick={redirectToEvent}

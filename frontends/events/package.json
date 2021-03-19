@@ -25,6 +25,8 @@
     "react-dom": "*",
     "react-helmet": "*",
     "react-router-dom": "*",
-    "styled-components": "*"
+    "styled-components": "*",
+    "formik": "*",
+    "yup": "*"
   }
 }

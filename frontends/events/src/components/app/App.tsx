@@ -1,15 +1,21 @@
 import { ApolloProvider } from '@apollo/client';
+import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import EventCreate from '../eventActions/EventCreate';
-import EventUpdate from '../eventActions/EventUpdate';
+import EventSettings from '../eventActions/EventSettings';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
+import SelectTaxPage from '../organisms/SelectTax';
 import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
 
@@ -49,47 +55,49 @@ const App = ({ token, apiURL }: AppProps) => {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <Router>
-        <AppContext.Provider
-          value={{
-            conferenceSlug,
-            token,
-          }}
-        >
-          <StyledContainer>
-            <Helmet>
-              <link href="https://fonts.gstatic.com" rel="preconnect" />
-              <link
-                href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-                rel="stylesheet"
-              />
+      <SnackbarProvider>
+        <Router>
+          <AppContext.Provider
+            value={{
+              conferenceSlug,
+              token,
+            }}
+          >
+            <StyledContainer>
+              <Helmet>
+                <link href="https://fonts.gstatic.com" rel="preconnect" />
+                <link
+                  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                  rel="stylesheet"
+                />
 
-              <link
-                href="https://fonts.googleapis.com/icon?family=Material+Icons"
-                rel="stylesheet"
-              />
-            </Helmet>
-            <GlobalStyle />
-            <Switch>
-              <Route exact path="/">
-                <EventsPage />
-              </Route>
-              <Route exact path="/new">
-                <EventCreate />
-              </Route>
-              <Route exact path="/:slug/edit">
-                <EventUpdate />
-              </Route>
-              <Route exact path="/legal_entities">
-                <LegalEntityList />
-              </Route>
-              <Route exact path="/legal_entities/new">
-                <LegalEntityCreate />
-              </Route>
-            </Switch>
-          </StyledContainer>
-        </AppContext.Provider>
-      </Router>
+                <link
+                  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                  rel="stylesheet"
+                />
+              </Helmet>
+              <GlobalStyle />
+              <Switch>
+                <Route exact path="/">
+                  <EventsPage />
+                </Route>
+                <Route exact path="/settings">
+                  <EventSettings />
+                </Route>
+                <Route exact path="/:slug/settings">
+                  <EventSettings />
+                </Route>
+                <Route exact path="/legal_entities">
+                  <LegalEntityList />
+                </Route>
+                <Route exact path="/legal_entities/new">
+                  <LegalEntityCreate />
+                </Route>
+              </Switch>
+            </StyledContainer>
+          </AppContext.Provider>
+        </Router>
+      </SnackbarProvider>
     </ApolloProvider>
   );
 };
