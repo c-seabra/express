@@ -14,9 +14,13 @@ import {
   CurrencyCode,
   Event,
   EventConfigurationCountry,
+  LegalEntity,
+  TimeZone,
   useCountriesQuery,
   useEventCreateMutation,
+  useEventLazyQuery,
   useEventUpdateMutation,
+  useLegalEntitiesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -48,9 +52,10 @@ type EventInformationFormProps = {
         | 'slug'
         | 'startDate'
         | 'endDate'
-        | 'timezone'
+        | 'timeZone'
         | 'baseUrl'
         | 'currency'
+        | 'taxNumber'
       > & {
         country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
       })
@@ -83,7 +88,7 @@ const eventInformationSchema = Yup.object().shape({
 });
 
 const emptyOption = {
-  label: '',
+  label: 'Please select',
   value: undefined,
 };
 
@@ -102,16 +107,54 @@ const getCountryOptions = (
   ...countries.map((country) => ({ label: country?.name, value: country?.id })),
 ];
 
+const getLegalEntityOptions = (
+  legalEntites: Pick<LegalEntity, 'name' | 'id'>[] = [],
+) => [
+  emptyOption,
+  ...legalEntites.map((legalEntity) => ({
+    label: legalEntity.name,
+    value: legalEntity.id,
+  })),
+];
+
+const getTimeZoneOptions = (timeZones: TimeZone[] = []) => [
+  emptyOption,
+  ...timeZones.map((timeZone) => ({
+    label: timeZone.displayName,
+    value: timeZone.ianaName,
+  })),
+];
+
+const ExistingSlugErrorMessage = styled.div`
+  color: #e15554;
+  font-size: 12px;
+  margin-top: -1.2rem;
+`;
+
 const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
   const { token } = useAppContext();
   const history = useHistory();
   const success = useSuccessSnackbar();
   const error = useErrorSnackbar();
   const { data } = useCountriesQuery();
+  const { data: legalEntitiesData } = useLegalEntitiesQuery({
+    context: { token },
+  });
+
+  const [getExistingEvent, { data: existingEventData }] = useEventLazyQuery({
+    context: { token },
+  });
 
   const countryOptions = getCountryOptions(
     data?.countries?.edges?.map((edge) => edge.node),
   );
+
+  const legalEntityOptions = getLegalEntityOptions(
+    legalEntitiesData?.legalEntities?.edges?.map((edge) => edge.node),
+  );
+
+  // TODO: Add timezone query and pass fetched timezones to this function (akin to useCountriesQuery above)
+  const timeZoneOptions = getTimeZoneOptions();
 
   const [createEvent] = useEventCreateMutation({
     context: { token },
@@ -136,20 +179,21 @@ const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
       enableReinitialize
       initialValues={{
         baseUrl: eventInfo?.baseUrl,
-        country: eventInfo?.country?.id,
+        countryId: eventInfo?.country?.id,
         currency: eventInfo?.currency,
         description: eventInfo?.description,
         endDate: eventInfo?.endDate,
         name: eventInfo?.name || '',
         slug: eventInfo?.slug || '',
         startDate: eventInfo?.startDate,
-        timezone: eventInfo?.timezone,
+        taxNumber: eventInfo?.taxNumber,
+        timeZone: eventInfo?.timeZone?.ianaName,
       }}
       validationSchema={eventInformationSchema}
       onSubmit={async (values) => {
         if (eventInfo?.id) {
           await updateEvent({
-            variables: { event: { ...eventInfo, ...values } },
+            variables: { event: values },
           });
         } else {
           const { data: mutationResult, errors } = await createEvent({
@@ -163,53 +207,88 @@ const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
         }
       }}
     >
-      {({ resetForm }) => (
+      {({ resetForm, values }) => (
         <Form>
           <TextInputField required label="Event name" name="name" />
-          <TextAreaField label="Event description" name="description" />
           <FieldRow>
             <StyledInputField
+              required
               label="Event start date"
               name="startDate"
               type="date"
             />
             <StyledInputField
+              required
               label="Event end date"
               name="endDate"
               type="date"
             />
           </FieldRow>
+          <TextAreaField label="Event description" name="description" />
           <FieldRow>
             <StyledSelectField
+              required
               label="Currency of event"
               name="currency"
               options={currencyOptions}
             />
-            <StyledSelectField label="Timezone of event" name="timezone" />
+            <StyledSelectField
+              label="Timezone of event"
+              name="timeZone"
+              options={timeZoneOptions}
+            />
           </FieldRow>
           <FieldRow>
             <StyledSelectField
+              required
               label="Company hosting the event"
               name="hostCompany"
+              options={legalEntityOptions}
             />
             <ButtonContainer>
-              <TextButton>Add host company</TextButton>
+              <TextButton type="button">Add host company</TextButton>
             </ButtonContainer>
           </FieldRow>
           <FieldRow>
             <StyledSelectField
               label="Country of event"
-              name="country"
+              name="countryId"
               options={countryOptions}
             />
-            <StyledInputField label="Base event URL" name="url" />
+            <StyledInputField label="Tax number" name="taxNumber" />
           </FieldRow>
-          <TextInputField required label="Event slug" name="slug" />
+          <FieldRow>
+            <StyledInputField
+              label="Base event URL"
+              name="baseUrl"
+              placeholder="https://example.com"
+            />
+            <StyledInputField
+              required
+              label="Event slug"
+              name="slug"
+              placeholder="example-slug"
+              validate={(slug) => {
+                if (slug !== eventInfo?.slug) {
+                  getExistingEvent({
+                    variables: { slug },
+                  });
+                }
+              }}
+            />
+          </FieldRow>
+          {existingEventData?.event && (
+            <ExistingSlugErrorMessage>
+              Chosen slug already exists
+            </ExistingSlugErrorMessage>
+          )}
           <ButtonsContainer>
             <SecondaryButton type="button" onClick={() => resetForm()}>
               Cancel
             </SecondaryButton>
-            <Button type="submit">Save changes</Button>
+            <Button disabled={!values.name || !values.slug} type="submit">
+              Save changes
+            </Button>
           </ButtonsContainer>
         </Form>
       )}
