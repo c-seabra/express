@@ -149,18 +149,17 @@ const TaxRateCreateModal = ({
     })) || []),
   ];
 
-  const initialValues = (_mode: ModalInputMode): any => {
-    if (_mode === 'ADD') {
-      return {
-        country: '',
-        name: '',
-        type: '',
-        value: '',
-      };
-    }
+  const initialValues = (_mode: ModalInputMode) => {
+    let values = {
+      country: '',
+      id: '',
+      name: '',
+      type: '',
+      value: '',
+    };
 
     if (_mode === 'EDIT') {
-      return {
+      values = {
         country: prefilledTax.country.id,
         id: prefilledTax.id,
         name: prefilledTax.name,
@@ -168,6 +167,8 @@ const TaxRateCreateModal = ({
         value: prefilledTax.value,
       };
     }
+
+    return values;
   };
 
   return (
@@ -177,7 +178,7 @@ const TaxRateCreateModal = ({
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}
-        onSubmit={async (values) => {
+        onSubmit={(values) => {
           mutationCallback(values);
 
           handleClose();
