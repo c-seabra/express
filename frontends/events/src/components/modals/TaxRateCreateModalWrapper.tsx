@@ -25,7 +25,7 @@ const TaxRateCreateModalWrapper = ({
   prefilledTax,
 }: TaxRateCreateModalProps) => {
   const alertHeaderText = (_mode: string): string => {
-    const prefilledTaxName: string = prefilledTax.name || 'N/A';
+    const prefilledTaxName: string = prefilledTax?.name || 'N/A';
 
     return switchCase({
       ADD: 'Add a new tax',
