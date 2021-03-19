@@ -19,6 +19,11 @@ const EVENT = gql`
         id
         name
       }
+      legalEntity {
+        id
+        name
+      }
+      taxNumber
       currency
     }
   }
