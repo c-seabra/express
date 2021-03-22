@@ -60,8 +60,8 @@ const config = {
     library: {
       type: 'system',
     },
-    path: path.resolve(__dirname, '../../builds/bulk-assign'),
     publicPath: '/',
+    path: path.resolve(__dirname, '../../builds/bulk-assign'),
   },
   plugins: [new CleanWebpackPlugin()],
   resolve: {
