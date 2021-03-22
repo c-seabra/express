@@ -91,7 +91,7 @@ const ButtonsContainer = styled.div`
 const eventBillingSchema = Yup.object().shape({
   address1: Yup.string().required('Address line 1 is required'),
   address2: Yup.string(),
-  city: Yup.string(),
+  city: Yup.string().required('City is required'),
   companyEmail: Yup.string().email(),
   companyName: Yup.string().required('Host company name is required'),
   companyRegistrationNumber: Yup.string(),
