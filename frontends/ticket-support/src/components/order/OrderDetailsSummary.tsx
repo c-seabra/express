@@ -1,14 +1,16 @@
 import { ApolloError } from '@apollo/client';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
-import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
 import Loader from '../../lib/Loading';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
 
@@ -37,14 +39,6 @@ const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
   {
     header: 'Order status',
     renderCell: (order) => <StatePlate state={order?.state} />,
-  },
-  {
-    header: 'Total (incl. Tax)',
-    renderCell: (order) => (
-      <>
-        {order?.currency}&nbsp;{order?.amount}
-      </>
-    ),
   },
 ];
 

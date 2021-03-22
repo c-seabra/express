@@ -1,4 +1,9 @@
 import { ApolloError } from '@apollo/client';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceOrder,
   CommerceOrderItem,
@@ -8,10 +13,8 @@ import {
 import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
-import Table, { ColumnDescriptor } from '../../lib/components/molecules/Table';
-import { Spacing } from '../../lib/components/templates/Spacing';
 import Loader from '../../lib/Loading';
+import { formatDisplayPrice } from '../../lib/utils/price';
 import Warning from '../ticketActions/Warning';
 
 // Containers
@@ -40,22 +43,29 @@ const commerceOrderTable = (
   },
   {
     header: 'Tax',
-    renderCell: (item) => (
-      <>
-        {item.tax?.name}&nbsp;{item.tax?.rateAmount}
-        {item.tax?.rateType === CommerceTaxRateType.Percentage && '%'}
-        &nbsp;({item.tax?.country})
-      </>
-    ),
+    renderCell: (item) =>
+      item.total === 0 ? (
+        missingDataAbbr
+      ) : (
+        <>
+          {item.tax?.name}&nbsp;{item.tax?.rateAmount}
+          {item.tax?.rateType === CommerceTaxRateType.Percentage && '%'}
+          &nbsp;({item.tax?.country})
+        </>
+      ),
   },
   {
     header: 'Ticket value (incl. Tax)',
-    renderCell: (item) => (
-      <>
-        {commerceOrder?.currencySymbol}&nbsp;
-        {item.priceIncludingTax}
-      </>
-    ),
+    renderCell: ({ total, quantity }: CommerceOrderItem) => {
+      const pricePerItem = total ? formatDisplayPrice(total / quantity) : '0';
+
+      return (
+        <>
+          {commerceOrder?.currencySymbol}&nbsp;
+          {pricePerItem}
+        </>
+      );
+    },
   },
   {
     header: 'Discount code',
@@ -67,9 +77,29 @@ const commerceOrderTable = (
   },
   {
     header: 'Payment method',
-    renderCell: () => <>{commerceOrder?.paymentMethod?.name}</>,
+    renderCell: () => (
+      <>{commerceOrder?.paymentMethod?.name || missingDataAbbr}</>
+    ),
   },
 ];
+
+const Footer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const TotalText = styled.div`
+  font-weight: 600;
+  text-align: left;
+
+  width: 15%;
+`;
+
+const Total = styled.div`
+  width: 14%;
+  text-align: left;
+`;
 
 const OrderSummary = ({
   loading,
@@ -98,6 +128,15 @@ const OrderSummary = ({
         {!loading && !error && (
           <Table<CommerceOrderItem>
             items={commerceOrder?.items}
+            renderFooter={() => (
+              <Footer>
+                <TotalText>Order total (incl. Tax)</TotalText>
+                <Total>
+                  {commerceOrder?.currencySymbol}&nbsp;
+                  {formatDisplayPrice(commerceOrder?.total)}
+                </Total>
+              </Footer>
+            )}
             tableShape={commerceOrderTableShape}
           />
         )}

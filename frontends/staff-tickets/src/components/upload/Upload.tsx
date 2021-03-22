@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
-import { Ticket, TicketList } from '../app/App';
+import { AppContext, TicketList } from '../app/App';
 
 const Field = styled.label`
   display: flex;
@@ -17,17 +17,22 @@ const Field = styled.label`
   }
 `;
 
+function capitalizeFirstLetter(input: string) {
+  return input.charAt(0).toUpperCase() + input.slice(1);
+}
+
 const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
   setAssignees,
 }) => {
   const [error, setError] = useState('');
+  const { staffList } = useContext(AppContext);
 
   const onUpload = () => {
     const input = document.getElementById('csvFileInput') as HTMLInputElement;
     const { files } = input;
 
     const errorHandler = (evt: ProgressEvent<FileReader>) => {
-      if (evt?.target?.error?.name == 'NotReadableError') {
+      if (evt?.target?.error?.name === 'NotReadableError') {
         setError('Unable to read uploaded file');
       }
     };
@@ -38,28 +43,24 @@ const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
         const lines = csv.split('\n');
         const result = [];
 
-        const headers = lines[0]
-          .replace(/(\r\n|\n|\r|)/gm, '')
-          .replace(/,$/g, '')
-          .split(',');
-
-        for (let i = 1; i <= lines.length - 1; i++) {
-          const currentLine = lines[i]
+        for (let i = 0; i <= lines.length - 1; i++) {
+          const email = lines[i]
             .replace(/(\r\n|\n|\r|)/gm, '')
             .replace(/,$/g, '')
-            .split(',');
-          // if(currentLine.length === headers.length) {
-          const obj = {} as { [key: string]: string };
-          for (let j = 0; j < headers.length; j++) {
-            const key = headers?.[j]?.trim();
-            const value = currentLine?.[j]?.trim();
-            obj[key] = value;
+            .toLowerCase();
+          if (staffList) {
+            let staff = staffList[email];
+            if (!staff) {
+              const name = email.split('@')[0];
+              const [firstName, lastName] = name.split('.');
+              staff = {
+                email,
+                firstName: capitalizeFirstLetter(firstName),
+                lastName: capitalizeFirstLetter(lastName),
+              };
+            }
+            result.push(staff);
           }
-          result.push(obj as Ticket);
-          // } else {
-          //   setError('This csv format is not supported make sure that there are no extra columns in your csv')
-          //   return
-          // }
         }
 
         setAssignees(result as TicketList);

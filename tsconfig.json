@@ -3,10 +3,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@websummit/glue": ["packages/glue/src"],
       "@websummit/graphql": ["packages/graphql/src"],
-      "@websummit/ws-components": ["packages/ws-components/src"],
+      "@websummit/components": ["packages/components/src"],
       "@websummit/ws-lib-example": ["packages/ws-lib-example/src"]
     },
-    "types": []
+    "typeRoots": ["node_modules/@types", "packages/components/src/@types"]
   }
 }

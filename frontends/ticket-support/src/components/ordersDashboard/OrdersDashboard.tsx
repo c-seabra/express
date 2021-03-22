@@ -1,7 +1,8 @@
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
-import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import FilterButton from '../../lib/components/atoms/FilterButton';
 import TextHeading from '../../lib/components/atoms/Heading';
 import CategoryList, {
@@ -9,7 +10,6 @@ import CategoryList, {
 } from '../../lib/components/molecules/CategoryList';
 import PopupButton from '../../lib/components/molecules/PopupButton';
 import useOrdersQuery from '../../lib/hooks/useOrdersQuery';
-import useSearchState from '../../lib/hooks/useSearchState';
 import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
 import Pagination from '../../lib/Pagination';
 import { OrderState } from '../../lib/types';
@@ -50,6 +50,7 @@ const OrdersDashboard = (): ReactElement => {
     isBackwardsDisabled,
     nextPage,
     previousPage,
+    resetPage,
   } = useOrdersQuery({
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
@@ -57,10 +58,17 @@ const OrdersDashboard = (): ReactElement => {
     ticketTypeIds: searchState?.ticketTypeIds?.split(','),
   });
 
+  const onFilter = () => {
+    resetPage();
+    setSearchState((prevState) => ({ ...prevState, page: '' }));
+  };
+
   useEffect(() => {
     if (currentPage) {
       setSearchState({ ...searchState, page: currentPage });
     }
+    // todo: I hope we know what we are doing here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const orderStatusOptions = [
@@ -80,6 +88,8 @@ const OrdersDashboard = (): ReactElement => {
         searchQuery: element.value,
       }));
       setSearchQuery(element.value);
+
+      onFilter();
     }
   };
 
@@ -99,14 +109,19 @@ const OrdersDashboard = (): ReactElement => {
     } else {
       setSearchState((prevState) => ({ ...prevState, orderState: undefined }));
     }
+
+    onFilter();
   };
 
-  const handleTicketTypesFilterChange = (selectedTypes: string[]) =>
+  const handleTicketTypesFilterChange = (selectedTypes: string[]) => {
     setSearchState((prevState) => ({
       ...prevState,
       ticketTypeIds:
         selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
     }));
+
+    onFilter();
+  };
 
   const ticketTypes = useTicketTypesQuery();
 

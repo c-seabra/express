@@ -1,7 +1,7 @@
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
 
-import { Spacing } from '../templates/Spacing';
 import { ErrorButton } from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import Modal from './Modal';

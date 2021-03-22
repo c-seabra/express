@@ -1,11 +1,11 @@
+import Breadcrumbs, {
+  Breadcrumb,
+} from '@websummit/components/src/molecules/Breadcrumbs';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { Button, ContainerCard } from '../../lib/components';
-import Breadcrumbs, {
-  Breadcrumb,
-} from '../../lib/components/molecules/Breadcrumbs';
 import LabeledFileInput from '../../lib/components/molecules/LabeledFileInput';
 import LabeledInput from '../../lib/components/molecules/LabeledInput';
 import {

@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client';
+import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
@@ -9,14 +10,14 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import SnackbarProvider from 'react-simple-snackbar';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import MainNavigation from '../../lib/components/molecules/MainNavigation';
+import { MainNavigation } from '../../lib/components/molecules';
 import ROUTES from '../../lib/constants/routes';
 import AttendanceAppearanceSelectionDetails from '../attendanceAppearanceSelection/AttendanceAppearanceSelectionDetails';
 import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard';
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard';
+import InvestorAccessDashboard from '../InvestorAccessDashboard/InvestorAccessDashboard';
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard';
 import AppContext from './AppContext';
 
@@ -41,8 +42,6 @@ const StyledMainNavigationContainer = styled.section`
 `;
 
 const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
-  if (!token) return null;
-
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
   const [conferenceSlug, setConferenceSlug] = useState<string>(
     tokenPayload.conf_slug,
@@ -50,7 +49,9 @@ const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
-  }, [token]);
+  }, [token, tokenPayload.conf_slug]);
+
+  if (!token) return null;
 
   const apolloClient = initApollo({ apiURL });
 
@@ -97,6 +98,9 @@ const App = ({ token, apiURL }: { apiURL: string; token: string }) => {
                 </Route>
                 <Route path="/settings">
                   <SettingsDashboard />
+                </Route>
+                <Route path="/investor_access">
+                  <InvestorAccessDashboard />
                 </Route>
                 <Route path="/dashboard">
                   <AttendanceDashboard />

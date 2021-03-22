@@ -3,7 +3,6 @@ import ReactModal from 'react-modal';
 
 import { Button, DestructiveButton, SecondaryButton } from '../atoms/Button';
 import Icon from '../atoms/Icon';
-
 import {
   DefaultFooterSpacer,
   ExitActionContainer,

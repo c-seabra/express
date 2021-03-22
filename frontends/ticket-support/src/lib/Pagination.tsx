@@ -1,7 +1,7 @@
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { Spacing } from './components/templates/Spacing';
 import { SecondaryButton } from './components/atoms/Button';
 
 const PaginationContainer = styled.div`

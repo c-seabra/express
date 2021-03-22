@@ -1,3 +1,8 @@
+import EditableTextInputField from '@websummit/components/src/molecules/EditableTextInputField';
+import {
+  SpacingBottom,
+  SpacingBottomXs,
+} from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
@@ -5,12 +10,7 @@ import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import BoxMessage from '../../lib/components/molecules/BoxMessage';
-import EditableTextInputField from '../../lib/components/molecules/EditableTextInputField';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
-import {
-  SpacingBottom,
-  SpacingBottomXs,
-} from '../../lib/components/templates/Spacing';
 import STATIC_MESSAGES from '../../lib/constants/messages';
 import UpdateAppLoginEmailModal from './UpdateAppLoginEmailModal';
 
@@ -34,7 +34,7 @@ const StyledLabel = styled.span`
 type UpdateAppLoginEmailProps = {
   bookingRef: string;
   email?: string;
-  isDisabled?: boolean;
+  withEditMode?: boolean;
 };
 
 const confirmSchema = Yup.object().shape({
@@ -46,7 +46,7 @@ const confirmSchema = Yup.object().shape({
 const UpdateAppLoginEmail = ({
   email,
   bookingRef,
-  isDisabled = false,
+  withEditMode = false,
 }: UpdateAppLoginEmailProps) => {
   const { isOpen, openModal, closeModal } = useModalState();
   const [editMode, setEditMode] = useState(false);
@@ -95,11 +95,11 @@ const UpdateAppLoginEmail = ({
             <Form>
               <EditableTextInputField
                 required
-                disabled={isDisabled}
-                editModeOn={editMode}
+                editModeActive={editMode}
                 name="email"
                 placeholder="Type email"
                 value={email || 'N/A'}
+                withEditMode={withEditMode}
                 onEdit={editAction}
               />
               {editMode && (

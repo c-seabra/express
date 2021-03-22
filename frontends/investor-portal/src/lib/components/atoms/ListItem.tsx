@@ -7,10 +7,10 @@ const ListItem = styled.li`
   background-color: #fff;
   justify-content: space-between;
 
-  binvestor-bottom: 1px solid #dde0e5;
+  border-bottom: 1px solid #dde0e5;
 
   &:last-child {
-    binvestor-bottom: none;
+    border-bottom: none;
   }
 
   &:hover {

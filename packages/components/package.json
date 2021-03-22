@@ -1,0 +1,31 @@
+{
+  "name": "@websummit/components",
+  "private": true,
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "Websummit UI components library",
+  "author": "Chris Bowes",
+  "main": "src/index",
+  "types": "src/index",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "build:standalone": "yarn run clean && yarn run compile",
+    "clean": "rimraf -rf ./dist",
+    "compile": "tsc -p tsconfig.build.json --noEmit",
+    "prepublishOnly": "yarn run build",
+    "test": "yarn run build"
+  },
+  "dependencies": {
+    "react": "*",
+    "react-router-dom": "*",
+    "react-modal": "*",
+    "styled-components": "*",
+    "formik": "*",
+    "react-simple-snackbar": "*",
+    "react-currency-input-field": "*"
+  },
+  "devDependencies": {}
+}

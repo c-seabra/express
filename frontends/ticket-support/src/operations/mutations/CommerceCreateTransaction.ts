@@ -1,12 +1,16 @@
 import { gql, useMutation } from '@apollo/client';
-import { CommerceTransactionType } from '@websummit/graphql/src/@types/operations';
-
-import { useAppContext } from '../../components/app/AppContext';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
-} from '../../lib/hooks/useSnackbarMessage';
+} from '@websummit/components/src/molecules/Snackbar';
+import {
+  CommerceTaxDetailCreateOrUpdate,
+  CommerceTransactionType,
+} from '@websummit/graphql/src/@types/operations';
+
+import { useAppContext } from '../../components/app/AppContext';
 import { CommerceTransaction } from '../../lib/types';
+import { TotalInCents } from '../../lib/utils/price';
 
 const commercePaymentMethodFragment = gql`
   fragment CommercePaymentMethod on CommercePaymentMethod {
@@ -77,10 +81,14 @@ const useCommerceCreateTransactionMutation = ({
     paymentMethod,
     reason,
     type,
+    taxDetails,
   }: {
     amount: number | null;
-    paymentMethod: string | null;
+    paymentMethod?: string | null;
     reason: string | null;
+    taxDetails?:
+      | (CommerceTaxDetailCreateOrUpdate & { total?: TotalInCents })[]
+      | null;
     type: CommerceTransactionType | null;
   }) => {
     await createTransactionMutation({
@@ -94,9 +102,12 @@ const useCommerceCreateTransactionMutation = ({
       variables: {
         commerceTransactionCreate: {
           amount: Number(amount),
-          paymentMethod: {
-            id: paymentMethod,
-          },
+          paymentMethod: paymentMethod
+            ? {
+                id: paymentMethod,
+              }
+            : undefined,
+          taxDetails,
           type,
         },
         orderId,

@@ -1,7 +1,9 @@
-import { useMutation } from '@apollo/client';
+import {
+  CommerceOrderStatus,
+  useCreateOrderMutation,
+} from '@websummit/graphql/src/@types/operations';
 import React, { useContext, useEffect, useState } from 'react';
 
-import CREATE_ORDER_MUTATION from '../../operations/mutations/CreateOrder';
 import { AppContext, Staff } from '../app/App';
 import AssigneeItem from './AssigneeItem';
 
@@ -10,9 +12,10 @@ export type StatusType = {
   type: 'PENDING' | 'SUCCESS' | 'ERROR';
 };
 
-type AssigneeItemProvider = Staff;
+type AssigneeItemProvider = Staff & { index: number };
 
 const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
+  index,
   bookingRef,
   firstName,
   lastName,
@@ -24,11 +27,11 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     type: 'PENDING',
   });
 
-  const [ticketAccept] = useMutation(CREATE_ORDER_MUTATION, {
-    onCompleted: ({ ticketAccept }: any) => {
-      if (ticketAccept?.userErrors.length) {
+  const [ticketAccept] = useCreateOrderMutation({
+    onCompleted: ({ ticketAccept: ticketAcceptResult }: any) => {
+      if (ticketAcceptResult?.userErrors.length) {
         setStatus({
-          message: ticketAccept.userErrors[0].message,
+          message: ticketAcceptResult.userErrors[0].message,
           type: 'ERROR',
         });
       } else {
@@ -40,8 +43,23 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     },
   });
 
+  type Assignee = {
+    bookingReference?: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+
+  type Product = {
+    metadata?: {
+      assignees?: Assignee[];
+    };
+    product: string;
+    quantity: number;
+  };
+
   useEffect(() => {
-    const productsList = [];
+    const productsList: Product[] = [];
     if (conference.staffProductId) {
       productsList.push({
         metadata: {
@@ -68,37 +86,45 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       });
     }
 
-    if (productsList.length == 0) {
+    if (productsList.length === 0) {
       setStatus({
         message: `No Staff ticket product configured for this conference, please contact engineering!`,
         type: 'ERROR',
       });
     }
-
-    ticketAccept({
-      context: {
-        slug: conference.slug,
-        token,
-      },
-      variables: {
-        input: {
-          customer: {
-            email,
-            firstName,
-            lastName,
-          },
-          items: productsList,
-          status: 'COMPLETE',
+    setTimeout(() => {
+      ticketAccept({
+        context: {
+          slug: conference.slug,
+          storesToken: token,
         },
-        storeId: conference.storeId,
-      },
-    }).catch((e) => {
-      console.error(e);
-      setStatus({
-        message: `Unable to create this ticket - ${bookingRef}`,
-        type: 'ERROR',
+        variables: {
+          input: {
+            customer: {
+              email,
+              firstName,
+              lastName,
+            },
+            items: productsList,
+            metadata: {
+              disableEmailNotification: true,
+              disableOrderEmail: true,
+            },
+            status: CommerceOrderStatus.Complete,
+          },
+          storeId: conference.storeId || '',
+        },
+      }).catch((e) => {
+        console.error(e);
+        setStatus({
+          message: `Unable to create this ticket - ${
+            bookingRef || 'no booking ref provided'
+          }`,
+          type: 'ERROR',
+        });
       });
-    });
+    }, index * 50);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -14,7 +14,7 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@websummit/ws-components": "*",
+    "@websummit/components": "*",
     "@websummit/ws-lib-example": "*",
     "react": "*",
     "react-dom": "*"

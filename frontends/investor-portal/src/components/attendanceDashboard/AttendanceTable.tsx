@@ -1,26 +1,31 @@
+import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 
 import {
   ContainerCard,
+  FilterButton,
   Heading,
   Modal,
   SecondaryButton,
   useModalState,
 } from '../../lib/components';
-import useAttendanceAppearanceSelectionUpdateMutation from '../../lib/hooks/useAttendanceAppearanceSelectionUpdateMutation';
+import PopupButton from '../../lib/components/molecules/PopupButton';
+import { useAttendanceAppearanceSelectionUpdateMutation } from '../../lib/hooks';
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
-import useSearchState from '../../lib/hooks/useSearchState';
 import Loader from '../../lib/Loading';
 import Pagination from '../../lib/Pagination';
 import AttendanceItem from './AttendanceItem';
 import AttendanceListHeader from './AttendanceListHeader';
 import {
   FiltersSearchContainer,
+  PopupFiltersContainer,
   SearchFilters,
   StyledSearchInput,
 } from './AttendanceTable.styled';
+import SelectionStatusesCategoryList from './SelectionStatusesCategoryList';
 
 type AttendanceSearchState = {
+  attendanceAppearanceSelectionsStatus?: string;
   page: string;
   searchQuery?: string;
   type: string;
@@ -52,7 +57,10 @@ const AttendanceTable = (): ReactElement => {
     isBackwardsDisabled,
     nextPage,
     previousPage,
+    resetPage,
   } = useAttendancesQuery({
+    attendanceAppearanceSelectionsStatus:
+      searchState.attendanceAppearanceSelectionsStatus,
     initialPage: searchState.page,
     searchQuery: searchState.searchQuery,
     type: searchState.type,
@@ -73,11 +81,14 @@ const AttendanceTable = (): ReactElement => {
       setSearchState({ ...searchState, page: currentPage });
       setSelectedValues([]);
     }
+    // Disabled because additional triggers caused infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   useEffect(() => {
     const activeCheckboxesCount = results.filter(
-      (attendance) => attendance.pendingSelectionCount,
+      (attendance) =>
+        attendance.attendanceAppearanceSelectionsDetails.pendingSelectionCount,
     ).length;
     setHeaderCheckbox(
       results.length > 0 &&
@@ -85,7 +96,10 @@ const AttendanceTable = (): ReactElement => {
         activeCheckboxesCount === selectedValues.length,
     );
     setHeaderCheckboxDisabled(
-      !results.filter((result) => result.pendingSelectionCount).length,
+      !results.filter(
+        (result) =>
+          result.attendanceAppearanceSelectionsDetails.pendingSelectionCount,
+      ).length,
     );
   }, [selectedValues, results]);
 
@@ -94,10 +108,12 @@ const AttendanceTable = (): ReactElement => {
       const element = e.currentTarget as HTMLInputElement;
       setSearchState((prevState) => ({
         ...prevState,
+        page: '',
         searchQuery: element.value,
       }));
       setSearchQuery(element.value);
       setSelectedValues([]);
+      resetPage();
     }
   };
 
@@ -107,7 +123,11 @@ const AttendanceTable = (): ReactElement => {
       headerCheckbox
         ? []
         : results
-            .filter((attendance) => attendance.pendingSelectionCount)
+            .filter(
+              (attendance) =>
+                attendance.attendanceAppearanceSelectionsDetails
+                  .pendingSelectionCount,
+            )
             .map((result) => result.id),
     );
   };
@@ -116,12 +136,24 @@ const AttendanceTable = (): ReactElement => {
     updateAttendanceAppearanceSelections,
   } = useAttendanceAppearanceSelectionUpdateMutation({
     attendanceIds: selectedValues,
+    status: 'submitted',
   });
 
   const onUpdateConfirmed = async () => {
     await updateAttendanceAppearanceSelections();
     setSelectedValues([]);
     closeModal();
+  };
+
+  const handleSelectionStatusFilterChange = (selectedTypes: string[]) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      attendanceAppearanceSelectionsStatus:
+        selectedTypes?.length > 0 ? selectedTypes.join(',') : undefined,
+      page: '',
+    }));
+    setSelectedValues([]);
+    resetPage();
   };
 
   return (
@@ -154,6 +186,18 @@ const AttendanceTable = (): ReactElement => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKey}
           />
+          <PopupButton renderButton={(props) => <FilterButton {...props} />}>
+            <PopupFiltersContainer>
+              <SelectionStatusesCategoryList
+                initialValues={searchState?.attendanceAppearanceSelectionsStatus?.split(
+                  ',',
+                )}
+                onSelectionStatusFilterChange={
+                  handleSelectionStatusFilterChange
+                }
+              />
+            </PopupFiltersContainer>
+          </PopupButton>
         </FiltersSearchContainer>
       </SearchFilters>
       {!loading && !error ? (

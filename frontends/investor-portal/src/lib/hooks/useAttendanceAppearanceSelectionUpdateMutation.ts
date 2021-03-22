@@ -1,9 +1,12 @@
 import { useMutation } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 
 import { useAppContext } from '../../components/app/AppContext';
 import ATTENDANCE_APPEARANCE_SELECTION_UPDATE from '../../operations/mutations/AttendanceAppearanceSelectionsUpdate';
 import { UserError } from '../types';
-import { useErrorSnackbar, useSuccessSnackbar } from './useSnackbarMessage';
 
 type SelectionUpdateData = {
   attendanceAppearanceSelectionUpdate: {
@@ -14,8 +17,10 @@ type SelectionUpdateData = {
 
 const useAttendanceAppearanceSelectionUpdateMutation = ({
   attendanceIds,
+  status,
 }: {
   attendanceIds: string[];
+  status: string;
 }) => {
   const { conferenceSlug, token } = useAppContext();
   const success = useSuccessSnackbar();
@@ -28,6 +33,7 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
 
   const variables = {
     attendanceIds,
+    status,
   };
 
   const [
@@ -44,7 +50,7 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
       }
     },
     onError: (e) => errorMessage(e.message),
-    refetchQueries: ['Attendances'],
+    refetchQueries: ['Attendances', 'AttendanceDetailsQuery'],
     variables,
   });
 

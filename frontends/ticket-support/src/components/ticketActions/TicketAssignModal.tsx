@@ -1,3 +1,6 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -5,7 +8,6 @@ import * as Yup from 'yup';
 
 import { DisabledButton, ErrorButton } from '../../lib/components/atoms/Button';
 import Icon from '../../lib/components/atoms/Icon';
-import CheckboxField from '../../lib/components/molecules/CheckboxField';
 import Modal from '../../lib/components/molecules/Modal';
 import {
   AlertText,
@@ -13,13 +15,10 @@ import {
   HeaderText,
   IconWrapper,
   StyledActionRow,
-  Text,
   Wrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
-import TextInputField from '../../lib/components/molecules/TextInputField';
 import useAssignTicketOperation from '../../lib/hooks/useTicketAssignMutation';
 import { Ticket } from '../../lib/types';
-import { Spacing } from '../../lib/components/templates/Spacing';
 
 const ContentContainer = styled.div`
   font-size: 0.85rem;

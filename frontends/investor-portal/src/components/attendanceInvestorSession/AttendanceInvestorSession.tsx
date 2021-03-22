@@ -11,8 +11,9 @@ import { StyledForm } from './AttendanceInvestorSession.styled';
 
 type AttendanceInvestorSessionType = {
   attendanceId: string;
-  currentEndsAt: string;
-  currentStartsAt: string;
+  currentEndsAt: string | undefined;
+  currentStartsAt: string | undefined;
+  gdprConsent: boolean | undefined;
   selections: AttendanceAppearanceSelection[];
 };
 
@@ -20,28 +21,18 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   currentStartsAt,
   currentEndsAt,
   attendanceId,
+  gdprConsent,
   selections = [],
 }) => {
   const [newStartsAt, setNewStartsAt] = useState<string | undefined>();
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin');
   const [selected, setSelected] = useState<boolean>(false);
   const [unlockInvestor, setUnlockInvestor] = useState<boolean>(false);
-  const [hasAccepted, setHasAccepted] = useState<boolean>(false);
+  const [hideAction, setHideAction] = useState<boolean>(false);
 
   const { data } = useEventQuery();
 
   const investorSessionsSummary = data?.event.investorSessionsSummary;
-
-  const handleUnlock = () => {
-    setUnlockInvestor(currentStartsAt !== undefined && selected === false);
-  };
-
-  const checkHasAccepted = () => {
-    const item = selections.find(
-      (selection) => selection.status === 'accepted',
-    );
-    setHasAccepted(item !== undefined);
-  };
 
   const styledDateForMutation = (dateString?: string) => {
     if (dateString === undefined || dateString === '') {
@@ -51,10 +42,15 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   };
 
   useEffect(() => {
-    checkHasAccepted();
-    handleUnlock();
+    const item = selections.find(
+      (selection) =>
+        selection.status === 'accepted' || selection.status === 'rejected',
+    );
+    setHideAction(item !== undefined);
+
+    setUnlockInvestor(currentStartsAt !== undefined && selected === false);
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin');
-  });
+  }, [currentStartsAt, selected, selections, data?.event.timeZone.ianaName]);
 
   const startsAt = styledDateForMutation(newStartsAt);
 
@@ -69,11 +65,16 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
 
   const submit = async () => {
     await attendanceInvestorSessionUpdateMutation();
-    handleUnlock();
+    setUnlockInvestor(currentStartsAt !== undefined && selected === false);
   };
 
   return (
     <>
+      <p>
+        <strong>NB:</strong> This investor{' '}
+        <strong>{gdprConsent ? 'has' : 'has not'}</strong> provided their GDPR
+        constent.
+      </p>
       <StyledForm>
         {currentStartsAt && (
           <span>
@@ -85,7 +86,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
         {!currentStartsAt && (
           <div>Investor has not selected a session timeslot</div>
         )}
-        {!hasAccepted && (
+        {!hideAction && (
           <>
             <Select
               onChange={(e) => {

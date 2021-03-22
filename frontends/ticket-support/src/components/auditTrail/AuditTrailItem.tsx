@@ -122,6 +122,10 @@ const normalize = (value: string): string => {
 const mapChange = (trail: TrailVersion): boolean | string => {
   // TODO Deduce a action
 
+  if (trail.event === 'create') {
+    return 'created';
+  }
+
   return 'N/A';
 };
 
@@ -214,7 +218,7 @@ const AuditTrailItem = ({ trail }: AuditTrail) => {
   } = trail;
   const [openDetailsRow, setOpenDetailsRow] = useState(false);
   const objectChanges = objectChangesString && JSON.parse(objectChangesString);
-  const context = contextString && JSON.parse(contextString);
+  const additionalContext = contextString && JSON.parse(contextString);
   const mappedChange = mapChange(trail);
   const noDataLabel = 'no value';
   const setDetailsVisibility = () => setOpenDetailsRow(!openDetailsRow);
@@ -240,43 +244,51 @@ const AuditTrailItem = ({ trail }: AuditTrail) => {
                 return <DynamicChange key={key} title={key} values={value} />;
               })}
             </DetailContainer>
-            {context?.assignments && (
+            {additionalContext?.assignments && (
               <DetailContainer>
                 <Subheading>Extra context</Subheading>
                 <InlineChange
-                  current={context.assignments.current?.assignee_name}
+                  current={additionalContext.assignments.current?.assignee_name}
                   label="Assignee name change"
-                  prev={context.assignments.previous?.assignee_name}
+                  prev={additionalContext.assignments.previous?.assignee_name}
                 />
 
                 <InlineChange
-                  current={context.assignments.current?.assignee_email}
+                  current={
+                    additionalContext.assignments.current?.assignee_email
+                  }
                   label="Assignee email change"
-                  prev={context.assignments.previous?.assignee_email}
+                  prev={additionalContext.assignments.previous?.assignee_email}
                 />
 
                 <InlineChange
-                  current={context.assignments.current?.assigner_name}
+                  current={additionalContext.assignments.current?.assigner_name}
                   label="Assigneer name change"
-                  prev={context.assignments.previous?.assigner_name}
+                  prev={additionalContext.assignments.previous?.assigner_name}
                 />
 
                 <InlineChange
-                  current={context.assignments.current?.assigner_email}
+                  current={
+                    additionalContext.assignments.current?.assigner_email
+                  }
                   label="Assigneer email change"
-                  prev={context.assignments.previous?.assigner_email}
+                  prev={additionalContext.assignments.previous?.assigner_email}
                 />
               </DetailContainer>
             )}
-            {context?.assigne && (
+            {additionalContext?.assigne && (
               <DetailContainer>
                 <div>
                   Previous assignee -{' '}
-                  {context.assignee.previous_assignee || noDataLabel}
+                  {additionalContext.assignee.previous_assignee || noDataLabel}
                 </div>
-                <div>Assigner - {context.assignee.assigner || noDataLabel}</div>
                 <div>
-                  New Assignee - {context.assignee.assignee || noDataLabel}
+                  Assigner -{' '}
+                  {additionalContext.assignee.assigner || noDataLabel}
+                </div>
+                <div>
+                  New Assignee -{' '}
+                  {additionalContext.assignee.assignee || noDataLabel}
                 </div>
               </DetailContainer>
             )}
