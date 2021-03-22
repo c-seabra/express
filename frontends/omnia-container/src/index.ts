@@ -2,12 +2,8 @@ import { pathToActiveWhen, registerApplication, start } from 'single-spa';
 import {
   constructApplications,
   constructLayoutEngine,
-  constructRoutes,
 } from 'single-spa-layout';
-import {
-  ResolvedRoutesConfig,
-  ResolvedUrlRoute,
-} from 'single-spa-layout/dist/types/isomorphic/constructRoutes';
+import { ResolvedRoutesConfig } from 'single-spa-layout/dist/types/isomorphic/constructRoutes';
 
 console.log('Starting up on index.ts');
 
@@ -68,15 +64,17 @@ const apps: Array<any> = [
     ],
   },
 ].map((routeGroup) => {
-  const apps = routeGroup.routes.map((app) => {
+  const appGroups = routeGroup.routes.map((app) => {
     return {
       ...app,
+      /* eslint-disable */
       // @ts-ignore
       activeWhen: pathToActiveWhen(app.path || '/'),
+      /* eslint-enable */
     };
   });
   return {
-    routes: apps,
+    routes: appGroups,
   };
 });
 
@@ -94,12 +92,12 @@ export type RequiredProps = {
 };
 
 export default function loadContainer(props: RequiredProps) {
-  console.log(`called loadContainer with: '${props}'`);
-
   const applications = constructApplications({
     loadApp({ name }) {
+      /* eslint-disable */
       // @ts-ignore
       return System.import(name);
+      /* eslint-enable */
     },
     routes,
   });
@@ -110,7 +108,7 @@ export default function loadContainer(props: RequiredProps) {
     // its some magic to wrap the function in our own
     // and splice in the values we have
     const oldFunc = app.customProps;
-    // eslint-disable-next-line no-param-reassign
+    // eslint-disable-next-line no-param-reassign,func-names
     app.customProps = function (e, n) {
       const existing = oldFunc instanceof Function ? oldFunc(e, n) : oldFunc;
       return {
