@@ -102,6 +102,11 @@ const eventBillingSchema = Yup.object().shape({
   region: Yup.string().required('Region is required'),
 });
 
+const emptyCompanyNameOption = {
+  label: 'Select company name',
+  value: undefined,
+};
+
 const emptyCountryOption = {
   label: 'Select country',
   value: undefined,
@@ -111,6 +116,15 @@ const emptyRegionOption = {
   label: 'Select region',
   value: undefined,
 };
+
+const getCompanyNameOptions = (
+    // countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+    names= [],
+) => [
+    emptyCompanyNameOption,
+    // ...names.map((name) => ({ label: country?.name, value: country?.id })),
+    ...names.map((name) => ({ label: name, value: name })),
+];
 
 const getCountryOptions = (
   countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
@@ -132,6 +146,11 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const success = useSuccessSnackbar();
   const error = useErrorSnackbar();
   const { data } = useCountriesQuery();
+
+  const companyNameOptions = getCompanyNameOptions(
+    ['company1', 'company2'].map((edge) => edge),
+    // data?.countries?.edges?.map((edge) => edge.node),
+  );
 
   const countryOptions = getCountryOptions(
     data?.countries?.edges?.map((edge) => edge.node),
@@ -198,13 +217,13 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
         <Form>
           <Spacing bottom="1.75rem">
             <FieldRow>
-              <StyledInputField
-                required
-                label="Host company name"
-                name="companyName"
-                placeholder="Websummit"
-                type="text"
-              />
+                <StyledSelectField
+                    required
+                    label="Host company name"
+                    name="companyName"
+                    options={companyNameOptions}
+                />
+
               <StyledInputField
                 label="Host company’s tax number"
                 name="companyTaxNumber"
