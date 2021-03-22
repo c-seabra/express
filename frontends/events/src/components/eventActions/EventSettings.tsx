@@ -149,8 +149,6 @@ const EventSettings = () => {
     },
   });
 
-  console.log(checkConfigCompletion(data));
-
   const configCompleteRules = {
     // TODO - fill the 'true' with rules regarding config completion
     billing_invoicing: true,
