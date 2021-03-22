@@ -57,9 +57,11 @@ const config = {
   },
   output: {
     filename: 'frontends.[name].bundle.js',
-    library: ['frontends', '[name]'],
-    libraryTarget: 'window',
+    library: {
+      type: 'system',
+    },
     path: path.resolve(__dirname, '../../builds/bulk-assign'),
+    publicPath: '/',
   },
   plugins: [new CleanWebpackPlugin()],
   resolve: {

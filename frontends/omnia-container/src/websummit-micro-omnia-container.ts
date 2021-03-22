@@ -8,18 +8,7 @@ import {
   ResolvedUrlRoute,
 } from 'single-spa-layout/dist/types/isomorphic/constructRoutes';
 
-type RouteElement = {
-  name: string;
-  type: 'application';
-};
-
-type Route = {
-  default?: boolean;
-  exact?: boolean;
-  path: string;
-  routes: Array<RouteElement>;
-  type: string;
-};
+console.log('Starting up on websummit-micro-omnia-container.ts');
 
 const apps: Array<ResolvedUrlRoute> = [
   {
@@ -70,7 +59,7 @@ const routes: ResolvedRoutesConfig = {
 
 const applications = constructApplications({
   loadApp({ name }) {
-    // eslint-disable-next-line
+    // @ts-ignore
     return System.import(name);
   },
   routes,
@@ -83,6 +72,7 @@ const customProps = {
   apiURL: env.API_URL,
   test: 'testing',
   token: env.AUTH_TOKEN,
+  bucketURL: env.BUCKET_URL,
 };
 
 applications.forEach((app) => {

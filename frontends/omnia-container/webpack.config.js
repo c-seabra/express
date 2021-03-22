@@ -36,6 +36,7 @@ module.exports = (webpackConfigEnv, argv) => {
         'PRODUCTION_STORES_TOKEN',
         'AUTH_TOKEN',
         'API_URL',
+        'BUCKET_URL',
       ]),
     ],
   });

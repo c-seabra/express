@@ -46,20 +46,7 @@
   <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
 
   <% if (isLocal) { %>
-  <script type="systemjs-importmap">
-    {
-      "imports": {
-        "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
-        "@websummit-micro/root-config": "//localhost:9000/websummit-micro-root-config.js",
-        "@websummit-micro/omnia-container": "//localhost:9010/websummit-micro-omnia-container.js",
-        "@websummit-micro/frontend-demo": "//localhost:9001/websummit-micro-frontend-demo.js",
-        "@websummit-micro/ticket-support": "//localhost:9002/websummit-micro-ticket-support.js",
-        "@websummit-micro/staff-tickets": "//localhost:9003/websummit-micro-staff-tickets.js",
-        "@websummit-micro/bulk-assign": "//localhost:9004/websummit-micro-bulk-assign.js",
-        "@websummit-micro/investor-portal": "//localhost:9005/websummit-micro-investor-portal.js"
-      }
-    }
-  </script>
+  <script type="systemjs-importmap" src="http://localhost:9337/sourcemap.json"/>
   <% } %>
 
   <!--
@@ -77,11 +64,20 @@
   <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.min.js"></script>
   <% } %>
 </head>
+
 <body>
   <script>
-    System.import('@websummit-micro/omnia-container');
+    const customProps = {
+      apiURL: 'testdemoing',
+      test: 'testing',
+      token: 'tester',
+    }
+
+    System.import('@websummit-micro/omnia-container').then(module => {
+      console.log(module.default(customProps))
+    })
   </script>
-  <div id='micro'></div>
+  <div id="micro"></div>
   <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
 </html>

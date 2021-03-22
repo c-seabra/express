@@ -8,11 +8,13 @@
     "lint": "eslint src --ext js,ts,tsx",
     "format": "prettier --write \"./**\"",
     "build": "webpack --mode=production",
+    "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
     "clean": "rimraf -rf ./dist"
   },
   "devDependencies": {},
   "dependencies": {
     "single-spa": "*",
-    "single-spa-layout": "*"
+    "single-spa-layout": "*",
+    "systemjs": "*"
   }
 }
