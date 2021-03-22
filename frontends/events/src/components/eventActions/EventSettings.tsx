@@ -116,6 +116,8 @@ const EventSettings = () => {
   const taxes =
     data?.event?.taxRates &&
     data?.event?.taxRates.edges.map((node) => node.node);
+  const eventExists = data?.event;
+  const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
   const eventName = data?.event?.name;
   const breadcrumbsNewRoutes: Breadcrumb[] = [
     {
@@ -147,7 +149,7 @@ const EventSettings = () => {
 
   return (
     <PageWrapper>
-      <Header>Event settings</Header>
+      <Header>Event {eventConfigHeaderText}</Header>
       <BreadcrumbsContainer>
         <Breadcrumbs routes={breadcrumbsRoutes} />
       </BreadcrumbsContainer>
