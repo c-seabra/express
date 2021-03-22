@@ -1,25 +1,8 @@
 import { gql } from '@apollo/client';
 
-// TODO remove when billing form ready
 export const LEGAL_ENTITY_CREATE_MUTATION = gql`
-  mutation LegalEntityCreate(
-    $name: String!
-    $regNumber: String
-    $website: String
-    $taxNumber: String
-    $email: String
-    $address: AddressInput
-  ) {
-    legalEntityCreate(
-      input: {
-        name: $name
-        regNumber: $regNumber
-        website: $website
-        taxNumber: $taxNumber
-        email: $email
-        address: $address
-      }
-    ) {
+  mutation LegalEntityCreate($input: LegalEntityCreateInput!) {
+    legalEntityCreate(input: $input) {
       legalEntity {
         id
         name

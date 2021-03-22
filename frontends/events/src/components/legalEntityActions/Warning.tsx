@@ -13,6 +13,7 @@ const StyledWarning = styled.div`
   }
 `;
 
+// TODO replace with warning from package
 const Warning = ({ children }: { children: ReactElement | string }) => {
   return (
     <StyledWarning>

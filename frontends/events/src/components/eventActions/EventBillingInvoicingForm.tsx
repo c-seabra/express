@@ -10,11 +10,12 @@ import {
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
-  Event,
-  EventConfigurationCountry,
-  useCountriesQuery,
-  useEventCreateMutation,
-  useEventUpdateMutation,
+    Event,
+    EventConfigurationCountry,
+    useCountriesQuery,
+    useEventCreateMutation,
+    useEventUpdateMutation,
+    useLegalEntityCreateMutation, useLegalEntityUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -118,12 +119,12 @@ const emptyRegionOption = {
 };
 
 const getCompanyNameOptions = (
-    // countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
-    names= [],
+  // countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+  names = [],
 ) => [
-    emptyCompanyNameOption,
-    // ...names.map((name) => ({ label: country?.name, value: country?.id })),
-    ...names.map((name) => ({ label: name, value: name })),
+  emptyCompanyNameOption,
+  // ...names.map((name) => ({ label: country?.name, value: country?.id })),
+  ...names.map((name) => ({ label: name, value: name })),
 ];
 
 const getCountryOptions = (
@@ -160,16 +161,16 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
     data?.countries?.edges?.map((edge) => edge.node),
   );
 
-  const [createEvent] = useEventCreateMutation({
+  const [createLegalEntity] = useLegalEntityCreateMutation({
     context: { token },
     onCompleted: () => {
-      success(`Event created`);
+      success(`Billing and invoice data created`);
     },
     onError: (e) => error(e.message),
     refetchQueries: ['Event'],
   });
 
-  const [updateEvent] = useEventUpdateMutation({
+  const [updateLegalEntity] = useLegalEntityUpdateMutation({
     context: { token },
     onCompleted: () => {
       success(`Event updated`);
@@ -197,32 +198,34 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
       }}
       validationSchema={eventBillingSchema}
       onSubmit={async (values) => {
-        // if (eventBilling?.id) {
-        //   await updateEvent({
-        //     variables: { event: { ...eventBilling, ...values } },
-        //   });
-        // } else {
-        //   const { data: mutationResult, errors } = await createEvent({
-        //     variables: { event: values },
-        //   });
-        //
-        //   if (!errors) {
-        //     const newEventSlug = mutationResult?.eventCreate?.event?.slug;
-        //     history.replace(`${newEventSlug || ''}/settings`);
-        //   }
-        // }
+        console.log('billing values', values);
+
+        if (eventBilling?.id) {
+          await updateLegalEntity({
+            variables: { input: { ...eventBilling, ...values } },
+          });
+        } else {
+          const { data: mutationResult, errors } = await createLegalEntity({
+            variables: { input: values },
+          });
+
+          if (!errors) {
+            const newEventSlug = mutationResult?.eventCreate?.event?.slug;
+            history.replace(`${newEventSlug || ''}/settings`);
+          }
+        }
       }}
     >
       {() => (
         <Form>
           <Spacing bottom="1.75rem">
             <FieldRow>
-                <StyledSelectField
-                    required
-                    label="Host company name"
-                    name="companyName"
-                    options={companyNameOptions}
-                />
+              <StyledSelectField
+                required
+                label="Host company name"
+                name="companyName"
+                options={companyNameOptions}
+              />
 
               <StyledInputField
                 label="Host company’s tax number"
