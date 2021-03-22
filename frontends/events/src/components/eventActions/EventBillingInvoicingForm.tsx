@@ -10,12 +10,13 @@ import {
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
-    Event,
-    EventConfigurationCountry,
-    useCountriesQuery,
-    useEventCreateMutation,
-    useEventUpdateMutation,
-    useLegalEntityCreateMutation, useLegalEntityUpdateMutation,
+  Event,
+  EventConfigurationCountry,
+  useCountriesQuery,
+  useEventCreateMutation,
+  useEventUpdateMutation,
+  useLegalEntityCreateMutation,
+  useLegalEntityUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -23,6 +24,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { LegalEntity } from '../../lib/types';
 import { useAppContext } from '../app/AppContext';
 
 const FlexCol = styled.div`
@@ -51,23 +53,26 @@ const SubHeader = styled.div`
 `;
 
 type EventBillingFormProps = {
-  eventBilling?:
-    | (Pick<
-        Event,
-        | 'id'
-        | 'name'
-        | 'description'
-        | 'slug'
-        | 'startDate'
-        | 'endDate'
-        | 'timezone'
-        | 'baseUrl'
-        | 'currency'
-      > & {
-        country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
-      })
-    | null;
+  eventBilling?: LegalEntity;
 };
+// type EventBillingFormProps = {
+//   eventBilling?:
+//     | (Pick<
+//         Event,
+//         | 'id'
+//         | 'name'
+//         | 'description'
+//         | 'slug'
+//         | 'startDate'
+//         | 'endDate'
+//         | 'timezone'
+//         | 'baseUrl'
+//         | 'currency'
+//       > & {
+//         country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
+//       })
+//     | null;
+// };
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -120,11 +125,11 @@ const emptyRegionOption = {
 
 const getCompanyNameOptions = (
   // countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
-  names = [],
+  names: string[] = [],
 ) => [
   emptyCompanyNameOption,
   // ...names.map((name) => ({ label: country?.name, value: country?.id })),
-  ...names.map((name) => ({ label: name, value: name })),
+  ...names.map((name) => name),
 ];
 
 const getCountryOptions = (
@@ -134,11 +139,9 @@ const getCountryOptions = (
   ...countries.map((country) => ({ label: country?.name, value: country?.id })),
 ];
 
-const getRegionOptions = (
-  countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
-) => [
+const getRegionOptions = (regions: string[] = []) => [
   emptyRegionOption,
-  ...countries.map((country) => ({ label: country?.name, value: country?.id })),
+  ...regions.map((region) => ({ label: region, value: region })),
 ];
 
 const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
@@ -158,7 +161,14 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   );
 
   const regionOptions = getRegionOptions(
-    data?.countries?.edges?.map((edge) => edge.node),
+    [
+      'Asia',
+      'Africa',
+      'Europe',
+      'Oceania',
+      'North America',
+      'South America',
+    ].map((element) => element),
   );
 
   const [createLegalEntity] = useLegalEntityCreateMutation({
@@ -202,7 +212,19 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
 
         if (eventBilling?.id) {
           await updateLegalEntity({
-            variables: { input: { ...eventBilling, ...values } },
+            variables: {
+              input: {
+                address: {
+                  city: values.city,
+                  countryId: values.country,
+                  lineOne: values.address1,
+                  lineTwo: values.address2,
+                  postalCode: values.postalCode,
+                  region: values.region,
+                },
+                email: values.company,
+              },
+            },
           });
         } else {
           const { data: mutationResult, errors } = await createLegalEntity({
