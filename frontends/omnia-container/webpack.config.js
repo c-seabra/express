@@ -27,6 +27,8 @@ module.exports = (webpackConfigEnv, argv) => {
         templateParameters: {
           isLocal: webpackConfigEnv && webpackConfigEnv.isLocal,
           orgName,
+          apiURL: process.env.API_URL,
+          token: process.env.AUTH_TOKEN,
         },
       }),
       new EnvironmentPlugin([

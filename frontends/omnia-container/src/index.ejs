@@ -67,11 +67,11 @@
 
 <body>
   <script>
+    // eslint-disable-next-line no-undef
     const customProps = {
-      apiURL: 'testdemoing',
-      test: 'testing',
-      token: 'ey',
-    }
+      apiURL: "<%= apiURL %>",
+      token: "<%= token %>",
+    };
 
     System.import('@websummit-micro/omnia-container').then(module => {
       console.log(module.default(customProps))
