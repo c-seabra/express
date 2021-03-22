@@ -12,6 +12,7 @@ import styled, { css } from 'styled-components';
 
 import { useAppContext } from '../app/AppContext';
 import SelectTax from '../organisms/SelectTax';
+import EventBillingInvoicingForm from './EventBillingInvoicingForm';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
 
@@ -46,10 +47,17 @@ type Tab = 'event_info' | 'tax_info' | 'payment_methods' | 'billing_invoicing';
 
 type Setting = {
   id: Tab;
+  subTitle?: string;
   title: string;
 };
 
 const settings: Setting[] = [
+  {
+    id: 'billing_invoicing',
+    subTitle:
+      'Provide details of the company hosting the event that will appear on the invoice.',
+    title: 'Billing information',
+  },
   {
     id: 'event_info',
     title: 'Event information',
@@ -61,10 +69,6 @@ const settings: Setting[] = [
   {
     id: 'payment_methods',
     title: 'Payment methods',
-  },
-  {
-    id: 'billing_invoicing',
-    title: 'Billing & invoicing',
   },
 ];
 
@@ -166,7 +170,10 @@ const EventSettings = () => {
           />
         </SettingTabs>
         <SettingsForm>
-          <SettingsSection title={currentTab.title}>
+          <SettingsSection
+            subTitle={currentTab.subTitle}
+            title={currentTab.title}
+          >
             {currentTab.id === 'event_info' && (
               <EventInformationForm eventInfo={data?.event} />
             )}
@@ -179,12 +186,7 @@ const EventSettings = () => {
               />
             )}
             {currentTab.id === 'billing_invoicing' && (
-              <BillingInvoicing
-                eventId={data?.event?.id as string}
-                loading={loading}
-                refetch={refetch}
-                taxes={taxes}
-              />
+              <EventBillingInvoicingForm eventBilling={{}} />
             )}
           </SettingsSection>
         </SettingsForm>

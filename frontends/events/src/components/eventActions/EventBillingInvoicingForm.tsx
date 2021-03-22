@@ -21,6 +21,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useAppContext } from '../app/AppContext';
 
 const FlexCol = styled.div`
@@ -116,9 +117,6 @@ const getRegionOptions = (
   ...countries.map((country) => ({ label: country?.name, value: country?.id })),
 ];
 
-
-
-
 const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const { token } = useAppContext();
   const history = useHistory();
@@ -188,45 +186,47 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
     >
       {({ resetForm }) => (
         <Form>
-          <FieldRow>
-            <StyledInputField
-              required
-              label="Host company name"
-              name="name"
-              placeholder="Websummit"
-              type="text"
-            />
-            <StyledInputField
-              label="Host company’s tax number"
-              name="taxNumber"
-              placeholder="IE1234567AB"
-              type="text"
-            />
-          </FieldRow>
+          <Spacing bottom="1.75rem">
+            <FieldRow>
+              <StyledInputField
+                required
+                label="Host company name"
+                name="name"
+                placeholder="Websummit"
+                type="text"
+              />
+              <StyledInputField
+                label="Host company’s tax number"
+                name="taxNumber"
+                placeholder="IE1234567AB"
+                type="text"
+              />
+            </FieldRow>
 
-          <FieldRow>
-            <StyledInputField
-              label="Company’s registration number"
-              name="registrationNumber"
-              placeholder="1234"
-              type="text"
-            />
-            <StyledInputField
-              label="Company’s email"
-              name="email"
-              placeholder="email@company.com"
-              type="text"
-            />
-          </FieldRow>
+            <FieldRow>
+              <StyledInputField
+                label="Company’s registration number"
+                name="registrationNumber"
+                placeholder="1234"
+                type="text"
+              />
+              <StyledInputField
+                label="Company’s email"
+                name="email"
+                placeholder="email@company.com"
+                type="text"
+              />
+            </FieldRow>
 
-          <FieldRow>
-            <StyledInputField
-              label="Company’s website"
-              name="website"
-              placeholder="www.website.com"
-              type="text"
-            />
-          </FieldRow>
+            <FieldRow>
+              <StyledInputField
+                label="Company’s website"
+                name="website"
+                placeholder="www.website.com"
+                type="text"
+              />
+            </FieldRow>
+          </Spacing>
 
           <FlexCol>
             <Header>Address on Invoice</Header>
