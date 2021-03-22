@@ -1,7 +1,6 @@
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React, { FC } from 'react';
 import styled from 'styled-components';
-
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 
 const Container = styled.div`
   display: flex;

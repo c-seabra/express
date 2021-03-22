@@ -8,6 +8,7 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   Event,
   EventConfigurationCountry,
@@ -21,7 +22,6 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useAppContext } from '../app/AppContext';
 
 const FlexCol = styled.div`
@@ -89,8 +89,17 @@ const ButtonsContainer = styled.div`
 `;
 
 const eventBillingSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
-  slug: Yup.string().required('Event slug is required'),
+  address1: Yup.string().required('Address line 1 is required'),
+  address2: Yup.string(),
+  city: Yup.string(),
+  companyEmail: Yup.string().email(),
+  companyName: Yup.string().required('Host company name is required'),
+  companyRegistrationNumber: Yup.string(),
+  companyTaxNumber: Yup.string(),
+  companyWebsite: Yup.string(),
+  country: Yup.string().required('Country is required'),
+  postalCode: Yup.string(),
+  region: Yup.string().required('Region is required'),
 });
 
 const emptyCountryOption = {
@@ -157,6 +166,7 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
         address1: eventBilling?.name || '',
         address2: eventBilling?.name || '',
         city: eventBilling?.name || '',
+        companyName: eventBilling?.name || '',
         country: eventBilling?.country?.id,
         email: eventBilling?.name || '',
         name: eventBilling?.name || '',
@@ -184,20 +194,20 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
         // }
       }}
     >
-      {({ resetForm }) => (
+      {() => (
         <Form>
           <Spacing bottom="1.75rem">
             <FieldRow>
               <StyledInputField
                 required
                 label="Host company name"
-                name="name"
+                name="companyName"
                 placeholder="Websummit"
                 type="text"
               />
               <StyledInputField
                 label="Host company’s tax number"
-                name="taxNumber"
+                name="companyTaxNumber"
                 placeholder="IE1234567AB"
                 type="text"
               />
@@ -206,13 +216,13 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
             <FieldRow>
               <StyledInputField
                 label="Company’s registration number"
-                name="registrationNumber"
+                name="companyRegistrationNumber"
                 placeholder="1234"
                 type="text"
               />
               <StyledInputField
                 label="Company’s email"
-                name="email"
+                name="companyEmail"
                 placeholder="email@company.com"
                 type="text"
               />
@@ -221,7 +231,7 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
             <FieldRow>
               <StyledInputField
                 label="Company’s website"
-                name="website"
+                name="companyWebsite"
                 placeholder="www.website.com"
                 type="text"
               />
