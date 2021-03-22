@@ -1,4 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
+import Logo from '@websummit/components/src/atoms/Logo';
+import ROUTES from '@websummit/components/src/constants/routes';
+import MainNavigation from '@websummit/components/src/molecules/MainNavigation';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
@@ -13,9 +16,6 @@ import {
 } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import Logo from '../../lib/components/atoms/Logo';
-import MainNavigation from '../../lib/components/molecules/MainNavigation';
-import ROUTES from '../../lib/constants/routes';
 import OrderDetails from '../order/OrderDetails';
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
 import TicketDashboard from '../ticketDashboard/TicketDashboard';

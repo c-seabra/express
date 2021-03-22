@@ -1,7 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   Event,
@@ -19,6 +18,12 @@ import { useAppContext } from '../app/AppContext';
 import EventList from '../organisms/EventList';
 import UpcomingEvents from '../templates/UpcomingEvents';
 
+export const Container = styled.div`
+  max-width: 1440px;
+  margin: auto;
+  padding-top: 1rem;
+`;
+
 const FlexEnd = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -35,6 +40,8 @@ const FlexRow = styled.div`
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 1440px;
+  margin: 0 auto;
 `;
 
 const HeaderText = styled.h1`
@@ -116,7 +123,7 @@ const EventPage = () => {
   };
 
   return (
-    <>
+    <Container>
       {loading && loadingUpcoming && <Loader />}
 
       {hasEvents ? (
@@ -136,7 +143,7 @@ const EventPage = () => {
       ) : (
         <>{!loading && !loadingUpcoming && <NoEventsPlaceholder />}</>
       )}
-    </>
+    </Container>
   );
 };
 

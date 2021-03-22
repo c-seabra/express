@@ -3,35 +3,35 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import {
-  TaxRateCreateInput,
-  useTaxRateCreateMutation,
+  TaxRateUpdateInput,
+  useTaxRateUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
 
-export type TaxRateCreateRequest = {
-  input: TaxRateCreateInput;
+export type TaxRateUpdateRequest = {
+  input: TaxRateUpdateInput;
   refetch?: any;
 };
 
-export const useTaxRateCreateOperation = () => {
+export const useTaxRateUpdateOperation = () => {
   const { conferenceSlug, token } = useAppContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
-  const [taxRateCreateMutation] = useTaxRateCreateMutation({
-    onCompleted: ({ taxRateCreate }) => {
-      if (taxRateCreate?.userErrors && taxRateCreate?.userErrors.length > 0) {
-        errSnackbar(taxRateCreate?.userErrors[0].message);
+  const [taxRateUpdateMutation] = useTaxRateUpdateMutation({
+    onCompleted: ({ taxRateUpdate }) => {
+      if (taxRateUpdate?.userErrors && taxRateUpdate?.userErrors.length > 0) {
+        errSnackbar(taxRateUpdate?.userErrors[0].message);
       } else {
-        snackbar('Tax rate added');
+        snackbar('Tax rate updated');
       }
     },
     onError: (e) => errSnackbar(e.message),
   });
 
-  const taxRateCreate = async ({ input, refetch }: TaxRateCreateRequest) => {
-    await taxRateCreateMutation({
+  const taxRateUpdate = async ({ input, refetch }: TaxRateUpdateRequest) => {
+    await taxRateUpdateMutation({
       awaitRefetchQueries: true,
       context: {
         slug: conferenceSlug,
@@ -50,6 +50,6 @@ export const useTaxRateCreateOperation = () => {
   };
 
   return {
-    taxRateCreate,
+    taxRateUpdate,
   };
 };

@@ -19,6 +19,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
+import { ModalInputMode } from './TaxRateCreateModalWrapper';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -53,11 +54,6 @@ export const FieldWrapper = styled.div`
   padding: 0;
 `;
 
-const StyledRow = styled.div`
-  display: flex;
-  min-width: 590px;
-`;
-
 export const StyledActionRow = styled.div`
   display: flex;
   justify-content: space-around;
@@ -82,7 +78,9 @@ type TaxRateCreateModalProps = {
   cancelText: string;
   closeModal: () => void;
   isOpen: boolean;
-  mutationCallback: (values?: any) => Promise<void>;
+  mode?: ModalInputMode;
+  mutationCallback: (values?: any) => void;
+  prefilledTax?: any;
   submitText: string;
 };
 
@@ -103,6 +101,8 @@ const TaxRateCreateModal = ({
   alertHeader,
   mutationCallback,
   submitText = 'Submit',
+  mode = 'ADD',
+  prefilledTax,
 }: TaxRateCreateModalProps) => {
   const { data } = useCountriesQuery();
   const [formControls, setFormControls] = useState<
@@ -149,20 +149,37 @@ const TaxRateCreateModal = ({
     })) || []),
   ];
 
+  const initialValues = (_mode: ModalInputMode) => {
+    let values = {
+      country: '',
+      id: undefined,
+      name: '',
+      type: '',
+      value: '',
+    };
+
+    if (_mode === 'EDIT') {
+      values = {
+        country: prefilledTax.country.id,
+        id: prefilledTax.id,
+        name: prefilledTax.name,
+        type: prefilledTax.taxType.toUpperCase(),
+        value: prefilledTax.value,
+      };
+    }
+
+    return values;
+  };
+
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Formik
-        initialValues={{
-          country: '',
-          name: '',
-          type: '',
-          value: '',
-        }}
+        initialValues={initialValues(mode)}
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}
-        onSubmit={async (values) => {
-          await mutationCallback(values);
+        onSubmit={(values) => {
+          mutationCallback(values);
 
           handleClose();
         }}

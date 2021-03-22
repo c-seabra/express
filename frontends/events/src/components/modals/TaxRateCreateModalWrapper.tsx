@@ -1,13 +1,18 @@
 import { RateType, TaxType } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useTaxRateCreateOperation } from '../../operations/mutations/TaxRateCreate';
+import { useTaxRateUpdateOperation } from '../../operations/mutations/TaxRateUpdate';
 import TaxRateCreateModal from './TaxRateCreateModal';
 
+export type ModalInputMode = 'EDIT' | 'ADD';
 type TaxRateCreateModalProps = {
   closeModal: () => void;
   eventId: string;
   isOpen: boolean;
+  mode?: ModalInputMode;
+  prefilledTax?: any;
   refetch?: any;
 };
 
@@ -16,35 +21,70 @@ const TaxRateCreateModalWrapper = ({
   closeModal,
   refetch,
   eventId,
+  mode = 'ADD',
+  prefilledTax,
 }: TaxRateCreateModalProps) => {
+  const alertHeaderText = (_mode: string): string => {
+    const prefilledTaxName: string = prefilledTax?.name || 'N/A';
+
+    return switchCase({
+      ADD: 'Add a new tax',
+      EDIT: `Edit a ${prefilledTaxName} tax`,
+    })('')(_mode);
+  };
+
+  const submitText = (_mode: string): string => {
+    return switchCase({
+      ADD: 'Add to event',
+      EDIT: 'Edit to event',
+    })('')(_mode);
+  };
+
   const { taxRateCreate } = useTaxRateCreateOperation();
-  const setMutation = (e: {
+  const { taxRateUpdate } = useTaxRateUpdateOperation();
+  const pickMutation = (_mode: ModalInputMode, eventData: any) => {
+    let mutation;
+    const input = {
+      countryId: eventData.country,
+      eventId,
+      id: eventData.id,
+      name: eventData.name.trim(),
+      rateType: RateType.Percentage,
+      taxType: eventData.type,
+      value: Number(eventData.value),
+    };
+
+    if (_mode === 'ADD') {
+      mutation = taxRateCreate({ input, refetch });
+    }
+
+    if (_mode === 'EDIT') {
+      mutation = taxRateUpdate({ input, refetch });
+    }
+
+    return mutation;
+  };
+  const setMutation = (eventData: {
     country: string;
     eventId: string;
+    id: string;
     name: string;
     type: TaxType;
     value: number;
   }) => {
-    const input = {
-      countryId: e.country,
-      eventId,
-      name: e.name.trim(),
-      rateType: RateType.Percentage,
-      taxType: e.type,
-      value: Number(e.value),
-    };
-
-    return taxRateCreate({ input, refetch });
+    return pickMutation(mode, eventData);
   };
 
   return (
     <TaxRateCreateModal
-      alertHeader="Add a new tax"
+      alertHeader={alertHeaderText(mode)}
       cancelText="Cancel"
       closeModal={closeModal}
       isOpen={isOpen}
+      mode={mode}
       mutationCallback={setMutation}
-      submitText="Add to event"
+      prefilledTax={prefilledTax}
+      submitText={submitText(mode)}
     />
   );
 };

@@ -1,37 +1,45 @@
 import { ApolloProvider } from '@apollo/client';
+import Logo from '@websummit/components/src/atoms/Logo';
+import ROUTES from '@websummit/components/src/constants/routes';
+import MainNavigation from '@websummit/components/src/molecules/MainNavigation';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { HashRouter as Router, NavLink, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import EventSettings from '../eventActions/EventSettings';
 import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
 import LegalEntityList from '../legalEntityList/LegalEntityList';
-import SelectTaxPage from '../organisms/SelectTax';
 import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
-
-const StyledContainer = styled.section`
-  margin: 0 auto;
-  max-width: 1440px;
-`;
 
 const GlobalStyle = createGlobalStyle`
   html {
     font-size: 16px;
-    background-color: #f2f3f6;
   }
   body, input, textarea, select {
     font-family: 'Inter', sans-serif;
   }
+`;
+
+const StyledContainer = styled.section`
+  margin: 0 auto;
+  font-size: 16px;
+  background-color: #f2f3f6;
+`;
+
+const StyledMainNavigationContainer = styled.section`
+  margin: 20px auto;
+  max-width: 1440px;
+`;
+
+const StyledMainHeader = styled.section`
+  display: flex;
+  margin: 20px auto;
+  max-width: 1440px;
 `;
 
 type AppProps = {
@@ -57,6 +65,15 @@ const App = ({ token, apiURL }: AppProps) => {
     <ApolloProvider client={apolloClient}>
       <SnackbarProvider>
         <Router>
+          <StyledMainHeader>
+            <NavLink to="/">
+              <Logo />
+            </NavLink>
+          </StyledMainHeader>
+          <StyledMainNavigationContainer>
+            <MainNavigation routes={ROUTES} />
+          </StyledMainNavigationContainer>
+
           <AppContext.Provider
             value={{
               conferenceSlug,

@@ -15,10 +15,11 @@ const CapitalizedValue = styled.span`
 `;
 
 type TaxesListProps = {
+  onTaxClick?: (event: any) => void;
   taxes: any;
 };
 
-const TaxList = ({ taxes }: TaxesListProps) => {
+const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
   const tableShape: ColumnDescriptor<TaxRate>[] = [
     {
       header: 'Tax name',
@@ -49,7 +50,11 @@ const TaxList = ({ taxes }: TaxesListProps) => {
   return (
     <>
       <ContainerCard noPadding>
-        <Table<TaxRate> items={taxes} tableShape={tableShape} />
+        <Table<TaxRate>
+          items={taxes}
+          tableShape={tableShape}
+          onRowClick={onTaxClick}
+        />
       </ContainerCard>
     </>
   );
