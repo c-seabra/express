@@ -13,6 +13,7 @@ type AttendanceInvestorSessionType = {
   attendanceId: string;
   currentEndsAt: string | undefined;
   currentStartsAt: string | undefined;
+  gdprConsent: boolean | undefined;
   selections: AttendanceAppearanceSelection[];
 };
 
@@ -20,6 +21,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   currentStartsAt,
   currentEndsAt,
   attendanceId,
+  gdprConsent,
   selections = [],
 }) => {
   const [newStartsAt, setNewStartsAt] = useState<string | undefined>();
@@ -68,6 +70,11 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
 
   return (
     <>
+      <p>
+        <strong>NB:</strong> This investor{' '}
+        <strong>{gdprConsent ? 'has' : 'has not'}</strong> provided their GDPR
+        constent.
+      </p>
       <StyledForm>
         {currentStartsAt && (
           <span>
