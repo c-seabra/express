@@ -55,7 +55,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
 
   const startsAt = data?.attendance.investorSession?.startsAt;
   const endsAt = data?.attendance.investorSession?.endsAt;
-  const gdprConsent = !data?.attendance.investorGdprConsent;
+  const gdprConsent = data?.attendance.investorGdprConsent;
 
   const { investorRevokeMutation } = useInvestorPortalRevokeAccessMutation({
     attendanceId,

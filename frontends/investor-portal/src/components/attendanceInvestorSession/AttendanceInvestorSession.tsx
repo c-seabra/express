@@ -13,7 +13,7 @@ type AttendanceInvestorSessionType = {
   attendanceId: string;
   currentEndsAt: string | undefined;
   currentStartsAt: string | undefined;
-  gdprConsent: boolean;
+  gdprConsent: boolean | undefined;
   selections: AttendanceAppearanceSelection[];
 };
 
