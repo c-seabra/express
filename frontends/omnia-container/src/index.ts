@@ -5,8 +5,6 @@ import {
 } from 'single-spa-layout';
 import { ResolvedRoutesConfig } from 'single-spa-layout/dist/types/isomorphic/constructRoutes';
 
-console.log('Starting up on index.ts');
-
 const apps: Array<any> = [
   {
     routes: [
@@ -33,6 +31,11 @@ const apps: Array<any> = [
         routes: [
           { name: '@websummit-micro/frontend-demo', type: 'application' },
         ],
+        type: 'route',
+      },
+      {
+        path: 'events',
+        routes: [{ name: '@websummit-micro/events', type: 'application' }],
         type: 'route',
       },
       {
