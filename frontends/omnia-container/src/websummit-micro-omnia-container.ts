@@ -72,7 +72,6 @@ const customProps = {
   apiURL: env.API_URL,
   test: 'testing',
   token: env.AUTH_TOKEN,
-  bucketURL: env.BUCKET_URL,
 };
 
 applications.forEach((app) => {
