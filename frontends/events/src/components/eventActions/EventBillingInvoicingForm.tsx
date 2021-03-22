@@ -1,7 +1,6 @@
 import {
   Button,
   SecondaryButton,
-  TextButton,
 } from '@websummit/components/src/atoms/Button';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
@@ -10,7 +9,6 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import {
-  CurrencyCode,
   Event,
   EventConfigurationCountry,
   useCountriesQuery,
@@ -28,18 +26,13 @@ import { useAppContext } from '../app/AppContext';
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 3rem;
 `;
 
 const FieldRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const ButtonContainer = styled.div`
-  width: 48%;
-  display: flex;
-  margin-bottom: 2px;
 `;
 
 const Header = styled.div`
@@ -56,7 +49,7 @@ const SubHeader = styled.div`
 `;
 
 type EventBillingFormProps = {
-  eventInfo?:
+  eventBilling?:
     | (Pick<
         Event,
         | 'id'
@@ -99,27 +92,34 @@ const eventBillingSchema = Yup.object().shape({
   slug: Yup.string().required('Event slug is required'),
 });
 
-const emptyOption = {
-  label: '',
+const emptyCountryOption = {
+  label: 'Select country',
   value: undefined,
 };
 
-const currencyOptions = [
-  emptyOption,
-  ...Object.values(CurrencyCode).map((code) => ({
-    label: code,
-    value: code,
-  })),
-];
+const emptyRegionOption = {
+  label: 'Select region',
+  value: undefined,
+};
 
 const getCountryOptions = (
   countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
 ) => [
-  emptyOption,
+  emptyCountryOption,
   ...countries.map((country) => ({ label: country?.name, value: country?.id })),
 ];
 
-const EventBillingForm = ({ eventInfo }: EventBillingFormProps) => {
+const getRegionOptions = (
+  countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+) => [
+  emptyRegionOption,
+  ...countries.map((country) => ({ label: country?.name, value: country?.id })),
+];
+
+
+
+
+const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const { token } = useAppContext();
   const history = useHistory();
   const success = useSuccessSnackbar();
@@ -127,6 +127,10 @@ const EventBillingForm = ({ eventInfo }: EventBillingFormProps) => {
   const { data } = useCountriesQuery();
 
   const countryOptions = getCountryOptions(
+    data?.countries?.edges?.map((edge) => edge.node),
+  );
+
+  const regionOptions = getRegionOptions(
     data?.countries?.edges?.map((edge) => edge.node),
   );
 
@@ -152,32 +156,34 @@ const EventBillingForm = ({ eventInfo }: EventBillingFormProps) => {
     <Formik
       enableReinitialize
       initialValues={{
-        baseUrl: eventInfo?.baseUrl,
-        country: eventInfo?.country?.id,
-        currency: eventInfo?.currency,
-        description: eventInfo?.description,
-        endDate: eventInfo?.endDate,
-        name: eventInfo?.name || '',
-        slug: eventInfo?.slug || '',
-        startDate: eventInfo?.startDate,
-        timezone: eventInfo?.timezone,
+        address1: eventBilling?.name || '',
+        address2: eventBilling?.name || '',
+        city: eventBilling?.name || '',
+        country: eventBilling?.country?.id,
+        email: eventBilling?.name || '',
+        name: eventBilling?.name || '',
+        postalCode: eventBilling?.name || '',
+        region: eventBilling?.name || '',
+        registrationNumber: eventBilling?.name || '',
+        taxNumber: eventBilling?.name || '',
+        website: eventBilling?.name || '',
       }}
       validationSchema={eventBillingSchema}
       onSubmit={async (values) => {
-        if (eventInfo?.id) {
-          await updateEvent({
-            variables: { event: { ...eventInfo, ...values } },
-          });
-        } else {
-          const { data: mutationResult, errors } = await createEvent({
-            variables: { event: values },
-          });
-
-          if (!errors) {
-            const newEventSlug = mutationResult?.eventCreate?.event?.slug;
-            history.replace(`${newEventSlug || ''}/settings`);
-          }
-        }
+        // if (eventBilling?.id) {
+        //   await updateEvent({
+        //     variables: { event: { ...eventBilling, ...values } },
+        //   });
+        // } else {
+        //   const { data: mutationResult, errors } = await createEvent({
+        //     variables: { event: values },
+        //   });
+        //
+        //   if (!errors) {
+        //     const newEventSlug = mutationResult?.eventCreate?.event?.slug;
+        //     history.replace(`${newEventSlug || ''}/settings`);
+        //   }
+        // }
       }}
     >
       {({ resetForm }) => (
@@ -216,8 +222,9 @@ const EventBillingForm = ({ eventInfo }: EventBillingFormProps) => {
           <FieldRow>
             <StyledInputField
               label="Company’s website"
-              name="text"
+              name="website"
               placeholder="www.website.com"
+              type="text"
             />
           </FieldRow>
 
@@ -247,16 +254,28 @@ const EventBillingForm = ({ eventInfo }: EventBillingFormProps) => {
 
           <FieldRow>
             <StyledInputField
+              required
               label="City"
               name="city"
               placeholder="Dublin"
               type="text"
             />
-            <StyledInputField label="Country" name="country" />
+            <StyledSelectField
+              required
+              label="Country"
+              name="country"
+              options={countryOptions}
+            />
           </FieldRow>
 
           <FieldRow>
-            <StyledInputField label="Region" name="region" />
+            <StyledSelectField
+              required
+              label="Region"
+              name="region"
+              options={regionOptions}
+            />
+
             <StyledInputField
               label="Postal code"
               name="postalCode"
