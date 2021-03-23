@@ -65,7 +65,7 @@ const config = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: 'sourcemap.json', to: '../sourcemap.json' }],
+      patterns: [{ from: 'importmap.json', to: '../importmap.json' }],
     }),
     new CleanWebpackPlugin(),
   ],

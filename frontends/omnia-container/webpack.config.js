@@ -14,9 +14,9 @@ module.exports = (webpackConfigEnv, argv) => {
   // the html plugin is the interesting bit
   const defaultConfig = {
     mode: 'production',
-    entry: '/Users/marvin/repos/micro/frontends/omnia-container/sourcemap.json',
+    entry: '/Users/marvin/repos/micro/frontends/omnia-container/importmap.json',
     output: {
-      filename: 'sourcemap.json',
+      filename: 'importmap.json',
       libraryTarget: 'system',
       path: '/Users/marvin/repos/micro/frontends/omnia-container/dist',
       uniqueName: 'omnia-container',
