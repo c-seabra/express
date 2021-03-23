@@ -123,6 +123,7 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const { token } = useAppContext();
   const history = useHistory();
   const success = useSuccessSnackbar();
+  const errSnackbar = useErrorSnackbar();
   const error = useErrorSnackbar();
   const { data } = useCountriesQuery();
 
@@ -147,8 +148,12 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
 
   const [createLegalEntity] = useLegalEntityCreateMutation({
     context: { token },
-    onCompleted: () => {
-      success(`Billing and invoice data created`);
+    onCompleted: ({ legalEntityCreate }) => {
+      if (legalEntityCreate?.userErrors && legalEntityCreate?.userErrors.length > 0) {
+        errSnackbar(legalEntityCreate?.userErrors[0].message);
+      } else {
+        success(`Billing and invoice data created`);
+      }
     },
     onError: (e) => error(e.message),
     refetchQueries: ['Event'],
@@ -156,8 +161,12 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
 
   const [updateLegalEntity] = useLegalEntityUpdateMutation({
     context: { token },
-    onCompleted: () => {
-      success(`Event updated`);
+    onCompleted: ({ legalEntityUpdate }) => {
+      if (legalEntityUpdate?.userErrors && legalEntityUpdate?.userErrors.length > 0) {
+        errSnackbar(legalEntityUpdate?.userErrors[0].message);
+      } else {
+        success(`Billing and invoice data updated`);
+      }
     },
     onError: (e) => error(e.message),
     refetchQueries: ['Event'],
