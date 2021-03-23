@@ -137,6 +137,14 @@ const checkConfigCompletion = (data?: EventQuery): boolean => {
   return false;
 };
 
+const checkTaxInfoCompletion = (size?: number): boolean => {
+  if (size) {
+    return size > 0;
+  }
+
+  return false;
+};
+
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
   const { token } = useAppContext();
@@ -152,25 +160,18 @@ const EventSettings = () => {
     },
   });
 
-  // const settingsTable = settingsTableShape(currentTab);
-  // const taxes =
-  //   data?.event?.taxRates &&
-  //   data?.event?.taxRates.edges.map((node) => node.node);
-// =======
   const eventExists = data?.event;
+  const eventName = data?.event?.name;
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
+  const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
   const configCompleteRules = {
     // TODO - fill the 'true' with rules regarding config completion
     billing_invoicing: true,
     event_info: checkConfigCompletion(data),
     payment_methods: true,
-    tax_info: true,
+    tax_info: checkTaxInfoCompletion(taxes?.length),
   };
-
   const settingsTable = settingsTableShape(currentTab, configCompleteRules);
-
-  const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
-  const eventName = data?.event?.name;
   const breadcrumbsNewRoutes: Breadcrumb[] = [
     {
       label: 'Settings',
