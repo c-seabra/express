@@ -7986,7 +7986,35 @@ export type EventQuery = { __typename?: 'Query' } & {
           >
         >;
         legalEntity: Maybe<
-          { __typename?: 'LegalEntity' } & Pick<LegalEntity, 'id' | 'name'>
+          { __typename?: 'LegalEntity' } & Pick<
+            LegalEntity,
+            | 'email'
+            | 'id'
+            | 'name'
+            | 'phone'
+            | 'regNumber'
+            | 'taxNumber'
+            | 'website'
+          > & {
+              address: Maybe<
+                { __typename?: 'Address' } & Pick<
+                  Address,
+                  | 'city'
+                  | 'id'
+                  | 'lineOne'
+                  | 'lineTwo'
+                  | 'postalCode'
+                  | 'region'
+                > & {
+                    country: Maybe<
+                      { __typename?: 'EventConfigurationCountry' } & Pick<
+                        EventConfigurationCountry,
+                        'id' | 'name'
+                      >
+                    >;
+                  }
+              >;
+            }
         >;
         taxRates: Maybe<
           { __typename?: 'TaxRateConnection' } & {
@@ -15004,8 +15032,72 @@ export const EventDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'address' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lineOne' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lineTwo' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'regNumber' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxNumber' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'website' },
+                      },
                     ],
                   },
                 },
