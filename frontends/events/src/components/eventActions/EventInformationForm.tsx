@@ -4,20 +4,23 @@ import {
   TextButton,
 } from '@websummit/components/src/atoms/Button';
 import SelectField from '@websummit/components/src/molecules/SelectField';
-import {
-  useErrorSnackbar,
-  useSuccessSnackbar,
-} from '@websummit/components/src/molecules/Snackbar';
+import { useSnackbars } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import {
   CurrencyCode,
   Event,
   EventConfigurationCountry,
+  LegalEntity,
+  TimeZone,
   useCountriesQuery,
   useEventCreateMutation,
+  useEventLazyQuery,
   useEventUpdateMutation,
+  useLegalEntitiesQuery,
+  useTimeZonesQuery,
 } from '@websummit/graphql/src/@types/operations';
+import EVENT from '@websummit/graphql/src/operations/queries/Event';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -38,24 +41,19 @@ const ButtonContainer = styled.div`
   margin-bottom: 2px;
 `;
 
-type EventInformationFormProps = {
-  eventInfo?:
-    | (Pick<
-        Event,
-        | 'id'
-        | 'name'
-        | 'description'
-        | 'slug'
-        | 'startDate'
-        | 'endDate'
-        | 'timezone'
-        | 'baseUrl'
-        | 'currency'
-      > & {
-        country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
-      })
-    | null;
-};
+const EventInfoContainer = styled.div`
+  margin: -1rem -1.8rem -1.8rem;
+`;
+
+const PaddedContainer = styled.div`
+  padding: 1.2rem 1.8rem;
+`;
+
+const Separator = styled.div`
+  width: 100%;
+  height: 1px;
+  border-top: 1px solid #dde0e5;
+`;
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -69,12 +67,17 @@ const ButtonsContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  padding-top: 2rem;
   margin-top: 1rem;
 
   & > ${SecondaryButton} {
     margin-right: 1rem;
   }
+`;
+
+const ExistingSlugErrorMessage = styled.div`
+  color: #e15554;
+  font-size: 12px;
+  margin-top: -1.2rem;
 `;
 
 const eventInformationSchema = Yup.object().shape({
@@ -83,7 +86,7 @@ const eventInformationSchema = Yup.object().shape({
 });
 
 const emptyOption = {
-  label: '',
+  label: 'Please select',
   value: undefined,
 };
 
@@ -102,15 +105,77 @@ const getCountryOptions = (
   ...countries.map((country) => ({ label: country?.name, value: country?.id })),
 ];
 
-const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
+const getLegalEntityOptions = (
+  legalEntites: Pick<LegalEntity, 'name' | 'id'>[] = [],
+) => [
+  emptyOption,
+  ...legalEntites.map((legalEntity) => ({
+    label: legalEntity.name,
+    value: legalEntity.id,
+  })),
+];
+
+const getTimeZoneOptions = (timeZones: TimeZone[] = []) => [
+  emptyOption,
+  ...timeZones.map((timeZone) => ({
+    label: timeZone.displayName,
+    value: timeZone.ianaName,
+  })),
+];
+
+type EventInformationFormProps = {
+  eventInfo?:
+    | (Pick<
+        Event,
+        | 'id'
+        | 'name'
+        | 'description'
+        | 'slug'
+        | 'startDate'
+        | 'endDate'
+        | 'timeZone'
+        | 'baseUrl'
+        | 'currency'
+        | 'taxNumber'
+      > & {
+        country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
+      })
+    | null;
+  refetch: () => void;
+  slugParam: string;
+};
+
+const EventInformationForm = ({
+  eventInfo,
+  refetch,
+  slugParam,
+}: EventInformationFormProps) => {
   const { token } = useAppContext();
+  const context = { token };
   const history = useHistory();
-  const success = useSuccessSnackbar();
-  const error = useErrorSnackbar();
-  const { data } = useCountriesQuery();
+
+  const { success, error } = useSnackbars();
+
+  const { data: countriesData } = useCountriesQuery();
+  const { data: legalEntitiesData } = useLegalEntitiesQuery({
+    context,
+  });
+  const { data: timeZonesData } = useTimeZonesQuery({ context });
+
+  const [getExistingEvent, { data: existingEventData }] = useEventLazyQuery({
+    context,
+  });
 
   const countryOptions = getCountryOptions(
-    data?.countries?.edges?.map((edge) => edge.node),
+    countriesData?.countries?.edges?.map((edge) => edge.node),
+  );
+
+  const legalEntityOptions = getLegalEntityOptions(
+    legalEntitiesData?.legalEntities?.edges?.map((edge) => edge.node),
+  );
+
+  const timeZoneOptions = getTimeZoneOptions(
+    timeZonesData?.timeZones?.edges?.map((edge) => edge.node),
   );
 
   const [createEvent] = useEventCreateMutation({
@@ -119,101 +184,160 @@ const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
       success(`Event created`);
     },
     onError: (e) => error(e.message),
-    refetchQueries: ['Event'],
   });
 
   const [updateEvent] = useEventUpdateMutation({
-    context: { token },
+    context,
     onCompleted: () => {
       success(`Event updated`);
     },
     onError: (e) => error(e.message),
-    refetchQueries: ['Event'],
+    refetchQueries: [
+      {
+        context,
+        query: EVENT,
+        variables: { slug: eventInfo?.slug },
+      },
+    ],
   });
 
   return (
-    <Formik
-      enableReinitialize
-      initialValues={{
-        baseUrl: eventInfo?.baseUrl,
-        country: eventInfo?.country?.id,
-        currency: eventInfo?.currency,
-        description: eventInfo?.description,
-        endDate: eventInfo?.endDate,
-        name: eventInfo?.name || '',
-        slug: eventInfo?.slug || '',
-        startDate: eventInfo?.startDate,
-        timezone: eventInfo?.timezone,
-      }}
-      validationSchema={eventInformationSchema}
-      onSubmit={async (values) => {
-        if (eventInfo?.id) {
-          await updateEvent({
-            variables: { event: { ...eventInfo, ...values } },
-          });
-        } else {
-          const { data: mutationResult, errors } = await createEvent({
-            variables: { event: values },
-          });
+    <EventInfoContainer>
+      <Formik
+        enableReinitialize
+        initialValues={{
+          baseUrl: eventInfo?.baseUrl,
+          countryId: eventInfo?.country?.id,
+          currency: eventInfo?.currency,
+          description: eventInfo?.description,
+          endDate: eventInfo?.endDate,
+          name: eventInfo?.name || '',
+          slug: eventInfo?.slug || '',
+          startDate: eventInfo?.startDate,
+          taxNumber: eventInfo?.taxNumber,
+          timezone: eventInfo?.timeZone?.ianaName,
+        }}
+        validationSchema={eventInformationSchema}
+        onSubmit={async (values) => {
+          if (eventInfo?.id) {
+            await updateEvent({
+              variables: { event: values },
+            });
+          } else {
+            const { data: mutationResult, errors } = await createEvent({
+              variables: { event: values },
+            });
 
-          if (!errors) {
-            const newEventSlug = mutationResult?.eventCreate?.event?.slug;
-            history.replace(`${newEventSlug || ''}/settings`);
+            if (!errors) {
+              const newEventSlug = mutationResult?.eventCreate?.event?.slug;
+              history.replace(`${newEventSlug || ''}/settings`);
+              refetch();
+            }
           }
-        }
-      }}
-    >
-      {({ resetForm }) => (
-        <Form>
-          <TextInputField required label="Event name" name="name" />
-          <TextAreaField label="Event description" name="description" />
-          <FieldRow>
-            <StyledInputField
-              label="Event start date"
-              name="startDate"
-              type="date"
-            />
-            <StyledInputField
-              label="Event end date"
-              name="endDate"
-              type="date"
-            />
-          </FieldRow>
-          <FieldRow>
-            <StyledSelectField
-              label="Currency of event"
-              name="currency"
-              options={currencyOptions}
-            />
-            <StyledSelectField label="Timezone of event" name="timezone" />
-          </FieldRow>
-          <FieldRow>
-            <StyledSelectField
-              label="Company hosting the event"
-              name="hostCompany"
-            />
-            <ButtonContainer>
-              <TextButton>Add host company</TextButton>
-            </ButtonContainer>
-          </FieldRow>
-          <FieldRow>
-            <StyledSelectField
-              label="Country of event"
-              name="country"
-              options={countryOptions}
-            />
-            <StyledInputField label="Base event URL" name="url" />
-          </FieldRow>
-          <TextInputField required label="Event slug" name="slug" />
-          <ButtonsContainer>
-            <SecondaryButton type="button" onClick={() => resetForm()}>
-              Cancel
-            </SecondaryButton>
-            <Button type="submit">Save changes</Button>
-          </ButtonsContainer>
-        </Form>
-      )}
-    </Formik>
+        }}
+      >
+        {({ resetForm, values }) => (
+          <Form>
+            <PaddedContainer>
+              <TextInputField required label="Event name" name="name" />
+              <FieldRow>
+                <StyledInputField
+                  required
+                  label="Event start date"
+                  name="startDate"
+                  type="date"
+                />
+                <StyledInputField
+                  required
+                  label="Event end date"
+                  name="endDate"
+                  type="date"
+                />
+              </FieldRow>
+            </PaddedContainer>
+            <Separator />
+            <PaddedContainer>
+              <TextAreaField
+                fieldHeight="80px"
+                label="Event description"
+                name="description"
+              />
+              <FieldRow>
+                <StyledSelectField
+                  required
+                  label="Currency of event"
+                  name="currency"
+                  options={currencyOptions}
+                />
+                <StyledSelectField
+                  label="Timezone of event"
+                  name="timezone"
+                  options={timeZoneOptions}
+                />
+              </FieldRow>
+              <FieldRow>
+                <StyledSelectField
+                  required
+                  label="Company hosting the event"
+                  name="hostCompany"
+                  options={legalEntityOptions}
+                />
+                <ButtonContainer>
+                  <TextButton type="button">Add host company</TextButton>
+                </ButtonContainer>
+              </FieldRow>
+              <FieldRow>
+                <StyledSelectField
+                  label="Country of event (leave blank for online events)"
+                  name="countryId"
+                  options={countryOptions}
+                />
+                <StyledInputField label="Tax number" name="taxNumber" />
+              </FieldRow>
+              <FieldRow>
+                <StyledInputField
+                  required
+                  label="Event slug"
+                  name="slug"
+                  placeholder="example-slug"
+                  validate={(slug) => {
+                    // We are checking whether the entered slug is
+                    // different from the one in params
+                    if (slug && !slugParam && slug !== slugParam) {
+                      getExistingEvent({
+                        variables: { slug },
+                      });
+                    }
+                  }}
+                />
+                <StyledInputField
+                  label="Base event URL"
+                  name="baseUrl"
+                  placeholder="https://example.com"
+                />
+              </FieldRow>
+              {existingEventData?.event &&
+                existingEventData?.event?.slug !== slugParam && (
+                  <ExistingSlugErrorMessage>
+                    Chosen slug already exists
+                  </ExistingSlugErrorMessage>
+                )}
+            </PaddedContainer>
+            <Separator />
+            <PaddedContainer>
+              <ButtonsContainer>
+                <SecondaryButton type="button" onClick={() => resetForm()}>
+                  Cancel
+                </SecondaryButton>
+                <Button disabled={!values.name || !values.slug} type="submit">
+                  Save changes
+                </Button>
+              </ButtonsContainer>
+            </PaddedContainer>
+          </Form>
+        )}
+      </Formik>
+    </EventInfoContainer>
   );
 };
 

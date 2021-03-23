@@ -107,3 +107,17 @@ export const useInfoSnackbar = () => {
 export const useWarningSnackbar = () => {
   return useSnackbarMessage({ type: 'warning' });
 };
+
+export const useSnackbars = () => {
+  const success = useSuccessSnackbar();
+  const error = useErrorSnackbar();
+  const info = useInfoSnackbar();
+  const warning = useWarningSnackbar();
+
+  return {
+    error,
+    info,
+    success,
+    warning,
+  };
+};
