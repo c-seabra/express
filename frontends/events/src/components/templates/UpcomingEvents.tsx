@@ -35,7 +35,7 @@ const Text = styled.span`
 
 // Related only to this template
 const StyledContainerCard = styled(ContainerCard)`
-  margin-right: 3.8125rem;
+  margin: 0 3.8125rem 16px 0;
   max-width: 300px;
 
   &:last-child {
