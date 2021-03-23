@@ -1,3 +1,4 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { EnvironmentPlugin } = require('webpack');
@@ -14,11 +15,11 @@ module.exports = (webpackConfigEnv, argv) => {
   // the html plugin is the interesting bit
   const defaultConfig = {
     mode: 'production',
-    entry: '/Users/marvin/repos/micro/frontends/omnia-container/importmap.json',
+    entry: './importmap.json',
     output: {
       filename: 'importmap.json',
       libraryTarget: 'system',
-      path: '/Users/marvin/repos/micro/frontends/omnia-container/dist',
+      path: path.resolve(__dirname, './dist'),
       uniqueName: 'omnia-container',
       devtoolNamespace: 'omnia-container',
       publicPath: '',
