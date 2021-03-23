@@ -127,13 +127,17 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const error = useErrorSnackbar();
   const { data } = useCountriesQuery();
 
-  const companyNameOptions = getCompanyNameOptions(
-    ['company1', 'company2'].map((edge) => edge),
-  );
+  const mappedCompanies = ['company2', 'company1'].map((edge) => edge);
+  const sortedCompanies = mappedCompanies?.sort((a, b) => {
+    return a.localeCompare(b);
+  });
+  const companyNameOptions = getCompanyNameOptions(sortedCompanies);
 
-  const countryOptions = getCountryOptions(
-    data?.countries?.edges?.map((edge) => edge.node),
-  );
+  const mappedCountries = data?.countries?.edges?.map((edge) => edge.node);
+  const sortedCountries = mappedCountries?.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+  const countryOptions = getCountryOptions(sortedCountries);
 
   const regionOptions = getRegionOptions(
     [
@@ -149,7 +153,10 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const [createLegalEntity] = useLegalEntityCreateMutation({
     context: { token },
     onCompleted: ({ legalEntityCreate }) => {
-      if (legalEntityCreate?.userErrors && legalEntityCreate?.userErrors.length > 0) {
+      if (
+        legalEntityCreate?.userErrors &&
+        legalEntityCreate?.userErrors.length > 0
+      ) {
         errSnackbar(legalEntityCreate?.userErrors[0].message);
       } else {
         success(`Billing and invoice data created`);
@@ -162,7 +169,10 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const [updateLegalEntity] = useLegalEntityUpdateMutation({
     context: { token },
     onCompleted: ({ legalEntityUpdate }) => {
-      if (legalEntityUpdate?.userErrors && legalEntityUpdate?.userErrors.length > 0) {
+      if (
+        legalEntityUpdate?.userErrors &&
+        legalEntityUpdate?.userErrors.length > 0
+      ) {
         errSnackbar(legalEntityUpdate?.userErrors[0].message);
       } else {
         success(`Billing and invoice data updated`);
@@ -176,18 +186,18 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
     <Formik
       enableReinitialize
       initialValues={{
-        address1: eventBilling?.name || '',
-        address2: eventBilling?.name || '',
-        city: eventBilling?.name || '',
+        address1: eventBilling?.address?.lineOne || '',
+        address2: eventBilling?.address?.lineTwo || '',
+        city: eventBilling?.address?.city || '',
         companyName: eventBilling?.name || '',
-        country: eventBilling?.address?.id || '',
-        email: eventBilling?.name || '',
+        country: eventBilling?.address?.country.name || '',
+        email: eventBilling?.email || '',
         name: eventBilling?.name || '',
-        postalCode: eventBilling?.name || '',
-        region: eventBilling?.name || '',
-        registrationNumber: eventBilling?.name || '',
-        taxNumber: eventBilling?.name || '',
-        website: eventBilling?.name || '',
+        postalCode: eventBilling?.name || '', // TODO add postal code to event legal ent
+        region: eventBilling?.address?.region || '',
+        registrationNumber: eventBilling?.regNumber || '',
+        taxNumber: eventBilling?.taxNumber || '',
+        website: eventBilling?.website || '',
       }}
       validationSchema={eventBillingSchema}
       onSubmit={async (values) => {
@@ -202,7 +212,7 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
                   countryId: values.country,
                   lineOne: values.address1,
                   lineTwo: values.address2,
-                  postalCode: values.postalCode,
+                  postalCode: values.email,
                   region: values.region,
                 },
                 email: values.email,
@@ -271,7 +281,7 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
               />
               <StyledInputField
                 label="Company’s email"
-                name="companyEmail"
+                name="email"
                 placeholder="email@company.com"
                 type="text"
               />
