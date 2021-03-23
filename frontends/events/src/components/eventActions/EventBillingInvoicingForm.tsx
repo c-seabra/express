@@ -216,7 +216,23 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
           });
         } else {
           const { data: mutationResult, errors } = await createLegalEntity({
-            variables: { input: values },
+            variables: {
+              input: {
+                address: {
+                  city: values.city,
+                  countryId: values.country,
+                  lineOne: values.address1,
+                  lineTwo: values.address2,
+                  postalCode: values.postalCode,
+                  region: values.region,
+                },
+                email: values.email,
+                name: values.companyName,
+                regNumber: values.registrationNumber,
+                taxNumber: values.taxNumber,
+                website: values.website,
+              },
+            },
           });
 
           if (!errors) {
