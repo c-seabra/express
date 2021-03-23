@@ -7314,6 +7314,37 @@ export type ProfileUpdateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceCreatePaymentMethodMutationVariables = Exact<{
+  paymentMethod: CommercePaymentMethodCreate;
+}>;
+
+export type CommerceCreatePaymentMethodMutation = {
+  __typename?: 'Mutation';
+} & {
+  commerceCreatePaymentMethod: Maybe<
+    { __typename?: 'CommercePaymentMethod' } & Pick<
+      CommercePaymentMethod,
+      'id' | 'gateway' | 'active' | 'name'
+    >
+  >;
+};
+
+export type CommerceUpdatePaymentMethodMutationVariables = Exact<{
+  paymentMethod: CommercePaymentMethodUpdate;
+  id: Scalars['ID'];
+}>;
+
+export type CommerceUpdatePaymentMethodMutation = {
+  __typename?: 'Mutation';
+} & {
+  commerceUpdatePaymentMethod: Maybe<
+    { __typename?: 'CommercePaymentMethod' } & Pick<
+      CommercePaymentMethod,
+      'id' | 'gateway' | 'active' | 'name'
+    >
+  >;
+};
+
 export type CreateOrderMutationVariables = Exact<{
   storeId: Scalars['ID'];
   input: CommerceOrderCreate;
@@ -11676,6 +11707,213 @@ export type ProfileUpdateMutationResult = Apollo.MutationResult<ProfileUpdateMut
 export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileUpdateMutation,
   ProfileUpdateMutationVariables
+>;
+export const CommerceCreatePaymentMethodDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreatePaymentMethod' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commercePaymentMethodCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'paymentMethod' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreatePaymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'gateway' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommercePaymentMethodCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'paymentMethod' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreatePaymentMethodMutationFn = Apollo.MutationFunction<
+  CommerceCreatePaymentMethodMutation,
+  CommerceCreatePaymentMethodMutationVariables
+>;
+
+/**
+ * __useCommerceCreatePaymentMethodMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreatePaymentMethodMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreatePaymentMethodMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreatePaymentMethodMutation, { data, loading, error }] = useCommerceCreatePaymentMethodMutation({
+ *   variables: {
+ *      paymentMethod: // value for 'paymentMethod'
+ *   },
+ * });
+ */
+export function useCommerceCreatePaymentMethodMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreatePaymentMethodMutation,
+    CommerceCreatePaymentMethodMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreatePaymentMethodMutation,
+    CommerceCreatePaymentMethodMutationVariables
+  >(CommerceCreatePaymentMethodDocument, baseOptions);
+}
+export type CommerceCreatePaymentMethodMutationHookResult = ReturnType<
+  typeof useCommerceCreatePaymentMethodMutation
+>;
+export type CommerceCreatePaymentMethodMutationResult = Apollo.MutationResult<CommerceCreatePaymentMethodMutation>;
+export type CommerceCreatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreatePaymentMethodMutation,
+  CommerceCreatePaymentMethodMutationVariables
+>;
+export const CommerceUpdatePaymentMethodDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdatePaymentMethod' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commercePaymentMethodUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'paymentMethod' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdatePaymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'gateway' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommercePaymentMethodUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'paymentMethod' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdatePaymentMethodMutationFn = Apollo.MutationFunction<
+  CommerceUpdatePaymentMethodMutation,
+  CommerceUpdatePaymentMethodMutationVariables
+>;
+
+/**
+ * __useCommerceUpdatePaymentMethodMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdatePaymentMethodMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdatePaymentMethodMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdatePaymentMethodMutation, { data, loading, error }] = useCommerceUpdatePaymentMethodMutation({
+ *   variables: {
+ *      paymentMethod: // value for 'paymentMethod'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCommerceUpdatePaymentMethodMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdatePaymentMethodMutation,
+    CommerceUpdatePaymentMethodMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdatePaymentMethodMutation,
+    CommerceUpdatePaymentMethodMutationVariables
+  >(CommerceUpdatePaymentMethodDocument, baseOptions);
+}
+export type CommerceUpdatePaymentMethodMutationHookResult = ReturnType<
+  typeof useCommerceUpdatePaymentMethodMutation
+>;
+export type CommerceUpdatePaymentMethodMutationResult = Apollo.MutationResult<CommerceUpdatePaymentMethodMutation>;
+export type CommerceUpdatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdatePaymentMethodMutation,
+  CommerceUpdatePaymentMethodMutationVariables
 >;
 export const CreateOrderDocument: DocumentNode = {
   definitions: [

@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { useAppContext } from '../app/AppContext';
+import PaymentMethods from '../organisms/PaymentMethods';
 import SelectTax from '../organisms/SelectTax';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
@@ -222,6 +223,9 @@ const EventSettings = () => {
                 refetch={refetch}
                 taxes={taxes}
               />
+            )}
+            {currentTab.id === 'payment_methods' && (
+              <PaymentMethods paymentMethods={[]} />
             )}
           </SettingsSection>
         </SettingsForm>
