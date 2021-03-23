@@ -53,6 +53,7 @@ type SelectFieldOption = {
 
 type SelectFieldProps = {
   className?: string;
+  disabled?: boolean;
   label?: string;
   name: string;
   options?: SelectFieldOption[];
@@ -67,6 +68,7 @@ const SelectField = ({
   placeholder,
   options = [],
   required = false,
+  disabled = false,
 }: SelectFieldProps) => {
   return (
     <FieldContainer className={className}>
@@ -76,6 +78,7 @@ const SelectField = ({
           <StyledSelect
             isError={meta.touched && !!meta.error}
             {...field}
+            disabled={disabled}
             placeholder={placeholder}
           >
             {options.map((option) => (

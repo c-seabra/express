@@ -191,6 +191,8 @@ export type Query = {
   legalEntity: LegalEntity;
   /** Retrieves all tax rates. */
   taxRates: TaxRateConnection;
+  /** Retrieves all time zones */
+  timeZones: TimeZoneConnection;
 };
 
 export type QueryBrandingArgs = {
@@ -646,6 +648,13 @@ export type QueryLegalEntityArgs = {
 };
 
 export type QueryTaxRatesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryTimeZonesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -3578,6 +3587,8 @@ export type Event = {
   startDate: Maybe<Scalars['ISO8601Date']>;
   taxNumber: Scalars['String'];
   taxRates: Maybe<TaxRateConnection>;
+  timeZone: Maybe<TimeZone>;
+  /** @deprecated Use `timeZone` */
   timezone: Maybe<Scalars['String']>;
   versions: Maybe<Array<PaperTrailVersion>>;
   brandName: Scalars['String'];
@@ -3586,7 +3597,6 @@ export type Event = {
   industries: Maybe<Array<Industry>>;
   investorSessionsSummary: Maybe<Array<InvestorSessionsSummary>>;
   passportRequired: Maybe<Scalars['Boolean']>;
-  timeZone: Maybe<TimeZone>;
 };
 
 export type EventTaxRatesArgs = {
@@ -3660,6 +3670,12 @@ export type TaxRateEdge = {
   node: TaxRate;
 };
 
+export type TimeZone = {
+  __typename?: 'TimeZone';
+  displayName: Scalars['String'];
+  ianaName: Scalars['String'];
+};
+
 export type ConferenceConfiguration = {
   __typename?: 'ConferenceConfiguration';
   algoliaKey: Maybe<Scalars['String']>;
@@ -3705,12 +3721,6 @@ export type InvestorSessionsSummary = {
   startsAt: Maybe<Scalars['ISO8601DateTime']>;
 };
 
-export type TimeZone = {
-  __typename?: 'TimeZone';
-  displayName: Scalars['String'];
-  ianaName: Scalars['String'];
-};
-
 export type EventFilter = {
   endDateAfter?: Maybe<Scalars['ISO8601Date']>;
   endDateBefore?: Maybe<Scalars['ISO8601Date']>;
@@ -3752,6 +3762,24 @@ export type LegalEntityEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node: LegalEntity;
+};
+
+/** The connection type for TimeZone. */
+export type TimeZoneConnection = {
+  __typename?: 'TimeZoneConnection';
+  /** A list of edges. */
+  edges: Array<TimeZoneEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type TimeZoneEdge = {
+  __typename?: 'TimeZoneEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TimeZone;
 };
 
 export type Mutation = {
@@ -7874,6 +7902,7 @@ export type EventQuery = { __typename?: 'Query' } & {
       | 'endDate'
       | 'timezone'
       | 'baseUrl'
+      | 'taxNumber'
       | 'currency'
     > & {
         timeZone: Maybe<
@@ -7887,6 +7916,9 @@ export type EventQuery = { __typename?: 'Query' } & {
             EventConfigurationCountry,
             'id' | 'name' | 'code'
           >
+        >;
+        legalEntity: Maybe<
+          { __typename?: 'LegalEntity' } & Pick<LegalEntity, 'id' | 'name'>
         >;
         taxRates: Maybe<
           { __typename?: 'TaxRateConnection' } & {
@@ -7983,6 +8015,44 @@ export type TaEventDataQuery = { __typename?: 'Query' } & {
       | 'passportRequired'
     >
   >;
+};
+
+export type LegalEntitiesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type LegalEntitiesQuery = { __typename?: 'Query' } & {
+  legalEntities: { __typename?: 'LegalEntityConnection' } & {
+    edges: Array<
+      { __typename?: 'LegalEntityEdge' } & Pick<LegalEntityEdge, 'cursor'> & {
+          node: { __typename?: 'LegalEntity' } & Pick<
+            LegalEntity,
+            'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          > & {
+              address: Maybe<
+                { __typename?: 'Address' } & Pick<
+                  Address,
+                  | 'id'
+                  | 'city'
+                  | 'postalCode'
+                  | 'lineOne'
+                  | 'lineTwo'
+                  | 'region'
+                > & {
+                    country: Maybe<
+                      { __typename?: 'EventConfigurationCountry' } & Pick<
+                        EventConfigurationCountry,
+                        'name'
+                      >
+                    >;
+                  }
+              >;
+            };
+        }
+    >;
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
+    >;
+  };
 };
 
 export type MyAssignmentDashboardQueryVariables = Exact<{
@@ -8493,6 +8563,21 @@ export type TicketTypeReleasePhasesQuery = { __typename?: 'Query' } & {
         };
       }
   >;
+};
+
+export type TimeZonesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TimeZonesQuery = { __typename?: 'Query' } & {
+  timeZones: { __typename?: 'TimeZoneConnection' } & {
+    edges: Array<
+      { __typename?: 'TimeZoneEdge' } & {
+        node: { __typename?: 'TimeZone' } & Pick<
+          TimeZone,
+          'displayName' | 'ianaName'
+        >;
+      }
+    >;
+  };
 };
 
 export type WebPageByHostPathQueryVariables = Exact<{
@@ -14495,6 +14580,18 @@ export const EventDocument: DocumentNode = {
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'legalEntity' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 {
                   kind: 'Field',
@@ -15014,6 +15111,195 @@ export type TaEventDataLazyQueryHookResult = ReturnType<
 export type TaEventDataQueryResult = Apollo.QueryResult<
   TaEventDataQuery,
   TaEventDataQueryVariables
+>;
+export const LegalEntitiesDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'legalEntities' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'legalEntities' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'regNumber' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'website' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'taxNumber' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'address' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'city' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'postalCode' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lineOne' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lineTwo' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'region' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'country' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useLegalEntitiesQuery__
+ *
+ * To run a query within a React component, call `useLegalEntitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLegalEntitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLegalEntitiesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLegalEntitiesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    LegalEntitiesQuery,
+    LegalEntitiesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(
+    LegalEntitiesDocument,
+    baseOptions,
+  );
+}
+export function useLegalEntitiesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    LegalEntitiesQuery,
+    LegalEntitiesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(
+    LegalEntitiesDocument,
+    baseOptions,
+  );
+}
+export type LegalEntitiesQueryHookResult = ReturnType<
+  typeof useLegalEntitiesQuery
+>;
+export type LegalEntitiesLazyQueryHookResult = ReturnType<
+  typeof useLegalEntitiesLazyQuery
+>;
+export type LegalEntitiesQueryResult = Apollo.QueryResult<
+  LegalEntitiesQuery,
+  LegalEntitiesQueryVariables
 >;
 export const MyAssignmentDashboardDocument: DocumentNode = {
   definitions: [
@@ -17886,6 +18172,102 @@ export type TicketTypeReleasePhasesLazyQueryHookResult = ReturnType<
 export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<
   TicketTypeReleasePhasesQuery,
   TicketTypeReleasePhasesQueryVariables
+>;
+export const TimeZonesDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'TimeZones' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'timeZones' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'displayName' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'ianaName' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useTimeZonesQuery__
+ *
+ * To run a query within a React component, call `useTimeZonesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTimeZonesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTimeZonesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTimeZonesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    TimeZonesQuery,
+    TimeZonesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<TimeZonesQuery, TimeZonesQueryVariables>(
+    TimeZonesDocument,
+    baseOptions,
+  );
+}
+export function useTimeZonesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TimeZonesQuery,
+    TimeZonesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<TimeZonesQuery, TimeZonesQueryVariables>(
+    TimeZonesDocument,
+    baseOptions,
+  );
+}
+export type TimeZonesQueryHookResult = ReturnType<typeof useTimeZonesQuery>;
+export type TimeZonesLazyQueryHookResult = ReturnType<
+  typeof useTimeZonesLazyQuery
+>;
+export type TimeZonesQueryResult = Apollo.QueryResult<
+  TimeZonesQuery,
+  TimeZonesQueryVariables
 >;
 export const WebPageByHostPathDocument: DocumentNode = {
   definitions: [
