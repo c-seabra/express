@@ -9,6 +9,7 @@ import Table, {
 import {
   EventQuery,
   useEventQuery,
+  useLegalEntitiesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -160,9 +161,17 @@ const EventSettings = () => {
     },
   });
 
+  const { data: entitiesResult, refetch: refetchEntities } = useLegalEntitiesQuery({
+    context: {
+      token,
+    },
+  });
+
   const eventExists = data?.event;
   const eventName = data?.event?.name;
+  console.log(data?.event);
   const eventLegalEntity = data?.event?.legalEntity;
+  const legalEntities = entitiesResult?.legalEntities.edges?.map((node) => node.node);
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
   const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
   const configCompleteRules = {
@@ -240,7 +249,10 @@ const EventSettings = () => {
               />
             )}
             {currentTab.id === 'billing_invoicing' && (
-              <EventBillingInvoicingForm eventBilling={eventLegalEntity} />
+              <EventBillingInvoicingForm
+                eventBilling={eventLegalEntity as any}
+                legalEntities={legalEntities as any}
+              />
             )}
           </SettingsSection>
         </SettingsForm>

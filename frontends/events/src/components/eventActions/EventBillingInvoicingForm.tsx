@@ -10,7 +10,7 @@ import {
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
-  EventConfigurationCountry,
+  EventConfigurationCountry, LegalEntityEdge,
   useCountriesQuery,
   useLegalEntityCreateMutation,
   useLegalEntityUpdateMutation,
@@ -98,9 +98,11 @@ const emptyRegionOption = {
   value: undefined,
 };
 
-const getCompanyNameOptions = (names: string[] = []) => [
+const getCompanyNameOptions = (
+  companies: LegalEntity[] = [],
+) => [
   emptyCompanyNameOption,
-  ...names.map((name) => ({ label: name, value: name })),
+  ...companies.map((entity) => ({ label: entity.name, value: entity.id })),
 ];
 
 const getCountryOptions = (
@@ -117,9 +119,14 @@ const getRegionOptions = (regions: string[] = []) => [
 
 type EventBillingFormProps = {
   eventBilling?: LegalEntity | null;
+  legalEntities?: LegalEntity[] | null;
 };
 
-const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
+const EventBillingForm = ({
+  eventBilling,
+  legalEntities,
+}: EventBillingFormProps) => {
+  console.log('legalEntities', legalEntities);
   const { token } = useAppContext();
   const history = useHistory();
   const success = useSuccessSnackbar();
@@ -127,9 +134,8 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const error = useErrorSnackbar();
   const { data } = useCountriesQuery();
 
-  const mappedCompanies = ['company2', 'company1'].map((edge) => edge);
-  const sortedCompanies = mappedCompanies?.sort((a, b) => {
-    return a.localeCompare(b);
+  const sortedCompanies = legalEntities?.sort((a, b) => {
+    return a.name.localeCompare(b.name);
   });
   const companyNameOptions = getCompanyNameOptions(sortedCompanies);
 
