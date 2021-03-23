@@ -8,6 +8,7 @@ export const ATTENDANCE_DETAILS_QUERY = gql`
         endsAt
       }
       name
+      investorGdprConsent
       attendanceAppearanceSelectionsDetails {
         attendanceAppearanceSelections {
           edges {

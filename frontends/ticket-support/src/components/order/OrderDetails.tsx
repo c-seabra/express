@@ -308,7 +308,7 @@ const OrderDetails = (): ReactElement => {
                         isOpen={isRefundModalOpen}
                         orderRef={orderRef}
                         paymentMethods={
-                          paymentMethodsData?.commerceListPaymentMethods
+                          paymentMethodsData?.commerceListPaymentMethods?.hits
                         }
                         refetchCommerceOrder={refetchCommerceOrder}
                         onRequestClose={closeRefundModal}

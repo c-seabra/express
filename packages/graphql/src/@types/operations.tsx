@@ -41,6 +41,7 @@ export type Scalars = {
   /** Valid markdown, ready for translation to HTML, JSX, etc. */
   Markdown: string;
   Date: string;
+  Object: any;
   /** Input type for dynamic zone link of MenuItem */
   MenuItemLinkDynamicZoneInput: JsonObject;
   /** Input type for dynamic zone content of WebPage */
@@ -150,34 +151,34 @@ export type Query = {
   /** *Equivalent to GET /commerce/stores/{storeId}/taxes/{id}* */
   commerceGetTax: Maybe<CommerceTax>;
   /** *Equivalent to GET /commerce/stores/{storeId}/categories* */
-  commerceListCategories: Maybe<Array<Maybe<CommerceCategory>>>;
+  commerceListCategories: Maybe<CommerceSearchResponseCategory>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers* */
-  commerceListCustomers: Maybe<Array<Maybe<CommerceCustomer>>>;
+  commerceListCustomers: Maybe<CommerceSearchResponseCustomer>;
   /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems* */
-  commerceListDealItems: Maybe<Array<Maybe<CommerceDealItem>>>;
+  commerceListDealItems: Maybe<CommerceSearchResponseDealItem>;
   /** *Equivalent to GET /commerce/stores/{storeId}/deals* */
-  commerceListDeals: Maybe<Array<Maybe<CommerceDeal>>>;
+  commerceListDeals: Maybe<CommerceSearchResponseDeal>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders* */
-  commerceListOrders: Maybe<Array<Maybe<CommerceOrder>>>;
+  commerceListOrders: Maybe<CommerceSearchResponseOrder>;
   /** *Equivalent to GET /commerce/paymentGateways* */
-  commerceListPaymentGateways: Maybe<Array<Maybe<CommercePaymentGateway>>>;
+  commerceListPaymentGateways: Maybe<CommerceSearchResponsePaymentGateway>;
   /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods* */
-  commerceListPaymentMethods: Maybe<Array<Maybe<CommercePaymentMethod>>>;
+  commerceListPaymentMethods: Maybe<CommerceSearchResponsePaymentMethod>;
   /** *Equivalent to GET /commerce/stores/{storeId}/products* */
-  commerceListProducts: Maybe<Array<Maybe<CommerceProduct>>>;
+  commerceListProducts: Maybe<CommerceSearchResponseProduct>;
   /** *Equivalent to GET /commerce/stores/{storeId}/sales/{saleId}/saleProducts* */
-  commerceListSaleProducts: Maybe<Array<Maybe<CommerceSaleProduct>>>;
+  commerceListSaleProducts: Maybe<CommerceSearchResponseSaleProduct>;
   /** *Equivalent to GET /commerce/stores/{storeId}/sales* */
-  commerceListSales: Maybe<Array<Maybe<CommerceSale>>>;
+  commerceListSales: Maybe<CommerceSearchResponseSale>;
   /**
    * *Equivalent to GET /commerce/stores*
    * # List Stores
    *
    * ...
    */
-  commerceListStores: Maybe<Array<Maybe<CommerceStore>>>;
+  commerceListStores: Maybe<CommerceSearchResponseStore>;
   /** *Equivalent to GET /commerce/stores/{storeId}/taxes* */
-  commerceListTaxes: Maybe<Array<Maybe<CommerceTax>>>;
+  commerceListTaxes: Maybe<CommerceSearchResponseTax>;
   /** Retrieves all countries. */
   countries: EventConfigurationCountryConnection;
   /** Returns an event by slug. */
@@ -520,74 +521,98 @@ export type QueryCommerceGetTaxArgs = {
 export type QueryCommerceListCategoriesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListCustomersArgs = {
   orderId: Scalars['ID'];
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListDealItemsArgs = {
   dealId: Scalars['ID'];
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListDealsArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListOrdersArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListPaymentGatewaysArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListPaymentMethodsArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListProductsArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListSaleProductsArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   saleId: Scalars['ID'];
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListSalesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListStoresArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCommerceListTaxesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
 export type QueryCountriesArgs = {
@@ -2989,7 +3014,6 @@ export type CommerceProduct = {
   defaultPrice: Maybe<Scalars['Int']>;
   description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
-  itemName: Maybe<Scalars['String']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
   metadata: Maybe<Scalars['JSON']>;
@@ -3339,6 +3363,180 @@ export type CommerceStoreBilling = {
   postalCode: Scalars['String'];
   state: Maybe<Scalars['String']>;
   vatNumber: Scalars['String'];
+};
+
+export type CommerceSortTerm = {
+  direction?: Maybe<CommerceSortTermDirection>;
+  field?: Maybe<Scalars['String']>;
+};
+
+export enum CommerceSortTermDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+export type CommerceSearchTerm = {
+  field?: Maybe<Scalars['String']>;
+  op?: Maybe<CommerceSearchTermOp>;
+  value?: Maybe<Scalars['Object']>;
+};
+
+export enum CommerceSearchTermOp {
+  Eq = 'eq',
+  Gt = 'gt',
+  Gte = 'gte',
+  Like = 'like',
+  Lt = 'lt',
+  Lte = 'lte',
+  Ne = 'ne',
+}
+
+export type CommerceSearchResponseCategory = {
+  __typename?: 'CommerceSearchResponseCategory';
+  hits: Maybe<Array<CommerceCategory>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSortTermOutput = {
+  __typename?: 'CommerceSortTermOutput';
+  direction: CommerceSortTermOutputDirection;
+  field: Scalars['String'];
+};
+
+export enum CommerceSortTermOutputDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+export type CommerceSearchTermOutput = {
+  __typename?: 'CommerceSearchTermOutput';
+  field: Scalars['String'];
+  op: CommerceSearchTermOutputOp;
+  value: Scalars['Object'];
+};
+
+export enum CommerceSearchTermOutputOp {
+  Eq = 'eq',
+  Gt = 'gt',
+  Gte = 'gte',
+  Like = 'like',
+  Lt = 'lt',
+  Lte = 'lte',
+  Ne = 'ne',
+}
+
+export type CommerceSearchResponseCustomer = {
+  __typename?: 'CommerceSearchResponseCustomer';
+  hits: Maybe<Array<CommerceCustomer>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseDealItem = {
+  __typename?: 'CommerceSearchResponseDealItem';
+  hits: Maybe<Array<CommerceDealItem>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseDeal = {
+  __typename?: 'CommerceSearchResponseDeal';
+  hits: Maybe<Array<CommerceDeal>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseOrder = {
+  __typename?: 'CommerceSearchResponseOrder';
+  hits: Maybe<Array<CommerceOrder>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponsePaymentGateway = {
+  __typename?: 'CommerceSearchResponsePaymentGateway';
+  hits: Maybe<Array<Maybe<CommercePaymentGateway>>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponsePaymentMethod = {
+  __typename?: 'CommerceSearchResponsePaymentMethod';
+  hits: Maybe<Array<CommercePaymentMethod>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseProduct = {
+  __typename?: 'CommerceSearchResponseProduct';
+  hits: Maybe<Array<CommerceProduct>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseSaleProduct = {
+  __typename?: 'CommerceSearchResponseSaleProduct';
+  hits: Maybe<Array<CommerceSaleProduct>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseSale = {
+  __typename?: 'CommerceSearchResponseSale';
+  hits: Maybe<Array<CommerceSale>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseStore = {
+  __typename?: 'CommerceSearchResponseStore';
+  hits: Maybe<Array<CommerceStore>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseTax = {
+  __typename?: 'CommerceSearchResponseTax';
+  hits: Maybe<Array<CommerceTax>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
 };
 
 /** The connection type for EventConfigurationCountry. */
@@ -5483,7 +5681,6 @@ export type CommerceProductCreateOrUpdate = {
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  itemName?: Maybe<Scalars['String']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5696,7 +5893,6 @@ export type CommerceProductCreate = {
   createdBy?: Maybe<Scalars['ID']>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
-  itemName?: Maybe<Scalars['String']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5954,7 +6150,6 @@ export type CommerceProductUpdate = {
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  itemName?: Maybe<Scalars['String']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -7255,6 +7450,23 @@ export type TaxRateCreateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type TaxRateUpdateMutationVariables = Exact<{
+  input: TaxRateUpdateInput;
+}>;
+
+export type TaxRateUpdateMutation = { __typename?: 'Mutation' } & {
+  taxRateUpdate: Maybe<
+    { __typename?: 'TaxRateUpdatePayload' } & {
+      taxRate: Maybe<
+        { __typename?: 'TaxRate' } & Pick<TaxRate, 'id' | 'name' | 'value'>
+      >;
+      userErrors: Array<
+        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
+  >;
+};
+
 export type TicketAcceptMutationVariables = Exact<{
   ticketId: Scalars['ID'];
 }>;
@@ -7618,14 +7830,16 @@ export type CommerceListPaymentMethodsQueryVariables = Exact<{
 
 export type CommerceListPaymentMethodsQuery = { __typename?: 'Query' } & {
   commerceListPaymentMethods: Maybe<
-    Array<
-      Maybe<
-        { __typename?: 'CommercePaymentMethod' } & Pick<
-          CommercePaymentMethod,
-          'id' | 'name' | 'configuration'
+    { __typename?: 'CommerceSearchResponsePaymentMethod' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommercePaymentMethod' } & Pick<
+            CommercePaymentMethod,
+            'id' | 'name' | 'configuration'
+          >
         >
-      >
-    >
+      >;
+    }
   >;
 };
 
@@ -12322,6 +12536,123 @@ export type TaxRateCreateMutationOptions = Apollo.BaseMutationOptions<
   TaxRateCreateMutation,
   TaxRateCreateMutationVariables
 >;
+export const TaxRateUpdateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'TaxRateUpdate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxRateUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxRate' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'TaxRateUpdateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type TaxRateUpdateMutationFn = Apollo.MutationFunction<
+  TaxRateUpdateMutation,
+  TaxRateUpdateMutationVariables
+>;
+
+/**
+ * __useTaxRateUpdateMutation__
+ *
+ * To run a mutation, you first call `useTaxRateUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTaxRateUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [taxRateUpdateMutation, { data, loading, error }] = useTaxRateUpdateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTaxRateUpdateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TaxRateUpdateMutation,
+    TaxRateUpdateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    TaxRateUpdateMutation,
+    TaxRateUpdateMutationVariables
+  >(TaxRateUpdateDocument, baseOptions);
+}
+export type TaxRateUpdateMutationHookResult = ReturnType<
+  typeof useTaxRateUpdateMutation
+>;
+export type TaxRateUpdateMutationResult = Apollo.MutationResult<TaxRateUpdateMutation>;
+export type TaxRateUpdateMutationOptions = Apollo.BaseMutationOptions<
+  TaxRateUpdateMutation,
+  TaxRateUpdateMutationVariables
+>;
 export const TicketAcceptDocument: DocumentNode = {
   definitions: [
     {
@@ -13930,11 +14261,20 @@ export const CommerceListPaymentMethodsDocument: DocumentNode = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'configuration' },
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'configuration' },
+                      },
+                    ],
+                  },
                 },
               ],
             },

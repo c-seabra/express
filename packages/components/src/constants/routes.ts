@@ -29,6 +29,12 @@ const ROUTES: Routes = {
     meta: { description: 'Discounts' },
     path: 'discounts',
   },
+  EVENT_CONFIGURATION: {
+    hasChildren: false,
+    isActive: true,
+    meta: { description: 'Events configuration' },
+    path: '/',
+  },
   PRIVATE_SALES: {
     isActive: false,
     meta: { description: 'Private sales' },

@@ -55,6 +55,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
 
   const startsAt = data?.attendance.investorSession?.startsAt;
   const endsAt = data?.attendance.investorSession?.endsAt;
+  const gdprConsent = data?.attendance.investorGdprConsent;
 
   const { investorRevokeMutation } = useInvestorPortalRevokeAccessMutation({
     attendanceId,
@@ -76,6 +77,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
             attendanceId={attendanceId}
             currentEndsAt={endsAt}
             currentStartsAt={startsAt}
+            gdprConsent={gdprConsent}
             selections={selections}
           />
         </ContainerCard>
