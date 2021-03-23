@@ -162,6 +162,7 @@ const EventSettings = () => {
 
   const eventExists = data?.event;
   const eventName = data?.event?.name;
+  const eventLegalEntity = data?.event?.legalEntity;
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
   const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
   const configCompleteRules = {
@@ -239,7 +240,7 @@ const EventSettings = () => {
               />
             )}
             {currentTab.id === 'billing_invoicing' && (
-              <EventBillingInvoicingForm eventBilling={{}} />
+              <EventBillingInvoicingForm eventBilling={eventLegalEntity} />
             )}
           </SettingsSection>
         </SettingsForm>

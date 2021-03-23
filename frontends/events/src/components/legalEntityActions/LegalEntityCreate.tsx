@@ -30,7 +30,6 @@ const SubmitButton = styled.button`
   }
 `;
 
-
 // TODO remove when billing address ready
 const LegalEntityCreate: React.FC = () => {
   const { conferenceSlug, token } = useAppContext();

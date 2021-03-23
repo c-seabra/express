@@ -49,28 +49,6 @@ const SubHeader = styled.div`
   line-height: 24px;
 `;
 
-type EventBillingFormProps = {
-  eventBilling?: LegalEntity;
-};
-// type EventBillingFormProps = {
-//   eventBilling?:
-//     | (Pick<
-//         Event,
-//         | 'id'
-//         | 'name'
-//         | 'description'
-//         | 'slug'
-//         | 'startDate'
-//         | 'endDate'
-//         | 'timezone'
-//         | 'baseUrl'
-//         | 'currency'
-//       > & {
-//         country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
-//       })
-//     | null;
-// };
-
 const StyledInputField = styled(TextInputField)`
   width: 48%;
 `;
@@ -120,13 +98,9 @@ const emptyRegionOption = {
   value: undefined,
 };
 
-const getCompanyNameOptions = (
-  // countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
-  names: string[] = [],
-) => [
+const getCompanyNameOptions = (names: string[] = []) => [
   emptyCompanyNameOption,
-  // ...names.map((name) => ({ label: country?.name, value: country?.id })),
-  ...names.map((name) => name),
+  ...names.map((name) => ({ label: name, value: name })),
 ];
 
 const getCountryOptions = (
@@ -141,6 +115,10 @@ const getRegionOptions = (regions: string[] = []) => [
   ...regions.map((region) => ({ label: region, value: region })),
 ];
 
+type EventBillingFormProps = {
+  eventBilling?: LegalEntity | null;
+};
+
 const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
   const { token } = useAppContext();
   const history = useHistory();
@@ -150,7 +128,6 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
 
   const companyNameOptions = getCompanyNameOptions(
     ['company1', 'company2'].map((edge) => edge),
-    // data?.countries?.edges?.map((edge) => edge.node),
   );
 
   const countryOptions = getCountryOptions(
@@ -194,7 +171,7 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
         address2: eventBilling?.name || '',
         city: eventBilling?.name || '',
         companyName: eventBilling?.name || '',
-        country: eventBilling?.country?.id,
+        country: eventBilling?.address?.id || '',
         email: eventBilling?.name || '',
         name: eventBilling?.name || '',
         postalCode: eventBilling?.name || '',
@@ -219,7 +196,12 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
                   postalCode: values.postalCode,
                   region: values.region,
                 },
-                email: values.company,
+                email: values.email,
+                id: eventBilling.id,
+                name: values.companyName,
+                regNumber: values.registrationNumber,
+                taxNumber: values.taxNumber,
+                website: values.website,
               },
             },
           });
@@ -229,7 +211,8 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
           });
 
           if (!errors) {
-            const newEventSlug = mutationResult?.eventCreate?.event?.slug;
+            const newEventSlug =
+              mutationResult?.legalEntityCreate?.legalEntity?.id;
             history.replace(`${newEventSlug || ''}/settings`);
           }
         }
