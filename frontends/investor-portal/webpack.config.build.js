@@ -57,8 +57,10 @@ const config = {
   },
   output: {
     filename: 'frontends.[name].bundle.js',
-    library: ['frontends', '[name]'],
-    libraryTarget: 'window',
+    library: {
+      type: 'system',
+    },
+    publicPath: '/',
     path: path.resolve(__dirname, '../../builds/investor-portal'),
   },
   plugins: [new CleanWebpackPlugin()],

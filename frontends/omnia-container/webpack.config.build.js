@@ -4,11 +4,12 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 require('dotenv').config();
 
 const config = {
   entry: {
-    bulkAssign: './src/index.js',
+    'omnia-container': './src/index.ts',
   },
   module: {
     rules: [
@@ -60,10 +61,14 @@ const config = {
     library: {
       type: 'system',
     },
-    publicPath: '/',
-    path: path.resolve(__dirname, '../../builds/bulk-assign'),
+    path: path.resolve(__dirname, '../../builds/omnia-container'),
   },
-  plugins: [new CleanWebpackPlugin()],
+  plugins: [
+    new CopyPlugin({
+      patterns: [{ from: 'importmap.json', to: '../importmap.json' }],
+    }),
+    new CleanWebpackPlugin(),
+  ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
     plugins: [new TsconfigPathsPlugin()],
@@ -89,7 +94,7 @@ module.exports = (env, argv) => {
         env: process.env.ENV,
         filename: './index.html',
         template: 'template.html',
-        title: 'bulkAssign',
+        title: 'demo',
         token: process.env.TOKEN,
       }),
     ]);

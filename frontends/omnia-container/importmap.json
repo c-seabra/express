@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
+    "@websummit-micro/omnia-container": "/omnia-container/frontends.omnia-container.bundle.js",
+    "@websummit-micro/frontend-demo": "/demo/frontends.demo.bundle.js",
+    "@websummit-micro/ticket-support": "/ticket-support/frontends.ticketSupport.bundle.js",
+    "@websummit-micro/staff-tickets": "/staff-tickets/frontends.staffTickets.bundle.js",
+    "@websummit-micro/bulk-assign": "/bulk-assign/frontends.bulkAssign.bundle.js",
+    "@websummit-micro/investor-portal": "/investor-portal/frontends.investorPortal.bundle.js"
+  }
+}
