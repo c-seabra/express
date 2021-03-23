@@ -9,7 +9,7 @@ const routes = constructRoutes(
   document.querySelector('#single-spa-layout') as HTMLTemplateElement,
 );
 
-console.log(JSON.stringify(routes));
+// console.log(JSON.stringify(routes));
 const applications = constructApplications({
   loadApp({ name }) {
     // eslint-disable-next-line
