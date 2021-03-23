@@ -320,6 +320,7 @@ const EventBillingForm = ({ eventBilling }: EventBillingFormProps) => {
             />
 
             <StyledInputField
+              required
               label="Postal code"
               name="postalCode"
               placeholder="R12 AB12"
