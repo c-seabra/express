@@ -1,3 +1,4 @@
+import Icon from '@websummit/components/src/atoms/Icon';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
@@ -5,7 +6,10 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
-import { useEventQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  EventQuery,
+  useEventQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
@@ -78,6 +82,9 @@ const BreadcrumbsContainer = styled.div`
 `;
 
 const Tab = styled.div<{ isSelected?: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 100%;
   padding: 1rem 1.5rem;
@@ -91,15 +98,44 @@ const Tab = styled.div<{ isSelected?: boolean }>`
 
 const settingsTableShape = (
   currentTab: Setting,
+  configCompleteRules: {
+    billing_invoicing: boolean;
+    event_info: boolean;
+    payment_methods: boolean;
+    tax_info: boolean;
+  },
 ): ColumnDescriptor<Setting>[] => [
   {
     overrideStyle: true,
     renderCell: ({ id, title }) => (
-      <Tab isSelected={id === currentTab.id}>{title}</Tab>
+      <Tab isSelected={id === currentTab.id}>
+        {title}
+        {!configCompleteRules[id] && <Icon color="#E15554">error_outline</Icon>}
+      </Tab>
     ),
     width: '100%',
   },
 ];
+
+const checkConfigCompletion = (data?: EventQuery): boolean => {
+  if (data) {
+    const { event } = data;
+    return !!(
+      event?.baseUrl &&
+      event?.country &&
+      event?.currency &&
+      event?.endDate &&
+      event?.startDate &&
+      event?.taxNumber &&
+      event?.legalEntity &&
+      event?.timeZone &&
+      event?.name &&
+      event?.slug
+    );
+  }
+
+  return false;
+};
 
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -116,12 +152,24 @@ const EventSettings = () => {
     },
   });
 
-  const settingsTable = settingsTableShape(currentTab);
-  const taxes =
-    data?.event?.taxRates &&
-    data?.event?.taxRates.edges.map((node) => node.node);
+  // const settingsTable = settingsTableShape(currentTab);
+  // const taxes =
+  //   data?.event?.taxRates &&
+  //   data?.event?.taxRates.edges.map((node) => node.node);
+// =======
   const eventExists = data?.event;
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
+  const configCompleteRules = {
+    // TODO - fill the 'true' with rules regarding config completion
+    billing_invoicing: true,
+    event_info: checkConfigCompletion(data),
+    payment_methods: true,
+    tax_info: true,
+  };
+
+  const settingsTable = settingsTableShape(currentTab, configCompleteRules);
+
+  const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
   const eventName = data?.event?.name;
   const breadcrumbsNewRoutes: Breadcrumb[] = [
     {
@@ -175,7 +223,11 @@ const EventSettings = () => {
             title={currentTab.title}
           >
             {currentTab.id === 'event_info' && (
-              <EventInformationForm eventInfo={data?.event} />
+              <EventInformationForm
+                eventInfo={data?.event}
+                refetch={refetch}
+                slugParam={slug}
+              />
             )}
             {currentTab.id === 'tax_info' && (
               <SelectTax

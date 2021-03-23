@@ -20,6 +20,11 @@ const EVENT = gql`
         name
         code
       }
+      legalEntity {
+        id
+        name
+      }
+      taxNumber
       currency
       taxRates {
         edges {
