@@ -10,11 +10,8 @@ import {
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
-  Event,
   EventConfigurationCountry,
   useCountriesQuery,
-  useEventCreateMutation,
-  useEventUpdateMutation,
   useLegalEntityCreateMutation,
   useLegalEntityUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
