@@ -142,7 +142,6 @@ const EventSettings = () => {
     context: {
       token,
     },
-    nextFetchPolicy: 'network-only',
     skip: !slug,
     variables: {
       slug,
@@ -210,7 +209,11 @@ const EventSettings = () => {
         <SettingsForm>
           <SettingsSection title={currentTab.title}>
             {currentTab.id === 'event_info' && (
-              <EventInformationForm eventInfo={data?.event} />
+              <EventInformationForm
+                eventInfo={data?.event}
+                refetch={refetch}
+                slugParam={slug}
+              />
             )}
             {currentTab.id === 'tax_info' && (
               <SelectTax

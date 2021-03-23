@@ -20,6 +20,7 @@ import {
   useLegalEntitiesQuery,
   useTimeZonesQuery,
 } from '@websummit/graphql/src/@types/operations';
+import EVENT from '@websummit/graphql/src/operations/queries/Event';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -140,22 +141,29 @@ type EventInformationFormProps = {
         country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
       })
     | null;
+  refetch: () => void;
+  slugParam: string;
 };
 
-const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
+const EventInformationForm = ({
+  eventInfo,
+  refetch,
+  slugParam,
+}: EventInformationFormProps) => {
   const { token } = useAppContext();
+  const context = { token };
   const history = useHistory();
 
   const { success, error } = useSnackbars();
 
   const { data: countriesData } = useCountriesQuery();
   const { data: legalEntitiesData } = useLegalEntitiesQuery({
-    context: { token },
+    context,
   });
-  const { data: timeZonesData } = useTimeZonesQuery({ context: { token } });
+  const { data: timeZonesData } = useTimeZonesQuery({ context });
 
   const [getExistingEvent, { data: existingEventData }] = useEventLazyQuery({
-    context: { token },
+    context,
   });
 
   const countryOptions = getCountryOptions(
@@ -176,16 +184,21 @@ const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
       success(`Event created`);
     },
     onError: (e) => error(e.message),
-    refetchQueries: ['Event'],
   });
 
   const [updateEvent] = useEventUpdateMutation({
-    context: { token },
+    context,
     onCompleted: () => {
       success(`Event updated`);
     },
     onError: (e) => error(e.message),
-    refetchQueries: ['Event'],
+    refetchQueries: [
+      {
+        context,
+        query: EVENT,
+        variables: { slug: eventInfo?.slug },
+      },
+    ],
   });
 
   return (
@@ -218,6 +231,7 @@ const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
             if (!errors) {
               const newEventSlug = mutationResult?.eventCreate?.event?.slug;
               history.replace(`${newEventSlug || ''}/settings`);
+              refetch();
             }
           }
         }}
@@ -282,29 +296,32 @@ const EventInformationForm = ({ eventInfo }: EventInformationFormProps) => {
               </FieldRow>
               <FieldRow>
                 <StyledInputField
-                  label="Base event URL"
-                  name="baseUrl"
-                  placeholder="https://example.com"
-                />
-                <StyledInputField
                   required
                   label="Event slug"
                   name="slug"
                   placeholder="example-slug"
                   validate={(slug) => {
-                    if (slug !== eventInfo?.slug) {
+                    // We are checking whether the entered slug is
+                    // different from the one in params
+                    if (slug && !slugParam && slug !== slugParam) {
                       getExistingEvent({
                         variables: { slug },
                       });
                     }
                   }}
                 />
+                <StyledInputField
+                  label="Base event URL"
+                  name="baseUrl"
+                  placeholder="https://example.com"
+                />
               </FieldRow>
-              {existingEventData?.event && (
-                <ExistingSlugErrorMessage>
-                  Chosen slug already exists
-                </ExistingSlugErrorMessage>
-              )}
+              {existingEventData?.event &&
+                existingEventData?.event?.slug !== slugParam && (
+                  <ExistingSlugErrorMessage>
+                    Chosen slug already exists
+                  </ExistingSlugErrorMessage>
+                )}
             </PaddedContainer>
             <Separator />
             <PaddedContainer>
