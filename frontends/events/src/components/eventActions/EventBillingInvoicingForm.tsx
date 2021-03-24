@@ -129,7 +129,6 @@ const EventBillingForm = ({
   const { token, conferenceSlug } = useAppContext();
   const history = useHistory();
   const success = useSuccessSnackbar();
-  const errSnackbar = useErrorSnackbar();
   const error = useErrorSnackbar();
   const { data } = useCountriesQuery();
 
@@ -166,7 +165,7 @@ const EventBillingForm = ({
         legalEntityCreate?.userErrors &&
         legalEntityCreate?.userErrors.length > 0
       ) {
-        errSnackbar(legalEntityCreate?.userErrors[0].message);
+        error(legalEntityCreate?.userErrors[0].message);
       } else {
         updateEvent({
           variables: {
@@ -192,7 +191,7 @@ const EventBillingForm = ({
         legalEntityUpdate?.userErrors &&
         legalEntityUpdate?.userErrors.length > 0
       ) {
-        errSnackbar(legalEntityUpdate?.userErrors[0].message);
+        error(legalEntityUpdate?.userErrors[0].message);
       } else {
         updateEvent({
           variables: {

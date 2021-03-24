@@ -3,6 +3,7 @@ import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
@@ -152,12 +153,14 @@ const checkTaxInfoCompletion = (size?: number): boolean => {
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
   const { token } = useAppContext();
+  const error = useErrorSnackbar();
   const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
 
   const { data, loading, refetch } = useEventQuery({
     context: {
       token,
     },
+    onError: (e) => error(e.message),
     skip: !slug,
     variables: {
       slug,
@@ -172,6 +175,7 @@ const EventSettings = () => {
     context: {
       token,
     },
+    onError: (e) => error(e.message),
   });
 
   const eventExists = data?.event;
