@@ -16,6 +16,7 @@ import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { useAppContext } from '../app/AppContext';
+import PaymentMethods from '../organisms/PaymentMethods';
 import SelectTax from '../organisms/SelectTax';
 import EventBillingInvoicingForm from './EventBillingInvoicingForm';
 import EventInformationForm from './EventInformationForm';
@@ -262,6 +263,9 @@ const EventSettings = () => {
                 eventBilling={eventLegalEntity as any}
                 legalEntities={legalEntities as any}
               />
+            )}
+            {currentTab.id === 'payment_methods' && (
+              <PaymentMethods paymentMethods={[]} />
             )}
           </SettingsSection>
         </SettingsForm>
