@@ -139,7 +139,6 @@ const getFieldsForPaymentGateway = (gateway?: PaymentGateway) => {
   }
 };
 
-
 type StripeConfigType = { publishable_key?: string; secret_key?: string };
 type PaypalConfigType = {
   client_id?: string;
