@@ -7894,7 +7894,7 @@ export type CommerceListPaymentMethodsQuery = { __typename?: 'Query' } & {
         Array<
           { __typename?: 'CommercePaymentMethod' } & Pick<
             CommercePaymentMethod,
-            'id' | 'name' | 'configuration'
+            'id' | 'name' | 'configuration' | 'active' | 'gateway'
           >
         >
       >;
@@ -14595,6 +14595,14 @@ export const CommerceListPaymentMethodsDocument: DocumentNode = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'configuration' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'active' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'gateway' },
                       },
                     ],
                   },
