@@ -11,7 +11,6 @@ import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   EventConfigurationCountry,
-  LegalEntityEdge,
   useCountriesQuery,
   useEventUpdateMutation,
   useLegalEntityCreateMutation,

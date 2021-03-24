@@ -51,6 +51,7 @@ const SettingsForm = styled(ContainerCard)`
 type Tab = 'event_info' | 'tax_info' | 'payment_methods' | 'billing_invoicing';
 
 type Setting = {
+  active?: boolean;
   id: Tab;
   subTitle?: string;
   title: string;
@@ -58,6 +59,7 @@ type Setting = {
 
 const settings: Setting[] = [
   {
+    active: false,
     id: 'billing_invoicing',
     subTitle:
       'Provide details of the company hosting the event that will appear on the invoice.',
@@ -161,7 +163,11 @@ const EventSettings = () => {
     },
   });
 
-  const { data: entitiesResult, refetch: refetchEntities } = useLegalEntitiesQuery({
+  const {
+    data: entitiesResult,
+    loading: entitiesLoading,
+    refetch: refetchEntities,
+  } = useLegalEntitiesQuery({
     context: {
       token,
     },
@@ -171,15 +177,18 @@ const EventSettings = () => {
   const eventName = data?.event?.name;
   console.log(data?.event);
   const eventLegalEntity = data?.event?.legalEntity;
-  const legalEntities = entitiesResult?.legalEntities.edges?.map((node) => node.node);
+  const legalEntities = entitiesResult?.legalEntities.edges?.map(
+    (node) => node.node,
+  );
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
   const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
   const configCompleteRules = {
     // TODO - fill the 'true' with rules regarding config completion
     billing_invoicing: true,
-    event_info: checkConfigCompletion(data),
+    event_info: !loading && checkConfigCompletion(data),
     payment_methods: true,
-    tax_info: checkTaxInfoCompletion(taxes?.length),
+    tax_info:
+      !entitiesLoading && !loading && checkTaxInfoCompletion(taxes?.length),
   };
   const settingsTable = settingsTableShape(currentTab, configCompleteRules);
   const breadcrumbsNewRoutes: Breadcrumb[] = [
