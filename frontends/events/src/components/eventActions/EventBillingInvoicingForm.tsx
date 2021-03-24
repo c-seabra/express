@@ -181,7 +181,6 @@ const EventBillingForm = ({
     },
     onError: (e) => error(e.message),
     refetchQueries: ['Event'],
-
   });
 
   const [updateLegalEntity] = useLegalEntityUpdateMutation({
@@ -216,10 +215,10 @@ const EventBillingForm = ({
         address2: eventBilling?.address?.lineTwo || '',
         city: eventBilling?.address?.city || '',
         companyName: eventBilling?.name || '',
-        country: eventBilling?.address?.country.name || '',
+        country: eventBilling?.address?.country.id || '',
         email: eventBilling?.email || '',
         name: eventBilling?.name || '',
-        postalCode: eventBilling?.name || '', // TODO add postal code to event legal ent
+        postalCode: eventBilling?.address?.postalCode || '',
         region: eventBilling?.address?.region || '',
         registrationNumber: eventBilling?.regNumber || '',
         taxNumber: eventBilling?.taxNumber || '',
