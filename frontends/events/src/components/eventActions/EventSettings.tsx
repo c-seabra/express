@@ -180,7 +180,6 @@ const EventSettings = () => {
 
   const eventExists = data?.event;
   const eventName = data?.event?.name;
-  console.log(data?.event);
   const eventLegalEntity = data?.event?.legalEntity;
   const legalEntities = entitiesResult?.legalEntities.edges?.map(
     (node) => node.node,

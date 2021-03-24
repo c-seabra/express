@@ -125,7 +125,6 @@ const EventBillingForm = ({
   eventBilling,
   legalEntities,
 }: EventBillingFormProps) => {
-  console.log('legalEntities', legalEntities);
   const { token, conferenceSlug } = useAppContext();
   const history = useHistory();
   const success = useSuccessSnackbar();
@@ -226,8 +225,6 @@ const EventBillingForm = ({
       }}
       validationSchema={eventBillingSchema}
       onSubmit={async (values) => {
-        console.log('billing values', values);
-
         if (eventBilling?.id) {
           await updateLegalEntity({
             variables: {
