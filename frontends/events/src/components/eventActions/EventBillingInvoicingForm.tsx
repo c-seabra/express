@@ -237,7 +237,7 @@ const EventBillingForm = ({
                   countryId: values.country,
                   lineOne: values.address1,
                   lineTwo: values.address2,
-                  postalCode: values.email,
+                  postalCode: values.postalCode,
                   region: values.region,
                 },
                 email: values.email,
@@ -291,7 +291,7 @@ const EventBillingForm = ({
 
               <StyledInputField
                 label="Host company’s tax number"
-                name="companyTaxNumber"
+                name="taxNumber"
                 placeholder="IE1234567AB"
                 type="text"
               />
@@ -300,7 +300,7 @@ const EventBillingForm = ({
             <FieldRow>
               <StyledInputField
                 label="Company’s registration number"
-                name="companyRegistrationNumber"
+                name="registrationNumber"
                 placeholder="1234"
                 type="text"
               />
@@ -315,8 +315,8 @@ const EventBillingForm = ({
             <FieldRow>
               <StyledInputField
                 label="Company’s website"
-                name="companyWebsite"
-                placeholder="www.website.com"
+                name="website"
+                placeholder="https://example.com"
                 type="text"
               />
             </FieldRow>
