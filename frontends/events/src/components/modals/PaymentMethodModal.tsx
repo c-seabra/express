@@ -155,6 +155,36 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
 });
 
+const trimConfiguration = (
+  gateway: PaymentGateway,
+  configuration: StripeConfigType | PaypalConfigType | ExternalConfigType,
+) => {
+  switch (gateway) {
+    case 'stripe': {
+      const { publishable_key, secret_key } = configuration as StripeConfigType;
+      return {
+        publishable_key: publishable_key?.trim() || '',
+        secret_key: secret_key?.trim() || '',
+      };
+    }
+    case 'paypal': {
+      const {
+        client_id,
+        client_secret,
+        env,
+      } = configuration as PaypalConfigType;
+      return {
+        client_id: client_id?.trim() || '',
+        client_secret: client_secret?.trim() || '',
+        env: env?.trim() || '',
+      };
+    }
+    case 'external':
+    default:
+      return configuration;
+  }
+};
+
 const getInitialConfigValues = (paymentMethod?: CommercePaymentMethod) => {
   if (paymentMethod?.configuration) {
     switch (paymentMethod.gateway as PaymentGateway) {
@@ -237,6 +267,10 @@ const PaymentMethodModal = ({
                 id: paymentMethod.id,
                 paymentMethod: {
                   ...values,
+                  configuration: trimConfiguration(
+                    values.gateway,
+                    values.configuration,
+                  ),
                   gateway: paymentGatewayIds[values.gateway],
                 },
               },
@@ -246,6 +280,10 @@ const PaymentMethodModal = ({
               variables: {
                 paymentMethod: {
                   ...values,
+                  configuration: trimConfiguration(
+                    values.gateway,
+                    values.configuration,
+                  ),
                   gateway: paymentGatewayIds[values.gateway],
                 },
               },
