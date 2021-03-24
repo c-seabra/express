@@ -22,7 +22,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0 0;
+  padding: 0;
   font-size: 0.85rem;
   font-weight: 400;
   min-width: 480px;
@@ -57,7 +57,7 @@ export const IconWrapper = styled.div`
   }
 `;
 
-type PaymentGateways = 'stripe' | 'paypal' | 'external';
+type PaymentGateway = 'stripe' | 'paypal' | 'external';
 
 const paymentGatewayOptions = [
   {
@@ -72,8 +72,14 @@ const paymentGatewayOptions = [
     label: 'PayPal',
     value: 'paypal',
   },
-  { label: 'external', value: 'external' },
+  { label: 'External', value: 'external' },
 ];
+
+const paymentGatewayIds = {
+  external: 'f163017a-cc4f-4619-9e72-26c5ac9ea5e7',
+  paypal: '7c328ad3-53c7-4400-8bba-add5e8381b16',
+  stripe: '6e8588c5-f77e-4b1e-9b70-fc412aa97832',
+};
 
 const FieldsContainer = styled.div`
   width: 100%;
@@ -120,7 +126,7 @@ const ExternalConfiguration = () => (
   </>
 );
 
-const getFieldsForPaymentGateway = (gateway?: PaymentGateways) => {
+const getFieldsForPaymentGateway = (gateway?: PaymentGateway) => {
   switch (gateway) {
     case 'external':
       return <ExternalConfiguration />;
@@ -133,9 +139,6 @@ const getFieldsForPaymentGateway = (gateway?: PaymentGateways) => {
   }
 };
 
-type PaymentMethodModalProps = ModalProps & {
-  paymentMethod?: CommercePaymentMethod;
-};
 
 type StripeConfigType = { publishable_key?: string; secret_key?: string };
 type PaypalConfigType = {
@@ -155,7 +158,7 @@ const validationSchema = Yup.object().shape({
 
 const getInitialConfigValues = (paymentMethod?: CommercePaymentMethod) => {
   if (paymentMethod?.configuration) {
-    switch (paymentMethod.gateway as PaymentGateways) {
+    switch (paymentMethod.gateway as PaymentGateway) {
       case 'stripe': {
         const {
           publishable_key,
@@ -196,6 +199,10 @@ const getInitialConfigValues = (paymentMethod?: CommercePaymentMethod) => {
   return {};
 };
 
+type PaymentMethodModalProps = ModalProps & {
+  paymentMethod?: CommercePaymentMethod;
+};
+
 const PaymentMethodModal = ({
   isOpen,
   onRequestClose,
@@ -220,7 +227,7 @@ const PaymentMethodModal = ({
       <Formik
         initialValues={{
           configuration: getInitialConfigValues(paymentMethod),
-          gateway: paymentMethod?.gateway as PaymentGateways,
+          gateway: paymentMethod?.gateway as PaymentGateway,
           name: paymentMethod?.name || '',
         }}
         validationSchema={validationSchema}
@@ -231,11 +238,19 @@ const PaymentMethodModal = ({
                 id: paymentMethod.id,
                 paymentMethod: {
                   ...values,
+                  gateway: paymentGatewayIds[values.gateway],
                 },
               },
             });
           } else {
-            await createPaymentMethod({ variables: { paymentMethod: values } });
+            await createPaymentMethod({
+              variables: {
+                paymentMethod: {
+                  ...values,
+                  gateway: paymentGatewayIds[values.gateway],
+                },
+              },
+            });
           }
         }}
       >
