@@ -40,8 +40,6 @@ const FlexRow = styled.div`
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1440px;
-  margin: 0 auto;
 `;
 
 const HeaderText = styled.h1`
