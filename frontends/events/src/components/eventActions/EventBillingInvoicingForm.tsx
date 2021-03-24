@@ -101,7 +101,7 @@ const emptyRegionOption = {
 
 const getCompanyNameOptions = (companies: LegalEntity[] = []) => [
   emptyCompanyNameOption,
-  ...companies.map((entity) => ({ label: entity.name, value: entity.id })),
+  ...companies.map((entity) => ({ label: entity.name, value: entity.name })),
 ];
 
 const getCountryOptions = (
