@@ -10,8 +10,10 @@ import {
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
-  EventConfigurationCountry, LegalEntityEdge,
+  EventConfigurationCountry,
+  LegalEntityEdge,
   useCountriesQuery,
+  useEventUpdateMutation,
   useLegalEntityCreateMutation,
   useLegalEntityUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
@@ -98,9 +100,7 @@ const emptyRegionOption = {
   value: undefined,
 };
 
-const getCompanyNameOptions = (
-  companies: LegalEntity[] = [],
-) => [
+const getCompanyNameOptions = (companies: LegalEntity[] = []) => [
   emptyCompanyNameOption,
   ...companies.map((entity) => ({ label: entity.name, value: entity.id })),
 ];
@@ -127,7 +127,7 @@ const EventBillingForm = ({
   legalEntities,
 }: EventBillingFormProps) => {
   console.log('legalEntities', legalEntities);
-  const { token } = useAppContext();
+  const { token, conferenceSlug } = useAppContext();
   const history = useHistory();
   const success = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
@@ -156,6 +156,10 @@ const EventBillingForm = ({
     ].map((element) => element),
   );
 
+  const [updateEvent] = useEventUpdateMutation({
+    context: { token },
+  });
+
   const [createLegalEntity] = useLegalEntityCreateMutation({
     context: { token },
     onCompleted: ({ legalEntityCreate }) => {
@@ -165,11 +169,21 @@ const EventBillingForm = ({
       ) {
         errSnackbar(legalEntityCreate?.userErrors[0].message);
       } else {
+        updateEvent({
+          variables: {
+            event: {
+              legalEntityId: legalEntityCreate?.legalEntity?.id,
+              slug: conferenceSlug as string,
+            },
+          },
+        });
+
         success(`Billing and invoice data created`);
       }
     },
     onError: (e) => error(e.message),
     refetchQueries: ['Event'],
+
   });
 
   const [updateLegalEntity] = useLegalEntityUpdateMutation({
@@ -181,6 +195,14 @@ const EventBillingForm = ({
       ) {
         errSnackbar(legalEntityUpdate?.userErrors[0].message);
       } else {
+        updateEvent({
+          variables: {
+            event: {
+              legalEntityId: legalEntityUpdate?.legalEntity?.id,
+              slug: conferenceSlug || 'test',
+            },
+          },
+        });
         success(`Billing and invoice data updated`);
       }
     },
