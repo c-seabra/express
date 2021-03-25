@@ -195,7 +195,7 @@ const EventBillingForm = ({
           variables: {
             event: {
               legalEntityId: legalEntityUpdate?.legalEntity?.id,
-              slug: conferenceSlug || 'test',
+              slug: conferenceSlug as string,
             },
           },
         });
