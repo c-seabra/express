@@ -59,40 +59,26 @@ type Setting = {
   title: string;
 };
 
-const settings: Setting[] = [
-  {
-    active: false,
-    id: 'billing_invoicing',
-    subTitle:
-      'Provide details of the company hosting the event that will appear on the invoice.',
-    title: 'Billing information',
-  },
-  {
-    id: 'event_info',
-    title: 'Event information',
-  },
-  {
-    id: 'tax_info',
-    title: 'Tax information',
-  },
-  {
-    id: 'payment_methods',
-    title: 'Payment methods',
-  },
-];
-
 const BreadcrumbsContainer = styled.div`
   display: flex;
   margin: 8px 0 8px;
 `;
 
-const Tab = styled.div<{ isSelected?: boolean }>`
+const Tab = styled.div<{ active?: boolean; isSelected?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
   padding: 1rem 1.5rem;
+
+  ${(props) =>
+    !props.active &&
+    css`
+      pointer-events: none;
+      color: #a7a7a7;
+      background-color: #f5f5f5;
+    `};
 
   ${(props) =>
     props.isSelected &&
@@ -112,10 +98,12 @@ const settingsTableShape = (
 ): ColumnDescriptor<Setting>[] => [
   {
     overrideStyle: true,
-    renderCell: ({ id, title }) => (
-      <Tab isSelected={id === currentTab.id}>
+    renderCell: ({ id, title, active }) => (
+      <Tab active={active} isSelected={id === currentTab.id}>
         {title}
-        {!configCompleteRules[id] && <Icon color="#E15554">error_outline</Icon>}
+        {!configCompleteRules[id] && active && (
+          <Icon color="#E15554">error_outline</Icon>
+        )}
       </Tab>
     ),
     width: '100%',
@@ -154,7 +142,6 @@ const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
   const { token } = useAppContext();
   const error = useErrorSnackbar();
-  const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
 
   const { data, loading, refetch } = useEventQuery({
     context: {
@@ -178,7 +165,7 @@ const EventSettings = () => {
     onError: (e) => error(e.message),
   });
 
-  const eventExists = data?.event;
+  const eventExists = !!data?.event;
   const eventName = data?.event?.name;
   const eventLegalEntity = data?.event?.legalEntity;
   const legalEntities = entitiesResult?.legalEntities.edges?.map(
@@ -194,7 +181,33 @@ const EventSettings = () => {
     tax_info:
       !entitiesLoading && !loading && checkTaxInfoCompletion(taxes?.length),
   };
+  const settings: Setting[] = [
+    {
+      active: true,
+      id: 'billing_invoicing',
+      subTitle:
+        'Provide details of the company hosting the event that will appear on the invoice.',
+      title: 'Billing information',
+    },
+    {
+      active: eventExists,
+      id: 'event_info',
+      title: 'Event information',
+    },
+    {
+      active: eventExists,
+      id: 'tax_info',
+      title: 'Tax information',
+    },
+    {
+      active: eventExists,
+      id: 'payment_methods',
+      title: 'Payment methods',
+    },
+  ];
+  const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
   const settingsTable = settingsTableShape(currentTab, configCompleteRules);
+
   const breadcrumbsNewRoutes: Breadcrumb[] = [
     {
       label: 'Settings',
@@ -222,6 +235,13 @@ const EventSettings = () => {
     },
     ...breadcrumbs,
   ];
+  const onTabClick = (item: Setting) => {
+    if (item.active) {
+      return currentTab.id === item.id ? null : setCurrentTab(item);
+    }
+
+    return null;
+  };
 
   return (
     <PageWrapper>
@@ -236,9 +256,7 @@ const EventSettings = () => {
             noHeader
             items={settings}
             tableShape={settingsTable}
-            onRowClick={(item) =>
-              currentTab.id === item.id ? null : setCurrentTab(item)
-            }
+            onRowClick={onTabClick}
           />
         </SettingTabs>
         <SettingsForm>
