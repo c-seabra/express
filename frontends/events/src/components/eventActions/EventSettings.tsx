@@ -157,7 +157,6 @@ const EventSettings = () => {
   const {
     data: entitiesResult,
     loading: entitiesLoading,
-    refetch: refetchEntities,
   } = useLegalEntitiesQuery({
     context: {
       token,
@@ -201,7 +200,7 @@ const EventSettings = () => {
       active: eventExists,
       id: 'billing_invoicing',
       subTitle:
-          'Provide details of the company hosting the event that will appear on the invoice.',
+        'Provide details of the company hosting the event that will appear on the invoice.',
       title: 'Billing information',
     },
   ];

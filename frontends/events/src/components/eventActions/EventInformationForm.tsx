@@ -166,7 +166,9 @@ const EventInformationForm = ({
     context,
   });
 
-  const mappedCountries = countriesData?.countries?.edges?.map((edge) => edge.node);
+  const mappedCountries = countriesData?.countries?.edges?.map(
+    (edge) => edge.node,
+  );
   const sortedCountries = mappedCountries?.sort((a, b) => {
     return a.name.localeCompare(b.name);
   });
@@ -176,8 +178,9 @@ const EventInformationForm = ({
     legalEntitiesData?.legalEntities?.edges?.map((edge) => edge.node),
   );
 
-
-  const mappedTimeZones = timeZonesData?.timeZones?.edges?.map((edge) => edge.node);
+  const mappedTimeZones = timeZonesData?.timeZones?.edges?.map(
+    (edge) => edge.node,
+  );
   const sortedTimeZones = mappedTimeZones?.sort((a, b) => {
     return a.displayName.localeCompare(b.displayName);
   });

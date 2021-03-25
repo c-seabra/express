@@ -159,14 +159,14 @@ const EventBillingForm = ({
 
   const [createLegalEntity] = useLegalEntityCreateMutation({
     context: { token },
-    onCompleted: ({ legalEntityCreate }) => {
+    onCompleted: async ({ legalEntityCreate }) => {
       if (
         legalEntityCreate?.userErrors &&
         legalEntityCreate?.userErrors.length > 0
       ) {
         error(legalEntityCreate?.userErrors[0].message);
       } else {
-        updateEvent({
+        await updateEvent({
           variables: {
             event: {
               legalEntityId: legalEntityCreate?.legalEntity?.id,
@@ -184,14 +184,14 @@ const EventBillingForm = ({
 
   const [updateLegalEntity] = useLegalEntityUpdateMutation({
     context: { token },
-    onCompleted: ({ legalEntityUpdate }) => {
+    onCompleted: async ({ legalEntityUpdate }) => {
       if (
         legalEntityUpdate?.userErrors &&
         legalEntityUpdate?.userErrors.length > 0
       ) {
         error(legalEntityUpdate?.userErrors[0].message);
       } else {
-        updateEvent({
+        await updateEvent({
           variables: {
             event: {
               legalEntityId: legalEntityUpdate?.legalEntity?.id,
