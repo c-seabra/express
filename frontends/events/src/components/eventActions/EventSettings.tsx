@@ -188,12 +188,12 @@ const EventSettings = () => {
       title: 'Event information',
     },
     {
-      active: true,
+      active: eventExists,
       id: 'tax_info',
       title: 'Tax information',
     },
     {
-      active: true,
+      active: eventExists,
       id: 'payment_methods',
       title: 'Payment methods',
     },
