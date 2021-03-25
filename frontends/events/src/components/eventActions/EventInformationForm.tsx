@@ -139,6 +139,8 @@ type EventInformationFormProps = {
         | 'taxNumber'
       > & {
         country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
+      } & {
+        legalEntity: Pick<LegalEntity, 'id' | 'name'> | null;
       })
     | null;
   refetch: () => void;
@@ -219,6 +221,7 @@ const EventInformationForm = ({
           currency: eventInfo?.currency,
           description: eventInfo?.description,
           endDate: eventInfo?.endDate,
+          legalEntityId: eventInfo?.legalEntity?.id,
           name: eventInfo?.name || '',
           slug: eventInfo?.slug || '',
           startDate: eventInfo?.startDate,
@@ -287,7 +290,7 @@ const EventInformationForm = ({
                 <StyledSelectField
                   required
                   label="Company hosting the event"
-                  name="hostCompany"
+                  name="legalEntityId"
                   options={legalEntityOptions}
                 />
                 <ButtonContainer>
