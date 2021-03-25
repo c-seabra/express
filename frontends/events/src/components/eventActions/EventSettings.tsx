@@ -130,9 +130,24 @@ const checkConfigCompletion = (data?: EventQuery): boolean => {
   return false;
 };
 
-const checkTaxInfoCompletion = (size?: number): boolean => {
-  if (size) {
-    return size > 0;
+const checkBillingCompletion = (data?: any): boolean => {
+  if (data) {
+    const { address, id, name, email, regNumber, taxNumber, website } = data;
+    return !!(
+      address &&
+      address?.postalCode &&
+      address?.country &&
+      address?.country?.id &&
+      address?.city &&
+      address?.lineOne &&
+      address?.region &&
+      id &&
+      name &&
+      email &&
+      regNumber &&
+      taxNumber &&
+      website
+    );
   }
 
   return false;
@@ -154,10 +169,7 @@ const EventSettings = () => {
     },
   });
 
-  const {
-    data: entitiesResult,
-    loading: entitiesLoading,
-  } = useLegalEntitiesQuery({
+  const { data: entitiesResult } = useLegalEntitiesQuery({
     context: {
       token,
     },
@@ -174,11 +186,10 @@ const EventSettings = () => {
   const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
   const configCompleteRules = {
     // TODO - fill the 'true' with rules regarding config completion
-    billing_invoicing: true,
+    billing_invoicing: !loading && checkBillingCompletion(eventLegalEntity),
     event_info: !loading && checkConfigCompletion(data),
     payment_methods: true,
-    tax_info:
-      !entitiesLoading && !loading && checkTaxInfoCompletion(taxes?.length),
+    tax_info: !loading && !!taxes?.length,
   };
   const settings: Setting[] = [
     {
