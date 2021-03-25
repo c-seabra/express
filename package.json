@@ -33,8 +33,9 @@
     "ready": "yarn fix && yarn pretty",
     "ci": "yarn ready && yarn build && yarn build:standalone",
     "start": "yarn install && yarn build:packages && yarn start:single-spa --stream",
-    "start:single-spa": "lerna run start --scope @websummit-micro/omnia-container",
-    "start:omnia": "concurrently -n \"s3,webpack\" -k \"yarn run start:serve\" \"yarn run start:single-spa\"",
+    "start:single-spa": "lerna run start --scope @websummit-micro/*",
+    "start:omnia-container": "lerna run start --scope @websummit-micro/omnia-container",
+    "start:omnia": "concurrently -n \"s3,webpack\" -k \"yarn run start:serve\" \"yarn run start:omnia-container\"",
     "start:serve": "yarn run build:standalone && yarn serve --cors -s builds -l 9337",
     "test": "lerna run test"
   },
