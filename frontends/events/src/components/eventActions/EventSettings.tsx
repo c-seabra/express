@@ -151,7 +151,8 @@ const EventSettings = () => {
   });
 
   const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
-    context: { token },
+    context: { headers: { 'x-event-id': slug }, token },
+    skip: !slug,
   });
 
   const configCompleteRules = {

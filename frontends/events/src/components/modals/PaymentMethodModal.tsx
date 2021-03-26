@@ -293,7 +293,7 @@ const PaymentMethodModal = ({
 
               <Spacing bottom="40px">
                 <HeaderText>
-                  {paymentMethod ? 'Edit' : 'Add'} payment method
+                  {paymentMethod ? 'Edit' : 'Add'}&nbsp;payment method
                 </HeaderText>
               </Spacing>
               <FieldsContainer>
@@ -308,7 +308,7 @@ const PaymentMethodModal = ({
               </FieldsContainer>
             </Wrapper>
             <Modal.DefaultFooter
-              submitText={`${paymentMethod ? 'Edit' : 'Add'}payment method`}
+              submitText={`${paymentMethod ? 'Edit' : 'Add'} payment method`}
               onCancelClick={onRequestClose}
             />
           </Form>
