@@ -60,6 +60,10 @@ const ConfNameText = styled.h1`
   letter-spacing: -0.5px;
   line-height: 32px;
   margin: 0;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 type UpcomingEventProps = {

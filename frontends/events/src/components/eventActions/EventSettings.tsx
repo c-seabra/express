@@ -31,6 +31,7 @@ const PageWrapper = styled.div`
 `;
 
 const Header = styled.div`
+  margin-top: 32px;
   font-size: 24px;
   color: #0c1439;
   font-weight: 500;
