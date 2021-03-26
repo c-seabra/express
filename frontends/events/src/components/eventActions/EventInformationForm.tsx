@@ -80,9 +80,10 @@ const ExistingSlugErrorMessage = styled.div`
   margin-top: -1.2rem;
 `;
 
+const SLUG_CHAR_LIMIT = 12;
 const eventInformationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
-  slug: Yup.string().required('Event slug is required'),
+  slug: Yup.string().max(SLUG_CHAR_LIMIT).required('Event slug is required'),
 });
 
 const emptyOption = {
@@ -190,16 +191,24 @@ const EventInformationForm = ({
 
   const [createEvent] = useEventCreateMutation({
     context: { token },
-    onCompleted: () => {
-      success(`Event created`);
+    onCompleted: ({ eventCreate }) => {
+      if (eventCreate?.userErrors && eventCreate?.userErrors.length > 0) {
+        error(eventCreate?.userErrors[0].message);
+      } else {
+        success(`Event created`);
+      }
     },
     onError: (e) => error(e.message),
   });
 
   const [updateEvent] = useEventUpdateMutation({
     context,
-    onCompleted: () => {
-      success(`Event updated`);
+    onCompleted: ({ eventUpdate }) => {
+      if (eventUpdate?.userErrors && eventUpdate?.userErrors.length > 0) {
+        error(eventUpdate?.userErrors[0].message);
+      } else {
+        success(`Event updated`);
+      }
     },
     onError: (e) => error(e.message),
     refetchQueries: [
