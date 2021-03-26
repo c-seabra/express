@@ -46,7 +46,7 @@ const StyledContainerCard = styled(ContainerCard)`
 const ColouredHeader = styled(FlexRow)<{ color?: string }>`
   background-color: ${(props) => props.color || '#F8BA26'};
   border-radius: 5px 5px 0 0;
-  height: 72px;
+  height: 40px;
 `;
 
 const StyledFlexCol = styled(FlexCol)`

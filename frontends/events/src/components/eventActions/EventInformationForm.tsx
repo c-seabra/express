@@ -42,7 +42,7 @@ const ButtonContainer = styled.div`
 `;
 
 const EventInfoContainer = styled.div`
-  margin: -1rem -1.8rem -1.8rem;
+  margin: -1rem -1.8rem -2.8rem;
 `;
 
 const PaddedContainer = styled.div`
@@ -52,7 +52,7 @@ const PaddedContainer = styled.div`
 const Separator = styled.div`
   width: 100%;
   height: 1px;
-  border-top: 1px solid #dde0e5;
+  border-top: 3px solid #f1f1f1;
 `;
 
 const StyledInputField = styled(TextInputField)`

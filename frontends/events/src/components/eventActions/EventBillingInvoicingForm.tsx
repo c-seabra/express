@@ -280,7 +280,7 @@ const EventBillingForm = ({
         }
       }}
     >
-      {() => (
+      {({ resetForm }) => (
         <Form>
           <Spacing bottom="1.75rem">
             <FieldRow>
@@ -303,7 +303,7 @@ const EventBillingForm = ({
               <StyledInputField
                 label="Company’s registration number"
                 name="registrationNumber"
-                placeholder="1234"
+                placeholder="01234567"
                 type="text"
               />
               <StyledInputField
@@ -381,6 +381,10 @@ const EventBillingForm = ({
           </FieldRow>
 
           <ButtonsContainer>
+            <SecondaryButton type="button" onClick={() => resetForm()}>
+              Cancel
+            </SecondaryButton>
+
             <Button type="submit">Save changes</Button>
           </ButtonsContainer>
         </Form>
