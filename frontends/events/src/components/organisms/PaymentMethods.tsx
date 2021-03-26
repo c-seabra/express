@@ -13,6 +13,7 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import CommerceListPaymentMethods from '@websummit/graphql/src/operations/queries/CommerceListPaymentMethods';
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { paymentGatewayMap } from '../../lib/constants/paymentGateways';
@@ -95,6 +96,8 @@ type PaymentMethodsProps = {
 };
 
 const PaymentMethods = ({ paymentMethods }: PaymentMethodsProps) => {
+  const { slug } = useParams<{ slug: string }>();
+
   const { token } = useAppContext();
   const { success, error } = useSnackbars();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
@@ -103,12 +106,12 @@ const PaymentMethods = ({ paymentMethods }: PaymentMethodsProps) => {
 
   const { openModal, isOpen, closeModal } = useModalState();
   const [updatePaymentMethod] = useCommerceUpdatePaymentMethodMutation({
-    context: { token },
+    context: { headers: { 'x-event-id': slug }, token },
     onCompleted: () => success('Payment method updated'),
     onError: (e) => error(e.message),
   });
   const [createPaymentMethod] = useCommerceCreatePaymentMethodMutation({
-    context: { token },
+    context: { headers: { 'x-event-id': slug }, token },
     onCompleted: () => success('Payment method added'),
     onError: (e) => error(e.message),
     refetchQueries: [{ context: { token }, query: CommerceListPaymentMethods }],
