@@ -2,7 +2,6 @@ import Icon from '@websummit/components/src/atoms/Icon';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import Modal, { ModalProps } from '@websummit/components/src/molecules/Modal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
-import { useSnackbars } from '@websummit/components/src/molecules/Snackbar';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
@@ -15,7 +14,10 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { useAppContext } from '../app/AppContext';
+import {
+  PaymentGateway,
+  paymentGatewayIds,
+} from '../../lib/constants/paymentGateways';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -57,8 +59,6 @@ export const IconWrapper = styled.div`
   }
 `;
 
-type PaymentGateway = 'stripe' | 'paypal' | 'external';
-
 const paymentGatewayOptions = [
   {
     label: '',
@@ -66,20 +66,14 @@ const paymentGatewayOptions = [
   },
   {
     label: 'Stripe',
-    value: 'stripe',
+    value: paymentGatewayIds.stripe,
   },
   {
     label: 'PayPal',
-    value: 'paypal',
+    value: paymentGatewayIds.paypal,
   },
-  { label: 'External', value: 'external' },
+  { label: 'External', value: paymentGatewayIds.external },
 ];
-
-const paymentGatewayIds = {
-  external: 'f163017a-cc4f-4619-9e72-26c5ac9ea5e7',
-  paypal: '7c328ad3-53c7-4400-8bba-add5e8381b16',
-  stripe: '6e8588c5-f77e-4b1e-9b70-fc412aa97832',
-};
 
 const FieldsContainer = styled.div`
   width: 100%;
@@ -126,13 +120,13 @@ const ExternalConfiguration = () => (
   </>
 );
 
-const getFieldsForPaymentGateway = (gateway?: PaymentGateway) => {
+const getFieldsForPaymentGateway = (gateway?: string) => {
   switch (gateway) {
-    case 'external':
+    case paymentGatewayIds.external:
       return <ExternalConfiguration />;
-    case 'paypal':
+    case paymentGatewayIds.paypal:
       return <PaypalConfiguration />;
-    case 'stripe':
+    case paymentGatewayIds.stripe:
       return <StripeConfiguration />;
     default:
       return null;
@@ -156,18 +150,18 @@ const validationSchema = Yup.object().shape({
 });
 
 const trimConfiguration = (
-  gateway: PaymentGateway,
+  gateway: string,
   configuration: StripeConfigType | PaypalConfigType | ExternalConfigType,
 ) => {
   switch (gateway) {
-    case 'stripe': {
+    case paymentGatewayIds.stripe: {
       const { publishable_key, secret_key } = configuration as StripeConfigType;
       return {
         publishable_key: publishable_key?.trim() || '',
         secret_key: secret_key?.trim() || '',
       };
     }
-    case 'paypal': {
+    case paymentGatewayIds.paypal: {
       const {
         client_id,
         client_secret,
@@ -179,16 +173,18 @@ const trimConfiguration = (
         env: env?.trim() || '',
       };
     }
-    case 'external':
+    case paymentGatewayIds.external:
     default:
       return configuration;
   }
 };
 
-const getInitialConfigValues = (paymentMethod?: CommercePaymentMethod) => {
+const getInitialConfigValues = (
+  paymentMethod?: Partial<CommercePaymentMethod>,
+) => {
   if (paymentMethod?.configuration) {
-    switch (paymentMethod.gateway as PaymentGateway) {
-      case 'stripe': {
+    switch (paymentMethod.gateway) {
+      case paymentGatewayIds.stripe: {
         const {
           publishable_key,
           secret_key,
@@ -198,7 +194,7 @@ const getInitialConfigValues = (paymentMethod?: CommercePaymentMethod) => {
           secret_key,
         };
       }
-      case 'paypal': {
+      case paymentGatewayIds.paypal: {
         const {
           client_id,
           client_secret,
@@ -210,7 +206,7 @@ const getInitialConfigValues = (paymentMethod?: CommercePaymentMethod) => {
           env,
         };
       }
-      case 'external': {
+      case paymentGatewayIds.external: {
         const {
           refundMethod,
           acceptUnpaidRefunds,
@@ -229,31 +225,26 @@ const getInitialConfigValues = (paymentMethod?: CommercePaymentMethod) => {
 };
 
 type PaymentMethodModalProps = ModalProps & {
-  paymentMethod?: CommercePaymentMethod;
+  createPaymentMethod: ReturnType<
+    typeof useCommerceCreatePaymentMethodMutation
+  >[0];
+  paymentMethod?: Partial<CommercePaymentMethod>;
+  updatePaymentMethod: ReturnType<
+    typeof useCommerceUpdatePaymentMethodMutation
+  >[0];
 };
 
 const PaymentMethodModal = ({
   isOpen,
   onRequestClose,
   paymentMethod,
+  updatePaymentMethod,
+  createPaymentMethod,
 }: PaymentMethodModalProps) => {
-  const { token } = useAppContext();
-  const { success, error } = useSnackbars();
-
-  const [createPaymentMethod] = useCommerceCreatePaymentMethodMutation({
-    context: { token },
-    onCompleted: () => success('Payment method added'),
-    onError: (e) => error(e.message),
-  });
-  const [updatePaymentMethod] = useCommerceUpdatePaymentMethodMutation({
-    context: { token },
-    onCompleted: () => success('Payment method updated'),
-    onError: (e) => error(e.message),
-  });
-
   return (
     <Modal withDefaultFooter isOpen={isOpen} onRequestClose={onRequestClose}>
       <Formik
+        enableReinitialize
         initialValues={{
           configuration: getInitialConfigValues(paymentMethod),
           gateway: paymentMethod?.gateway as PaymentGateway,
@@ -271,7 +262,6 @@ const PaymentMethodModal = ({
                     values.gateway,
                     values.configuration,
                   ),
-                  gateway: paymentGatewayIds[values.gateway],
                 },
               },
             });
@@ -284,11 +274,12 @@ const PaymentMethodModal = ({
                     values.gateway,
                     values.configuration,
                   ),
-                  gateway: paymentGatewayIds[values.gateway],
                 },
               },
             });
           }
+
+          onRequestClose();
         }}
       >
         {({ values }) => (
@@ -317,7 +308,7 @@ const PaymentMethodModal = ({
               </FieldsContainer>
             </Wrapper>
             <Modal.DefaultFooter
-              submitText="Add payment method"
+              submitText={`${paymentMethod ? 'Edit' : 'Add'}payment method`}
               onCancelClick={onRequestClose}
             />
           </Form>

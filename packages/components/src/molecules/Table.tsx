@@ -81,10 +81,15 @@ export type ColumnDescriptor<T> = {
   width?: string;
 };
 
+export type ColumnDescriptors<T> = ColumnDescriptor<T>[];
+
 export type TableProps<T> = {
   items?: T[];
   noHeader?: boolean;
-  onRowClick?: (item: T) => void;
+  onRowClick?: (
+    item: T,
+    event?: React.MouseEvent<HTMLLIElement, MouseEvent>,
+  ) => void;
   renderFooter?: () => ReactNode;
   tableShape: ColumnDescriptor<T>[];
 };

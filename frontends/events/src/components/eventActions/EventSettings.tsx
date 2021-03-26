@@ -8,6 +8,7 @@ import Table, {
 } from '@websummit/components/src/molecules/Table';
 import {
   EventQuery,
+  useCommerceListPaymentMethodsQuery,
   useEventQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
@@ -149,6 +150,10 @@ const EventSettings = () => {
     },
   });
 
+  const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
+    context: { token },
+  });
+
   const configCompleteRules = {
     // TODO - fill the 'true' with rules regarding config completion
     billing_invoicing: true,
@@ -225,7 +230,11 @@ const EventSettings = () => {
               />
             )}
             {currentTab.id === 'payment_methods' && (
-              <PaymentMethods paymentMethods={[]} />
+              <PaymentMethods
+                paymentMethods={
+                  paymentMethodsData?.commerceListPaymentMethods?.hits
+                }
+              />
             )}
           </SettingsSection>
         </SettingsForm>
