@@ -1,0 +1,46 @@
+{
+  "name": "@websummit-micro/summit-engine-nav",
+  "private": true,
+  "license": "MIT",
+  "version": "1.0.0",
+  "scripts": {
+    "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
+    "build": "webpack --mode=production",
+    "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
+    "clean": "rimraf -rf ./dist",
+    "coverage": "cross-env BABEL_ENV=test jest --coverage",
+    "start": "webpack serve --port 9020",
+    "start:standalone": "webpack serve --env standalone"
+  },
+  "dependencies": {
+    "@apollo/client": "*",
+    "@apollo/react-common": "*",
+    "@websummit/components": "*",
+    "@websummit/glue": "*",
+    "@websummit/graphql": "*",
+    "formik": "*",
+    "isomorphic-unfetch": "*",
+    "jwt-decode": "*",
+    "luxon": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-helmet": "*",
+    "react-modal": "*",
+    "react-router-dom": "*",
+    "styled-components": "*",
+    "yup": "*"
+  },
+  "devDependencies": {},
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

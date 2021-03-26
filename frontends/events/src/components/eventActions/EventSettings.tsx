@@ -136,16 +136,19 @@ const checkConfigCompletion = (data?: EventQuery): boolean => {
 
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { token } = useAppContext();
+  const { conferenceSlug, token } = useAppContext();
+
+  const usedSlug = slug || conferenceSlug;
+
   const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
 
   const { data, loading, refetch } = useEventQuery({
     context: {
       token,
     },
-    skip: !slug,
+    skip: !usedSlug,
     variables: {
-      slug,
+      slug: usedSlug,
     },
   });
 
