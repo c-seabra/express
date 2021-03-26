@@ -23,25 +23,25 @@ const allApps = [
     type: 'route',
   },
   {
-    altPath: 'tickets/support_dashboard',
+    altPath: 'conferences/:conferenceId/tickets/support_dashboard',
     path: 'ticket-support',
     routes: [{ name: '@websummit-micro/ticket-support', type: 'application' }],
     type: 'route',
   },
   {
-    altPath: 'tickets/staff-tickets/micro',
+    altPath: 'conferences/:conferenceId/tickets/staff-tickets/micro',
     path: 'staff-tickets',
     routes: [{ name: '@websummit-micro/staff-tickets', type: 'application' }],
     type: 'route',
   },
   {
-    altPath: 'tickets/bulk-assign',
+    altPath: 'conferences/:conferenceId/tickets/bulk-assign',
     path: 'bulk-assign',
     routes: [{ name: '@websummit-micro/bulk-assign', type: 'application' }],
     type: 'route',
   },
   {
-    altPath: 'investor_portal',
+    altPath: 'conferences/:conferenceId/investor_portal',
     path: 'investor-portal',
     routes: [{ name: '@websummit-micro/investor-portal', type: 'application' }],
     type: 'route',
@@ -60,6 +60,18 @@ const allApps = [
     {
       ...app,
       path: `micro/${app.path}`,
+    },
+    {
+      ...app,
+      path: `conferences/:conferenceId/~/${app.path}`,
+    },
+    {
+      ...app,
+      path: `conferences/:conferenceId/~${app.path}`,
+    },
+    {
+      ...app,
+      path: `conferences/:conferenceId/micro/${app.path}`,
     },
   ];
   if (app.altPath) {
