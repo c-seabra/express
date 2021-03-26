@@ -87,7 +87,7 @@ const UpcomingEvents = ({
           {events &&
             events.map((event: Event, index: number) => (
               <StyledContainerCard key={event.id} noPadding>
-                <ColouredHeader color={colors[index % (colors.length)]} />
+                <ColouredHeader color={colors[index % colors.length]} />
                 <StyledFlexCol>
                   <>
                     <Spacing bottom="10px">
