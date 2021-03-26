@@ -10,6 +10,6 @@
     "@websummit-micro/staff-tickets": "/staff-tickets/frontends.staffTickets.bundle.js",
     "@websummit-micro/bulk-assign": "/bulk-assign/frontends.bulkAssign.bundle.js",
     "@websummit-micro/investor-portal": "/investor-portal/frontends.investorPortal.bundle.js",
-    "@websummit-micro/events": "/investor-portal/frontends.events.bundle.js"
+    "@websummit-micro/events": "/events/frontends.events.bundle.js"
   }
 }
