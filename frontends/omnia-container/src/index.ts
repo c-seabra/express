@@ -51,6 +51,10 @@ const allApps = [
     },
     {
       ...app,
+      path: `~${app.path}`,
+    },
+    {
+      ...app,
       path: `micro/${app.path}`,
     },
   ];
