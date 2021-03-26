@@ -26,28 +26,27 @@ const allApps = [
     altPath: 'tickets/support_dashboard',
     path: 'ticket-support',
     routes: [{ name: '@websummit-micro/ticket-support', type: 'application' }],
-    type: 'route'
+    type: 'route',
   },
   {
     altPath: 'tickets/staff-tickets/micro',
     path: 'staff-tickets',
     routes: [{ name: '@websummit-micro/staff-tickets', type: 'application' }],
-    type: 'route'
+    type: 'route',
   },
   {
     altPath: 'tickets/bulk-assign',
     path: 'bulk-assign',
     routes: [{ name: '@websummit-micro/bulk-assign', type: 'application' }],
-    type: 'route'
+    type: 'route',
   },
   {
     altPath: 'investor_portal',
     path: 'investor-portal',
     routes: [{ name: '@websummit-micro/investor-portal', type: 'application' }],
-    type: 'route'
+    type: 'route',
   },
 ].flatMap((app) => {
-
   const variations = [
     app,
     {
@@ -67,8 +66,9 @@ const allApps = [
     variations.push({
       ...app,
       path: app.altPath,
-    },)
+    });
   }
+  return variations;
 });
 
 const apps: Array<any> = [
