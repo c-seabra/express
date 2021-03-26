@@ -6,7 +6,16 @@ export default function Root(props: any) {
   return (
     <section>
       {name} is mounted with {meaningOfLife}!<h2>props:</h2>
-      <pre>{JSON.stringify(props, null, 2)}</pre>
+      <pre>
+        {JSON.stringify(
+          {
+            props,
+            'window.location': window.location,
+          },
+          null,
+          2,
+        )}
+      </pre>
     </section>
   );
 }
