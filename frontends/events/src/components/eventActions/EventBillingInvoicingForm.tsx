@@ -206,6 +206,11 @@ const EventBillingForm = ({
     refetchQueries: ['Event'],
   });
 
+  const fillCompanyInfo = (event: any) => {
+    console.log('fillCompanyInfo', event.target.value);
+    console.log('fillCompanyInfo', event);
+  };
+
   return (
     <Formik
       enableReinitialize
@@ -230,19 +235,19 @@ const EventBillingForm = ({
             variables: {
               input: {
                 address: {
-                  city: values.city,
+                  city: values.city.trim(),
                   countryId: values.country,
-                  lineOne: values.address1,
-                  lineTwo: values.address2,
-                  postalCode: values.postalCode,
+                  lineOne: values.address1.trim(),
+                  lineTwo: values.address2.trim(),
+                  postalCode: values.postalCode.trim(),
                   region: values.region,
                 },
-                email: values.email,
+                email: values.email.trim(),
                 id: eventBilling.id,
-                name: values.companyName,
-                regNumber: values.registrationNumber,
-                taxNumber: values.taxNumber,
-                website: values.website,
+                name: values.companyName.trim(),
+                regNumber: values.registrationNumber.trim(),
+                taxNumber: values.taxNumber.trim(),
+                website: values.website.trim(),
               },
             },
           });
@@ -251,18 +256,18 @@ const EventBillingForm = ({
             variables: {
               input: {
                 address: {
-                  city: values.city,
+                  city: values.city.trim(),
                   countryId: values.country,
-                  lineOne: values.address1,
-                  lineTwo: values.address2,
-                  postalCode: values.postalCode,
+                  lineOne: values.address1.trim(),
+                  lineTwo: values.address2.trim(),
+                  postalCode: values.postalCode.trim(),
                   region: values.region,
                 },
-                email: values.email,
-                name: values.companyName,
-                regNumber: values.registrationNumber,
-                taxNumber: values.taxNumber,
-                website: values.website,
+                email: values.email.trim(),
+                name: values.companyName.trim(),
+                regNumber: values.registrationNumber.trim(),
+                taxNumber: values.taxNumber.trim(),
+                website: values.website.trim(),
               },
             },
           });
