@@ -114,11 +114,12 @@ const PaymentMethods = ({ paymentMethods }: PaymentMethodsProps) => {
     refetchQueries: [{ context: { token }, query: CommerceListPaymentMethods }],
   });
 
+  const areNoPaymentMethodsPresent =
+    paymentMethods?.length && paymentMethods?.length > 0;
+
   return (
     <>
-      {!paymentMethods ? (
-        <NoPaymentMethodsPlaceholder action={openModal} />
-      ) : (
+      {areNoPaymentMethodsPresent ? (
         <>
           <Spacing top="20px">
             <Spacing bottom="32px">
@@ -140,7 +141,7 @@ const PaymentMethods = ({ paymentMethods }: PaymentMethodsProps) => {
                 disableToggleAll
                 lastColumn
                 header="Active"
-                items={paymentMethods.map((method) => ({
+                items={paymentMethods?.map((method) => ({
                   ...method,
                   selected: method.active,
                 }))}
@@ -163,6 +164,8 @@ const PaymentMethods = ({ paymentMethods }: PaymentMethodsProps) => {
             </ContainerCard>
           </Spacing>
         </>
+      ) : (
+        <NoPaymentMethodsPlaceholder action={openModal} />
       )}
 
       <PaymentMethodModal
