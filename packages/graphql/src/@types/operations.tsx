@@ -6476,7 +6476,7 @@ export type LegalEntityUpdateInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   regNumber?: Maybe<Scalars['String']>;
   taxNumber?: Maybe<Scalars['String']>;
@@ -8273,6 +8273,31 @@ export type TaEventDataQuery = { __typename?: 'Query' } & {
       | 'passportRequired'
     >
   >;
+};
+
+export type LegalEntityQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type LegalEntityQuery = { __typename?: 'Query' } & {
+  legalEntity: { __typename?: 'LegalEntity' } & Pick<
+    LegalEntity,
+    'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'
+  > & {
+      address: Maybe<
+        { __typename?: 'Address' } & Pick<
+          Address,
+          'city' | 'id' | 'lineOne' | 'lineTwo' | 'postalCode' | 'region'
+        > & {
+            country: Maybe<
+              { __typename?: 'EventConfigurationCountry' } & Pick<
+                EventConfigurationCountry,
+                'code' | 'id' | 'name'
+              >
+            >;
+          }
+      >;
+    };
 };
 
 export type LegalEntitiesQueryVariables = Exact<{ [key: string]: never }>;
@@ -15994,6 +16019,152 @@ export type TaEventDataLazyQueryHookResult = ReturnType<
 export type TaEventDataQueryResult = Apollo.QueryResult<
   TaEventDataQuery,
   TaEventDataQueryVariables
+>;
+export const LegalEntityDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'legalEntity' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'legalEntity' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'code' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lineOne' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lineTwo' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'postalCode' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'region' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'regNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useLegalEntityQuery__
+ *
+ * To run a query within a React component, call `useLegalEntityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLegalEntityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLegalEntityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useLegalEntityQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    LegalEntityQuery,
+    LegalEntityQueryVariables
+  >,
+) {
+  return Apollo.useQuery<LegalEntityQuery, LegalEntityQueryVariables>(
+    LegalEntityDocument,
+    baseOptions,
+  );
+}
+export function useLegalEntityLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    LegalEntityQuery,
+    LegalEntityQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<LegalEntityQuery, LegalEntityQueryVariables>(
+    LegalEntityDocument,
+    baseOptions,
+  );
+}
+export type LegalEntityQueryHookResult = ReturnType<typeof useLegalEntityQuery>;
+export type LegalEntityLazyQueryHookResult = ReturnType<
+  typeof useLegalEntityLazyQuery
+>;
+export type LegalEntityQueryResult = Apollo.QueryResult<
+  LegalEntityQuery,
+  LegalEntityQueryVariables
 >;
 export const LegalEntitiesDocument: DocumentNode = {
   definitions: [

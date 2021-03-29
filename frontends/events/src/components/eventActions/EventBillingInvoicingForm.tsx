@@ -14,6 +14,8 @@ import {
   useCountriesQuery,
   useEventUpdateMutation,
   useLegalEntityCreateMutation,
+  useLegalEntityLazyQuery,
+  useLegalEntityQuery,
   useLegalEntityUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
@@ -101,7 +103,11 @@ const emptyRegionOption = {
 
 const getCompanyNameOptions = (companies: LegalEntity[] = []) => [
   emptyCompanyNameOption,
-  ...companies.map((entity) => ({ label: entity.name, value: entity.name })),
+  ...companies.map((entity) => ({
+    id: entity.id,
+    label: entity.name,
+    value: entity.name,
+  })),
 ];
 
 const getCountryOptions = (
@@ -206,28 +212,53 @@ const EventBillingForm = ({
     refetchQueries: ['Event'],
   });
 
+  const [
+    legalEntityResult,
+    { loading: entityLoading, data: entityData },
+  ] = useLegalEntityLazyQuery({
+    context: { token },
+    onCompleted: ({ legalEntity }) => {
+      if (legalEntity) {
+        success(`Billing and invoice data switched to ${legalEntity.name}`);
+      }
+    },
+    onError: (e) => error(e.message),
+  });
+
   const fillCompanyInfo = (event: any) => {
-    console.log('fillCompanyInfo', event.target.value);
-    console.log('fillCompanyInfo', event);
+    const name = event.target.value;
+    const legalEntity = legalEntities?.filter(
+      (element) => element.name === name,
+    )[0];
+    const legalEntityId = legalEntity?.id;
+    legalEntityResult({
+      variables: {
+        id: legalEntityId || '',
+      },
+    });
+  };
+
+  const initializeFields = (eventBillingResponse: any) => {
+    return {
+      address1: eventBillingResponse?.address?.lineOne || '',
+      address2: eventBillingResponse?.address?.lineTwo || '',
+      city: eventBillingResponse?.address?.city || '',
+      companyName: eventBillingResponse?.name || '',
+      country: eventBillingResponse?.address?.country.id || '',
+      email: eventBillingResponse?.email || '',
+      name: eventBillingResponse?.name || '',
+      postalCode: eventBillingResponse?.address?.postalCode || '',
+      region: eventBillingResponse?.address?.region || '',
+      registrationNumber: eventBillingResponse?.regNumber || '',
+      taxNumber: eventBillingResponse?.taxNumber || '',
+      website: eventBillingResponse?.website || '',
+    };
   };
 
   return (
     <Formik
       enableReinitialize
-      initialValues={{
-        address1: eventBilling?.address?.lineOne || '',
-        address2: eventBilling?.address?.lineTwo || '',
-        city: eventBilling?.address?.city || '',
-        companyName: eventBilling?.name || '',
-        country: eventBilling?.address?.country.id || '',
-        email: eventBilling?.email || '',
-        name: eventBilling?.name || '',
-        postalCode: eventBilling?.address?.postalCode || '',
-        region: eventBilling?.address?.region || '',
-        registrationNumber: eventBilling?.regNumber || '',
-        taxNumber: eventBilling?.taxNumber || '',
-        website: eventBilling?.website || '',
-      }}
+      initialValues={initializeFields(eventBilling)}
       validationSchema={eventBillingSchema}
       onSubmit={async (values) => {
         if (eventBilling?.id) {
@@ -289,6 +320,7 @@ const EventBillingForm = ({
                 label="Host company name"
                 name="companyName"
                 options={companyNameOptions}
+                onChange={fillCompanyInfo}
               />
 
               <StyledInputField
