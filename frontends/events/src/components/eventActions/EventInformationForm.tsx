@@ -88,6 +88,8 @@ const eventInformationSchema = Yup.object().shape({
   
   name: Yup.string().required('Name is required'),
   slug: Yup.string().max(SLUG_CHAR_LIMIT).required('Event slug is required'),
+
+  // TODO: fix cyclical dependency of start and end fields
   // startDate: Yup.date().when('endDate', (st: any, schema: any) => {
   //   return schema.max(st);
   // }),
@@ -114,10 +116,10 @@ const getCountryOptions = (
 ];
 
 const getLegalEntityOptions = (
-  legalEntites: Pick<LegalEntity, 'name' | 'id'>[] = [],
+  legalEntities: Pick<LegalEntity, 'name' | 'id'>[] = [],
 ) => [
   emptyOption,
-  ...legalEntites.map((legalEntity) => ({
+  ...legalEntities.map((legalEntity) => ({
     label: legalEntity.name,
     value: legalEntity.id,
   })),
