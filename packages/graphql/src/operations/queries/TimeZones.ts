@@ -7,6 +7,7 @@ const TIME_ZONES = gql`
         node {
           displayName
           ianaName
+          utcOffset
         }
       }
     }

@@ -13,6 +13,7 @@ const EVENT = gql`
       timeZone {
         displayName
         ianaName
+        utcOffset
       }
       baseUrl
       country {

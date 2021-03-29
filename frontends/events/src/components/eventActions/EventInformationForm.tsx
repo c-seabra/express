@@ -85,7 +85,7 @@ const eventInformationSchema = Yup.object().shape({
   endDate: Yup.date().when('startDate', (st: any, schema: any) => {
     return schema.min(st);
   }),
-  
+
   name: Yup.string().required('Name is required'),
   slug: Yup.string().max(SLUG_CHAR_LIMIT).required('Event slug is required'),
 
@@ -127,8 +127,8 @@ const getLegalEntityOptions = (
 
 const getTimeZoneOptions = (timeZones: TimeZone[] = []) => [
   emptyOption,
-  ...timeZones.map((timeZone) => ({
-    label: timeZone.displayName,
+  ...timeZones.map((timeZone: TimeZone) => ({
+    label: `UTC${timeZone.utcOffset} - ${timeZone.displayName}` ,
     value: timeZone.ianaName,
   })),
 ];
@@ -194,7 +194,7 @@ const EventInformationForm = ({
     (edge) => edge.node,
   );
   const sortedTimeZones = mappedTimeZones?.sort((a, b) => {
-    return a.displayName.localeCompare(b.displayName);
+    return a.utcOffset.localeCompare(b.utcOffset);
   });
   const timeZoneOptions = getTimeZoneOptions(sortedTimeZones);
 
