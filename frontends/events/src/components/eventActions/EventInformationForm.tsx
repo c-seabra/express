@@ -3,6 +3,7 @@ import {
   SecondaryButton,
   TextButton,
 } from '@websummit/components/src/atoms/Button';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import { useSnackbars } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
@@ -18,6 +19,7 @@ import {
   useEventLazyQuery,
   useEventUpdateMutation,
   useLegalEntitiesQuery,
+  useLegalEntityCreateMutation,
   useTimeZonesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import EVENT from '@websummit/graphql/src/operations/queries/Event';
@@ -28,6 +30,8 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { useAppContext } from '../app/AppContext';
+import LegalEntityCreateModal from '../modals/LegalEntityCreateModal';
+import LegalEntityCreateModalWrapper from '../modals/LegalEntityCreateModalWrapper';
 
 const FieldRow = styled.div`
   display: flex;
@@ -162,9 +166,14 @@ const EventInformationForm = ({
   refetch,
   slugParam,
 }: EventInformationFormProps) => {
-  const { token } = useAppContext();
+  const { token, conferenceSlug } = useAppContext();
   const context = { token };
   const history = useHistory();
+  const {
+    openModal: openAddHostModal,
+    isOpen: isAddHostModalOpen,
+    closeModal: closeAddHostModal,
+  } = useModalState();
 
   const { success, error } = useSnackbars();
 
@@ -248,9 +257,10 @@ const EventInformationForm = ({
         }}
         validationSchema={eventInformationSchema}
         onSubmit={async (values) => {
+          console.log(values);
           if (eventInfo?.id) {
             await updateEvent({
-              variables: { event: values },
+              variables: { input: values },
             });
           } else {
             const { data: mutationResult, errors } = await createEvent({
@@ -267,6 +277,10 @@ const EventInformationForm = ({
       >
         {({ resetForm, values }) => (
           <Form>
+            <LegalEntityCreateModalWrapper
+              closeModal={closeAddHostModal}
+              isOpen={isAddHostModalOpen}
+            />
             <PaddedContainer>
               <TextInputField required label="Event name" name="name" />
               <FieldRow>
@@ -312,7 +326,9 @@ const EventInformationForm = ({
                   options={legalEntityOptions}
                 />
                 <ButtonContainer>
-                  <TextButton type="button">Add host company</TextButton>
+                  <TextButton type="button" onClick={openAddHostModal}>
+                    Add host company
+                  </TextButton>
                 </ButtonContainer>
               </FieldRow>
               <FieldRow>
