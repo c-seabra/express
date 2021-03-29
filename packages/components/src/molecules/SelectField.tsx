@@ -56,6 +56,7 @@ type SelectFieldProps = {
   disabled?: boolean;
   label?: string;
   name: string;
+  onChange?: (event: any) => void;
   options?: SelectFieldOption[];
   placeholder?: string;
   required?: boolean;
@@ -69,6 +70,7 @@ const SelectField = ({
   options = [],
   required = false,
   disabled = false,
+  onChange,
 }: SelectFieldProps) => {
   return (
     <FieldContainer className={className}>
@@ -80,6 +82,7 @@ const SelectField = ({
             {...field}
             disabled={disabled}
             placeholder={placeholder}
+            onChange={onChange}
           >
             {options.map((option) => (
               <option
