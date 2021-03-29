@@ -1,5 +1,5 @@
-import { Icon } from '@material-ui/core';
 import { Button } from '@websummit/components/src/atoms/Button';
+import Icon from '@websummit/components/src/atoms/Icon';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import SelectableTable from '@websummit/components/src/molecules/SelectableTable';
