@@ -51,6 +51,7 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
 
   switch (ticket?.state) {
     case 'PENDING':
+    case 'DUPLICATE':
       return (
         <>
           <TextButton onClick={openModal}>

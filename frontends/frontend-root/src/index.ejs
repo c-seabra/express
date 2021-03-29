@@ -56,7 +56,8 @@
         "@websummit-micro/staff-tickets": "//localhost:9003/websummit-micro-staff-tickets.js",
         "@websummit-micro/bulk-assign": "//localhost:9004/websummit-micro-bulk-assign.js",
         "@websummit-micro/investor-portal": "//localhost:9005/websummit-micro-investor-portal.js",
-        "@websummit-micro/events": "//localhost:9006/websummit-micro-events.js"
+        "@websummit-micro/events": "//localhost:9006/websummit-micro-events.js",
+        "@websummit-micro/summit-engine-nav": "//localhost:9020/websummit-micro-summit-engine-nav.js"
       }
     }
   </script>
@@ -76,42 +77,12 @@
   <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/system.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.min.js"></script>
   <% } %>
-
-  <template id="single-spa-layout">
-    <single-spa-router>
-      <!-- <nav>
-        <application name="@<%- orgName %>/navbar"></application>
-      </nav> -->
-      <main>
-        <route default>
-          <application name="@single-spa/welcome"></application>
-        </route>
-        <route path="demo">
-          <application name="@websummit-micro/frontend-demo"></application>
-        </route>
-        <route path="ticket-support">
-          <application name="@websummit-micro/ticket-support"></application>
-        </route>
-        <route path="staff-tickets">
-          <application name="@websummit-micro/staff-tickets"></application>
-        </route>
-        <route path="bulk-assign">
-          <application name="@websummit-micro/bulk-assign"></application>
-        </route>
-        <route path="investor-portal">
-          <application name="@websummit-micro/investor-portal"></application>
-        </route>
-        <route path="events">
-          <application name="@websummit-micro/events"></application>
-        </route>
-      </main>
-    </single-spa-router>
-  </template>
 </head>
 <body>
   <script>
     System.import('@websummit-micro/root-config');
   </script>
+  <div id="micro"></div>
   <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
 </html>

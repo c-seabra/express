@@ -15,6 +15,7 @@
   "dependencies": {
     "single-spa": "*",
     "single-spa-layout": "*",
-    "systemjs": "*"
+    "systemjs": "*",
+    "@websummit/glue": "*"
   }
 }

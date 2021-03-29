@@ -147,9 +147,9 @@ const checkBillingCompletion = (data?: any): boolean => {
 
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { token } = useAppContext();
   const error = useErrorSnackbar();
-
+  const { conferenceSlug, token } = useAppContext();
+  const usedSlug = slug || conferenceSlug;
   const { data, loading, refetch } = useEventQuery({
     context: {
       token,
@@ -157,7 +157,7 @@ const EventSettings = () => {
     onError: (e) => error(e.message),
     skip: !slug,
     variables: {
-      slug,
+      slug: usedSlug,
     },
   });
 

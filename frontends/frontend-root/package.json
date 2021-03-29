@@ -13,6 +13,7 @@
   "devDependencies": {},
   "dependencies": {
     "single-spa": "*",
-    "single-spa-layout": "*"
+    "single-spa-layout": "*",
+    "@websummit/glue": "*"
   }
 }
