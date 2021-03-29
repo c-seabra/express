@@ -8,6 +8,7 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import {
+  EventQuery,
   useCommerceListPaymentMethodsQuery,
   useEventQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -95,13 +96,37 @@ const Tab = styled.div<{ isSelected?: boolean }>`
     `};
 `;
 
+const checkEventInfoCompletion = (data?: EventQuery): boolean => {
+  if (data) {
+    const { event } = data;
+    return !!(
+      event?.baseUrl &&
+      event?.country &&
+      event?.currency &&
+      event?.endDate &&
+      event?.startDate &&
+      event?.taxNumber &&
+      event?.timeZone &&
+      event?.name &&
+      event?.slug
+    );
+  }
+
+  return false;
+};
+
+type Rule = {
+  ready: boolean;
+  text?: string;
+};
+
 const settingsTableShape = (
   currentTab: Setting,
   configCompleteRules: {
-    billing_invoicing: boolean;
-    event_info: boolean;
-    payment_methods: boolean;
-    tax_info: boolean;
+    billing_invoicing: Rule;
+    event_info: Rule;
+    payment_methods: Rule;
+    tax_info: Rule;
   },
 ): ColumnDescriptor<Setting>[] => [
   {
@@ -109,8 +134,8 @@ const settingsTableShape = (
     renderCell: ({ id, title }) => (
       <Tab isSelected={id === currentTab.id}>
         {title}
-        <Tooltip content="Configuration incomplete">
-          {!configCompleteRules[id] && (
+        <Tooltip content={configCompleteRules[id].text}>
+          {!configCompleteRules[id].ready && (
             <Icon color="#E15554">error_outline</Icon>
           )}
         </Tooltip>
@@ -142,12 +167,28 @@ const EventSettings = () => {
 
   const configCompletion = getServicesReadyForEvent(data);
 
+  const eventInfoSpecificCompletion = checkEventInfoCompletion(data);
+
   const configCompleteRules = {
     // TODO - fill the 'true' with rules regarding config completion
-    billing_invoicing: true,
-    event_info: configCompletion.avenger.ready,
-    payment_methods: configCompletion.stores.ready,
-    tax_info: true,
+    billing_invoicing: {
+      ready: true,
+    },
+    event_info: {
+      ready: configCompletion.avenger.ready && eventInfoSpecificCompletion,
+      text: !eventInfoSpecificCompletion ? 'Event information incomplete' : '',
+    },
+    payment_methods: {
+      ready: configCompletion.stores.ready,
+      text: configCompletion.stores.missing.some(
+        (missingField) => missingField === 'legalEntity',
+      )
+        ? 'Host company missing from event information'
+        : 'Configuration incomplete',
+    },
+    tax_info: {
+      ready: true,
+    },
   };
 
   const settingsTable = settingsTableShape(currentTab, configCompleteRules);

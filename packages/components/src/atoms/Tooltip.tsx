@@ -43,7 +43,7 @@ const Tooltip = ({ content = '', children }: TooltipProps) => {
   return (
     <StyledTooltip>
       {children}
-      <TooltipIndicator>{content}</TooltipIndicator>
+      {content && <TooltipIndicator>{content}</TooltipIndicator>}
     </StyledTooltip>
   );
 };
