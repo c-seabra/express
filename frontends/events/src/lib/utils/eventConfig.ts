@@ -37,7 +37,7 @@ const getConfigCompletion = (data?: EventQuery) => (
   }
 
   return {
-    missing: Object.assign([], eventCompletionRequirements.avenger),
+    missing: Object.assign([], eventCompletionRequirements[rule]),
     ready: false,
   };
 };
