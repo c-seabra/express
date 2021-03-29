@@ -1,4 +1,5 @@
 import Icon from '@websummit/components/src/atoms/Icon';
+import Tooltip from '@websummit/components/src/atoms/Tooltip';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
@@ -7,7 +8,6 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import {
-  EventQuery,
   useCommerceListPaymentMethodsQuery,
   useEventQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -15,6 +15,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import { getServicesReadyForEvent } from '../../lib/utils/eventConfig';
 import { useAppContext } from '../app/AppContext';
 import PaymentMethods from '../organisms/PaymentMethods';
 import SelectTax from '../organisms/SelectTax';
@@ -108,32 +109,16 @@ const settingsTableShape = (
     renderCell: ({ id, title }) => (
       <Tab isSelected={id === currentTab.id}>
         {title}
-        {!configCompleteRules[id] && <Icon color="#E15554">error_outline</Icon>}
+        <Tooltip content="Configuration incomplete">
+          {!configCompleteRules[id] && (
+            <Icon color="#E15554">error_outline</Icon>
+          )}
+        </Tooltip>
       </Tab>
     ),
     width: '100%',
   },
 ];
-
-const checkConfigCompletion = (data?: EventQuery): boolean => {
-  if (data) {
-    const { event } = data;
-    return !!(
-      event?.baseUrl &&
-      event?.country &&
-      event?.currency &&
-      event?.endDate &&
-      event?.startDate &&
-      event?.taxNumber &&
-      event?.legalEntity &&
-      event?.timeZone &&
-      event?.name &&
-      event?.slug
-    );
-  }
-
-  return false;
-};
 
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -155,11 +140,13 @@ const EventSettings = () => {
     skip: !slug,
   });
 
+  const configCompletion = getServicesReadyForEvent(data);
+
   const configCompleteRules = {
     // TODO - fill the 'true' with rules regarding config completion
     billing_invoicing: true,
-    event_info: checkConfigCompletion(data),
-    payment_methods: true,
+    event_info: configCompletion.avenger.ready,
+    payment_methods: configCompletion.stores.ready,
     tax_info: true,
   };
 
