@@ -128,7 +128,7 @@ const getLegalEntityOptions = (
 const getTimeZoneOptions = (timeZones: TimeZone[] = []) => [
   emptyOption,
   ...timeZones.map((timeZone: TimeZone) => ({
-    label: `UTC${timeZone.utcOffset} - ${timeZone.displayName}` ,
+    label: `UTC${timeZone.utcOffset} - ${timeZone.displayName}`,
     value: timeZone.ianaName,
   })),
 ];
