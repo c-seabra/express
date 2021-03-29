@@ -115,14 +115,10 @@ const checkConfigCompletion = (data?: EventQuery): boolean => {
   if (data) {
     const { event } = data;
     return !!(
-      event?.baseUrl &&
-      event?.country &&
-      event?.currency &&
       event?.endDate &&
       event?.startDate &&
-      event?.taxNumber &&
       event?.legalEntity &&
-      event?.timeZone &&
+      event?.currency &&
       event?.name &&
       event?.slug
     );
@@ -133,21 +129,16 @@ const checkConfigCompletion = (data?: EventQuery): boolean => {
 
 const checkBillingCompletion = (data?: any): boolean => {
   if (data) {
-    const { address, id, name, email, regNumber, taxNumber, website } = data;
+    const { address, name } = data;
     return !!(
       address &&
-      address?.postalCode &&
+      address?.lineOne &&
       address?.country &&
       address?.country?.id &&
       address?.city &&
-      address?.lineOne &&
       address?.region &&
-      id &&
-      name &&
-      email &&
-      regNumber &&
-      taxNumber &&
-      website
+      address?.postalCode &&
+      name
     );
   }
 
