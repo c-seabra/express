@@ -19,7 +19,6 @@ import {
   useEventLazyQuery,
   useEventUpdateMutation,
   useLegalEntitiesQuery,
-  useLegalEntityCreateMutation,
   useTimeZonesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import EVENT from '@websummit/graphql/src/operations/queries/Event';
@@ -30,7 +29,6 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { useAppContext } from '../app/AppContext';
-import LegalEntityCreateModal from '../modals/LegalEntityCreateModal';
 import LegalEntityCreateModalWrapper from '../modals/LegalEntityCreateModalWrapper';
 
 const FieldRow = styled.div`
@@ -166,7 +164,7 @@ const EventInformationForm = ({
   refetch,
   slugParam,
 }: EventInformationFormProps) => {
-  const { token, conferenceSlug } = useAppContext();
+  const { token } = useAppContext();
   const context = { token };
   const history = useHistory();
   const {
@@ -257,10 +255,9 @@ const EventInformationForm = ({
         }}
         validationSchema={eventInformationSchema}
         onSubmit={async (values) => {
-          console.log(values);
           if (eventInfo?.id) {
             await updateEvent({
-              variables: { input: values },
+              variables: { input: { ...values } },
             });
           } else {
             const { data: mutationResult, errors } = await createEvent({

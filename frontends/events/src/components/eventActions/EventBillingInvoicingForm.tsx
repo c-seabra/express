@@ -13,14 +13,11 @@ import {
   EventConfigurationCountry,
   useCountriesQuery,
   useEventUpdateMutation,
-  useLegalEntityCreateMutation,
   useLegalEntityLazyQuery,
-  useLegalEntityQuery,
   useLegalEntityUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
@@ -132,7 +129,6 @@ const EventBillingForm = ({
   legalEntities,
 }: EventBillingFormProps) => {
   const { token, conferenceSlug } = useAppContext();
-  const history = useHistory();
   const success = useSuccessSnackbar();
   const error = useErrorSnackbar();
   const { data } = useCountriesQuery();
@@ -160,35 +156,17 @@ const EventBillingForm = ({
   );
 
   const [updateEvent] = useEventUpdateMutation({
+    awaitRefetchQueries: true,
     context: { token },
-  });
-
-  const [createLegalEntity] = useLegalEntityCreateMutation({
-    context: { token },
-    onCompleted: async ({ legalEntityCreate }) => {
-      if (
-        legalEntityCreate?.userErrors &&
-        legalEntityCreate?.userErrors.length > 0
-      ) {
-        error(legalEntityCreate?.userErrors[0].message);
-      } else {
-        await updateEvent({
-          variables: {
-            event: {
-              legalEntityId: legalEntityCreate?.legalEntity?.id,
-              slug: conferenceSlug as string,
-            },
-          },
-        });
-
-        success(`Billing and invoice data created`);
-      }
+    onCompleted: () => {
+      success(`Event updated`);
     },
     onError: (e) => error(e.message),
     refetchQueries: ['Event'],
   });
 
   const [updateLegalEntity] = useLegalEntityUpdateMutation({
+    awaitRefetchQueries: true,
     context: { token },
     onCompleted: async ({ legalEntityUpdate }) => {
       if (
@@ -199,7 +177,7 @@ const EventBillingForm = ({
       } else {
         await updateEvent({
           variables: {
-            event: {
+            input: {
               legalEntityId: legalEntityUpdate?.legalEntity?.id,
               slug: conferenceSlug as string,
             },
@@ -212,13 +190,19 @@ const EventBillingForm = ({
     refetchQueries: ['Event'],
   });
 
-  const [
-    legalEntityResult,
-    { loading: entityLoading, data: entityData },
-  ] = useLegalEntityLazyQuery({
+  const [legalEntityResult] = useLegalEntityLazyQuery({
     context: { token },
-    onCompleted: ({ legalEntity }) => {
+    onCompleted: async ({ legalEntity }) => {
       if (legalEntity) {
+        await updateEvent({
+          variables: {
+            input: {
+              legalEntityId: legalEntity?.id,
+              slug: conferenceSlug as string,
+            },
+          },
+        });
+
         success(`Billing and invoice data switched to ${legalEntity.name}`);
       }
     },
@@ -238,27 +222,23 @@ const EventBillingForm = ({
     });
   };
 
-  const initializeFields = (eventBillingResponse: any) => {
-    return {
-      address1: eventBillingResponse?.address?.lineOne || '',
-      address2: eventBillingResponse?.address?.lineTwo || '',
-      city: eventBillingResponse?.address?.city || '',
-      companyName: eventBillingResponse?.name || '',
-      country: eventBillingResponse?.address?.country.id || '',
-      email: eventBillingResponse?.email || '',
-      name: eventBillingResponse?.name || '',
-      postalCode: eventBillingResponse?.address?.postalCode || '',
-      region: eventBillingResponse?.address?.region || '',
-      registrationNumber: eventBillingResponse?.regNumber || '',
-      taxNumber: eventBillingResponse?.taxNumber || '',
-      website: eventBillingResponse?.website || '',
-    };
-  };
-
   return (
     <Formik
       enableReinitialize
-      initialValues={initializeFields(eventBilling)}
+      initialValues={{
+        address1: eventBilling?.address?.lineOne || '',
+        address2: eventBilling?.address?.lineTwo || '',
+        city: eventBilling?.address?.city || '',
+        companyName: eventBilling?.name || '',
+        country: eventBilling?.address?.country.id || '',
+        email: eventBilling?.email || '',
+        name: eventBilling?.name || '',
+        postalCode: eventBilling?.address?.postalCode || '',
+        region: eventBilling?.address?.region || '',
+        registrationNumber: eventBilling?.regNumber || '',
+        taxNumber: eventBilling?.taxNumber || '',
+        website: eventBilling?.website || '',
+      }}
       validationSchema={eventBillingSchema}
       onSubmit={async (values) => {
         if (eventBilling?.id) {
@@ -282,32 +262,6 @@ const EventBillingForm = ({
               },
             },
           });
-        } else {
-          const { data: mutationResult, errors } = await createLegalEntity({
-            variables: {
-              input: {
-                address: {
-                  city: values.city.trim(),
-                  countryId: values.country,
-                  lineOne: values.address1.trim(),
-                  lineTwo: values.address2.trim(),
-                  postalCode: values.postalCode.trim(),
-                  region: values.region,
-                },
-                email: values.email.trim(),
-                name: values.companyName.trim(),
-                regNumber: values.registrationNumber.trim(),
-                taxNumber: values.taxNumber.trim(),
-                website: values.website.trim(),
-              },
-            },
-          });
-
-          if (!errors) {
-            const newEventSlug =
-              mutationResult?.legalEntityCreate?.legalEntity?.id;
-            history.replace(`${newEventSlug || ''}/settings`);
-          }
         }
       }}
     >

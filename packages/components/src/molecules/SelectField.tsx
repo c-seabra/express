@@ -70,8 +70,8 @@ const SelectField = ({
   options = [],
   required = false,
   disabled = false,
-  onChange,
-}: SelectFieldProps) => {
+}: // onChange, // TODO fix on change handling since its breakiing select flow
+SelectFieldProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
@@ -82,7 +82,7 @@ const SelectField = ({
             {...field}
             disabled={disabled}
             placeholder={placeholder}
-            onChange={onChange}
+            // onChange={onChange}
           >
             {options.map((option) => (
               <option

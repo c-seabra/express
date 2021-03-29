@@ -1,26 +1,25 @@
 import React from 'react';
 
-import LegalEntityCreateModal from './LegalEntityCreateModal';
 import { useLegalEntityCreateOperation } from '../../operations/mutations/LegalEntityCreate';
+import LegalEntityCreateModal from './LegalEntityCreateModal';
 
 type LegalEntityCreateModalProps = {
   closeModal: () => void;
   isOpen: boolean;
-  refetch?: any;
+  // refetch?: any;
 };
 
 const LegalEntityCreateModalWrapper = ({
   isOpen,
   closeModal,
-  refetch,
-}: LegalEntityCreateModalProps) => {
+}: // refetch,
+LegalEntityCreateModalProps) => {
   const { createLegalEntity } = useLegalEntityCreateOperation();
   const setMutation = (values: any) => {
-    console.log('values from mutation', values);
     return createLegalEntity({
       input: {
-        name: values.name,
         email: 'test@websummit.net',
+        name: values.name.trim(),
       },
     });
   };

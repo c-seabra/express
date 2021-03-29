@@ -107,7 +107,7 @@ const LegalEntityCreateModal = ({
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
       <Formik
         initialValues={{
-            name: ''
+          name: '',
         }}
         validateOnBlur={false}
         validateOnChange={false}

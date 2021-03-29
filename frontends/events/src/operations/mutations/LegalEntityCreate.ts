@@ -21,10 +21,10 @@ export const useLegalEntityCreateOperation = () => {
 
   const [createLegalEntityMutation] = useLegalEntityCreateMutation({
     context: { token },
-    onCompleted: async ({ legalEntityCreate }) => {
+    onCompleted: ({ legalEntityCreate }) => {
       if (
-          legalEntityCreate?.userErrors &&
-          legalEntityCreate?.userErrors.length > 0
+        legalEntityCreate?.userErrors &&
+        legalEntityCreate?.userErrors.length > 0
       ) {
         errSnackbar(legalEntityCreate?.userErrors[0].message);
       } else {
@@ -34,16 +34,16 @@ export const useLegalEntityCreateOperation = () => {
     onError: (e) => errSnackbar(e.message),
   });
 
-  const createLegalEntity = async ({ input, refetch }: LegalEntityCreateRequest) => {
+  const createLegalEntity = async ({ input }: LegalEntityCreateRequest) => {
     await createLegalEntityMutation({
-      // awaitRefetchQueries: true,
+      awaitRefetchQueries: true,
       context: {
         token,
       },
+      refetchQueries: ['Event'],
       variables: {
         input,
       },
-      // refetchQueries: ['Event'],
     });
 
     // Hacky solution because refetchQueries is not working
@@ -51,8 +51,6 @@ export const useLegalEntityCreateOperation = () => {
     //   return refetch();
     // }, 500);
   };
-
-
 
   return {
     createLegalEntity,
