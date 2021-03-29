@@ -7535,7 +7535,7 @@ export type EventCreateMutation = { __typename?: 'Mutation' } & {
 };
 
 export type EventUpdateMutationVariables = Exact<{
-  event: EventUpdateInput;
+  input: EventUpdateInput;
 }>;
 
 export type EventUpdateMutation = { __typename?: 'Mutation' } & {
@@ -7560,6 +7560,9 @@ export type EventUpdateMutation = { __typename?: 'Mutation' } & {
                 EventConfigurationCountry,
                 'id' | 'name'
               >
+            >;
+            legalEntity: Maybe<
+              { __typename?: 'LegalEntity' } & Pick<LegalEntity, 'id' | 'name'>
             >;
           }
       >;
@@ -12483,7 +12486,7 @@ export const EventUpdateDocument: DocumentNode = {
                 name: { kind: 'Name', value: 'input' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'event' },
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -12546,6 +12549,23 @@ export const EventUpdateDocument: DocumentNode = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'currency' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'legalEntity' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -12580,7 +12600,7 @@ export const EventUpdateDocument: DocumentNode = {
           },
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'event' },
+            name: { kind: 'Name', value: 'input' },
           },
         },
       ],
@@ -12606,7 +12626,7 @@ export type EventUpdateMutationFn = Apollo.MutationFunction<
  * @example
  * const [eventUpdateMutation, { data, loading, error }] = useEventUpdateMutation({
  *   variables: {
- *      event: // value for 'event'
+ *      input: // value for 'input'
  *   },
  * });
  */

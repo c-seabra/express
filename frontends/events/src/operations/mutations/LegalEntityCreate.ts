@@ -1,50 +1,60 @@
-import { gql } from '@apollo/client';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
+import {
+  LegalEntityCreateInput,
+  useLegalEntityCreateMutation,
+} from '@websummit/graphql/src/@types/operations';
 
-// TODO remove when billing form ready
-export const LEGAL_ENTITY_CREATE_MUTATION = gql`
-  mutation LegalEntityCreate(
-    $name: String!
-    $regNumber: String
-    $website: String
-    $taxNumber: String
-    $email: String
-    $address: AddressInput
-  ) {
-    legalEntityCreate(
-      input: {
-        name: $name
-        regNumber: $regNumber
-        website: $website
-        taxNumber: $taxNumber
-        email: $email
-        address: $address
-      }
-    ) {
-      legalEntity {
-        id
-        name
-        regNumber
-        website
-        taxNumber
-        email
-        address {
-          id
-          city
-          postalCode
-          lineOne
-          lineTwo
-          region
-          country {
-            name
-          }
-        }
-      }
-      userErrors {
-        message
-        path
-      }
-    }
-  }
-`;
+import { useAppContext } from '../../components/app/AppContext';
 
-export default LEGAL_ENTITY_CREATE_MUTATION;
+export type LegalEntityCreateRequest = {
+  input: LegalEntityCreateInput;
+  refetch?: any;
+};
+
+export const useLegalEntityCreateOperation = () => {
+  const { token } = useAppContext();
+  const snackbar = useSuccessSnackbar();
+  const errSnackbar = useErrorSnackbar();
+
+  const [createLegalEntityMutation] = useLegalEntityCreateMutation({
+    context: { token },
+    onCompleted: async ({ legalEntityCreate }) => {
+      if (
+          legalEntityCreate?.userErrors &&
+          legalEntityCreate?.userErrors.length > 0
+      ) {
+        errSnackbar(legalEntityCreate?.userErrors[0].message);
+      } else {
+        snackbar(`Legal entity created`);
+      }
+    },
+    onError: (e) => errSnackbar(e.message),
+  });
+
+  const createLegalEntity = async ({ input, refetch }: LegalEntityCreateRequest) => {
+    await createLegalEntityMutation({
+      // awaitRefetchQueries: true,
+      context: {
+        token,
+      },
+      variables: {
+        input,
+      },
+      // refetchQueries: ['Event'],
+    });
+
+    // Hacky solution because refetchQueries is not working
+    // setTimeout(() => {
+    //   return refetch();
+    // }, 500);
+  };
+
+
+
+  return {
+    createLegalEntity,
+  };
+};

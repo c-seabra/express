@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const EVENT_UPDATE_MUTATION = gql`
-  mutation EventUpdate($event: EventUpdateInput!) {
-    eventUpdate(input: $event) {
+  mutation EventUpdate($input: EventUpdateInput!) {
+    eventUpdate(input: $input) {
       event {
         id
         name
@@ -18,6 +18,10 @@ export const EVENT_UPDATE_MUTATION = gql`
           name
         }
         currency
+        legalEntity {
+          id
+          name
+        }
       }
       userErrors {
         message
