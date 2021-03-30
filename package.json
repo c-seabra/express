@@ -214,8 +214,8 @@
     "yup": "0.32.9"
   },
   "dependencies": {
-    "@types/lodash.get": "^4.4.6",
+    "@types/lodash.get": "4.4.6",
     "lint-staged": "10.5.4",
-    "lodash.get": "^4.4.2"
+    "lodash.get": "4.4.2"
   }
 }
