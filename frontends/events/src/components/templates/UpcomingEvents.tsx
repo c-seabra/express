@@ -71,6 +71,15 @@ type UpcomingEventProps = {
   onElementClick?: (item: Event) => void;
 };
 
+const displayLocation = (event?: Event) => {
+  if (event) {
+    const { country } = event;
+    return country?.name ? country?.name : 'Online';
+  }
+
+  return 'N/A';
+};
+
 const UpcomingEvents = ({
   events,
   onElementClick = () => null,
@@ -96,7 +105,7 @@ const UpcomingEvents = ({
                     <Text>
                       Start date: {formatFullDate(event.startDate) || 'N/A'}
                     </Text>
-                    <Text>Location: {event.country?.name || 'N/A'}</Text>
+                    <Text>Location: {displayLocation(event)}</Text>
                     {/* TODO Add state representation */}
                     {/* <Text>State: {event. || 'N/A'}</Text> */}
                     <Spacing top="22px">
