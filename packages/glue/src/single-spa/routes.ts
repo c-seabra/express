@@ -161,8 +161,6 @@ const apps: TopLevelLayout[] = [
 
 const latchElement = document.getElementById('micro')
 
-console.log(`Container element is '${latchElement}'`)
-
 export const routes: ResolvedRoutesConfig = {
   base: '/',
   containerEl: latchElement || '#micro',
