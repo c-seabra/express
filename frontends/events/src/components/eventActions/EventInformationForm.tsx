@@ -128,12 +128,12 @@ const getLegalEntityOptions = (
 ];
 
 const getTimeZoneOptions = (
-    timeZones:
-        | ({ __typename?: 'TimeZone' } & Pick<
+  timeZones:
+    | ({ __typename?: 'TimeZone' } & Pick<
         TimeZone,
         'displayName' | 'ianaName' | 'utcOffset'
-        >)[]
-        | undefined = [],
+      >)[]
+    | undefined = [],
 ) => [
   emptyOption,
   ...timeZones.map((timeZone) => ({

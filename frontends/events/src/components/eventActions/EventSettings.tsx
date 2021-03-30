@@ -178,7 +178,6 @@ const EventSettings = () => {
   });
 
   const eventExists = !!data?.event;
-  console.log('eventExists',eventExists)
   const eventName = data?.event?.name;
   const eventLegalEntity = data?.event?.legalEntity;
   const legalEntities = entitiesResult?.legalEntities.edges?.map(
@@ -194,10 +193,17 @@ const EventSettings = () => {
   const configCompletion = getServicesReadyForEvent(data);
 
   const eventInfoSpecificCompletion = checkEventInfoCompletion(data);
+  const eventTaxSpecificCompletion = !!taxes?.length;
+  const eventBillingSpecificCompletion = checkBillingCompletion(
+    eventLegalEntity,
+  );
 
   const configCompleteRules = {
     billing_invoicing: {
-      ready: !loading && checkBillingCompletion(eventLegalEntity),
+      ready: checkBillingCompletion(eventLegalEntity),
+      text: !eventBillingSpecificCompletion
+        ? 'Billing information incomplete'
+        : '',
     },
     event_info: {
       ready: configCompletion.avenger.ready && eventInfoSpecificCompletion,
@@ -212,7 +218,8 @@ const EventSettings = () => {
         : 'Configuration incomplete',
     },
     tax_info: {
-      ready: !loading && !!taxes?.length,
+      ready: eventTaxSpecificCompletion,
+      text: !eventTaxSpecificCompletion ? 'Tax information incomplete' : '',
     },
   };
   const settings: Setting[] = [
