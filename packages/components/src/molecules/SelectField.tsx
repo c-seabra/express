@@ -1,5 +1,4 @@
 import { ErrorMessage, Field, FieldProps } from 'formik';
-import { handleObject } from 'graphql-tools/delegate/results/handleObject';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
@@ -73,12 +72,6 @@ const SelectField = ({
   disabled = false,
   onChange = undefined,
 }: SelectFieldProps) => {
-  const handleChange = (event: any) => {
-    if (!onChange) return;
-
-    onChange(event);
-    event.preventDefault();
-  };
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}

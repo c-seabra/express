@@ -4,7 +4,8 @@ import {
 } from '@websummit/components/src/atoms/Button';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
-  useErrorSnackbar, useInfoSnackbar,
+  useErrorSnackbar,
+  useInfoSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
@@ -188,7 +189,7 @@ const EventBillingForm = ({
     { data: legalEntityData },
   ] = useLegalEntityLazyQuery({
     context: { token },
-    onCompleted: async ({ legalEntity }) => {
+    onCompleted: ({ legalEntity }) => {
       if (legalEntity) {
         info(`Billing and invoice data switched to ${legalEntity.name}`);
       }
@@ -215,8 +216,8 @@ const EventBillingForm = ({
     setIsCompanyChanged(true);
   };
 
-  const getInitialValues = (isCompanyChanged: boolean) => {
-    if (isCompanyChanged) {
+  const getInitialValues = (dataChanged: boolean) => {
+    if (dataChanged) {
       return {
         address1: legalEntityData?.legalEntity?.address?.lineOne || '',
         address2: legalEntityData?.legalEntity?.address?.lineTwo || '',
@@ -257,6 +258,7 @@ const EventBillingForm = ({
       onSubmit={async (values) => {
         // if (eventBilling?.id) {
         console.log('onSubmit.id', eventBilling?.id);
+        console.log('onSubmit.newId', legalEntityData?.legalEntity?.id);
         console.log('onSubmit', values);
         await updateLegalEntity({
           variables: {
