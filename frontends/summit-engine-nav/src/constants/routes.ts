@@ -32,7 +32,7 @@ const ROUTES: Routes = [
     hasChildren: false,
     isActive: true,
     meta: { description: 'Events configuration' },
-    path: '~events/#/settings',
+    path: '~events#/',
   },
   {
     isActive: false,
