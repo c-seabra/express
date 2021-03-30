@@ -41,7 +41,6 @@ const Form: React.FC = () => {
     const emailField = (e.target as any).email.value as string;
     const email: string = emailField.toLowerCase().trim();
 
-    console.log(email);
     if (setTicketsList && staffList) {
       let staff = staffList[email];
       if (!staff) {

@@ -204,14 +204,12 @@ const EventBillingForm = ({
       (element) => element.name === name,
     )[0];
     const legalEntityId = legalEntity?.id;
-    console.log('fillCompanyInfo::legalEntityId', legalEntityId);
 
     legalEntityResult({
       variables: {
         id: legalEntityId as string,
       },
     });
-    console.log(legalEntityData);
 
     setIsCompanyChanged(true);
   };
@@ -256,10 +254,6 @@ const EventBillingForm = ({
       initialValues={getInitialValues(isCompanyChanged)}
       validationSchema={eventBillingSchema}
       onSubmit={async (values) => {
-        // if (eventBilling?.id) {
-        console.log('onSubmit.id', eventBilling?.id);
-        console.log('onSubmit.newId', legalEntityData?.legalEntity?.id);
-        console.log('onSubmit', values);
         await updateLegalEntity({
           variables: {
             input: {
@@ -281,7 +275,6 @@ const EventBillingForm = ({
             },
           },
         });
-        // }
       }}
     >
       {({ resetForm }) => (
