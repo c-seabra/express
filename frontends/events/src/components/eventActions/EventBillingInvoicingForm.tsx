@@ -224,7 +224,7 @@ const EventBillingForm = ({
         country: legalEntityData?.legalEntity?.address?.country?.id || '',
         email: legalEntityData?.legalEntity?.email || '',
         name: legalEntityData?.legalEntity?.name || '',
-        postalCode: 'very own test',
+        postalCode: legalEntityData?.legalEntity?.address?.postalCode || '',
         region: legalEntityData?.legalEntity?.address?.region || '',
         registrationNumber: legalEntityData?.legalEntity?.regNumber || '',
         taxNumber: legalEntityData?.legalEntity?.taxNumber || '',
