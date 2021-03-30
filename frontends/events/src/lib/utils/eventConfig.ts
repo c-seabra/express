@@ -1,12 +1,13 @@
 import { EventQuery } from '@websummit/graphql/src/@types/operations';
+import get from 'lodash.get';
 
 // If any rules for required fields (backend-wise) change
 // those field keys should be added here appropriately
 const eventCompletionRequirements = {
-  avenger: ['id', 'slug'] as const,
-  stores: ['slug', 'legalEntity'] as const,
-  'ticket-assignment': ['id'] as const,
-  'ticket-release-mgmt': ['id'] as const,
+  avenger: ['id', 'slug'],
+  stores: ['slug', 'currency', 'country', 'legalEntity.phone'],
+  'ticket-assignment': ['id'],
+  'ticket-release-mgmt': ['id'],
 };
 
 type CompletionInfo = {
@@ -24,14 +25,13 @@ const getConfigCompletion = (data?: EventQuery) => (
       missing: [],
       ready: true,
     };
-    eventCompletionRequirements[rule].forEach(
-      (requiredField: keyof typeof event) => {
-        if (!event[requiredField]) {
-          configCompletion.missing.push(requiredField);
-          configCompletion.ready = false;
-        }
-      },
-    );
+
+    eventCompletionRequirements[rule].forEach((field: string) => {
+      if (!get(event, field)) {
+        configCompletion.missing.push(field);
+        configCompletion.ready = false;
+      }
+    });
 
     return configCompletion;
   }

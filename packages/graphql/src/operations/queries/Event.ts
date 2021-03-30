@@ -23,6 +23,7 @@ const EVENT = gql`
       legalEntity {
         id
         name
+        phone
       }
       taxNumber
       currency
