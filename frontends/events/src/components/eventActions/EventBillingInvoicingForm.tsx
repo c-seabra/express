@@ -21,6 +21,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { REGION_LIST } from '../../lib/constants/location';
 import { LegalEntity } from '../../lib/types';
 import { useAppContext } from '../app/AppContext';
 
@@ -144,16 +145,7 @@ const EventBillingForm = ({
   });
   const countryOptions = getCountryOptions(sortedCountries);
 
-  const regionOptions = getRegionOptions(
-    [
-      'Asia',
-      'Africa',
-      'Europe',
-      'Oceania',
-      'North America',
-      'South America',
-    ].map((element) => element),
-  );
+  const regionOptions = getRegionOptions(REGION_LIST);
 
   const [updateEvent] = useEventUpdateMutation({
     awaitRefetchQueries: true,
