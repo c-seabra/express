@@ -159,7 +159,7 @@ const apps: TopLevelLayout[] = [
   };
 });
 
-const latchElement = document.getElementById('micro')
+const latchElement = document.getElementById('micro');
 
 export const routes: ResolvedRoutesConfig = {
   base: '/',
