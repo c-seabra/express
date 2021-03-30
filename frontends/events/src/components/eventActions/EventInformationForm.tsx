@@ -3,6 +3,7 @@ import {
   SecondaryButton,
   TextButton,
 } from '@websummit/components/src/atoms/Button';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import { useSnackbars } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
@@ -28,6 +29,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { useAppContext } from '../app/AppContext';
+import LegalEntityCreateModalWrapper from '../modals/LegalEntityCreateModalWrapper';
 
 const FieldRow = styled.div`
   display: flex;
@@ -42,7 +44,7 @@ const ButtonContainer = styled.div`
 `;
 
 const EventInfoContainer = styled.div`
-  margin: -1rem -1.8rem -1.8rem;
+  margin: -1rem -1.8rem -2.8rem;
 `;
 
 const PaddedContainer = styled.div`
@@ -52,7 +54,7 @@ const PaddedContainer = styled.div`
 const Separator = styled.div`
   width: 100%;
   height: 1px;
-  border-top: 1px solid #dde0e5;
+  border-top: 3px solid #f1f1f1;
 `;
 
 const StyledInputField = styled(TextInputField)`
@@ -80,10 +82,19 @@ const ExistingSlugErrorMessage = styled.div`
   margin-top: -1.2rem;
 `;
 
+const SLUG_CHAR_LIMIT = 12;
 const eventInformationSchema = Yup.object().shape({
   baseUrl: Yup.string().url('URL must be valid'),
+  endDate: Yup.date().when('startDate', (st: any, schema: any) => {
+    return schema.min(st);
+  }),
   name: Yup.string().required('Name is required'),
-  slug: Yup.string().required('Event slug is required'),
+  slug: Yup.string().max(SLUG_CHAR_LIMIT).required('Event slug is required'),
+
+  // TODO: fix cyclical dependency of start and end fields
+  // startDate: Yup.date().when('endDate', (st: any, schema: any) => {
+  //   return schema.max(st);
+  // }),
 });
 
 const emptyOption = {
@@ -107,10 +118,10 @@ const getCountryOptions = (
 ];
 
 const getLegalEntityOptions = (
-  legalEntites: Pick<LegalEntity, 'name' | 'id'>[] = [],
+  legalEntities: Pick<LegalEntity, 'name' | 'id'>[] = [],
 ) => [
   emptyOption,
-  ...legalEntites.map((legalEntity) => ({
+  ...legalEntities.map((legalEntity) => ({
     label: legalEntity.name,
     value: legalEntity.id,
   })),
@@ -120,13 +131,13 @@ const getTimeZoneOptions = (
   timeZones:
     | ({ __typename?: 'TimeZone' } & Pick<
         TimeZone,
-        'displayName' | 'ianaName'
+        'displayName' | 'ianaName' | 'utcOffset'
       >)[]
     | undefined = [],
 ) => [
   emptyOption,
   ...timeZones.map((timeZone) => ({
-    label: timeZone.displayName,
+    label: `UTC${timeZone.utcOffset} - ${timeZone.displayName}`,
     value: timeZone.ianaName,
   })),
 ];
@@ -164,6 +175,11 @@ const EventInformationForm = ({
   const { token } = useAppContext();
   const context = { token };
   const history = useHistory();
+  const {
+    openModal: openAddHostModal,
+    isOpen: isAddHostModalOpen,
+    closeModal: closeAddHostModal,
+  } = useModalState();
 
   const { success, error } = useSnackbars();
 
@@ -177,30 +193,46 @@ const EventInformationForm = ({
     context,
   });
 
-  const countryOptions = getCountryOptions(
-    countriesData?.countries?.edges?.map((edge) => edge.node),
+  const mappedCountries = countriesData?.countries?.edges?.map(
+    (edge) => edge.node,
   );
+  const sortedCountries = mappedCountries?.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+  const countryOptions = getCountryOptions(sortedCountries);
 
   const legalEntityOptions = getLegalEntityOptions(
     legalEntitiesData?.legalEntities?.edges?.map((edge) => edge.node),
   );
 
-  const timeZoneOptions = getTimeZoneOptions(
-    timeZonesData?.timeZones?.edges?.map((edge) => edge.node),
+  const mappedTimeZones = timeZonesData?.timeZones?.edges?.map(
+    (edge) => edge.node,
   );
+  const sortedTimeZones = mappedTimeZones?.sort((a, b) => {
+    return a.utcOffset.localeCompare(b.utcOffset);
+  });
+  const timeZoneOptions = getTimeZoneOptions(sortedTimeZones);
 
   const [createEvent] = useEventCreateMutation({
     context: { token },
-    onCompleted: () => {
-      success(`Event created`);
+    onCompleted: ({ eventCreate }) => {
+      if (eventCreate?.userErrors && eventCreate?.userErrors.length > 0) {
+        error(eventCreate?.userErrors[0].message);
+      } else {
+        success(`Event created`);
+      }
     },
     onError: (e) => error(e.message),
   });
 
   const [updateEvent] = useEventUpdateMutation({
     context,
-    onCompleted: () => {
-      success(`Event updated`);
+    onCompleted: ({ eventUpdate }) => {
+      if (eventUpdate?.userErrors && eventUpdate?.userErrors.length > 0) {
+        error(eventUpdate?.userErrors[0].message);
+      } else {
+        success(`Event updated`);
+      }
     },
     onError: (e) => error(e.message),
     refetchQueries: [
@@ -233,7 +265,7 @@ const EventInformationForm = ({
         onSubmit={async (values) => {
           if (eventInfo?.id) {
             await updateEvent({
-              variables: { event: values },
+              variables: { input: { ...values } },
             });
           } else {
             const { data: mutationResult, errors } = await createEvent({
@@ -250,6 +282,10 @@ const EventInformationForm = ({
       >
         {({ resetForm, values }) => (
           <Form>
+            <LegalEntityCreateModalWrapper
+              closeModal={closeAddHostModal}
+              isOpen={isAddHostModalOpen}
+            />
             <PaddedContainer>
               <TextInputField required label="Event name" name="name" />
               <FieldRow>
@@ -295,7 +331,9 @@ const EventInformationForm = ({
                   options={legalEntityOptions}
                 />
                 <ButtonContainer>
-                  <TextButton type="button">Add host company</TextButton>
+                  <TextButton type="button" onClick={openAddHostModal}>
+                    Add host company
+                  </TextButton>
                 </ButtonContainer>
               </FieldRow>
               <FieldRow>

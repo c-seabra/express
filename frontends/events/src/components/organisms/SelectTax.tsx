@@ -76,7 +76,7 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
   } = useModalState();
   const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
   const [prefilledTax, setPrefilledTax] = useState();
-  const hasTaxes = taxes.length;
+  const hasTaxes = taxes && taxes.length;
   const onTaxButtonClick = () => {
     setModalMode('ADD');
     openTaxRateModal();

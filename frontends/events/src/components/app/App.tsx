@@ -7,8 +7,6 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import EventSettings from '../eventActions/EventSettings';
-import LegalEntityCreate from '../legalEntityActions/LegalEntityCreate';
-import LegalEntityList from '../legalEntityList/LegalEntityList';
 import EventsPage from '../pages/EventsPage';
 import AppContext from './AppContext';
 
@@ -57,12 +55,6 @@ const App = ({ token, apiURL }: AppProps) => {
                 </Route>
                 <Route exact path="/:slug/settings">
                   <EventSettings />
-                </Route>
-                <Route exact path="/legal_entities">
-                  <LegalEntityList />
-                </Route>
-                <Route exact path="/legal_entities/new">
-                  <LegalEntityCreate />
                 </Route>
               </Switch>
             </StyledContainer>

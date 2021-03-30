@@ -4,6 +4,7 @@ import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
@@ -11,6 +12,7 @@ import {
   EventQuery,
   useCommerceListPaymentMethodsQuery,
   useEventQuery,
+  useLegalEntitiesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -20,6 +22,7 @@ import { getServicesReadyForEvent } from '../../lib/utils/eventConfig';
 import { useAppContext } from '../app/AppContext';
 import PaymentMethods from '../organisms/PaymentMethods';
 import SelectTax from '../organisms/SelectTax';
+import EventBillingInvoicingForm from './EventBillingInvoicingForm';
 import EventInformationForm from './EventInformationForm';
 import SettingsSection from './SettingsSection';
 
@@ -31,6 +34,7 @@ const PageWrapper = styled.div`
 `;
 
 const Header = styled.div`
+  margin-top: 32px;
   font-size: 24px;
   color: #0c1439;
   font-weight: 500;
@@ -53,41 +57,31 @@ const SettingsForm = styled(ContainerCard)`
 type Tab = 'event_info' | 'tax_info' | 'payment_methods' | 'billing_invoicing';
 
 type Setting = {
+  active?: boolean;
   id: Tab;
+  subTitle?: string;
   title: string;
 };
-
-const settings: Setting[] = [
-  {
-    id: 'event_info',
-    title: 'Event information',
-  },
-  {
-    id: 'tax_info',
-    title: 'Tax information',
-  },
-  {
-    id: 'payment_methods',
-    title: 'Payment methods',
-  },
-  {
-    id: 'billing_invoicing',
-    title: 'Billing & invoicing',
-  },
-];
 
 const BreadcrumbsContainer = styled.div`
   display: flex;
   margin: 8px 0 8px;
 `;
 
-const Tab = styled.div<{ isSelected?: boolean }>`
+const Tab = styled.div<{ active?: boolean; isSelected?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
   padding: 1rem 1.5rem;
+
+  ${(props) =>
+    !props.active &&
+    css`
+      color: #a7a7a7;
+      background-color: #f5f5f5;
+    `};
 
   ${(props) =>
     props.isSelected &&
@@ -100,15 +94,30 @@ const checkEventInfoCompletion = (data?: EventQuery): boolean => {
   if (data) {
     const { event } = data;
     return !!(
-      event?.baseUrl &&
-      event?.country &&
-      event?.currency &&
       event?.endDate &&
       event?.startDate &&
-      event?.taxNumber &&
-      event?.timeZone &&
+      event?.legalEntity &&
+      event?.currency &&
       event?.name &&
       event?.slug
+    );
+  }
+
+  return false;
+};
+
+const checkBillingCompletion = (data?: any): boolean => {
+  if (data) {
+    const { address, name } = data;
+    return !!(
+      address &&
+      address?.lineOne &&
+      address?.country &&
+      address?.country?.id &&
+      address?.city &&
+      address?.region &&
+      address?.postalCode &&
+      name
     );
   }
 
@@ -131,8 +140,8 @@ const settingsTableShape = (
 ): ColumnDescriptor<Setting>[] => [
   {
     overrideStyle: true,
-    renderCell: ({ id, title }) => (
-      <Tab isSelected={id === currentTab.id}>
+    renderCell: ({ id, title, active }) => (
+      <Tab active={active} isSelected={id === currentTab.id}>
         {title}
         <Tooltip content={configCompleteRules[id].text}>
           {!configCompleteRules[id].ready && (
@@ -147,22 +156,35 @@ const settingsTableShape = (
 
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
+  const error = useErrorSnackbar();
   const { conferenceSlug, token } = useAppContext();
-
   const usedSlug = slug || conferenceSlug;
-
-  const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
-
   const { data, loading, refetch } = useEventQuery({
     context: {
       token,
     },
-    skip: !usedSlug,
+    onError: (e) => error(e.message),
+    skip: !slug,
     variables: {
       slug: usedSlug,
     },
   });
 
+  const { data: entitiesResult } = useLegalEntitiesQuery({
+    context: {
+      token,
+    },
+    onError: (e) => error(e.message),
+  });
+
+  const eventExists = !!data?.event;
+  const eventName = data?.event?.name;
+  const eventLegalEntity = data?.event?.legalEntity;
+  const legalEntities = entitiesResult?.legalEntities.edges?.map(
+    (node) => node.node,
+  );
+  const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
+  const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
   const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
     context: { slug, token },
     skip: !slug,
@@ -171,11 +193,17 @@ const EventSettings = () => {
   const configCompletion = getServicesReadyForEvent(data);
 
   const eventInfoSpecificCompletion = checkEventInfoCompletion(data);
+  const eventTaxSpecificCompletion = !!taxes?.length;
+  const eventBillingSpecificCompletion = checkBillingCompletion(
+    eventLegalEntity,
+  );
 
   const configCompleteRules = {
-    // TODO - fill the 'true' with rules regarding config completion
     billing_invoicing: {
-      ready: true,
+      ready: checkBillingCompletion(eventLegalEntity),
+      text: !eventBillingSpecificCompletion
+        ? 'Billing information incomplete'
+        : '',
     },
     event_info: {
       ready: configCompletion.avenger.ready && eventInfoSpecificCompletion,
@@ -190,14 +218,37 @@ const EventSettings = () => {
         : 'Configuration incomplete',
     },
     tax_info: {
-      ready: true,
+      ready: eventTaxSpecificCompletion,
+      text: !eventTaxSpecificCompletion ? 'Tax information incomplete' : '',
     },
   };
-
+  const settings: Setting[] = [
+    {
+      active: true,
+      id: 'event_info',
+      title: 'Event information',
+    },
+    {
+      active: eventExists,
+      id: 'tax_info',
+      title: 'Tax information',
+    },
+    {
+      active: eventExists,
+      id: 'payment_methods',
+      title: 'Payment methods',
+    },
+    {
+      active: eventExists,
+      id: 'billing_invoicing',
+      subTitle:
+        'Provide details of the company hosting the event that will appear on the invoice.',
+      title: 'Billing information',
+    },
+  ];
+  const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
   const settingsTable = settingsTableShape(currentTab, configCompleteRules);
 
-  const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
-  const eventName = data?.event?.name;
   const breadcrumbsNewRoutes: Breadcrumb[] = [
     {
       label: 'Settings',
@@ -225,10 +276,17 @@ const EventSettings = () => {
     },
     ...breadcrumbs,
   ];
+  const onTabClick = (item: Setting) => {
+    if (item.active) {
+      return currentTab.id === item.id ? null : setCurrentTab(item);
+    }
+
+    return null;
+  };
 
   return (
     <PageWrapper>
-      <Header>Event settings</Header>
+      <Header>Event {eventConfigHeaderText}</Header>
       <BreadcrumbsContainer>
         <Breadcrumbs routes={breadcrumbsRoutes} />
       </BreadcrumbsContainer>
@@ -239,13 +297,14 @@ const EventSettings = () => {
             noHeader
             items={settings}
             tableShape={settingsTable}
-            onRowClick={(item) =>
-              currentTab.id === item.id ? null : setCurrentTab(item)
-            }
+            onRowClick={onTabClick}
           />
         </SettingTabs>
         <SettingsForm>
-          <SettingsSection title={currentTab.title}>
+          <SettingsSection
+            subTitle={currentTab.subTitle}
+            title={currentTab.title}
+          >
             {currentTab.id === 'event_info' && (
               <EventInformationForm
                 eventInfo={data?.event}
@@ -259,6 +318,12 @@ const EventSettings = () => {
                 loading={loading}
                 refetch={refetch}
                 taxes={taxes}
+              />
+            )}
+            {currentTab.id === 'billing_invoicing' && (
+              <EventBillingInvoicingForm
+                eventBilling={eventLegalEntity as any}
+                legalEntities={legalEntities as any}
               />
             )}
             {currentTab.id === 'payment_methods' && (

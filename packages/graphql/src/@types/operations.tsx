@@ -7535,7 +7535,7 @@ export type EventCreateMutation = { __typename?: 'Mutation' } & {
 };
 
 export type EventUpdateMutationVariables = Exact<{
-  event: EventUpdateInput;
+  input: EventUpdateInput;
 }>;
 
 export type EventUpdateMutation = { __typename?: 'Mutation' } & {
@@ -7560,6 +7560,77 @@ export type EventUpdateMutation = { __typename?: 'Mutation' } & {
                 EventConfigurationCountry,
                 'id' | 'name'
               >
+            >;
+            legalEntity: Maybe<
+              { __typename?: 'LegalEntity' } & Pick<LegalEntity, 'id' | 'name'>
+            >;
+          }
+      >;
+      userErrors: Array<
+        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
+  >;
+};
+
+export type LegalEntityCreateMutationVariables = Exact<{
+  input: LegalEntityCreateInput;
+}>;
+
+export type LegalEntityCreateMutation = { __typename?: 'Mutation' } & {
+  legalEntityCreate: Maybe<
+    { __typename?: 'LegalEntityCreatePayload' } & {
+      legalEntity: Maybe<
+        { __typename?: 'LegalEntity' } & Pick<
+          LegalEntity,
+          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+        > & {
+            address: Maybe<
+              { __typename?: 'Address' } & Pick<
+                Address,
+                'id' | 'city' | 'postalCode' | 'lineOne' | 'lineTwo' | 'region'
+              > & {
+                  country: Maybe<
+                    { __typename?: 'EventConfigurationCountry' } & Pick<
+                      EventConfigurationCountry,
+                      'name'
+                    >
+                  >;
+                }
+            >;
+          }
+      >;
+      userErrors: Array<
+        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
+  >;
+};
+
+export type LegalEntityUpdateMutationVariables = Exact<{
+  input: LegalEntityUpdateInput;
+}>;
+
+export type LegalEntityUpdateMutation = { __typename?: 'Mutation' } & {
+  legalEntityUpdate: Maybe<
+    { __typename?: 'LegalEntityUpdatePayload' } & {
+      legalEntity: Maybe<
+        { __typename?: 'LegalEntity' } & Pick<
+          LegalEntity,
+          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+        > & {
+            address: Maybe<
+              { __typename?: 'Address' } & Pick<
+                Address,
+                'id' | 'city' | 'postalCode' | 'lineOne' | 'lineTwo' | 'region'
+              > & {
+                  country: Maybe<
+                    { __typename?: 'EventConfigurationCountry' } & Pick<
+                      EventConfigurationCountry,
+                      'name'
+                    >
+                  >;
+                }
             >;
           }
       >;
@@ -8070,7 +8141,7 @@ export type EventQuery = { __typename?: 'Query' } & {
         timeZone: Maybe<
           { __typename?: 'TimeZone' } & Pick<
             TimeZone,
-            'displayName' | 'ianaName'
+            'displayName' | 'ianaName' | 'utcOffset'
           >
         >;
         country: Maybe<
@@ -8082,8 +8153,33 @@ export type EventQuery = { __typename?: 'Query' } & {
         legalEntity: Maybe<
           { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
-            'id' | 'name' | 'phone'
-          >
+            | 'email'
+            | 'id'
+            | 'name'
+            | 'phone'
+            | 'regNumber'
+            | 'taxNumber'
+            | 'website'
+          > & {
+              address: Maybe<
+                { __typename?: 'Address' } & Pick<
+                  Address,
+                  | 'city'
+                  | 'id'
+                  | 'lineOne'
+                  | 'lineTwo'
+                  | 'postalCode'
+                  | 'region'
+                > & {
+                    country: Maybe<
+                      { __typename?: 'EventConfigurationCountry' } & Pick<
+                        EventConfigurationCountry,
+                        'id' | 'name'
+                      >
+                    >;
+                  }
+              >;
+            }
         >;
         taxRates: Maybe<
           { __typename?: 'TaxRateConnection' } & {
@@ -8180,6 +8276,31 @@ export type TaEventDataQuery = { __typename?: 'Query' } & {
       | 'passportRequired'
     >
   >;
+};
+
+export type LegalEntityQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type LegalEntityQuery = { __typename?: 'Query' } & {
+  legalEntity: { __typename?: 'LegalEntity' } & Pick<
+    LegalEntity,
+    'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'
+  > & {
+      address: Maybe<
+        { __typename?: 'Address' } & Pick<
+          Address,
+          'city' | 'id' | 'lineOne' | 'lineTwo' | 'postalCode' | 'region'
+        > & {
+            country: Maybe<
+              { __typename?: 'EventConfigurationCountry' } & Pick<
+                EventConfigurationCountry,
+                'code' | 'id' | 'name'
+              >
+            >;
+          }
+      >;
+    };
 };
 
 export type LegalEntitiesQueryVariables = Exact<{ [key: string]: never }>;
@@ -8738,7 +8859,7 @@ export type TimeZonesQuery = { __typename?: 'Query' } & {
       { __typename?: 'TimeZoneEdge' } & {
         node: { __typename?: 'TimeZone' } & Pick<
           TimeZone,
-          'displayName' | 'ianaName'
+          'displayName' | 'ianaName' | 'utcOffset'
         >;
       }
     >;
@@ -12365,7 +12486,7 @@ export const EventUpdateDocument: DocumentNode = {
                 name: { kind: 'Name', value: 'input' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'event' },
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -12428,6 +12549,23 @@ export const EventUpdateDocument: DocumentNode = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'currency' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'legalEntity' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -12462,7 +12600,7 @@ export const EventUpdateDocument: DocumentNode = {
           },
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'event' },
+            name: { kind: 'Name', value: 'input' },
           },
         },
       ],
@@ -12488,7 +12626,7 @@ export type EventUpdateMutationFn = Apollo.MutationFunction<
  * @example
  * const [eventUpdateMutation, { data, loading, error }] = useEventUpdateMutation({
  *   variables: {
- *      event: // value for 'event'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -12510,6 +12648,356 @@ export type EventUpdateMutationResult = Apollo.MutationResult<EventUpdateMutatio
 export type EventUpdateMutationOptions = Apollo.BaseMutationOptions<
   EventUpdateMutation,
   EventUpdateMutationVariables
+>;
+export const LegalEntityCreateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'LegalEntityCreate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'legalEntityCreate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'legalEntity' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'regNumber' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'website' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxNumber' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'address' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lineOne' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lineTwo' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'LegalEntityCreateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type LegalEntityCreateMutationFn = Apollo.MutationFunction<
+  LegalEntityCreateMutation,
+  LegalEntityCreateMutationVariables
+>;
+
+/**
+ * __useLegalEntityCreateMutation__
+ *
+ * To run a mutation, you first call `useLegalEntityCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLegalEntityCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [legalEntityCreateMutation, { data, loading, error }] = useLegalEntityCreateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLegalEntityCreateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LegalEntityCreateMutation,
+    LegalEntityCreateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    LegalEntityCreateMutation,
+    LegalEntityCreateMutationVariables
+  >(LegalEntityCreateDocument, baseOptions);
+}
+export type LegalEntityCreateMutationHookResult = ReturnType<
+  typeof useLegalEntityCreateMutation
+>;
+export type LegalEntityCreateMutationResult = Apollo.MutationResult<LegalEntityCreateMutation>;
+export type LegalEntityCreateMutationOptions = Apollo.BaseMutationOptions<
+  LegalEntityCreateMutation,
+  LegalEntityCreateMutationVariables
+>;
+export const LegalEntityUpdateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'LegalEntityUpdate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'legalEntityUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'legalEntity' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'regNumber' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'website' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxNumber' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'address' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lineOne' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lineTwo' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'LegalEntityUpdateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type LegalEntityUpdateMutationFn = Apollo.MutationFunction<
+  LegalEntityUpdateMutation,
+  LegalEntityUpdateMutationVariables
+>;
+
+/**
+ * __useLegalEntityUpdateMutation__
+ *
+ * To run a mutation, you first call `useLegalEntityUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLegalEntityUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [legalEntityUpdateMutation, { data, loading, error }] = useLegalEntityUpdateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLegalEntityUpdateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LegalEntityUpdateMutation,
+    LegalEntityUpdateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    LegalEntityUpdateMutation,
+    LegalEntityUpdateMutationVariables
+  >(LegalEntityUpdateDocument, baseOptions);
+}
+export type LegalEntityUpdateMutationHookResult = ReturnType<
+  typeof useLegalEntityUpdateMutation
+>;
+export type LegalEntityUpdateMutationResult = Apollo.MutationResult<LegalEntityUpdateMutation>;
+export type LegalEntityUpdateMutationOptions = Apollo.BaseMutationOptions<
+  LegalEntityUpdateMutation,
+  LegalEntityUpdateMutationVariables
 >;
 export const UpdateCommerceOrderDocument: DocumentNode = {
   definitions: [
@@ -14944,6 +15432,10 @@ export const EventDocument: DocumentNode = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'ianaName' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utcOffset' },
+                      },
                     ],
                   },
                 },
@@ -14966,9 +15458,72 @@ export const EventDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'address' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lineOne' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lineTwo' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'regNumber' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxNumber' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'website' },
+                      },
                     ],
                   },
                 },
@@ -15492,6 +16047,152 @@ export type TaEventDataLazyQueryHookResult = ReturnType<
 export type TaEventDataQueryResult = Apollo.QueryResult<
   TaEventDataQuery,
   TaEventDataQueryVariables
+>;
+export const LegalEntityDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'legalEntity' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'legalEntity' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'code' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lineOne' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lineTwo' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'postalCode' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'region' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'regNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useLegalEntityQuery__
+ *
+ * To run a query within a React component, call `useLegalEntityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLegalEntityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLegalEntityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useLegalEntityQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    LegalEntityQuery,
+    LegalEntityQueryVariables
+  >,
+) {
+  return Apollo.useQuery<LegalEntityQuery, LegalEntityQueryVariables>(
+    LegalEntityDocument,
+    baseOptions,
+  );
+}
+export function useLegalEntityLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    LegalEntityQuery,
+    LegalEntityQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<LegalEntityQuery, LegalEntityQueryVariables>(
+    LegalEntityDocument,
+    baseOptions,
+  );
+}
+export type LegalEntityQueryHookResult = ReturnType<typeof useLegalEntityQuery>;
+export type LegalEntityLazyQueryHookResult = ReturnType<
+  typeof useLegalEntityLazyQuery
+>;
+export type LegalEntityQueryResult = Apollo.QueryResult<
+  LegalEntityQuery,
+  LegalEntityQueryVariables
 >;
 export const LegalEntitiesDocument: DocumentNode = {
   definitions: [
@@ -18588,6 +19289,10 @@ export const TimeZonesDocument: DocumentNode = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'ianaName' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'utcOffset' },
                             },
                           ],
                         },

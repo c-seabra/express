@@ -137,9 +137,11 @@ const TaxRateCreateModal = ({
     })),
   ];
 
-  const countryOptions = getCountryOptions(
-    data?.countries?.edges?.map((edge) => edge.node),
-  );
+  const mappedCountries = data?.countries?.edges?.map((edge) => edge.node);
+  const sortedCountries = mappedCountries?.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+  const countryOptions = getCountryOptions(sortedCountries);
 
   const taxTypes = [
     blankOption,

@@ -35,7 +35,7 @@ const Text = styled.span`
 
 // Related only to this template
 const StyledContainerCard = styled(ContainerCard)`
-  margin-right: 3.8125rem;
+  margin: 0 3.8125rem 16px 0;
   max-width: 300px;
 
   &:last-child {
@@ -46,7 +46,7 @@ const StyledContainerCard = styled(ContainerCard)`
 const ColouredHeader = styled(FlexRow)<{ color?: string }>`
   background-color: ${(props) => props.color || '#F8BA26'};
   border-radius: 5px 5px 0 0;
-  height: 72px;
+  height: 40px;
 `;
 
 const StyledFlexCol = styled(FlexCol)`
@@ -60,6 +60,10 @@ const ConfNameText = styled.h1`
   letter-spacing: -0.5px;
   line-height: 32px;
   margin: 0;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 type UpcomingEventProps = {
@@ -83,7 +87,7 @@ const UpcomingEvents = ({
           {events &&
             events.map((event: Event, index: number) => (
               <StyledContainerCard key={event.id} noPadding>
-                <ColouredHeader color={colors[index % (colors.length - 1)]} />
+                <ColouredHeader color={colors[index % colors.length]} />
                 <StyledFlexCol>
                   <>
                     <Spacing bottom="10px">
