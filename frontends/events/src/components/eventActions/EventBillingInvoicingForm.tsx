@@ -4,7 +4,7 @@ import {
 } from '@websummit/components/src/atoms/Button';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
-  useErrorSnackbar,
+  useErrorSnackbar, useInfoSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
@@ -17,7 +17,7 @@ import {
   useLegalEntityUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
@@ -131,6 +131,7 @@ const EventBillingForm = ({
 }: EventBillingFormProps) => {
   const { token, conferenceSlug } = useAppContext();
   const success = useSuccessSnackbar();
+  const info = useInfoSnackbar();
   const error = useErrorSnackbar();
   const { data } = useCountriesQuery();
 
@@ -182,79 +183,103 @@ const EventBillingForm = ({
     refetchQueries: ['Event'],
   });
 
-  const [legalEntityResult] = useLegalEntityLazyQuery({
+  const [
+    legalEntityResult,
+    { data: legalEntityData },
+  ] = useLegalEntityLazyQuery({
     context: { token },
     onCompleted: async ({ legalEntity }) => {
       if (legalEntity) {
-        await updateEvent({
-          variables: {
-            input: {
-              legalEntityId: legalEntity?.id,
-              slug: conferenceSlug as string,
-            },
-          },
-        });
-
-        success(`Billing and invoice data switched to ${legalEntity.name}`);
+        info(`Billing and invoice data switched to ${legalEntity.name}`);
       }
     },
     onError: (e) => error(e.message),
   });
 
+  const [isCompanyChanged, setIsCompanyChanged] = useState(false);
   const fillCompanyInfo = (event: any) => {
     const name = event.target.value;
     const legalEntity = legalEntities?.filter(
       (element) => element.name === name,
     )[0];
     const legalEntityId = legalEntity?.id;
+    console.log('fillCompanyInfo::legalEntityId', legalEntityId);
+
     legalEntityResult({
       variables: {
-        id: legalEntityId || '',
+        id: legalEntityId as string,
       },
     });
+    console.log(legalEntityData);
+
+    setIsCompanyChanged(true);
+  };
+
+  const getInitialValues = (isCompanyChanged: boolean) => {
+    if (isCompanyChanged) {
+      return {
+        address1: legalEntityData?.legalEntity?.address?.lineOne || '',
+        address2: legalEntityData?.legalEntity?.address?.lineTwo || '',
+        city: legalEntityData?.legalEntity?.address?.city || '',
+        companyName: legalEntityData?.legalEntity?.name || '',
+        country: legalEntityData?.legalEntity?.address?.country?.id || '',
+        email: legalEntityData?.legalEntity?.email || '',
+        name: legalEntityData?.legalEntity?.name || '',
+        postalCode: 'very own test',
+        region: legalEntityData?.legalEntity?.address?.region || '',
+        registrationNumber: legalEntityData?.legalEntity?.regNumber || '',
+        taxNumber: legalEntityData?.legalEntity?.taxNumber || '',
+        website: legalEntityData?.legalEntity?.website || '',
+      };
+    }
+
+    return {
+      address1: eventBilling?.address?.lineOne || '',
+      address2: eventBilling?.address?.lineTwo || '',
+      city: eventBilling?.address?.city || '',
+      companyName: eventBilling?.name || '',
+      country: eventBilling?.address?.country.id || '',
+      email: eventBilling?.email || '',
+      name: eventBilling?.name || '',
+      postalCode: eventBilling?.address?.postalCode || '',
+      region: eventBilling?.address?.region || '',
+      registrationNumber: eventBilling?.regNumber || '',
+      taxNumber: eventBilling?.taxNumber || '',
+      website: eventBilling?.website || '',
+    };
   };
 
   return (
     <Formik
       enableReinitialize
-      initialValues={{
-        address1: eventBilling?.address?.lineOne || '',
-        address2: eventBilling?.address?.lineTwo || '',
-        city: eventBilling?.address?.city || '',
-        companyName: eventBilling?.name || '',
-        country: eventBilling?.address?.country.id || '',
-        email: eventBilling?.email || '',
-        name: eventBilling?.name || '',
-        postalCode: eventBilling?.address?.postalCode || '',
-        region: eventBilling?.address?.region || '',
-        registrationNumber: eventBilling?.regNumber || '',
-        taxNumber: eventBilling?.taxNumber || '',
-        website: eventBilling?.website || '',
-      }}
+      initialValues={getInitialValues(isCompanyChanged)}
       validationSchema={eventBillingSchema}
       onSubmit={async (values) => {
-        if (eventBilling?.id) {
-          await updateLegalEntity({
-            variables: {
-              input: {
-                address: {
-                  city: values.city.trim(),
-                  countryId: values.country,
-                  lineOne: values.address1.trim(),
-                  lineTwo: values.address2.trim(),
-                  postalCode: values.postalCode.trim(),
-                  region: values.region,
-                },
-                email: values.email.trim(),
-                id: eventBilling.id,
-                name: values.companyName.trim(),
-                regNumber: values.registrationNumber.trim(),
-                taxNumber: values.taxNumber.trim(),
-                website: values.website.trim(),
+        // if (eventBilling?.id) {
+        console.log('onSubmit.id', eventBilling?.id);
+        console.log('onSubmit', values);
+        await updateLegalEntity({
+          variables: {
+            input: {
+              address: {
+                city: values.city.trim(),
+                countryId: values?.country?.trim(),
+                lineOne: values.address1.trim(),
+                lineTwo: values.address2.trim(),
+                postalCode: values.postalCode.trim(),
+                region: values.region,
               },
+              email: values.email.trim(),
+              id: (isCompanyChanged
+                ? legalEntityData?.legalEntity?.id
+                : eventBilling?.id) as string,
+              regNumber: values.registrationNumber.trim(),
+              taxNumber: values.taxNumber.trim(),
+              website: values.website.trim(),
             },
-          });
-        }
+          },
+        });
+        // }
       }}
     >
       {({ resetForm }) => (

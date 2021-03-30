@@ -1,4 +1,5 @@
 import { ErrorMessage, Field, FieldProps } from 'formik';
+import { handleObject } from 'graphql-tools/delegate/results/handleObject';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
@@ -70,19 +71,31 @@ const SelectField = ({
   options = [],
   required = false,
   disabled = false,
-}: // onChange, // TODO fix on change handling since its breakiing select flow
-SelectFieldProps) => {
+  onChange = undefined,
+}: SelectFieldProps) => {
+  const handleChange = (event: any) => {
+    if (!onChange) return;
+
+    onChange(event);
+    event.preventDefault();
+  };
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
       <Field name={name} required={required}>
-        {({ meta, field }: FieldProps) => (
+        {({ meta, field, form }: FieldProps) => (
           <StyledSelect
             isError={meta.touched && !!meta.error}
             {...field}
             disabled={disabled}
             placeholder={placeholder}
-            // onChange={onChange}
+            onChange={(event) => {
+              if (onChange) {
+                onChange(event);
+              }
+
+              form.setFieldValue(field.name, event.target.value);
+            }}
           >
             {options.map((option) => (
               <option
