@@ -1,13 +1,9 @@
-import {
-  Button,
-  SecondaryButton,
-} from '@websummit/components/src/atoms/Button';
 import Icon from '@websummit/components/src/atoms/Icon';
 import Modal from '@websummit/components/src/molecules/Modal';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
-import React, { FormEvent, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
@@ -67,7 +63,6 @@ export const IconWrapper = styled.div`
 
 type LegalEntityCreateModalProps = {
   alertHeader: string;
-  cancelText: string;
   closeModal: () => void;
   isOpen: boolean;
   mutationCallback: any;
@@ -81,30 +76,12 @@ const confirmSchema = Yup.object().shape({
 const LegalEntityCreateModal = ({
   isOpen,
   closeModal,
-  cancelText,
   alertHeader,
   mutationCallback,
   submitText = 'Submit',
 }: LegalEntityCreateModalProps) => {
-  const [formControls, setFormControls] = useState<
-    | {
-        boundReset?: () => void;
-        boundSubmit?: (event?: FormEvent) => void;
-      }
-    | undefined
-  >();
-
-  const handleClose = () => {
-    if (formControls?.boundReset) {
-      formControls.boundReset();
-    }
-
-    setFormControls(undefined);
-    closeModal();
-  };
-
   return (
-    <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={handleClose}>
+    <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>
       <Formik
         initialValues={{
           name: '',
@@ -114,15 +91,9 @@ const LegalEntityCreateModal = ({
         validationSchema={confirmSchema}
         onSubmit={(values) => {
           mutationCallback(values);
-
-          handleClose();
         }}
       >
-        {({ resetForm, submitForm }) => {
-          if (!formControls) {
-            setFormControls({ boundReset: resetForm, boundSubmit: submitForm });
-          }
-
+        {() => {
           return (
             <Form>
               <Wrapper>
@@ -145,12 +116,10 @@ const LegalEntityCreateModal = ({
                 </Spacing>
 
                 <Spacing bottom="50px">
-                  <StyledActionRow>
-                    <SecondaryButton onClick={closeModal}>
-                      {cancelText}
-                    </SecondaryButton>
-                    <Button type="submit">{submitText}</Button>
-                  </StyledActionRow>
+                  <Modal.DefaultFooter
+                    submitText={submitText}
+                    onCancelClick={closeModal}
+                  />
                 </Spacing>
               </Wrapper>
             </Form>

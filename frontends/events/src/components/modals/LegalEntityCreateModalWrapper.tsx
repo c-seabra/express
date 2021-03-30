@@ -18,7 +18,6 @@ LegalEntityCreateModalProps) => {
   const setMutation = (values: any) => {
     return createLegalEntity({
       input: {
-        email: 'test@websummit.net',
         name: values.name.trim(),
       },
     });
@@ -26,7 +25,6 @@ LegalEntityCreateModalProps) => {
   return (
     <LegalEntityCreateModal
       alertHeader="Add new host company"
-      cancelText="Cancel"
       closeModal={closeModal}
       isOpen={isOpen}
       mutationCallback={setMutation}
