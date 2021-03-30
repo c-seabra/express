@@ -42,18 +42,6 @@ export const FieldWrapper = styled.div`
   padding: 0;
 `;
 
-export const StyledActionRow = styled.div`
-  display: flex;
-  justify-content: space-around;
-
-  > * {
-    margin-right: 32px;
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-`;
-
 export const IconWrapper = styled.div`
   > .material-icons {
     font-size: 40px;
@@ -91,6 +79,7 @@ const LegalEntityCreateModal = ({
         validationSchema={confirmSchema}
         onSubmit={(values) => {
           mutationCallback(values);
+          closeModal();
         }}
       >
         {() => {
