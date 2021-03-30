@@ -123,14 +123,16 @@ const getRegionOptions = (regions: string[] = []) => [
 
 type EventBillingFormProps = {
   eventBilling?: LegalEntity | null;
+  eventSlug: string | null;
   legalEntities?: LegalEntity[] | null;
 };
 
 const EventBillingForm = ({
   eventBilling,
   legalEntities,
+  eventSlug,
 }: EventBillingFormProps) => {
-  const { token, conferenceSlug } = useAppContext();
+  const { token } = useAppContext();
   const success = useSuccessSnackbar();
   const info = useInfoSnackbar();
   const error = useErrorSnackbar();
@@ -173,7 +175,7 @@ const EventBillingForm = ({
           variables: {
             input: {
               legalEntityId: legalEntityUpdate?.legalEntity?.id,
-              slug: conferenceSlug as string,
+              slug: eventSlug as string,
             },
           },
         });
@@ -296,7 +298,6 @@ const EventBillingForm = ({
                 type="text"
               />
             </FieldRow>
-
             <FieldRow>
               <StyledInputField
                 label="Company’s registration number"
@@ -311,7 +312,6 @@ const EventBillingForm = ({
                 type="text"
               />
             </FieldRow>
-
             <FieldRow>
               <StyledInputField
                 label="Company’s website"
