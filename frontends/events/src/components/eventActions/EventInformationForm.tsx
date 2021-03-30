@@ -127,9 +127,16 @@ const getLegalEntityOptions = (
   })),
 ];
 
-const getTimeZoneOptions = (timeZones: TimeZone[] = []) => [
+const getTimeZoneOptions = (
+    timeZones:
+        | ({ __typename?: 'TimeZone' } & Pick<
+        TimeZone,
+        'displayName' | 'ianaName' | 'utcOffset'
+        >)[]
+        | undefined = [],
+) => [
   emptyOption,
-  ...timeZones.map((timeZone: TimeZone) => ({
+  ...timeZones.map((timeZone) => ({
     label: `UTC${timeZone.utcOffset} - ${timeZone.displayName}`,
     value: timeZone.ianaName,
   })),
@@ -145,7 +152,6 @@ type EventInformationFormProps = {
         | 'slug'
         | 'startDate'
         | 'endDate'
-        | 'timeZone'
         | 'baseUrl'
         | 'currency'
         | 'taxNumber'
@@ -153,6 +159,8 @@ type EventInformationFormProps = {
         country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
       } & {
         legalEntity: Pick<LegalEntity, 'id' | 'name'> | null;
+      } & {
+        timeZone: Pick<TimeZone, 'ianaName' | 'displayName'> | null;
       })
     | null;
   refetch: () => void;

@@ -7,6 +7,8 @@ export default gql`
         id
         name
         configuration
+        active
+        gateway
       }
     }
   }

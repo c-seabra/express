@@ -1,4 +1,5 @@
 import Icon from '@websummit/components/src/atoms/Icon';
+import Tooltip from '@websummit/components/src/atoms/Tooltip';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
@@ -9,6 +10,7 @@ import Table, {
 } from '@websummit/components/src/molecules/Table';
 import {
   EventQuery,
+  useCommerceListPaymentMethodsQuery,
   useEventQuery,
   useLegalEntitiesQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -16,6 +18,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import { getServicesReadyForEvent } from '../../lib/utils/eventConfig';
 import { useAppContext } from '../app/AppContext';
 import PaymentMethods from '../organisms/PaymentMethods';
 import SelectTax from '../organisms/SelectTax';
@@ -76,7 +79,6 @@ const Tab = styled.div<{ active?: boolean; isSelected?: boolean }>`
   ${(props) =>
     !props.active &&
     css`
-      pointer-events: none;
       color: #a7a7a7;
       background-color: #f5f5f5;
     `};
@@ -88,30 +90,7 @@ const Tab = styled.div<{ active?: boolean; isSelected?: boolean }>`
     `};
 `;
 
-const settingsTableShape = (
-  currentTab: Setting,
-  configCompleteRules: {
-    billing_invoicing: boolean;
-    event_info: boolean;
-    payment_methods: boolean;
-    tax_info: boolean;
-  },
-): ColumnDescriptor<Setting>[] => [
-  {
-    overrideStyle: true,
-    renderCell: ({ id, title, active }) => (
-      <Tab active={active} isSelected={id === currentTab.id}>
-        {title}
-        {!configCompleteRules[id] && active && (
-          <Icon color="#E15554">error_outline</Icon>
-        )}
-      </Tab>
-    ),
-    width: '100%',
-  },
-];
-
-const checkConfigCompletion = (data?: EventQuery): boolean => {
+const checkEventInfoCompletion = (data?: EventQuery): boolean => {
   if (data) {
     const { event } = data;
     return !!(
@@ -145,6 +124,36 @@ const checkBillingCompletion = (data?: any): boolean => {
   return false;
 };
 
+type Rule = {
+  ready: boolean;
+  text?: string;
+};
+
+const settingsTableShape = (
+  currentTab: Setting,
+  configCompleteRules: {
+    billing_invoicing: Rule;
+    event_info: Rule;
+    payment_methods: Rule;
+    tax_info: Rule;
+  },
+): ColumnDescriptor<Setting>[] => [
+  {
+    overrideStyle: true,
+    renderCell: ({ id, title, active }) => (
+      <Tab active={active} isSelected={id === currentTab.id}>
+        {title}
+        <Tooltip content={configCompleteRules[id].text}>
+          {!configCompleteRules[id].ready && (
+            <Icon color="#E15554">error_outline</Icon>
+          )}
+        </Tooltip>
+      </Tab>
+    ),
+    width: '100%',
+  },
+];
+
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
   const error = useErrorSnackbar();
@@ -169,6 +178,7 @@ const EventSettings = () => {
   });
 
   const eventExists = !!data?.event;
+  console.log('eventExists',eventExists)
   const eventName = data?.event?.name;
   const eventLegalEntity = data?.event?.legalEntity;
   const legalEntities = entitiesResult?.legalEntities.edges?.map(
@@ -176,12 +186,34 @@ const EventSettings = () => {
   );
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
   const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
+  const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
+    context: { headers: { 'x-event-id': slug }, token },
+    skip: !slug,
+  });
+
+  const configCompletion = getServicesReadyForEvent(data);
+
+  const eventInfoSpecificCompletion = checkEventInfoCompletion(data);
+
   const configCompleteRules = {
-    // TODO - fill the 'true' with rules regarding config completion
-    billing_invoicing: !loading && checkBillingCompletion(eventLegalEntity),
-    event_info: !loading && checkConfigCompletion(data),
-    payment_methods: true,
-    tax_info: !loading && !!taxes?.length,
+    billing_invoicing: {
+      ready: !loading && checkBillingCompletion(eventLegalEntity),
+    },
+    event_info: {
+      ready: configCompletion.avenger.ready && eventInfoSpecificCompletion,
+      text: !eventInfoSpecificCompletion ? 'Event information incomplete' : '',
+    },
+    payment_methods: {
+      ready: configCompletion.stores.ready,
+      text: configCompletion.stores.missing.some(
+        (missingField) => missingField === 'legalEntity',
+      )
+        ? 'Host company missing from event information'
+        : 'Configuration incomplete',
+    },
+    tax_info: {
+      ready: !loading && !!taxes?.length,
+    },
   };
   const settings: Setting[] = [
     {
@@ -288,7 +320,11 @@ const EventSettings = () => {
               />
             )}
             {currentTab.id === 'payment_methods' && (
-              <PaymentMethods paymentMethods={[]} />
+              <PaymentMethods
+                paymentMethods={
+                  paymentMethodsData?.commerceListPaymentMethods?.hits
+                }
+              />
             )}
           </SettingsSection>
         </SettingsForm>
