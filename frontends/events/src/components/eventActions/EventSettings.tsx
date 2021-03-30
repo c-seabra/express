@@ -186,7 +186,7 @@ const EventSettings = () => {
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
   const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
   const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
-    context: { headers: { 'x-event-id': slug }, token },
+    context: { slug, token },
     skip: !slug,
   });
 
