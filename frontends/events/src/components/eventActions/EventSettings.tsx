@@ -1,4 +1,5 @@
 import Icon from '@websummit/components/src/atoms/Icon';
+import Tooltip from '@websummit/components/src/atoms/Tooltip';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
@@ -8,12 +9,14 @@ import Table, {
 } from '@websummit/components/src/molecules/Table';
 import {
   EventQuery,
+  useCommerceListPaymentMethodsQuery,
   useEventQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import { getServicesReadyForEvent } from '../../lib/utils/eventConfig';
 import { useAppContext } from '../app/AppContext';
 import PaymentMethods from '../organisms/PaymentMethods';
 import SelectTax from '../organisms/SelectTax';
@@ -93,28 +96,7 @@ const Tab = styled.div<{ isSelected?: boolean }>`
     `};
 `;
 
-const settingsTableShape = (
-  currentTab: Setting,
-  configCompleteRules: {
-    billing_invoicing: boolean;
-    event_info: boolean;
-    payment_methods: boolean;
-    tax_info: boolean;
-  },
-): ColumnDescriptor<Setting>[] => [
-  {
-    overrideStyle: true,
-    renderCell: ({ id, title }) => (
-      <Tab isSelected={id === currentTab.id}>
-        {title}
-        {!configCompleteRules[id] && <Icon color="#E15554">error_outline</Icon>}
-      </Tab>
-    ),
-    width: '100%',
-  },
-];
-
-const checkConfigCompletion = (data?: EventQuery): boolean => {
+const checkEventInfoCompletion = (data?: EventQuery): boolean => {
   if (data) {
     const { event } = data;
     return !!(
@@ -124,7 +106,6 @@ const checkConfigCompletion = (data?: EventQuery): boolean => {
       event?.endDate &&
       event?.startDate &&
       event?.taxNumber &&
-      event?.legalEntity &&
       event?.timeZone &&
       event?.name &&
       event?.slug
@@ -133,6 +114,36 @@ const checkConfigCompletion = (data?: EventQuery): boolean => {
 
   return false;
 };
+
+type Rule = {
+  ready: boolean;
+  text?: string;
+};
+
+const settingsTableShape = (
+  currentTab: Setting,
+  configCompleteRules: {
+    billing_invoicing: Rule;
+    event_info: Rule;
+    payment_methods: Rule;
+    tax_info: Rule;
+  },
+): ColumnDescriptor<Setting>[] => [
+  {
+    overrideStyle: true,
+    renderCell: ({ id, title }) => (
+      <Tab isSelected={id === currentTab.id}>
+        {title}
+        <Tooltip content={configCompleteRules[id].text}>
+          {!configCompleteRules[id].ready && (
+            <Icon color="#E15554">error_outline</Icon>
+          )}
+        </Tooltip>
+      </Tab>
+    ),
+    width: '100%',
+  },
+];
 
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -152,12 +163,35 @@ const EventSettings = () => {
     },
   });
 
+  const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
+    context: { headers: { 'x-event-id': slug }, token },
+    skip: !slug,
+  });
+
+  const configCompletion = getServicesReadyForEvent(data);
+
+  const eventInfoSpecificCompletion = checkEventInfoCompletion(data);
+
   const configCompleteRules = {
     // TODO - fill the 'true' with rules regarding config completion
-    billing_invoicing: true,
-    event_info: checkConfigCompletion(data),
-    payment_methods: true,
-    tax_info: true,
+    billing_invoicing: {
+      ready: true,
+    },
+    event_info: {
+      ready: configCompletion.avenger.ready && eventInfoSpecificCompletion,
+      text: !eventInfoSpecificCompletion ? 'Event information incomplete' : '',
+    },
+    payment_methods: {
+      ready: configCompletion.stores.ready,
+      text: configCompletion.stores.missing.some(
+        (missingField) => missingField === 'legalEntity',
+      )
+        ? 'Host company missing from event information'
+        : 'Configuration incomplete',
+    },
+    tax_info: {
+      ready: true,
+    },
   };
 
   const settingsTable = settingsTableShape(currentTab, configCompleteRules);
@@ -228,7 +262,11 @@ const EventSettings = () => {
               />
             )}
             {currentTab.id === 'payment_methods' && (
-              <PaymentMethods paymentMethods={[]} />
+              <PaymentMethods
+                paymentMethods={
+                  paymentMethodsData?.commerceListPaymentMethods?.hits
+                }
+              />
             )}
           </SettingsSection>
         </SettingsForm>

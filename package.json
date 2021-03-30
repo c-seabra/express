@@ -84,8 +84,8 @@
     "@types/react-helmet": "6.1.0",
     "@types/react-modal": "3.12.0",
     "@types/react-router-dom": "5.1.7",
-    "@types/styled-components": "5.1.9",
     "@types/single-spa-react": "2.12.0",
+    "@types/styled-components": "5.1.9",
     "@types/systemjs": "6.1.0",
     "@types/webpack-env": "1.16.0",
     "@types/yup": "0.29.11",
@@ -115,7 +115,6 @@
     "copy-webpack-plugin": "8.0.0",
     "country-flag-icons": "1.2.9",
     "cross-env": "7.0.3",
-    "react-currency-input-field": "3.2.4",
     "dot-object": "2.1.4",
     "dotenv": "8.2.0",
     "eslint": "7.22.0",
@@ -162,6 +161,7 @@
     "pure-react-carousel": "1.27.6",
     "qs": "6.9.6",
     "react-apollo": "4.0.0-beta.1",
+    "react-currency-input-field": "3.2.4",
     "react-instantsearch-core": "6.10.3",
     "react-instantsearch-dom": "6.10.3",
     "react-json-pretty": "2.2.0",
@@ -214,6 +214,8 @@
     "yup": "0.32.9"
   },
   "dependencies": {
-    "lint-staged": "10.5.4"
+    "@types/lodash.get": "^4.4.6",
+    "lint-staged": "10.5.4",
+    "lodash.get": "^4.4.2"
   }
 }

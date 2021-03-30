@@ -143,7 +143,10 @@ const Checkbox = ({
   isError = false,
 }: CheckboxProps) => {
   return (
-    <CheckboxContainer className={className}>
+    <CheckboxContainer
+      className={className}
+      onClick={(event) => event.stopPropagation()}
+    >
       <LabelFieldContainer>
         <Input checked={checked} type="checkbox" onChange={onChange} />
         <Indicator isChecked={checked} isError={isError} />

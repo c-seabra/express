@@ -115,7 +115,14 @@ const getLegalEntityOptions = (
   })),
 ];
 
-const getTimeZoneOptions = (timeZones: TimeZone[] = []) => [
+const getTimeZoneOptions = (
+  timeZones:
+    | ({ __typename?: 'TimeZone' } & Pick<
+        TimeZone,
+        'displayName' | 'ianaName'
+      >)[]
+    | undefined = [],
+) => [
   emptyOption,
   ...timeZones.map((timeZone) => ({
     label: timeZone.displayName,
@@ -133,12 +140,15 @@ type EventInformationFormProps = {
         | 'slug'
         | 'startDate'
         | 'endDate'
-        | 'timeZone'
         | 'baseUrl'
         | 'currency'
         | 'taxNumber'
       > & {
         country: Pick<EventConfigurationCountry, 'id' | 'name'> | null;
+      } & {
+        legalEntity: Pick<LegalEntity, 'id' | 'name'> | null;
+      } & {
+        timeZone: Pick<TimeZone, 'ianaName' | 'displayName'> | null;
       })
     | null;
   refetch: () => void;
@@ -211,6 +221,7 @@ const EventInformationForm = ({
           currency: eventInfo?.currency,
           description: eventInfo?.description,
           endDate: eventInfo?.endDate,
+          legalEntityId: eventInfo?.legalEntity?.id,
           name: eventInfo?.name || '',
           slug: eventInfo?.slug || '',
           startDate: eventInfo?.startDate,
@@ -279,7 +290,7 @@ const EventInformationForm = ({
                 <StyledSelectField
                   required
                   label="Company hosting the event"
-                  name="hostCompany"
+                  name="legalEntityId"
                   options={legalEntityOptions}
                 />
                 <ButtonContainer>
