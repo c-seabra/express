@@ -81,6 +81,7 @@ const ExistingSlugErrorMessage = styled.div`
 `;
 
 const eventInformationSchema = Yup.object().shape({
+  baseUrl: Yup.string().url('URL must be valid'),
   name: Yup.string().required('Name is required'),
   slug: Yup.string().required('Event slug is required'),
 });

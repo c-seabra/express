@@ -49,6 +49,9 @@ const IconWrapper = styled(Icon)`
 
 const StyledButton = styled(Button)`
   padding-left: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 type NoPaymentMethodsPlaceholderProps = {
@@ -106,15 +109,17 @@ const PaymentMethods = ({ paymentMethods }: PaymentMethodsProps) => {
 
   const { openModal, isOpen, closeModal } = useModalState();
   const [updatePaymentMethod] = useCommerceUpdatePaymentMethodMutation({
-    context: { headers: { 'x-event-id': slug }, token },
+    context: { slug, token },
     onCompleted: () => success('Payment method updated'),
     onError: (e) => error(e.message),
   });
   const [createPaymentMethod] = useCommerceCreatePaymentMethodMutation({
-    context: { headers: { 'x-event-id': slug }, token },
+    context: { slug, token },
     onCompleted: () => success('Payment method added'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context: { token }, query: CommerceListPaymentMethods }],
+    refetchQueries: [
+      { context: { slug, token }, query: CommerceListPaymentMethods },
+    ],
   });
 
   const areNoPaymentMethodsPresent =

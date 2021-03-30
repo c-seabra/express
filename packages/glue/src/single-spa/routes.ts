@@ -159,9 +159,7 @@ const apps: TopLevelLayout[] = [
   };
 });
 
-const latchElement = document.getElementById('micro')
-
-console.log(`Container element is '${latchElement}'`)
+const latchElement = document.getElementById('micro');
 
 export const routes: ResolvedRoutesConfig = {
   base: '/',

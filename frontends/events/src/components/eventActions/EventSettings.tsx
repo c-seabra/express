@@ -164,7 +164,7 @@ const EventSettings = () => {
   });
 
   const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
-    context: { headers: { 'x-event-id': slug }, token },
+    context: { slug, token },
     skip: !slug,
   });
 
