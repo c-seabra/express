@@ -279,7 +279,7 @@ const EventBillingForm = ({
         });
       }}
     >
-      {({ resetForm }) => (
+      {({ resetForm, isSubmitting }) => (
         <Form>
           <Spacing bottom="1.75rem">
             <FieldRow>
@@ -383,7 +383,9 @@ const EventBillingForm = ({
               Cancel
             </SecondaryButton>
 
-            <Button type="submit">Save changes</Button>
+            <Button disabled={isSubmitting} type="submit">
+              Save changes
+            </Button>
           </ButtonsContainer>
         </Form>
       )}

@@ -82,10 +82,10 @@ const ExistingSlugErrorMessage = styled.div`
   margin-top: -1.2rem;
 `;
 
-const SLUG_VALIDATIONS =  {
-  MIN_CHAR: 4,
+const SLUG_VALIDATIONS = {
   MAX_CHAR: 12,
-}
+  MIN_CHAR: 4,
+};
 const eventInformationSchema = Yup.object().shape({
   baseUrl: Yup.string().url('URL must be valid'),
   endDate: Yup.date().when('startDate', (st: any, schema: any) => {
