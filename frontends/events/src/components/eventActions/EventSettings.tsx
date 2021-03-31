@@ -323,6 +323,7 @@ const EventSettings = () => {
             {currentTab.id === 'billing_invoicing' && (
               <EventBillingInvoicingForm
                 eventBilling={eventLegalEntity as any}
+                eventSlug={data?.event?.slug as string}
                 legalEntities={legalEntities as any}
               />
             )}
