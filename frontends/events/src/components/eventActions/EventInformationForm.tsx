@@ -94,6 +94,7 @@ const eventInformationSchema = Yup.object().shape({
   // endDate: Yup.date().when('startDate', (st: any, schema: any) => {
   //   return schema.min(st);
   // }),
+  countryId: Yup.string().required('Country is required'),
   name: Yup.string().required('Name is required'),
   slug: Yup.string()
     .min(SLUG_VALIDATIONS.MIN_CHAR)
@@ -347,7 +348,8 @@ const EventInformationForm = ({
               </FieldRow>
               <FieldRow>
                 <StyledSelectField
-                  label="Country of event (leave blank for online events)"
+                  required
+                  label="Country of event"
                   name="countryId"
                   options={countryOptions}
                 />
