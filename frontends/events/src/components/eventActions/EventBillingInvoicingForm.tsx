@@ -81,6 +81,7 @@ const eventBillingSchema = Yup.object().shape({
   companyWebsite: Yup.string(),
   country: Yup.string().required('Country is required'),
   email: Yup.string().email('Invalid email'),
+  phone: Yup.string().required('Phone is required'),
   postalCode: Yup.string(),
   region: Yup.string().required('Region is required'),
 });
@@ -226,6 +227,7 @@ const EventBillingForm = ({
         country: legalEntityData?.legalEntity?.address?.country?.id || '',
         email: legalEntityData?.legalEntity?.email || '',
         name: legalEntityData?.legalEntity?.name || '',
+        phone: legalEntityData?.legalEntity?.phone || '',
         postalCode: legalEntityData?.legalEntity?.address?.postalCode || '',
         region: legalEntityData?.legalEntity?.address?.region || '',
         registrationNumber: legalEntityData?.legalEntity?.regNumber || '',
@@ -242,6 +244,7 @@ const EventBillingForm = ({
       country: eventBilling?.address?.country.id || '',
       email: eventBilling?.email || '',
       name: eventBilling?.name || '',
+      phone: eventBilling?.phone || '',
       postalCode: eventBilling?.address?.postalCode || '',
       region: eventBilling?.address?.region || '',
       registrationNumber: eventBilling?.regNumber || '',
@@ -271,6 +274,7 @@ const EventBillingForm = ({
               id: (isCompanyChanged
                 ? legalEntityData?.legalEntity?.id
                 : eventBilling?.id) as string,
+              phone: values.phone.trim(),
               regNumber: values.registrationNumber.trim(),
               taxNumber: values.taxNumber.trim(),
               website: values.website.trim(),
@@ -317,6 +321,13 @@ const EventBillingForm = ({
                 label="Company’s website"
                 name="website"
                 placeholder="https://example.com"
+                type="text"
+              />
+              <StyledInputField
+                required
+                label="Company’s phone"
+                name="phone"
+                placeholder="+353 1 437 0969"
                 type="text"
               />
             </FieldRow>
