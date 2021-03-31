@@ -82,14 +82,20 @@ const ExistingSlugErrorMessage = styled.div`
   margin-top: -1.2rem;
 `;
 
-const SLUG_CHAR_LIMIT = 12;
+const SLUG_VALIDATIONS =  {
+  MIN_CHAR: 4,
+  MAX_CHAR: 12,
+}
 const eventInformationSchema = Yup.object().shape({
   baseUrl: Yup.string().url('URL must be valid'),
   endDate: Yup.date().when('startDate', (st: any, schema: any) => {
     return schema.min(st);
   }),
   name: Yup.string().required('Name is required'),
-  slug: Yup.string().max(SLUG_CHAR_LIMIT).required('Event slug is required'),
+  slug: Yup.string()
+    .min(SLUG_VALIDATIONS.MIN_CHAR)
+    .max(SLUG_VALIDATIONS.MAX_CHAR)
+    .required('Event slug is required'),
 
   // TODO: fix cyclical dependency of start and end fields
   // startDate: Yup.date().when('endDate', (st: any, schema: any) => {
