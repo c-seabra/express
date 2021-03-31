@@ -88,9 +88,10 @@ const SLUG_VALIDATIONS = {
 };
 const eventInformationSchema = Yup.object().shape({
   baseUrl: Yup.string().url('URL must be valid'),
-  endDate: Yup.date().when('startDate', (st: any, schema: any) => {
-    return schema.min(st);
-  }),
+  // Will be used after demo
+  // endDate: Yup.date().when('startDate', (st: any, schema: any) => {
+  //   return schema.min(st);
+  // }),
   name: Yup.string().required('Name is required'),
   slug: Yup.string()
     .min(SLUG_VALIDATIONS.MIN_CHAR)
