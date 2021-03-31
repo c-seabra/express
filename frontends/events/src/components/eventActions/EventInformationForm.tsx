@@ -87,7 +87,9 @@ const SLUG_VALIDATIONS = {
   MIN_CHAR: 4,
 };
 const eventInformationSchema = Yup.object().shape({
-  baseUrl: Yup.string().url('URL must be valid'),
+  baseUrl: Yup.string()
+    .url('URL must be valid')
+    .required('Base URL is required'),
   // Will be used after demo
   // endDate: Yup.date().when('startDate', (st: any, schema: any) => {
   //   return schema.min(st);
@@ -368,6 +370,7 @@ const EventInformationForm = ({
                   }}
                 />
                 <StyledInputField
+                  required
                   label="Base event URL"
                   name="baseUrl"
                   placeholder="https://example.com"
