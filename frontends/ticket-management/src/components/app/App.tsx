@@ -7,8 +7,8 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import IndexPage from '../pages/IndexPage';
-import AppContext from './AppContext';
 import SalesCyclesPage from "../pages/SalesCyclesPage";
+import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
   margin: 0 auto;

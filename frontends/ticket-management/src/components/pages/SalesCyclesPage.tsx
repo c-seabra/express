@@ -2,6 +2,8 @@ import { Button } from '@websummit/components/src/atoms/Button';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
+
+import SalesCyclesList from '../organisms/SalesCyclesList';
 // TODO: Add svg when asset available
 // import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 
@@ -9,11 +11,6 @@ export const Container = styled.div`
   max-width: 1440px;
   margin: auto;
   padding-top: 1rem;
-`;
-
-const FlexEnd = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `;
 
 const Centered = styled.div`
@@ -72,7 +69,7 @@ const NoSalesCyclesPlaceholder = () => {
             </FlexCol>
 
             <FlexCol>
-              {/*<img alt="Sales cycles placeholder" src={NoEventsPlaceholderImage} />*/}
+              {/* <img alt="Sales cycles placeholder" src={NoEventsPlaceholderImage} /> */}
               <img alt="Sales cycles placeholder" src="#" />
             </FlexCol>
           </Centered>
@@ -81,6 +78,19 @@ const NoSalesCyclesPlaceholder = () => {
     </FlexCol>
   );
 };
+
+const cycles = [
+  {
+    endDate: new Date().toISOString(),
+    name: 'Test',
+    startDate: new Date().toISOString(),
+  },
+  {
+    endDate: new Date().toISOString(),
+    name: 'Test',
+    startDate: new Date().toISOString(),
+  },
+];
 
 const SalesCyclesPage = () => {
   return (
@@ -92,6 +102,9 @@ const SalesCyclesPage = () => {
         </FlexRow>
 
         <NoSalesCyclesPlaceholder />
+        <FlexRow>
+          <SalesCyclesList cycles={cycles} error={null} />
+        </FlexRow>
       </FlexCol>
     </Container>
   );
