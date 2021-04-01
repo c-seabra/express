@@ -73,10 +73,10 @@ const ROUTES: Routes = [
     path: '~ticket-support/tickets',
   },
   {
-    hasChildren: true,
-    isActive: false,
+    hasChildren: false,
+    isActive: true,
     meta: { description: 'Ticket configuration' },
-    path: '~events/ticket-configuration',
+    path: '~ticket-management#/',
   },
 ];
 
