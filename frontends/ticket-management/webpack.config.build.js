@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const config = {
   entry: {
-    events: './src/index.js',
+    ticketManagement: './src/index.js',
   },
   module: {
     rules: [
@@ -66,7 +66,7 @@ const config = {
       type: 'system',
     },
     publicPath: '/',
-    path: path.resolve(__dirname, '../../builds/events'),
+    path: path.resolve(__dirname, '../../builds/ticket-management'),
   },
   plugins: [new CleanWebpackPlugin()],
   resolve: {
