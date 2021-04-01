@@ -12,6 +12,7 @@
     "start": "webpack serve --port 9007",
     "start:standalone": "webpack serve --env standalone"
   },
+  "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
     "@websummit/components": "*",
