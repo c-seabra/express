@@ -1,0 +1,37 @@
+{
+  "name": "@websummit-micro/calendar",
+  "private": true,
+  "license": "MIT",
+  "version": "1.0.0",
+  "scripts": {
+    "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
+    "build": "webpack --mode=production",
+    "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
+    "clean": "rimraf -rf ./dist",
+    "coverage": "cross-env BABEL_ENV=test jest --coverage",
+    "start": "webpack serve --port 9007",
+    "start:standalone": "webpack serve --env standalone"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@apollo/client": "*",
+    "@websummit/graphql": "*",
+    "graphql": "*",
+    "isomorphic-unfetch": "*",
+    "jwt-decode": "*",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
