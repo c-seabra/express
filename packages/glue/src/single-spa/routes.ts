@@ -25,6 +25,13 @@ const protoRootApps: AppRoute[] = [
     type: 'route',
   },
   {
+    path: 'ticket-management',
+    routes: [
+      { name: '@websummit-micro/ticket-management', type: 'application' },
+    ],
+    type: 'route',
+  },
+  {
     path: 'events',
     routes: [{ name: '@websummit-micro/events', type: 'application' }],
     type: 'route',
