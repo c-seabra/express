@@ -66,7 +66,7 @@ const config = {
       type: 'system',
     },
     publicPath: '/',
-    path: path.resolve(__dirname, '../../builds/events'),
+    path: path.resolve(__dirname, '../../builds/ticket-management'),
   },
   plugins: [new CleanWebpackPlugin()],
   resolve: {
