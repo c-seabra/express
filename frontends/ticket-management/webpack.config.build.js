@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const config = {
   entry: {
-    events: './src/index.js',
+    ticketManagement: './src/index.js',
   },
   module: {
     rules: [
