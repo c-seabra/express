@@ -73,7 +73,19 @@ const ROUTES: Routes = [
     path: '~ticket-support/tickets',
   },
   {
-    hasChildren: false,
+    children: [
+      {
+        isActive: true,
+        meta: { description: 'Sale cycles' },
+        path: '~ticket-management/#/sale-cycles',
+      },
+      {
+        isActive: true,
+        meta: { description: 'Ticket groups' },
+        path: '~ticket-management/#/ticket-groups',
+      },
+    ],
+    hasChildren: true,
     isActive: true,
     meta: { description: 'Ticket configuration' },
     path: '~ticket-management#/',

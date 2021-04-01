@@ -19,7 +19,7 @@ type SalesCyclesListProps = {
 const SalesCyclesList = ({ error, cycles }: SalesCyclesListProps) => {
   const history = useHistory();
   const tableShape: ColumnDescriptor<any>[] = [
-  // const tableShape: ColumnDescriptor<SalesCycles>[] = [
+    // const tableShape: ColumnDescriptor<SalesCycles>[] = [
     {
       header: 'Name',
       renderCell: (cycle) => <StyledName>{cycle.name || 'N/A'}</StyledName>,

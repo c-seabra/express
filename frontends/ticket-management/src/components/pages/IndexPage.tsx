@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;
 
 const IndexPage = () => {
-  return <Container>test view</Container>;
+  return <Container></Container>;
 };
 
 export default IndexPage;
