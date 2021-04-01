@@ -17,7 +17,6 @@ type SalesCyclesListProps = {
   error: any;
 };
 const SalesCyclesList = ({ error, cycles }: SalesCyclesListProps) => {
-  const history = useHistory();
   const tableShape: ColumnDescriptor<any>[] = [
     // const tableShape: ColumnDescriptor<SalesCycles>[] = [
     {
@@ -41,10 +40,6 @@ const SalesCyclesList = ({ error, cycles }: SalesCyclesListProps) => {
     return <>{error.message}</>;
   }
 
-  // const redirectToSalesCycles = (item: any) => {
-  //   history.push(`/${item.slug.toString()}/settings`);
-  // };
-  //
   return (
     <>
       <ContainerCard noPadding>
