@@ -173,7 +173,16 @@ const trimConfiguration = (
         env: env?.trim() || '',
       };
     }
-    case paymentGatewayIds.external:
+    case paymentGatewayIds.external: {
+      const {
+        refundMethod,
+        acceptUnpaidRefunds,
+      } = configuration as ExternalConfigType;
+      return {
+        acceptUnpaidRefunds: acceptUnpaidRefunds ? 'true' : 'false',
+        refundMethod: refundMethod ? 'true' : 'false',
+      };
+    }
     default:
       return configuration;
   }
