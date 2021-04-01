@@ -3,6 +3,9 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
 
+import { useSalesCyclesQueryQuery } from '../../../../../packages/graphql/src/@types/operations';
+import Loader from '../../lib/Loading';
+import { useAppContext } from '../app/AppContext';
 import SalesCyclesList from '../organisms/SalesCyclesList';
 // TODO: Add svg when asset available
 // import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
@@ -79,32 +82,36 @@ const NoSalesCyclesPlaceholder = () => {
   );
 };
 
-const cycles = [
-  {
-    endDate: new Date().toISOString(),
-    name: 'Test',
-    startDate: new Date().toISOString(),
-  },
-  {
-    endDate: new Date().toISOString(),
-    name: 'Test',
-    startDate: new Date().toISOString(),
-  },
-];
-
 const SalesCyclesPage = () => {
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    conferenceSlug,
+    token,
+  };
+
+  const { loading, data } = useSalesCyclesQueryQuery({ context });
+
+  const hasCycles =
+    data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length;
+  const cycles = data?.commerceListSales && data?.commerceListSales?.hits;
+
   return (
     <Container>
+      {loading && <Loader />}
+
       <FlexCol>
         <FlexRow>
-          <HeaderText>Sales cycles</HeaderText>
+          <HeaderText>Sale cycles</HeaderText>
           <Button>Create new sale cycle</Button>
         </FlexRow>
 
-        <NoSalesCyclesPlaceholder />
-        <FlexRow>
-          <SalesCyclesList cycles={cycles} error={null} />
-        </FlexRow>
+        {!loading && !hasCycles && <NoSalesCyclesPlaceholder />}
+
+        {hasCycles && (
+          <FlexRow>
+            <SalesCyclesList cycles={cycles} error={null} />
+          </FlexRow>
+        )}
       </FlexCol>
     </Container>
   );
