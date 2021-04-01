@@ -1,14 +1,15 @@
 import { Button } from '@websummit/components/src/atoms/Button';
+// TODO: Add svg when asset available
+// import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
 
-import { useSalesCyclesQueryQuery } from '../../../../../packages/graphql/src/@types/operations';
+import { useSalesCyclesQueryQuery } from '@websummit/graphql/src/@types/operations';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
 import SalesCyclesList from '../organisms/SalesCyclesList';
-// TODO: Add svg when asset available
-// import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -83,13 +84,17 @@ const NoSalesCyclesPlaceholder = () => {
 };
 
 const SalesCyclesPage = () => {
+  const errorSnackbar = useErrorSnackbar();
   const { conferenceSlug, token } = useAppContext();
   const context = {
     conferenceSlug,
     token,
   };
 
-  const { loading, data } = useSalesCyclesQueryQuery({ context });
+  const { loading, data } = useSalesCyclesQueryQuery({
+    context,
+    onError: (error) => errorSnackbar(error.message),
+  });
 
   const hasCycles =
     data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length;
@@ -109,7 +114,7 @@ const SalesCyclesPage = () => {
 
         {hasCycles && (
           <FlexRow>
-            <SalesCyclesList cycles={cycles} error={null} />
+            <SalesCyclesList cycles={cycles} />
           </FlexRow>
         )}
       </FlexCol>

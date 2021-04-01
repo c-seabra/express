@@ -5,7 +5,6 @@ import Table, {
 import { formatFullDate } from '@websummit/components/src/utils/time';
 // import { SalesCycles } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledName = styled.span`
@@ -14,7 +13,6 @@ const StyledName = styled.span`
 
 type SalesCyclesListProps = {
   cycles: any;
-  error: any;
 };
 const SalesCyclesList = ({ error, cycles }: SalesCyclesListProps) => {
   const tableShape: ColumnDescriptor<any>[] = [
@@ -46,7 +44,6 @@ const SalesCyclesList = ({ error, cycles }: SalesCyclesListProps) => {
         <Table<any>
           items={cycles}
           tableShape={tableShape}
-          // onRowClick={redirectToSalesCycles}
         />
       </ContainerCard>
     </>
