@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 import IndexPage from '../pages/IndexPage';
 import AppContext from './AppContext';
+import SalesCyclesPage from "../pages/SalesCyclesPage";
 
 const StyledContainer = styled.section`
   margin: 0 auto;
@@ -48,6 +49,9 @@ const App = ({ token, apiURL }: AppProps) => {
               <Switch>
                 <Route exact path="/">
                   <IndexPage />
+                </Route>
+                <Route exact path="/sales-cycles">
+                  <SalesCyclesPage />
                 </Route>
               </Switch>
             </StyledContainer>
