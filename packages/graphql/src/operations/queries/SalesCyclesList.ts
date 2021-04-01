@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const COMMERCE_SALES_LIST = gql`
-  query SalesCyclesQuery {
+  query SalesCycles {
     commerceListSales {
       hits {
         active

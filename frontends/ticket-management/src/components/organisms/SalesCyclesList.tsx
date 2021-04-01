@@ -14,7 +14,7 @@ const StyledName = styled.span`
 type SalesCyclesListProps = {
   cycles: any;
 };
-const SalesCyclesList = ({ error, cycles }: SalesCyclesListProps) => {
+const SalesCyclesList = ({ cycles }: SalesCyclesListProps) => {
   const tableShape: ColumnDescriptor<any>[] = [
     // const tableShape: ColumnDescriptor<SalesCycles>[] = [
     {
@@ -32,11 +32,6 @@ const SalesCyclesList = ({ error, cycles }: SalesCyclesListProps) => {
       renderCell: (cycle) => formatFullDate(cycle.endDate) || 'N/A',
     },
   ];
-
-  // TODO lift up error and reuse useQuery hook for error handling
-  if (error) {
-    return <>{error.message}</>;
-  }
 
   return (
     <>

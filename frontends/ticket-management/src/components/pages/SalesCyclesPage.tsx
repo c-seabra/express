@@ -6,7 +6,7 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
 
-import { useSalesCyclesQueryQuery } from '@websummit/graphql/src/@types/operations';
+import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
 import SalesCyclesList from '../organisms/SalesCyclesList';
@@ -91,7 +91,7 @@ const SalesCyclesPage = () => {
     token,
   };
 
-  const { loading, data } = useSalesCyclesQueryQuery({
+  const { loading, data } = useSalesCyclesQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
   });

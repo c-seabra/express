@@ -8626,9 +8626,9 @@ export type OrderTicketsQuery = { __typename?: 'Query' } & {
   };
 };
 
-export type SalesCyclesQueryQueryVariables = Exact<{ [key: string]: never }>;
+export type SalesCyclesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type SalesCyclesQueryQuery = { __typename?: 'Query' } & {
+export type SalesCyclesQuery = { __typename?: 'Query' } & {
   commerceListSales: Maybe<
     { __typename?: 'CommerceSearchResponseSale' } & Pick<
       CommerceSearchResponseSale,
@@ -17934,11 +17934,11 @@ export type OrderTicketsQueryResult = Apollo.QueryResult<
   OrderTicketsQuery,
   OrderTicketsQueryVariables
 >;
-export const SalesCyclesQueryDocument: DocumentNode = {
+export const SalesCyclesDocument: DocumentNode = {
   definitions: [
     {
       kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'SalesCyclesQuery' },
+      name: { kind: 'Name', value: 'SalesCycles' },
       operation: 'query',
       selectionSet: {
         kind: 'SelectionSet',
@@ -18004,51 +18004,49 @@ export const SalesCyclesQueryDocument: DocumentNode = {
 };
 
 /**
- * __useSalesCyclesQueryQuery__
+ * __useSalesCyclesQuery__
  *
- * To run a query within a React component, call `useSalesCyclesQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useSalesCyclesQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSalesCyclesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSalesCyclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSalesCyclesQueryQuery({
+ * const { data, loading, error } = useSalesCyclesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useSalesCyclesQueryQuery(
+export function useSalesCyclesQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    SalesCyclesQueryQuery,
-    SalesCyclesQueryQueryVariables
+    SalesCyclesQuery,
+    SalesCyclesQueryVariables
   >,
 ) {
-  return Apollo.useQuery<SalesCyclesQueryQuery, SalesCyclesQueryQueryVariables>(
-    SalesCyclesQueryDocument,
+  return Apollo.useQuery<SalesCyclesQuery, SalesCyclesQueryVariables>(
+    SalesCyclesDocument,
     baseOptions,
   );
 }
-export function useSalesCyclesQueryLazyQuery(
+export function useSalesCyclesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    SalesCyclesQueryQuery,
-    SalesCyclesQueryQueryVariables
+    SalesCyclesQuery,
+    SalesCyclesQueryVariables
   >,
 ) {
-  return Apollo.useLazyQuery<
-    SalesCyclesQueryQuery,
-    SalesCyclesQueryQueryVariables
-  >(SalesCyclesQueryDocument, baseOptions);
+  return Apollo.useLazyQuery<SalesCyclesQuery, SalesCyclesQueryVariables>(
+    SalesCyclesDocument,
+    baseOptions,
+  );
 }
-export type SalesCyclesQueryQueryHookResult = ReturnType<
-  typeof useSalesCyclesQueryQuery
+export type SalesCyclesQueryHookResult = ReturnType<typeof useSalesCyclesQuery>;
+export type SalesCyclesLazyQueryHookResult = ReturnType<
+  typeof useSalesCyclesLazyQuery
 >;
-export type SalesCyclesQueryLazyQueryHookResult = ReturnType<
-  typeof useSalesCyclesQueryLazyQuery
->;
-export type SalesCyclesQueryQueryResult = Apollo.QueryResult<
-  SalesCyclesQueryQuery,
-  SalesCyclesQueryQueryVariables
+export type SalesCyclesQueryResult = Apollo.QueryResult<
+  SalesCyclesQuery,
+  SalesCyclesQueryVariables
 >;
 export const TaxRatesDocument: DocumentNode = {
   definitions: [
