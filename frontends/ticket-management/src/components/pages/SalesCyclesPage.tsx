@@ -1,10 +1,12 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
-import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
+import PageContainer from '../../lib/components/templates/PageContainer';
+import NoCyclesPlaceholderImage from '../../lib/images/no-sale-cycle-placeholder.png';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
 import SalesCyclesList from '../organisms/SalesCyclesList';
@@ -42,42 +44,20 @@ const HeaderText = styled.h1`
   margin: 0;
 `;
 
-const PlaceholderHeaderText = styled.h1`
-  color: #0c1439;
-  font-size: 36px;
-  font-weight: 500;
-  letter-spacing: -1px;
-  line-height: 64px;
-`;
-
-const PlaceholderText = styled.span`
-  color: #0c1439;
-  font-size: 20px;
-  letter-spacing: 0;
-  line-height: 32px;
+const Placeholder = styled.img`
+  max-width: 1440px;
 `;
 
 const NoSalesCyclesPlaceholder = () => {
   return (
-    <FlexCol>
-      <Spacing bottom="6rem" top="4.125rem">
-        <FlexRow>
-          <Centered>
-            <FlexCol>
-              <PlaceholderHeaderText>Create a sale cycle</PlaceholderHeaderText>
-              <PlaceholderText>
-                Create anything from “super early bird” to “late late” cycles.
-              </PlaceholderText>
-            </FlexCol>
-
-            <FlexCol>
-              {/* <img alt="Sales cycles placeholder" src={NoEventsPlaceholderImage} /> */}
-              <img alt="Sales cycles placeholder" src="#" />
-            </FlexCol>
-          </Centered>
-        </FlexRow>
+    <PageContainer>
+      <Spacing bottom="4rem" top="2.125rem">
+        <Placeholder
+          alt="No sales cycles placeholder"
+          src={NoCyclesPlaceholderImage}
+        />
       </Spacing>
-    </FlexCol>
+    </PageContainer>
   );
 };
 

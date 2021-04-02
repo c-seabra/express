@@ -3,7 +3,10 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDate } from '@websummit/components/src/utils/time';
-import {CommerceSale, CommerceSaleProduct} from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceSale,
+  CommerceSaleProduct,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
