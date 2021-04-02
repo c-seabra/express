@@ -46,14 +46,12 @@ const confirmSchema = Yup.object().shape({
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
-
 const SaleCycleModalWrapper = ({
   isOpen,
   closeModal,
   mode = 'ADD',
   prefillData,
 }: ModalProps) => {
-
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const [createCycle] = useCommerceCreateSaleMutation({

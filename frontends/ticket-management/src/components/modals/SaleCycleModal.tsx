@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0 0;
+  padding: 0;
   font-size: 0.85rem;
   font-weight: 400;
   min-width: 600px;
@@ -135,12 +135,14 @@ const SaleCycleModal = ({
                   </FieldWrapper>
                 </Spacing>
 
-                <FieldWrapper>
-                  <Modal.DefaultFooter
-                    submitText={submitText}
-                    onCancelClick={closeModal}
-                  />
-                </FieldWrapper>
+                <Spacing top="48px">
+                  <FieldWrapper>
+                    <Modal.DefaultFooter
+                      submitText={submitText}
+                      onCancelClick={closeModal}
+                    />
+                  </FieldWrapper>
+                </Spacing>
               </Wrapper>
             </Form>
           );
