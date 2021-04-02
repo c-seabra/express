@@ -78,7 +78,6 @@ const SaleCycleModal = ({
   submitText = 'Submit',
   initialValues,
 }: ModalProps) => {
-
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>
       <Formik

@@ -20,16 +20,19 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
     {
       header: 'Name',
       renderCell: (cycle) => <StyledName>{cycle.name || 'N/A'}</StyledName>,
-      width: '30%',
+      width: '25%',
     },
     {
       header: 'Start date',
       renderCell: (cycle) => formatFullDate(cycle.startDate) || 'N/A',
-      width: '30%',
     },
     {
       header: 'End date',
       renderCell: (cycle) => formatFullDate(cycle.endDate) || 'N/A',
+    },
+    {
+      header: 'Description',
+      renderCell: (cycle) => cycle.description || 'N/A',
     },
   ];
 

@@ -1,3 +1,8 @@
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
+import { useCommerceCreateSaleMutation } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
@@ -38,7 +43,7 @@ const SaleCycleModalWrapper = ({
     })('')(_mode);
   };
 
-  const initialValues = (_mode: ModalInputMode)  => {
+  const initialValues = (_mode: ModalInputMode) => {
     let values = {
       description: '',
       name: '',
@@ -54,21 +59,29 @@ const SaleCycleModalWrapper = ({
     return values;
   };
 
-
-  const taxRateCreate = (i: any) => {};
+  const snackbar = useSuccessSnackbar();
+  const errorSnackbar = useErrorSnackbar();
+  const [createCycle] = useCommerceCreateSaleMutation({
+    onCompleted: () => {
+      snackbar('Sale cycle added');
+    },
+    onError: (e) => errorSnackbar(e.message),
+  });
   // TODO ADD update
   // const { taxRateUpdate } = useTaxRateUpdateOperation();
   const pickMutation = (_mode: ModalInputMode, formData: FormData) => {
     let mutation;
     const input = {
-      description: formData.description,
+      description: formData.description.trim(),
       endDate: formData.endDate,
-      name: formData.name,
+      name: formData.name.trim(),
       startDate: formData.startDate,
     };
 
     if (_mode === 'ADD') {
-      mutation = taxRateCreate({ input });
+      mutation = createCycle({
+        variables: { commerceSale: input },
+      });
     }
 
     // if (_mode === 'EDIT') {
