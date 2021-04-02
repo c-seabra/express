@@ -13,8 +13,9 @@ const StyledName = styled.span`
 
 type SalesCyclesListProps = {
   cycles: CommerceSale[];
+  onRowClick?: any;
 };
-const SalesCyclesList = ({ cycles }: SalesCyclesListProps) => {
+const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
   const tableShape: ColumnDescriptor<CommerceSale>[] = [
     {
       header: 'Name',
@@ -35,7 +36,11 @@ const SalesCyclesList = ({ cycles }: SalesCyclesListProps) => {
   return (
     <>
       <ContainerCard noPadding>
-        <Table<CommerceSale> items={cycles} tableShape={tableShape} />
+        <Table<CommerceSale>
+          items={cycles}
+          tableShape={tableShape}
+          onRowClick={onRowClick}
+        />
       </ContainerCard>
     </>
   );

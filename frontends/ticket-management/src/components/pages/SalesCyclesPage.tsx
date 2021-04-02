@@ -2,13 +2,14 @@ import { Button } from '@websummit/components/src/atoms/Button';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoCyclesPlaceholderImage from '../../lib/images/no-sale-cycle-placeholder.png';
 import Loader from '../../lib/Loading';
+import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 import SaleCycleModalWrapper from '../modals/SaleCycleModalWrapper';
 import SalesCyclesList from '../organisms/SalesCyclesList';
@@ -61,6 +62,15 @@ const NoSalesCyclesPlaceholder = () => {
 const SalesCyclesPage = () => {
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
+  const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
+  const onButtonClick = () => {
+    setModalMode('ADD');
+    openModal();
+  };
+  const onRowClick = () => {
+    setModalMode('EDIT');
+    openModal();
+  };
   const { conferenceSlug, token } = useAppContext();
   const context = {
     conferenceSlug,
@@ -82,21 +92,25 @@ const SalesCyclesPage = () => {
 
       <SaleCycleModalWrapper
         closeModal={closeModal}
-        eventId=""
         isOpen={isOpen}
+        mode={modalMode}
+        prefillData={{
+          description: 'test desc',
+          name: 'test name',
+        }}
       />
 
       <FlexCol>
         <FlexRow>
           <HeaderText>Sale cycles</HeaderText>
-          <Button onClick={openModal}>Create new sale cycle</Button>
+          <Button onClick={onButtonClick}>Create new sale cycle</Button>
         </FlexRow>
 
         {!loading && !hasCycles && <NoSalesCyclesPlaceholder />}
 
         {cycles && hasCycles && (
           <FlexRow>
-            <SalesCyclesList cycles={cycles} />
+            <SalesCyclesList cycles={cycles} onRowClick={onRowClick} />
           </FlexRow>
         )}
       </FlexCol>

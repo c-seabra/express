@@ -1,31 +1,30 @@
-import { RateType, TaxType } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import {ModalInputMode} from "../../lib/types/modals";
-// import { useTaxRateUpdateOperation } from '../../operations/mutations/TaxRateUpdate';
+import { ModalInputMode } from '../../lib/types/modals';
 import SaleCycleModal from './SaleCycleModal';
 
-
-type TaxRateCreateModalProps = {
+type ModalProps = {
   closeModal: () => void;
-  data?: any;
-  eventId: string;
   isOpen: boolean;
   mode?: ModalInputMode;
-  refetch?: any;
+  prefillData?: any;
+};
+
+type FormData = {
+  description: string;
+  endDate: string;
+  name: string;
+  startDate: string;
 };
 
 const SaleCycleModalWrapper = ({
   isOpen,
   closeModal,
-  refetch,
-  eventId,
   mode = 'ADD',
-  data,
-}: TaxRateCreateModalProps) => {
+  prefillData,
+}: ModalProps) => {
   const alertHeaderText = (_mode: string): string => {
-
     return switchCase({
       ADD: 'Create a sale cycle',
       EDIT: `Edit sale cycle`,
@@ -39,50 +38,57 @@ const SaleCycleModalWrapper = ({
     })('')(_mode);
   };
 
-  const taxRateCreate  = () => {};
+  const initialValues = (_mode: ModalInputMode)  => {
+    let values = {
+      description: '',
+      name: '',
+    };
+
+    if (_mode === 'EDIT') {
+      values = {
+        description: prefillData.description,
+        name: prefillData.name,
+      };
+    }
+
+    return values;
+  };
+
+
+  const taxRateCreate = (i: any) => {};
   // TODO ADD update
   // const { taxRateUpdate } = useTaxRateUpdateOperation();
-  const pickMutation = (_mode: ModalInputMode, eventData: any) => {
+  const pickMutation = (_mode: ModalInputMode, formData: FormData) => {
     let mutation;
     const input = {
-      countryId: eventData.country,
-      eventId,
-      id: eventData.id,
-      name: eventData.name.trim(),
-      rateType: RateType.Percentage,
-      taxType: eventData.type,
-      value: Number(eventData.value),
+      description: formData.description,
+      endDate: formData.endDate,
+      name: formData.name,
+      startDate: formData.startDate,
     };
 
     if (_mode === 'ADD') {
-      mutation = taxRateCreate({ input, refetch });
+      mutation = taxRateCreate({ input });
     }
 
     // if (_mode === 'EDIT') {
-    //   mutation = taxRateUpdate({ input, refetch });
+    //   mutation = taxRateUpdate({ input });
     // }
 
     return mutation;
   };
-  const setMutation = (eventData: {
-    country: string;
-    eventId: string;
-    id: string;
-    name: string;
-    type: TaxType;
-    value: number;
-  }) => {
-    return pickMutation(mode, eventData);
+
+  const setMutation = (formData: FormData) => {
+    return pickMutation(mode, formData);
   };
 
   return (
     <SaleCycleModal
       alertHeader={alertHeaderText(mode)}
       closeModal={closeModal}
+      initialValues={initialValues(mode)}
       isOpen={isOpen}
-      mode={mode}
-      mutationCallback={setMutation}
-      prefilledTax={data}
+      submitCallback={setMutation}
       submitText={submitText(mode)}
     />
   );

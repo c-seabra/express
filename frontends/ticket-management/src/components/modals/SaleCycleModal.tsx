@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { ModalInputMode } from '../../lib/types/modals';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -58,10 +57,9 @@ const StyledInputField = styled(TextInputField)`
 type ModalProps = {
   alertHeader: string;
   closeModal: () => void;
+  initialValues?: any;
   isOpen: boolean;
-  mode?: ModalInputMode;
-  mutationCallback: (values?: any) => void;
-  prefilledTax?: any;
+  submitCallback: (values?: any) => void;
   submitText: string;
 };
 
@@ -76,42 +74,20 @@ const SaleCycleModal = ({
   isOpen,
   closeModal,
   alertHeader,
-  mutationCallback,
+  submitCallback,
   submitText = 'Submit',
-  mode = 'ADD',
-  prefilledTax,
+  initialValues,
 }: ModalProps) => {
-  const initialValues = (_mode: ModalInputMode) => {
-    let values = {
-      country: '',
-      id: undefined,
-      name: '',
-      type: '',
-      value: '',
-    };
-
-    if (_mode === 'EDIT') {
-      values = {
-        country: prefilledTax.country.id,
-        id: prefilledTax.id,
-        name: prefilledTax.name,
-        type: prefilledTax.taxType.toUpperCase(),
-        value: prefilledTax.value,
-      };
-    }
-
-    return values;
-  };
 
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>
       <Formik
-        initialValues={initialValues(mode)}
+        initialValues={initialValues}
         validateOnBlur={false}
         validateOnChange={false}
         validationSchema={confirmSchema}
         onSubmit={(values) => {
-          mutationCallback(values);
+          submitCallback(values);
 
           closeModal();
         }}
@@ -148,7 +124,7 @@ const SaleCycleModal = ({
                       name="startDate"
                       type="date"
                     />
-                    
+
                     <StyledInputField
                       required
                       label="End date"
