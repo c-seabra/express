@@ -1,0 +1,54 @@
+/* Form */
+.form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.formInput {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.formInput svg {
+  width: 20px;
+}
+
+.formInput input {
+  width: calc(100% - 42px);
+  padding: .5rem .7rem;
+}
+
+.formEditContent {
+  width: 450px;
+  max-width: 100%;
+  margin-right: 3rem;
+}
+
+.formEditInvitee {
+  width: 250px;
+  max-width: 100%;
+}
+
+.button {
+  color: #3E3D44;
+  border: 1px solid #cecece;
+  transition: all .4s ease;
+  padding: .5rem 1.2rem;
+  background: white;
+  border-radius: 4px;
+  margin-left: 5px;
+}
+
+.button:hover {
+  background: #FA7E23;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* END Form */

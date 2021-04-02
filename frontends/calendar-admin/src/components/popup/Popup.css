@@ -1,0 +1,110 @@
+.popup {
+  position: relative;
+  background-color: white;
+  color: #3E3D44;
+  border-radius: 4px;
+  overflow: hidden;
+  position: absolute;
+  top: 500px;
+  left: 200px;
+  z-index: 10;
+  -webkit-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.popup:hover {
+  cursor: default;
+}
+
+.popup * {
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+/* Button */
+.button {
+  transition: all .4s ease;
+  padding: .5rem 1.2rem;
+  background: none;
+  color: #3E3D44;
+  border: none;
+  border-radius: 4px;
+  margin-left: 5px;
+}
+
+.button:hover {
+  background: #FA7E23;
+  color: white;
+  cursor: pointer;
+}
+
+.button_active {
+  background: #FA7E23;
+}
+
+.button_active:hover {
+  cursor: default;
+}
+
+/* END Button */
+
+/* top buttons */
+.topButtons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  padding: .5rem;
+}
+
+.topButton {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .4s ease;
+  outline: none;
+}
+
+.topButton__active {
+  background: #e2e2e2;
+}
+
+.topButton:hover {
+  cursor: pointer;
+  background: #f1f1f1;
+}
+
+.topButton svg {
+  width: 18px;
+}
+
+.topButton svg path,
+.topButton svg rect {
+  fill: #757575;
+}
+
+/* END top buttons */
+
+/* BG overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(32, 33, 36, 0.38);
+  z-index: 5;
+  pointer-events: 'auto';
+}
+
+.overlay:hover {
+  cursor: pointer;
+}
+
+/* END BG overlay */

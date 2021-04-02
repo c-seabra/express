@@ -4,6 +4,7 @@ import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Calendar from '../calendar/Calendar';
 
 import AppContext from './AppContext';
 
