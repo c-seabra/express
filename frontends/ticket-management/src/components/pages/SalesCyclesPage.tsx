@@ -5,21 +5,18 @@ import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
+import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoCyclesPlaceholderImage from '../../lib/images/no-sale-cycle-placeholder.png';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
+import SaleCycleModalWrapper from '../modals/SaleCycleModalWrapper';
 import SalesCyclesList from '../organisms/SalesCyclesList';
 
 export const Container = styled.div`
   max-width: 1440px;
   margin: auto;
   padding-top: 1rem;
-`;
-
-const Centered = styled.div`
-  display: flex;
-  margin: 0 auto;
 `;
 
 const FlexRow = styled.div`
@@ -63,6 +60,7 @@ const NoSalesCyclesPlaceholder = () => {
 
 const SalesCyclesPage = () => {
   const errorSnackbar = useErrorSnackbar();
+  const { isOpen, closeModal, openModal } = useModalState();
   const { conferenceSlug, token } = useAppContext();
   const context = {
     conferenceSlug,
@@ -82,10 +80,16 @@ const SalesCyclesPage = () => {
     <Container>
       {loading && <Loader />}
 
+      <SaleCycleModalWrapper
+        closeModal={closeModal}
+        eventId=""
+        isOpen={isOpen}
+      />
+
       <FlexCol>
         <FlexRow>
           <HeaderText>Sale cycles</HeaderText>
-          <Button>Create new sale cycle</Button>
+          <Button onClick={openModal}>Create new sale cycle</Button>
         </FlexRow>
 
         {!loading && !hasCycles && <NoSalesCyclesPlaceholder />}
