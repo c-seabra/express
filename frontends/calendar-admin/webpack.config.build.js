@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const config = {
   entry: {
-    calendar: './src/index.js',
+    calendarAdmin: './src/index.js',
   },
   module: {
     rules: [
@@ -61,7 +61,7 @@ const config = {
       type: 'system',
     },
     publicPath: '/',
-    path: path.resolve(__dirname, '../../builds/calendar'),
+    path: path.resolve(__dirname, '../../builds/calendar-admin'),
   },
   plugins: [new CleanWebpackPlugin()],
   resolve: {
@@ -89,7 +89,7 @@ module.exports = (env, argv) => {
         env: process.env.ENV,
         filename: './index.html',
         template: 'template.html',
-        title: 'calendar',
+        title: 'calendarAdmin',
         token: process.env.TOKEN,
       }),
     ]);
