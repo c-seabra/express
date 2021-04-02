@@ -36,17 +36,17 @@ export const Search = styled(StyledLabel)`
 type SearchInputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
-  > & { className?: string };
+> & { className?: string };
 
 const SearchInput = ({
-                       className,
-                       defaultValue,
-                       placeholder,
-                       value,
-                       onChange,
-                       onKeyDown,
-                       ...props
-                     }: SearchInputProps) => {
+  className,
+  defaultValue,
+  placeholder,
+  value,
+  onChange,
+  onKeyDown,
+  ...props
+}: SearchInputProps) => {
   return (
     <Search className={className}>
       <SearchIcon />

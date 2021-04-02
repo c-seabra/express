@@ -1,7 +1,7 @@
+import SearchInput from '@websummit/components/src/molecules/SearchInput';
 import styled from 'styled-components';
 
 import { CategoryListContainer } from '../../lib/components/molecules/CategoryList';
-import SearchInput from '../../lib/components/molecules/SearchInput';
 
 export const DashboardContainer = styled.div`
   max-width: 1440px;

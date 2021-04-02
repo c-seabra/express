@@ -1,14 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 
-export const Container = styled.div`
-  max-width: 1440px;
-  margin: auto;
-  padding-top: 1rem;
-`;
+import PageContainer from '../../lib/components/templates/PageContainer';
 
 const IndexPage = () => {
-  return <Container>test view</Container>;
+  return <PageContainer>test view</PageContainer>;
 };
 
 export default IndexPage;
