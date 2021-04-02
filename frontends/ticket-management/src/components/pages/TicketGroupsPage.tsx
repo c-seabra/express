@@ -1,10 +1,12 @@
 import { Button } from '@websummit/components/src/atoms/Button';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import SearchInput from '@websummit/components/src/molecules/SearchInput';
 import React from 'react';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketGroupsPlaceholder from '../../lib/images/no-ticket-groups-placeholder.png';
+import CreateTicketGroupModal from '../ticketGroups/CreateTicketGroupModal';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -32,13 +34,25 @@ const Placeholder = styled.img`
 `;
 
 const TicketGroupsPage = () => {
+  const {
+    isOpen: isCreateTicketModalOpen,
+    closeModal: closeCreateTicketModal,
+    openModal: openCreateTicketModal,
+  } = useModalState();
+
   return (
     <PageContainer>
       <HeaderContainer>
         <Title>Ticket groups</Title>
         <SearchBar>
           <StyledSearchInput placeholder="Search ticket groups" />
-          <Button>Create new ticket group</Button>
+          <Button onClick={openCreateTicketModal}>
+            Create new ticket group
+          </Button>
+          <CreateTicketGroupModal
+            isOpen={isCreateTicketModalOpen}
+            onRequestClose={closeCreateTicketModal}
+          />
         </SearchBar>
       </HeaderContainer>
 

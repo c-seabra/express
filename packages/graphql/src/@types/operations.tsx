@@ -7445,6 +7445,19 @@ export type ProfileUpdateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceCreateCategoryMutationVariables = Exact<{
+  input: CommerceCategoryCreate;
+}>;
+
+export type CommerceCreateCategoryMutation = { __typename?: 'Mutation' } & {
+  commerceCreateCategory: Maybe<
+    { __typename?: 'CommerceCategory' } & Pick<
+      CommerceCategory,
+      'id' | 'active'
+    >
+  >;
+};
+
 export type CommerceCreatePaymentMethodMutationVariables = Exact<{
   paymentMethod: CommercePaymentMethodCreate;
 }>;
@@ -7472,6 +7485,20 @@ export type CommerceUpdatePaymentMethodMutation = {
     { __typename?: 'CommercePaymentMethod' } & Pick<
       CommercePaymentMethod,
       'id' | 'gateway' | 'active' | 'name'
+    >
+  >;
+};
+
+export type CommerceUpdateCategoryMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: CommerceCategoryUpdate;
+}>;
+
+export type CommerceUpdateCategoryMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateCategory: Maybe<
+    { __typename?: 'CommerceCategory' } & Pick<
+      CommerceCategory,
+      'id' | 'active'
     >
   >;
 };
@@ -11992,6 +12019,99 @@ export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileUpdateMutation,
   ProfileUpdateMutationVariables
 >;
+export const CommerceCreateCategoryDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'commerceCreateCategory' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceCategoryCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateCategory' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceCategoryCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreateCategoryMutationFn = Apollo.MutationFunction<
+  CommerceCreateCategoryMutation,
+  CommerceCreateCategoryMutationVariables
+>;
+
+/**
+ * __useCommerceCreateCategoryMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreateCategoryMutation, { data, loading, error }] = useCommerceCreateCategoryMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCommerceCreateCategoryMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreateCategoryMutation,
+    CommerceCreateCategoryMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreateCategoryMutation,
+    CommerceCreateCategoryMutationVariables
+  >(CommerceCreateCategoryDocument, baseOptions);
+}
+export type CommerceCreateCategoryMutationHookResult = ReturnType<
+  typeof useCommerceCreateCategoryMutation
+>;
+export type CommerceCreateCategoryMutationResult = Apollo.MutationResult<CommerceCreateCategoryMutation>;
+export type CommerceCreateCategoryMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreateCategoryMutation,
+  CommerceCreateCategoryMutationVariables
+>;
 export const CommerceCreatePaymentMethodDocument: DocumentNode = {
   definitions: [
     {
@@ -12198,6 +12318,116 @@ export type CommerceUpdatePaymentMethodMutationResult = Apollo.MutationResult<Co
 export type CommerceUpdatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdatePaymentMethodMutation,
   CommerceUpdatePaymentMethodMutationVariables
+>;
+export const CommerceUpdateCategoryDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'commerceUpdateCategory' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceCategoryUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateCategory' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceCategoryUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateCategoryMutationFn = Apollo.MutationFunction<
+  CommerceUpdateCategoryMutation,
+  CommerceUpdateCategoryMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateCategoryMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateCategoryMutation, { data, loading, error }] = useCommerceUpdateCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCommerceUpdateCategoryMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateCategoryMutation,
+    CommerceUpdateCategoryMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateCategoryMutation,
+    CommerceUpdateCategoryMutationVariables
+  >(CommerceUpdateCategoryDocument, baseOptions);
+}
+export type CommerceUpdateCategoryMutationHookResult = ReturnType<
+  typeof useCommerceUpdateCategoryMutation
+>;
+export type CommerceUpdateCategoryMutationResult = Apollo.MutationResult<CommerceUpdateCategoryMutation>;
+export type CommerceUpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateCategoryMutation,
+  CommerceUpdateCategoryMutationVariables
 >;
 export const CreateOrderDocument: DocumentNode = {
   definitions: [
