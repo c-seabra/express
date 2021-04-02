@@ -6,9 +6,6 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
-import * as Yup from 'yup';
-
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -57,18 +54,12 @@ const StyledInputField = styled(TextInputField)`
 type ModalProps = {
   alertHeader: string;
   closeModal: () => void;
-  initialValues?: any;
+  confirmSchema: any;
+  initialValues: any;
   isOpen: boolean;
   submitCallback: (values?: any) => void;
   submitText: string;
 };
-
-const confirmSchema = Yup.object().shape({
-  description: Yup.string(),
-  endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-});
 
 const SaleCycleModal = ({
   isOpen,
@@ -77,6 +68,7 @@ const SaleCycleModal = ({
   submitCallback,
   submitText = 'Submit',
   initialValues,
+  confirmSchema,
 }: ModalProps) => {
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>

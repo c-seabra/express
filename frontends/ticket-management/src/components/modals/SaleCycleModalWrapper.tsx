@@ -4,7 +4,9 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import { useCommerceCreateSaleMutation } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
+import * as Yup from 'yup';
 
+import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
 import SaleCycleModal from './SaleCycleModal';
@@ -18,10 +20,32 @@ type ModalProps = {
 
 type FormData = {
   description: string;
-  endDate: string;
+  endDate: any;
   name: string;
-  startDate: string;
+  startDate: any;
 };
+
+const alertHeaderText = (_mode: string): string => {
+  return switchCase({
+    ADD: 'Create a sale cycle',
+    EDIT: `Edit sale cycle`,
+  })('')(_mode);
+};
+
+const submitText = (_mode: string): string => {
+  return switchCase({
+    ADD: 'Create',
+    EDIT: 'Edit',
+  })('')(_mode);
+};
+
+const confirmSchema = Yup.object().shape({
+  description: Yup.string(),
+  endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+});
+
 
 const SaleCycleModalWrapper = ({
   isOpen,
@@ -29,35 +53,6 @@ const SaleCycleModalWrapper = ({
   mode = 'ADD',
   prefillData,
 }: ModalProps) => {
-  const alertHeaderText = (_mode: string): string => {
-    return switchCase({
-      ADD: 'Create a sale cycle',
-      EDIT: `Edit sale cycle`,
-    })('')(_mode);
-  };
-
-  const submitText = (_mode: string): string => {
-    return switchCase({
-      ADD: 'Create',
-      EDIT: 'Edit',
-    })('')(_mode);
-  };
-
-  const initialValues = (_mode: ModalInputMode) => {
-    let values = {
-      description: '',
-      name: '',
-    };
-
-    if (_mode === 'EDIT') {
-      values = {
-        description: prefillData.description,
-        name: prefillData.name,
-      };
-    }
-
-    return values;
-  };
 
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
@@ -69,6 +64,27 @@ const SaleCycleModalWrapper = ({
   });
   // TODO ADD update
   // const { taxRateUpdate } = useTaxRateUpdateOperation();
+
+  const initialValues = (_mode: ModalInputMode) => {
+    let values = {
+      description: '',
+      endDate: '',
+      name: '',
+      startDate: '',
+    };
+
+    if (_mode === 'EDIT') {
+      values = {
+        description: prefillData.description,
+        endDate: prefillData.endDate,
+        name: prefillData.name,
+        startDate: prefillData.startDate,
+      };
+    }
+
+    return values;
+  };
+
   const pickMutation = (_mode: ModalInputMode, formData: FormData) => {
     let mutation;
     const input = {
@@ -99,6 +115,7 @@ const SaleCycleModalWrapper = ({
     <SaleCycleModal
       alertHeader={alertHeaderText(mode)}
       closeModal={closeModal}
+      confirmSchema={confirmSchema}
       initialValues={initialValues(mode)}
       isOpen={isOpen}
       submitCallback={setMutation}

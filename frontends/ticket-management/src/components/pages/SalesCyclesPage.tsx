@@ -1,7 +1,10 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceSale,
+  useSalesCyclesQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -63,11 +66,19 @@ const SalesCyclesPage = () => {
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
   const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
+  const [prefillData, setPrefillData] = useState<any>();
   const onButtonClick = () => {
     setModalMode('ADD');
     openModal();
   };
-  const onRowClick = () => {
+  const onRowClick = (event: any) => {
+    setPrefillData({
+      description: event.description,
+      endDate: event.endDate,
+      name: event.name,
+      startDate: event.startDate,
+    });
+
     setModalMode('EDIT');
     openModal();
   };
@@ -94,10 +105,7 @@ const SalesCyclesPage = () => {
         closeModal={closeModal}
         isOpen={isOpen}
         mode={modalMode}
-        prefillData={{
-          description: 'test desc',
-          name: 'test name',
-        }}
+        prefillData={prefillData}
       />
 
       <FlexCol>
