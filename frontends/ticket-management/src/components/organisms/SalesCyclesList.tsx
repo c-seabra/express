@@ -3,7 +3,7 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDate } from '@websummit/components/src/utils/time';
-// import { SalesCycles } from '@websummit/graphql/src/@types/operations';
+import {CommerceSale, CommerceSaleProduct} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -12,11 +12,10 @@ const StyledName = styled.span`
 `;
 
 type SalesCyclesListProps = {
-  cycles: any;
+  cycles: CommerceSale[];
 };
 const SalesCyclesList = ({ cycles }: SalesCyclesListProps) => {
-  const tableShape: ColumnDescriptor<any>[] = [
-    // const tableShape: ColumnDescriptor<SalesCycles>[] = [
+  const tableShape: ColumnDescriptor<CommerceSale>[] = [
     {
       header: 'Name',
       renderCell: (cycle) => <StyledName>{cycle.name || 'N/A'}</StyledName>,
@@ -36,10 +35,7 @@ const SalesCyclesList = ({ cycles }: SalesCyclesListProps) => {
   return (
     <>
       <ContainerCard noPadding>
-        <Table<any>
-          items={cycles}
-          tableShape={tableShape}
-        />
+        <Table<CommerceSale> items={cycles} tableShape={tableShape} />
       </ContainerCard>
     </>
   );

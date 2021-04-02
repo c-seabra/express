@@ -1,6 +1,4 @@
 import { Button } from '@websummit/components/src/atoms/Button';
-// TODO: Add svg when asset available
-// import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
@@ -98,7 +96,7 @@ const SalesCyclesPage = () => {
 
   const hasCycles =
     data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length;
-  const cycles = data?.commerceListSales && data?.commerceListSales?.hits;
+  const cycles: any = data?.commerceListSales?.hits;
 
   return (
     <Container>
@@ -112,7 +110,7 @@ const SalesCyclesPage = () => {
 
         {!loading && !hasCycles && <NoSalesCyclesPlaceholder />}
 
-        {hasCycles && (
+        {cycles && hasCycles && (
           <FlexRow>
             <SalesCyclesList cycles={cycles} />
           </FlexRow>
