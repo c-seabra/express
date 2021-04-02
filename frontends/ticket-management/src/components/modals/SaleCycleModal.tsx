@@ -133,7 +133,11 @@ const SaleCycleModal = ({
                 <Spacing top="8px">
                   <FieldWrapper>
                     <Spacing bottom="8px">
-                      <TextInputField label="Sale cycle name" name="name" />
+                      <TextInputField
+                        required
+                        label="Sale cycle name"
+                        name="name"
+                      />
                     </Spacing>
                   </FieldWrapper>
 
@@ -144,6 +148,7 @@ const SaleCycleModal = ({
                       name="startDate"
                       type="date"
                     />
+                    
                     <StyledInputField
                       required
                       label="End date"
@@ -164,10 +169,10 @@ const SaleCycleModal = ({
                 </Spacing>
 
                 <FieldWrapper>
-                <Modal.DefaultFooter
-                  submitText={submitText}
-                  onCancelClick={closeModal}
-                />
+                  <Modal.DefaultFooter
+                    submitText={submitText}
+                    onCancelClick={closeModal}
+                  />
                 </FieldWrapper>
               </Wrapper>
             </Form>
