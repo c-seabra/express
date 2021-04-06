@@ -3030,6 +3030,7 @@ export type CommerceCategory = {
   children: Maybe<Array<CommerceCategory>>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
+  description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
@@ -5773,6 +5774,7 @@ export type CommerceCategoryCreate = {
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
@@ -5785,6 +5787,7 @@ export type CommerceCategoryCreateOrUpdate = {
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -6195,6 +6198,7 @@ export type CommerceCategoryUpdate = {
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -7451,6 +7455,17 @@ export type CommerceCreateSaleMutationVariables = Exact<{
 
 export type CommerceCreateSaleMutation = { __typename?: 'Mutation' } & {
   commerceCreateSale: Maybe<
+    { __typename?: 'CommerceSale' } & Pick<CommerceSale, 'id' | 'name'>
+  >;
+};
+
+export type CommerceUpdateSaleMutationVariables = Exact<{
+  commerceSale: CommerceSaleUpdate;
+  id: Scalars['ID'];
+}>;
+
+export type CommerceUpdateSaleMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateSale: Maybe<
     { __typename?: 'CommerceSale' } & Pick<CommerceSale, 'id' | 'name'>
   >;
 };
@@ -12121,6 +12136,116 @@ export type CommerceCreateSaleMutationResult = Apollo.MutationResult<CommerceCre
 export type CommerceCreateSaleMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateSaleMutation,
   CommerceCreateSaleMutationVariables
+>;
+export const CommerceUpdateSaleDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdateSale' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceSaleUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceSale' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateSale' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceSaleUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceSale' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateSaleMutationFn = Apollo.MutationFunction<
+  CommerceUpdateSaleMutation,
+  CommerceUpdateSaleMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateSaleMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateSaleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateSaleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateSaleMutation, { data, loading, error }] = useCommerceUpdateSaleMutation({
+ *   variables: {
+ *      commerceSale: // value for 'commerceSale'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCommerceUpdateSaleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateSaleMutation,
+    CommerceUpdateSaleMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateSaleMutation,
+    CommerceUpdateSaleMutationVariables
+  >(CommerceUpdateSaleDocument, baseOptions);
+}
+export type CommerceUpdateSaleMutationHookResult = ReturnType<
+  typeof useCommerceUpdateSaleMutation
+>;
+export type CommerceUpdateSaleMutationResult = Apollo.MutationResult<CommerceUpdateSaleMutation>;
+export type CommerceUpdateSaleMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateSaleMutation,
+  CommerceUpdateSaleMutationVariables
 >;
 export const CommerceCreateCategoryDocument: DocumentNode = {
   definitions: [
