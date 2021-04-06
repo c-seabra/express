@@ -8,7 +8,10 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {useCommerceCreateSaleMutation, useCommerceUpdateSaleMutation} from '@websummit/graphql/src/@types/operations';
+import {
+  useCommerceCreateSaleMutation,
+  useCommerceUpdateSaleMutation,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -31,6 +34,7 @@ type ModalProps = {
 type FormData = {
   description: string;
   endDate: any;
+  id: string;
   name: string;
   startDate: any;
 };
@@ -114,7 +118,7 @@ const SaleCycleModalWrapper = ({
 
     if (_mode === 'EDIT') {
       mutation = updateCycle({
-        variables: { commerceSale: input },
+        variables: { commerceSale: input, id: prefillData.id },
       });
     }
 

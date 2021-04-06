@@ -75,6 +75,7 @@ const SalesCyclesPage = () => {
     setPrefillData({
       description: event.description,
       endDate: event.endDate,
+      id: event.id,
       name: event.name,
       startDate: event.startDate,
     });
