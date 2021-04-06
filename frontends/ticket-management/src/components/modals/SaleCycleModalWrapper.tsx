@@ -110,9 +110,9 @@ const SaleCycleModalWrapper = ({
     let mutation;
     const input = {
       description: formData.description.trim(),
-      endDate: formData.endDate,
+      endDate: new Date(formData.endDate).toISOString(),
       name: formData.name.trim(),
-      startDate: formData.startDate,
+      startDate: new Date(formData.startDate).toISOString(),
     };
 
     if (_mode === 'ADD') {
