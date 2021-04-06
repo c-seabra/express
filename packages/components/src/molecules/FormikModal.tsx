@@ -1,7 +1,5 @@
 import Icon from '@websummit/components/src/atoms/Icon';
 import Modal from '@websummit/components/src/molecules/Modal';
-import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
-import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -47,12 +45,9 @@ export const IconWrapper = styled.div`
   }
 `;
 
-const StyledInputField = styled(TextInputField)`
-  width: 48%;
-`;
-
 type ModalProps = {
   alertHeader: string;
+  children: any;
   closeModal: () => void;
   confirmSchema: any;
   initialValues: any;
@@ -61,7 +56,7 @@ type ModalProps = {
   submitText: string;
 };
 
-const SaleCycleModal = ({
+const FormikModal = ({
   isOpen,
   closeModal,
   alertHeader,
@@ -69,6 +64,7 @@ const SaleCycleModal = ({
   submitText = 'Submit',
   initialValues,
   confirmSchema,
+  children,
 }: ModalProps) => {
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>
@@ -97,43 +93,7 @@ const SaleCycleModal = ({
                   <HeaderText>{alertHeader}</HeaderText>
                 </Spacing>
 
-                <Spacing top="8px">
-                  <FieldWrapper>
-                    <Spacing bottom="8px">
-                      <TextInputField
-                        required
-                        label="Sale cycle name"
-                        name="name"
-                      />
-                    </Spacing>
-                  </FieldWrapper>
-
-                  <FieldWrapper>
-                    <StyledInputField
-                      required
-                      label="Start date"
-                      name="startDate"
-                      type="date"
-                    />
-
-                    <StyledInputField
-                      required
-                      label="End date"
-                      name="endDate"
-                      type="date"
-                    />
-                  </FieldWrapper>
-
-                  <FieldWrapper>
-                    <Spacing bottom="8px">
-                      <TextAreaField
-                        fieldHeight="80px"
-                        label="Sale cycle description"
-                        name="description"
-                      />
-                    </Spacing>
-                  </FieldWrapper>
-                </Spacing>
+                {children}
 
                 <Spacing top="48px">
                   <FieldWrapper>
@@ -152,4 +112,4 @@ const SaleCycleModal = ({
   );
 };
 
-export default SaleCycleModal;
+export default FormikModal;
