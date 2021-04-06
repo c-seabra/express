@@ -24,6 +24,11 @@ const StyledInputField = styled(TextInputField)`
   width: 48%;
 `;
 
+const InlineWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 type ModalProps = {
   closeModal: () => void;
   isOpen: boolean;
@@ -147,19 +152,21 @@ const SaleCycleModalWrapper = ({
         </FieldWrapper>
 
         <FieldWrapper>
-          <StyledInputField
-            required
-            label="Start date"
-            name="startDate"
-            type="date"
-          />
+          <InlineWrapper>
+            <StyledInputField
+              required
+              label="Start date"
+              name="startDate"
+              type="date"
+            />
 
-          <StyledInputField
-            required
-            label="End date"
-            name="endDate"
-            type="date"
-          />
+            <StyledInputField
+              required
+              label="End date"
+              name="endDate"
+              type="date"
+            />
+          </InlineWrapper>
         </FieldWrapper>
 
         <FieldWrapper>
