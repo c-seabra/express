@@ -8,7 +8,7 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { useCommerceCreateSaleMutation } from '@websummit/graphql/src/@types/operations';
+import {useCommerceCreateSaleMutation, useCommerceUpdateSaleMutation} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -70,8 +70,12 @@ const SaleCycleModalWrapper = ({
     },
     onError: (e) => errorSnackbar(e.message),
   });
-  // TODO ADD update
-  // const { taxRateUpdate } = useTaxRateUpdateOperation();
+  const [updateCycle] = useCommerceUpdateSaleMutation({
+    onCompleted: () => {
+      snackbar('Sale cycle updated');
+    },
+    onError: (e) => errorSnackbar(e.message),
+  });
 
   const initialValues = (_mode: ModalInputMode) => {
     let values = {
@@ -108,9 +112,11 @@ const SaleCycleModalWrapper = ({
       });
     }
 
-    // if (_mode === 'EDIT') {
-    //   mutation = taxRateUpdate({ input });
-    // }
+    if (_mode === 'EDIT') {
+      mutation = updateCycle({
+        variables: { commerceSale: input },
+      });
+    }
 
     return mutation;
   };
