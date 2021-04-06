@@ -1,15 +1,25 @@
+import FormikModal, {
+  FieldWrapper,
+} from '@websummit/components/src/molecules/FormikModal';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useCommerceCreateSaleMutation } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
+import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
-import SaleCycleModal from './SaleCycleModal';
+
+const StyledInputField = styled(TextInputField)`
+  width: 48%;
+`;
 
 type ModalProps = {
   closeModal: () => void;
@@ -110,7 +120,7 @@ const SaleCycleModalWrapper = ({
   };
 
   return (
-    <SaleCycleModal
+    <FormikModal
       alertHeader={alertHeaderText(mode)}
       closeModal={closeModal}
       confirmSchema={confirmSchema}
@@ -118,7 +128,41 @@ const SaleCycleModalWrapper = ({
       isOpen={isOpen}
       submitCallback={setMutation}
       submitText={submitText(mode)}
-    />
+    >
+      <Spacing top="8px">
+        <FieldWrapper>
+          <Spacing bottom="8px">
+            <TextInputField required label="Sale cycle name" name="name" />
+          </Spacing>
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <StyledInputField
+            required
+            label="Start date"
+            name="startDate"
+            type="date"
+          />
+
+          <StyledInputField
+            required
+            label="End date"
+            name="endDate"
+            type="date"
+          />
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <Spacing bottom="8px">
+            <TextAreaField
+              fieldHeight="80px"
+              label="Sale cycle description"
+              name="description"
+            />
+          </Spacing>
+        </FieldWrapper>
+      </Spacing>
+    </FormikModal>
   );
 };
 
