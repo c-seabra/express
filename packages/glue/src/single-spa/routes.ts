@@ -69,6 +69,12 @@ const protoEventSpecificApps: AppRoute[] = [
     routes: [{ name: '@websummit-micro/investor-portal', type: 'application' }],
     type: 'route',
   },
+  {
+    altPath: 'conferences/:conferenceId/calendar_admin',
+    path: 'calendar-admin',
+    routes: [{ name: '@websummit-micro/calendar-admin', type: 'application' }],
+    type: 'route',
+  },
 ];
 
 const protoApps: AppRoute[] = [...protoRootApps, ...protoEventSpecificApps];
