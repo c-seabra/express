@@ -14,7 +14,9 @@ import NoCyclesPlaceholderImage from '../../lib/images/no-sale-cycle-placeholder
 import Loader from '../../lib/Loading';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
-import SaleCycleModalWrapper from '../modals/SaleCycleModalWrapper';
+import SaleCycleModalWrapper, {
+  SaleCycleFormData,
+} from '../modals/SaleCycleModalWrapper';
 import SalesCyclesList from '../organisms/SalesCyclesList';
 
 export const Container = styled.div`
@@ -66,12 +68,12 @@ const SalesCyclesPage = () => {
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
   const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
-  const [prefillData, setPrefillData] = useState<any>();
+  const [prefillData, setPrefillData] = useState<SaleCycleFormData>();
   const onButtonClick = () => {
     setModalMode('ADD');
     openModal();
   };
-  const onRowClick = (event: any) => {
+  const onRowClick = (event: SaleCycleFormData) => {
     setPrefillData({
       description: event.description,
       endDate: event.endDate,

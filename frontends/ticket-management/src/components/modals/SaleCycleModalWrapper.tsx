@@ -31,7 +31,7 @@ type ModalProps = {
   prefillData?: any;
 };
 
-type FormData = {
+export type SaleCycleFormData = {
   description: string;
   endDate: any;
   id: string;
@@ -101,7 +101,7 @@ const SaleCycleModalWrapper = ({
     return values;
   };
 
-  const pickMutation = (_mode: ModalInputMode, formData: FormData) => {
+  const pickMutation = (_mode: ModalInputMode, formData: SaleCycleFormData) => {
     let mutation;
     const input = {
       description: formData.description.trim(),
@@ -125,7 +125,7 @@ const SaleCycleModalWrapper = ({
     return mutation;
   };
 
-  const setMutation = (formData: FormData) => {
+  const setMutation = (formData: SaleCycleFormData) => {
     return pickMutation(mode, formData);
   };
 
