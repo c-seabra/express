@@ -3030,6 +3030,7 @@ export type CommerceCategory = {
   children: Maybe<Array<CommerceCategory>>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<Scalars['ID']>;
+  description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<Scalars['ID']>;
@@ -5773,6 +5774,7 @@ export type CommerceCategoryCreate = {
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
@@ -5785,6 +5787,7 @@ export type CommerceCategoryCreateOrUpdate = {
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -6195,6 +6198,7 @@ export type CommerceCategoryUpdate = {
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   createdAt?: Maybe<Scalars['Date']>;
   createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastUpdatedAt?: Maybe<Scalars['Date']>;
   lastUpdatedBy?: Maybe<Scalars['ID']>;
@@ -8109,6 +8113,25 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
           >
         >;
       }
+  >;
+};
+
+export type CommerceListCategoriesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type CommerceListCategoriesQuery = { __typename?: 'Query' } & {
+  commerceListCategories: Maybe<
+    { __typename?: 'CommerceSearchResponseCategory' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceCategory' } & Pick<
+            CommerceCategory,
+            'id' | 'name' | 'createdBy' | 'lastUpdatedAt'
+          >
+        >
+      >;
+    }
   >;
 };
 
@@ -15449,6 +15472,97 @@ export type CommerceGetOrderLazyQueryHookResult = ReturnType<
 export type CommerceGetOrderQueryResult = Apollo.QueryResult<
   CommerceGetOrderQuery,
   CommerceGetOrderQueryVariables
+>;
+export const CommerceListCategoriesDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListCategories' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListCategories' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCommerceListCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCommerceListCategoriesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListCategoriesQuery,
+    CommerceListCategoriesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListCategoriesQuery,
+    CommerceListCategoriesQueryVariables
+  >(CommerceListCategoriesDocument, baseOptions);
+}
+export function useCommerceListCategoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListCategoriesQuery,
+    CommerceListCategoriesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListCategoriesQuery,
+    CommerceListCategoriesQueryVariables
+  >(CommerceListCategoriesDocument, baseOptions);
+}
+export type CommerceListCategoriesQueryHookResult = ReturnType<
+  typeof useCommerceListCategoriesQuery
+>;
+export type CommerceListCategoriesLazyQueryHookResult = ReturnType<
+  typeof useCommerceListCategoriesLazyQuery
+>;
+export type CommerceListCategoriesQueryResult = Apollo.QueryResult<
+  CommerceListCategoriesQuery,
+  CommerceListCategoriesQueryVariables
 >;
 export const CommerceListPaymentMethodsDocument: DocumentNode = {
   definitions: [
