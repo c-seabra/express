@@ -1,6 +1,7 @@
-import styles from './Error.css'
 import React from 'react'
 
-const Error = ({ errors }) => (errors && errors.length > 0 ? <div className={styles.error}>{errors.join(', ')}</div> : null)
+import { ErrorContainer } from './Error.styled'
+
+const Error = ({ errors }) => (errors && errors.length > 0 ? <ErrorContainer>{errors.join(', ')}</ErrorContainer> : null)
 
 export default Error

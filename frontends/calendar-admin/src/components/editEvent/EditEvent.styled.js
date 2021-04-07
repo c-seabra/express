@@ -1,41 +1,42 @@
-/* Form */
-.form {
+import styled from 'styled-components';
+
+export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: flex-start;
-}
+`;
 
-.formInput {
+export const FormInput = styled.div`
   margin-bottom: 1.5rem;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-}
 
-.formInput svg {
-  width: 20px;
-}
+  & svg {
+    width: 20px;
+  }
 
-.formInput input {
-  width: calc(100% - 42px);
-  padding: .5rem .7rem;
-}
+  & input {
+    width: calc(100% - 42px);
+    padding: .5rem .7rem;
+  }
+`;
 
-.formEditContent {
+export const FormEditContent = styled.div`
   width: 450px;
   max-width: 100%;
   margin-right: 3rem;
-}
+`;
 
-.formEditInvitee {
+export const FormEditInvitee = styled.div`
   width: 250px;
   max-width: 100%;
-}
+`;
 
-.button {
+export const Button = styled.button`
   color: #3E3D44;
   border: 1px solid #cecece;
   transition: all .4s ease;
@@ -43,12 +44,10 @@
   background: white;
   border-radius: 4px;
   margin-left: 5px;
-}
 
-.button:hover {
-  background: #FA7E23;
-  color: #fff;
-  cursor: pointer;
-}
-
-/* END Form */
+  &:hover {
+    background: #FA7E23;
+    color: #fff;
+    cursor: pointer;
+  }
+`;

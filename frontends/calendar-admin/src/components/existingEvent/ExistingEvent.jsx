@@ -3,9 +3,9 @@ import React, { useContext,useEffect, useState } from 'react'
 
 import AvatarList from '../avatarList/AvatarList'
 import Button from '../button/Button'
-import { DetailsContext } from '../calendar/Calendar'
+import { DetailsContext } from '../calendar/Context'
 import EditEvent from '../editEvent/EditEvent'
-import popupStyles from '../popup/Popup.css'
+import { TopButton, TopButtons } from '../popup/Popup.styled'
 import BinIcon from '../svgs/Bin'
 import CloseIcon from '../svgs/Close'
 import DescriptionIcon from '../svgs/Description'
@@ -13,7 +13,7 @@ import GroupIcon from '../svgs/Group'
 import MeetingIcon from '../svgs/Meeting'
 import OvalSquare from '../svgs/OvalSquare'
 import PenIcon from '../svgs/Pen'
-import styles from './ExistingEvent.css'
+import { Date, FormWrap, Overlay, OverlayButton, OverlayButtons, Title, UserRsvp, Wrapper } from './ExistingEvent.styled'
 import ExistingEventItem from './ExistingEventItem'
 
 const ExistingEvent = ({ event, close_popup }) => {
@@ -90,69 +90,70 @@ const ExistingEvent = ({ event, close_popup }) => {
   }
 
   return (
-    <div className={styles.existingEvent}>
-
-      <div className={popupStyles.topButtons}>
+    <div className="existingEvent">
+      <TopButtons>
         {can_modify &&
-          <React.Fragment>
-            {!editPopupActive && <Button className={popupStyles.topButton} onBtnClick={handleEdit}><PenIcon /></Button>}
-            <Button className={popupStyles.topButton} onBtnClick={handleDelete}><BinIcon /></Button>
-          </React.Fragment>
+          <>
+            {!editPopupActive && <TopButton onBtnClick={handleEdit}><PenIcon /></TopButton>}
+            <TopButton onBtnClick={handleDelete}><BinIcon /></TopButton>
+          </>
         }
-        <Button className={popupStyles.topButton} onBtnClick={close_popup}><CloseIcon /></Button>
-      </div>
+        <TopButton onBtnClick={close_popup}><CloseIcon /></TopButton>
+      </TopButtons>
 
-      <div className={styles.wrapper}>
-
-        <ExistingEventItem styles={styles} icon={<OvalSquare iconColor='#f40' />}>
-
-          <h2 className={styles.title}>{title}</h2>
-          <p className={styles.date}>{eventTime}</p>
-
+      <Wrapper>
+        <ExistingEventItem icon={<OvalSquare iconColor='#f40' />}>
+          <Title>{title}</Title>
+          <Date>{eventTime}</Date>
         </ExistingEventItem>
 
         {locationName &&
-          <ExistingEventItem styles={styles} icon={<MeetingIcon />}>
+          <ExistingEventItem icon={<MeetingIcon />}>
             {locationName}
           </ExistingEventItem>
         }
 
-        <ExistingEventItem styles={styles} icon={<GroupIcon />}>
+        <ExistingEventItem icon={<GroupIcon />}>
           {rsvps && rsvps.length
-            ? <AvatarList avatarList={rsvps} organizerId={organizer.id} listType='rsvps' />
+            ? <AvatarList avatarList={rsvps} organizerId={organizer ? organizer.id : undefined} listType='rsvps' />
             : 'Loading...'
           }
         </ExistingEventItem>
 
         {description &&
-          <ExistingEventItem styles={styles} icon={<DescriptionIcon />}>
+          <ExistingEventItem icon={<DescriptionIcon />}>
             {description}
           </ExistingEventItem>
         }
-
-      </div>
+      </Wrapper>
 
       {editPopupActive &&
-        <div className={`${styles.overlay} ${styles.formWrap}`}>
-          <div className={popupStyles.topButtons}>
-            <Button className={popupStyles.topButton} onBtnClick={handleDelete}><BinIcon /></Button>
-            {/* <Button className={popupStyles.topButton} onBtnClick={handleEdit}><CloseIcon /></Button> */}
-          </div>
-          <EditEvent eventId={id} organizerId={organizer.id} setEditPopupActive={setEditPopupActive} {...{ title, location, description, rsvps }} />
-        </div>
+        <Overlay>
+          <FormWrap>
+            <TopButtons>
+              <TopButton onBtnClick={handleDelete}><BinIcon /></TopButton>
+              {/* <Button className={popupStyles.topButton} onBtnClick={handleEdit}><CloseIcon /></Button> */}
+            </TopButtons>
+            <EditEvent eventId={id} organizerId={organizer ? organizer.id : undefined} setEditPopupActive={setEditPopupActive} {...{ title, location, description, rsvps }} />
+          </FormWrap>
+        </Overlay>
       }
 
       {deletePopupActive &&
-        <div className={styles.overlay}>
+        <Overlay>
           <h3>Are you sure you want to delete this event?</h3>
-          <div className={styles.overlayButtons}>
-            <button className={`${popupStyles.button} ${styles.overlayButton} ${styles.overlayButton_yes}`} onClick={() => handleDeleteResponse(true)}>Yes</button>
-            <button className={`${popupStyles.button} ${styles.overlayButton}`} onClick={() => handleDeleteResponse(false)}>No</button>
-          </div>
-        </div>
+          <OverlayButtons>
+            <OverlayButton onClick={() => handleDeleteResponse(true)}>
+              Yes
+            </OverlayButton>
+            <OverlayButton onClick={() => handleDeleteResponse(false)}>
+              No
+            </OverlayButton>
+          </OverlayButtons>
+        </Overlay>
       }
 
-      <div className={styles.userRsvp}>
+      <UserRsvp>
         <div>Going?</div>
         <div>
           {currentUserInvitation && currentUserInvitation.valid_response_status_ids.map(response => {
@@ -160,14 +161,14 @@ const ExistingEvent = ({ event, close_popup }) => {
             return (
               <Button
                 key={response}
-                className={`${popupStyles.button} ${styles.userRsvp_button} ${(currentUserInvitation.response.response_status === response ? popupStyles.button_active : '')}`}
+                className={`userRsvp_button ${(currentUserInvitation.response.response_status === response ? 'button_active' : '')}`}
                 onBtnClick={() => currentUserInvitation.response.response_status !== response ? onUpdateEventInvitationResponse(id, response) : ''}>
                 {currentResponse && currentResponse.label}
               </Button>
             )
           })}
         </div>
-      </div>
+      </UserRsvp>
     </div>
   )
 }

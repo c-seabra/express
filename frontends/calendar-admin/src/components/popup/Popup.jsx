@@ -2,10 +2,10 @@ import React from 'react'
 
 import ExistingEvent from '../existingEvent/ExistingEvent'
 import NewEvent from '../newEvent/NewEvent'
-import styles from './Popup.css'
+import { Overlay, PopupContainer } from './Popup.styled'
+
 
 const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
-
   const renderExistingEvent = ({ syntheticEvent }) => {
     const popupStyle = {
       top: `${syntheticEvent.pageY}px`,
@@ -13,15 +13,15 @@ const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
     }
 
     return (
-      <React.Fragment>
-        <div className={styles.popup} style={popupStyle}>
+      <>
+        <PopupContainer style={popupStyle}>
           <ExistingEvent
-            event={existingEvent}
             close_popup={handleOnClick}
+            event={existingEvent}
           />
-        </div>
-        <div className={styles.overlay} onClick={handleOnClick} />
-      </React.Fragment>
+        </PopupContainer>
+        <Overlay onClick={handleOnClick} />
+      </>
     )
   }
 
@@ -43,13 +43,13 @@ const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
     }
 
     return (
-      <React.Fragment>
-        <div className={styles.popup} style={popupStyle}>
+      <>
+        <PopupContainer style={popupStyle}>
           <NewEvent
             starts_at={starts_at} />
-        </div>
-        <div className={styles.overlay} onClick={handleOnClick} />
-      </React.Fragment>
+        </PopupContainer>
+        <Overlay onClick={handleOnClick} />
+      </>
     )
   }
 

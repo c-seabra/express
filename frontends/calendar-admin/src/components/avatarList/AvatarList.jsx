@@ -1,21 +1,21 @@
 import React from 'react'
 
 import Avatar from '../avatar/Avatar'
-import styles from './AvatarList.css'
+import { AvatarListContainer } from './AvatarList.styled'
 
 const AvatarList = ({ iconActive, listType, iconClickCallback, avatarList, organizerId }) => (
   avatarList
-    ? <ul className={styles.avatarList}>
+    ? <AvatarListContainer>
       {avatarList.map(({ invitation, attendance }) => {
         return <li key={`${listType}_${invitation.id}`}>
 
           <Avatar
-            src={attendance.data.person.avatar_url}
             alt='Invitee avatar'
-            title={attendance.data.person.first_name + ' ' + attendance.data.person.last_name}
-            response={invitation.response.response_status}
             invitationId={invitation.id}
             organizer={organizerId === (invitation.invitee && invitation.invitee.id)}
+            response={invitation.response.response_status}
+            src={attendance.data.person.avatar_url}
+            title={attendance.data.person.first_name + ' ' + attendance.data.person.last_name}
             {...{
               iconActive,
               listType,
@@ -27,7 +27,7 @@ const AvatarList = ({ iconActive, listType, iconClickCallback, avatarList, organ
       }
 
       )}
-    </ul>
+    </AvatarListContainer>
     : null
 )
 

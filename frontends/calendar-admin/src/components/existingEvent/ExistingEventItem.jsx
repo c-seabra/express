@@ -1,12 +1,14 @@
 import React from 'react'
 
-const ExistingEventItem = ({ styles, icon, children }) => {
+import { Item, ItemChildren, ItemIcon } from './ExistingEvent.styled'
+
+const ExistingEventItem = ({ icon, children }) => {
   return (
     children
-      ? <div className={styles ? styles.item : ''}>
-        {icon && <div className={(styles ? styles.itemIcon : '')}>{icon}</div>}
-        <div className={styles ? styles.itemChildren : ''}>{children}</div>
-      </div>
+      ? <Item>
+        {icon && <ItemIcon>{icon}</ItemIcon>}
+        <ItemChildren>{children}</ItemChildren>
+      </Item>
       : null
   )
 }

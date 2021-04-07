@@ -4,7 +4,7 @@ import Accepted from '../svgs/Accepted'
 import AvatarIcon from '../svgs/AvatarIcon'
 import Declined from '../svgs/Declined'
 import Tentative from '../svgs/Tentative'
-import styles from './Avatar.css'
+import { AvatarContainer, AvatarImg, Content, ContentSubtitle, ContentTitle, Icon } from './Avatar.styled'
 
 const Avatar = ({
   title,
@@ -39,8 +39,8 @@ const Avatar = ({
   const avatarSubTitle = subTitle || organizer ? subTitle || 'Organizer' : ''
 
   return (
-    <div className={styles.avatar}>
-      <div className={styles.avatarImg}>
+    <AvatarContainer>
+      <AvatarImg>
         <object
           data={src || defaultSrc}
           type='image/png'
@@ -48,18 +48,18 @@ const Avatar = ({
           <img src={defaultSrc} alt={alt} style={{ borderColor: avatarColor }} />
         </object>
         {responseElem}
-      </div>
+      </AvatarImg>
 
-      <div className={styles.content}>
-        {title && <p className={styles.contentTitle}>{title}</p>}
-        {avatarSubTitle && <p className={styles.contentSubtitle}>{avatarSubTitle}</p>}
-      </div>
+      <Content>
+        {title && <ContentTitle>{title}</ContentTitle>}
+        {avatarSubTitle && <ContentSubtitle>{avatarSubTitle}</ContentSubtitle>}
+      </Content>
       {!organizer && iconActive && (
-        <span className={styles.icon} onClick={() => iconClickCallback(invitationId)}>
+        <Icon onClick={() => iconClickCallback(invitationId)}>
           <AvatarIcon iconType={listType} />
-        </span>
+        </Icon>
       )}
-    </div>
+    </AvatarContainer>
   )
 }
 

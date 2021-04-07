@@ -1,9 +1,9 @@
 import React, { useContext,useState } from 'react'
 
 import AvatarList from '../avatarList/AvatarList'
-import { DetailsContext } from '../calendar/Calendar'
+import { DetailsContext } from '../calendar/Context'
 import OvalSquare from '../svgs/OvalSquare'
-import styles from './EditEvent.css'
+import { Button, Form, FormEditContent, FormEditInvitee, FormInput } from './EditEvent.styled'
 
 const EditEvent = ({ eventId, setEditPopupActive, title, location, description, organizerId }) => {
   const {
@@ -45,12 +45,12 @@ const EditEvent = ({ eventId, setEditPopupActive, title, location, description, 
   }
 
   return (
-    <form className={styles.form} onSubmit={e => handleSubmit(e)}>
+    <Form onSubmit={e => handleSubmit(e)}>
 
-      <div className={styles.formEditContent}>
-        <div className={styles.formInput}><OvalSquare /><input type='text' value={editedEntity.title !== undefined ? editedEntity.title : title} onChange={e => handleChange(e)} name='title' /></div>
+      <FormEditContent>
+        <FormInput><OvalSquare /><input type='text' value={editedEntity.title !== undefined ? editedEntity.title : title} onChange={e => handleChange(e)} name='title' /></FormInput>
 
-        <div className={styles.formInput}>
+        <FormInput>
           <input type='text' value={editedEntity.location_name !== undefined ? editedEntity.location_name : location.name} onChange={e => handleChange(e)} name='location_name' />
           {locations &&
             <select value={editedEntity.location_id !== undefined ? editedEntity.location_id : location.id} onChange={e => handleChange(e)} name='location_id'>
@@ -58,26 +58,24 @@ const EditEvent = ({ eventId, setEditPopupActive, title, location, description, 
               {locations.map(location => <option key={location.id} value={location.id}>{location && location.name}</option>)}
             </select>
           }
-        </div>
-        <div className={styles.formInput}><textarea value={editedEntity.description !== undefined ? editedEntity.description : description} onChange={e => handleChange(e)} name='description' /></div>
-        <button type='submit' className={styles.button}>Save</button>
-        <button type='button' className={styles.button} onClick={() => setEditPopupActive(false)}>Cancel</button>
-      </div>
+        </FormInput>
+        <FormInput><textarea value={editedEntity.description !== undefined ? editedEntity.description : description} onChange={e => handleChange(e)} name='description' /></FormInput>
+        <Button type='submit'>Save</Button>
+        <Button type='button' onClick={() => setEditPopupActive(false)}>Cancel</Button>
+      </FormEditContent>
 
-      <div className={`${styles.formInput} ${styles.formEditInvitee}`}>
+
+      <FormEditInvitee>
         <AvatarList
-          styles={styles.rsvps}
-
+          iconActive
           avatarList={rsvps}
-          organizerId={organizerId}
-          listType='delete'
-
-          iconActive={true}
           iconClickCallback={handleDeleteInvitation}
+          listType='delete'
+          organizerId={organizerId}
         />
-      </div>
+      </FormEditInvitee>
 
-    </form>
+    </Form>
   )
 }
 
