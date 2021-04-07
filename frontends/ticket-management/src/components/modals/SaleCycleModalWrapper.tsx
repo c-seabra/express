@@ -20,6 +20,7 @@ import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messag
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
+import COMMERCE_SALES_LIST from '../../../../../packages/graphql/src/operations/queries/SalesCyclesList';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -81,6 +82,7 @@ const SaleCycleModalWrapper = ({
       snackbar('Sale cycle added');
     },
     onError: (e) => errorSnackbar(e.message),
+    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
   });
   const [updateCycle] = useCommerceUpdateSaleMutation({
     context: { token },
@@ -88,6 +90,7 @@ const SaleCycleModalWrapper = ({
       snackbar('Sale cycle updated');
     },
     onError: (e) => errorSnackbar(e.message),
+    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
   });
 
   const initialValues = (_mode: ModalInputMode) => {

@@ -13,6 +13,7 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '../../../../../packages/components/src/molecules/Snackbar';
+import COMMERCE_SALES_LIST from '../../../../../packages/graphql/src/operations/queries/SalesCyclesList';
 import { useAppContext } from '../app/AppContext';
 
 const StyledName = styled.span`
@@ -53,6 +54,7 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
       snackbar('Sale cycle updated');
     },
     onError: (e) => errorSnackbar(e.message),
+    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
   });
 
   return (
