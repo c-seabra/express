@@ -1,4 +1,5 @@
 import { Button } from '@websummit/components/src/atoms/Button';
+import Loader from '@websummit/components/src/atoms/Loader';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import SearchInput from '@websummit/components/src/molecules/SearchInput';
@@ -15,7 +16,6 @@ import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketGroupsPlaceholder from '../../lib/images/no-ticket-groups-placeholder.png';
-import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
 import TicketGroupModal from '../ticketGroups/TicketGroupModal';
 
