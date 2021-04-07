@@ -1,11 +1,19 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import Table, {
-  ColumnDescriptor,
-} from '@websummit/components/src/molecules/Table';
+import SelectableTable from '@websummit/components/src/molecules/SelectableTable';
+import { ColumnDescriptor } from '@websummit/components/src/molecules/Table';
 import { formatFullDate } from '@websummit/components/src/utils/time';
-import { CommerceSale } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceSale,
+  useCommerceUpdateSaleMutation,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
+
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '../../../../../packages/components/src/molecules/Snackbar';
+import { useAppContext } from '../app/AppContext';
 
 const StyledName = styled.span`
   color: #0067e9;
@@ -36,13 +44,43 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
     },
   ];
 
+  const { token } = useAppContext();
+  const snackbar = useSuccessSnackbar();
+  const errorSnackbar = useErrorSnackbar();
+  const [updateCycle] = useCommerceUpdateSaleMutation({
+    context: { token },
+    onCompleted: () => {
+      snackbar('Sale cycle updated');
+    },
+    onError: (e) => errorSnackbar(e.message),
+  });
+
   return (
     <>
       <ContainerCard noPadding>
-        <Table<CommerceSale>
-          items={cycles}
+        <SelectableTable<CommerceSale>
+          disableToggleAll
+          lastColumn
+          header="Active"
+          items={cycles?.map((cycle) => ({
+            ...cycle,
+            selected: cycle.active,
+          }))}
           tableShape={tableShape}
           onRowClick={onRowClick}
+          onSelect={async (selectedItem, selected) => {
+            console.log('selectedItem', selectedItem);
+            if (selectedItem?.id) {
+              await updateCycle({
+                variables: {
+                  commerceSale: {
+                    active: selected,
+                  },
+                  id: selectedItem.id,
+                },
+              });
+            }
+          }}
         />
       </ContainerCard>
     </>

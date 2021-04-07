@@ -19,7 +19,7 @@ import * as Yup from 'yup';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
-import {useAppContext} from "../app/AppContext";
+import { useAppContext } from '../app/AppContext';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
