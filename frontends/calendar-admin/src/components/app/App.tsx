@@ -3,8 +3,10 @@ import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
+import { HashRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
 
+import AttendanceSearch from '../attendanceSearch/AttendanceSearch';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
@@ -35,16 +37,19 @@ const App = ({ token, apiURL }: AppProps) => {
   return (
     <ApolloProvider client={apolloClient}>
       <SnackbarProvider>
-        <AppContext.Provider
-          value={{
-            conferenceSlug,
-            token,
-          }}
-        >
-          <StyledContainer>
-            <h1>Calendar</h1>
-          </StyledContainer>
-        </AppContext.Provider>
+        <Router>
+          <AppContext.Provider
+            value={{
+              conferenceSlug,
+              token,
+            }}
+          >
+            <StyledContainer>
+              <h1>Calendar</h1>
+            </StyledContainer>
+            <AttendanceSearch/>
+          </AppContext.Provider>
+        </Router>
       </SnackbarProvider>
     </ApolloProvider>
   );
