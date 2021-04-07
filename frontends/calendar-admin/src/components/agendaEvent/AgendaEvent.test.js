@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import AgendaEvent from './AgendaEvent.jsx';
+
+import AgendaEvent from './AgendaEvent';
 
 describe('AgendaEvent', () => {
     let realUseContext;

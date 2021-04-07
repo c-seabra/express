@@ -1,7 +1,8 @@
+import moment from 'moment'
 import React from 'react';
 import renderer from 'react-test-renderer';
-import moment from 'moment'
-import Popup from './Popup.jsx';
+
+import Popup from './Popup';
 
 describe('Popup', () => {
   let realUseContext;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { DetailsContext } from '../calendar/Calendar'
+import { DetailsContext } from '../calendar/Context'
 
 const AgendaEvent = ({ event }) => {
   const { onSelectEvent, locations } = React.useContext(DetailsContext)

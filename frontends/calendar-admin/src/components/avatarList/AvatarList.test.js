@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import AvatarList from './AvatarList.jsx';
+
+import AvatarList from './AvatarList';
 
 describe('AvatarList', () => {
     let realUseContext;

@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import NewEvent from './NewEvent.jsx';
+
+import NewEvent from './NewEvent';
 
 describe('NewEvent', () => {
   test('renders', () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import EditEvent from './EditEvent.jsx';
+
+import EditEvent from './EditEvent';
 
 describe('EditEvent', () => {
     let realUseContext;

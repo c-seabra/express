@@ -1,6 +1,7 @@
 import React from 'react';
 import ShallowRenderer from 'react-test-renderer/shallow';
-import Calendar from './Calendar.jsx';
+
+import Calendar from './Calendar';
 
 
 describe('Calendar', () => {

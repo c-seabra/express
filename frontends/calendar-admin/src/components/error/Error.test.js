@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Error from './Error.jsx';
+
+import Error from './Error';
 
 describe('Error', () => {
   test('renders single error message', () => {

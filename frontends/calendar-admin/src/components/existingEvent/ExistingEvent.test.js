@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import ExistingEvent from './ExistingEvent.jsx';
+
+import ExistingEvent from './ExistingEvent';
 
 describe('ExistingEvent', () => {
   let realUseContext;
