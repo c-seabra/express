@@ -8127,7 +8127,12 @@ export type CommerceListCategoriesQuery = { __typename?: 'Query' } & {
         Array<
           { __typename?: 'CommerceCategory' } & Pick<
             CommerceCategory,
-            'id' | 'name' | 'createdBy' | 'lastUpdatedAt'
+            | 'id'
+            | 'name'
+            | 'createdBy'
+            | 'lastUpdatedAt'
+            | 'description'
+            | 'active'
           >
         >
       >;
@@ -15503,6 +15508,14 @@ export const CommerceListCategoriesDocument: DocumentNode = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'active' },
                       },
                     ],
                   },

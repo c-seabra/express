@@ -43,7 +43,12 @@ const Placeholder = styled.img`
   max-width: 1440px;
 `;
 
-const ticketGroupsTableShape: ColumnDescriptors<Partial<CommerceCategory>> = [
+type TicketGroup = Pick<
+  CommerceCategory,
+  'active' | 'id' | 'name' | 'lastUpdatedAt' | 'createdBy' | 'description'
+>;
+
+const ticketGroupsTableShape: ColumnDescriptors<TicketGroup> = [
   {
     header: 'Name',
     renderCell: (item) => item.name,
@@ -70,7 +75,7 @@ const TicketGroupsPage = () => {
   } = useModalState();
 
   const [selectedTicketGroup, setSelectedTicketGroup] = useState<
-    Partial<CommerceCategory> | undefined
+    TicketGroup | undefined
   >();
 
   const { data } = useCommerceListCategoriesQuery({ context: { token } });
@@ -97,7 +102,7 @@ const TicketGroupsPage = () => {
       {ticketGroups.length > 0 ? (
         <Spacing top="1.5rem">
           <ContainerCard noPadding>
-            <Table<Partial<CommerceCategory> & { id: string | null }>
+            <Table<TicketGroup & { id: string | null }>
               items={ticketGroups}
               tableShape={ticketGroupsTableShape}
               onRowClick={(item) => {

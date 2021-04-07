@@ -8,6 +8,8 @@ const COMMERCE_LIST_CATEGORIES = gql`
         name
         createdBy
         lastUpdatedAt
+        description
+        active
       }
     }
   }
