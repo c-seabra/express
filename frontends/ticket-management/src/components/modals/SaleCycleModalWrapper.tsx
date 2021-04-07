@@ -8,6 +8,7 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { toShortDate } from '@websummit/components/src/utils/time';
 import {
   useCommerceCreateSaleMutation,
   useCommerceUpdateSaleMutation,
@@ -16,11 +17,11 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
-import COMMERCE_SALES_LIST from '../../../../../packages/graphql/src/operations/queries/SalesCyclesList';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -104,9 +105,9 @@ const SaleCycleModalWrapper = ({
     if (_mode === 'EDIT') {
       values = {
         description: prefillData.description,
-        endDate: prefillData.endDate,
+        endDate: toShortDate(prefillData.endDate),
         name: prefillData.name,
-        startDate: prefillData.startDate,
+        startDate: toShortDate(prefillData.startDate),
       };
     }
 
