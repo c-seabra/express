@@ -15,6 +15,7 @@ import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketGroupsPlaceholder from '../../lib/images/no-ticket-groups-placeholder.png';
+import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
 import TicketGroupModal from '../ticketGroups/TicketGroupModal';
 
@@ -78,9 +79,13 @@ const TicketGroupsPage = () => {
     TicketGroup | undefined
   >();
 
-  const { data } = useCommerceListCategoriesQuery({ context: { token } });
+  const { data, loading } = useCommerceListCategoriesQuery({
+    context: { token },
+  });
 
   const ticketGroups = data?.commerceListCategories?.hits || [];
+
+  const areTicketGroupsPresent = ticketGroups.length > 0;
 
   return (
     <PageContainer>
@@ -99,7 +104,20 @@ const TicketGroupsPage = () => {
         </SearchBar>
       </HeaderContainer>
 
-      {ticketGroups.length > 0 ? (
+      {loading && (
+        <Spacing top="5rem">
+          <Loader />
+        </Spacing>
+      )}
+
+      {!loading && !areTicketGroupsPresent && (
+        <Placeholder
+          alt="no ticket groups placeholder"
+          src={NoTicketGroupsPlaceholder}
+        />
+      )}
+
+      {!loading && areTicketGroupsPresent && (
         <Spacing top="1.5rem">
           <ContainerCard noPadding>
             <Table<TicketGroup & { id: string | null }>
@@ -112,11 +130,6 @@ const TicketGroupsPage = () => {
             />
           </ContainerCard>
         </Spacing>
-      ) : (
-        <Placeholder
-          alt="no ticket groups placeholder"
-          src={NoTicketGroupsPlaceholder}
-        />
       )}
     </PageContainer>
   );
