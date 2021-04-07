@@ -49,11 +49,13 @@ type ModalProps = {
   alertHeader: string;
   children: any;
   closeModal: () => void;
-  confirmSchema: any;
   initialValues: any;
   isOpen: boolean;
   submitCallback: (values?: any) => void;
   submitText: string;
+  validateOnBlur?: boolean;
+  validateOnChange?: boolean;
+  validationSchema: any;
 };
 
 const FormikModal = ({
@@ -63,16 +65,19 @@ const FormikModal = ({
   submitCallback,
   submitText = 'Submit',
   initialValues,
-  confirmSchema,
+  validationSchema,
+  validateOnBlur = false,
+  validateOnChange = false,
+
   children,
 }: ModalProps) => {
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>
       <Formik
         initialValues={initialValues}
-        validateOnBlur={false}
-        validateOnChange={false}
-        validationSchema={confirmSchema}
+        validateOnBlur={validateOnBlur}
+        validateOnChange={validateOnChange}
+        validationSchema={validationSchema}
         onSubmit={(values) => {
           submitCallback(values);
 

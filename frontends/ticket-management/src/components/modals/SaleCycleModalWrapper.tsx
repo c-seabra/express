@@ -61,7 +61,7 @@ const submitText = (_mode: string): string => {
   })('')(_mode);
 };
 
-const confirmSchema = Yup.object().shape({
+const validationSchema = Yup.object().shape({
   description: Yup.string(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
@@ -146,11 +146,11 @@ const SaleCycleModalWrapper = ({
     <FormikModal
       alertHeader={alertHeaderText(mode)}
       closeModal={closeModal}
-      confirmSchema={confirmSchema}
       initialValues={initialValues(mode)}
       isOpen={isOpen}
       submitCallback={setMutation}
       submitText={submitText(mode)}
+      validationSchema={validationSchema}
     >
       <Spacing top="8px">
         <FieldWrapper>
