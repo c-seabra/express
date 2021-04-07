@@ -79,34 +79,30 @@ const FormikModal = ({
           closeModal();
         }}
       >
-        {() => {
-          return (
-            <Form>
-              <Wrapper>
-                <Spacing bottom="10px">
-                  <IconWrapper>
-                    <Icon>info</Icon>
-                  </IconWrapper>
-                </Spacing>
+        <Form>
+          <Wrapper>
+            <Spacing bottom="10px">
+              <IconWrapper>
+                <Icon>info</Icon>
+              </IconWrapper>
+            </Spacing>
 
-                <Spacing bottom="40px">
-                  <HeaderText>{alertHeader}</HeaderText>
-                </Spacing>
+            <Spacing bottom="40px">
+              <HeaderText>{alertHeader}</HeaderText>
+            </Spacing>
 
-                {children}
+            {children}
 
-                <Spacing top="48px">
-                  <FieldWrapper>
-                    <Modal.DefaultFooter
-                      submitText={submitText}
-                      onCancelClick={closeModal}
-                    />
-                  </FieldWrapper>
-                </Spacing>
-              </Wrapper>
-            </Form>
-          );
-        }}
+            <Spacing top="48px">
+              <FieldWrapper>
+                <Modal.DefaultFooter
+                  submitText={submitText}
+                  onCancelClick={closeModal}
+                />
+              </FieldWrapper>
+            </Spacing>
+          </Wrapper>
+        </Form>
       </Formik>
     </Modal>
   );
