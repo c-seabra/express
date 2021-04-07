@@ -71,7 +71,6 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
           tableShape={tableShape}
           onRowClick={onRowClick}
           onSelect={async (selectedItem, selected) => {
-            console.log('selectedItem', selectedItem);
             if (selectedItem?.id) {
               await updateCycle({
                 variables: {

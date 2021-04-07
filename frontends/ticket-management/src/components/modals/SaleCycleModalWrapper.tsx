@@ -13,11 +13,11 @@ import {
   useCommerceCreateSaleMutation,
   useCommerceUpdateSaleMutation,
 } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
