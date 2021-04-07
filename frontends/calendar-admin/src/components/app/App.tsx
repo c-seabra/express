@@ -47,7 +47,7 @@ const App = ({ token, apiURL }: AppProps) => {
             <StyledContainer>
               <h1>Calendar</h1>
             </StyledContainer>
-            <AttendanceSearch/>
+            <AttendanceSearch />
           </AppContext.Provider>
         </Router>
       </SnackbarProvider>
