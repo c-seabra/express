@@ -67,7 +67,7 @@ const AttendanceSearch = (): ReactElement => {
   };
 
   const handleSelect = (att: Attendance) => {
-    setSelections([...selections, att])
+    setSelections([...selections, att]);
   };
 
   return (
