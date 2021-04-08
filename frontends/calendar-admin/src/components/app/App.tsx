@@ -44,6 +44,7 @@ const App = ({ token, apiURL }: AppProps) => {
         >
           <StyledContainer>
             <h1>Calendar</h1>
+            <Calendar env="development" token={token} />
           </StyledContainer>
         </AppContext.Provider>
       </SnackbarProvider>
