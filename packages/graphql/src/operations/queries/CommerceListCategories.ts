@@ -6,7 +6,11 @@ const COMMERCE_LIST_CATEGORIES = gql`
       hits {
         id
         name
-        createdBy
+        createdBy {
+          id
+          name
+          email
+        }
         lastUpdatedAt
         description
         active

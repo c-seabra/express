@@ -2,11 +2,11 @@ import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
-import SearchInput from '@websummit/components/src/molecules/SearchInput';
 import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { formatDefaultDateTime } from '@websummit/components/src/utils/time';
 import {
   CommerceCategory,
   useCommerceListCategoriesQuery,
@@ -35,11 +35,6 @@ const SearchBar = styled.div`
   justify-content: space-between;
 `;
 
-const StyledSearchInput = styled(SearchInput)`
-  width: 400px;
-  margin-right: 3rem;
-`;
-
 const Placeholder = styled.img`
   max-width: 1440px;
 `;
@@ -54,15 +49,14 @@ const ticketGroupsTableShape: ColumnDescriptors<TicketGroup> = [
     header: 'Name',
     renderCell: (item) => item.name,
   },
-  // TODO - uncomment when BE returns a name of the user instead of an ID in `createdBy`
-  // {
-  //   header: 'Created by',
-  //   renderCell: (item) => item.createdBy,
-  //   width: '30%',
-  // },
+  {
+    header: 'Created by',
+    renderCell: (item) => item?.createdBy?.name,
+    width: '30%',
+  },
   {
     header: 'Last updated on',
-    renderCell: (item) => item.lastUpdatedAt,
+    renderCell: (item) => formatDefaultDateTime(item.lastUpdatedAt || ''),
     width: '30%',
   },
 ];
@@ -92,8 +86,12 @@ const TicketGroupsPage = () => {
       <HeaderContainer>
         <Title>Ticket groups</Title>
         <SearchBar>
-          <StyledSearchInput placeholder="Search ticket groups" />
-          <Button onClick={openTicketGroupModal}>
+          <Button
+            onClick={() => {
+              setSelectedTicketGroup(undefined);
+              openTicketGroupModal();
+            }}
+          >
             Create new ticket group
           </Button>
           <TicketGroupModal
