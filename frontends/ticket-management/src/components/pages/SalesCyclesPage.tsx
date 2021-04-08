@@ -1,4 +1,5 @@
 import { Button } from '@websummit/components/src/atoms/Button';
+import Loader from '@websummit/components/src/atoms/Loader';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
@@ -8,7 +9,6 @@ import styled from 'styled-components';
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoCyclesPlaceholderImage from '../../lib/images/no-sale-cycle-placeholder.png';
-import Loader from '../../lib/Loading';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 import SaleCycleModalWrapper, {

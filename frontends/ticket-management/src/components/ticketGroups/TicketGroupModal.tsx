@@ -2,9 +2,15 @@ import Icon from '@websummit/components/src/atoms/Icon';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import Modal, { ModalProps } from '@websummit/components/src/molecules/Modal';
 import { useSnackbars } from '@websummit/components/src/molecules/Snackbar';
+import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { useCommerceCreateCategoryMutation } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceCategory,
+  useCommerceCreateCategoryMutation,
+  useCommerceUpdateCategoryMutation,
+} from '@websummit/graphql/src/@types/operations';
+import COMMERCE_LIST_CATEGORIES from '@websummit/graphql/src/operations/queries/CommerceListCategories';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -44,47 +50,64 @@ const FormWrapper = styled.div`
   width: 100%;
 `;
 
-const useCreateTicketGroup = () => {
+const useTicketGroupMutations = () => {
   const { token } = useAppContext();
   const { success, error } = useSnackbars();
 
-  // TODO - update refetchQueries with object of shape { query: QUERY_OBJECT, variables: {}}
   const [createTicketGroup] = useCommerceCreateCategoryMutation({
     context: { token },
     onCompleted: () => success('Ticket group created'),
     onError: (e) => error(e.message),
-    refetchQueries: ['commerceListCategories'],
+    refetchQueries: [{ context: { token }, query: COMMERCE_LIST_CATEGORIES }],
   });
 
-  return createTicketGroup;
+  const [updateTicketGroup] = useCommerceUpdateCategoryMutation({
+    context: { token },
+    onCompleted: () => success('Ticket group updated'),
+    onError: (e) => error(e.message),
+    refetchQueries: [{ context: { token }, query: COMMERCE_LIST_CATEGORIES }],
+  });
+
+  return { createTicketGroup, updateTicketGroup };
 };
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
 });
 
-type TicketGroupModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'>;
+type TicketGroupModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
+  ticketGroup?: Partial<CommerceCategory>;
+};
 
-const CreateTicketGroupModal = ({
+const TicketGroupModal = ({
   isOpen,
   onRequestClose,
+  ticketGroup,
 }: TicketGroupModalProps) => {
-  const createTicketGroup = useCreateTicketGroup();
+  const { createTicketGroup, updateTicketGroup } = useTicketGroupMutations();
+
   return (
     <Modal withDefaultFooter isOpen={isOpen} onRequestClose={onRequestClose}>
       <Formik
         enableReinitialize
         initialValues={{
-          active: false,
-          name: '',
+          active: ticketGroup?.active,
+          description: ticketGroup?.description,
+          name: ticketGroup?.name || '',
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
-          await createTicketGroup({
-            variables: {
-              input: values,
-            },
-          });
+          if (ticketGroup?.id) {
+            await updateTicketGroup({
+              variables: { id: ticketGroup?.id, input: values },
+            });
+          } else {
+            await createTicketGroup({
+              variables: {
+                input: values,
+              },
+            });
+          }
 
           onRequestClose();
         }}
@@ -98,15 +121,18 @@ const CreateTicketGroupModal = ({
             </Spacing>
 
             <Spacing bottom="40px">
-              <HeaderText>Add ticket group</HeaderText>
+              <HeaderText>
+                {ticketGroup?.id ? 'Edit' : 'Add'}&nbsp;ticket group
+              </HeaderText>
             </Spacing>
           </Wrapper>
           <FormWrapper>
             <TextInputField required label="Group name" name="name" />
+            <TextAreaField label="Description" name="description" />
             <CheckboxField label="Active" name="active" />
           </FormWrapper>
           <Modal.DefaultFooter
-            submitText="Add ticket group"
+            submitText="Save ticket group"
             onCancelClick={onRequestClose}
           />
         </Form>
@@ -115,4 +141,4 @@ const CreateTicketGroupModal = ({
   );
 };
 
-export default CreateTicketGroupModal;
+export default TicketGroupModal;
