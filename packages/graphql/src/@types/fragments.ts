@@ -27,6 +27,8 @@ const result: PossibleTypesResultData = {
       'ComponentWebElementsAttendeeSearchSidebarFilters',
       'ComponentWebElementsHeroSection',
       'ComponentWebElementsFreshchat',
+      'ComponentWebLayoutsStoresTicketSalesPage',
+      'ComponentWebLayoutsStoresTicketApplicationsPage',
     ],
   },
 };

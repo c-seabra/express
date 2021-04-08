@@ -1,25 +1,36 @@
 import { gql } from '@apollo/client';
 
+const commerceUserFragment = gql`
+  fragment CommerceUser on CommerceUser {
+    name
+    email
+    id
+  }
+`;
+
 const commerceTaxTypeFragment = gql`
   fragment CommerceTaxType on CommerceTaxType {
     createdAt
-    createdBy
+    createdBy {
+      ...CommerceUser
+    }
     description
     id
     lastUpdatedAt
-    lastUpdatedBy
     name
   }
+  ${commerceUserFragment}
 `;
 
 const commerceTaxFragment = gql`
   fragment CommerceTax on CommerceTax {
     country
     createdAt
-    createdBy
+    createdBy {
+      ...CommerceUser
+    }
     id
     lastUpdatedAt
-    lastUpdatedBy
     name
     rateAmount
     rateType
@@ -28,32 +39,36 @@ const commerceTaxFragment = gql`
     }
   }
   ${commerceTaxTypeFragment}
+  ${commerceUserFragment}
 `;
 
 const commerceProductFragment = gql`
   fragment CommerceProduct on CommerceProduct {
     active
     createdAt
-    createdBy
+    createdBy {
+      ...CommerceUser
+    }
     description
     id
     lastUpdatedAt
-    lastUpdatedBy
     name
     price
     taxMode
   }
+  ${commerceUserFragment}
 `;
 
 const commerceOrderItemFragment = gql`
   fragment CommerceOrderItem on CommerceOrderItem {
     createdAt
     createdAt
-    createdBy
+    createdBy {
+      ...CommerceUser
+    }
     id
     itemName
     lastUpdatedAt
-    lastUpdatedBy
     price
     product {
       ...CommerceProduct
@@ -69,6 +84,7 @@ const commerceOrderItemFragment = gql`
   }
   ${commerceProductFragment}
   ${commerceTaxFragment}
+  ${commerceUserFragment}
 `;
 
 export const commercePaymentMethodFragment = gql`
@@ -83,15 +99,17 @@ const commerceAddressFragment = gql`
     city
     country
     createdAt
-    createdBy
+    createdBy {
+      ...CommerceUser
+    }
     id
     lastUpdatedAt
-    lastUpdatedBy
     line1
     line2
     postalCode
     state
   }
+  ${commerceUserFragment}
 `;
 
 const commerceCustomerFragment = gql`
@@ -101,29 +119,32 @@ const commerceCustomerFragment = gql`
     }
     companyName
     createdAt
-    createdBy
+    createdBy {
+      ...CommerceUser
+    }
     email
     firstName
     id
     lastName
     lastUpdatedAt
-    lastUpdatedBy
     phoneNumber
     vatNumber
     vatVerified
   }
   ${commerceAddressFragment}
+  ${commerceUserFragment}
 `;
 
 const commerceTransactionFragment = gql`
   fragment CommerceTransaction on CommerceTransaction {
     amount
     createdAt
-    createdBy
+    createdBy {
+      ...CommerceUser
+    }
     currency
     id
     lastUpdatedAt
-    lastUpdatedBy
     metadata
     paymentMethod {
       ...CommercePaymentMethod
@@ -134,6 +155,7 @@ const commerceTransactionFragment = gql`
     type
   }
   ${commercePaymentMethodFragment}
+  ${commerceUserFragment}
 `;
 
 const COMMERCE_GET_ORDER = gql`
@@ -141,13 +163,14 @@ const COMMERCE_GET_ORDER = gql`
     commerceGetOrder(id: $id, storeId: $storeId) {
       billed
       createdAt
-      createdBy
+      createdBy {
+        ...CommerceUser
+      }
       currency
       currencySymbol
       id
       invoiceUrl
       lastUpdatedAt
-      lastUpdatedBy
       locked
       paid
       customer {
@@ -175,6 +198,7 @@ const COMMERCE_GET_ORDER = gql`
   ${commercePaymentMethodFragment}
   ${commerceOrderItemFragment}
   ${commerceTransactionFragment}
+  ${commerceUserFragment}
 `;
 
 export default COMMERCE_GET_ORDER;
