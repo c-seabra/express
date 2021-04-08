@@ -6,12 +6,10 @@ import { useAppContext } from '../../components/app/AppContext';
 const ATTENDANCES_PER_PAGE = 10;
 
 const useAttendancesQuery = ({
-  attendanceAppearanceSelectionsStatus,
   initialPage,
   perPage = ATTENDANCES_PER_PAGE,
   searchQuery,
 }: {
-  attendanceAppearanceSelectionsStatus?: string;
   initialPage: string;
   perPage?: number;
   searchQuery?: string;
@@ -24,14 +22,7 @@ const useAttendancesQuery = ({
     token,
   };
 
-  const filter = {
-    attendanceAppearanceSelectionsStatus: attendanceAppearanceSelectionsStatus?.split(
-      ',',
-    ),
-  };
-
   const variables = {
-    filter,
     first: perPage,
     searchQuery,
   };
