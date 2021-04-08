@@ -46,7 +46,27 @@ export const UserRsvp = styled.div`
   height: 85px;
 
   .userRsvp_button {
+    transition: all .4s ease;
+    padding: .5rem 1.2rem;
+    background: none;
     color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-left: 5px;
+    }
+
+  .userRsvp_button:hover {
+    background: #FA7E23;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .button_active {
+    background: #fa7e23;
+  }
+
+  .button_active:hover {
+    cursor: default;
   }
 `;
 

@@ -38,8 +38,6 @@ const Calendar = ({ token, env }) => {
   const [responseStatuses, setResponseStatuses] = useState()
 
   useEffect(() => {
-    console.log('HELLO', token)
-
     const tokenPayload = jwt(token)
     try {
       setCurrentToken(token) // use token or currentToken, not both (below)
