@@ -353,7 +353,8 @@ const TicketDetails = (): ReactElement => {
                 ticket={ticket}
               />
 
-              {ticket?.state === 'UNASSIGNED' && (
+              {(ticket?.state === 'UNASSIGNED' ||
+                ticket?.state === 'REJECTED') && (
                 <ContainerCard>
                   <Spacing bottom="36px" left="24px" right="24px" top="36px">
                     <BlockMessage

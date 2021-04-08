@@ -89,6 +89,11 @@ const TicketAction = ({ ticket }: { ticket: Ticket }) => {
 };
 
 const TicketStateActions = ({ ticket }: TicketStateActionsProps) => {
+  const assignmentStatus =
+    ticket?.state === 'REJECTED'
+      ? 'ASSIGNMENT_REJECTED'
+      : ticket?.assignment?.state || 'UNASSIGNED';
+
   return (
     <>
       <TicketStateContainer>
@@ -103,7 +108,7 @@ const TicketStateActions = ({ ticket }: TicketStateActionsProps) => {
         <TicketStateContainer>
           <StyledLabel>Assignment status</StyledLabel>
           <StateActionContainer>
-            <StatePlate state={ticket?.assignment?.state || 'Unassigned'} />
+            <StatePlate state={assignmentStatus} />
           </StateActionContainer>
         </TicketStateContainer>
       </Spacing>
