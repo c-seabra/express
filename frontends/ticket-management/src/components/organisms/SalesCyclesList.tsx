@@ -1,19 +1,19 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import SelectableTable from '@websummit/components/src/molecules/SelectableTable';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
 import { ColumnDescriptor } from '@websummit/components/src/molecules/Table';
-import { formatFullDate } from '@websummit/components/src/utils/time';
+import { formatFullDateTime } from '@websummit/components/src/utils/time';
 import {
   CommerceSale,
   useCommerceUpdateSaleMutation,
 } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';
 
-import {
-  useErrorSnackbar,
-  useSuccessSnackbar,
-} from '../../../../../packages/components/src/molecules/Snackbar';
-import COMMERCE_SALES_LIST from '../../../../../packages/graphql/src/operations/queries/SalesCyclesList';
 import { useAppContext } from '../app/AppContext';
 
 const StyledName = styled.span`
@@ -29,15 +29,15 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
     {
       header: 'Name',
       renderCell: (cycle) => <StyledName>{cycle.name || 'N/A'}</StyledName>,
-      width: '25%',
+      width: '20%',
     },
     {
       header: 'Start date',
-      renderCell: (cycle) => formatFullDate(cycle.startDate) || 'N/A',
+      renderCell: (cycle) => formatFullDateTime(cycle.startDate) || 'N/A',
     },
     {
       header: 'End date',
-      renderCell: (cycle) => formatFullDate(cycle.endDate) || 'N/A',
+      renderCell: (cycle) => formatFullDateTime(cycle.endDate) || 'N/A',
     },
     {
       header: 'Description',

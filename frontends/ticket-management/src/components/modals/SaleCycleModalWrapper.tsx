@@ -8,7 +8,7 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDate } from '@websummit/components/src/utils/time';
+import { toShortDateTime } from '@websummit/components/src/utils/time';
 import {
   useCommerceCreateSaleMutation,
   useCommerceUpdateSaleMutation,
@@ -105,9 +105,9 @@ const SaleCycleModalWrapper = ({
     if (_mode === 'EDIT') {
       values = {
         description: prefillData.description,
-        endDate: toShortDate(prefillData.endDate),
+        endDate: toShortDateTime(prefillData.endDate),
         name: prefillData.name,
-        startDate: toShortDate(prefillData.startDate),
+        startDate: toShortDateTime(prefillData.startDate),
       };
     }
 
@@ -165,14 +165,14 @@ const SaleCycleModalWrapper = ({
               required
               label="Start date"
               name="startDate"
-              type="date"
+              type="datetime-local"
             />
 
             <StyledInputField
               required
               label="End date"
               name="endDate"
-              type="date"
+              type="datetime-local"
             />
           </InlineWrapper>
         </FieldWrapper>
