@@ -61,9 +61,16 @@ const StatePlate = ({ state }: { state?: string }) => {
         </Tooltip>
       );
     case 'UNASSIGNED':
+    case 'REJECTED':
       return (
         <Tooltip content="This ticket hasn't yet been assigned">
           <UnassignedState>Unassigned</UnassignedState>
+        </Tooltip>
+      );
+    case 'ASSIGNMENT_REJECTED':
+      return (
+        <Tooltip content="This ticket was rejected and needs to be reassigned">
+          <UnassignedState>Rejected</UnassignedState>
         </Tooltip>
       );
     default:
