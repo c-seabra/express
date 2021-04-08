@@ -6,12 +6,15 @@ const COMMERCE_SALES_LIST = gql`
       hits {
         active
         createdAt
-        createdBy
+        createdBy {
+          id
+          name
+          email
+        }
         description
         endDate
         id
         lastUpdatedAt
-        lastUpdatedBy
         name
         startDate
       }
