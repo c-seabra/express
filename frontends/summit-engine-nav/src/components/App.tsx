@@ -1,6 +1,5 @@
 import Icon from '@websummit/components/src/atoms/Icon';
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import Logo from '../../../../packages/components/src/atoms/Logo';
@@ -135,18 +134,6 @@ const MainNavigation = () => {
 
   return (
     <>
-      <Helmet>
-        <link href="https://fonts.gstatic.com" rel="preconnect" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link href="https://use.typekit.net/vst7xer.css" rel="stylesheet" />
-        <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"
-        />
-      </Helmet>
       <GlobalStyle />
       <StyledMainHeader>
         <Logo />
