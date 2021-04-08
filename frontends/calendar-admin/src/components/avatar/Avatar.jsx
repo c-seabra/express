@@ -45,7 +45,7 @@ const Avatar = ({
           data={src || defaultSrc}
           type='image/png'
         >
-          <img src={defaultSrc} alt={alt} style={{ borderColor: avatarColor }} />
+          <img alt={alt} src={defaultSrc} style={{ borderColor: avatarColor }} />
         </object>
         {responseElem}
       </AvatarImg>

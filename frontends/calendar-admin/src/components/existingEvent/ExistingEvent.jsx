@@ -5,7 +5,7 @@ import AvatarList from '../avatarList/AvatarList'
 import Button from '../button/Button'
 import { DetailsContext } from '../calendar/Context'
 import EditEvent from '../editEvent/EditEvent'
-import { TopButton, TopButtons } from '../popup/Popup.styled'
+import { TopButtons } from '../popup/Popup.styled'
 import BinIcon from '../svgs/Bin'
 import CloseIcon from '../svgs/Close'
 import DescriptionIcon from '../svgs/Description'
@@ -44,13 +44,19 @@ const ExistingEvent = ({ event, close_popup }) => {
   const [currentUserInvitation, setCurrentUserInvitation] = useState()
   const [eventTime, setEventTime] = useState()
 
+  const formatDate = (startsAt, endsAt) => {
+    const dateFormatted = `${moment(startsAt).utc().format('dddd, DD MMMM - HH:mm')}-${moment(endsAt).format('HH:mm')}`
+
+    setEventTime(dateFormatted)
+  }
+
   useEffect(() => {
     // get location name
     location && setLocationName(getLocationName(location))
 
     // get current user response
     // so we can set RSVP buttons
-    const invitation = invitations && invitations.find(invitation => invitation.invitee.id === currentUserId)
+    const invitation = invitations && invitations.find(invite => invite.invitee.id === currentUserId)
     setCurrentUserInvitation(invitation)
 
     // Format the date to desired layout
@@ -83,22 +89,16 @@ const ExistingEvent = ({ event, close_popup }) => {
     return currentLocationName
   }
 
-  const formatDate = (starts_at, ends_at) => {
-    const dateFormatted = `${moment(starts_at).utc().format('dddd, DD MMMM - HH:mm')}-${moment(ends_at).format('HH:mm')}`
-
-    setEventTime(dateFormatted)
-  }
-
   return (
     <div className="existingEvent">
       <TopButtons>
         {can_modify &&
           <>
-            {!editPopupActive && <TopButton onBtnClick={handleEdit}><PenIcon /></TopButton>}
-            <TopButton onBtnClick={handleDelete}><BinIcon /></TopButton>
+            {!editPopupActive && <Button className='topButton' onBtnClick={handleEdit}><PenIcon /></Button>}
+            <Button className='topButton' onBtnClick={handleDelete}><BinIcon /></Button>
           </>
         }
-        <TopButton onBtnClick={close_popup}><CloseIcon /></TopButton>
+        <Button className='topButton' onBtnClick={close_popup}><CloseIcon /></Button>
       </TopButtons>
 
       <Wrapper>
@@ -128,15 +128,12 @@ const ExistingEvent = ({ event, close_popup }) => {
       </Wrapper>
 
       {editPopupActive &&
-        <Overlay>
-          <FormWrap>
-            <TopButtons>
-              <TopButton onBtnClick={handleDelete}><BinIcon /></TopButton>
-              {/* <Button className={popupStyles.topButton} onBtnClick={handleEdit}><CloseIcon /></Button> */}
-            </TopButtons>
-            <EditEvent eventId={id} organizerId={organizer ? organizer.id : undefined} setEditPopupActive={setEditPopupActive} {...{ title, location, description, rsvps }} />
-          </FormWrap>
-        </Overlay>
+        <FormWrap>
+          <TopButtons>
+            <Button className='topButton' onBtnClick={handleDelete}><BinIcon /></Button>
+          </TopButtons>
+          <EditEvent eventId={id} organizerId={organizer ? organizer.id : undefined} setEditPopupActive={setEditPopupActive} {...{ description, location, rsvps, title }} />
+        </FormWrap>
       }
 
       {deletePopupActive &&

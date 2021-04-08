@@ -312,7 +312,7 @@ const Calendar = ({ token, env }) => {
       id: events.length + 1,
       saved: false,
       starts_at: event.start,
-      title: 'New Event',
+      title: 'New Event'
     }
     const updatedEvents = events.concat([newEvent])
     setEvents(updatedEvents)
@@ -347,7 +347,7 @@ const Calendar = ({ token, env }) => {
           onUpdateEvent,
           onUpdateEventInvitationResponse,
           responseStatuses,
-          rsvps,
+          rsvps
         }}
       >
         <Error errors={errors} />
@@ -372,7 +372,7 @@ const Calendar = ({ token, env }) => {
           min={moment('2000-01-01T01:00:00.000Z').toDate()}
           startAccessor={startAccessor}
           step={60}
-          style={{ height: '100vh' }}
+          style={{ fontSize: '14px', height: '100vh' }}
           timeslots={1}
           titleAccessor='title'
           tooltipAccessor={tooltipAccessor}

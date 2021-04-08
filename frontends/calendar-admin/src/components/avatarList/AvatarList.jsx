@@ -18,8 +18,8 @@ const AvatarList = ({ iconActive, listType, iconClickCallback, avatarList, organ
             title={attendance.data.person.first_name + ' ' + attendance.data.person.last_name}
             {...{
               iconActive,
-              listType,
-              iconClickCallback
+              iconClickCallback,
+              listType
             }}
           />
 

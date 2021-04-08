@@ -48,14 +48,14 @@ const EditEvent = ({ eventId, setEditPopupActive, title, location, description, 
     <Form onSubmit={e => handleSubmit(e)}>
 
       <FormEditContent>
-        <FormInput><OvalSquare /><input type='text' value={editedEntity.title !== undefined ? editedEntity.title : title} onChange={e => handleChange(e)} name='title' /></FormInput>
+        <FormInput><OvalSquare /><input name='title' type='text' value={editedEntity.title !== undefined ? editedEntity.title : title} onChange={e => handleChange(e)} /></FormInput>
 
         <FormInput>
-          <input type='text' value={editedEntity.location_name !== undefined ? editedEntity.location_name : location.name} onChange={e => handleChange(e)} name='location_name' />
+          <input name='location_name' type='text' value={editedEntity.location_name !== undefined ? editedEntity.location_name : location.name} onChange={e => handleChange(e)} />
           {locations &&
-            <select value={editedEntity.location_id !== undefined ? editedEntity.location_id : location.id} onChange={e => handleChange(e)} name='location_id'>
-              <option key='emptySelect' value='' disabled>Select location</option>
-              {locations.map(location => <option key={location.id} value={location.id}>{location && location.name}</option>)}
+            <select name='location_id' value={editedEntity.location_id !== undefined ? editedEntity.location_id : location.id} onChange={e => handleChange(e)}>
+              <option key='emptySelect' disabled value=''>Select location</option>
+              {locations.map(loc => <option key={loc.id} value={loc.id}>{loc && loc.name}</option>)}
             </select>
           }
         </FormInput>

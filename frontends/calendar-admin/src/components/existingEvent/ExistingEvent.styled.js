@@ -123,4 +123,7 @@ export const FormWrap = styled.div`
   justify-content: flex-start;
   background: white;
   padding-top: 0;
+  flex-direction: column;
+  left: 0;
+  width: 100%;
 `;
