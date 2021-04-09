@@ -1,84 +1,92 @@
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
-import './Calendar.css'
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+import './Calendar.css';
 
-import update from 'immutability-helper'
-import jwt from 'jwt-decode'
-import moment from 'moment'
-import React, { useEffect,useState } from 'react'
-import * as BigCalendar from 'react-big-calendar'
-import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
+import update from 'immutability-helper';
+import jwt from 'jwt-decode';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import * as BigCalendar from 'react-big-calendar';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 
-import Api from '../../lib/services/Api'
-import AgendaEvent from '../agendaEvent/AgendaEvent'
-import Error from '../error/Error'
-import Popup from '../popup/Popup'
-import { DetailsContext } from './Context'
+import Api from '../../lib/services/Api';
+import AgendaEvent from '../agendaEvent/AgendaEvent';
+import Error from '../error/Error';
+import Popup from '../popup/Popup';
+import { DetailsContext } from './Context';
 
-const DragAndDropCalendar = withDragAndDrop(BigCalendar.Calendar)
-const localizer = BigCalendar.momentLocalizer(moment)
+const DragAndDropCalendar = withDragAndDrop(BigCalendar.Calendar);
+const localizer = BigCalendar.momentLocalizer(moment);
 
 const Calendar = ({ token, env }) => {
-  if (!token) return null
+  if (!token) return null;
   // console.log({ token, env });
   // const [ENV, setENV] = useState();
-  const [currentToken, setCurrentToken] = useState()
-  const [currentView, setCurrentView] = useState(BigCalendar.Views.WEEK)
-  const [events, setEvents] = useState([])
-  const [errors, setErrors] = useState([])
-  const [newEvent, setNewEvent] = useState()
-  const [existingEvent, setExistingEvent] = useState()
-  const [locations, setLocations] = useState()
-  const [rsvps, setRsvps] = useState([])
+  const [currentToken, setCurrentToken] = useState();
+  const [currentView, setCurrentView] = useState(BigCalendar.Views.WEEK);
+  const [events, setEvents] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const [newEvent, setNewEvent] = useState();
+  const [existingEvent, setExistingEvent] = useState();
+  const [locations, setLocations] = useState();
+  const [rsvps, setRsvps] = useState([]);
   // const [payload, setPayload] = useState()
-  const [confSlug, setConfSlug] = useState()
+  const [confSlug, setConfSlug] = useState();
   // const [conference, setConference] = useState()
-  const [chosenDate, setChosenDate] = useState()
-  const [currentUserId, setCurrentUserId] = useState()
-  const [responseStatuses, setResponseStatuses] = useState()
+  const [chosenDate, setChosenDate] = useState();
+  const [currentUserId, setCurrentUserId] = useState();
+  const [responseStatuses, setResponseStatuses] = useState();
 
   useEffect(() => {
-    const tokenPayload = jwt(token)
+    const tokenPayload = jwt(token);
     try {
-      setCurrentToken(token) // use token or currentToken, not both (below)
+      setCurrentToken(token); // use token or currentToken, not both (below)
       // setPayload(tokenPayload)
-      getRequiredData(tokenPayload)
+      getRequiredData(tokenPayload);
 
-      setCurrentUserId(tokenPayload.sub)
+      setCurrentUserId(tokenPayload.sub);
       // setENV(env)
-      setConfSlug(tokenPayload.conf_slug)
+      setConfSlug(tokenPayload.conf_slug);
       // getAllLocationsDetails(tokenPayload.conf_slug)
       // getAllCalendarEvents(token)
     } catch (e) {
-      addError(e)
+      addError(e);
     }
-  }, [token])
+  }, [token]);
 
-  const getRequiredData = async payload => {
-    const confResult = await Api.getConferenceDetails(payload.conf_id, token, env)
+  const getRequiredData = async (payload) => {
+    const confResult = await Api.getConferenceDetails(
+      payload.conf_id,
+      token,
+      env,
+    );
     confResult.data
       ? setChosenDate(new Date(confResult.data.data.start_date))
-      : addError(confResult.error)
+      : addError(confResult.error);
 
-    const eventsResults = await Api.getEvents(token, env)
-    eventsResults.data ? setEvents(eventsResults.data.data) : addError(eventsResults.error)
+    const eventsResults = await Api.getEvents(token, env);
+    eventsResults.data
+      ? setEvents(eventsResults.data.data)
+      : addError(eventsResults.error);
 
-    const locationsResult = await Api.getLocations(payload.conf_slug, env)
-    locationsResult.data ? setLocations(locationsResult.data.data) : addError(locationsResult.error)
+    const locationsResult = await Api.getLocations(payload.conf_slug, env);
+    locationsResult.data
+      ? setLocations(locationsResult.data.data)
+      : addError(locationsResult.error);
 
-    const responseStatusesResult = await Api.getResponseStatuses(env)
+    const responseStatusesResult = await Api.getResponseStatuses(env);
     responseStatusesResult.data
       ? setResponseStatuses(responseStatusesResult.data.data)
-      : addError(responseStatusesResult.error)
-  }
+      : addError(responseStatusesResult.error);
+  };
 
-  const addError = error => {
-    setErrors(errors => errors.concat([error]))
-  }
+  const addError = (error) => {
+    setErrors((errors) => errors.concat([error]));
+  };
 
-  const addRsvp = rsvp => {
-    setRsvps(rsvps => rsvps.concat([rsvp]))
-  }
+  const addRsvp = (rsvp) => {
+    setRsvps((rsvps) => rsvps.concat([rsvp]));
+  };
 
   // const getAllCalendarEvents = async (token) => {
   //   const result = await Api.getEvents(token, env)
@@ -95,68 +103,76 @@ const Calendar = ({ token, env }) => {
   //   result.data ? setLocations(result.data.data) : addError(result.error)
   // }
 
-  const getRSVPSDetails = async invitations => {
-    invitations.forEach(async invitation => {
-      const result = await Api.getAttendance(invitation.invitee.id, confSlug, currentToken, env)
-      result.data ? addRsvp({ attendance: result.data, invitation }) : addError(result.error)
-    })
-  }
+  const getRSVPSDetails = async (invitations) => {
+    invitations.forEach(async (invitation) => {
+      const result = await Api.getAttendance(
+        invitation.invitee.id,
+        confSlug,
+        currentToken,
+        env,
+      );
+      result.data
+        ? addRsvp({ attendance: result.data, invitation })
+        : addError(result.error);
+    });
+  };
 
   const onSelectEvent = (e, syntheticEvent) => {
     // don't do anything if already doing
-    if (newEvent || existingEvent) return
+    if (newEvent || existingEvent) return;
     // keep the click data
-    syntheticEvent.persist()
-    e.syntheticEvent = syntheticEvent
+    syntheticEvent.persist();
+    e.syntheticEvent = syntheticEvent;
 
-    getRSVPSDetails(e.invitations)
+    getRSVPSDetails(e.invitations);
 
     // meanwhile render
-    setExistingEvent(e)
-  }
+    setExistingEvent(e);
+  };
 
   const onUpdateEventInvitationResponse = async (eventId, response) => {
     // find current user invitation ID
-    const currentEventIndex = events.findIndex(event => event.id === eventId)
-    const currentEvent = events[currentEventIndex]
+    const currentEventIndex = events.findIndex((event) => event.id === eventId);
+    const currentEvent = events[currentEventIndex];
     const currentUserInvitationIndex = currentEvent.invitations.findIndex(
-      invitation => invitation.invitee.id === currentUserId
-    )
-    const currentUserInvitation = currentEvent.invitations[currentUserInvitationIndex]
+      (invitation) => invitation.invitee.id === currentUserId,
+    );
+    const currentUserInvitation =
+      currentEvent.invitations[currentUserInvitationIndex];
     const currentUserRsvpIndex = rsvps.findIndex(
-      rsvp => rsvp.invitation.invitee.id === currentUserId
-    )
-    const currentUserRsvp = rsvps[currentUserRsvpIndex]
+      (rsvp) => rsvp.invitation.invitee.id === currentUserId,
+    );
+    const currentUserRsvp = rsvps[currentUserRsvpIndex];
 
-    if (currentUserInvitationIndex === -1) return null
+    if (currentUserInvitationIndex === -1) return null;
 
     const updatedRsvp = update(currentUserRsvp, {
       invitation: {
         response: {
-          response_status: { $set: response }
-        }
-      }
-    })
+          response_status: { $set: response },
+        },
+      },
+    });
     const updatedRsvps = update(rsvps, {
-      [currentUserRsvpIndex]: { $set: updatedRsvp }
-    })
+      [currentUserRsvpIndex]: { $set: updatedRsvp },
+    });
 
     const updatedEvent = update(currentEvent, {
       invitations: {
         [currentUserInvitationIndex]: {
           response: {
-            response_status: { $set: response }
-          }
-        }
-      }
-    })
+            response_status: { $set: response },
+          },
+        },
+      },
+    });
     const updatedEvents = update(events, {
-      [currentEventIndex]: { $set: updatedEvent }
-    })
+      [currentEventIndex]: { $set: updatedEvent },
+    });
 
-    setRsvps(updatedRsvps)
-    setExistingEvent(updatedEvent)
-    setEvents(updatedEvents)
+    setRsvps(updatedRsvps);
+    setExistingEvent(updatedEvent);
+    setEvents(updatedEvents);
 
     // update response status in API
     const result = await Api.updateEventInvitationResponse(
@@ -164,147 +180,164 @@ const Calendar = ({ token, env }) => {
       currentUserInvitation.id,
       response,
       token,
-      env
-    )
-    !result.data && addError(result.error)
-  }
+      env,
+    );
+    !result.data && addError(result.error);
+  };
 
   const onDeleteEventInvitation = async (eventId, invitationId) => {
     // find event to update
-    const eventToUpdateIndex = events.findIndex(event => event.id === eventId)
-    const eventToUpdate = events[eventToUpdateIndex]
+    const eventToUpdateIndex = events.findIndex(
+      (event) => event.id === eventId,
+    );
+    const eventToUpdate = events[eventToUpdateIndex];
     const invitationToDeleteIndex = eventToUpdate.invitations.findIndex(
-      invitation => invitation.id === invitationId
-    )
-    const rsvpToDeleteIndex = rsvps.findIndex(rsvp => rsvp.invitation.id === invitationId)
+      (invitation) => invitation.id === invitationId,
+    );
+    const rsvpToDeleteIndex = rsvps.findIndex(
+      (rsvp) => rsvp.invitation.id === invitationId,
+    );
 
     const updatedEvent = update(eventToUpdate, {
-      invitations: { $splice: [[invitationToDeleteIndex, 1]] }
-    })
+      invitations: { $splice: [[invitationToDeleteIndex, 1]] },
+    });
     const updatedEvents = update(events, {
-      [eventToUpdateIndex]: { $set: updatedEvent }
-    })
+      [eventToUpdateIndex]: { $set: updatedEvent },
+    });
     const updatedRsvps = update(rsvps, {
-      $splice: [[rsvpToDeleteIndex, 1]]
-    })
+      $splice: [[rsvpToDeleteIndex, 1]],
+    });
 
-    setRsvps(updatedRsvps)
+    setRsvps(updatedRsvps);
     // update existing event
-    setExistingEvent(eventToUpdate)
+    setExistingEvent(eventToUpdate);
 
     // update response status in API
-    const result = await Api.deleteEventInvitation(eventToUpdate.id, invitationId, token, env)
-    result.data ? setEvents(updatedEvents) : addError(result.error)
-  }
+    const result = await Api.deleteEventInvitation(
+      eventToUpdate.id,
+      invitationId,
+      token,
+      env,
+    );
+    result.data ? setEvents(updatedEvents) : addError(result.error);
+  };
 
   const onUpdateEvent = async (eventId, eventContent) => {
-    const eventToUpdateindex = events.findIndex(event => event.id === eventId)
+    const eventToUpdateindex = events.findIndex(
+      (event) => event.id === eventId,
+    );
 
     // update eventContent object to fit existingEvent layout
     // API only accepts location_id or location_name
     // existingEvent however has location object with type and id/name
     if (eventContent.location_id || eventContent.location_name) {
-      eventContent.location = {}
-      eventContent.location.type = eventContent.location_id ? 'location' : 'text'
-      eventContent.location[eventContent.location_id ? 'id' : 'name'] = eventContent.location_id || eventContent.location_name
+      eventContent.location = {};
+      eventContent.location.type = eventContent.location_id
+        ? 'location'
+        : 'text';
+      eventContent.location[eventContent.location_id ? 'id' : 'name'] =
+        eventContent.location_id || eventContent.location_name;
     }
 
     const updatedExistingEvent = update(existingEvent, {
-      $merge: eventContent
-    })
+      $merge: eventContent,
+    });
 
-    setExistingEvent(updatedExistingEvent)
+    setExistingEvent(updatedExistingEvent);
 
     // update events list
     const updatedEvents = update(events, {
-      [eventToUpdateindex]: { $set: updatedExistingEvent }
-    })
+      [eventToUpdateindex]: { $set: updatedExistingEvent },
+    });
 
     // update it in the API
-    const result = await Api.updateEvent(eventId, eventContent, token, env)
-    result.data ? setEvents(updatedEvents) : addError(result.error)
-  }
+    const result = await Api.updateEvent(eventId, eventContent, token, env);
+    result.data ? setEvents(updatedEvents) : addError(result.error);
+  };
 
-  const onDeleteEvent = eventId => {
-    const deleteEventIndex = events.findIndex(event => event.id === eventId)
+  const onDeleteEvent = (eventId) => {
+    const deleteEventIndex = events.findIndex((event) => event.id === eventId);
     const updatedEvents = update(events, {
       [deleteEventIndex]: {
-        saved: { $set: false }
-      }
-    })
+        saved: { $set: false },
+      },
+    });
 
-    Api.deleteEvent(eventId, token, env)
-    cleanupData(updatedEvents)
-  }
+    Api.deleteEvent(eventId, token, env);
+    cleanupData(updatedEvents);
+  };
 
-  const onView = v => {
-    cleanupData()
-    setCurrentView(v)
-  }
+  const onView = (v) => {
+    cleanupData();
+    setCurrentView(v);
+  };
 
-  const onNavigate = when => {
+  const onNavigate = (when) => {
     // console.log({onNavigate: when})
-    setChosenDate(new Date(when))
-  }
+    setChosenDate(new Date(when));
+  };
 
-  const onDrillDown = d => setCurrentView(BigCalendar.Views.DAY)
+  const onDrillDown = (d) => setCurrentView(BigCalendar.Views.DAY);
 
-  const tooltipAccessor = e => `${e.title} -> ${e.starts_at} + ${e.description || ''}`
+  const tooltipAccessor = (e) =>
+    `${e.title} -> ${e.starts_at} + ${e.description || ''}`;
 
-  const startAccessor = e => moment(e.starts_at).toDate()
+  const startAccessor = (e) => moment(e.starts_at).toDate();
 
-  const endAccessor = e => moment(e.ends_at).toDate()
+  const endAccessor = (e) => moment(e.ends_at).toDate();
 
-  const eventPropGetter = e => {
-    const style = {}
+  const eventPropGetter = (e) => {
+    const style = {};
     if (e.allDay === true) {
-      style.backgroundColor = 'orange'
+      style.backgroundColor = 'orange';
     }
     if (e.saved === false) {
-      style.border = '2px solid red'
-      style.zIndex = 6
+      style.border = '2px solid red';
+      style.zIndex = 6;
     }
     if (e.pin_id) {
-      style.backgroundColor = 'green'
+      style.backgroundColor = 'green';
     }
     if (e.invited_by_admin) {
-      style.backgroundColor = 'purple'
+      style.backgroundColor = 'purple';
     }
-    return { style }
-  }
+    return { style };
+  };
 
   const moveEvent = ({ event, start, end, isAllDay: droppedOnAllDaySlot }) => {
     // don't do anything if already doing
-    if (newEvent || existingEvent) return
+    if (newEvent || existingEvent) return;
 
-    const idx = events.indexOf(event)
-    let { allDay } = event
+    const idx = events.indexOf(event);
+    let { allDay } = event;
 
     if (!event.allDay && droppedOnAllDaySlot) {
-      allDay = true
+      allDay = true;
     } else if (event.allDay && !droppedOnAllDaySlot) {
-      allDay = false
+      allDay = false;
     }
 
-    const updatedEvent = { ...event, allDay }
-    updatedEvent.starts_at = start
-    updatedEvent.ends_at = end
-    const nextEvents = [...events]
-    nextEvents.splice(idx, 1, updatedEvent)
-    setEvents(nextEvents)
+    const updatedEvent = { ...event, allDay };
+    updatedEvent.starts_at = start;
+    updatedEvent.ends_at = end;
+    const nextEvents = [...events];
+    nextEvents.splice(idx, 1, updatedEvent);
+    setEvents(nextEvents);
     // console.log(`${updatedEvent.id} was dropped onto ${updatedEvent.starts_at}`)
-  }
+  };
 
   const resizeEvent = ({ event, start, end }) => {
-    const starts_at = start
-    const ends_at = end
-    const nextEvents = events.map(existingEvent =>
-      existingEvent.id === event.id ? { ...existingEvent, ends_at, starts_at } : existingEvent
-    )
-    setEvents(nextEvents)
-  }
+    const starts_at = start;
+    const ends_at = end;
+    const nextEvents = events.map((existingEvent) =>
+      existingEvent.id === event.id
+        ? { ...existingEvent, ends_at, starts_at }
+        : existingEvent,
+    );
+    setEvents(nextEvents);
+  };
 
-  const createEvent = event => {
+  const createEvent = (event) => {
     const newEvent = {
       allDay: event.slots.length === 1,
       ends_at: event.end,
@@ -312,25 +345,25 @@ const Calendar = ({ token, env }) => {
       id: events.length + 1,
       saved: false,
       starts_at: event.start,
-      title: 'New Event'
-    }
-    const updatedEvents = events.concat([newEvent])
-    setEvents(updatedEvents)
-    setNewEvent(newEvent)
-  }
+      title: 'New Event',
+    };
+    const updatedEvents = events.concat([newEvent]);
+    setEvents(updatedEvents);
+    setNewEvent(newEvent);
+  };
 
   const cleanupData = (newEvents = events) => {
-    setEvents(newEvents.filter(event => event.saved !== false))
-    setNewEvent()
-    setExistingEvent()
-    setRsvps([])
-  }
+    setEvents(newEvents.filter((event) => event.saved !== false));
+    setNewEvent();
+    setExistingEvent();
+    setRsvps([]);
+  };
 
   const components = {
     agenda: {
-      event: AgendaEvent // with the agenda view use a different component to render events
-    }
-  }
+      event: AgendaEvent, // with the agenda view use a different component to render events
+    },
+  };
 
   return (
     <>
@@ -347,7 +380,7 @@ const Calendar = ({ token, env }) => {
           onUpdateEvent,
           onUpdateEventInvitationResponse,
           responseStatuses,
-          rsvps
+          rsvps,
         }}
       >
         <Error errors={errors} />
@@ -374,7 +407,7 @@ const Calendar = ({ token, env }) => {
           step={60}
           style={{ fontSize: '14px', height: '100vh' }}
           timeslots={1}
-          titleAccessor='title'
+          titleAccessor="title"
           tooltipAccessor={tooltipAccessor}
           view={currentView}
           onDrillDown={onDrillDown}
@@ -387,7 +420,7 @@ const Calendar = ({ token, env }) => {
         />
       </DetailsContext.Provider>
     </>
-  )
-}
+  );
+};
 
-export default Calendar
+export default Calendar;

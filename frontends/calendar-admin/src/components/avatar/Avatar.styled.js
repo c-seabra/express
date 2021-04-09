@@ -30,7 +30,7 @@ export const AvatarImg = styled.div`
 `;
 
 export const Content = styled.div`
-  width: calc(100% - 72px)
+  width: calc(100% - 72px);
 `;
 
 export const ContentTitle = styled.p`
@@ -38,8 +38,8 @@ export const ContentTitle = styled.p`
 `;
 
 export const ContentSubtitle = styled.p`
-  margin: .275rem 0 0;
-  font-size: .875rem;
+  margin: 0.275rem 0 0;
+  font-size: 0.875rem;
 `;
 
 export const Icon = styled.span`

@@ -88,9 +88,7 @@ export const TopButtons = styled.div`
   }
 `;
 
-export const TopButton = styled.button`
-
-`;
+export const TopButton = styled.button``;
 
 export const Overlay = styled.div`
   position: fixed;

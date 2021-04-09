@@ -5,9 +5,7 @@ import Error from './Error';
 
 describe('Error', () => {
   test('renders single error message', () => {
-    const component = renderer.create(
-      <Error errors={['Bad request']} />,
-    );
+    const component = renderer.create(<Error errors={['Bad request']} />);
     expect(component.toJSON()).toMatchSnapshot();
   });
 
@@ -18,17 +16,13 @@ describe('Error', () => {
     expect(component.toJSON()).toMatchSnapshot();
   });
 
-  test('with empty props doesn\'t render', () => {
-    const component = renderer.create(
-      <Error errors={[]} />,
-    );
+  test("with empty props doesn't render", () => {
+    const component = renderer.create(<Error errors={[]} />);
     expect(component.toJSON()).toMatchSnapshot();
   });
 
-  test('without props doesn\'t render', () => {
-    const component = renderer.create(
-      <Error />,
-    );
+  test("without props doesn't render", () => {
+    const component = renderer.create(<Error />);
     expect(component.toJSON()).toMatchSnapshot();
   });
-})
+});

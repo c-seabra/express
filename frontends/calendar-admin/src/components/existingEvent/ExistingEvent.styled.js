@@ -46,17 +46,17 @@ export const UserRsvp = styled.div`
   height: 85px;
 
   .userRsvp_button {
-    transition: all .4s ease;
-    padding: .5rem 1.2rem;
+    transition: all 0.4s ease;
+    padding: 0.5rem 1.2rem;
     background: none;
     color: #fff;
     border: none;
     border-radius: 4px;
     margin-left: 5px;
-    }
+  }
 
   .userRsvp_button:hover {
-    background: #FA7E23;
+    background: #fa7e23;
     color: #fff;
     cursor: pointer;
   }

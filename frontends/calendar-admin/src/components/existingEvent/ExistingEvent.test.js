@@ -9,7 +9,7 @@ describe('ExistingEvent', () => {
 
   beforeEach(() => {
     realUseContext = React.useContext;
-    React.useContext = jest.fn()
+    React.useContext = jest.fn();
     useContextMock = React.useContext;
   });
 
@@ -19,9 +19,7 @@ describe('ExistingEvent', () => {
 
   test('renders without props or context', () => {
     useContextMock.mockReturnValue({});
-    const component = renderer.create(
-      <ExistingEvent />,
-    );
+    const component = renderer.create(<ExistingEvent />);
     expect(component.toJSON()).toMatchSnapshot();
   });
 
@@ -41,14 +39,14 @@ describe('ExistingEvent', () => {
     useContextMock.mockReturnValue({
       location: {
         name: 'mock location name',
-        id: 1234
+        id: 1234,
       },
       rsvps: [
         {
           invitation: { id: 123, response: { response_status: 'accepted' } },
-          attendance: { data: { person: { first_name: 'Tomasz' } } }
-        }
-      ]
+          attendance: { data: { person: { first_name: 'Tomasz' } } },
+        },
+      ],
     });
     const component = renderer.create(
       <ExistingEvent

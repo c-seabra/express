@@ -21,7 +21,7 @@ export const FormInput = styled.div`
 
   & input {
     width: calc(100% - 42px);
-    padding: .5rem .7rem;
+    padding: 0.5rem 0.7rem;
   }
 `;
 
@@ -37,16 +37,16 @@ export const FormEditInvitee = styled.div`
 `;
 
 export const Button = styled.button`
-  color: #3E3D44;
+  color: #3e3d44;
   border: 1px solid #cecece;
-  transition: all .4s ease;
-  padding: .5rem 1.2rem;
+  transition: all 0.4s ease;
+  padding: 0.5rem 1.2rem;
   background: white;
   border-radius: 4px;
   margin-left: 5px;
 
   &:hover {
-    background: #FA7E23;
+    background: #fa7e23;
     color: #fff;
     cursor: pointer;
   }

@@ -1,10 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-import Accepted from '../svgs/Accepted'
-import AvatarIcon from '../svgs/AvatarIcon'
-import Declined from '../svgs/Declined'
-import Tentative from '../svgs/Tentative'
-import { AvatarContainer, AvatarImg, Content, ContentSubtitle, ContentTitle, Icon } from './Avatar.styled'
+import Accepted from '../svgs/Accepted';
+import AvatarIcon from '../svgs/AvatarIcon';
+import Declined from '../svgs/Declined';
+import Tentative from '../svgs/Tentative';
+import {
+  AvatarContainer,
+  AvatarImg,
+  Content,
+  ContentSubtitle,
+  ContentTitle,
+  Icon,
+} from './Avatar.styled';
 
 const Avatar = ({
   title,
@@ -18,34 +25,35 @@ const Avatar = ({
   iconActive,
   listType,
   iconClickCallback,
-  defaultSrc = 'https://s3-eu-west-1.amazonaws.com/assets.cilabs.com/images/person.svg'
+  defaultSrc = 'https://s3-eu-west-1.amazonaws.com/assets.cilabs.com/images/person.svg',
 }) => {
   // Will be updated with coresponding types/colors once we get color codes for different avatar types
-  const avatarColor = avatarType === 'attendee' ? 'red' : 'transparent'
+  const avatarColor = avatarType === 'attendee' ? 'red' : 'transparent';
 
-  let responseElem
+  let responseElem;
   switch (response) {
     case 'accepted':
-      responseElem = <Accepted />
-      break
+      responseElem = <Accepted />;
+      break;
     case 'declined':
-      responseElem = <Declined />
-      break
+      responseElem = <Declined />;
+      break;
     default:
-      responseElem = <Tentative />
-      break
+      responseElem = <Tentative />;
+      break;
   }
 
-  const avatarSubTitle = subTitle || organizer ? subTitle || 'Organizer' : ''
+  const avatarSubTitle = subTitle || organizer ? subTitle || 'Organizer' : '';
 
   return (
     <AvatarContainer>
       <AvatarImg>
-        <object
-          data={src || defaultSrc}
-          type='image/png'
-        >
-          <img alt={alt} src={defaultSrc} style={{ borderColor: avatarColor }} />
+        <object data={src || defaultSrc} type="image/png">
+          <img
+            alt={alt}
+            src={defaultSrc}
+            style={{ borderColor: avatarColor }}
+          />
         </object>
         {responseElem}
       </AvatarImg>
@@ -60,7 +68,7 @@ const Avatar = ({
         </Icon>
       )}
     </AvatarContainer>
-  )
-}
+  );
+};
 
-export default Avatar
+export default Avatar;
