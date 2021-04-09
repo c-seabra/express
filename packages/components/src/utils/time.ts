@@ -35,3 +35,20 @@ export const formatFullDate = (isoDate?: string): string => {
   const date = DateTime.fromISO(isoDate);
   return date.toLocaleString(DateTime.DATE_FULL);
 };
+
+export const formatFullDateTime = (isoDate?: string): string => {
+  if (!isoDate) {
+    return 'N/A';
+  }
+
+  const date = DateTime.fromISO(isoDate);
+  return date.toLocaleString(DateTime.DATETIME_FULL);
+};
+
+export const toShortDate = (dateTime: string): string => {
+  return new Date(dateTime).toISOString().slice(0, 10);
+};
+
+export const toShortDateTime = (dateTime: string): string => {
+  return new Date(dateTime).toISOString().slice(0, 16);
+};
