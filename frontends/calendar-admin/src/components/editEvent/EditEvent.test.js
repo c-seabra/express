@@ -60,10 +60,10 @@ describe('EditEvent', () => {
           name: 'FullSTK',
         },
       ],
-      onDeleteEventInvitation () {
+      onDeleteEventInvitation() {
         return null;
       },
-      onUpdateEvent () {
+      onUpdateEvent() {
         return null;
       },
       rsvps: [
