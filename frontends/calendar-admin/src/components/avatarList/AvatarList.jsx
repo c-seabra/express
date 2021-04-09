@@ -14,7 +14,7 @@ const AvatarList = ({
     <AvatarListContainer>
       {avatarList.map(({ invitation, attendance }) => {
         return (
-          <li key={`${listType}_${invitation.id}`}>
+          <li key={`${String(listType)}_${String(invitation.id)}`}>
             <Avatar
               alt="Invitee avatar"
               invitationId={invitation.id}
@@ -23,11 +23,9 @@ const AvatarList = ({
               }
               response={invitation.response.response_status}
               src={attendance.data.person.avatar_url}
-              title={
-                attendance.data.person.first_name +
-                ' ' +
-                attendance.data.person.last_name
-              }
+              title={`${String(attendance.data.person.first_name)} ${String(
+                attendance.data.person.last_name,
+              )}`}
               {...{
                 iconActive,
                 iconClickCallback,

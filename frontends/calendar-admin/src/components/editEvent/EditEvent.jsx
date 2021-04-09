@@ -33,8 +33,8 @@ const EditEvent = ({
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    setEditedEntity((editedEntity) => ({
-      ...editedEntity,
+    setEditedEntity((entity) => ({
+      ...entity,
       [name]: value || '',
     }));
   };
@@ -114,13 +114,13 @@ const EditEvent = ({
         </FormInput>
         <FormInput>
           <textarea
+            name="description"
             value={
               editedEntity.description !== undefined
                 ? editedEntity.description
                 : description
             }
             onChange={(e) => handleChange(e)}
-            name="description"
           />
         </FormInput>
         <Button type="submit">Save</Button>

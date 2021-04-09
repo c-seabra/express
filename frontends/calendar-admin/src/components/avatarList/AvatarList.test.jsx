@@ -34,9 +34,7 @@ describe('AvatarList', () => {
             invitation: { id: 123, response: { response_status: 'accepted' } },
           },
         ]}
-        iconClickCallback={function () {
-          return null;
-        }}
+        iconClickCallback={null}
         iconType="delete"
         organizerId="123456"
         styles="styles"

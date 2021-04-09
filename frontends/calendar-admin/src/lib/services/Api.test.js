@@ -17,6 +17,7 @@ describe('Api', () => {
 
   test('getLocations', async () => {
     const response = await Api.getLocations('conf_slug', 'mock');
+    // eslint-disable-next-line jest/valid-expect
     expect(response.data);
   });
 

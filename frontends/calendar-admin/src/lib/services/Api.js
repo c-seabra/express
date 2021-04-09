@@ -24,6 +24,18 @@ const CONFIG = {
 
 const random = () => Math.floor(Math.random() * (2000 - 1000) + 1000);
 
+const errorMessages = async (response) => {
+  const result = await response.json();
+  if (typeof result.data === 'string') {
+    return result.data;
+  }
+  const errors = [];
+  for (const error in result.data) {
+    errors.push(result.data[error].message);
+  }
+  return errors;
+};
+
 const handleFetch = async (...args) => {
   const result = {};
   try {
@@ -44,22 +56,14 @@ const handleFetch = async (...args) => {
   return result;
 };
 
-const errorMessages = async (response) => {
-  const result = await response.json();
-  if (typeof result.data === 'string') {
-    return result.data;
-  }
-  const errors = [];
-  for (const error in result.data) {
-    errors.push(result.data[error].message);
-  }
-  return errors;
-};
-
 export function withConfig({ token: _token, env: _env } = {}) {
-  console.log(arguments);
+  // console.log(arguments);
   return {
-    deleteEvent: async (calendar_event_id, token = _token, env = _env) => {
+    deleteEvent: async (
+      calendar_event_id,
+      token = String(_token),
+      env = _env,
+    ) => {
       if (env === 'mock') {
         return new Promise((resolve) => {
           setTimeout(() => {
@@ -78,7 +82,9 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
       return handleFetch(
         new Request(
-          `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}`,
+          `${String(CONFIG[env].CALENDAR_URL)}/calendar_events/${String(
+            calendar_event_id,
+          )}`,
           requestData,
         ),
       );
@@ -87,7 +93,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
     deleteEventInvitation: async (
       calendar_event_id,
       invitation_id,
-      token = _token,
+      token = String(_token),
       env = _env,
     ) => {
       if (env === 'mock') {
@@ -107,19 +113,23 @@ export function withConfig({ token: _token, env: _env } = {}) {
         }),
         method: 'DELETE',
       };
-      const requestUrl = `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}/invitations/${invitation_id}`;
+      const requestUrl = `${String(
+        CONFIG[env].CALENDAR_URL,
+      )}/calendar_events/${String(calendar_event_id)}/invitations/${String(
+        invitation_id,
+      )}`;
       return handleFetch(new Request(requestUrl, requestData));
     },
 
     getAttendance: async (
       attendanceId,
       conferenceSlug,
-      token = _token,
+      token = String(_token),
       env = _env,
     ) => {
       if (env === 'mock') {
         const att = stubAttendancesResponse.data.find(
-          (att) => att.id === attendanceId,
+          (mockAtt) => mockAtt.id === attendanceId,
         );
         return new Promise((resolve) => {
           setTimeout(() => {
@@ -135,11 +145,19 @@ export function withConfig({ token: _token, env: _env } = {}) {
         }),
         method: 'GET',
       };
-      const requestUrl = `${CONFIG[env].AVENGER_URL}/conferences/${conferenceSlug}/attendances/${attendanceId}`;
+      const requestUrl = `${String(
+        CONFIG[env].AVENGER_URL,
+      )}/conferences/${String(conferenceSlug)}/attendances/${String(
+        attendanceId,
+      )}`;
       return handleFetch(new Request(requestUrl, requestData));
     },
 
-    getConferenceDetails: async (conferenceId, token = _token, env = _env) => {
+    getConferenceDetails: async (
+      conferenceId,
+      token = String(_token),
+      env = _env,
+    ) => {
       const requestData = {
         headers: new Headers({
           Accept: 'application/json',
@@ -149,13 +167,15 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
       return handleFetch(
         new Request(
-          `${CONFIG[env].AVENGER_URL}/conferences/${conferenceId}`,
+          `${String(CONFIG[env].AVENGER_URL)}/conferences/${String(
+            conferenceId,
+          )}`,
           requestData,
         ),
       );
     },
 
-    getEvents: async (token = _token, env = _env) => {
+    getEvents: async (token = String(_token), env = _env) => {
       // console.log({ getEvents: env })
       if (env === 'mock') {
         return new Promise((resolve) => {
@@ -174,7 +194,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
       return handleFetch(
         new Request(
-          `${CONFIG[env].CALENDAR_URL}/calendar_events/`,
+          `${String(CONFIG[env].CALENDAR_URL)}/calendar_events/`,
           requestData,
         ),
       );
@@ -183,7 +203,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
     getLocation: async (locationId, conferenceSlug, env = _env) => {
       if (env === 'mock') {
         const location = stubLocationsResponse.data.find(
-          (location) => location.id === locationId,
+          (mockLocation) => mockLocation.id === locationId,
         );
         return new Promise((resolve) => {
           setTimeout(() => {
@@ -193,7 +213,9 @@ export function withConfig({ token: _token, env: _env } = {}) {
         });
       }
       return handleFetch(
-        `${CONFIG[env].AVENGER_URL}/conferences/${conferenceSlug}/locations/${locationId}`,
+        `${String(CONFIG[env].AVENGER_URL)}/conferences/${String(
+          conferenceSlug,
+        )}/locations/${String(locationId)}`,
       );
     },
 
@@ -208,7 +230,9 @@ export function withConfig({ token: _token, env: _env } = {}) {
         });
       }
       return handleFetch(
-        `${CONFIG[env].AVENGER_URL}/conferences/${conferenceSlug}/locations/`,
+        `${String(CONFIG[env].AVENGER_URL)}/conferences/${String(
+          conferenceSlug,
+        )}/locations/`,
       );
     },
 
@@ -222,13 +246,15 @@ export function withConfig({ token: _token, env: _env } = {}) {
           }, random());
         });
       }
-      return handleFetch(`${CONFIG[env].CALENDAR_URL}/response_statuses`);
+      return handleFetch(
+        `${String(CONFIG[env].CALENDAR_URL)}/response_statuses`,
+      );
     },
 
     updateEvent: async (
       calendar_event_id,
       content_update,
-      token = _token,
+      token = String(_token),
       env = _env,
     ) => {
       if (env === 'mock') {
@@ -251,7 +277,9 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
       return handleFetch(
         new Request(
-          `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}`,
+          `${String(CONFIG[env].CALENDAR_URL)}/calendar_events/${String(
+            calendar_event_id,
+          )}`,
           requestData,
         ),
       );
@@ -261,7 +289,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       calendar_event_id,
       invitation_id,
       response,
-      token = _token,
+      token = String(_token),
       env = _env,
     ) => {
       if (env === 'mock') {
@@ -282,7 +310,11 @@ export function withConfig({ token: _token, env: _env } = {}) {
         }),
         method: 'PUT',
       };
-      const requestUrl = `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}/invitations/${invitation_id}/response`;
+      const requestUrl = `${String(
+        CONFIG[env].CALENDAR_URL,
+      )}/calendar_events/${String(calendar_event_id)}/invitations/${String(
+        invitation_id,
+      )}/response`;
       return handleFetch(new Request(requestUrl, requestData));
     },
   };
