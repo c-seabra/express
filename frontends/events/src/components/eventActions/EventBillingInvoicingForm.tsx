@@ -77,7 +77,7 @@ const eventBillingSchema = Yup.object().shape({
   city: Yup.string().required('City is required'),
   companyName: Yup.string().required('Host company name is required'),
   companyRegistrationNumber: Yup.string(),
-  companyTaxNumber: Yup.string(),
+  companyTaxNumber: Yup.string().required('Company tax number is required'),
   companyWebsite: Yup.string(),
   country: Yup.string().required('Country is required'),
   email: Yup.string().email('Invalid email'),
@@ -296,6 +296,7 @@ const EventBillingForm = ({
               />
 
               <StyledInputField
+                required
                 label="Host company’s tax number"
                 name="taxNumber"
                 placeholder="IE1234567AB"
