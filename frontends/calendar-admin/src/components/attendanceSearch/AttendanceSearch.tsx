@@ -12,7 +12,7 @@ type AttendanceSearchState = {
 const AttendanceSearch = (): ReactElement => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selections, setSelections] = useState<Array<Attendance>>([]);
-  const [display, setDisplay] = useState<boolean>(false)
+  const [display, setDisplay] = useState<boolean>(false);
 
   const processInitialSearchState = (state: AttendanceSearchState) => {
     if (state.searchQuery) setSearchQuery(state.searchQuery);
@@ -24,22 +24,18 @@ const AttendanceSearch = (): ReactElement => {
     },
   );
 
-  const {
-    results,
-    error,
-    loading,
-  } = useAttendancesQuery({
+  const { results, error, loading } = useAttendancesQuery({
     searchQuery: searchState.searchQuery,
   });
 
   useEffect(() => {
-    setDisplay(false)
+    setDisplay(false);
   }, []);
 
   const handleSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (searchQuery === '') setDisplay(false)
+    if (searchQuery === '') setDisplay(false);
     if (e.key === 'Enter') {
-      setDisplay(true)
+      setDisplay(true);
       const element = e.currentTarget as HTMLInputElement;
       setSearchState((prevState) => ({
         ...prevState,
@@ -50,8 +46,7 @@ const AttendanceSearch = (): ReactElement => {
   };
 
   const handleSelect = (att: Attendance) => {
-    if(!selections.includes(att))
-      setSelections([...selections, att]);
+    if (!selections.includes(att)) setSelections([...selections, att]);
   };
 
   return (
@@ -72,7 +67,9 @@ const AttendanceSearch = (): ReactElement => {
             </ListItem>
           ))}
         </>
-      ) : (<></>)}
+      ) : (
+        <></>
+      )}
 
       <h1>Selected Attendees</h1>
 
