@@ -24,6 +24,7 @@
     "react-modal": "*",
     "styled-components": "*",
     "formik": "*",
+    "luxon": "*",
     "react-simple-snackbar": "*",
     "react-currency-input-field": "*"
   },

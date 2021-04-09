@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 
 /**
  * Format DateTime ISO helper
@@ -51,4 +51,11 @@ export const toShortDate = (dateTime: string): string => {
 
 export const toShortDateTime = (dateTime: string): string => {
   return new Date(dateTime).toISOString().slice(0, 16);
+};
+
+export const timeTo = (startIsoDate: string): Duration => {
+  const startDate = DateTime.fromISO(startIsoDate);
+  const date2 = DateTime.fromISO(new Date().toISOString());
+
+  return startDate.diff(date2, ['years', 'months', 'days', 'hours']);
 };
