@@ -30,9 +30,11 @@ const errorMessages = async (response) => {
     return result.data;
   }
   const errors = [];
+  /* eslint-disable */
   for (const error in result.data) {
     errors.push(result.data[error].message);
   }
+  /* eslint-disable */
   return errors;
 };
 
