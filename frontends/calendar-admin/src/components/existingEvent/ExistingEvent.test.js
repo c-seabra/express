@@ -27,9 +27,9 @@ describe('ExistingEvent', () => {
     useContextMock.mockReturnValue({});
     const component = renderer.create(
       <ExistingEvent
-        title={'some title'}
-        starts_at={'2019-04-11T06:15:06.078Z'}
-        description={'catching up'}
+        description="catching up"
+        starts_at="2019-04-11T06:15:06.078Z"
+        title="some title"
       />,
     );
     expect(component.toJSON()).toMatchSnapshot();
@@ -38,21 +38,21 @@ describe('ExistingEvent', () => {
   test('renders with props and context', () => {
     useContextMock.mockReturnValue({
       location: {
-        name: 'mock location name',
         id: 1234,
+        name: 'mock location name',
       },
       rsvps: [
         {
-          invitation: { id: 123, response: { response_status: 'accepted' } },
           attendance: { data: { person: { first_name: 'Tomasz' } } },
+          invitation: { id: 123, response: { response_status: 'accepted' } },
         },
       ],
     });
     const component = renderer.create(
       <ExistingEvent
-        title={'some title'}
-        starts_at={'2019-04-11T06:15:06.078Z'}
-        description={'catching up'}
+        description="catching up"
+        starts_at="2019-04-11T06:15:06.078Z"
+        title="some title"
       />,
     );
     expect(component.toJSON()).toMatchSnapshot();

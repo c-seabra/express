@@ -38,17 +38,17 @@ describe('Popup', () => {
       ],
     });
     const existingEvent = {
-      syntheticEvent: {
-        pageX: 333,
-        pageY: 222,
-      },
+      ends_at: moment('2019-04-11T06:16:06.078Z').toDate(),
       location: {
         id: 111,
       },
-      starts_at: moment('2019-04-11T06:15:06.078Z').toDate(),
-      ends_at: moment('2019-04-11T06:16:06.078Z').toDate(),
       organizer: {
         id: '123456',
+      },
+      starts_at: moment('2019-04-11T06:15:06.078Z').toDate(),
+      syntheticEvent: {
+        pageX: 333,
+        pageY: 222,
       },
     };
     const component = renderer.create(<Popup existingEvent={existingEvent} />);
@@ -61,8 +61,8 @@ describe('Popup', () => {
       event: {
         action: 'click',
         box: {
-          y: 55,
           x: 66,
+          y: 55,
         },
       },
     };

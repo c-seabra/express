@@ -27,19 +27,19 @@ describe('AvatarList', () => {
     useContextMock.mockReturnValue({});
     const component = renderer.create(
       <AvatarList
-        styles="styles"
+        iconActive
         avatarList={[
           {
-            invitation: { id: 123, response: { response_status: 'accepted' } },
             attendance: { data: { person: { first_name: 'Tomasz' } } },
+            invitation: { id: 123, response: { response_status: 'accepted' } },
           },
         ]}
-        organizerId="123456"
-        iconActive={true}
-        iconType="delete"
         iconClickCallback={function () {
           return null;
         }}
+        iconType="delete"
+        organizerId="123456"
+        styles="styles"
       />,
     );
     expect(component.toJSON()).toMatchSnapshot();

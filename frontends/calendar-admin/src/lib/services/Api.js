@@ -45,12 +45,12 @@ const handleFetch = async (...args) => {
 };
 
 const errorMessages = async (response) => {
-  var result = await response.json();
+  const result = await response.json();
   if (typeof result.data === 'string') {
     return result.data;
   }
-  var errors = [];
-  for (var error in result.data) {
+  const errors = [];
+  for (const error in result.data) {
     errors.push(result.data[error].message);
   }
   return errors;
@@ -59,13 +59,93 @@ const errorMessages = async (response) => {
 export function withConfig({ token: _token, env: _env } = {}) {
   console.log(arguments);
   return {
+    deleteEvent: async (calendar_event_id, token = _token, env = _env) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+
+      const requestData = {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+        method: 'DELETE',
+      };
+      return handleFetch(
+        new Request(
+          `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}`,
+          requestData,
+        ),
+      );
+    },
+
+    deleteEventInvitation: async (
+      calendar_event_id,
+      invitation_id,
+      token = _token,
+      env = _env,
+    ) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+
+      const requestData = {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `BIXSCANearer ${token}`,
+          'Content-Type': 'application/json',
+        }),
+        method: 'DELETE',
+      };
+      const requestUrl = `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}/invitations/${invitation_id}`;
+      return handleFetch(new Request(requestUrl, requestData));
+    },
+
+    getAttendance: async (
+      attendanceId,
+      conferenceSlug,
+      token = _token,
+      env = _env,
+    ) => {
+      if (env === 'mock') {
+        const att = stubAttendancesResponse.data.find(
+          (att) => att.id === attendanceId,
+        );
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: att });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+      const requestData = {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+        method: 'GET',
+      };
+      const requestUrl = `${CONFIG[env].AVENGER_URL}/conferences/${conferenceSlug}/attendances/${attendanceId}`;
+      return handleFetch(new Request(requestUrl, requestData));
+    },
+
     getConferenceDetails: async (conferenceId, token = _token, env = _env) => {
       const requestData = {
-        method: 'GET',
         headers: new Headers({
-          Authorization: `Bearer ${token}`,
           Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
         }),
+        method: 'GET',
       };
       return handleFetch(
         new Request(
@@ -86,11 +166,11 @@ export function withConfig({ token: _token, env: _env } = {}) {
         });
       }
       const requestData = {
-        method: 'GET',
         headers: new Headers({
-          Authorization: `Bearer ${token}`,
           Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
         }),
+        method: 'GET',
       };
       return handleFetch(
         new Request(
@@ -98,119 +178,6 @@ export function withConfig({ token: _token, env: _env } = {}) {
           requestData,
         ),
       );
-    },
-
-    deleteEvent: async (calendar_event_id, token = _token, env = _env) => {
-      if (env === 'mock') {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ data: stubEventsResponse });
-            // resolve({ error: `random error no: ${random()}` });
-          }, random());
-        });
-      }
-
-      const requestData = {
-        method: 'DELETE',
-        headers: new Headers({
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-        }),
-      };
-      return handleFetch(
-        new Request(
-          `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}`,
-          requestData,
-        ),
-      );
-    },
-
-    updateEvent: async (
-      calendar_event_id,
-      content_update,
-      token = _token,
-      env = _env,
-    ) => {
-      if (env === 'mock') {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ data: stubEventsResponse });
-            // resolve({ error: `random error no: ${random()}` });
-          }, random());
-        });
-      }
-
-      const requestData = {
-        method: 'PUT',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        }),
-        body: JSON.stringify({ calendar_event: content_update }),
-      };
-      return handleFetch(
-        new Request(
-          `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}`,
-          requestData,
-        ),
-      );
-    },
-
-    updateEventInvitationResponse: async (
-      calendar_event_id,
-      invitation_id,
-      response,
-      token = _token,
-      env = _env,
-    ) => {
-      if (env === 'mock') {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ data: stubEventsResponse });
-            // resolve({ error: `random error no: ${random()}` });
-          }, random());
-        });
-      }
-
-      const requestData = {
-        method: 'PUT',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        }),
-        body: JSON.stringify({ response: { response_status: response } }),
-      };
-      const requestUrl = `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}/invitations/${invitation_id}/response`;
-      return handleFetch(new Request(requestUrl, requestData));
-    },
-
-    deleteEventInvitation: async (
-      calendar_event_id,
-      invitation_id,
-      token = _token,
-      env = _env,
-    ) => {
-      if (env === 'mock') {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ data: stubEventsResponse });
-            // resolve({ error: `random error no: ${random()}` });
-          }, random());
-        });
-      }
-
-      const requestData = {
-        method: 'DELETE',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `BIXSCANearer ${token}`,
-        }),
-      };
-      const requestUrl = `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}/invitations/${invitation_id}`;
-      return handleFetch(new Request(requestUrl, requestData));
     },
 
     getLocation: async (locationId, conferenceSlug, env = _env) => {
@@ -245,34 +212,6 @@ export function withConfig({ token: _token, env: _env } = {}) {
       );
     },
 
-    getAttendance: async (
-      attendanceId,
-      conferenceSlug,
-      token = _token,
-      env = _env,
-    ) => {
-      if (env === 'mock') {
-        const att = stubAttendancesResponse.data.find(
-          (att) => att.id === attendanceId,
-        );
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ data: att });
-            // resolve({ error: `random error no: ${random()}` });
-          }, random());
-        });
-      }
-      const requestData = {
-        method: 'GET',
-        headers: new Headers({
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-        }),
-      };
-      const requestUrl = `${CONFIG[env].AVENGER_URL}/conferences/${conferenceSlug}/attendances/${attendanceId}`;
-      return handleFetch(new Request(requestUrl, requestData));
-    },
-
     getResponseStatuses: async (env = _env) => {
       if (env === 'mock') {
         const responseStatuses = stubResponseStatuses.data;
@@ -284,6 +223,67 @@ export function withConfig({ token: _token, env: _env } = {}) {
         });
       }
       return handleFetch(`${CONFIG[env].CALENDAR_URL}/response_statuses`);
+    },
+
+    updateEvent: async (
+      calendar_event_id,
+      content_update,
+      token = _token,
+      env = _env,
+    ) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+
+      const requestData = {
+        body: JSON.stringify({ calendar_event: content_update }),
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }),
+        method: 'PUT',
+      };
+      return handleFetch(
+        new Request(
+          `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}`,
+          requestData,
+        ),
+      );
+    },
+
+    updateEventInvitationResponse: async (
+      calendar_event_id,
+      invitation_id,
+      response,
+      token = _token,
+      env = _env,
+    ) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+
+      const requestData = {
+        body: JSON.stringify({ response: { response_status: response } }),
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }),
+        method: 'PUT',
+      };
+      const requestUrl = `${CONFIG[env].CALENDAR_URL}/calendar_events/${calendar_event_id}/invitations/${invitation_id}/response`;
+      return handleFetch(new Request(requestUrl, requestData));
     },
   };
 }

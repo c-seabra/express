@@ -41,8 +41,8 @@ describe('AgendaEvent', () => {
                 type: 'attendance',
               },
               response: {
-                response_status: 'accepted',
                 responded_at: '2019-06-27T09:48:39.344Z',
+                response_status: 'accepted',
               },
               type: 'invitation',
               valid_response_status_ids: (3)[
@@ -51,13 +51,13 @@ describe('AgendaEvent', () => {
             },
           ],
           invited_by_admin: false,
-          location: { type: 'text', name: 'Under palm tree' },
+          location: { name: 'Under palm tree', type: 'text' },
           organizer: {
             id: 'b048f880-0b34-444e-9883-0ce1b5783090',
             type: 'attendance',
           },
           pin_id: null,
-          source: { type: 'user', id: 'b46f27e4-9472-4c66-9271-3e6e15f839fe' },
+          source: { id: 'b46f27e4-9472-4c66-9271-3e6e15f839fe', type: 'user' },
           starts_at: '2019-06-28T11:11:40.586Z',
           title: 'Test Calendar event',
           type: 'calendar_event',
@@ -70,13 +70,13 @@ describe('AgendaEvent', () => {
   test('renders with props and context', () => {
     useContextMock.mockReturnValue({
       location: {
-        name: 'mock location name',
         id: 1234,
+        name: 'mock location name',
       },
       rsvps: [
         {
-          invitation: { id: 123, response: { response_status: 'accepted' } },
           attendance: { data: { person: { first_name: 'Tomasz' } } },
+          invitation: { id: 123, response: { response_status: 'accepted' } },
         },
       ],
     });
@@ -96,8 +96,8 @@ describe('AgendaEvent', () => {
                 type: 'attendance',
               },
               response: {
-                response_status: 'accepted',
                 responded_at: '2019-06-27T09:48:39.344Z',
+                response_status: 'accepted',
               },
               type: 'invitation',
               valid_response_status_ids: (3)[
@@ -106,13 +106,13 @@ describe('AgendaEvent', () => {
             },
           ],
           invited_by_admin: false,
-          location: { type: 'text', name: 'Under palm tree' },
+          location: { name: 'Under palm tree', type: 'text' },
           organizer: {
             id: 'b048f880-0b34-444e-9883-0ce1b5783090',
             type: 'attendance',
           },
           pin_id: null,
-          source: { type: 'user', id: 'b46f27e4-9472-4c66-9271-3e6e15f839fe' },
+          source: { id: 'b46f27e4-9472-4c66-9271-3e6e15f839fe', type: 'user' },
           starts_at: '2019-06-28T11:11:40.586Z',
           title: 'Test Calendar event',
           type: 'calendar_event',

@@ -27,15 +27,15 @@ describe('EditEvent', () => {
     useContextMock.mockReturnValue({});
     const component = renderer.create(
       <EditEvent
+        description="Some event description"
         eventId="1234567"
+        location={{
+          name: 'Under palm tree',
+          type: 'text',
+        }}
+        organizerId="1234567"
         setEditActive={false}
         title="Event Title"
-        location={{
-          type: 'text',
-          name: 'Under palm tree',
-        }}
-        description="Some event description"
-        organizerId="1234567"
       />,
     );
     expect(component.toJSON()).toMatchSnapshot();
@@ -45,45 +45,45 @@ describe('EditEvent', () => {
     useContextMock.mockReturnValue({
       locations: [
         {
-          geography: { type: 'Feature', geometry: null },
+          geography: { geometry: null, type: 'Feature' },
           id: 'czxczc',
           name: 'Sunset Summit',
         },
         {
-          geography: { type: 'Feature', geometry: null },
+          geography: { geometry: null, type: 'Feature' },
           id: 'dsadasd',
           name: 'Surf Summit (Invite-only)',
         },
         {
-          geography: { type: 'Feature', geometry: null },
+          geography: { geometry: null, type: 'Feature' },
           id: '123456778',
           name: 'FullSTK',
         },
       ],
+      onDeleteEventInvitation () {
+        return null;
+      },
+      onUpdateEvent () {
+        return null;
+      },
       rsvps: [
         {
-          invitation: { id: 123, response: { response_status: 'accepted' } },
           attendance: { data: { person: { first_name: 'Tomasz' } } },
+          invitation: { id: 123, response: { response_status: 'accepted' } },
         },
       ],
-      onDeleteEventInvitation: function () {
-        return null;
-      },
-      onUpdateEvent: function () {
-        return null;
-      },
     });
     const component = renderer.create(
       <EditEvent
+        description="SOme event description"
         eventId="1234567"
+        location={{
+          name: 'Under palm tree',
+          type: 'text',
+        }}
+        organizerId="1234567"
         setEditActive={false}
         title="Event Title"
-        location={{
-          type: 'text',
-          name: 'Under palm tree',
-        }}
-        description="SOme event description"
-        organizerId="1234567"
       />,
     );
     expect(component.toJSON()).toMatchSnapshot();

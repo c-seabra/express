@@ -12,7 +12,7 @@ describe('Calendar', () => {
   });
   test('does render with token', () => {
     const renderer = new ShallowRenderer();
-    renderer.render(<Calendar token="123abc" env="mock" />);
+    renderer.render(<Calendar env="mock" token="123abc" />);
     const component = renderer.getRenderOutput();
     expect(component).toMatchSnapshot();
   });
