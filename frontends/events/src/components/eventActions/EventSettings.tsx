@@ -230,6 +230,13 @@ const EventSettings = () => {
     },
     {
       active: eventExists,
+      id: 'billing_invoicing',
+      subTitle:
+          'Provide details of the company hosting the event that will appear on the invoice.',
+      title: 'Billing information',
+    },
+    {
+      active: eventExists,
       id: 'tax_info',
       title: 'Tax information',
     },
@@ -237,13 +244,6 @@ const EventSettings = () => {
       active: eventExists,
       id: 'payment_methods',
       title: 'Payment methods',
-    },
-    {
-      active: eventExists,
-      id: 'billing_invoicing',
-      subTitle:
-        'Provide details of the company hosting the event that will appear on the invoice.',
-      title: 'Billing information',
     },
   ];
   const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
