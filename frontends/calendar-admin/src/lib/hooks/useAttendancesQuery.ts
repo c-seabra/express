@@ -1,19 +1,16 @@
-import usePaginatedQuery from '../../../../investor-portal/src/lib/hooks/usePaginatedQuery';
-import { Attendance } from '../../../../investor-portal/src/lib/types';
-import ATTENDANCES_LIST from '../../../../investor-portal/src/operations/queries/Attendances';
+import usePaginatedQuery from '../../../../../packages/graphql/src/lib/hooks/usePaginatedQuery';
+import ATTENDANCES_LIST from '../../../../../packages/graphql/src/operations/queries/Attendances';
 import { useAppContext } from '../../components/app/AppContext';
+import { Attendance } from '../types';
 
-const ATTENDANCES_PER_PAGE = 10;
+const ATTENDANCES_PER_PAGE = 5;
 
 const useAttendancesQuery = ({
-  initialPage,
   perPage = ATTENDANCES_PER_PAGE,
   searchQuery,
 }: {
-  initialPage: string;
   perPage?: number;
   searchQuery?: string;
-  type?: string;
 }) => {
   const { conferenceSlug, token } = useAppContext();
 
@@ -34,7 +31,6 @@ const useAttendancesQuery = ({
     typeof context
   >({
     context,
-    initialPage,
     query: ATTENDANCES_LIST,
     variables,
   });
