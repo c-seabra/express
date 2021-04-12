@@ -69,9 +69,15 @@ const AttendanceSearch = (): ReactElement => {
       {display && !loading && !error ? (
         <>
           {results?.map((attendance, i) => (
-            <ListItem key={i} onClick={() => handleSelect(attendance)}>
-              {attendance.name}
-            </ListItem>
+            <div key={i}>
+              {!selections.includes(attendance) ? (
+                <ListItem key={i} onClick={() => handleSelect(attendance)}>
+                  {attendance.name}
+                </ListItem>
+              ) : (
+                <></>
+              )}
+            </div>
           ))}
         </>
       ) : (
