@@ -2,8 +2,12 @@ import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  Event,
+  useSalesCyclesQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
@@ -62,6 +66,7 @@ const NoSalesCyclesPlaceholder = () => {
 };
 
 const SalesCyclesPage = () => {
+  const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
   const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
@@ -70,17 +75,21 @@ const SalesCyclesPage = () => {
     setModalMode('ADD');
     openModal();
   };
+  const redirectToCycle = (id: string, cycle: SaleCycleFormData) => {
+    // history.push(`/sale-cycle/${id}`, { cycle });
+    history.push({
+      pathname: `/sale-cycle/${id}`,
+      state: { cycle }
+    });
+  };
   const onRowClick = (event: SaleCycleFormData) => {
-    setPrefillData({
+    redirectToCycle(event.id, {
       description: event.description,
       endDate: event.endDate,
       id: event.id,
       name: event.name,
       startDate: event.startDate,
     });
-
-    setModalMode('EDIT');
-    openModal();
   };
   const { conferenceSlug, token } = useAppContext();
   const context = {
