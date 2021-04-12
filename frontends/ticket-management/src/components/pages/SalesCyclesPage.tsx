@@ -1,4 +1,4 @@
-import { Button } from '@websummit/components/src/atoms/Button';
+﻿import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
@@ -79,7 +79,7 @@ const SalesCyclesPage = () => {
     // history.push(`/sale-cycle/${id}`, { cycle });
     history.push({
       pathname: `/sale-cycle/${id}`,
-      state: { cycle }
+      state: { cycle },
     });
   };
   const onRowClick = (event: SaleCycleFormData) => {
@@ -105,6 +105,9 @@ const SalesCyclesPage = () => {
   const hasCycles =
     data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length;
   const cycles: any = data?.commerceListSales?.hits;
+  const sortedCycles: any = cycles?.slice()?.sort((a: any, b: any) => {
+    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+  });
 
   return (
     <Container>
@@ -127,7 +130,7 @@ const SalesCyclesPage = () => {
 
         {cycles && hasCycles && (
           <FlexRow>
-            <SalesCyclesList cycles={cycles} onRowClick={onRowClick} />
+            <SalesCyclesList cycles={sortedCycles} onRowClick={onRowClick} />
           </FlexRow>
         )}
       </FlexCol>
