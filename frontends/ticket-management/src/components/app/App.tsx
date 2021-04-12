@@ -55,7 +55,7 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/sale-cycles">
                   <SalesCyclesPage />
                 </Route>
-                <Route exact path="/sale-cycle/:slug">
+                <Route exact path="/sale-cycle/:id">
                   <SalesCyclePage />
                 </Route>
                 <Route exact path="/ticket-groups">

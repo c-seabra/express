@@ -4,10 +4,12 @@ import Breadcrumbs, {
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
+import {SaleCyclesQueryVariables, useSaleCyclesQuery} from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Loader from '../../../../../packages/components/src/atoms/Loader';
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
@@ -69,22 +71,17 @@ const SaleCyclesPage = () => {
     conferenceSlug,
     token,
   };
-  const location = useLocation();
-  // @ts-ignore
-  const { state } = location;
+  const { id: _ID } = useParams<SaleCyclesQueryVariables>();
+  const { loading, data } = useSaleCyclesQuery({
+    context,
+    onError: (error) => errorSnackbar(error.message),
+    variables: {
+      id: _ID,
+    },
+  });
 
-  // @ts-ignore
-  const cycle = state && state.cycle;
-  console.log(location, state);
-  // TODO Adjust for products
-  // const { loading, data } = useSalesCyclesQuery({
-  //   context,
-  //   onError: (error) => errorSnackbar(error.message),
-  // });
-
-  // const hasCycles =
-  //   data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length;
-  // const cycles: any = data?.commerceListSales?.hits;
+  console.log(data, _ID)
+  const cycle = data?.commerceGetSale;
 
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -92,8 +89,7 @@ const SaleCyclesPage = () => {
       redirectUrl: '/sales-cycles',
     },
     {
-      // label: `Cycle - ${cycle.name}`,
-      label: `Cycle - ${cycle.name}`,
+      label: `${cycle?.name}`,
     },
   ];
 
@@ -113,7 +109,10 @@ const SaleCyclesPage = () => {
 
         <FlexRow>
           <ContainerCard title="Sale cycle">
-            <SaleCycleForm prefillData={cycle || {}} />
+            <>
+              {loading && <Loader />}
+              {cycle && <SaleCycleForm prefillData={cycle} />}
+            </>
           </ContainerCard>
         </FlexRow>
 

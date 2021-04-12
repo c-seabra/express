@@ -75,21 +75,11 @@ const SalesCyclesPage = () => {
     setModalMode('ADD');
     openModal();
   };
-  const redirectToCycle = (id: string, cycle: SaleCycleFormData) => {
-    // history.push(`/sale-cycle/${id}`, { cycle });
-    history.push({
-      pathname: `/sale-cycle/${id}`,
-      state: { cycle },
-    });
+  const redirectToCycle = (id: string) => {
+    history.push(`/sale-cycle/${id}`);
   };
   const onRowClick = (event: SaleCycleFormData) => {
-    redirectToCycle(event.id, {
-      description: event.description,
-      endDate: event.endDate,
-      id: event.id,
-      name: event.name,
-      startDate: event.startDate,
-    });
+    redirectToCycle(event.id);
   };
   const { conferenceSlug, token } = useAppContext();
   const context = {
