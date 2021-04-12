@@ -76,8 +76,6 @@ export type Query = {
   ticketReleasePhase: Maybe<TicketReleasePhase>;
   ticketReleasePhases: TicketReleasePhaseConnection;
   ticketReleases: TicketReleaseConnection;
-  ticketType: Maybe<TicketType>;
-  ticketTypes: TicketTypeConnection;
   adminAttendeeProfile: Maybe<Attendee>;
   admins: AdminConnection;
   appearances: AppearanceConnection;
@@ -112,6 +110,8 @@ export type Query = {
   taEvent: Maybe<TaEvent>;
   /** Retrieves a ticket by the booking reference. ex: "MVSD-1" */
   ticket: Maybe<Ticket>;
+  ticketType: Maybe<TicketType>;
+  ticketTypes: TicketTypeConnection;
   /**
    * Retrieves all the tickets.
    * Can be filtered by:
@@ -148,8 +148,12 @@ export type Query = {
   commerceGetSaleProduct: Maybe<CommerceSaleProduct>;
   /** *Equivalent to GET /commerce/stores/{id}* */
   commerceGetStore: Maybe<CommerceStore>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/tags/{id}* */
+  commerceGetTag: Maybe<CommerceTag>;
   /** *Equivalent to GET /commerce/stores/{storeId}/taxes/{id}* */
   commerceGetTax: Maybe<CommerceTax>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/taxTypes/{id}* */
+  commerceGetTaxType: Maybe<CommerceTaxType>;
   /** *Equivalent to GET /commerce/stores/{storeId}/categories* */
   commerceListCategories: Maybe<CommerceSearchResponseCategory>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers* */
@@ -177,13 +181,23 @@ export type Query = {
    * ...
    */
   commerceListStores: Maybe<CommerceSearchResponseStore>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/tags* */
+  commerceListTags: Maybe<CommerceSearchResponseTag>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/taxTypes* */
+  commerceListTaxTypes: Maybe<CommerceSearchResponseTaxType>;
   /** *Equivalent to GET /commerce/stores/{storeId}/taxes* */
   commerceListTaxes: Maybe<CommerceSearchResponseTax>;
   /** Retrieves all countries. */
   countries: EventConfigurationCountryConnection;
-  /** Returns an event by slug. */
+  /**
+   * Returns an event by slug.
+   * X-EVENT-ID http header is used when the slug argument is not provided on the query.
+   */
   event: Maybe<Event>;
-  /** Retrieves all events. */
+  /**
+   * Retrieves events sorted by start_date in descending order.
+   * All events are returned unless the filter is applied.
+   */
   events: EventConnection;
   /** Retrieves all legal_entities. */
   legalEntities: LegalEntityConnection;
@@ -191,6 +205,8 @@ export type Query = {
   legalEntity: LegalEntity;
   /** Retrieves all tax rates. */
   taxRates: TaxRateConnection;
+  /** Retrieves all time zones */
+  timeZones: TimeZoneConnection;
 };
 
 export type QueryBrandingArgs = {
@@ -304,19 +320,6 @@ export type QueryTicketReleasesArgs = {
   showBenefits?: Maybe<Scalars['Boolean']>;
   ticketCategoryIds?: Maybe<Array<Scalars['ID']>>;
   ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
-};
-
-export type QueryTicketTypeArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryTicketTypesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  ids?: Maybe<Array<Scalars['ID']>>;
-  last?: Maybe<Scalars['Int']>;
-  ticketCategoryIds?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type QueryAdminAttendeeProfileArgs = {
@@ -436,6 +439,18 @@ export type QueryTicketArgs = {
   reference: Scalars['String'];
 };
 
+export type QueryTicketTypeArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryTicketTypesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  ids?: Maybe<Array<Scalars['ID']>>;
+  last?: Maybe<Scalars['Int']>;
+};
+
 export type QueryTicketsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -513,7 +528,17 @@ export type QueryCommerceGetStoreArgs = {
   id: Scalars['ID'];
 };
 
+export type QueryCommerceGetTagArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type QueryCommerceGetTaxArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetTaxTypeArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
@@ -607,6 +632,22 @@ export type QueryCommerceListStoresArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+export type QueryCommerceListTagsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListTaxTypesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
 export type QueryCommerceListTaxesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -646,6 +687,13 @@ export type QueryLegalEntityArgs = {
 };
 
 export type QueryTaxRatesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryTimeZonesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1119,7 +1167,9 @@ export type WebPageContentDynamicZone =
   | ComponentWebElementsCompanySearchSidebarFilters
   | ComponentWebElementsAttendeeSearchSidebarFilters
   | ComponentWebElementsHeroSection
-  | ComponentWebElementsFreshchat;
+  | ComponentWebElementsFreshchat
+  | ComponentWebLayoutsStoresTicketSalesPage
+  | ComponentWebLayoutsStoresTicketApplicationsPage;
 
 export type ComponentWebLayoutsTicketSalesPage = {
   __typename?: 'ComponentWebLayoutsTicketSalesPage';
@@ -1218,17 +1268,11 @@ export type ComponentWebElementsPriceIncreaseCountdownTimer = {
   ticketType: TicketType;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketType = {
   __typename?: 'TicketType';
   accessPermissions: AccessPermissionConnection;
   category: Maybe<TicketCategory>;
-  description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  name: Scalars['String'];
   /** If no arguments given, it returns current release */
   release: Maybe<TicketRelease>;
   releasePhases: TicketReleasePhaseConnection;
@@ -1237,14 +1281,12 @@ export type TicketType = {
    * The combination of ticket type and release phase is captured in the concept of a "TicketRelease".
    */
   releases: TicketReleaseConnection;
-  versions: Maybe<Array<PaperTrailVersion>>;
   assignmentProperties: Maybe<AssignmentProperties>;
+  description: Maybe<Scalars['String']>;
+  name: Maybe<Scalars['String']>;
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketTypeAccessPermissionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1252,19 +1294,11 @@ export type TicketTypeAccessPermissionsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketTypeReleaseArgs = {
   id?: Maybe<Scalars['ID']>;
   releasePhaseId?: Maybe<Scalars['ID']>;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketTypeReleasePhasesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1272,10 +1306,6 @@ export type TicketTypeReleasePhasesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketTypeReleasesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1359,6 +1389,7 @@ export type TicketCategory = {
   __typename?: 'TicketCategory';
   description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  /** Must be unique in the scope of the event */
   name: Scalars['String'];
   ticketTypes: TicketTypeConnection;
   versions: Maybe<Array<PaperTrailVersion>>;
@@ -1393,6 +1424,7 @@ export type TicketRelease = {
   __typename?: 'TicketRelease';
   /** The action available to the user, inferred from a combination of factors */
   action: Maybe<TicketReleaseAction>;
+  /** Returns true when the release phase is active */
   active: Scalars['Boolean'];
   description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
@@ -1448,10 +1480,13 @@ export type TicketReleaseActionsTitoCheckoutAction = {
 
 export type Price = {
   __typename?: 'Price';
+  /** Price without a tax */
   exTax: Money;
   /** @deprecated This field is only here for compatibility reasons.You should not use it because we no longer support tax lines, the returned value is hardcoded to an empty array. */
   taxLines: Array<TaxLine>;
+  /** Total price including taxes */
   total: Money;
+  /** Total tax value */
   totalTax: Money;
 };
 
@@ -1830,6 +1865,36 @@ export type ComponentWebElementsFreshchat = {
   OnDesktop: Maybe<Scalars['Boolean']>;
 };
 
+export type ComponentWebLayoutsStoresTicketSalesPage = {
+  __typename?: 'ComponentWebLayoutsStoresTicketSalesPage';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  productIds: Maybe<Scalars['JSON']>;
+  ticketReleasesPanel: Maybe<ComponentWebElementsTicketReleasesPanel>;
+  categoriesMenu: Maybe<Menu>;
+  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
+  promotions: Array<ComponentWebElementsTicketPromotion>;
+  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+};
+
+export type ComponentWebLayoutsStoresTicketApplicationsPage = {
+  __typename?: 'ComponentWebLayoutsStoresTicketApplicationsPage';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['Markdown']>;
+  categoriesMenu: Maybe<Menu>;
+  applicationForm: Maybe<Form>;
+  ticketInfoPanel: Maybe<ComponentWebElementsTicketTypeInformation>;
+  applicationOverviewPanel: Maybe<ComponentWebElementsTicketApplicationOverviewPanel>;
+  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
+};
+
 export type ComponentWebElementsSeoMetaData = {
   __typename?: 'ComponentWebElementsSeoMetaData';
   id: Scalars['ID'];
@@ -1881,6 +1946,7 @@ export type Attendee = {
   gender: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   industry: Maybe<Industry>;
+  investorGdprConsent: Scalars['Boolean'];
   investorSession: Maybe<InvestorSession>;
   jobTitle: Maybe<Scalars['String']>;
   lastName: Maybe<Scalars['String']>;
@@ -2996,31 +3062,53 @@ export type CommerceCategory = {
   active: Maybe<Scalars['Boolean']>;
   children: Maybe<Array<CommerceCategory>>;
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   parent: Maybe<CommerceCategory>;
   products: Maybe<Array<CommerceProduct>>;
 };
 
+export type CommerceUser = {
+  __typename?: 'CommerceUser';
+  email: Scalars['String'];
+  id: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+};
+
 export type CommerceProduct = {
   __typename?: 'CommerceProduct';
   active: Maybe<Scalars['Boolean']>;
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   defaultPrice: Maybe<Scalars['Int']>;
   description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   price: Scalars['Int'];
+  tags: Maybe<Array<CommerceTag>>;
   taxMode: Maybe<CommerceProductTaxMode>;
   taxType: CommerceTaxType;
+};
+
+export type CommerceTag = {
+  __typename?: 'CommerceTag';
+  code: Scalars['String'];
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
 };
 
 export enum CommerceProductTaxMode {
@@ -3031,11 +3119,11 @@ export enum CommerceProductTaxMode {
 export type CommerceTaxType = {
   __typename?: 'CommerceTaxType';
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   name: Scalars['String'];
   taxes: Maybe<Array<CommerceTax>>;
 };
@@ -3044,10 +3132,10 @@ export type CommerceTax = {
   __typename?: 'CommerceTax';
   country: Scalars['String'];
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   rateAmount: Scalars['Int'];
@@ -3065,13 +3153,13 @@ export type CommerceCustomer = {
   address: Maybe<CommerceAddress>;
   companyName: Maybe<Scalars['String']>;
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Maybe<Scalars['ID']>;
   lastName: Scalars['String'];
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   owner: Maybe<CommerceUser>;
   phoneNumber: Maybe<Scalars['String']>;
@@ -3084,10 +3172,10 @@ export type CommerceAddress = {
   city: Scalars['String'];
   country: Scalars['String'];
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   line1: Scalars['String'];
   line2: Maybe<Scalars['String']>;
   owner: Maybe<CommerceUser>;
@@ -3095,68 +3183,60 @@ export type CommerceAddress = {
   state: Maybe<Scalars['String']>;
 };
 
-export type CommerceUser = {
-  __typename?: 'CommerceUser';
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
-  email: Scalars['String'];
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
-};
-
 export type CommerceDeal = {
   __typename?: 'CommerceDeal';
   active: Maybe<Scalars['Boolean']>;
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   dealItems: Maybe<Array<CommerceDealItem>>;
   description: Maybe<Scalars['String']>;
+  endDate: Scalars['Date'];
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
+  startDate: Scalars['Date'];
 };
 
 export type CommerceDealItem = {
   __typename?: 'CommerceDealItem';
+  amount: Scalars['Int'];
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   max: Scalars['Int'];
   metadata: Maybe<Scalars['JSON']>;
   min: Scalars['Int'];
   product: Maybe<CommerceProduct>;
-  rateAmount: Scalars['Int'];
-  rateType: CommerceDealItemRateType;
   step: Scalars['Int'];
+  type: CommerceDealItemType;
 };
 
-export enum CommerceDealItemRateType {
-  Absolute = 'ABSOLUTE',
-  Percentage = 'PERCENTAGE',
+export enum CommerceDealItemType {
+  AbsoluteDiscount = 'ABSOLUTE_DISCOUNT',
+  AbsolutePrice = 'ABSOLUTE_PRICE',
+  PercentageDiscount = 'PERCENTAGE_DISCOUNT',
 }
 
 export type CommerceOrder = {
   __typename?: 'CommerceOrder';
+  applicableDeals: Maybe<Array<CommerceDeal>>;
   billed: Maybe<Scalars['Int']>;
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   currency: Maybe<Scalars['String']>;
   currencySymbol: Maybe<Scalars['String']>;
   customer: Maybe<CommerceCustomer>;
   deal: Maybe<CommerceDeal>;
-  deals: Maybe<Array<CommerceDeal>>;
   discountTotal: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['ID']>;
   invoiceUrl: Maybe<Scalars['String']>;
   items: Array<CommerceOrderItem>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   locked: Maybe<Scalars['Boolean']>;
   metadata: Maybe<Scalars['JSON']>;
   owner: Maybe<CommerceUser>;
@@ -3177,12 +3257,12 @@ export type CommerceOrder = {
 export type CommerceOrderItem = {
   __typename?: 'CommerceOrderItem';
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   discountTotal: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['ID']>;
   itemName: Maybe<Scalars['String']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   price: Maybe<Scalars['Int']>;
   product: Maybe<CommerceProduct>;
@@ -3200,11 +3280,11 @@ export type CommercePaymentMethod = {
   active: Maybe<Scalars['Boolean']>;
   configuration: Maybe<Scalars['JSON']>;
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   gateway: Scalars['ID'];
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   name: Scalars['String'];
 };
 
@@ -3243,11 +3323,11 @@ export type CommerceTransaction = {
   __typename?: 'CommerceTransaction';
   amount: Maybe<Scalars['Int']>;
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   currency: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   paymentMethod: Maybe<CommercePaymentMethod>;
   refundedTransaction: Maybe<Scalars['ID']>;
@@ -3286,12 +3366,12 @@ export type CommerceSale = {
   __typename?: 'CommerceSale';
   active: Maybe<Scalars['Boolean']>;
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   description: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   saleProducts: Maybe<Array<CommerceSaleProduct>>;
@@ -3301,17 +3381,25 @@ export type CommerceSale = {
 export type CommerceSaleProduct = {
   __typename?: 'CommerceSaleProduct';
   active: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   description: Maybe<Scalars['String']>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
-  price: Scalars['Int'];
+  price: Maybe<Scalars['Int']>;
   product: Maybe<CommerceProduct>;
+  type: CommerceSaleProductType;
 };
+
+export enum CommerceSaleProductType {
+  AbsoluteDiscount = 'ABSOLUTE_DISCOUNT',
+  AbsolutePrice = 'ABSOLUTE_PRICE',
+  PercentageDiscount = 'PERCENTAGE_DISCOUNT',
+}
 
 export type CommerceStore = {
   __typename?: 'CommerceStore';
@@ -3320,12 +3408,14 @@ export type CommerceStore = {
   categories: Maybe<Array<CommerceCategory>>;
   country: Scalars['String'];
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   currency: Scalars['String'];
+  currencySymbol: Maybe<Scalars['String']>;
+  currentSales: Maybe<Array<CommerceSale>>;
   deals: Maybe<Array<CommerceDeal>>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   paymentMethods: Maybe<Array<CommercePaymentMethod>>;
@@ -3334,6 +3424,7 @@ export type CommerceStore = {
   slug: Scalars['String'];
   stockMode: CommerceStoreStockMode;
   storeBilling: CommerceStoreBilling;
+  tags: Maybe<Array<CommerceTag>>;
   taxErrors: Maybe<Array<Maybe<Scalars['String']>>>;
   taxTypes: Maybe<Array<CommerceTaxType>>;
   taxes: Maybe<Array<CommerceTax>>;
@@ -3352,11 +3443,11 @@ export type CommerceStoreBilling = {
   companyRegNumber: Maybe<Scalars['String']>;
   country: Scalars['String'];
   createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<Scalars['ID']>;
+  createdBy: Maybe<CommerceUser>;
   email: Scalars['String'];
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<Scalars['ID']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
   line1: Scalars['String'];
   line2: Maybe<Scalars['String']>;
   phone: Scalars['String'];
@@ -3529,6 +3620,26 @@ export type CommerceSearchResponseStore = {
   total: Maybe<Scalars['Int']>;
 };
 
+export type CommerceSearchResponseTag = {
+  __typename?: 'CommerceSearchResponseTag';
+  hits: Maybe<Array<CommerceTag>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseTaxType = {
+  __typename?: 'CommerceSearchResponseTaxType';
+  hits: Maybe<Array<CommerceTaxType>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
 export type CommerceSearchResponseTax = {
   __typename?: 'CommerceSearchResponseTax';
   hits: Maybe<Array<CommerceTax>>;
@@ -3559,6 +3670,7 @@ export type EventConfigurationCountryEdge = {
 
 export type EventConfigurationCountry = {
   __typename?: 'EventConfigurationCountry';
+  /** ISO 3166-1 alpha-2 */
   code: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -3566,18 +3678,29 @@ export type EventConfigurationCountry = {
 
 export type Event = {
   __typename?: 'Event';
+  /** Link to the public website of the event */
   baseUrl: Maybe<Scalars['String']>;
+  /** Country where the event is hosted */
   country: Maybe<EventConfigurationCountry>;
+  /** Main currency used for buying tickets */
   currency: Maybe<CurrencyCode>;
   description: Maybe<Scalars['String']>;
+  /** Date at which the event ends */
   endDate: Maybe<Scalars['ISO8601Date']>;
   id: Scalars['ID'];
+  /** Invoice information of the entity that sells the tickets */
   legalEntity: Maybe<LegalEntity>;
+  /** Name of the event */
   name: Scalars['String'];
+  /** Unique identifier of the event */
   slug: Scalars['String'];
+  /** Date at which the event starts */
   startDate: Maybe<Scalars['ISO8601Date']>;
   taxNumber: Scalars['String'];
+  /** Tax rates available for different countries from which the user can buy tickets */
   taxRates: Maybe<TaxRateConnection>;
+  timeZone: Maybe<TimeZone>;
+  /** Timezone of the country hosting the event */
   timezone: Maybe<Scalars['String']>;
   versions: Maybe<Array<PaperTrailVersion>>;
   brandName: Scalars['String'];
@@ -3586,7 +3709,6 @@ export type Event = {
   industries: Maybe<Array<Industry>>;
   investorSessionsSummary: Maybe<Array<InvestorSessionsSummary>>;
   passportRequired: Maybe<Scalars['Boolean']>;
-  timeZone: Maybe<TimeZone>;
 };
 
 export type EventTaxRatesArgs = {
@@ -3602,7 +3724,7 @@ export type LegalEntity = {
   email: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
-  phone: Scalars['String'];
+  phone: Maybe<Scalars['String']>;
   regNumber: Maybe<Scalars['String']>;
   taxNumber: Maybe<Scalars['String']>;
   taxRate: Maybe<TaxRate>;
@@ -3633,7 +3755,9 @@ export type TaxRate = {
 };
 
 export enum RateType {
+  /** The tax is a fixed amount */
   Absolute = 'ABSOLUTE',
+  /** The tax is calculated as a percentage of the order value */
   Percentage = 'PERCENTAGE',
 }
 
@@ -3658,6 +3782,13 @@ export type TaxRateEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node: TaxRate;
+};
+
+export type TimeZone = {
+  __typename?: 'TimeZone';
+  displayName: Scalars['String'];
+  ianaName: Scalars['String'];
+  utcOffset: Scalars['String'];
 };
 
 export type ConferenceConfiguration = {
@@ -3705,12 +3836,6 @@ export type InvestorSessionsSummary = {
   startsAt: Maybe<Scalars['ISO8601DateTime']>;
 };
 
-export type TimeZone = {
-  __typename?: 'TimeZone';
-  displayName: Scalars['String'];
-  ianaName: Scalars['String'];
-};
-
 export type EventFilter = {
   endDateAfter?: Maybe<Scalars['ISO8601Date']>;
   endDateBefore?: Maybe<Scalars['ISO8601Date']>;
@@ -3754,6 +3879,24 @@ export type LegalEntityEdge = {
   node: LegalEntity;
 };
 
+/** The connection type for TimeZone. */
+export type TimeZoneConnection = {
+  __typename?: 'TimeZoneConnection';
+  /** A list of edges. */
+  edges: Array<TimeZoneEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type TimeZoneEdge = {
+  __typename?: 'TimeZoneEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TimeZone;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createBranding: Maybe<CreateBrandingPayload>;
@@ -3767,16 +3910,22 @@ export type Mutation = {
   deleteWebPageConfig: Maybe<DeleteWebPageConfigPayload>;
   forgotPassword: Maybe<UserPermissionsPasswordPayload>;
   submitDynamicFormstackForm: DynamicFormSubmissionPayload;
+  /** Creates a ticket category */
   ticketCategoryCreate: Maybe<TicketCategoryCreatePayload>;
+  /** Deletes a ticket category */
   ticketCategoryDelete: Maybe<TicketCategoryDeletePayload>;
+  /** Updates a ticket category */
   ticketCategoryUpdate: Maybe<TicketCategoryUpdatePayload>;
+  /** Creates a ticket release */
   ticketReleaseCreate: Maybe<TicketReleaseCreatePayload>;
+  /** Creates a ticket release phase */
   ticketReleasePhaseCreate: Maybe<TicketReleasePhaseCreatePayload>;
+  /** Deletes a ticket release phase */
   ticketReleasePhaseDelete: Maybe<TicketReleasePhaseDeletePayload>;
+  /** Updates a ticket release phase */
   ticketReleasePhaseUpdate: Maybe<TicketReleasePhaseUpdatePayload>;
+  /** Updates a ticket release */
   ticketReleaseUpdate: Maybe<TicketReleaseUpdatePayload>;
-  ticketTypeCreate: Maybe<TicketTypeCreatePayload>;
-  ticketTypeUpdate: Maybe<TicketTypeUpdatePayload>;
   adminAssignRole: Maybe<AdminAssignRolePayload>;
   adminCreate: Maybe<AdminCreatePayload>;
   adminUnassignRole: Maybe<AdminUnassignRolePayload>;
@@ -3806,7 +3955,6 @@ export type Mutation = {
   assignmentMagicLinkLoginRequest: Maybe<AssignmentMagicLinkLoginRequestPayload>;
   assignmentProfileAdminUpdate: Maybe<AssignmentProfileAdminUpdatePayload>;
   assignmentProfileUpdate: Maybe<AssignmentProfileUpdatePayload>;
-  assignmentPropertiesUpdate: Maybe<AssignmentPropertiesUpdatePayload>;
   assignmentSalesforceAccountUpdate: Maybe<AssignmentSalesforceAccountUpdatePayload>;
   assignmentTicketLoginUpdate: Maybe<AssignmentTicketLoginUpdatePayload>;
   orderCancel: Maybe<OrderCancelPayload>;
@@ -3851,8 +3999,12 @@ export type Mutation = {
   commerceCreateSaleProduct: Maybe<CommerceSaleProduct>;
   /** *Equivalent to POST /commerce/stores* */
   commerceCreateStore: Maybe<CommerceStore>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/tags* */
+  commerceCreateTag: Maybe<CommerceTag>;
   /** *Equivalent to POST /commerce/stores/{storeId}/taxes* */
   commerceCreateTax: Maybe<CommerceTax>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/taxTypes* */
+  commerceCreateTaxType: Maybe<CommerceTaxType>;
   /** *Equivalent to POST /commerce/stores/{storeId}/orders/{orderId}/transactions* */
   commerceCreateTransaction: Maybe<CommerceTransaction>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/categories/{id}* */
@@ -3873,8 +4025,12 @@ export type Mutation = {
   commerceDeleteSaleProduct: Maybe<CommerceSaleProduct>;
   /** *Equivalent to DELETE /commerce/stores/{id}* */
   commerceDeleteStore: Maybe<CommerceStore>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/tags/{id}* */
+  commerceDeleteTag: Maybe<CommerceTag>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/taxes/{id}* */
   commerceDeleteTax: Maybe<CommerceTax>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/taxTypes/{id}* */
+  commerceDeleteTaxType: Maybe<CommerceTaxType>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/categories/{id}* */
   commerceUpdateCategory: Maybe<CommerceCategory>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
@@ -3895,13 +4051,23 @@ export type Mutation = {
   commerceUpdateSaleProduct: Maybe<CommerceSaleProduct>;
   /** *Equivalent to PUT /commerce/stores/{id}* */
   commerceUpdateStore: Maybe<CommerceStore>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/tags/{id}* */
+  commerceUpdateTag: Maybe<CommerceTag>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/taxes/{id}* */
   commerceUpdateTax: Maybe<CommerceTax>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/taxTypes/{id}* */
+  commerceUpdateTaxType: Maybe<CommerceTaxType>;
+  /** Creates a new event */
   eventCreate: Maybe<EventCreatePayload>;
+  /** Updates an existing event */
   eventUpdate: Maybe<EventUpdatePayload>;
+  /** Creates a legal entity */
   legalEntityCreate: Maybe<LegalEntityCreatePayload>;
+  /** Updates an existing legal entity */
   legalEntityUpdate: Maybe<LegalEntityUpdatePayload>;
+  /** Creates a tax rate for for an event and a specific country. */
   taxRateCreate: Maybe<TaxRateCreatePayload>;
+  /** Updates an existing tax rate */
   taxRateUpdate: Maybe<TaxRateUpdatePayload>;
 };
 
@@ -3980,14 +4146,6 @@ export type MutationTicketReleasePhaseUpdateArgs = {
 
 export type MutationTicketReleaseUpdateArgs = {
   input: TicketReleaseUpdateInput;
-};
-
-export type MutationTicketTypeCreateArgs = {
-  input: TicketTypeCreateInput;
-};
-
-export type MutationTicketTypeUpdateArgs = {
-  input: TicketTypeUpdateInput;
 };
 
 export type MutationAdminAssignRoleArgs = {
@@ -4102,10 +4260,6 @@ export type MutationAssignmentProfileUpdateArgs = {
   input: AssignmentProfileUpdateInput;
 };
 
-export type MutationAssignmentPropertiesUpdateArgs = {
-  input: AssignmentPropertiesUpdateInput;
-};
-
 export type MutationAssignmentSalesforceAccountUpdateArgs = {
   input: AssignmentSalesforceAccountUpdateInput;
 };
@@ -4214,8 +4368,18 @@ export type MutationCommerceCreateStoreArgs = {
   commerceStoreCreate: CommerceStoreCreate;
 };
 
+export type MutationCommerceCreateTagArgs = {
+  commerceTagCreate: CommerceTagCreate;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceCreateTaxArgs = {
   commerceTaxCreate: CommerceTaxCreate;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceCreateTaxTypeArgs = {
+  commerceTaxTypeCreate: CommerceTaxTypeCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
 
@@ -4272,7 +4436,17 @@ export type MutationCommerceDeleteStoreArgs = {
   id: Scalars['ID'];
 };
 
+export type MutationCommerceDeleteTagArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceDeleteTaxArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceDeleteTaxTypeArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
@@ -4339,8 +4513,20 @@ export type MutationCommerceUpdateStoreArgs = {
   id: Scalars['ID'];
 };
 
+export type MutationCommerceUpdateTagArgs = {
+  commerceTagUpdate: CommerceTagUpdate;
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceUpdateTaxArgs = {
   commerceTaxUpdate: CommerceTaxUpdate;
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdateTaxTypeArgs = {
+  commerceTaxTypeUpdate: CommerceTaxTypeUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
@@ -4746,45 +4932,6 @@ export type TicketReleaseUpdatePayload = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId: Maybe<Scalars['String']>;
   ticketRelease: Maybe<TicketRelease>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of TicketTypeCreate */
-export type TicketTypeCreateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  inviteOnly?: Maybe<Scalars['Boolean']>;
-  name: Scalars['String'];
-  ticketCategoryId: Scalars['ID'];
-};
-
-/** Autogenerated return type of TicketTypeCreate */
-export type TicketTypeCreatePayload = {
-  __typename?: 'TicketTypeCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticketType: Maybe<TicketType>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of TicketTypeUpdate */
-export type TicketTypeUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  inviteOnly?: Maybe<Scalars['Boolean']>;
-  name?: Maybe<Scalars['String']>;
-  ticketCategoryId?: Maybe<Scalars['ID']>;
-};
-
-/** Autogenerated return type of TicketTypeUpdate */
-export type TicketTypeUpdatePayload = {
-  __typename?: 'TicketTypeUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticketType: Maybe<TicketType>;
   userErrors: Array<UserError>;
 };
 
@@ -5360,26 +5507,6 @@ export type AssignmentProfileUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
-/** Autogenerated input type of AssignmentPropertiesUpdate */
-export type AssignmentPropertiesUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  cycleable?: Maybe<Scalars['Boolean']>;
-  orderOwnerEditable?: Maybe<Scalars['Boolean']>;
-  reassignable?: Maybe<Scalars['Boolean']>;
-  rejectable?: Maybe<Scalars['Boolean']>;
-  ticketTypeId: Scalars['ID'];
-};
-
-/** Autogenerated return type of AssignmentPropertiesUpdate */
-export type AssignmentPropertiesUpdatePayload = {
-  __typename?: 'AssignmentPropertiesUpdatePayload';
-  assignmentProperties: Maybe<AssignmentProperties>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
 /** Autogenerated input type of AssignmentSalesforceAccountUpdate */
 export type AssignmentSalesforceAccountUpdateInput = {
   announcementStatus?: Maybe<Scalars['String']>;
@@ -5652,10 +5779,7 @@ export type TicketVoidPayload = {
 export type CommerceCategoryCreate = {
   active?: Maybe<Scalars['Boolean']>;
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   parent?: Maybe<Scalars['ID']>;
   products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
@@ -5664,11 +5788,8 @@ export type CommerceCategoryCreate = {
 export type CommerceCategoryCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   parent?: Maybe<Scalars['ID']>;
   products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
@@ -5676,38 +5797,34 @@ export type CommerceCategoryCreateOrUpdate = {
 
 export type CommerceProductCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
 };
 
-export type CommerceTaxTypeCreateOrUpdate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
+export type CommerceTagCreateOrUpdate = {
+  code?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CommerceTaxTypeCreateOrUpdate = {
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
 };
 
 export type CommerceTaxCreateOrUpdate = {
   country?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxRateType>;
@@ -5717,14 +5834,9 @@ export type CommerceTaxCreateOrUpdate = {
 export type CommerceCustomerCreate = {
   address?: Maybe<CommerceAddressCreateOrUpdate>;
   companyName?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  owner?: Maybe<CommerceUserCreateOrUpdate>;
   phoneNumber?: Maybe<Scalars['String']>;
   vatNumber?: Maybe<Scalars['String']>;
 };
@@ -5732,83 +5844,53 @@ export type CommerceCustomerCreate = {
 export type CommerceAddressCreateOrUpdate = {
   city?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   line1?: Maybe<Scalars['String']>;
   line2?: Maybe<Scalars['String']>;
-  owner?: Maybe<CommerceUserCreateOrUpdate>;
   postalCode?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
 };
 
-export type CommerceUserCreateOrUpdate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-};
-
 export type CommerceDealCreate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  endDate: Scalars['Date'];
   name: Scalars['String'];
+  startDate: Scalars['Date'];
 };
 
 export type CommerceDealItemCreateOrUpdate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
+  amount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
-  rateAmount?: Maybe<Scalars['Int']>;
-  rateType?: Maybe<CommerceDealItemRateType>;
   step?: Maybe<Scalars['Int']>;
+  type?: Maybe<CommerceDealItemType>;
 };
 
 export type CommerceDealItemCreate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
+  amount: Scalars['Int'];
   max: Scalars['Int'];
   min: Scalars['Int'];
   product: Scalars['ID'];
-  rateAmount: Scalars['Int'];
-  rateType: CommerceDealItemRateType;
   step: Scalars['Int'];
+  type: CommerceDealItemType;
 };
 
 export type CommerceOrderCreate = {
+  applicableDeals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   billed?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   currency?: Maybe<Scalars['String']>;
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
   deal?: Maybe<Scalars['ID']>;
-  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   discountTotal?: Maybe<Scalars['Int']>;
   invoiceUrl?: Maybe<Scalars['String']>;
   items: Array<CommerceOrderItemCreateOrUpdate>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   locked?: Maybe<Scalars['Boolean']>;
   metadata?: Maybe<Scalars['JSON']>;
-  owner?: Maybe<CommerceUserCreateOrUpdate>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
   status?: Maybe<CommerceOrderStatus>;
@@ -5820,48 +5902,36 @@ export type CommerceOrderCreate = {
   valueTotal?: Maybe<Scalars['Int']>;
 };
 
+export type CommerceDealCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['Date']>;
+};
+
 export type CommerceCustomerCreateOrUpdate = {
   address?: Maybe<CommerceAddressCreateOrUpdate>;
   companyName?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastName?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  owner?: Maybe<CommerceUserCreateOrUpdate>;
   phoneNumber?: Maybe<Scalars['String']>;
   vatNumber?: Maybe<Scalars['String']>;
 };
 
-export type CommerceDealCreateOrUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-};
-
 export type CommerceOrderItemCreateOrUpdate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
   itemName?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   price?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity?: Maybe<Scalars['Int']>;
   subTotal?: Maybe<Scalars['Int']>;
-  tax?: Maybe<CommerceTaxCreateOrUpdate>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
 };
@@ -5879,37 +5949,26 @@ export type CommerceTaxSummaryCreateOrUpdate = {
 export type CommercePaymentMethodCreate = {
   active?: Maybe<Scalars['Boolean']>;
   configuration?: Maybe<Scalars['JSON']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   gateway: Scalars['ID'];
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
 };
 
 export type CommerceProductCreate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   price: Scalars['Int'];
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType: CommerceTaxTypeCreateOrUpdate;
 };
 
 export type CommerceSaleCreate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
@@ -5918,29 +5977,23 @@ export type CommerceSaleCreate = {
 
 export type CommerceSaleProductCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
+  amount?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceSaleProductType>;
 };
 
 export type CommerceSaleProductCreate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
+  amount: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
-  price: Scalars['Int'];
   product: Scalars['ID'];
+  type: CommerceSaleProductType;
 };
 
 export type CommerceStoreCreate = {
@@ -5948,12 +6001,8 @@ export type CommerceStoreCreate = {
   baseUrl: Scalars['String'];
   categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   country: Scalars['String'];
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   currency: Scalars['String'];
   deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   paymentMethods?: Maybe<Array<CommercePaymentMethodCreateOrUpdate>>;
@@ -5962,6 +6011,7 @@ export type CommerceStoreCreate = {
   slug: Scalars['String'];
   stockMode: CommerceStoreStockMode;
   storeBilling: CommerceStoreBillingCreateOrUpdate;
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxErrors?: Maybe<Array<Maybe<Scalars['String']>>>;
   taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
@@ -5971,24 +6021,16 @@ export type CommerceStoreCreate = {
 export type CommercePaymentMethodCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   configuration?: Maybe<Scalars['JSON']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   gateway?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
 };
 
 export type CommerceSaleCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
@@ -6000,12 +6042,8 @@ export type CommerceStoreBillingCreateOrUpdate = {
   companyName?: Maybe<Scalars['String']>;
   companyRegNumber?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   line1?: Maybe<Scalars['String']>;
   line2?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
@@ -6014,25 +6052,29 @@ export type CommerceStoreBillingCreateOrUpdate = {
   vatNumber?: Maybe<Scalars['String']>;
 };
 
+export type CommerceTagCreate = {
+  code: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type CommerceTaxCreate = {
   country: Scalars['String'];
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
   rateAmount: Scalars['Int'];
   rateType: CommerceTaxRateType;
   taxType: CommerceTaxTypeCreateOrUpdate;
 };
 
+export type CommerceTaxTypeCreate = {
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
+};
+
 export type CommerceTransactionCreate = {
   amount?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   currency?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   paymentMethod?: Maybe<CommercePaymentMethodCreateOrUpdate>;
   refundedTransaction?: Maybe<Scalars['ID']>;
@@ -6050,11 +6092,8 @@ export type CommerceTaxDetailCreateOrUpdate = {
 export type CommerceCategoryUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   parent?: Maybe<Scalars['ID']>;
   products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
@@ -6063,63 +6102,47 @@ export type CommerceCategoryUpdate = {
 export type CommerceCustomerUpdate = {
   address?: Maybe<CommerceAddressCreateOrUpdate>;
   companyName?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastName?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  owner?: Maybe<CommerceUserCreateOrUpdate>;
   phoneNumber?: Maybe<Scalars['String']>;
   vatNumber?: Maybe<Scalars['String']>;
 };
 
 export type CommerceDealUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['Date']>;
 };
 
 export type CommerceDealItemUpdate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
+  amount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
-  rateAmount?: Maybe<Scalars['Int']>;
-  rateType?: Maybe<CommerceDealItemRateType>;
   step?: Maybe<Scalars['Int']>;
+  type?: Maybe<CommerceDealItemType>;
 };
 
 export type CommerceOrderUpdate = {
+  applicableDeals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   billed?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   currency?: Maybe<Scalars['String']>;
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
   deal?: Maybe<Scalars['ID']>;
-  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   discountTotal?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   invoiceUrl?: Maybe<Scalars['String']>;
   items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   locked?: Maybe<Scalars['Boolean']>;
   metadata?: Maybe<Scalars['JSON']>;
-  owner?: Maybe<CommerceUserCreateOrUpdate>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
   status?: Maybe<CommerceOrderStatus>;
@@ -6134,40 +6157,29 @@ export type CommerceOrderUpdate = {
 export type CommercePaymentMethodUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   configuration?: Maybe<Scalars['JSON']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   gateway?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
 };
 
 export type CommerceProductUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
 };
 
 export type CommerceSaleUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
@@ -6176,16 +6188,13 @@ export type CommerceSaleUpdate = {
 
 export type CommerceSaleProductUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
+  amount?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceSaleProductType>;
 };
 
 export type CommerceStoreUpdate = {
@@ -6193,13 +6202,9 @@ export type CommerceStoreUpdate = {
   baseUrl?: Maybe<Scalars['String']>;
   categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   country?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   currency?: Maybe<Scalars['String']>;
   deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   paymentMethods?: Maybe<Array<CommercePaymentMethodCreateOrUpdate>>;
@@ -6208,23 +6213,34 @@ export type CommerceStoreUpdate = {
   slug?: Maybe<Scalars['String']>;
   stockMode?: Maybe<CommerceStoreStockMode>;
   storeBilling?: Maybe<CommerceStoreBillingCreateOrUpdate>;
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxErrors?: Maybe<Array<Maybe<Scalars['String']>>>;
   taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
   vatNumber?: Maybe<Scalars['String']>;
 };
 
+export type CommerceTagUpdate = {
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type CommerceTaxUpdate = {
   country?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxRateType>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+};
+
+export type CommerceTaxTypeUpdate = {
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
 };
 
 /** Autogenerated input type of EventCreate */
@@ -6235,6 +6251,7 @@ export type EventCreateInput = {
   countryId?: Maybe<Scalars['ID']>;
   currency?: Maybe<CurrencyCode>;
   description?: Maybe<Scalars['String']>;
+  /** Must be equal to or greater than the start_date */
   endDate?: Maybe<Scalars['String']>;
   legalEntityId?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
@@ -6261,6 +6278,7 @@ export type EventUpdateInput = {
   countryId?: Maybe<Scalars['ID']>;
   currency?: Maybe<CurrencyCode>;
   description?: Maybe<Scalars['String']>;
+  /** Must be equal to or greater than the start_date */
   endDate?: Maybe<Scalars['String']>;
   legalEntityId?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
@@ -6285,6 +6303,7 @@ export type LegalEntityCreateInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  /** Must be unique */
   name: Scalars['String'];
   phone?: Maybe<Scalars['String']>;
   regNumber?: Maybe<Scalars['String']>;
@@ -6317,7 +6336,7 @@ export type LegalEntityUpdateInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   regNumber?: Maybe<Scalars['String']>;
   taxNumber?: Maybe<Scalars['String']>;
@@ -6485,6 +6504,26 @@ export type ComponentWebElementsTicketTypeInformationInput = {
   showBenefits: Scalars['Boolean'];
   displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
   heading?: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebLayoutsStoresTicketApplicationsPageInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['Markdown']>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  applicationForm?: Maybe<Scalars['ID']>;
+  ticketInfoPanel?: Maybe<ComponentWebElementsTicketTypeInformationInput>;
+  applicationOverviewPanel?: Maybe<ComponentWebElementsTicketApplicationOverviewPanelInput>;
+  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
+};
+
+export type ComponentWebLayoutsStoresTicketSalesPageInput = {
+  productIds?: Maybe<Scalars['JSON']>;
+  ticketReleasesPanel?: Maybe<ComponentWebElementsTicketReleasesPanelInput>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  promotions: Array<ComponentWebElementsTicketPromotionInput>;
+  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
 };
 
 export type ComponentWebLayoutsTicketApplicationsPageInput = {
@@ -6819,6 +6858,28 @@ export type EditComponentWebElementsTicketTypeInformationInput = {
   heading?: Maybe<Scalars['String']>;
 };
 
+export type EditComponentWebLayoutsStoresTicketApplicationsPageInput = {
+  id?: Maybe<Scalars['ID']>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['Markdown']>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  applicationForm?: Maybe<Scalars['ID']>;
+  ticketInfoPanel?: Maybe<EditComponentWebElementsTicketTypeInformationInput>;
+  applicationOverviewPanel?: Maybe<EditComponentWebElementsTicketApplicationOverviewPanelInput>;
+  releasePhaseStepper?: Maybe<EditComponentWebElementsReleasePhaseStepperInput>;
+  priceIncreaseCountdownTimer?: Maybe<EditComponentWebElementsPriceIncreaseCountdownTimerInput>;
+};
+
+export type EditComponentWebLayoutsStoresTicketSalesPageInput = {
+  id?: Maybe<Scalars['ID']>;
+  productIds?: Maybe<Scalars['JSON']>;
+  ticketReleasesPanel?: Maybe<EditComponentWebElementsTicketReleasesPanelInput>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  priceIncreaseCountdownTimer?: Maybe<EditComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  promotions: Array<EditComponentWebElementsTicketPromotionInput>;
+  releasePhaseStepper?: Maybe<EditComponentWebElementsReleasePhaseStepperInput>;
+};
+
 export type EditComponentWebLayoutsTicketApplicationsPageInput = {
   id?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
@@ -7035,13 +7096,8 @@ export type UsersPermissionsRegisterInput = {
 export type CommerceAddressCreate = {
   city: Scalars['String'];
   country: Scalars['String'];
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   line1: Scalars['String'];
   line2?: Maybe<Scalars['String']>;
-  owner?: Maybe<CommerceUserCreateOrUpdate>;
   postalCode: Scalars['String'];
   state?: Maybe<Scalars['String']>;
 };
@@ -7049,49 +7105,34 @@ export type CommerceAddressCreate = {
 export type CommerceAddressUpdate = {
   city?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   line1?: Maybe<Scalars['String']>;
   line2?: Maybe<Scalars['String']>;
-  owner?: Maybe<CommerceUserCreateOrUpdate>;
   postalCode?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
 };
 
 export type CommerceOrderItemCreate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   itemName?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   price?: Maybe<Scalars['Int']>;
   product: Scalars['ID'];
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity: Scalars['Int'];
   subTotal?: Maybe<Scalars['Int']>;
-  tax?: Maybe<CommerceTaxCreateOrUpdate>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceOrderItemUpdate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
   itemName?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   price?: Maybe<Scalars['Int']>;
   product?: Maybe<Scalars['ID']>;
   productMetadata?: Maybe<Scalars['JSON']>;
   quantity?: Maybe<Scalars['Int']>;
   subTotal?: Maybe<Scalars['Int']>;
-  tax?: Maybe<CommerceTaxCreateOrUpdate>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
 };
@@ -7101,11 +7142,7 @@ export type CommerceStoreBillingCreate = {
   companyName: Scalars['String'];
   companyRegNumber?: Maybe<Scalars['String']>;
   country: Scalars['String'];
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   email: Scalars['String'];
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   line1: Scalars['String'];
   line2?: Maybe<Scalars['String']>;
   phone: Scalars['String'];
@@ -7119,12 +7156,8 @@ export type CommerceStoreBillingUpdate = {
   companyName?: Maybe<Scalars['String']>;
   companyRegNumber?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
   line1?: Maybe<Scalars['String']>;
   line2?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
@@ -7161,46 +7194,6 @@ export type CommerceTaxSummaryUpdate = {
   taxId?: Maybe<Scalars['ID']>;
   taxType?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceTaxTypeCreate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  description?: Maybe<Scalars['String']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
-  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
-};
-
-export type CommerceTaxTypeUpdate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
-};
-
-export type CommerceUserCreate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  email: Scalars['String'];
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
-};
-
-export type CommerceUserUpdate = {
-  createdAt?: Maybe<Scalars['Date']>;
-  createdBy?: Maybe<Scalars['ID']>;
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastUpdatedAt?: Maybe<Scalars['Date']>;
-  lastUpdatedBy?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
 };
 
 export type AssignmentAuthenticateMutationVariables = Exact<{
@@ -7648,54 +7641,54 @@ export type AppConfigQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceUserFragment = { __typename?: 'CommerceUser' } & Pick<
+  CommerceUser,
+  'name' | 'email' | 'id'
+>;
+
 export type CommerceTaxTypeFragment = { __typename?: 'CommerceTaxType' } & Pick<
   CommerceTaxType,
-  | 'createdAt'
-  | 'createdBy'
-  | 'description'
-  | 'id'
-  | 'lastUpdatedAt'
-  | 'lastUpdatedBy'
-  | 'name'
->;
+  'createdAt' | 'description' | 'id' | 'lastUpdatedAt' | 'name'
+> & {
+    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
+  };
 
 export type CommerceTaxFragment = { __typename?: 'CommerceTax' } & Pick<
   CommerceTax,
   | 'country'
   | 'createdAt'
-  | 'createdBy'
   | 'id'
   | 'lastUpdatedAt'
-  | 'lastUpdatedBy'
   | 'name'
   | 'rateAmount'
   | 'rateType'
-> & { taxType: { __typename?: 'CommerceTaxType' } & CommerceTaxTypeFragment };
+> & {
+    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
+    taxType: { __typename?: 'CommerceTaxType' } & CommerceTaxTypeFragment;
+  };
 
 export type CommerceProductFragment = { __typename?: 'CommerceProduct' } & Pick<
   CommerceProduct,
   | 'active'
   | 'createdAt'
-  | 'createdBy'
   | 'description'
   | 'id'
   | 'lastUpdatedAt'
-  | 'lastUpdatedBy'
   | 'name'
   | 'price'
   | 'taxMode'
->;
+> & {
+    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
+  };
 
 export type CommerceOrderItemFragment = {
   __typename?: 'CommerceOrderItem';
 } & Pick<
   CommerceOrderItem,
   | 'createdAt'
-  | 'createdBy'
   | 'id'
   | 'itemName'
   | 'lastUpdatedAt'
-  | 'lastUpdatedBy'
   | 'price'
   | 'productMetadata'
   | 'quantity'
@@ -7703,6 +7696,7 @@ export type CommerceOrderItemFragment = {
   | 'taxTotal'
   | 'total'
 > & {
+    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
     product: Maybe<
       { __typename?: 'CommerceProduct' } & CommerceProductFragment
     >;
@@ -7718,15 +7712,15 @@ export type CommerceAddressFragment = { __typename?: 'CommerceAddress' } & Pick<
   | 'city'
   | 'country'
   | 'createdAt'
-  | 'createdBy'
   | 'id'
   | 'lastUpdatedAt'
-  | 'lastUpdatedBy'
   | 'line1'
   | 'line2'
   | 'postalCode'
   | 'state'
->;
+> & {
+    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
+  };
 
 export type CommerceCustomerFragment = {
   __typename?: 'CommerceCustomer';
@@ -7734,13 +7728,11 @@ export type CommerceCustomerFragment = {
   CommerceCustomer,
   | 'companyName'
   | 'createdAt'
-  | 'createdBy'
   | 'email'
   | 'firstName'
   | 'id'
   | 'lastName'
   | 'lastUpdatedAt'
-  | 'lastUpdatedBy'
   | 'phoneNumber'
   | 'vatNumber'
   | 'vatVerified'
@@ -7748,6 +7740,7 @@ export type CommerceCustomerFragment = {
     address: Maybe<
       { __typename?: 'CommerceAddress' } & CommerceAddressFragment
     >;
+    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
   };
 
 export type CommerceTransactionFragment = {
@@ -7756,17 +7749,16 @@ export type CommerceTransactionFragment = {
   CommerceTransaction,
   | 'amount'
   | 'createdAt'
-  | 'createdBy'
   | 'currency'
   | 'id'
   | 'lastUpdatedAt'
-  | 'lastUpdatedBy'
   | 'metadata'
   | 'refundedTransaction'
   | 'status'
   | 'timestamp'
   | 'type'
 > & {
+    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
     paymentMethod: Maybe<
       { __typename?: 'CommercePaymentMethod' } & CommercePaymentMethodFragment
     >;
@@ -7783,13 +7775,11 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
       CommerceOrder,
       | 'billed'
       | 'createdAt'
-      | 'createdBy'
       | 'currency'
       | 'currencySymbol'
       | 'id'
       | 'invoiceUrl'
       | 'lastUpdatedAt'
-      | 'lastUpdatedBy'
       | 'locked'
       | 'paid'
       | 'paymentStatus'
@@ -7800,6 +7790,9 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
       | 'total'
       | 'url'
     > & {
+        createdBy: Maybe<
+          { __typename?: 'CommerceUser' } & CommerceUserFragment
+        >;
         customer: Maybe<
           { __typename?: 'CommerceCustomer' } & CommerceCustomerFragment
         >;
@@ -8548,6 +8541,8 @@ export type WebPageByHostPathQuery = { __typename?: 'Query' } & {
               __typename: 'ComponentWebElementsHeroSection';
             } & HeroSectionFragment)
           | { __typename: 'ComponentWebElementsFreshchat' }
+          | { __typename: 'ComponentWebLayoutsStoresTicketSalesPage' }
+          | { __typename: 'ComponentWebLayoutsStoresTicketApplicationsPage' }
         >;
       }
   >;
@@ -8804,6 +8799,8 @@ export type WebPageByPathQuery = { __typename?: 'Query' } & {
               __typename: 'ComponentWebElementsHeroSection';
             } & HeroSectionFragment)
           | { __typename: 'ComponentWebElementsFreshchat' }
+          | { __typename: 'ComponentWebLayoutsStoresTicketSalesPage' }
+          | { __typename: 'ComponentWebLayoutsStoresTicketApplicationsPage' }
         >;
       }
   >;
@@ -8892,6 +8889,27 @@ export type DynamicFormPayloadFragment = { __typename?: 'DynamicForm' } & Pick<
   'id' | 'data' | 'schema' | 'mutation' | 'uiSchema'
 >;
 
+export const CommerceUserFragmentDoc: DocumentNode = {
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
 export const CommerceProductFragmentDoc: DocumentNode = {
   definitions: [
     {
@@ -8902,11 +8920,22 @@ export const CommerceProductFragmentDoc: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'active' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'price' } },
           { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
@@ -8915,6 +8944,22 @@ export const CommerceProductFragmentDoc: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceProduct' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
       },
     },
   ],
@@ -8929,17 +8974,44 @@ export const CommerceTaxTypeFragmentDoc: DocumentNode = {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
         ],
       },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceTaxType' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
       },
     },
   ],
@@ -8955,10 +9027,21 @@ export const CommerceTaxFragmentDoc: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
@@ -8984,16 +9067,43 @@ export const CommerceTaxFragmentDoc: DocumentNode = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'CommerceTaxType' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
         ],
       },
@@ -9015,11 +9125,22 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'itemName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'price' } },
           {
             kind: 'Field',
@@ -9061,16 +9182,43 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'CommerceTaxType' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
         ],
       },
@@ -9087,10 +9235,21 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
@@ -9122,11 +9281,22 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'active' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'price' } },
           { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
@@ -9151,10 +9321,21 @@ export const CommerceAddressFragmentDoc: DocumentNode = {
           { kind: 'Field', name: { kind: 'Name', value: 'city' } },
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
@@ -9164,6 +9345,22 @@ export const CommerceAddressFragmentDoc: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceAddress' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
       },
     },
   ],
@@ -9192,13 +9389,24 @@ export const CommerceCustomerFragmentDoc: DocumentNode = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'email' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'vatNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'vatVerified' } },
@@ -9211,6 +9419,22 @@ export const CommerceCustomerFragmentDoc: DocumentNode = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'CommerceAddress' },
       selectionSet: {
         kind: 'SelectionSet',
@@ -9218,10 +9442,21 @@ export const CommerceCustomerFragmentDoc: DocumentNode = {
           { kind: 'Field', name: { kind: 'Name', value: 'city' } },
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
@@ -9266,11 +9501,22 @@ export const CommerceTransactionFragmentDoc: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
           {
             kind: 'Field',
@@ -9297,6 +9543,22 @@ export const CommerceTransactionFragmentDoc: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceTransaction' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
       },
     },
     {
@@ -13841,7 +14103,19 @@ export const CommerceGetOrderDocument: DocumentNode = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'billed' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'CommerceUser' },
+                      },
+                    ],
+                  },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 {
                   kind: 'Field',
@@ -13852,10 +14126,6 @@ export const CommerceGetOrderDocument: DocumentNode = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'lastUpdatedAt' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'lastUpdatedBy' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'locked' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'paid' } },
@@ -13947,16 +14217,43 @@ export const CommerceGetOrderDocument: DocumentNode = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommerceUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommerceUser' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'CommerceTaxType' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
         ],
       },
@@ -13973,10 +14270,21 @@ export const CommerceGetOrderDocument: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
@@ -14008,11 +14316,22 @@ export const CommerceGetOrderDocument: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'active' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'price' } },
           { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
@@ -14031,11 +14350,22 @@ export const CommerceGetOrderDocument: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'itemName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'price' } },
           {
             kind: 'Field',
@@ -14099,10 +14429,21 @@ export const CommerceGetOrderDocument: DocumentNode = {
           { kind: 'Field', name: { kind: 'Name', value: 'city' } },
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
@@ -14135,13 +14476,24 @@ export const CommerceGetOrderDocument: DocumentNode = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'email' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'vatNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'vatVerified' } },
@@ -14160,11 +14512,22 @@ export const CommerceGetOrderDocument: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CommerceUser' },
+                },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedBy' } },
           { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
           {
             kind: 'Field',

@@ -32,11 +32,9 @@ const CREATE_TRANSACTION_MUTATION = gql`
     ) {
       amount
       createdAt
-      createdBy
       currency
       id
       lastUpdatedAt
-      lastUpdatedBy
       paymentMethod {
         ...CommercePaymentMethod
       }
