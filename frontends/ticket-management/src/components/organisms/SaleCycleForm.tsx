@@ -1,3 +1,4 @@
+import { Button } from '@websummit/components/src/atoms/Button';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
 import {
   useErrorSnackbar,
@@ -5,6 +6,7 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import ToggleField from '@websummit/components/src/molecules/ToggleField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { toShortDateTime } from '@websummit/components/src/utils/time';
@@ -24,6 +26,10 @@ const StyledInputField = styled(TextInputField)`
 const InlineWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const Fieldset = styled.fieldset`
+  border: none;
 `;
 
 type Props = {
@@ -92,41 +98,51 @@ const SaleCycleForm = ({ prefillData }: Props) => {
       submitText="Save"
       validationSchema={validationSchema}
     >
-      <Spacing top="8px">
-        <FieldWrapper>
-          <Spacing bottom="8px">
-            <TextInputField required label="Sale cycle name" name="name" />
-          </Spacing>
-        </FieldWrapper>
+      <Fieldset disabled={false}>
+        <Spacing top="8px">
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <TextInputField required label="Sale cycle name" name="name" />
+            </Spacing>
+          </FieldWrapper>
 
-        <FieldWrapper>
-          <InlineWrapper>
-            <StyledInputField
-              required
-              label="Start date"
-              name="startDate"
-              type="datetime-local"
-            />
+          <FieldWrapper>
+            <InlineWrapper>
+              <StyledInputField
+                required
+                label="Start date"
+                name="startDate"
+                type="datetime-local"
+              />
 
-            <StyledInputField
-              required
-              label="End date"
-              name="endDate"
-              type="datetime-local"
-            />
-          </InlineWrapper>
-        </FieldWrapper>
+              <StyledInputField
+                required
+                label="End date"
+                name="endDate"
+                type="datetime-local"
+              />
+            </InlineWrapper>
+          </FieldWrapper>
 
-        <FieldWrapper>
-          <Spacing bottom="8px">
-            <TextAreaField
-              fieldHeight="80px"
-              label="Sale cycle description"
-              name="description"
-            />
-          </Spacing>
-        </FieldWrapper>
-      </Spacing>
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <TextAreaField
+                fieldHeight="80px"
+                label="Sale cycle description"
+                name="description"
+              />
+            </Spacing>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <ToggleField label="active" name="active-toggle" />
+            </Spacing>
+          </FieldWrapper>
+
+          <Button >Edit</Button>
+        </Spacing>
+      </Fieldset>
     </FormikForm>
   );
 };
