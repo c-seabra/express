@@ -7,7 +7,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import IndexPage from '../pages/IndexPage';
-import SalesCyclePage from "../pages/SalesCyclePage";
+import SalesCyclePage from '../pages/SalesCyclePage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
 import TicketGroupsPage from '../pages/TicketGroupsPage';
 import AppContext from './AppContext';

@@ -2,20 +2,20 @@ import { gql } from '@apollo/client';
 
 const COMMERCE_GET_SALE = gql`
   query SaleCycles($id: ID!) {
-      commerceGetSale(id: $id) {
-        active
-        createdAt
-        createdBy {
-          id
-          name
-          email
-        }
-        description
-        endDate
+    commerceGetSale(id: $id) {
+      active
+      createdAt
+      createdBy {
         id
-        lastUpdatedAt
         name
-        startDate
+        email
+      }
+      description
+      endDate
+      id
+      lastUpdatedAt
+      name
+      startDate
     }
   }
 `;

@@ -4,12 +4,16 @@ import Breadcrumbs, {
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
-import {SaleCyclesQueryVariables, useSaleCyclesQuery} from '@websummit/graphql/src/@types/operations';
+import {
+  SaleCyclesQueryVariables,
+  useSaleCyclesQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Loader from '../../../../../packages/components/src/atoms/Loader';
+import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
@@ -54,18 +58,18 @@ const SaleCyclesPage = () => {
     setModalMode('ADD');
     openModal();
   };
-  const onRowClick = (event: SaleCycleFormData) => {
-    setPrefillData({
-      description: event.description,
-      endDate: event.endDate,
-      id: event.id,
-      name: event.name,
-      startDate: event.startDate,
-    });
-
-    setModalMode('EDIT');
-    openModal();
-  };
+  // const onRowClick = (event: SaleCycleFormData) => {
+  //   setPrefillData({
+  //     description: event.description,
+  //     endDate: event.endDate,
+  //     id: event.id,
+  //     name: event.name,
+  //     startDate: event.startDate,
+  //   });
+  //
+  //   setModalMode('EDIT');
+  //   openModal();
+  // };
   const { conferenceSlug, token } = useAppContext();
   const context = {
     conferenceSlug,
@@ -79,9 +83,8 @@ const SaleCyclesPage = () => {
       id: _ID,
     },
   });
-
-  console.log(data, _ID)
   const cycle = data?.commerceGetSale;
+  const hasProducts = false;
 
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -89,7 +92,7 @@ const SaleCyclesPage = () => {
       redirectUrl: '/sales-cycles',
     },
     {
-      label: `${cycle?.name}`,
+      label: `${cycle?.name as string}`,
     },
   ];
 
@@ -120,6 +123,14 @@ const SaleCyclesPage = () => {
           <HeaderText>Products</HeaderText>
           <Button onClick={onButtonClick}>Create new product</Button>
         </FlexRow>
+
+        {!hasProducts && (
+          <FlexRow>
+            <Spacing bottom="2rem">
+              <span>No products added yet.</span>
+            </Spacing>
+          </FlexRow>
+        )}
       </FlexCol>
     </Container>
   );

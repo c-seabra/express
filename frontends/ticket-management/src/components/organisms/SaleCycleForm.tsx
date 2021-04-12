@@ -23,6 +23,11 @@ const StyledInputField = styled(TextInputField)`
   width: 48%;
 `;
 
+const FlexEnd = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const InlineWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -31,6 +36,12 @@ const InlineWrapper = styled.div`
 const Fieldset = styled.fieldset`
   border: none;
 `;
+
+// const Separator = styled.div`
+//   height: 1px;
+//   border-top: 2px solid #f1f1f1;
+//   margin: 0 -100%;
+// `;
 
 type Props = {
   prefillData: any;
@@ -95,7 +106,6 @@ const SaleCycleForm = ({ prefillData }: Props) => {
     <FormikForm
       initialValues={initialValues()}
       submitCallback={setMutation}
-      submitText="Save"
       validationSchema={validationSchema}
     >
       <Fieldset disabled={false}>
@@ -134,13 +144,20 @@ const SaleCycleForm = ({ prefillData }: Props) => {
             </Spacing>
           </FieldWrapper>
 
-          <FieldWrapper>
-            <Spacing bottom="8px">
-              <ToggleField label="active" name="active-toggle" />
-            </Spacing>
-          </FieldWrapper>
+          {/* <FieldWrapper> */}
+          {/*  <Spacing bottom="8px"> */}
+          {/*     Active */}
+          {/*    <ToggleField label="active" name="active-toggle" /> */}
+          {/*  </Spacing> */}
+          {/* </FieldWrapper> */}
 
-          <Button >Edit</Button>
+          {/*<Spacing bottom="2rem">*/}
+          {/*  <Separator />*/}
+          {/*</Spacing>*/}
+
+          <FlexEnd>
+            <Button>Edit</Button>
+          </FlexEnd>
         </Spacing>
       </Fieldset>
     </FormikForm>

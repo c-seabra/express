@@ -16,7 +16,7 @@ type ModalProps = {
   children: any;
   initialValues: any;
   submitCallback: (values?: any) => void;
-  submitText: string;
+  // submitText: string;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
   validationSchema: any;
@@ -24,7 +24,7 @@ type ModalProps = {
 
 const FormikForm = ({
   submitCallback,
-  submitText = 'Submit',
+  // submitText = 'Submit',
   initialValues,
   validationSchema,
   validateOnBlur = false,
@@ -32,26 +32,26 @@ const FormikForm = ({
   children,
 }: ModalProps) => {
   return (
-      <Formik
-        initialValues={initialValues}
-        validateOnBlur={validateOnBlur}
-        validateOnChange={validateOnChange}
-        validationSchema={validationSchema}
-        onSubmit={(values) => {
-          submitCallback(values);
-        }}
-      >
-        <Form>
-          <Wrapper>
-            {children}
-            {/* <Spacing top="48px"> */}
-            {/*  <FieldWrapper> */}
-            {/*    <Modal.DefaultFooter submitText={submitText} /> */}
-            {/*  </FieldWrapper> */}
-            {/* </Spacing> */}
-          </Wrapper>
-        </Form>
-      </Formik>
+    <Formik
+      initialValues={initialValues}
+      validateOnBlur={validateOnBlur}
+      validateOnChange={validateOnChange}
+      validationSchema={validationSchema}
+      onSubmit={(values) => {
+        submitCallback(values);
+      }}
+    >
+      <Form>
+        <Wrapper>
+          {children}
+          {/* <Spacing top="48px"> */}
+          {/*  <FieldWrapper> */}
+          {/*    <Modal.DefaultFooter submitText={submitText} /> */}
+          {/*  </FieldWrapper> */}
+          {/* </Spacing> */}
+        </Wrapper>
+      </Form>
+    </Formik>
   );
 };
 

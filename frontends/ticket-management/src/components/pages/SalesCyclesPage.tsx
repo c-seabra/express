@@ -2,10 +2,7 @@
 import Loader from '@websummit/components/src/atoms/Loader';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {
-  Event,
-  useSalesCyclesQuery,
-} from '@websummit/graphql/src/@types/operations';
+import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
