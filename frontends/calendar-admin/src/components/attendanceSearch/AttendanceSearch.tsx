@@ -66,23 +66,19 @@ const AttendanceSearch = (): ReactElement => {
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={handleSearchKey}
       />
-      {display && !loading && !error ? (
+      {display && !loading && !error &&
         <>
           {results?.map((attendance, i) => (
             <div key={i}>
-              {!selections.includes(attendance) ? (
+              {!selections.includes(attendance) &&
                 <ListItem key={i} onClick={() => handleSelect(attendance)}>
                   {attendance.name}
                 </ListItem>
-              ) : (
-                <></>
-              )}
+              }
             </div>
           ))}
         </>
-      ) : (
-        <></>
-      )}
+      }
 
       <h1>Selected Attendees</h1>
 
