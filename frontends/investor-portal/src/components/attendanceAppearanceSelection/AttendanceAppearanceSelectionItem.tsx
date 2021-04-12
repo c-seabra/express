@@ -14,7 +14,9 @@ import Column, { ListItem } from './AttendanceAppearanceSelectionColumn.styled';
 
 const AttendanceAppearanceSelectionItem = ({
   selection,
+  eventTimezone,
 }: {
+  eventTimezone: string;
   selection: AttendanceAppearanceSelection;
 }): ReactElement => {
   const { isOpen, openModal, closeModal } = useModalState();
@@ -35,8 +37,8 @@ const AttendanceAppearanceSelectionItem = ({
       <Column>
         {selection.startsAt && (
           <div>
-            {moment(selection.startsAt).format('ddd HH:mm')} -{' '}
-            {moment(selection.endsAt).format('ddd HH:mm')}
+            {moment.tz(selection.startsAt, eventTimezone).format('ddd HH:mm')} -{' '}
+            {moment.tz(selection.endsAt, eventTimezone).format('ddd HH:mm')}
           </div>
         )}
       </Column>
