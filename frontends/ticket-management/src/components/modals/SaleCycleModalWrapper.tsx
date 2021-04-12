@@ -57,7 +57,7 @@ const alertHeaderText = (_mode: string): string => {
 const submitText = (_mode: string): string => {
   return switchCase({
     ADD: 'Create',
-    EDIT: 'Edit',
+    EDIT: 'Save',
   })('')(_mode);
 };
 
