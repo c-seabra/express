@@ -189,9 +189,10 @@ const EventSettings = () => {
     context: { slug, token },
     skip: !slug,
   });
-
+  const paymentMethods = paymentMethodsData?.commerceListPaymentMethods?.hits;
   const configCompletion = getServicesReadyForEvent(data);
-
+  const eventPaymentSpecificCompletion =
+    !!paymentMethods?.length && configCompletion.stores.ready;
   const eventInfoSpecificCompletion = checkEventInfoCompletion(data);
   const eventTaxSpecificCompletion = !!taxes?.length;
   const eventBillingSpecificCompletion = checkBillingCompletion(
@@ -210,7 +211,10 @@ const EventSettings = () => {
       text: !eventInfoSpecificCompletion ? 'Event information incomplete' : '',
     },
     payment_methods: {
-      ready: configCompletion.stores.ready,
+      ready:
+        eventPaymentSpecificCompletion &&
+        eventInfoSpecificCompletion &&
+        eventBillingSpecificCompletion,
       text: configCompletion.stores.missing.some(
         (missingField) => missingField === 'legalEntity',
       )
@@ -230,20 +234,20 @@ const EventSettings = () => {
     },
     {
       active: eventExists,
-      id: 'tax_info',
-      title: 'Tax information',
-    },
-    {
-      active: eventExists,
-      id: 'payment_methods',
-      title: 'Payment methods',
-    },
-    {
-      active: eventExists,
       id: 'billing_invoicing',
       subTitle:
         'Provide details of the company hosting the event that will appear on the invoice.',
       title: 'Billing information',
+    },
+    {
+      active: eventExists && configCompletion.stores.ready,
+      id: 'tax_info',
+      title: 'Tax information',
+    },
+    {
+      active: eventExists && configCompletion.stores.ready,
+      id: 'payment_methods',
+      title: 'Payment methods',
     },
   ];
   const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
