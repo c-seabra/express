@@ -12,14 +12,15 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Loader from '../../../../../packages/components/src/atoms/Loader';
-import { Spacing } from '../../../../../packages/components/src/templates/Spacing';
+import Loader from '@websummit/components/src/atoms/Loader';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 import { SaleCycleFormData } from '../modals/SaleCycleModalWrapper';
 import SaleProductModalWrapper from '../modals/SaleProductModalWrapper';
 import SaleCycleForm from '../organisms/SaleCycleForm';
+import ProductsList from '../organisms/ProductsList';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -76,7 +77,7 @@ const SaleCyclesPage = () => {
     token,
   };
   const { id: _ID } = useParams<SaleCyclesQueryVariables>();
-  const { loading, data } = useSaleCyclesQuery({
+  const { loading: loadingCycles, data } = useSaleCyclesQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
@@ -84,12 +85,21 @@ const SaleCyclesPage = () => {
     },
   });
   const cycle = data?.commerceGetSale;
+
+  // const { loading, data } = useSaleCyclesQuery({
+  //   context,
+  //   onError: (error) => errorSnackbar(error.message),
+  //   variables: {
+  //     id: _ID,
+  //   },
+  // });
   const hasProducts = false;
+  const products = [{}];
 
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Sale cycles',
-      redirectUrl: '/sales-cycles',
+      redirectUrl: '/sale-cycles',
     },
     {
       label: `${cycle?.name as string}`,
@@ -113,7 +123,7 @@ const SaleCyclesPage = () => {
         <FlexRow>
           <ContainerCard title="Sale cycle">
             <>
-              {loading && <Loader />}
+              {loadingCycles && <Loader />}
               {cycle && <SaleCycleForm prefillData={cycle} />}
             </>
           </ContainerCard>
@@ -128,6 +138,17 @@ const SaleCyclesPage = () => {
           <FlexRow>
             <Spacing bottom="2rem">
               <span>No products added yet.</span>
+            </Spacing>
+          </FlexRow>
+        )}
+
+        {hasProducts && (
+          <FlexRow>
+            <Spacing bottom="2rem">
+              <>
+                {loadingCycles && <Loader />}
+                <ProductsList products={products} />
+              </>
             </Spacing>
           </FlexRow>
         )}
