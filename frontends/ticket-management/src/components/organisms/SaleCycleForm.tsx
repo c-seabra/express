@@ -151,9 +151,9 @@ const SaleCycleForm = ({ prefillData }: Props) => {
           {/*  </Spacing> */}
           {/* </FieldWrapper> */}
 
-          {/*<Spacing bottom="2rem">*/}
-          {/*  <Separator />*/}
-          {/*</Spacing>*/}
+          {/* <Spacing bottom="2rem"> */}
+          {/*  <Separator /> */}
+          {/* </Spacing> */}
 
           <FlexEnd>
             <Button>Edit</Button>

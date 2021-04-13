@@ -1,26 +1,28 @@
 import { Button } from '@websummit/components/src/atoms/Button';
+import Loader from '@websummit/components/src/atoms/Loader';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   SaleCyclesQueryVariables,
+  useCommerceListProductsQuery,
+  useCommerceListSaleProductsQuery,
   useSaleCyclesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Loader from '@websummit/components/src/atoms/Loader';
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 import { SaleCycleFormData } from '../modals/SaleCycleModalWrapper';
 import SaleProductModalWrapper from '../modals/SaleProductModalWrapper';
-import SaleCycleForm from '../organisms/SaleCycleForm';
 import ProductsList from '../organisms/ProductsList';
+import SaleCycleForm from '../organisms/SaleCycleForm';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -76,26 +78,23 @@ const SaleCyclesPage = () => {
     conferenceSlug,
     token,
   };
-  const { id: _ID } = useParams<SaleCyclesQueryVariables>();
-  const { loading: loadingCycles, data } = useSaleCyclesQuery({
+  const { id: saleId } = useParams<SaleCyclesQueryVariables>();
+  const { loading: loadingCycles, data: saleCycles } = useSaleCyclesQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
-      id: _ID,
+      id: saleId,
     },
   });
-  const cycle = data?.commerceGetSale;
-
-  // const { loading, data } = useSaleCyclesQuery({
-  //   context,
-  //   onError: (error) => errorSnackbar(error.message),
-  //   variables: {
-  //     id: _ID,
-  //   },
-  // });
-  const hasProducts = false;
-  const products = [{}];
-
+  const cycle = saleCycles?.commerceGetSale;
+  const { loading: loadingProducts, data } = useCommerceListSaleProductsQuery({
+    context,
+    onError: (error) => errorSnackbar(error.message),
+    variables: {
+      saleId,
+    },
+  });
+  const products: any = data?.commerceListSaleProducts?.hits;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Sale cycles',
@@ -134,7 +133,7 @@ const SaleCyclesPage = () => {
           <Button onClick={onButtonClick}>Create new product</Button>
         </FlexRow>
 
-        {!hasProducts && (
+        {!products && (
           <FlexRow>
             <Spacing bottom="2rem">
               <span>No products added yet.</span>
@@ -142,16 +141,22 @@ const SaleCyclesPage = () => {
           </FlexRow>
         )}
 
-        {hasProducts && (
+        {products && (
           <FlexRow>
             <Spacing bottom="2rem">
               <>
-                {loadingCycles && <Loader />}
+                {loadingProducts && <Loader />}
                 <ProductsList products={products} />
               </>
             </Spacing>
           </FlexRow>
         )}
+
+        <FlexRow>
+          <Spacing bottom="1rem">
+            <Button onClick={onButtonClick}>Add product to sale cycle</Button>
+          </Spacing>
+        </FlexRow>
       </FlexCol>
     </Container>
   );

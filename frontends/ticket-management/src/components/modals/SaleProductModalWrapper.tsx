@@ -1,12 +1,14 @@
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
+import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import ToggleField from '@websummit/components/src/molecules/ToggleField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { toShortDateTime } from '@websummit/components/src/utils/time';
 import {
@@ -19,8 +21,6 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import SelectField from '@websummit/components/src/molecules/SelectField';
-import ToggleField from '@websummit/components/src/molecules/ToggleField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
@@ -39,13 +39,13 @@ type ModalProps = {
 };
 
 export type ProductFormData = {
-  active: boolean,
+  active: boolean;
   description: string;
-  name: string,
-  price: number,
-  tags: any,
-  taxMode: string,
-  taxType: any,
+  name: string;
+  price: number;
+  tags: any;
+  taxMode: string;
+  taxType: any;
 };
 
 const alertHeaderText = (_mode: string): string => {
@@ -126,9 +126,9 @@ const SaleProductModalWrapper = ({
     const input = {
       active: formData.active,
       description: formData.description.trim(),
-      tags: formData.tags,
       name: formData.name.trim(),
       price: formData.price,
+      tags: formData.tags,
       taxMode: formData.taxMode,
       taxType: formData.taxType,
     };

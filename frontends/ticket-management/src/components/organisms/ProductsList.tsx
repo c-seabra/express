@@ -13,6 +13,7 @@ import {
 // import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/ProductsList';
 import React from 'react';
 import styled from 'styled-components';
+
 import { useAppContext } from '../app/AppContext';
 
 const StyledName = styled.span`
@@ -27,20 +28,20 @@ const ProductsList = ({ products, onRowClick }: ProductsListProps) => {
   const tableShape: ColumnDescriptor<any>[] = [
     {
       header: 'Product',
-      renderCell: (product) => <StyledName>{product.name || 'N/A'}</StyledName>,
+      renderCell: (saleProduct) => <StyledName>{saleProduct?.product?.name || 'N/A'}</StyledName>,
       width: '20%',
     },
     {
       header: 'Sale name of ticket',
-      renderCell: (product) => formatFullDateTime(product.saleName) || 'N/A',
+      renderCell: (saleProduct) => saleProduct.name || 'N/A',
     },
     {
       header: 'Description',
-      renderCell: (product) => formatFullDateTime(product.description) || 'N/A',
+      renderCell: (saleProduct) => saleProduct.description || 'N/A',
     },
     {
-      header: 'Price for sale product',
-      renderCell: (product) => product.price || 'N/A',
+      header: 'Price for sale saleProduct',
+      renderCell: (saleProduct) => saleProduct.price || 'N/A',
     },
   ];
 
