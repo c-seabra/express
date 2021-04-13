@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
-import { Button, Select } from '../../lib/components';
+import { Button, Modal, Select, useModalState } from '../../lib/components';
 import {
   useAttendanceInvestorSessionUpdateMutation,
   useEventQuery,
@@ -29,6 +29,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
   const [selected, setSelected] = useState<boolean>(false);
   const [unlockInvestor, setUnlockInvestor] = useState<boolean>(false);
   const [hideAction, setHideAction] = useState<boolean>(false);
+  const { isOpen, openModal, closeModal } = useModalState();
 
   const { data } = useEventQuery();
 
@@ -109,9 +110,26 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
                 </option>
               ))}
             </Select>
-            <Button onClick={submit}>
-              {unlockInvestor ? 'Unlock Investor' : 'Submit'}
-            </Button>
+            {unlockInvestor ? (
+              <>
+                <Button onClick={openModal}>Unlock Investor</Button>
+                <Modal
+                  defaultFooterIsDestructive
+                  withDefaultFooter
+                  defaultFooterPositiveButtonAction={async () => {
+                    await submit();
+                    closeModal();
+                  }}
+                  defaultFooterPositiveButtonText="Unlock"
+                  description="By unlocking this investor, you will remove their selected session timeslot"
+                  isOpen={isOpen}
+                  title="Are you sure?"
+                  onRequestClose={closeModal}
+                />
+              </>
+            ) : (
+              <Button onClick={submit}>Submit</Button>
+            )}
           </>
         )}
       </StyledForm>
