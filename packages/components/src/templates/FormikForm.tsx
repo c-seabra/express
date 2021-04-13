@@ -5,7 +5,6 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   text-align: center;
   padding: 0;
   font-size: 0.85rem;
@@ -16,7 +15,6 @@ type ModalProps = {
   children: any;
   initialValues: any;
   submitCallback: (values?: any) => void;
-  // submitText: string;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
   validationSchema: any;
@@ -24,7 +22,6 @@ type ModalProps = {
 
 const FormikForm = ({
   submitCallback,
-  // submitText = 'Submit',
   initialValues,
   validationSchema,
   validateOnBlur = false,
@@ -42,14 +39,7 @@ const FormikForm = ({
       }}
     >
       <Form>
-        <Wrapper>
-          {children}
-          {/* <Spacing top="48px"> */}
-          {/*  <FieldWrapper> */}
-          {/*    <Modal.DefaultFooter submitText={submitText} /> */}
-          {/*  </FieldWrapper> */}
-          {/* </Spacing> */}
-        </Wrapper>
+        <Wrapper>{children}</Wrapper>
       </Form>
     </Formik>
   );
