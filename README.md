@@ -155,6 +155,7 @@ You can then render and view your micro-frontend by adding a further reference t
 ```
 <application name=“@websummit-micro/ticket-support”></application>
 ```
+
 ### <a name='Addnamespacetobabelconfig'></a>5. Add namespace to babel config
 
 NOTE: if you are using styled components within a react micro frontend, in order to avoid CSS selector clashes with duplicate classnames in other microfrontends, it is required to have a babel configuraiton with a namespace specified. This namespace will be used as a classname prefix for all styled components in the micro frontend. For more information check the [styled components plugin documentation](https://styled-components.com/docs/tooling#namespace)
