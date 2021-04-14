@@ -12,9 +12,12 @@
         "regenerator": false
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "frontend-demo"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "frontend-demo"
+      }
+    ]
   ],
   "env": {
     "test": {

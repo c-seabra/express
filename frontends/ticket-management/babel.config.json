@@ -12,9 +12,12 @@
         "regenerator": false
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "ticket-management"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "ticket-management"
+      }
+    ]
   ],
   "env": {
     "test": {

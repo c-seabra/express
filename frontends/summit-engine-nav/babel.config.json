@@ -12,9 +12,12 @@
         "regenerator": true
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "summit-engine-nav"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "summit-engine-nav"
+      }
+    ]
   ],
   "env": {
     "test": {

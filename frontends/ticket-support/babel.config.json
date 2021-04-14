@@ -12,9 +12,12 @@
         "regenerator": true
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "ticket-support"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "ticket-support"
+      }
+    ]
   ],
   "env": {
     "test": {

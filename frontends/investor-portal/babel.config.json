@@ -12,9 +12,12 @@
         "regenerator": true
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "investor-portal"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "investor-portal"
+      }
+    ]
   ],
   "env": {
     "test": {

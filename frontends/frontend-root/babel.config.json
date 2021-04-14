@@ -8,9 +8,12 @@
         "regenerator": false
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "frontend-root"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "frontend-root"
+      }
+    ]
   ],
   "env": {
     "test": {

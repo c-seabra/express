@@ -8,9 +8,12 @@
         "regenerator": false
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "omnia-container"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "omnia-container"
+      }
+    ]
   ],
   "env": {
     "test": {

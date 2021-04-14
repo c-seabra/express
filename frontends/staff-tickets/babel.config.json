@@ -12,9 +12,12 @@
         "regenerator": true
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "staff-tickets"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "staff-tickets"
+      }
+    ]
   ],
   "env": {
     "test": {

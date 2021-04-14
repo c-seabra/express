@@ -12,9 +12,12 @@
         "regenerator": true
       }
     ],
-    ["babel-plugin-styled-components", {
-      "namespace": "bulk-assign"
-    }]
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "bulk-assign"
+      }
+    ]
   ],
   "env": {
     "test": {
