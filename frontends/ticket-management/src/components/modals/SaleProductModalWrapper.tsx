@@ -8,19 +8,19 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
-import ToggleField from '@websummit/components/src/molecules/ToggleField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDateTime } from '@websummit/components/src/utils/time';
 import {
-  useCommerceCreateProductMutation,
-  useCommerceCreateSaleMutation,
+  EventConfigurationCountry,
+  useCommerceSaleProductCreateMutation,
   useCommerceUpdateSaleMutation,
 } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_SALE_PRODUCTS_LIST from '@websummit/graphql/src/operations/queries/CommerceListSaleProducts';
 import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import CheckboxField from '../../../../../packages/components/src/molecules/CheckboxField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
@@ -38,20 +38,19 @@ type ModalProps = {
   prefillData?: any;
 };
 
-export type ProductFormData = {
+export type SaleProductFormData = {
   active: boolean;
+  amount: number | undefined;
   description: string;
   name: string;
-  price: number;
-  tags: any;
-  taxMode: string;
-  taxType: any;
+  product: string; // ID
+  type: any; // Price type
 };
 
 const alertHeaderText = (_mode: string): string => {
   return switchCase({
-    ADD: 'Create a product',
-    EDIT: `Edit product`,
+    ADD: 'Add pricing for sale cycle',
+    EDIT: `Edit pricing for sale cycle`,
   })('')(_mode);
 };
 
@@ -64,12 +63,31 @@ const submitText = (_mode: string): string => {
 
 const validationSchema = Yup.object().shape({
   active: Yup.boolean(),
+  amount: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   description: Yup.string(),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  price: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  taxMode: Yup.string(),
-  taxType: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  product: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  type: Yup.string(),
 });
+
+const emptyOption = {
+  label: 'Please select',
+  value: undefined,
+};
+
+const getTicketTypesOptions = (
+  types: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+) => [
+  emptyOption,
+  ...types.map((type) => ({ label: type?.name, value: type?.id })),
+];
+
+const getPriceOptions = (
+  prices: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+) => [
+  emptyOption,
+  ...prices.map((price) => ({ label: price?.name, value: price?.id })),
+];
 
 const SaleProductModalWrapper = ({
   isOpen,
@@ -80,68 +98,70 @@ const SaleProductModalWrapper = ({
   const { token } = useAppContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
-  const [createProduct] = useCommerceCreateProductMutation({
+  const ticketTypeOptions = getTicketTypesOptions();
+  const priceTypeOptions = getPriceOptions();
+  const [createProduct] = useCommerceSaleProductCreateMutation({
     context: { token },
     onCompleted: () => {
-      snackbar('Product added to cycle');
+      snackbar('Pricing for sale cycle added');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
+    refetchQueries: [
+      { context: { token }, query: COMMERCE_SALE_PRODUCTS_LIST },
+    ],
   });
   const [updateCycle] = useCommerceUpdateSaleMutation({
     context: { token },
     onCompleted: () => {
-      snackbar('Product updated');
+      snackbar('Pricing for sale cycle updated');
     },
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
   });
 
   const initialValues = (_mode: ModalInputMode) => {
-    let values = {
+    let values: SaleProductFormData = {
       active: false,
+      amount: undefined,
       description: '',
       name: '',
-      price: 0,
-      taxMode: '',
-      taxType: '',
+      product: '',
+      type: '',
     };
 
     if (_mode === 'EDIT') {
       values = {
         active: false,
+        amount: 0,
         description: '',
         name: '',
-        price: 0,
-        taxMode: 'B2B',
-        taxType: '',
+        product: '',
+        type: 'B2B',
       };
     }
 
     return values;
   };
 
-  const pickMutation = (_mode: ModalInputMode, formData: ProductFormData) => {
+  const pickMutation = (
+    _mode: ModalInputMode,
+    formData: SaleProductFormData,
+  ) => {
     let mutation;
     const input = {
       active: formData.active,
+      amount: formData.amount,
       description: formData.description.trim(),
       name: formData.name.trim(),
-      price: formData.price,
-      tags: formData.tags,
-      taxMode: formData.taxMode,
-      taxType: formData.taxType,
+      product: formData.product,
+      type: formData.type,
     };
 
     if (_mode === 'ADD') {
       mutation = createProduct({
         variables: {
-          input: {
-            description: 'Test description',
-            name: 'test name',
-            price: 1500,
-            taxType: { name: 'test tax type' },
-          },
+          commerceSaleProductCreate: input,
+          saleId: '',
         },
       });
     }
@@ -155,7 +175,7 @@ const SaleProductModalWrapper = ({
     return mutation;
   };
 
-  const setMutation = (formData: ProductFormData) => {
+  const setMutation = (formData: SaleProductFormData) => {
     return pickMutation(mode, formData);
   };
 
@@ -172,37 +192,31 @@ const SaleProductModalWrapper = ({
       <Spacing top="8px">
         <FieldWrapper>
           <Spacing bottom="8px">
-            <TextInputField
+            <SelectField
               required
-              label="Product name"
-              name="name"
-              placeholder="General attendee"
+              label="Select ticket type"
+              name="product"
+              options={ticketTypeOptions}
             />
           </Spacing>
         </FieldWrapper>
 
         <FieldWrapper>
-          <InlineWrapper>
-            <SelectField
-              required
-              label="Tax mode"
-              name="taxMode"
-              // options={paymentGatewayOptions}
-            />
-            {/* {getFieldsForPaymentGateway(values.gateway)} */}
-            {/* </FieldsContainer> */}
-
-            <ToggleField label="active" name="activeToggle" value="true" />
-          </InlineWrapper>
+          <TextInputField
+            required
+            label="Display name of ticket type"
+            name="name"
+            placeholder="General attendee"
+          />
         </FieldWrapper>
 
         <FieldWrapper>
           <Spacing bottom="8px">
             <TextAreaField
               fieldHeight="80px"
-              label="Tags"
-              name="tags"
-              placeholder="Cyclable / Special"
+              label="Description"
+              name="description"
+              placeholder="Type description here"
             />
           </Spacing>
         </FieldWrapper>
@@ -211,14 +225,19 @@ const SaleProductModalWrapper = ({
           <InlineWrapper>
             <SelectField
               required
-              label="Tax type"
-              name="taxMode"
-              // options={paymentGatewayOptions}
+              label="Price during sale cycle"
+              name="type"
+              options={priceTypeOptions}
             />
-            {/* {getFieldsForPaymentGateway(values.gateway)} */}
-            {/* </FieldsContainer> */}
 
-            <TextInputField required label="Price" name="price" />
+            <TextInputField
+              required
+              label="Amount"
+              name="amount"
+              placeholder="€0"
+            />
+
+            <CheckboxField label="Active" name="active" />
           </InlineWrapper>
         </FieldWrapper>
       </Spacing>

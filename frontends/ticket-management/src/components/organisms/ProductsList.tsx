@@ -28,7 +28,9 @@ const ProductsList = ({ products, onRowClick }: ProductsListProps) => {
   const tableShape: ColumnDescriptor<any>[] = [
     {
       header: 'Ticket type',
-      renderCell: (saleProduct) => <StyledName>{saleProduct?.product?.name || 'N/A'}</StyledName>,
+      renderCell: (saleProduct) => (
+        <StyledName>{saleProduct?.product?.name || 'N/A'}</StyledName>
+      ),
       width: '20%',
     },
     {
