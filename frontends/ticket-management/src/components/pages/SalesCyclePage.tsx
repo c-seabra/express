@@ -4,11 +4,11 @@ import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   SaleCyclesQueryVariables,
-  useCommerceListProductsQuery,
   useCommerceListSaleProductsQuery,
   useSaleCyclesQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -16,7 +16,6 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 import { SaleCycleFormData } from '../modals/SaleCycleModalWrapper';
@@ -30,26 +29,32 @@ export const Container = styled.div`
   padding-top: 1rem;
 `;
 
+const Header = styled.div`
+  color: #0c1439;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 24px;
+`;
+
+const SubHeader = styled.div`
+  color: #0c1439;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
+`;
+
 const FlexRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 26px 36px;
+  padding: 26px 0;
 `;
 
 // Good candidate to move to package templates
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const HeaderText = styled.h1`
-  color: #0c1439;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 32px;
-  margin: 0;
 `;
 
 const SaleCyclesPage = () => {
@@ -95,6 +100,7 @@ const SaleCyclesPage = () => {
     },
   });
   const products: any = data?.commerceListSaleProducts?.hits;
+  const hasProducts = products && products.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Sale cycles',
@@ -120,17 +126,13 @@ const SaleCyclesPage = () => {
         </FlexRow>
 
         <FlexRow>
-          <ContainerCard title="Sale cycle">
+          <ContainerCard>
             <>
+              <Header>Sale cycle</Header>
               {loadingCycles && <Loader />}
               {cycle && <SaleCycleForm prefillData={cycle} />}
             </>
           </ContainerCard>
-        </FlexRow>
-
-        <FlexRow>
-          <HeaderText>Products</HeaderText>
-          <Button onClick={onButtonClick}>Create new product</Button>
         </FlexRow>
 
         {!products && (
@@ -141,21 +143,28 @@ const SaleCyclesPage = () => {
           </FlexRow>
         )}
 
-        {products && (
-          <FlexRow>
-            <Spacing bottom="2rem">
-              <>
-                {loadingProducts && <Loader />}
-                <ProductsList products={products} />
-              </>
-            </Spacing>
-          </FlexRow>
-        )}
-
         <FlexRow>
-          <Spacing bottom="1rem">
-            <Button onClick={onButtonClick}>Add product to sale cycle</Button>
-          </Spacing>
+          <ContainerCard>
+            <>
+              <Spacing bottom="2rem" top="1rem">
+                <Header>Price information during sale cycle</Header>
+                <SubHeader>
+                  Add price information for ticket types during the sales cycle
+                </SubHeader>
+              </Spacing>
+              <Spacing bottom="3rem">
+                <Button onClick={onButtonClick}>
+                  Add pricing for sales cycle
+                </Button>
+              </Spacing>
+
+              {loadingProducts && <Loader />}
+
+              <Spacing bottom="2rem">
+                <ProductsList products={products} />
+              </Spacing>
+            </>
+          </ContainerCard>
         </FlexRow>
       </FlexCol>
     </Container>

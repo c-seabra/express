@@ -27,12 +27,12 @@ type ProductsListProps = {
 const ProductsList = ({ products, onRowClick }: ProductsListProps) => {
   const tableShape: ColumnDescriptor<any>[] = [
     {
-      header: 'Product',
+      header: 'Ticket type',
       renderCell: (saleProduct) => <StyledName>{saleProduct?.product?.name || 'N/A'}</StyledName>,
       width: '20%',
     },
     {
-      header: 'Sale name of ticket',
+      header: 'Display name',
       renderCell: (saleProduct) => saleProduct.name || 'N/A',
     },
     {
@@ -40,7 +40,7 @@ const ProductsList = ({ products, onRowClick }: ProductsListProps) => {
       renderCell: (saleProduct) => saleProduct.description || 'N/A',
     },
     {
-      header: 'Price for sale saleProduct',
+      header: 'Price for sale cycle',
       renderCell: (saleProduct) => saleProduct.price || 'N/A',
     },
   ];
