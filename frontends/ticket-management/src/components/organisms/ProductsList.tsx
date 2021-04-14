@@ -1,3 +1,4 @@
+import Badge from '@websummit/components/src/atoms/Badge';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
@@ -34,6 +35,21 @@ const ProductsList = ({ products, onRowClick }: ProductsListProps) => {
     {
       header: 'Price for sale cycle',
       renderCell: (saleProduct) => saleProduct.price || 'N/A',
+    },
+    {
+      header: 'Status',
+      renderCell: (saleProduct) => {
+        const badge = {
+          background: saleProduct.active ? '#EAF9EA' : '#FDEBEB',
+          color: saleProduct.active ? '#3BB273' : '#E15554',
+        };
+
+        return (
+          <Badge background={badge.background} color={badge.color}>
+            {saleProduct.active ? 'Active' : 'Inactive' || 'N/A'}
+          </Badge>
+        );
+      },
     },
   ];
 

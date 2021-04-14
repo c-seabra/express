@@ -15,7 +15,7 @@ import {
   EventConfigurationCountry,
   useCommerceListProductsQuery,
   useCommerceSaleProductCreateMutation,
-  useCommerceUpdateSaleMutation,
+  useCommerceUpdateSaleProductMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_SALE_PRODUCTS_LIST from '@websummit/graphql/src/operations/queries/CommerceListSaleProducts';
 import React from 'react';
@@ -117,29 +117,28 @@ const SaleProductModalWrapper = ({
   });
   const ticketTypeOptions = getTicketTypesOptions(productOptions as []);
   const priceTypeOptions = getPriceOptions(typesOptions);
+  const refetchQueriesContext = [
+    {
+      context: { token },
+      query: COMMERCE_SALE_PRODUCTS_LIST,
+      variables: { saleId },
+    },
+  ];
   const [createSaleProduct] = useCommerceSaleProductCreateMutation({
     context: { token },
     onCompleted: () => {
       snackbar('Pricing for sale cycle added');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [
-      {
-        context: { token },
-        query: COMMERCE_SALE_PRODUCTS_LIST,
-        variables: { saleId },
-      },
-    ],
+    refetchQueries: refetchQueriesContext,
   });
-  const [updateCycle] = useCommerceUpdateSaleMutation({
+  const [updateSaleProduct] = useCommerceUpdateSaleProductMutation({
     context: { token },
     onCompleted: () => {
       snackbar('Pricing for sale cycle updated');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [
-      { context: { token }, query: COMMERCE_SALE_PRODUCTS_LIST },
-    ],
+    refetchQueries: refetchQueriesContext,
   });
 
   const initialValues = (_mode: ModalInputMode) => {
@@ -151,14 +150,15 @@ const SaleProductModalWrapper = ({
       type: '',
     };
 
+    console.log('prefillData', prefillData);
     if (_mode === 'EDIT') {
       values = {
-        active: false,
-        amount: 0,
-        description: '',
-        name: '',
-        product: '',
-        type: 'B2B',
+        active: prefillData.active,
+        amount: prefillData.amount,
+        description: prefillData.description,
+        name: prefillData.name,
+        product: prefillData.id,
+        type: prefillData.type,
       };
     }
 
@@ -189,8 +189,12 @@ const SaleProductModalWrapper = ({
     }
 
     if (_mode === 'EDIT') {
-      mutation = updateCycle({
-        variables: { commerceSale: input, id: prefillData.id },
+      mutation = updateSaleProduct({
+        variables: {
+          commerceSaleProductUpdate: input,
+          id: prefillData.id,
+          saleId,
+        },
       });
     }
 

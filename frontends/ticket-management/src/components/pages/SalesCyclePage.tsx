@@ -8,6 +8,7 @@ import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
+  CommerceSortTermDirection,
   SaleCyclesQueryVariables,
   useCommerceListSaleProductsQuery,
   useSaleCyclesQuery,
@@ -19,7 +20,9 @@ import styled from 'styled-components';
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 import { SaleCycleFormData } from '../modals/SaleCycleModalWrapper';
-import SaleProductModalWrapper from '../modals/SaleProductModalWrapper';
+import SaleProductModalWrapper, {
+  SaleProductFormData,
+} from '../modals/SaleProductModalWrapper';
 import ProductsList from '../organisms/ProductsList';
 import SaleCycleForm from '../organisms/SaleCycleForm';
 
@@ -61,23 +64,25 @@ const SaleCyclesPage = () => {
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
   const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
-  const [prefillData, setPrefillData] = useState<SaleCycleFormData>();
+  const [prefillData, setPrefillData] = useState<SaleProductFormData>();
   const onButtonClick = () => {
     setModalMode('ADD');
     openModal();
   };
-  // const onRowClick = (event: SaleCycleFormData) => {
-  //   setPrefillData({
-  //     description: event.description,
-  //     endDate: event.endDate,
-  //     id: event.id,
-  //     name: event.name,
-  //     startDate: event.startDate,
-  //   });
-  //
-  //   setModalMode('EDIT');
-  //   openModal();
-  // };
+  const onRowClick = (event: any) => {
+    console.log(event);
+    setPrefillData({
+      active: event.active,
+      amount: event.price,
+      description: event.description,
+      name: event.name,
+      product: event.product,
+      type: event.type,
+    });
+
+    setModalMode('EDIT');
+    openModal();
+  };
   const { conferenceSlug, token } = useAppContext();
   const context = {
     conferenceSlug,
@@ -97,10 +102,12 @@ const SaleCyclesPage = () => {
     onError: (error) => errorSnackbar(error.message),
     variables: {
       saleId,
-      sort: [{
-        direction: CommerceSortTermDirection.Asc,
-        field: 'createdAt',
-      }],
+      sort: [
+        {
+          direction: CommerceSortTermDirection.Asc,
+          field: 'createdAt',
+        },
+      ],
     },
   });
   const products: any = data?.commerceListSaleProducts?.hits;
@@ -165,7 +172,7 @@ const SaleCyclesPage = () => {
               {loadingProducts && <Loader />}
 
               <Spacing bottom="2rem">
-                <ProductsList products={products} />
+                <ProductsList products={products} onRowClick={onRowClick} />
               </Spacing>
             </>
           </ContainerCard>
