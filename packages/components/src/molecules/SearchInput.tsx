@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import SearchIcon from '../../svgs/search';
+import SearchIcon from '../svgs/SearchIcon';
 
 export const StyledLabel = styled.label`
   display: flex;

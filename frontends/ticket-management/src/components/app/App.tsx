@@ -7,6 +7,8 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import IndexPage from '../pages/IndexPage';
+import SalesCyclesPage from '../pages/SalesCyclesPage';
+import TicketGroupsPage from '../pages/TicketGroupsPage';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
@@ -48,6 +50,12 @@ const App = ({ token, apiURL }: AppProps) => {
               <Switch>
                 <Route exact path="/">
                   <IndexPage />
+                </Route>
+                <Route exact path="/sale-cycles">
+                  <SalesCyclesPage />
+                </Route>
+                <Route exact path="/ticket-groups">
+                  <TicketGroupsPage />
                 </Route>
               </Switch>
             </StyledContainer>
