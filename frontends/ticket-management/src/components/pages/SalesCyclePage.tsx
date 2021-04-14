@@ -100,7 +100,6 @@ const SaleCyclesPage = () => {
     },
   });
   const products: any = data?.commerceListSaleProducts?.hits;
-  const hasProducts = products && products.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Sale cycles',
@@ -118,6 +117,7 @@ const SaleCyclesPage = () => {
         isOpen={isOpen}
         mode={modalMode}
         prefillData={prefillData}
+        saleId={saleId}
       />
 
       <FlexCol>
@@ -138,7 +138,7 @@ const SaleCyclesPage = () => {
         {!products && (
           <FlexRow>
             <Spacing bottom="2rem">
-              <span>No products added yet.</span>
+              <span>No pricing added yet.</span>
             </Spacing>
           </FlexRow>
         )}

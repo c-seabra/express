@@ -1,3 +1,4 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
@@ -10,17 +11,17 @@ import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
+  CommerceSaleProductType,
   EventConfigurationCountry,
+  useCommerceListProductsQuery,
   useCommerceSaleProductCreateMutation,
   useCommerceUpdateSaleMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_SALE_PRODUCTS_LIST from '@websummit/graphql/src/operations/queries/CommerceListSaleProducts';
-import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import CheckboxField from '../../../../../packages/components/src/molecules/CheckboxField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { ModalInputMode } from '../../lib/types/modals';
@@ -36,11 +37,12 @@ type ModalProps = {
   isOpen: boolean;
   mode?: ModalInputMode;
   prefillData?: any;
+  saleId: string;
 };
 
 export type SaleProductFormData = {
   active: boolean;
-  amount: number | undefined;
+  amount?: number;
   description: string;
   name: string;
   product: string; // ID
@@ -75,6 +77,9 @@ const emptyOption = {
   value: undefined,
 };
 
+const typesOptions = [
+  { id: CommerceSaleProductType.AbsolutePrice, name: 'Absolute price' },
+];
 const getTicketTypesOptions = (
   types: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
 ) => [
@@ -94,20 +99,32 @@ const SaleProductModalWrapper = ({
   closeModal,
   mode = 'ADD',
   prefillData,
+  saleId,
 }: ModalProps) => {
   const { token } = useAppContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
-  const ticketTypeOptions = getTicketTypesOptions();
-  const priceTypeOptions = getPriceOptions();
-  const [createProduct] = useCommerceSaleProductCreateMutation({
+  const { data } = useCommerceListProductsQuery({
+    context: { token },
+    onError: (e) => errorSnackbar(e.message),
+  });
+  const products = data?.commerceListProducts?.hits;
+  const productOptions = products?.map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+    };
+  });
+  const ticketTypeOptions = getTicketTypesOptions(productOptions as []);
+  const priceTypeOptions = getPriceOptions(typesOptions);
+  const [createSaleProduct] = useCommerceSaleProductCreateMutation({
     context: { token },
     onCompleted: () => {
       snackbar('Pricing for sale cycle added');
     },
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: [
-      { context: { token }, query: COMMERCE_SALE_PRODUCTS_LIST },
+      { context: { token }, query: COMMERCE_SALE_PRODUCTS_LIST, variables: { saleId } },
     ],
   });
   const [updateCycle] = useCommerceUpdateSaleMutation({
@@ -116,13 +133,14 @@ const SaleProductModalWrapper = ({
       snackbar('Pricing for sale cycle updated');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
+    refetchQueries: [
+      { context: { token }, query: COMMERCE_SALE_PRODUCTS_LIST },
+    ],
   });
 
   const initialValues = (_mode: ModalInputMode) => {
     let values: SaleProductFormData = {
       active: false,
-      amount: undefined,
       description: '',
       name: '',
       product: '',
@@ -150,7 +168,7 @@ const SaleProductModalWrapper = ({
     let mutation;
     const input = {
       active: formData.active,
-      amount: formData.amount,
+      amount: Number(formData.amount),
       description: formData.description.trim(),
       name: formData.name.trim(),
       product: formData.product,
@@ -158,10 +176,10 @@ const SaleProductModalWrapper = ({
     };
 
     if (_mode === 'ADD') {
-      mutation = createProduct({
+      mutation = createSaleProduct({
         variables: {
           commerceSaleProductCreate: input,
-          saleId: '',
+          saleId,
         },
       });
     }
