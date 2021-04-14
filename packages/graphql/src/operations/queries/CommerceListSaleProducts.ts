@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const COMMERCE_SALE_PRODUCTS_LIST = gql`
-  query CommerceListSaleProducts($saleId: ID!) {
-    commerceListSaleProducts(saleId: $saleId) {
+  query CommerceListSaleProducts($saleId: ID!, $sort: [CommerceSortTerm!]) {
+    commerceListSaleProducts(saleId: $saleId, sort: $sort) {
       hits {
         active
         createdAt

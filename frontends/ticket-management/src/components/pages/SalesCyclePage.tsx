@@ -97,6 +97,10 @@ const SaleCyclesPage = () => {
     onError: (error) => errorSnackbar(error.message),
     variables: {
       saleId,
+      sort: [{
+        direction: CommerceSortTermDirection.Asc,
+        field: 'createdAt',
+      }],
     },
   });
   const products: any = data?.commerceListSaleProducts?.hits;
