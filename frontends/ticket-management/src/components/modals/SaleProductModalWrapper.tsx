@@ -124,7 +124,11 @@ const SaleProductModalWrapper = ({
     },
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: [
-      { context: { token }, query: COMMERCE_SALE_PRODUCTS_LIST, variables: { saleId } },
+      {
+        context: { token },
+        query: COMMERCE_SALE_PRODUCTS_LIST,
+        variables: { saleId },
+      },
     ],
   });
   const [updateCycle] = useCommerceUpdateSaleMutation({
