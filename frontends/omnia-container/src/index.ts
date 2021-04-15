@@ -75,7 +75,6 @@ export default function loadContainer(props: RequiredProps) {
 
   // Append all single spa apps to the micro container div
   window.addEventListener('single-spa:routing-event', () => {
-
     // Select and move single spa apps to container in order
     const target = document.getElementById('micro');
     const spas = document.querySelectorAll("[id^='single-spa-application:']");
