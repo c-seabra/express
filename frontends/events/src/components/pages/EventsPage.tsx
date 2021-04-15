@@ -21,7 +21,7 @@ import UpcomingEvents from '../templates/UpcomingEvents';
 export const Container = styled.div`
   max-width: 1440px;
   margin: auto;
-  padding-top: 1rem;
+  padding: 1rem;
 `;
 
 const FlexEnd = styled.div`

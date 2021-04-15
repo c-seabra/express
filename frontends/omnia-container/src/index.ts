@@ -63,13 +63,18 @@ export default function loadContainer(props: RequiredProps) {
   layoutEngine.activate();
   start();
 
+  // Add some styles for the micro conatiner into the doc head
+  const microCss = '#micro { margin: 0 auto; }';
+  const styleTag = document.createElement('style');
+  styleTag.appendChild(document.createTextNode(microCss));
+  document.head.appendChild(styleTag);
+
+  // Overide the Omnia Dashboard conatiner padding
+  const el = document.querySelector('.dashbard-1');
+  if (el) el.style.cssText = 'padding: 0';
+
   // Append all single spa apps to the micro container div
   window.addEventListener('single-spa:routing-event', () => {
-    // Add some styles for the micro conatiner into the doc head
-    const microCss = '#micro { max-width: 1170px; margin: 0 auto; }';
-    const styleTag = document.createElement('style');
-    styleTag.appendChild(document.createTextNode(microCss));
-    document.head.appendChild(styleTag);
 
     // Select and move single spa apps to container in order
     const target = document.getElementById('micro');
