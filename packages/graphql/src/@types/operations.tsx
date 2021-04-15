@@ -1283,7 +1283,7 @@ export type TicketType = {
   releases: TicketReleaseConnection;
   assignmentProperties: Maybe<AssignmentProperties>;
   description: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
@@ -1634,6 +1634,7 @@ export type TicketReleaseEdge = {
 
 export type AssignmentProperties = {
   __typename?: 'AssignmentProperties';
+  bookingRefSuffix: Maybe<Scalars['String']>;
   cycleable: Scalars['Boolean'];
   orderOwnerEditable: Scalars['Boolean'];
   reassignable: Scalars['Boolean'];
@@ -3083,7 +3084,7 @@ export type CommerceUser = {
 export type CommerceProduct = {
   __typename?: 'CommerceProduct';
   active: Maybe<Scalars['Boolean']>;
-  categories: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categories: Maybe<Array<CommerceCategory>>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<CommerceUser>;
   defaultPrice: Maybe<Scalars['Int']>;
@@ -5798,7 +5799,7 @@ export type CommerceCategoryCreateOrUpdate = {
 
 export type CommerceProductCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  categories?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
@@ -5957,7 +5958,7 @@ export type CommercePaymentMethodCreate = {
 
 export type CommerceProductCreate = {
   active?: Maybe<Scalars['Boolean']>;
-  categories?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -6167,7 +6168,7 @@ export type CommercePaymentMethodUpdate = {
 
 export type CommerceProductUpdate = {
   active?: Maybe<Scalars['Boolean']>;
-  categories?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
@@ -8028,7 +8029,6 @@ export type CommerceListProductsQuery = { __typename?: 'Query' } & {
           { __typename?: 'CommerceProduct' } & Pick<
             CommerceProduct,
             | 'active'
-            | 'categories'
             | 'createdAt'
             | 'defaultPrice'
             | 'description'
@@ -8038,6 +8038,14 @@ export type CommerceListProductsQuery = { __typename?: 'Query' } & {
             | 'price'
             | 'taxMode'
           > & {
+              categories: Maybe<
+                Array<
+                  { __typename?: 'CommerceCategory' } & Pick<
+                    CommerceCategory,
+                    'id' | 'active' | 'name' | 'description'
+                  >
+                >
+              >;
               createdBy: Maybe<
                 { __typename?: 'CommerceUser' } & Pick<
                   CommerceUser,
@@ -16205,6 +16213,27 @@ export const CommerceListProductsDocument: DocumentNode = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'categories' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'active' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                          ],
+                        },
                       },
                       {
                         kind: 'Field',

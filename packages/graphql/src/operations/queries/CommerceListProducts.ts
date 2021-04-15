@@ -5,7 +5,12 @@ export default gql`
     commerceListProducts {
       hits {
         active
-        categories
+        categories {
+          id
+          active
+          name
+          description
+        }
         createdAt
         createdBy {
           name

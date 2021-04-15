@@ -19,6 +19,27 @@ import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketTypesPlaceholder from '../../lib/images/no-ticket-types-placeholder.png';
 import { useAppContext } from '../app/AppContext';
 
+export const Badge = styled.span`
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 24px;
+  padding: 8px 16px;
+  color: #fff;
+  background-color: #000;
+  border-radius: 4px;
+  min-width: 75px;
+  text-align: center;
+`;
+
+const ActiveState = styled(Badge)`
+  background-color: #eaf9ea;
+  color: #44c242;
+`;
+const VoidState = styled(Badge)`
+  background-color: #f14d4c;
+  color: #d8d8d8;
+`;
+
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -39,6 +60,14 @@ const Placeholder = styled.img`
   max-width: 1440px;
 `;
 
+const TicketTypeState = ({ state }: { state: boolean }) => {
+  return state ? (
+    <ActiveState>Active</ActiveState>
+  ) : (
+    <VoidState>Paused</VoidState>
+  );
+};
+
 type GroupedTicketTypes = {
   [k: string]: Partial<CommerceProduct>[];
 };
@@ -51,41 +80,48 @@ const groupTicketTypesByGroups = (
 ) => {
   let ticketTypesByGroups: GroupedTicketTypes = {};
 
-  ticketTypes.forEach((ticketType) => {
-    const ticketTypesGroupIds = ticketType?.categories || [];
-    const matchedGroups = ticketTypesGroupIds
-      .map((groupId) => ticketGroups.find((group) => group.id === groupId))
-      .filter(Boolean);
+  ticketGroups.forEach((category) => {
+    const ticketTypesByGroup = ticketTypes.filter((type) =>
+      type?.categories?.some((typeCategory) => typeCategory.id === category.id),
+    );
 
-    if (matchedGroups.length > 0) {
-      matchedGroups.forEach((group) => {
-        if (group?.name) {
-          ticketTypesByGroups = {
-            ...ticketTypesByGroups,
-            [group.name]: [...ticketTypesByGroups[group.name], ticketType],
-          };
-        }
-      });
-
+    if (ticketTypesByGroup.length > 0) {
       ticketTypesByGroups = {
         ...ticketTypesByGroups,
-        [ungroupedCategoryName]: [
-          ...ticketTypesByGroups[ungroupedCategoryName],
-          ticketType,
-        ],
+        [category.name]: ticketTypesByGroup,
       };
     }
   });
 
+  const ticketsWithoutGroup = ticketTypes.filter(
+    (type) => !type.categories || type?.categories?.length === 0,
+  );
+
+  if (ticketsWithoutGroup.length > 0) {
+    return {
+      ...ticketTypesByGroups,
+      [ungroupedCategoryName]: ticketsWithoutGroup,
+    };
+  }
+
   return ticketTypesByGroups;
 };
 
-type CommerceProductTableItem = Pick<CommerceProduct, 'name' | 'id'>;
+type CommerceProductTableItem = Pick<
+  CommerceProduct,
+  'name' | 'id' | 'active'
+> & {
+  name?: string;
+};
 
 const tableShape: ColumnDescriptors<CommerceProductTableItem> = [
   {
     header: 'Name',
     renderCell: (item) => item.name,
+  },
+  {
+    header: 'On sale',
+    renderCell: (item) => <TicketTypeState state={!!item.active} />,
   },
 ];
 
@@ -101,17 +137,16 @@ const TicketTypesPage = () => {
     context: { token },
   });
 
-  const commerceProducts = data?.commerceListProducts?.hits || [];
+  const ticketTypes = data?.commerceListProducts?.hits || [];
   const areCommerceProductsPresent =
-    commerceProducts?.length && commerceProducts?.length > 0;
+    ticketTypes?.length && ticketTypes?.length > 0;
 
-  const commerceCategories =
+  const ticketGroups =
     commerceCategoriesData?.commerceListCategories?.hits || [];
 
-  // TODO - check if function groups tickets properly
-  const grouped = groupTicketTypesByGroups(
-    commerceProducts,
-    commerceCategories,
+  const ticketTypesByGroups = groupTicketTypesByGroups(
+    ticketTypes as Partial<CommerceProduct>[],
+    ticketGroups,
   );
 
   return (
@@ -130,14 +165,16 @@ const TicketTypesPage = () => {
       )}
 
       {areCommerceProductsPresent ? (
-        <Spacing top="1.5rem">
-          <ContainerCard noPadding>
-            <Table<CommerceProductTableItem>
-              items={commerceProducts}
-              tableShape={tableShape}
-            />
-          </ContainerCard>
-        </Spacing>
+        Object.entries(ticketTypesByGroups).map(([key, value]) => (
+          <Spacing key={key} top="1.5rem">
+            <ContainerCard noPadding title={key}>
+              <Table<CommerceProductTableItem>
+                items={value as CommerceProductTableItem[]}
+                tableShape={tableShape}
+              />
+            </ContainerCard>
+          </Spacing>
+        ))
       ) : (
         <Placeholder
           alt="no ticket types placeholder"
