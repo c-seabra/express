@@ -17,23 +17,36 @@ type AppRoute = {
   type: string;
 };
 
+const summitEngineNav = {
+  name: '@websummit-micro/summit-engine-nav',
+  type: 'application',
+};
+
+function appFor(name: string, nav?: SubRoute): SubRoute[] {
+  const routes = [];
+  if (nav) {
+    routes.push(nav);
+  }
+  const app = { name: `@websummit-micro/${name}`, type: 'application' };
+  routes.push(app);
+  return routes;
+}
+
 const protoRootApps: AppRoute[] = [
   {
     default: true,
     path: 'demo',
-    routes: [{ name: '@websummit-micro/frontend-demo', type: 'application' }],
+    routes: appFor('frontend-demo', summitEngineNav),
     type: 'route',
   },
   {
     path: 'ticket-management',
-    routes: [
-      { name: '@websummit-micro/ticket-management', type: 'application' },
-    ],
+    routes: appFor('ticket-management', summitEngineNav),
     type: 'route',
   },
   {
     path: 'events',
-    routes: [{ name: '@websummit-micro/events', type: 'application' }],
+    routes: appFor('events', summitEngineNav),
     type: 'route',
   },
 ];
@@ -42,37 +55,37 @@ const protoEventSpecificApps: AppRoute[] = [
   {
     default: true,
     path: 'demo',
-    routes: [{ name: '@websummit-micro/frontend-demo', type: 'application' }],
+    routes: appFor('frontend-demo', summitEngineNav),
     type: 'route',
   },
   {
     altPath: 'conferences/:conferenceId/tickets/support_dashboard',
     path: 'ticket-support',
-    routes: [{ name: '@websummit-micro/ticket-support', type: 'application' }],
+    routes: appFor('ticket-support', summitEngineNav),
     type: 'route',
   },
   {
     altPath: 'conferences/:conferenceId/tickets/staff-tickets/micro',
     path: 'staff-tickets',
-    routes: [{ name: '@websummit-micro/staff-tickets', type: 'application' }],
+    routes: appFor('staff-tickets', summitEngineNav),
     type: 'route',
   },
   {
     altPath: 'conferences/:conferenceId/tickets/bulk-assign',
     path: 'bulk-assign',
-    routes: [{ name: '@websummit-micro/bulk-assign', type: 'application' }],
+    routes: appFor('bulk-assign', summitEngineNav),
     type: 'route',
   },
   {
     altPath: 'conferences/:conferenceId/investor_portal',
     path: 'investor-portal',
-    routes: [{ name: '@websummit-micro/investor-portal', type: 'application' }],
+    routes: appFor('investor-portal'),
     type: 'route',
   },
   {
     altPath: 'conferences/:conferenceId/calendar_admin',
     path: 'calendar-admin',
-    routes: [{ name: '@websummit-micro/calendar-admin', type: 'application' }],
+    routes: appFor('calendar-admin'),
     type: 'route',
   },
 ];
@@ -135,25 +148,11 @@ const eventSpecificApps: AppRoute[] = protoApps
 
 const allApps = [...rootApps, ...eventSpecificApps];
 
-const nawElement = [
-  {
-    default: true,
-    path: '/',
-    routes: [
-      { name: '@websummit-micro/summit-engine-nav', type: 'application' },
-    ],
-    type: 'route',
-  },
-];
-
 type TopLevelLayout = {
   routes: AppRoute[];
 };
 
 const apps: TopLevelLayout[] = [
-  {
-    routes: nawElement,
-  },
   {
     routes: allApps,
   },
