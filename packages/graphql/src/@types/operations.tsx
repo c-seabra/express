@@ -76,8 +76,6 @@ export type Query = {
   ticketReleasePhase: Maybe<TicketReleasePhase>;
   ticketReleasePhases: TicketReleasePhaseConnection;
   ticketReleases: TicketReleaseConnection;
-  ticketType: Maybe<TicketType>;
-  ticketTypes: TicketTypeConnection;
   adminAttendeeProfile: Maybe<Attendee>;
   admins: AdminConnection;
   appearances: AppearanceConnection;
@@ -112,6 +110,8 @@ export type Query = {
   taEvent: Maybe<TaEvent>;
   /** Retrieves a ticket by the booking reference. ex: "MVSD-1" */
   ticket: Maybe<Ticket>;
+  ticketType: Maybe<TicketType>;
+  ticketTypes: TicketTypeConnection;
   /**
    * Retrieves all the tickets.
    * Can be filtered by:
@@ -322,19 +322,6 @@ export type QueryTicketReleasesArgs = {
   ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
 };
 
-export type QueryTicketTypeArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryTicketTypesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  ids?: Maybe<Array<Scalars['ID']>>;
-  last?: Maybe<Scalars['Int']>;
-  ticketCategoryIds?: Maybe<Array<Scalars['ID']>>;
-};
-
 export type QueryAdminAttendeeProfileArgs = {
   email: Scalars['String'];
 };
@@ -450,6 +437,18 @@ export type QueryTaEventArgs = {
 
 export type QueryTicketArgs = {
   reference: Scalars['String'];
+};
+
+export type QueryTicketTypeArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryTicketTypesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  ids?: Maybe<Array<Scalars['ID']>>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type QueryTicketsArgs = {
@@ -1269,17 +1268,11 @@ export type ComponentWebElementsPriceIncreaseCountdownTimer = {
   ticketType: TicketType;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketType = {
   __typename?: 'TicketType';
   accessPermissions: AccessPermissionConnection;
   category: Maybe<TicketCategory>;
-  description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  name: Scalars['String'];
   /** If no arguments given, it returns current release */
   release: Maybe<TicketRelease>;
   releasePhases: TicketReleasePhaseConnection;
@@ -1288,14 +1281,12 @@ export type TicketType = {
    * The combination of ticket type and release phase is captured in the concept of a "TicketRelease".
    */
   releases: TicketReleaseConnection;
-  versions: Maybe<Array<PaperTrailVersion>>;
   assignmentProperties: Maybe<AssignmentProperties>;
+  description: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketTypeAccessPermissionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1303,19 +1294,11 @@ export type TicketTypeAccessPermissionsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketTypeReleaseArgs = {
   id?: Maybe<Scalars['ID']>;
   releasePhaseId?: Maybe<Scalars['ID']>;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketTypeReleasePhasesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1323,10 +1306,6 @@ export type TicketTypeReleasePhasesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-/**
- * The type of ticket determines the access permissions granted to the ticket
- * holder, independent of the release phase during which they purchased the ticket.
- */
 export type TicketTypeReleasesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1410,6 +1389,7 @@ export type TicketCategory = {
   __typename?: 'TicketCategory';
   description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  /** Must be unique in the scope of the event */
   name: Scalars['String'];
   ticketTypes: TicketTypeConnection;
   versions: Maybe<Array<PaperTrailVersion>>;
@@ -1444,6 +1424,7 @@ export type TicketRelease = {
   __typename?: 'TicketRelease';
   /** The action available to the user, inferred from a combination of factors */
   action: Maybe<TicketReleaseAction>;
+  /** Returns true when the release phase is active */
   active: Scalars['Boolean'];
   description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
@@ -1499,10 +1480,13 @@ export type TicketReleaseActionsTitoCheckoutAction = {
 
 export type Price = {
   __typename?: 'Price';
+  /** Price without a tax */
   exTax: Money;
   /** @deprecated This field is only here for compatibility reasons.You should not use it because we no longer support tax lines, the returned value is hardcoded to an empty array. */
   taxLines: Array<TaxLine>;
+  /** Total price including taxes */
   total: Money;
+  /** Total tax value */
   totalTax: Money;
 };
 
@@ -1650,6 +1634,7 @@ export type TicketReleaseEdge = {
 
 export type AssignmentProperties = {
   __typename?: 'AssignmentProperties';
+  bookingRefSuffix: Maybe<Scalars['String']>;
   cycleable: Scalars['Boolean'];
   orderOwnerEditable: Scalars['Boolean'];
   reassignable: Scalars['Boolean'];
@@ -3099,6 +3084,7 @@ export type CommerceUser = {
 export type CommerceProduct = {
   __typename?: 'CommerceProduct';
   active: Maybe<Scalars['Boolean']>;
+  categories: Maybe<Array<CommerceCategory>>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<CommerceUser>;
   defaultPrice: Maybe<Scalars['Int']>;
@@ -3426,6 +3412,8 @@ export type CommerceStore = {
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<CommerceUser>;
   currency: Scalars['String'];
+  currencySymbol: Maybe<Scalars['String']>;
+  currentSales: Maybe<Array<CommerceSale>>;
   deals: Maybe<Array<CommerceDeal>>;
   id: Maybe<Scalars['ID']>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
@@ -3924,16 +3912,22 @@ export type Mutation = {
   deleteWebPageConfig: Maybe<DeleteWebPageConfigPayload>;
   forgotPassword: Maybe<UserPermissionsPasswordPayload>;
   submitDynamicFormstackForm: DynamicFormSubmissionPayload;
+  /** Creates a ticket category */
   ticketCategoryCreate: Maybe<TicketCategoryCreatePayload>;
+  /** Deletes a ticket category */
   ticketCategoryDelete: Maybe<TicketCategoryDeletePayload>;
+  /** Updates a ticket category */
   ticketCategoryUpdate: Maybe<TicketCategoryUpdatePayload>;
+  /** Creates a ticket release */
   ticketReleaseCreate: Maybe<TicketReleaseCreatePayload>;
+  /** Creates a ticket release phase */
   ticketReleasePhaseCreate: Maybe<TicketReleasePhaseCreatePayload>;
+  /** Deletes a ticket release phase */
   ticketReleasePhaseDelete: Maybe<TicketReleasePhaseDeletePayload>;
+  /** Updates a ticket release phase */
   ticketReleasePhaseUpdate: Maybe<TicketReleasePhaseUpdatePayload>;
+  /** Updates a ticket release */
   ticketReleaseUpdate: Maybe<TicketReleaseUpdatePayload>;
-  ticketTypeCreate: Maybe<TicketTypeCreatePayload>;
-  ticketTypeUpdate: Maybe<TicketTypeUpdatePayload>;
   adminAssignRole: Maybe<AdminAssignRolePayload>;
   adminCreate: Maybe<AdminCreatePayload>;
   adminUnassignRole: Maybe<AdminUnassignRolePayload>;
@@ -3963,7 +3957,6 @@ export type Mutation = {
   assignmentMagicLinkLoginRequest: Maybe<AssignmentMagicLinkLoginRequestPayload>;
   assignmentProfileAdminUpdate: Maybe<AssignmentProfileAdminUpdatePayload>;
   assignmentProfileUpdate: Maybe<AssignmentProfileUpdatePayload>;
-  assignmentPropertiesUpdate: Maybe<AssignmentPropertiesUpdatePayload>;
   assignmentSalesforceAccountUpdate: Maybe<AssignmentSalesforceAccountUpdatePayload>;
   assignmentTicketLoginUpdate: Maybe<AssignmentTicketLoginUpdatePayload>;
   orderCancel: Maybe<OrderCancelPayload>;
@@ -4157,14 +4150,6 @@ export type MutationTicketReleaseUpdateArgs = {
   input: TicketReleaseUpdateInput;
 };
 
-export type MutationTicketTypeCreateArgs = {
-  input: TicketTypeCreateInput;
-};
-
-export type MutationTicketTypeUpdateArgs = {
-  input: TicketTypeUpdateInput;
-};
-
 export type MutationAdminAssignRoleArgs = {
   input: AdminAssignRoleInput;
 };
@@ -4275,10 +4260,6 @@ export type MutationAssignmentProfileAdminUpdateArgs = {
 
 export type MutationAssignmentProfileUpdateArgs = {
   input: AssignmentProfileUpdateInput;
-};
-
-export type MutationAssignmentPropertiesUpdateArgs = {
-  input: AssignmentPropertiesUpdateInput;
 };
 
 export type MutationAssignmentSalesforceAccountUpdateArgs = {
@@ -4956,45 +4937,6 @@ export type TicketReleaseUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
-/** Autogenerated input type of TicketTypeCreate */
-export type TicketTypeCreateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  inviteOnly?: Maybe<Scalars['Boolean']>;
-  name: Scalars['String'];
-  ticketCategoryId: Scalars['ID'];
-};
-
-/** Autogenerated return type of TicketTypeCreate */
-export type TicketTypeCreatePayload = {
-  __typename?: 'TicketTypeCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticketType: Maybe<TicketType>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of TicketTypeUpdate */
-export type TicketTypeUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  inviteOnly?: Maybe<Scalars['Boolean']>;
-  name?: Maybe<Scalars['String']>;
-  ticketCategoryId?: Maybe<Scalars['ID']>;
-};
-
-/** Autogenerated return type of TicketTypeUpdate */
-export type TicketTypeUpdatePayload = {
-  __typename?: 'TicketTypeUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticketType: Maybe<TicketType>;
-  userErrors: Array<UserError>;
-};
-
 /** Autogenerated input type of AdminAssignRole */
 export type AdminAssignRoleInput = {
   adminId: Scalars['ID'];
@@ -5567,26 +5509,6 @@ export type AssignmentProfileUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
-/** Autogenerated input type of AssignmentPropertiesUpdate */
-export type AssignmentPropertiesUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  cycleable?: Maybe<Scalars['Boolean']>;
-  orderOwnerEditable?: Maybe<Scalars['Boolean']>;
-  reassignable?: Maybe<Scalars['Boolean']>;
-  rejectable?: Maybe<Scalars['Boolean']>;
-  ticketTypeId: Scalars['ID'];
-};
-
-/** Autogenerated return type of AssignmentPropertiesUpdate */
-export type AssignmentPropertiesUpdatePayload = {
-  __typename?: 'AssignmentPropertiesUpdatePayload';
-  assignmentProperties: Maybe<AssignmentProperties>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
 /** Autogenerated input type of AssignmentSalesforceAccountUpdate */
 export type AssignmentSalesforceAccountUpdateInput = {
   announcementStatus?: Maybe<Scalars['String']>;
@@ -5877,6 +5799,7 @@ export type CommerceCategoryCreateOrUpdate = {
 
 export type CommerceProductCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
@@ -6035,6 +5958,7 @@ export type CommercePaymentMethodCreate = {
 
 export type CommerceProductCreate = {
   active?: Maybe<Scalars['Boolean']>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -6244,6 +6168,7 @@ export type CommercePaymentMethodUpdate = {
 
 export type CommerceProductUpdate = {
   active?: Maybe<Scalars['Boolean']>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
   defaultPrice?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
@@ -8086,6 +8011,66 @@ export type CommerceListPaymentMethodsQuery = { __typename?: 'Query' } & {
             CommercePaymentMethod,
             'id' | 'name' | 'configuration' | 'active' | 'gateway'
           >
+        >
+      >;
+    }
+  >;
+};
+
+export type CommerceListProductsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type CommerceListProductsQuery = { __typename?: 'Query' } & {
+  commerceListProducts: Maybe<
+    { __typename?: 'CommerceSearchResponseProduct' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceProduct' } & Pick<
+            CommerceProduct,
+            | 'active'
+            | 'createdAt'
+            | 'defaultPrice'
+            | 'description'
+            | 'id'
+            | 'lastUpdatedAt'
+            | 'name'
+            | 'price'
+            | 'taxMode'
+          > & {
+              categories: Maybe<
+                Array<
+                  { __typename?: 'CommerceCategory' } & Pick<
+                    CommerceCategory,
+                    'id' | 'active' | 'name' | 'description'
+                  >
+                >
+              >;
+              createdBy: Maybe<
+                { __typename?: 'CommerceUser' } & Pick<
+                  CommerceUser,
+                  'name' | 'email'
+                >
+              >;
+              lastUpdatedBy: Maybe<
+                { __typename?: 'CommerceUser' } & Pick<
+                  CommerceUser,
+                  'name' | 'email'
+                >
+              >;
+              tags: Maybe<
+                Array<
+                  { __typename?: 'CommerceTag' } & Pick<
+                    CommerceTag,
+                    'id' | 'code' | 'name' | 'description'
+                  >
+                >
+              >;
+              taxType: { __typename?: 'CommerceTaxType' } & Pick<
+                CommerceTaxType,
+                'id' | 'description' | 'name'
+              >;
+            }
         >
       >;
     }
@@ -16199,6 +16184,219 @@ export type CommerceListPaymentMethodsLazyQueryHookResult = ReturnType<
 export type CommerceListPaymentMethodsQueryResult = Apollo.QueryResult<
   CommerceListPaymentMethodsQuery,
   CommerceListPaymentMethodsQueryVariables
+>;
+export const CommerceListProductsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListProducts' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListProducts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'active' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'categories' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'active' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'defaultPrice' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'code' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxMode' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxType' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListProductsQuery__
+ *
+ * To run a query within a React component, call `useCommerceListProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListProductsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCommerceListProductsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListProductsQuery,
+    CommerceListProductsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListProductsQuery,
+    CommerceListProductsQueryVariables
+  >(CommerceListProductsDocument, baseOptions);
+}
+export function useCommerceListProductsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListProductsQuery,
+    CommerceListProductsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListProductsQuery,
+    CommerceListProductsQueryVariables
+  >(CommerceListProductsDocument, baseOptions);
+}
+export type CommerceListProductsQueryHookResult = ReturnType<
+  typeof useCommerceListProductsQuery
+>;
+export type CommerceListProductsLazyQueryHookResult = ReturnType<
+  typeof useCommerceListProductsLazyQuery
+>;
+export type CommerceListProductsQueryResult = Apollo.QueryResult<
+  CommerceListProductsQuery,
+  CommerceListProductsQueryVariables
 >;
 export const CountriesDocument: DocumentNode = {
   definitions: [

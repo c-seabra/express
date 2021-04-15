@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import IndexPage from '../pages/IndexPage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
 import TicketGroupsPage from '../pages/TicketGroupsPage';
+import TicketTypesPage from '../pages/TicketTypesPage';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
@@ -56,6 +57,9 @@ const App = ({ token, apiURL }: AppProps) => {
                 </Route>
                 <Route exact path="/ticket-groups">
                   <TicketGroupsPage />
+                </Route>
+                <Route exact path="/ticket-types">
+                  <TicketTypesPage />
                 </Route>
               </Switch>
             </StyledContainer>
