@@ -51,7 +51,7 @@ export default function loadContainer(props: RequiredProps) {
     'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
     'stylesheet',
   );
-  addHeadLink('https://use.typekit.net/vst7xer.css', '', 'stylesheet');
+  addHeadLink('https://use.typekit.net/vst7xer.css', 'stylesheet');
   addHeadLink(
     'https://fonts.googleapis.com/icon?family=Material+Icons',
     'stylesheet',
