@@ -12,7 +12,8 @@
   - [2. Amend package.json start command](#Amendpackage.jsonstartcommand)
   - [3. Add version value](#Addversionvalue)
   - [4. Add reference to import map](#Addreferencetoimportmap)
-  - [5. Install dependencies and test](#Installdependenciesandtest)
+  - [5. Add namespace to babel config](#Addnamespacetobabelconfig)
+  - [6. Install dependencies and test](#Installdependenciesandtest)
 - [Creating Component and Library Packages](#CreatingComponentandLibraryPackages)
   - [1. Create a new package within the package directory](#Createanewpackagewithinthepackagedirectory)
   - [2. Copy build scripts, dependencies and npm commands](#Copybuildscriptsdependenciesandnpmcommands)
@@ -149,13 +150,17 @@ And add the local development url with the appropriate incremented port number t
   <% } %>
 ```
 
-You can then render and view your micro-frontend by adding a further reference to it anywhere inside the index.ejs markup file using the single-spa layout engine and `<applicaiton>` tags. e.g.
+You can then render and view your micro-frontend by adding a further reference to it anywhere inside the index.ejs markup file using the single-spa layout engine and `<application>` tags. e.g.
 
 ```
 <application name=“@websummit-micro/ticket-support”></application>
 ```
 
-### <a name='Installdependenciesandtest'></a>5. Install dependencies and test
+### <a name='Addnamespacetobabelconfig'></a>5. Add namespace to babel config
+
+NOTE: if you are using styled components within a react micro frontend, in order to avoid CSS selector clashes with duplicate classnames in other microfrontends, it is required to have a babel configuraiton with a namespace specified. This namespace will be used as a classname prefix for all styled components in the micro frontend. For more information check the [styled components plugin documentation](https://styled-components.com/docs/tooling#namespace)
+
+### <a name='Installdependenciesandtest'></a>6. Install dependencies and test
 
 When all the previous steps are completed, form the root of your application, run `yarn`
 

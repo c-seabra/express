@@ -39,4 +39,9 @@ export default function loadContainer(props: RequiredProps) {
   });
   layoutEngine.activate();
   start();
+  window.addEventListener('single-spa:routing-event', () => {
+    const target = document.getElementById('micro');
+    const spas = document.querySelectorAll("[id^='single-spa-application:']");
+    spas.forEach((el) => target?.appendChild(el));
+  });
 }

@@ -1,7 +1,10 @@
 import { ApolloError } from '@apollo/client';
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { useAttendanceAppearanceSelectionUpdateMutation } from '../../lib/hooks';
+import {
+  useAttendanceAppearanceSelectionUpdateMutation,
+  useEventQuery,
+} from '../../lib/hooks';
 import Loader from '../../lib/Loading';
 import { AttendanceAppearanceSelection } from '../../lib/types';
 import AttendanceAppearanceSelectionItem from './AttendanceAppearanceSelectionItem';
@@ -23,6 +26,9 @@ const AttendanceAppearanceSelectionList = ({
 }: AtendanceAppearanceSelectionListProps): ReactElement => {
   const [hideAction, setHideAction] = useState<boolean>(false);
   const [status, setStatus] = useState<string>('');
+  const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin');
+
+  const { data } = useEventQuery();
 
   const handleStatus = () => {
     const statuses = list
@@ -44,7 +50,8 @@ const AttendanceAppearanceSelectionList = ({
 
   useEffect(() => {
     handleStatus();
-  });
+    setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin');
+  }, [data]);
 
   const {
     updateAttendanceAppearanceSelections,
@@ -72,6 +79,7 @@ const AttendanceAppearanceSelectionList = ({
       {list.map((selection) => (
         <AttendanceAppearanceSelectionItem
           key={selection.id}
+          eventTimezone={eventTimezone}
           selection={selection}
         />
       ))}
