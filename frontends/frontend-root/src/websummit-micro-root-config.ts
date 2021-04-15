@@ -1,13 +1,11 @@
+import { routes } from '@websummit/glue/src/single-spa/routes';
 import { registerApplication, start } from 'single-spa';
 import {
   constructApplications,
   constructLayoutEngine,
-  constructRoutes,
 } from 'single-spa-layout';
 
-const routes = constructRoutes(
-  document.querySelector('#single-spa-layout') as HTMLTemplateElement,
-);
+// console.log(JSON.stringify(routes));
 const applications = constructApplications({
   loadApp({ name }) {
     // eslint-disable-next-line

@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@websummit/graphql": "*",
+    "single-spa": "*",
+    "single-spa-layout": "*",
     "react": "*",
     "qs": "*",
     "react-router-dom": "*"

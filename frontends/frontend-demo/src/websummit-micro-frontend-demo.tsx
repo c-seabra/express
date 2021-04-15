@@ -10,4 +10,4 @@ const lifecycles = singleSpaReact({
   rootComponent: Root,
 });
 
-export const { bootstrap, mount, unmount } = lifecycles;
+export const { bootstrap, mount, unmount, update } = lifecycles;

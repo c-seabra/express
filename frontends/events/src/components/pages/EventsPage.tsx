@@ -21,7 +21,7 @@ import UpcomingEvents from '../templates/UpcomingEvents';
 export const Container = styled.div`
   max-width: 1440px;
   margin: auto;
-  padding-top: 1rem;
+  padding: 1rem;
 `;
 
 const FlexEnd = styled.div`
@@ -40,8 +40,6 @@ const FlexRow = styled.div`
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1440px;
-  margin: 0 auto;
 `;
 
 const HeaderText = styled.h1`

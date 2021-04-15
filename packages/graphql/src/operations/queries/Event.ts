@@ -13,6 +13,7 @@ const EVENT = gql`
       timeZone {
         displayName
         ianaName
+        utcOffset
       }
       baseUrl
       country {
@@ -20,6 +21,28 @@ const EVENT = gql`
         name
         code
       }
+      legalEntity {
+        address {
+          city
+          country {
+            id
+            name
+          }
+          id
+          lineOne
+          lineTwo
+          postalCode
+          region
+        }
+        email
+        id
+        name
+        phone
+        regNumber
+        taxNumber
+        website
+      }
+      taxNumber
       currency
       taxRates {
         edges {

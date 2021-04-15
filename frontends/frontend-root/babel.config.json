@@ -7,6 +7,12 @@
         "useESModules": true,
         "regenerator": false
       }
+    ],
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "frontend-root"
+      }
     ]
   ],
   "env": {

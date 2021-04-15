@@ -32,6 +32,11 @@ const CREATE_TRANSACTION_MUTATION = gql`
     ) {
       amount
       createdAt
+      createdBy {
+        id
+        name
+        email
+      }
       currency
       id
       lastUpdatedAt

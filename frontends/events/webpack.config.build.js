@@ -15,7 +15,7 @@ const config = {
       {
         exclude: /node_modules/,
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: 'babel-loader',
       },
       {
         exclude: /node_modules/,
@@ -62,8 +62,10 @@ const config = {
   },
   output: {
     filename: 'frontends.[name].bundle.js',
-    library: ['frontends', '[name]'],
-    libraryTarget: 'window',
+    library: {
+      type: 'system',
+    },
+    publicPath: '/',
     path: path.resolve(__dirname, '../../builds/events'),
   },
   plugins: [new CleanWebpackPlugin()],

@@ -1,7 +1,7 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { formatFullDate } from '@websummit/components/src/utils/time';
+import { formatFullDate, timeTo } from '@websummit/components/src/utils/time';
 import { Event } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
@@ -35,7 +35,7 @@ const Text = styled.span`
 
 // Related only to this template
 const StyledContainerCard = styled(ContainerCard)`
-  margin-right: 3.8125rem;
+  margin: 0 3.8125rem 16px 0;
   max-width: 300px;
 
   &:last-child {
@@ -46,7 +46,7 @@ const StyledContainerCard = styled(ContainerCard)`
 const ColouredHeader = styled(FlexRow)<{ color?: string }>`
   background-color: ${(props) => props.color || '#F8BA26'};
   border-radius: 5px 5px 0 0;
-  height: 72px;
+  height: 40px;
 `;
 
 const StyledFlexCol = styled(FlexCol)`
@@ -60,11 +60,29 @@ const ConfNameText = styled.h1`
   letter-spacing: -0.5px;
   line-height: 32px;
   margin: 0;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 type UpcomingEventProps = {
   events: any;
   onElementClick?: (item: Event) => void;
+};
+
+const displayLocation = (event?: Event) => {
+  if (event) {
+    const { country } = event;
+    return country?.name ? country?.name : 'Online';
+  }
+
+  return 'N/A';
+};
+
+const displayTimeTo = (startDate: string): string => {
+  const { days } = timeTo(startDate);
+  return `${days} ${days > 1 ? 'days' : 'day'}`;
 };
 
 const UpcomingEvents = ({
@@ -83,7 +101,7 @@ const UpcomingEvents = ({
           {events &&
             events.map((event: Event, index: number) => (
               <StyledContainerCard key={event.id} noPadding>
-                <ColouredHeader color={colors[index % (colors.length - 1)]} />
+                <ColouredHeader color={colors[index % colors.length]} />
                 <StyledFlexCol>
                   <>
                     <Spacing bottom="10px">
@@ -92,7 +110,10 @@ const UpcomingEvents = ({
                     <Text>
                       Start date: {formatFullDate(event.startDate) || 'N/A'}
                     </Text>
-                    <Text>Location: {event.country?.name || 'N/A'}</Text>
+                    <Text>Location: {displayLocation(event)}</Text>
+                    <Text>
+                      Starts in: {displayTimeTo(event.startDate) || 'N/A'}
+                    </Text>
                     {/* TODO Add state representation */}
                     {/* <Text>State: {event. || 'N/A'}</Text> */}
                     <Spacing top="22px">

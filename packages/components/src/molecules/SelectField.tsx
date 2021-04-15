@@ -53,8 +53,10 @@ type SelectFieldOption = {
 
 type SelectFieldProps = {
   className?: string;
+  disabled?: boolean;
   label?: string;
   name: string;
+  onChange?: (event: any) => void;
   options?: SelectFieldOption[];
   placeholder?: string;
   required?: boolean;
@@ -67,16 +69,26 @@ const SelectField = ({
   placeholder,
   options = [],
   required = false,
+  disabled = false,
+  onChange = undefined,
 }: SelectFieldProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
       <Field name={name} required={required}>
-        {({ meta, field }: FieldProps) => (
+        {({ meta, field, form }: FieldProps) => (
           <StyledSelect
             isError={meta.touched && !!meta.error}
             {...field}
+            disabled={disabled}
             placeholder={placeholder}
+            onChange={(event) => {
+              if (onChange) {
+                onChange(event);
+              }
+
+              form.setFieldValue(field.name, event.target.value);
+            }}
           >
             {options.map((option) => (
               <option

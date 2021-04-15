@@ -1,4 +1,5 @@
 import { ErrorMessage, Field, FieldProps } from 'formik';
+import { FieldValidator } from 'formik/dist/types';
 import React, { HTMLProps } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -47,6 +48,7 @@ const Error = styled.div`
 
 type TextInputFieldProps = HTMLProps<HTMLInputElement> & {
   name: string;
+  validate?: FieldValidator;
 };
 
 const TextInputField = ({
@@ -56,11 +58,12 @@ const TextInputField = ({
   required,
   placeholder,
   type = 'text',
+  validate,
 }: TextInputFieldProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
-      <Field name={name} required={required}>
+      <Field name={name} required={required} validate={validate}>
         {({ meta, field }: FieldProps) => (
           <StyledInput
             isError={meta.touched && !!meta.error}

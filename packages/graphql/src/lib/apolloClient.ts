@@ -15,8 +15,8 @@ const constructContextHeaders = (
   token?: string,
 ) => {
   const headers: Record<string, string> = {
-    ...commonHeaders,
     'x-event-id': eventSlug,
+    ...commonHeaders,
   };
   if (token) {
     headers.Authorization = `Bearer ${token}`;

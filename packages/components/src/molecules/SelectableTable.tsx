@@ -1,14 +1,20 @@
-import React, { Reducer, useReducer } from 'react';
+import React, { Reducer, useEffect, useReducer } from 'react';
 
 import Checkbox, { GroupCheckedState } from '../atoms/Checkbox';
 import Table, { ColumnDescriptor, TableProps } from './Table';
 
-type Actions = 'SELECT' | 'DESELECT' | 'SELECT_ALL' | 'DESELECT_ALL';
+type Actions =
+  | 'SELECT'
+  | 'DESELECT'
+  | 'SELECT_ALL'
+  | 'DESELECT_ALL'
+  | 'LOAD_ITEMS';
 
 type Selectable<T> = T & { selected?: boolean };
 
 type SelectableReducerAction<T> = {
   item?: Selectable<T>;
+  items?: Selectable<T>[];
   type: Actions;
 };
 
@@ -40,10 +46,10 @@ type OnSelectAll<T> = (selectedItems: T[], selected: boolean) => void;
 
 const selectableTableReducer = <T extends unknown & { id: string | null }>(
   onSelect: OnSelect<T>,
-  onSelectAll: OnSelectAll<T>,
+  onSelectAll?: OnSelectAll<T>,
 ): Reducer<SelectableTableState<T>, SelectableReducerAction<T>> => (
   { items, selected }: SelectableTableState<T>,
-  { item, type }: SelectableReducerAction<T>,
+  { item, type, items: loadedItems }: SelectableReducerAction<T>,
 ) => {
   switch (type) {
     case 'SELECT': {
@@ -91,34 +97,57 @@ const selectableTableReducer = <T extends unknown & { id: string | null }>(
       };
     }
     case 'SELECT_ALL':
-      onSelectAll(items, true);
+      if (onSelectAll) {
+        onSelectAll(items, true);
 
-      return {
-        items: items.map((i) => ({ ...i, selected: true })),
-        selected: 'all',
-      };
+        return {
+          items: items.map((i) => ({ ...i, selected: true })),
+          selected: 'all',
+        };
+      }
+
+      return { items, selected };
     case 'DESELECT_ALL':
-      onSelectAll([], false);
+      if (onSelectAll) {
+        onSelectAll([], false);
 
-      return {
-        items: items.map((i) => ({ ...i, selected: false })),
-        selected: 'none',
-      };
+        return {
+          items: items.map((i) => ({ ...i, selected: false })),
+          selected: 'none',
+        };
+      }
+
+      return { items, selected };
+    case 'LOAD_ITEMS':
+      return { items: loadedItems || [], selected };
     default:
       return { items, selected };
   }
 };
 
-const checkboxColumn = <T extends unknown>(
+type CheckboxColumnArgs<T> = {
   actions: {
     deselect: (item: Selectable<T>) => void;
     deselectAll: () => void;
     select: (item: Selectable<T>) => void;
     selectAll: () => void;
-  },
-  selected: GroupCheckedState,
-): ColumnDescriptor<Selectable<T & { id: string | null }>> => ({
-  header: (
+  };
+  disableToggleAll?: boolean;
+  header?: string;
+  selected: GroupCheckedState;
+};
+
+const checkboxColumn = <T extends unknown>({
+  actions,
+  selected,
+  disableToggleAll = false,
+  header = '',
+}: CheckboxColumnArgs<T>): ColumnDescriptor<
+  Selectable<T & { id: string | null }>
+> => ({
+  header: disableToggleAll ? (
+    header
+  ) : (
     <Checkbox.GroupIndicator
       checkedStatus={selected}
       onClick={selected === 'none' ? actions.selectAll : actions.deselectAll}
@@ -136,8 +165,11 @@ const checkboxColumn = <T extends unknown>(
 });
 
 type SelectableTableProps<T> = TableProps<T> & {
+  disableToggleAll: boolean;
+  header?: string;
+  lastColumn: boolean;
   onSelect: OnSelect<T>;
-  onSelectAll: OnSelectAll<T>;
+  onSelectAll?: OnSelectAll<T>;
 };
 
 const SelectableTable = <
@@ -146,6 +178,9 @@ const SelectableTable = <
   tableShape,
   onSelect,
   onSelectAll,
+  lastColumn = false,
+  disableToggleAll = false,
+  header,
   items = [],
   ...tableProps
 }: SelectableTableProps<T>) => {
@@ -156,6 +191,10 @@ const SelectableTable = <
       selected: 'none',
     },
   );
+
+  useEffect(() => {
+    dispatch({ items, type: 'LOAD_ITEMS' });
+  }, [items]);
 
   const actions = {
     deselect: (item: T) =>
@@ -168,13 +207,22 @@ const SelectableTable = <
     selectAll: () => dispatch({ type: 'SELECT_ALL' }),
   };
 
-  const checkboxColumnShape = checkboxColumn(actions, state.selected);
+  const checkboxColumnShape = checkboxColumn({
+    actions,
+    disableToggleAll,
+    header,
+    selected: state.selected,
+  });
 
   return (
     <Table<Selectable<T>>
       {...tableProps}
       items={state.items}
-      tableShape={[checkboxColumnShape, ...tableShape]}
+      tableShape={
+        lastColumn
+          ? [...tableShape, checkboxColumnShape]
+          : [checkboxColumnShape, ...tableShape]
+      }
     />
   );
 };
