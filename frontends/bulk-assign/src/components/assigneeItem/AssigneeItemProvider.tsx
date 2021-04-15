@@ -71,7 +71,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
         ticketId,
       },
     }).catch((data) => {
-      console.log('ticketAccept error', {data})
+      console.log('ticketAccept error', { data });
       setStatus({
         message: `Unable to assign this ticket - ${bookingRef}`,
         type: 'ERROR',
@@ -172,36 +172,36 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   });
 
   const [ticketAssign] = useMutation(TICKET_ASSIGN_MUTATION, {
-    onCompleted: (
-      {ticketAssign}
-    : {
+    onCompleted: ({
+      ticketAssign: ticketAssignData,
+    }: {
       ticketAssign: {
         ticket: {
           assignment: {
             assignee: Assignee;
             state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
           };
-          id: string
+          id: string;
         };
         userErrors: [{ message: string }];
-      }
+      };
     }) => {
-      if (ticketAssign?.ticket?.assignment?.assignee) {
+      if (ticketAssignData?.ticket?.assignment?.assignee) {
         setStatus({
           message: 'Assignment has been successful',
           type: 'SUCCESS',
         });
-        if (hasAutoClaim && ticketAssign?.ticket?.id) {
-          claimTicket(ticketAssign?.ticket?.id);
+        if (hasAutoClaim && ticketAssignData?.ticket?.id) {
+          claimTicket(ticketAssignData?.ticket?.id);
         }
       }
-      if (ticketAssign?.userErrors.length) {
+      if (ticketAssignData?.userErrors.length) {
         setStatus({
-          message: ticketAssign?.userErrors[0].message,
+          message: ticketAssignData?.userErrors[0].message,
           type: 'ERROR',
         });
         setClaimStatus({
-          message: `${ticketAssign?.userErrors[0].message} - and can not auto claim`,
+          message: `${ticketAssignData?.userErrors[0].message} - and can not auto claim`,
           type: 'ERROR',
         });
       }
@@ -239,7 +239,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
             ticketId: data?.ticket?.id,
           },
         }).catch(() => {
-          console.log('ticketAssign error', {data})
+          console.log('ticketAssign error', { data });
           setStatus({
             message: `Unable to assign this ticket - ${bookingRef}`,
             type: 'ERROR',
