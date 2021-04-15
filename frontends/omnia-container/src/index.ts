@@ -65,17 +65,22 @@ export default function loadContainer(props: RequiredProps) {
 
   // Append all single spa apps to the micro container div
   window.addEventListener('single-spa:routing-event', () => {
+    // Add some styles for the micro conatiner into the doc head
+    const microCss = '#micro { max-width: 1170px; margin: 0 auto; }';
+    const styleTag = document.createElement('style');
+    styleTag.appendChild(document.createTextNode(microCss));
+    document.head.appendChild(styleTag);
+
+    // Select and move single spa apps to container in order
     const target = document.getElementById('micro');
-    const allSpas = document.querySelectorAll(
-      "[id^='single-spa-application:']",
-    );
+    const spas = document.querySelectorAll("[id^='single-spa-application:']");
     const spaNav = document.querySelector(
       '[id="single-spa-application:@websummit-micro/summit-engine-nav"]',
     );
     // Append spaNav to container
     target?.appendChild(spaNav);
     // Append other spas to container
-    allSpas.forEach((el) => {
+    spas.forEach((el) => {
       if (
         el.attributes[0].id !==
         'single-spa-application:@websummit-micro/summit-engine-nav'
