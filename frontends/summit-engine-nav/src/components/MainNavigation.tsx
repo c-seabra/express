@@ -1,11 +1,11 @@
 import Icon from '@websummit/components/src/atoms/Icon';
+import Logo from '@websummit/components/src/atoms/Logo';
+import { useEventQuery } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
-import Logo from '@websummit/components/src/atoms/Logo';
 import ROUTES, { Route } from '../constants/routes';
 import { useAppContext } from './AppContext';
-import { useEventQuery } from '@websummit/graphql/src/@types/operations';
 
 export const HeaderText = styled.div`
   color: #0c1439;
@@ -111,7 +111,7 @@ const StyledDropbox = styled.div`
 const MainNavigation = () => {
   const { conferenceSlug, token } = useAppContext();
   const usedSlug = conferenceSlug;
-  const { data, loading, refetch } = useEventQuery({
+  const { data } = useEventQuery({
     context: {
       token,
     },
