@@ -85,7 +85,7 @@ const SaleCyclesPage = () => {
   };
   const { conferenceSlug, token } = useAppContext();
   const context = {
-    conferenceSlug,
+    slug: conferenceSlug,
     token,
   };
   const { id: saleId } = useParams<SaleCyclesQueryVariables>();

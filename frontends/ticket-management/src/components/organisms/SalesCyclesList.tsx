@@ -45,7 +45,12 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
     },
   ];
 
-  const { token } = useAppContext();
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
+
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const [updateCycle] = useCommerceUpdateSaleMutation({
@@ -54,7 +59,7 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
       snackbar('Sale cycle updated');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
+    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
   });
 
   return (

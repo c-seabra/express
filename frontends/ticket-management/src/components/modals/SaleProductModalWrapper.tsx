@@ -101,11 +101,16 @@ const SaleProductModalWrapper = ({
   prefillData,
   saleId,
 }: ModalProps) => {
-  const { token } = useAppContext();
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
+
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const { data } = useCommerceListProductsQuery({
-    context: { token },
+    context,
     onError: (e) => errorSnackbar(e.message),
   });
   const products = data?.commerceListProducts?.hits;
@@ -119,13 +124,13 @@ const SaleProductModalWrapper = ({
   const priceTypeOptions = getPriceOptions(typesOptions);
   const refetchQueriesContext = [
     {
-      context: { token },
+      context,
       query: COMMERCE_SALE_PRODUCTS_LIST,
       variables: { saleId },
     },
   ];
   const [createSaleProduct] = useCommerceSaleProductCreateMutation({
-    context: { token },
+    context,
     onCompleted: () => {
       snackbar('Pricing for sale cycle added');
     },
@@ -133,7 +138,7 @@ const SaleProductModalWrapper = ({
     refetchQueries: refetchQueriesContext,
   });
   const [updateSaleProduct] = useCommerceUpdateSaleProductMutation({
-    context: { token },
+    context,
     onCompleted: () => {
       snackbar('Pricing for sale cycle updated');
     },
