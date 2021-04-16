@@ -37,6 +37,62 @@ export default function loadContainer(props: RequiredProps) {
     };
     registerApplication(app);
   });
+
+  const addHeadLink = (url: string, rel: string, linkType = '') => {
+    const link = document.createElement('link');
+    link.type = linkType;
+    link.rel = rel;
+    link.href = url;
+    document.head.appendChild(link);
+  };
+  // Inject fonts and icon styles into the doc head
+  addHeadLink('https://fonts.gstatic.com', 'preconnect');
+  addHeadLink(
+    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
+    'stylesheet',
+  );
+  addHeadLink('https://use.typekit.net/vst7xer.css', 'stylesheet');
+  addHeadLink(
+    'https://fonts.googleapis.com/icon?family=Material+Icons',
+    'stylesheet',
+  );
+
+  // Active Single Spa Layout and start
   layoutEngine.activate();
   start();
+
+  // Add some styles for the micro conatiner into the doc head
+  const microCss = '#micro { margin: 0 auto; }';
+  const styleTag = document.createElement('style');
+  styleTag.appendChild(document.createTextNode(microCss));
+  document.head.appendChild(styleTag);
+
+  // Overide the Omnia Dashboard conatiner padding
+  const dashboardElement = document.querySelector('.dashbard-1');
+  if (dashboardElement) dashboardElement.style.cssText = 'padding: 0';
+
+  // Append all single spa apps to the micro container div
+  window.addEventListener('single-spa:routing-event', () => {
+    // Select and move single spa apps to container in order
+    const target = document.getElementById('micro');
+    const spas = document.querySelectorAll("[id^='single-spa-application:']");
+    const spaNav = document.querySelector(
+      '[id="single-spa-application:@websummit-micro/summit-engine-nav"]',
+    );
+    // Append spaNav to container
+    if (spaNav) {
+      target?.appendChild(spaNav);
+    }
+    // Append other spas to container
+    spas.forEach((singleSPAElement) => {
+      const singleSPAId = ((singleSPAElement as unknown) as {
+        attributes: Array<{ id: string }>;
+      }).attributes[0].id;
+      if (
+        singleSPAId !==
+        'single-spa-application:@websummit-micro/summit-engine-nav'
+      )
+        target?.appendChild(singleSPAElement);
+    });
+  });
 }

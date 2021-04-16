@@ -1,23 +1,44 @@
 import { gql } from '@apollo/client';
 
-const COMMERCE_SALES_LIST = gql`
+export default gql`
   query CommerceListProducts {
     commerceListProducts {
       hits {
         active
+        categories {
+          id
+          active
+          name
+          description
+        }
         createdAt
         createdBy {
-          id
           name
           email
         }
+        defaultPrice
+        description
         id
-        price
+        lastUpdatedAt
+        lastUpdatedBy {
+          name
+          email
+        }
         name
+        price
+        tags {
+          id
+          code
+          name
+          description
+        }
+        taxMode
+        taxType {
+          id
+          description
+          name
+        }
       }
-      total
     }
   }
 `;
-
-export default COMMERCE_SALES_LIST;

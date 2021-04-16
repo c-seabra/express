@@ -21,6 +21,7 @@ const StyledContainer = styled.section`
   margin: 0 auto;
   font-size: 16px;
   background-color: #f2f3f6;
+  padding: 0 1rem;
 `;
 
 type AppProps = {

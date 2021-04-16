@@ -6,7 +6,7 @@ import { CategoryListContainer } from '../../lib/components/molecules/CategoryLi
 export const DashboardContainer = styled.div`
   max-width: 1440px;
   margin: auto;
-  padding-top: 1rem;
+  padding: 1rem;
 `;
 
 export const SearchFilters = styled.div`

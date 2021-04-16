@@ -9,7 +9,8 @@ import styled from 'styled-components';
 import IndexPage from '../pages/IndexPage';
 import SalesCyclePage from '../pages/SalesCyclePage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
-import TicketGroupsPage from '../pages/TicketGroupsPage';
+import TicketCategoriesPage from '../pages/TicketCategoriesPage';
+import TicketTypesPage from '../pages/TicketTypesPage';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
@@ -58,8 +59,11 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/sale-cycle/:id">
                   <SalesCyclePage />
                 </Route>
-                <Route exact path="/ticket-groups">
-                  <TicketGroupsPage />
+                <Route exact path="/ticket-categories">
+                  <TicketCategoriesPage />
+                </Route>
+                <Route exact path="/ticket-types">
+                  <TicketTypesPage />
                 </Route>
               </Switch>
             </StyledContainer>
