@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import IndexPage from '../pages/IndexPage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
-import TicketGroupsPage from '../pages/TicketGroupsPage';
+import TicketCategoriesPage from '../pages/TicketCategoriesPage';
 import TicketTypesPage from '../pages/TicketTypesPage';
 import AppContext from './AppContext';
 
@@ -55,8 +55,8 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/sale-cycles">
                   <SalesCyclesPage />
                 </Route>
-                <Route exact path="/ticket-groups">
-                  <TicketGroupsPage />
+                <Route exact path="/ticket-categories">
+                  <TicketCategoriesPage />
                 </Route>
                 <Route exact path="/ticket-types">
                   <TicketTypesPage />
