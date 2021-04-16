@@ -81,8 +81,8 @@ const ROUTES: Routes = [
       },
       {
         isActive: true,
-        meta: { description: 'Ticket groups' },
-        path: '~ticket-management/#/ticket-groups',
+        meta: { description: 'Ticket categories' },
+        path: '~ticket-management/#/ticket-categories',
       },
       {
         isActive: true,
