@@ -90,7 +90,7 @@ const SalesCyclesPage = () => {
   });
 
   const hasCycles =
-    data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length;
+    data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length > 0;
   const cycles: any = data?.commerceListSales?.hits;
   const sortedCycles: any = cycles?.slice()?.sort((a: any, b: any) => {
     return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
@@ -115,7 +115,7 @@ const SalesCyclesPage = () => {
 
         {!loading && !hasCycles && <NoSalesCyclesPlaceholder />}
 
-        {cycles && hasCycles && (
+        {hasCycles && (
           <FlexRow>
             <SalesCyclesList cycles={sortedCycles} onRowClick={onRowClick} />
           </FlexRow>

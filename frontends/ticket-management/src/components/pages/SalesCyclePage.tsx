@@ -110,6 +110,7 @@ const SaleCyclesPage = () => {
       ],
     },
   });
+  const hasProducts = data?.commerceListSaleProducts?.hits && data?.commerceListSaleProducts?.hits?.length > 0;
   const products: any = data?.commerceListSaleProducts?.hits;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -163,7 +164,7 @@ const SaleCyclesPage = () => {
                   Add price information for ticket types during the sales cycle
                 </SubHeader>
               </Spacing>
-              <Spacing bottom="3rem">
+              <Spacing bottom="1rem">
                 <Button onClick={onButtonClick}>
                   Add pricing for sales cycle
                 </Button>
@@ -171,9 +172,11 @@ const SaleCyclesPage = () => {
 
               {loadingProducts && <Loader />}
 
-              <Spacing bottom="2rem">
-                <ProductsList products={products} onRowClick={onRowClick} />
-              </Spacing>
+              {hasProducts && (
+                  <Spacing top="2rem" bottom="2rem">
+                    <ProductsList products={products} onRowClick={onRowClick} />
+                  </Spacing>
+              )}
             </>
           </ContainerCard>
         </FlexRow>
