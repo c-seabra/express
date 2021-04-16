@@ -9,4 +9,5 @@ export const Badge = styled.span`
   background-color: #000;
   border-radius: 4px;
   min-width: 75px;
+  white-space: nowrap;
 `;
