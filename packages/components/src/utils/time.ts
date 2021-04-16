@@ -57,5 +57,5 @@ export const timeTo = (startIsoDate: string): Duration => {
   const startDate = DateTime.fromISO(startIsoDate);
   const date2 = DateTime.fromISO(new Date().toISOString());
 
-  return startDate.diff(date2, ['years', 'months', 'days', 'hours']);
+  return startDate.diff(date2, ['days']);
 };
