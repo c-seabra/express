@@ -77,12 +77,12 @@ const eventBillingSchema = Yup.object().shape({
   city: Yup.string().required('City is required'),
   companyName: Yup.string().required('Host company name is required'),
   companyRegistrationNumber: Yup.string(),
-  companyTaxNumber: Yup.string().required('Company tax number is required'),
+  taxNumber: Yup.string().required('Company tax number is required'),
   companyWebsite: Yup.string(),
   country: Yup.string().required('Country is required'),
   email: Yup.string().email('Invalid email'),
   phone: Yup.string().required('Phone is required'),
-  postalCode: Yup.string(),
+  postalCode: Yup.string().required('Postal is required'),
   region: Yup.string().required('Region is required'),
 });
 
