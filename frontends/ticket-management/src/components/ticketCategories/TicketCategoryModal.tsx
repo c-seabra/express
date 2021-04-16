@@ -51,21 +51,25 @@ const FormWrapper = styled.div`
 `;
 
 const useTicketCategoryMutations = () => {
-  const { token } = useAppContext();
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
   const { success, error } = useSnackbars();
 
   const [createTicketCategory] = useCommerceCreateCategoryMutation({
-    context: { token },
+    context,
     onCompleted: () => success('Ticket category created'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_LIST_CATEGORIES }],
+    refetchQueries: [{ context, query: COMMERCE_LIST_CATEGORIES }],
   });
 
   const [updateTicketCategory] = useCommerceUpdateCategoryMutation({
-    context: { token },
+    context,
     onCompleted: () => success('Ticket category updated'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_LIST_CATEGORIES }],
+    refetchQueries: [{ context, query: COMMERCE_LIST_CATEGORIES }],
   });
 
   return { createTicketCategory, updateTicketCategory };
