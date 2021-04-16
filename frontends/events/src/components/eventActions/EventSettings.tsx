@@ -20,6 +20,7 @@ import styled, { css } from 'styled-components';
 
 import { getServicesReadyForEvent } from '../../lib/utils/eventConfig';
 import { useAppContext } from '../app/AppContext';
+import AdditionalSettings from '../organisms/AdditionalSettings';
 import PaymentMethods from '../organisms/PaymentMethods';
 import SelectTax from '../organisms/SelectTax';
 import EventBillingInvoicingForm from './EventBillingInvoicingForm';
@@ -54,7 +55,12 @@ const SettingsForm = styled(ContainerCard)`
   max-width: 780px;
 `;
 
-type Tab = 'event_info' | 'tax_info' | 'payment_methods' | 'billing_invoicing';
+type Tab =
+  | 'event_info'
+  | 'tax_info'
+  | 'payment_methods'
+  | 'billing_invoicing'
+  | 'additional_settings';
 
 type Setting = {
   active?: boolean;
@@ -132,6 +138,7 @@ type Rule = {
 const settingsTableShape = (
   currentTab: Setting,
   configCompleteRules: {
+    additional_settings: Rule;
     billing_invoicing: Rule;
     event_info: Rule;
     payment_methods: Rule;
@@ -200,6 +207,10 @@ const EventSettings = () => {
   );
 
   const configCompleteRules = {
+    additional_settings: {
+      ready: false,
+      text: '',
+    },
     billing_invoicing: {
       ready: checkBillingCompletion(eventLegalEntity),
       text: !eventBillingSpecificCompletion
@@ -248,6 +259,11 @@ const EventSettings = () => {
       active: eventExists && configCompletion.stores.ready,
       id: 'payment_methods',
       title: 'Payment methods',
+    },
+    {
+      active: eventExists && configCompletion.stores.ready,
+      id: 'additional_settings',
+      title: 'Settings',
     },
   ];
   const [currentTab, setCurrentTab] = useState<Setting>(settings[0]);
@@ -337,6 +353,9 @@ const EventSettings = () => {
                   paymentMethodsData?.commerceListPaymentMethods?.hits
                 }
               />
+            )}
+            {currentTab.id === 'additional_settings' && (
+              <AdditionalSettings storeActive={false} />
             )}
           </SettingsSection>
         </SettingsForm>
