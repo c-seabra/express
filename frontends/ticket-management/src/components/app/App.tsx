@@ -51,7 +51,7 @@ const App = ({ token, apiURL }: AppProps) => {
             <StyledContainer>
               <Switch>
                 <Route exact path="/">
-                  <IndexPage />
+                  <SalesCyclesPage />
                 </Route>
                 <Route exact path="/sale-cycles">
                   <SalesCyclesPage />
