@@ -12,6 +12,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { useErrorSnackbar } from '../../../../../packages/components/src/molecules/Snackbar';
 import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
@@ -92,15 +93,22 @@ const EventPage = () => {
     conferenceSlug,
     token,
   };
+  const errSnackbar = useErrorSnackbar();
 
   const {
     loading,
     error,
     data,
-  }: EventListQueryResponse = useEventListQueryQuery({ context });
+  }: EventListQueryResponse = useEventListQueryQuery({
+    context,
+    onError: (e) => errSnackbar(e.message),
+  });
 
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);
+  const sortedEvents: any = events?.slice()?.sort((a: any, b: any) => {
+    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+  });
 
   const upcomingFilter: EventFilter = {
     startDateAfter: todayISO,
@@ -111,11 +119,17 @@ const EventPage = () => {
     data: dataUpcoming,
   }: EventListQueryResponse = useEventListQueryQuery({
     context,
+    onError: (e) => errSnackbar(e.message),
     variables: { filter: upcomingFilter },
   });
 
   const eventsAfter =
     dataUpcoming?.events && dataUpcoming?.events.edges.map((node) => node.node);
+  const sortedEventsAfter: any = eventsAfter
+    ?.slice()
+    ?.sort((a: any, b: any) => {
+      return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    });
   const redirectToEvent = (item: Event) => {
     history.push(`/${item.slug.toString()}/settings`);
   };
@@ -133,10 +147,10 @@ const EventPage = () => {
           </FlexEnd>
 
           <UpcomingEvents
-            events={eventsAfter}
+            events={sortedEventsAfter}
             onElementClick={redirectToEvent}
           />
-          <EventList error={error} events={events} />
+          <EventList error={error} events={sortedEvents} />
         </>
       ) : (
         <>{!loading && !loadingUpcoming && <NoEventsPlaceholder />}</>
