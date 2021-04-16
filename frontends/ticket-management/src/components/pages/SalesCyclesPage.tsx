@@ -84,7 +84,7 @@ const SalesCyclesPage = () => {
   };
   const { conferenceSlug, token } = useAppContext();
   const context = {
-    conferenceSlug,
+    slug: conferenceSlug,
     token,
   };
 
