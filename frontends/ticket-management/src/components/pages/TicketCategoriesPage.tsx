@@ -14,6 +14,7 @@ import {
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { useErrorSnackbar } from '../../../../../packages/components/src/molecules/Snackbar';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketCategoriesPlaceholder from '../../lib/images/no-ticket-categories-placeholder.png';
 import { useAppContext } from '../app/AppContext';
@@ -62,19 +63,25 @@ const ticketCategoriesTableShape: ColumnDescriptors<TicketCategory> = [
 ];
 
 const TicketCategoriesPage = () => {
-  const { token } = useAppContext();
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
   const {
     isOpen: isTicketCategoryModalOpen,
     closeModal: closeTicketCategoryModal,
     openModal: openTicketCategoryModal,
   } = useModalState();
+  const error = useErrorSnackbar();
 
   const [selectedTicketCategory, setSelectedTicketCategory] = useState<
     TicketCategory | undefined
   >();
 
   const { data, loading } = useCommerceListCategoriesQuery({
-    context: { token },
+    context,
+    onError: (e) => error(e.message),
   });
 
   const ticketCategories = data?.commerceListCategories?.hits || [];

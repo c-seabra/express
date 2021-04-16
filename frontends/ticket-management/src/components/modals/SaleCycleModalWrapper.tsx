@@ -74,24 +74,28 @@ const SaleCycleModalWrapper = ({
   mode = 'ADD',
   prefillData,
 }: ModalProps) => {
-  const { token } = useAppContext();
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const [createCycle] = useCommerceCreateSaleMutation({
-    context: { token },
+    context,
     onCompleted: () => {
       snackbar('Sale cycle added');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
+    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
   });
   const [updateCycle] = useCommerceUpdateSaleMutation({
-    context: { token },
+    context,
     onCompleted: () => {
       snackbar('Sale cycle updated');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
+    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
   });
 
   const initialValues = (_mode: ModalInputMode) => {

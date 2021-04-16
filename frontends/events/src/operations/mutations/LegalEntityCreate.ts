@@ -6,12 +6,12 @@ import {
   LegalEntityCreateInput,
   useLegalEntityCreateMutation,
 } from '@websummit/graphql/src/@types/operations';
+import LEGAL_ENTITY_LIST from '@websummit/graphql/src/operations/queries/LegalEntityList';
 
 import { useAppContext } from '../../components/app/AppContext';
 
 export type LegalEntityCreateRequest = {
   input: LegalEntityCreateInput;
-  refetch?: any;
 };
 
 export const useLegalEntityCreateOperation = () => {
@@ -32,6 +32,7 @@ export const useLegalEntityCreateOperation = () => {
       }
     },
     onError: (e) => errSnackbar(e.message),
+    refetchQueries: [{ context: { token }, query: LEGAL_ENTITY_LIST }],
   });
 
   const createLegalEntity = async ({ input }: LegalEntityCreateRequest) => {
@@ -45,11 +46,6 @@ export const useLegalEntityCreateOperation = () => {
         input,
       },
     });
-
-    // Hacky solution because refetchQueries is not working
-    // setTimeout(() => {
-    //   return refetch();
-    // }, 500);
   };
 
   return {
