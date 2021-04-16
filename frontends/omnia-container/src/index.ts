@@ -75,24 +75,27 @@ export default function loadContainer(props: RequiredProps) {
   window.addEventListener('single-spa:routing-event', () => {
     // Select and move single spa apps to container in order
     const target = document.getElementById('micro');
-    const spas = document.querySelectorAll("[id^='single-spa-application:']");
-    const spaNav = document.querySelector(
+    const singleSPAs = document.querySelectorAll(
+      "[id^='single-spa-application:']",
+    );
+    const singleSPANav = document.querySelector(
       '[id="single-spa-application:@websummit-micro/summit-engine-nav"]',
     );
     // Append spaNav to container
-    if (spaNav) {
-      target?.appendChild(spaNav);
+    if (singleSPANav) {
+      target?.appendChild(singleSPANav);
     }
     // Append other spas to container
-    spas.forEach((singleSPAElement) => {
+    singleSPAs.forEach((singleSPAElement) => {
       const singleSPAId = ((singleSPAElement as unknown) as {
-        attributes: Array<{ id: string }>;
-      }).attributes[0].id;
+        attributes: Array<{ value: string }>;
+      }).attributes[0].value;
       if (
         singleSPAId !==
         'single-spa-application:@websummit-micro/summit-engine-nav'
-      )
+      ) {
         target?.appendChild(singleSPAElement);
+      }
     });
   });
 }
