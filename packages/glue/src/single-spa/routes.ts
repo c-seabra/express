@@ -71,7 +71,7 @@ const protoEventSpecificApps: AppRoute[] = [
     type: 'route',
   },
   {
-    altPath: 'conferences/:conferenceId/tickets/bulk-assign',
+    altPath: 'conferences/:conferenceId/tickets/bulk_assignments',
     path: 'bulk-assign',
     routes: appFor('bulk-assign', summitEngineNav),
     type: 'route',
