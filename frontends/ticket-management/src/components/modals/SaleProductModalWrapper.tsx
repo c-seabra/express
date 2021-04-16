@@ -69,7 +69,7 @@ const validationSchema = Yup.object().shape({
   description: Yup.string(),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   product: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  type: Yup.string(),
+  type: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
 const emptyOption = {
