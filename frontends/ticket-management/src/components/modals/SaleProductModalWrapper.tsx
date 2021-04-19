@@ -41,6 +41,7 @@ const CenteredVertically = styled.div`
 type ModalProps = {
   closeModal: () => void;
   currencySymbol: string;
+  existingProducts: any;
   isOpen: boolean;
   mode?: ModalInputMode;
   prefillData?: any;
@@ -105,6 +106,7 @@ const SaleProductModalWrapper = ({
   prefillData,
   saleId,
   currencySymbol,
+  existingProducts,
 }: ModalProps) => {
   const { conferenceSlug, token } = useAppContext();
   const context = {
@@ -114,19 +116,6 @@ const SaleProductModalWrapper = ({
 
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
-  const { data } = useCommerceListProductsQuery({
-    context,
-    onError: (e) => errorSnackbar(e.message),
-  });
-  const products = data?.commerceListProducts?.hits;
-  const productOptions = products?.map((item) => {
-    return {
-      id: item.id,
-      name: item.name,
-    };
-  });
-  const ticketTypeOptions = getTicketTypesOptions(productOptions as []);
-  const priceTypeOptions = getPriceOptions(typesOptions);
   const refetchQueriesContext = [
     {
       context,
@@ -134,6 +123,29 @@ const SaleProductModalWrapper = ({
       variables: { saleId },
     },
   ];
+  const { data } = useCommerceListProductsQuery({
+    context,
+    fetchPolicy: 'network-only',
+    onError: (e) => errorSnackbar(e.message),
+  });
+  const editOn = prefillData && prefillData.id && prefillData.id !== '';
+  const products = data?.commerceListProducts?.hits;
+  const filteredSaleProducts = editOn
+    ? products
+    : products?.filter((el) => {
+        return !existingProducts.find(
+          (saleProduct: any) => el.id === saleProduct.product.id,
+        );
+      });
+  const productOptions = filteredSaleProducts?.map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+    };
+  });
+
+  const ticketTypeOptions = getTicketTypesOptions(productOptions as []);
+  const priceTypeOptions = getPriceOptions(typesOptions);
   const [createSaleProduct] = useCommerceSaleProductCreateMutation({
     context,
     onCompleted: () => {

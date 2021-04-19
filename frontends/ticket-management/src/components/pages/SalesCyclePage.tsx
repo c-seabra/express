@@ -105,6 +105,7 @@ const SaleCyclesPage = () => {
   const { loading: loadingProducts, data } = useCommerceListSaleProductsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
+    fetchPolicy: "network-only",
     variables: {
       saleId,
       sort: [
@@ -137,6 +138,7 @@ const SaleCyclesPage = () => {
         isOpen={isOpen}
         mode={modalMode}
         prefillData={prefillData}
+        existingProducts={products}
         saleId={saleId}
       />
 
