@@ -273,7 +273,7 @@ const EventSettings = () => {
       title: 'Payment methods',
     },
     {
-      active: eventExists && configCompletion.stores.ready,
+      active: eventExists && configCompletion.stores.ready && !!store?.id,
       id: 'additional_settings',
       title: 'Settings',
     },

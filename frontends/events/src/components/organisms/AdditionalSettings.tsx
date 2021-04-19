@@ -67,9 +67,8 @@ const AdditionalSettings = ({ store }: Props) => {
           }
         }}
       >
-        {({ resetForm, values }) => (
+        {({ resetForm }) => (
           <Form>
-            {console.log(values.active)}
             <PaddedContainer>
               <CheckboxField label="Store active" name="active" />
             </PaddedContainer>
