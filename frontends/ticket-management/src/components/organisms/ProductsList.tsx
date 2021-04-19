@@ -6,16 +6,22 @@ import Table, {
 import { CommerceSale } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
+import { formatDisplayPrice } from '@websummit/glue/src/lib/utils/price';
 
 const StyledName = styled.span`
   color: #0067e9;
 `;
 
 type ProductsListProps = {
+  currencySymbol?: string;
   onRowClick?: any;
   products: any[];
 };
-const ProductsList = ({ products, onRowClick }: ProductsListProps) => {
+const ProductsList = ({
+  products,
+  onRowClick,
+  currencySymbol,
+}: ProductsListProps) => {
   const tableShape: ColumnDescriptor<any>[] = [
     {
       header: 'Ticket type',
@@ -34,7 +40,8 @@ const ProductsList = ({ products, onRowClick }: ProductsListProps) => {
     },
     {
       header: 'Price for sale cycle',
-      renderCell: (saleProduct) => saleProduct.price || 'N/A',
+      renderCell: (saleProduct) =>
+        `${currencySymbol} ${formatDisplayPrice(saleProduct.price)}` || 'N/A',
     },
     {
       header: 'Status',

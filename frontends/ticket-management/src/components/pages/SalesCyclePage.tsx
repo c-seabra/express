@@ -10,6 +10,7 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceSortTermDirection,
   SaleCyclesQueryVariables,
+  useCommerceGetStoreQuery,
   useCommerceListSaleProductsQuery,
   useSaleCyclesQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -69,7 +70,6 @@ const SaleCyclesPage = () => {
     openModal();
   };
   const onRowClick = (event: any) => {
-    console.log(event);
     setPrefillData({
       active: event.active,
       amount: event.price,
@@ -88,6 +88,11 @@ const SaleCyclesPage = () => {
     slug: conferenceSlug,
     token,
   };
+  const { data: store } = useCommerceGetStoreQuery({
+    context,
+    onError: (e) => console.error(e.message),
+  });
+  const storeCurrencySymbol = store?.commerceGetStore?.currencySymbol;
   const { id: saleId } = useParams<SaleCyclesQueryVariables>();
   const { loading: loadingCycles, data: saleCycles } = useSaleCyclesQuery({
     context,
@@ -176,7 +181,11 @@ const SaleCyclesPage = () => {
 
               {hasProducts && (
                 <Spacing bottom="2rem" top="2rem">
-                  <ProductsList products={products} onRowClick={onRowClick} />
+                  <ProductsList
+                    currencySymbol={storeCurrencySymbol as string}
+                    products={products}
+                    onRowClick={onRowClick}
+                  />
                 </Spacing>
               )}
             </>

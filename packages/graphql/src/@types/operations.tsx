@@ -525,7 +525,7 @@ export type QueryCommerceGetSaleProductArgs = {
 };
 
 export type QueryCommerceGetStoreArgs = {
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type QueryCommerceGetTagArgs = {
@@ -8056,6 +8056,17 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
           >
         >;
       }
+  >;
+};
+
+export type CommerceGetStoreQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CommerceGetStoreQuery = { __typename?: 'Query' } & {
+  commerceGetStore: Maybe<
+    { __typename?: 'CommerceStore' } & Pick<
+      CommerceStore,
+      'currencySymbol' | 'country'
+    >
   >;
 };
 
@@ -16465,6 +16476,83 @@ export type CommerceGetOrderLazyQueryHookResult = ReturnType<
 export type CommerceGetOrderQueryResult = Apollo.QueryResult<
   CommerceGetOrderQuery,
   CommerceGetOrderQueryVariables
+>;
+export const CommerceGetStoreDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceGetStore' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceGetStore' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currencySymbol' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceGetStoreQuery__
+ *
+ * To run a query within a React component, call `useCommerceGetStoreQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceGetStoreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceGetStoreQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCommerceGetStoreQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceGetStoreQuery,
+    CommerceGetStoreQueryVariables
+  >,
+) {
+  return Apollo.useQuery<CommerceGetStoreQuery, CommerceGetStoreQueryVariables>(
+    CommerceGetStoreDocument,
+    baseOptions,
+  );
+}
+export function useCommerceGetStoreLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceGetStoreQuery,
+    CommerceGetStoreQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceGetStoreQuery,
+    CommerceGetStoreQueryVariables
+  >(CommerceGetStoreDocument, baseOptions);
+}
+export type CommerceGetStoreQueryHookResult = ReturnType<
+  typeof useCommerceGetStoreQuery
+>;
+export type CommerceGetStoreLazyQueryHookResult = ReturnType<
+  typeof useCommerceGetStoreLazyQuery
+>;
+export type CommerceGetStoreQueryResult = Apollo.QueryResult<
+  CommerceGetStoreQuery,
+  CommerceGetStoreQueryVariables
 >;
 export const CommerceListCategoriesDocument: DocumentNode = {
   definitions: [
