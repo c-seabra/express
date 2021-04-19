@@ -1,6 +1,7 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import Table, {
   ColumnDescriptors,
@@ -9,15 +10,17 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceCategory,
   CommerceProduct,
+  useCommerceGetStoreQuery,
   useCommerceListCategoriesQuery,
   useCommerceListProductsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketTypesPlaceholder from '../../lib/images/no-ticket-types-placeholder.png';
 import { useAppContext } from '../app/AppContext';
+import TicketTypeModal from '../ticketTypes/TicketTypeModal';
 
 export const Badge = styled.span`
   font-size: 14px;
@@ -107,10 +110,9 @@ const groupTicketTypesByGroups = (
   return ticketTypesByGroups;
 };
 
-type CommerceProductTableItem = Pick<
-  CommerceProduct,
-  'name' | 'id' | 'active'
-> & {
+type CommerceProductTableItem = Partial<CommerceProduct> & {
+  active: boolean;
+  id: string;
   name?: string;
 };
 
@@ -121,13 +123,23 @@ const tableShape: ColumnDescriptors<CommerceProductTableItem> = [
   },
   {
     header: 'On sale',
-    renderCell: (item) => <TicketTypeState state={!!item.active} />,
+    renderCell: (item) => <TicketTypeState state={item.active} />,
   },
 ];
 
 const TicketTypesPage = () => {
   const { token } = useAppContext();
   const error = useErrorSnackbar();
+  const {
+    isOpen: isTicketTypeModalOpen,
+    closeModal: closeTicketTypeModal,
+    openModal: openTicketTypeModal,
+  } = useModalState();
+
+  const [selectedTicketType, setSelectedTicketType] = useState<
+    CommerceProductTableItem | undefined
+  >();
+
   const { data, loading } = useCommerceListProductsQuery({
     context: { token },
     onError: (e) => error(e.message),
@@ -149,12 +161,37 @@ const TicketTypesPage = () => {
     ticketGroups,
   );
 
+  const { data: storeData } = useCommerceGetStoreQuery({
+    context: { token },
+  });
+
+  const store = storeData?.commerceGetStore;
+
+  const taxTypes = store?.taxTypes || [];
+
+  console.log(store);
   return (
     <PageContainer>
       <HeaderContainer>
         <Title>Ticket types</Title>
         <TableActionsContainer>
-          <Button>Create new ticket type</Button>
+          <Button
+            onClick={() => {
+              setSelectedTicketType(undefined);
+              openTicketTypeModal();
+            }}
+          >
+            Create new ticket type
+          </Button>
+          <TicketTypeModal
+            country={store?.country}
+            currencySymbol={store?.currencySymbol || ''}
+            isOpen={isTicketTypeModalOpen}
+            taxTypes={taxTypes}
+            ticketGroups={ticketGroups}
+            ticketType={selectedTicketType}
+            onRequestClose={closeTicketTypeModal}
+          />
         </TableActionsContainer>
       </HeaderContainer>
 
@@ -171,6 +208,10 @@ const TicketTypesPage = () => {
               <Table<CommerceProductTableItem>
                 items={value as CommerceProductTableItem[]}
                 tableShape={tableShape}
+                onRowClick={(item) => {
+                  setSelectedTicketType(item);
+                  openTicketTypeModal();
+                }}
               />
             </ContainerCard>
           </Spacing>
