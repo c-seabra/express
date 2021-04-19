@@ -32,6 +32,11 @@ const InlineWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const CenteredVertically = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 type ModalProps = {
   closeModal: () => void;
   currencySymbol: string;
@@ -267,7 +272,9 @@ const SaleProductModalWrapper = ({
               label="Amount"
               name="amount"
             />
-            <CheckboxField label="Active" name="active" />
+            <CenteredVertically>
+              <CheckboxField label="Active" name="active" />
+            </CenteredVertically>
           </InlineWrapper>
         </FieldWrapper>
       </Spacing>
