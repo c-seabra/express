@@ -104,6 +104,8 @@ const checkEventInfoCompletion = (data?: EventQuery): boolean => {
       event?.startDate &&
       event?.legalEntity &&
       event?.currency &&
+      event?.country &&
+      event?.baseUrl &&
       event?.name &&
       event?.slug
     );
