@@ -63,10 +63,17 @@ const FlexCol = styled.div`
 const SaleCyclesPage = () => {
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
-  const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
   const [prefillData, setPrefillData] = useState<SaleProductFormData>();
   const onButtonClick = () => {
-    setModalMode('ADD');
+    setPrefillData({
+      active: false,
+      description: '',
+      id: '',
+      name: '',
+      product: '',
+      type: '',
+    });
+
     openModal();
   };
   const onRowClick = (event: any) => {
@@ -80,7 +87,6 @@ const SaleCyclesPage = () => {
       type: event.type,
     });
 
-    setModalMode('EDIT');
     openModal();
   };
   const { conferenceSlug, token } = useAppContext();
@@ -104,8 +110,8 @@ const SaleCyclesPage = () => {
   const cycle = saleCycles?.commerceGetSale;
   const { loading: loadingProducts, data } = useCommerceListSaleProductsQuery({
     context,
+    fetchPolicy: 'network-only',
     onError: (error) => errorSnackbar(error.message),
-    fetchPolicy: "network-only",
     variables: {
       saleId,
       sort: [
@@ -135,10 +141,9 @@ const SaleCyclesPage = () => {
       <SaleProductModalWrapper
         closeModal={closeModal}
         currencySymbol={storeCurrencySymbol as string}
-        isOpen={isOpen}
-        mode={modalMode}
-        prefillData={prefillData}
         existingProducts={products}
+        isOpen={isOpen}
+        prefillData={prefillData}
         saleId={saleId}
       />
 

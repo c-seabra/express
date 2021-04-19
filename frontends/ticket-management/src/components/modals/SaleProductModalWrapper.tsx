@@ -25,7 +25,6 @@ import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 
 const InlineWrapper = styled.div`
@@ -43,7 +42,6 @@ type ModalProps = {
   currencySymbol: string;
   existingProducts: any;
   isOpen: boolean;
-  mode?: ModalInputMode;
   prefillData?: any;
   saleId: string;
 };
@@ -56,20 +54,6 @@ export type SaleProductFormData = {
   name: string;
   product: string; // ID
   type: any; // Price type
-};
-
-const alertHeaderText = (_mode: string): string => {
-  return switchCase({
-    ADD: 'Add pricing for sale cycle',
-    EDIT: `Edit pricing for sale cycle`,
-  })('')(_mode);
-};
-
-const submitText = (_mode: string): string => {
-  return switchCase({
-    ADD: 'Create',
-    EDIT: 'Save',
-  })('')(_mode);
 };
 
 const validationSchema = Yup.object().shape({
@@ -102,7 +86,6 @@ const getPriceOptions = (prices: any[] = []) => [
 const SaleProductModalWrapper = ({
   isOpen,
   closeModal,
-  mode = 'ADD',
   prefillData,
   saleId,
   currencySymbol,
@@ -128,6 +111,7 @@ const SaleProductModalWrapper = ({
     fetchPolicy: 'network-only',
     onError: (e) => errorSnackbar(e.message),
   });
+  console.log('prefillData', prefillData);
   const editOn = prefillData && prefillData.id && prefillData.id !== '';
   const products = data?.commerceListProducts?.hits;
   const filteredSaleProducts = editOn
@@ -163,7 +147,7 @@ const SaleProductModalWrapper = ({
     refetchQueries: refetchQueriesContext,
   });
 
-  const initialValues = (_mode: ModalInputMode) => {
+  const initialValues = (editMode: boolean) => {
     let values: SaleProductFormData = {
       active: false,
       description: '',
@@ -173,7 +157,7 @@ const SaleProductModalWrapper = ({
       type: '',
     };
 
-    if (_mode === 'EDIT') {
+    if (editMode) {
       values = {
         active: prefillData.active,
         amount: fromCents(prefillData.amount),
@@ -188,10 +172,7 @@ const SaleProductModalWrapper = ({
     return values;
   };
 
-  const pickMutation = (
-    _mode: ModalInputMode,
-    formData: SaleProductFormData,
-  ) => {
+  const pickMutation = (editMode: boolean, formData: SaleProductFormData) => {
     let mutation;
     const input = {
       active: formData.active,
@@ -202,7 +183,7 @@ const SaleProductModalWrapper = ({
       type: formData.type,
     };
 
-    if (_mode === 'ADD') {
+    if (!editMode) {
       mutation = createSaleProduct({
         variables: {
           commerceSaleProductCreate: input,
@@ -211,7 +192,7 @@ const SaleProductModalWrapper = ({
       });
     }
 
-    if (_mode === 'EDIT') {
+    if (editMode) {
       mutation = updateSaleProduct({
         variables: {
           commerceSaleProductUpdate: input,
@@ -225,17 +206,19 @@ const SaleProductModalWrapper = ({
   };
 
   const setMutation = (formData: SaleProductFormData) => {
-    return pickMutation(mode, formData);
+    return pickMutation(editOn, formData);
   };
 
   return (
     <FormikModal
-      alertHeader={alertHeaderText(mode)}
+      alertHeader={
+        editOn ? 'Edit pricing for sale cycle' : 'Add pricing for sale cycle'
+      }
       closeModal={closeModal}
-      initialValues={initialValues(mode)}
+      initialValues={initialValues(editOn)}
       isOpen={isOpen}
       submitCallback={setMutation}
-      submitText={submitText(mode)}
+      submitText={editOn ? 'Save' : 'Create'}
       validationSchema={validationSchema}
     >
       <Spacing top="8px">
