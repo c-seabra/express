@@ -15,6 +15,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useAppContext } from '../app/AppContext';
 
@@ -42,6 +43,7 @@ type Props = {
 };
 
 export type SaleCycleFormData = {
+  active: boolean;
   description: string;
   endDate: any;
   id: string;
@@ -50,6 +52,7 @@ export type SaleCycleFormData = {
 };
 
 const validationSchema = Yup.object().shape({
+  active: Yup.boolean(),
   description: Yup.string().nullable(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
@@ -75,6 +78,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
 
   const initialValues = () => {
     return {
+      active: prefillData.active,
       description: prefillData.description,
       endDate: toShortDateTime(prefillData.endDate),
       name: prefillData.name,
@@ -84,6 +88,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
 
   const pickMutation = (formData: SaleCycleFormData) => {
     const input = {
+      active: formData.active,
       description: formData.description ? formData.description.trim() : null,
       endDate: new Date(formData.endDate).toISOString(),
       name: formData.name.trim(),
@@ -138,6 +143,12 @@ const SaleCycleForm = ({ prefillData }: Props) => {
                 label="Sale cycle description"
                 name="description"
               />
+            </Spacing>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <CheckboxField label="Active" name="active" />
             </Spacing>
           </FieldWrapper>
           <FlexEnd>
