@@ -10,6 +10,7 @@ import Table, {
 } from '@websummit/components/src/molecules/Table';
 import {
   EventQuery,
+  useCommerceGetStoreQuery,
   useCommerceListPaymentMethodsQuery,
   useEventQuery,
   useLegalEntitiesQuery,
@@ -188,6 +189,13 @@ const EventSettings = () => {
     onError: (e) => error(e.message),
   });
 
+  const { data: storeData } = useCommerceGetStoreQuery({
+    context: { token },
+    onError: (e) => error(e.message),
+  });
+
+  const store = storeData?.commerceGetStore;
+
   const eventExists = !!data?.event;
   const eventName = data?.event?.name;
   const eventLegalEntity = data?.event?.legalEntity;
@@ -212,8 +220,8 @@ const EventSettings = () => {
 
   const configCompleteRules = {
     additional_settings: {
-      ready: false,
-      text: '',
+      ready: !!store?.active,
+      text: 'This store for this event is inactive',
     },
     billing_invoicing: {
       ready: checkBillingCompletion(eventLegalEntity),
@@ -359,7 +367,7 @@ const EventSettings = () => {
               />
             )}
             {currentTab.id === 'additional_settings' && (
-              <AdditionalSettings storeActive={false} />
+              <AdditionalSettings store={store} />
             )}
           </SettingsSection>
         </SettingsForm>
