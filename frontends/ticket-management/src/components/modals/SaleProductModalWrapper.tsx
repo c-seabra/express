@@ -12,7 +12,6 @@ import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceSaleProductType,
-  EventConfigurationCountry,
   useCommerceListProductsQuery,
   useCommerceSaleProductCreateMutation,
   useCommerceUpdateSaleProductMutation,
@@ -80,16 +79,12 @@ const emptyOption = {
 const typesOptions = [
   { id: CommerceSaleProductType.AbsolutePrice, name: 'Absolute price' },
 ];
-const getTicketTypesOptions = (
-  types: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
-) => [
+const getTicketTypesOptions = (types: any[] = []) => [
   emptyOption,
   ...types.map((type) => ({ label: type?.name, value: type?.id })),
 ];
 
-const getPriceOptions = (
-  prices: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
-) => [
+const getPriceOptions = (prices: any[] = []) => [
   emptyOption,
   ...prices.map((price) => ({ label: price?.name, value: price?.id })),
 ];
@@ -162,7 +157,7 @@ const SaleProductModalWrapper = ({
         amount: prefillData.amount,
         description: prefillData.description,
         name: prefillData.name,
-        product: prefillData.id,
+        product: prefillData.product.id,
         type: prefillData.type,
       };
     }
