@@ -11,6 +11,7 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
 import {
   CommerceSaleProductType,
   useCommerceListProductsQuery,
@@ -163,7 +164,7 @@ const SaleProductModalWrapper = ({
     if (_mode === 'EDIT') {
       values = {
         active: prefillData.active,
-        amount: prefillData.amount,
+        amount: fromCents(prefillData.amount),
         description: prefillData.description,
         id: prefillData.id,
         name: prefillData.name,
@@ -182,7 +183,7 @@ const SaleProductModalWrapper = ({
     let mutation;
     const input = {
       active: formData.active,
-      amount: Number(formData.amount),
+      amount: toCents(Number(formData.amount)),
       description: formData.description.trim(),
       name: formData.name.trim(),
       product: formData.product,
