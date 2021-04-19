@@ -152,7 +152,6 @@ const SaleProductModalWrapper = ({
       type: '',
     };
 
-    console.log('prefillData', prefillData);
     if (_mode === 'EDIT') {
       values = {
         active: prefillData.active,

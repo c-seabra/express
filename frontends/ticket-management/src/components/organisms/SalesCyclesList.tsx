@@ -54,7 +54,7 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const [updateCycle] = useCommerceUpdateSaleMutation({
-    context: { token },
+    context,
     onCompleted: () => {
       snackbar('Sale cycle updated');
     },
