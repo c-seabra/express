@@ -19,6 +19,7 @@ const COMMERCE_SALE_PRODUCTS_LIST = gql`
           id
           name
         }
+        type
       }
       total
     }

@@ -74,6 +74,7 @@ const SaleCyclesPage = () => {
       active: event.active,
       amount: event.price,
       description: event.description,
+      id: event.id,
       name: event.name,
       product: event.product,
       type: event.type,

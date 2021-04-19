@@ -8179,7 +8179,13 @@ export type CommerceListSaleProductsQuery = { __typename?: 'Query' } & {
           Array<
             { __typename?: 'CommerceSaleProduct' } & Pick<
               CommerceSaleProduct,
-              'active' | 'createdAt' | 'id' | 'price' | 'description' | 'name'
+              | 'active'
+              | 'createdAt'
+              | 'id'
+              | 'price'
+              | 'description'
+              | 'name'
+              | 'type'
             > & {
                 createdBy: Maybe<
                   { __typename?: 'CommerceUser' } & Pick<
@@ -16976,6 +16982,7 @@ export const CommerceListSaleProductsDocument: DocumentNode = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     ],
                   },
                 },

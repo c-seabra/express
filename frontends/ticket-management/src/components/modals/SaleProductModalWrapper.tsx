@@ -43,6 +43,7 @@ export type SaleProductFormData = {
   active: boolean;
   amount?: number;
   description: string;
+  id: string;
   name: string;
   product: string; // ID
   type: any; // Price type
@@ -145,6 +146,7 @@ const SaleProductModalWrapper = ({
     let values: SaleProductFormData = {
       active: false,
       description: '',
+      id: '',
       name: '',
       product: '',
       type: '',
@@ -156,6 +158,7 @@ const SaleProductModalWrapper = ({
         active: prefillData.active,
         amount: prefillData.amount,
         description: prefillData.description,
+        id: prefillData.id,
         name: prefillData.name,
         product: prefillData.product.id,
         type: prefillData.type,
