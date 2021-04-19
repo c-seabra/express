@@ -2,6 +2,7 @@ import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
+import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
@@ -33,6 +34,7 @@ const InlineWrapper = styled.div`
 
 type ModalProps = {
   closeModal: () => void;
+  currencySymbol: string;
   isOpen: boolean;
   mode?: ModalInputMode;
   prefillData?: any;
@@ -96,6 +98,7 @@ const SaleProductModalWrapper = ({
   mode = 'ADD',
   prefillData,
   saleId,
+  currencySymbol,
 }: ModalProps) => {
   const { conferenceSlug, token } = useAppContext();
   const context = {
@@ -258,13 +261,12 @@ const SaleProductModalWrapper = ({
               options={priceTypeOptions}
             />
 
-            <TextInputField
+            <MoneyInputField
               required
+              currencySymbol={currencySymbol}
               label="Amount"
               name="amount"
-              placeholder="€0"
             />
-
             <CheckboxField label="Active" name="active" />
           </InlineWrapper>
         </FieldWrapper>

@@ -3,17 +3,17 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
+import { formatDisplayPrice } from '@websummit/glue/src/lib/utils/price';
 import { CommerceSale } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
-import { formatDisplayPrice } from '@websummit/glue/src/lib/utils/price';
 
 const StyledName = styled.span`
   color: #0067e9;
 `;
 
 type ProductsListProps = {
-  currencySymbol?: string;
+  currencySymbol?: string | undefined;
   onRowClick?: any;
   products: any[];
 };
@@ -41,7 +41,8 @@ const ProductsList = ({
     {
       header: 'Price for sale cycle',
       renderCell: (saleProduct) =>
-        `${currencySymbol} ${formatDisplayPrice(saleProduct.price)}` || 'N/A',
+        `${currencySymbol || 'N/A'} ${formatDisplayPrice(saleProduct.price)}` ||
+        'N/A',
     },
     {
       header: 'Status',

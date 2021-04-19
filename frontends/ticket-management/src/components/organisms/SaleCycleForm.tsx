@@ -34,6 +34,7 @@ const InlineWrapper = styled.div`
 
 const Fieldset = styled.fieldset`
   border: none;
+  padding: 0;
 `;
 
 type Props = {
@@ -105,7 +106,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
       validationSchema={validationSchema}
     >
       <Fieldset disabled={false}>
-        <Spacing top="8px">
+        <Spacing top="2rem">
           <FieldWrapper>
             <Spacing bottom="8px">
               <TextInputField required label="Sale cycle name" name="name" />

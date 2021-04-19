@@ -133,6 +133,7 @@ const SaleCyclesPage = () => {
     <Container>
       <SaleProductModalWrapper
         closeModal={closeModal}
+        currencySymbol={storeCurrencySymbol as string}
         isOpen={isOpen}
         mode={modalMode}
         prefillData={prefillData}
