@@ -6,7 +6,6 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
-import ToggleField from '@websummit/components/src/molecules/ToggleField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { toShortDateTime } from '@websummit/components/src/utils/time';
@@ -50,7 +49,7 @@ export type SaleCycleFormData = {
 };
 
 const validationSchema = Yup.object().shape({
-  description: Yup.string(),
+  description: Yup.string().nullable(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
@@ -80,7 +79,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
 
   const pickMutation = (formData: SaleCycleFormData) => {
     const input = {
-      description: formData.description.trim(),
+      description: formData.description ? formData.description.trim() : null,
       endDate: new Date(formData.endDate).toISOString(),
       name: formData.name.trim(),
       startDate: new Date(formData.startDate).toISOString(),
@@ -137,7 +136,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
             </Spacing>
           </FieldWrapper>
           <FlexEnd>
-            <Button>Edit</Button>
+            <Button type="submit">Edit</Button>
           </FlexEnd>
         </Spacing>
       </Fieldset>

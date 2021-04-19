@@ -19,7 +19,6 @@ import styled from 'styled-components';
 
 import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
-import { SaleCycleFormData } from '../modals/SaleCycleModalWrapper';
 import SaleProductModalWrapper, {
   SaleProductFormData,
 } from '../modals/SaleProductModalWrapper';
@@ -110,7 +109,9 @@ const SaleCyclesPage = () => {
       ],
     },
   });
-  const hasProducts = data?.commerceListSaleProducts?.hits && data?.commerceListSaleProducts?.hits?.length > 0;
+  const hasProducts =
+    data?.commerceListSaleProducts?.hits &&
+    data?.commerceListSaleProducts?.hits?.length > 0;
   const products: any = data?.commerceListSaleProducts?.hits;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -173,9 +174,9 @@ const SaleCyclesPage = () => {
               {loadingProducts && <Loader />}
 
               {hasProducts && (
-                  <Spacing top="2rem" bottom="2rem">
-                    <ProductsList products={products} onRowClick={onRowClick} />
-                  </Spacing>
+                <Spacing bottom="2rem" top="2rem">
+                  <ProductsList products={products} onRowClick={onRowClick} />
+                </Spacing>
               )}
             </>
           </ContainerCard>
