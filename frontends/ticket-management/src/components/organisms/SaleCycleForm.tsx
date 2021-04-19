@@ -37,15 +37,8 @@ const Fieldset = styled.fieldset`
   border: none;
 `;
 
-// const Separator = styled.div`
-//   height: 1px;
-//   border-top: 2px solid #f1f1f1;
-//   margin: 0 -100%;
-// `;
-
 type Props = {
   prefillData: any;
-  // prefillData?: SaleCycleFormData;
 };
 
 export type SaleCycleFormData = {
@@ -143,18 +136,6 @@ const SaleCycleForm = ({ prefillData }: Props) => {
               />
             </Spacing>
           </FieldWrapper>
-
-          {/* <FieldWrapper> */}
-          {/*  <Spacing bottom="8px"> */}
-          {/*     Active */}
-          {/*    <ToggleField label="active" name="active-toggle" /> */}
-          {/*  </Spacing> */}
-          {/* </FieldWrapper> */}
-
-          {/* <Spacing bottom="2rem"> */}
-          {/*  <Separator /> */}
-          {/* </Spacing> */}
-
           <FlexEnd>
             <Button>Edit</Button>
           </FlexEnd>
