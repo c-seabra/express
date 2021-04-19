@@ -116,7 +116,7 @@ const checkEventInfoCompletion = (data?: EventQuery): boolean => {
 
 const checkBillingCompletion = (data?: any): boolean => {
   if (data) {
-    const { address, name } = data;
+    const { address, name, phone, taxNumber } = data;
     return !!(
       address &&
       address?.lineOne &&
@@ -125,7 +125,9 @@ const checkBillingCompletion = (data?: any): boolean => {
       address?.city &&
       address?.region &&
       address?.postalCode &&
-      name
+      name &&
+      phone &&
+      taxNumber
     );
   }
 
