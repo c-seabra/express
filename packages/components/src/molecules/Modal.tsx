@@ -117,6 +117,7 @@ const DefaultModalFooter = ({
 const DefaultFooterSpacer = styled.div`
   width: 100%;
   padding: 2.5rem;
+  z-index: -1;
 `;
 
 const Modal = ({

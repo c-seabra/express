@@ -128,7 +128,11 @@ const tableShape: ColumnDescriptors<CommerceProductTableItem> = [
 ];
 
 const TicketTypesPage = () => {
-  const { token } = useAppContext();
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
   const error = useErrorSnackbar();
   const {
     isOpen: isTicketTypeModalOpen,
@@ -141,12 +145,13 @@ const TicketTypesPage = () => {
   >();
 
   const { data, loading } = useCommerceListProductsQuery({
-    context: { token },
+    context,
     onError: (e) => error(e.message),
   });
 
   const { data: commerceCategoriesData } = useCommerceListCategoriesQuery({
-    context: { token },
+    context,
+    onError: (e) => error(e.message),
   });
 
   const ticketTypes = data?.commerceListProducts?.hits || [];
