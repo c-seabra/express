@@ -1,4 +1,5 @@
 import { Button } from '@websummit/components/src/atoms/Button';
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
 import {
   useErrorSnackbar,
@@ -15,7 +16,6 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useAppContext } from '../app/AppContext';
 
