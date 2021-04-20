@@ -8,9 +8,7 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {
-  useCommerceCreateSaleMutation,
-} from '@websummit/graphql/src/@types/operations';
+import { useCommerceCreateSaleMutation } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';

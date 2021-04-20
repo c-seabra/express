@@ -3,14 +3,13 @@ import Loader from '@websummit/components/src/atoms/Loader';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoCyclesPlaceholderImage from '../../lib/images/no-sale-cycle-placeholder.png';
-import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 import SaleCycleModalWrapper, {
   SaleCycleFormData,
@@ -66,10 +65,7 @@ const SalesCyclesPage = () => {
   const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
-  const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
-  const [prefillData, setPrefillData] = useState<SaleCycleFormData>();
   const onButtonClick = () => {
-    setModalMode('ADD');
     openModal();
   };
   const redirectToCycle = (id: string) => {
@@ -100,10 +96,7 @@ const SalesCyclesPage = () => {
     <Container>
       {loading && <Loader />}
 
-      <SaleCycleModalWrapper
-        closeModal={closeModal}
-        isOpen={isOpen}
-      />
+      <SaleCycleModalWrapper closeModal={closeModal} isOpen={isOpen} />
 
       <FlexCol>
         <FlexRow>
