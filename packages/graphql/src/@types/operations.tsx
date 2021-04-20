@@ -7450,6 +7450,20 @@ export type CommerceUpdateSaleProductMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceUpdateStoreMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: CommerceStoreUpdate;
+}>;
+
+export type CommerceUpdateStoreMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateStore: Maybe<
+    { __typename?: 'CommerceStore' } & Pick<
+      CommerceStore,
+      'active' | 'id' | 'name'
+    >
+  >;
+};
+
 export type CreateOrderMutationVariables = Exact<{
   storeId: Scalars['ID'];
   input: CommerceOrderCreate;
@@ -8065,7 +8079,7 @@ export type CommerceGetStoreQuery = { __typename?: 'Query' } & {
   commerceGetStore: Maybe<
     { __typename?: 'CommerceStore' } & Pick<
       CommerceStore,
-      'currencySymbol' | 'country'
+      'id' | 'name' | 'active' | 'currencySymbol' | 'country'
     >
   >;
 };
@@ -13355,6 +13369,117 @@ export type CommerceUpdateSaleProductMutationOptions = Apollo.BaseMutationOption
   CommerceUpdateSaleProductMutation,
   CommerceUpdateSaleProductMutationVariables
 >;
+export const CommerceUpdateStoreDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdateStore' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceStoreUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateStore' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceStoreUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateStoreMutationFn = Apollo.MutationFunction<
+  CommerceUpdateStoreMutation,
+  CommerceUpdateStoreMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateStoreMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateStoreMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateStoreMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateStoreMutation, { data, loading, error }] = useCommerceUpdateStoreMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCommerceUpdateStoreMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateStoreMutation,
+    CommerceUpdateStoreMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateStoreMutation,
+    CommerceUpdateStoreMutationVariables
+  >(CommerceUpdateStoreDocument, baseOptions);
+}
+export type CommerceUpdateStoreMutationHookResult = ReturnType<
+  typeof useCommerceUpdateStoreMutation
+>;
+export type CommerceUpdateStoreMutationResult = Apollo.MutationResult<CommerceUpdateStoreMutation>;
+export type CommerceUpdateStoreMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateStoreMutation,
+  CommerceUpdateStoreMutationVariables
+>;
 export const CreateOrderDocument: DocumentNode = {
   definitions: [
     {
@@ -16492,6 +16617,9 @@ export const CommerceGetStoreDocument: DocumentNode = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'currencySymbol' },
