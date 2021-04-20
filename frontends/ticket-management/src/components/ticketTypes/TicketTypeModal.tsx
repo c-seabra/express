@@ -71,6 +71,10 @@ const StyledMoneyField = styled(MoneyInputField)`
   width: 48%;
 `;
 
+const StyledTextInputField = styled(TextInputField)`
+  width: 48%;
+`;
+
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,6 +113,7 @@ const ticketPriceVariants = {
 };
 
 const validationSchema = Yup.object().shape({
+  bookingRefSuffix: Yup.string().required('Ticket ref suffix is required'),
   name: Yup.string().required('Name is required'),
   price: Yup.number().when('ticketPriceVariant', {
     is: (ticketPrice: string) =>
@@ -205,6 +210,24 @@ const getPriceVariant = (
   return ticketPriceVariants.free;
 };
 
+const getBookingRefSuffix = (
+  ticketType?: Partial<CommerceProduct> & {
+    active: boolean;
+    id: string;
+    name?: string;
+  },
+) => {
+  if (ticketType) {
+    const { bookingRefSuffix } = ticketType?.metadata as {
+      bookingRefSuffix?: string;
+    };
+
+    return bookingRefSuffix;
+  }
+
+  return '';
+};
+
 const getTotalPrice = (rateAmount = 0, price: Total, currencySymbol = '') => {
   const taxPercentage = rateAmount / 100;
   const priceInCents = toCents(price);
@@ -239,12 +262,15 @@ const TicketTypeModal = ({
     })),
   ];
 
+  const suffix = getBookingRefSuffix(ticketType);
+
   return (
     <Modal withDefaultFooter isOpen={isOpen} onRequestClose={onRequestClose}>
       <Formik
         enableReinitialize
         initialValues={{
           active: ticketType?.active,
+          bookingRefSuffix: suffix,
           category:
             (ticketType?.categories && ticketType?.categories[0]?.id) || '',
           description: ticketType?.description,
@@ -256,7 +282,15 @@ const TicketTypeModal = ({
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
-          const { active, name, description, price, taxType, taxMode } = values;
+          const {
+            active,
+            name,
+            description,
+            price,
+            taxType,
+            taxMode,
+            bookingRefSuffix,
+          } = values;
 
           if (ticketType?.id) {
             await updateTicketType({
@@ -266,6 +300,9 @@ const TicketTypeModal = ({
                   active,
                   categories: values?.category ? [{ id: values.category }] : [],
                   description,
+                  metadata: {
+                    bookingRefSuffix,
+                  },
                   name,
                   price: toCents(price),
                   taxMode:
@@ -285,6 +322,9 @@ const TicketTypeModal = ({
                   active,
                   categories: values?.category ? [{ id: values.category }] : [],
                   description,
+                  metadata: {
+                    bookingRefSuffix,
+                  },
                   name,
                   price: toCents(price),
                   taxMode:
@@ -326,12 +366,21 @@ const TicketTypeModal = ({
                 </Spacing>
               </Wrapper>
               <FormWrapper>
-                <TextInputField
-                  required
-                  label="Ticket name"
-                  name="name"
-                  placeholder="General attendee"
-                />
+                <FieldRow>
+                  <StyledTextInputField
+                    required
+                    label="Ticket name"
+                    name="name"
+                    placeholder="General attendee"
+                  />
+                  <StyledTextInputField
+                    required
+                    label="Ticket reference suffix"
+                    maxLength={5}
+                    name="bookingRefSuffix"
+                    placeholder="XXX"
+                  />
+                </FieldRow>
                 <TextAreaField
                   label="Ticket description"
                   maxLength={100}

@@ -60,6 +60,7 @@ const TextInputField = ({
   type = 'text',
   disabled,
   validate,
+  maxLength,
 }: TextInputFieldProps) => {
   return (
     <FieldContainer className={className}>
@@ -69,6 +70,7 @@ const TextInputField = ({
           <StyledInput
             disabled={disabled}
             isError={meta.touched && !!meta.error}
+            maxLength={maxLength}
             type={type}
             {...field}
             placeholder={placeholder}
