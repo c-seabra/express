@@ -179,7 +179,7 @@ type TicketGroupModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
         }
     >
   >;
-  ticketGroups: Partial<CommerceCategory>[];
+  ticketCategories: Partial<CommerceCategory>[];
   ticketType?: Partial<CommerceProduct> & {
     active: boolean;
     id: string;
@@ -218,14 +218,14 @@ const TicketTypeModal = ({
   isOpen,
   onRequestClose,
   taxTypes = [],
-  ticketGroups = [],
+  ticketCategories = [],
   ticketType,
 }: TicketGroupModalProps) => {
   const { createTicketType, updateTicketType } = useTicketTypeMutations();
 
-  const ticketGroupOptions = [
+  const ticketCategoriesOptions = [
     emptyOption,
-    ...ticketGroups.map((group) => ({
+    ...ticketCategories.map((group) => ({
       label: group.name,
       value: group.id || '',
     })),
@@ -245,9 +245,9 @@ const TicketTypeModal = ({
         enableReinitialize
         initialValues={{
           active: ticketType?.active,
-          description: ticketType?.description,
-          group:
+          category:
             (ticketType?.categories && ticketType?.categories[0]?.id) || '',
+          description: ticketType?.description,
           name: ticketType?.name || '',
           price: fromCents(ticketType?.price),
           taxMode: ticketType?.taxMode || '',
@@ -264,7 +264,7 @@ const TicketTypeModal = ({
                 id: ticketType?.id,
                 input: {
                   active,
-                  categories: values?.group ? [{ id: values.group }] : [],
+                  categories: values?.category ? [{ id: values.category }] : [],
                   description,
                   name,
                   price: toCents(price),
@@ -283,7 +283,7 @@ const TicketTypeModal = ({
               variables: {
                 input: {
                   active,
-                  categories: values?.group ? [{ id: values.group }] : [],
+                  categories: values?.category ? [{ id: values.category }] : [],
                   description,
                   name,
                   price: toCents(price),
@@ -340,9 +340,9 @@ const TicketTypeModal = ({
                 />
                 <FieldRow>
                   <StyledSelectField
-                    label="Ticket group"
-                    name="group"
-                    options={ticketGroupOptions}
+                    label="Ticket category"
+                    name="category"
+                    options={ticketCategoriesOptions}
                     placeholder="GA"
                   />
                   <CheckboxField label="Ticket sale on" name="active" />

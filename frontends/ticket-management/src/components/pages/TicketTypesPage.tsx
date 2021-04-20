@@ -77,37 +77,37 @@ type GroupedTicketTypes = {
 
 const ungroupedCategoryName = 'Other';
 
-const groupTicketTypesByGroups = (
+const groupTicketTypesByCategories = (
   ticketTypes: Partial<CommerceProduct>[] = [],
-  ticketGroups: Pick<CommerceCategory, 'name' | 'id'>[] = [],
+  ticketCategories: Pick<CommerceCategory, 'name' | 'id'>[] = [],
 ) => {
-  let ticketTypesByGroups: GroupedTicketTypes = {};
+  let ticketTypesByCategories: GroupedTicketTypes = {};
 
-  ticketGroups.forEach((category) => {
-    const ticketTypesByGroup = ticketTypes.filter((type) =>
+  ticketCategories.forEach((category) => {
+    const ticketTypesByCategory = ticketTypes.filter((type) =>
       type?.categories?.some((typeCategory) => typeCategory.id === category.id),
     );
 
-    if (ticketTypesByGroup.length > 0) {
-      ticketTypesByGroups = {
-        ...ticketTypesByGroups,
-        [category.name]: ticketTypesByGroup,
+    if (ticketTypesByCategory.length > 0) {
+      ticketTypesByCategories = {
+        ...ticketTypesByCategories,
+        [category.name]: ticketTypesByCategory,
       };
     }
   });
 
-  const ticketsWithoutGroup = ticketTypes.filter(
+  const ticketsWithoutCategory = ticketTypes.filter(
     (type) => !type.categories || type?.categories?.length === 0,
   );
 
-  if (ticketsWithoutGroup.length > 0) {
+  if (ticketsWithoutCategory.length > 0) {
     return {
-      ...ticketTypesByGroups,
-      [ungroupedCategoryName]: ticketsWithoutGroup,
+      ...ticketTypesByCategories,
+      [ungroupedCategoryName]: ticketsWithoutCategory,
     };
   }
 
-  return ticketTypesByGroups;
+  return ticketTypesByCategories;
 };
 
 type CommerceProductTableItem = Partial<CommerceProduct> & {
@@ -158,12 +158,12 @@ const TicketTypesPage = () => {
   const areCommerceProductsPresent =
     ticketTypes?.length && ticketTypes?.length > 0;
 
-  const ticketGroups =
+  const ticketCategories =
     commerceCategoriesData?.commerceListCategories?.hits || [];
 
-  const ticketTypesByGroups = groupTicketTypesByGroups(
+  const ticketTypesByCategories = groupTicketTypesByCategories(
     ticketTypes as Partial<CommerceProduct>[],
-    ticketGroups,
+    ticketCategories,
   );
 
   const { data: storeData } = useCommerceGetStoreQuery({
@@ -192,7 +192,7 @@ const TicketTypesPage = () => {
             currencySymbol={store?.currencySymbol || ''}
             isOpen={isTicketTypeModalOpen}
             taxTypes={taxTypes}
-            ticketGroups={ticketGroups}
+            ticketCategories={ticketCategories}
             ticketType={selectedTicketType}
             onRequestClose={closeTicketTypeModal}
           />
@@ -206,7 +206,7 @@ const TicketTypesPage = () => {
       )}
 
       {areCommerceProductsPresent ? (
-        Object.entries(ticketTypesByGroups).map(([key, value]) => (
+        Object.entries(ticketTypesByCategories).map(([key, value]) => (
           <Spacing key={key} top="1.5rem">
             <ContainerCard noPadding title={key}>
               <Table<CommerceProductTableItem>
