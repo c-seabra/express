@@ -24,7 +24,6 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useAppContext } from '../app/AppContext';
 
 const InlineWrapper = styled.div`

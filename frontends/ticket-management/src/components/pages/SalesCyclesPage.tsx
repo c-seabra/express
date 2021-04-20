@@ -103,8 +103,6 @@ const SalesCyclesPage = () => {
       <SaleCycleModalWrapper
         closeModal={closeModal}
         isOpen={isOpen}
-        mode={modalMode}
-        prefillData={prefillData}
       />
 
       <FlexCol>

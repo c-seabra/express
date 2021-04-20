@@ -8,10 +8,8 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDateTime } from '@websummit/components/src/utils/time';
 import {
   useCommerceCreateSaleMutation,
-  useCommerceUpdateSaleMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
@@ -19,8 +17,6 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import { ModalInputMode } from '../../lib/types/modals';
 import { useAppContext } from '../app/AppContext';
 
 const StyledInputField = styled(TextInputField)`
@@ -35,8 +31,6 @@ const InlineWrapper = styled.div`
 type ModalProps = {
   closeModal: () => void;
   isOpen: boolean;
-  mode?: ModalInputMode;
-  prefillData?: any;
 };
 
 export type SaleCycleFormData = {
@@ -47,20 +41,6 @@ export type SaleCycleFormData = {
   startDate: any;
 };
 
-const alertHeaderText = (_mode: string): string => {
-  return switchCase({
-    ADD: 'Create a sale cycle',
-    EDIT: `Edit sale cycle`,
-  })('')(_mode);
-};
-
-const submitText = (_mode: string): string => {
-  return switchCase({
-    ADD: 'Create',
-    EDIT: 'Save',
-  })('')(_mode);
-};
-
 const validationSchema = Yup.object().shape({
   description: Yup.string(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
@@ -68,12 +48,7 @@ const validationSchema = Yup.object().shape({
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
-const SaleCycleModalWrapper = ({
-  isOpen,
-  closeModal,
-  mode = 'ADD',
-  prefillData,
-}: ModalProps) => {
+const SaleCycleModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
   const { conferenceSlug, token } = useAppContext();
   const context = {
     slug: conferenceSlug,
@@ -89,37 +64,17 @@ const SaleCycleModalWrapper = ({
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
   });
-  const [updateCycle] = useCommerceUpdateSaleMutation({
-    context,
-    onCompleted: () => {
-      snackbar('Sale cycle updated');
-    },
-    onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
-  });
 
-  const initialValues = (_mode: ModalInputMode) => {
-    let values = {
+  const initialValues = () => {
+    return {
       description: '',
       endDate: '',
       name: '',
       startDate: '',
     };
-
-    if (_mode === 'EDIT') {
-      values = {
-        description: prefillData.description,
-        endDate: toShortDateTime(prefillData.endDate),
-        name: prefillData.name,
-        startDate: toShortDateTime(prefillData.startDate),
-      };
-    }
-
-    return values;
   };
 
-  const pickMutation = (_mode: ModalInputMode, formData: SaleCycleFormData) => {
-    let mutation;
+  const pickMutation = (formData: SaleCycleFormData) => {
     const input = {
       description: formData.description.trim(),
       endDate: new Date(formData.endDate).toISOString(),
@@ -127,33 +82,23 @@ const SaleCycleModalWrapper = ({
       startDate: new Date(formData.startDate).toISOString(),
     };
 
-    if (_mode === 'ADD') {
-      mutation = createCycle({
-        variables: { commerceSale: input },
-      });
-    }
-
-    if (_mode === 'EDIT') {
-      mutation = updateCycle({
-        variables: { commerceSale: input, id: prefillData.id },
-      });
-    }
-
-    return mutation;
+    return createCycle({
+      variables: { commerceSale: input },
+    });
   };
 
   const setMutation = (formData: SaleCycleFormData) => {
-    return pickMutation(mode, formData);
+    return pickMutation(formData);
   };
 
   return (
     <FormikModal
-      alertHeader={alertHeaderText(mode)}
+      alertHeader="Create a sale cycle"
       closeModal={closeModal}
-      initialValues={initialValues(mode)}
+      initialValues={initialValues()}
       isOpen={isOpen}
       submitCallback={setMutation}
-      submitText={submitText(mode)}
+      submitText="Create"
       validationSchema={validationSchema}
     >
       <Spacing top="8px">
