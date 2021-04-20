@@ -1,20 +1,12 @@
+import Badge from '@websummit/components/src/atoms/Badge';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import SelectableTable from '@websummit/components/src/molecules/SelectableTable';
-import {
-  useErrorSnackbar,
-  useSuccessSnackbar,
-} from '@websummit/components/src/molecules/Snackbar';
-import { ColumnDescriptor } from '@websummit/components/src/molecules/Table';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
 import { formatFullDateTime } from '@websummit/components/src/utils/time';
-import {
-  CommerceSale,
-  useCommerceUpdateSaleMutation,
-} from '@websummit/graphql/src/@types/operations';
-import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
+import { CommerceSale } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
-
-import { useAppContext } from '../app/AppContext';
 
 const StyledName = styled.span`
   color: #0067e9;
@@ -43,45 +35,30 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
       header: 'Description',
       renderCell: (cycle) => cycle.description || 'N/A',
     },
-  ];
+    {
+      header: 'Status',
+      renderCell: (cycle) => {
+        const badge = {
+          background: cycle.active ? '#EAF9EA' : '#FDEBEB',
+          color: cycle.active ? '#3BB273' : '#E15554',
+        };
 
-  const { token } = useAppContext();
-  const snackbar = useSuccessSnackbar();
-  const errorSnackbar = useErrorSnackbar();
-  const [updateCycle] = useCommerceUpdateSaleMutation({
-    context: { token },
-    onCompleted: () => {
-      snackbar('Sale cycle updated');
+        return (
+          <Badge background={badge.background} color={badge.color}>
+            {cycle.active ? 'Active' : 'Inactive' || 'N/A'}
+          </Badge>
+        );
+      },
     },
-    onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
-  });
+  ];
 
   return (
     <>
       <ContainerCard noPadding>
-        <SelectableTable<CommerceSale>
-          disableToggleAll
-          lastColumn
-          header="Active"
-          items={cycles?.map((cycle) => ({
-            ...cycle,
-            selected: cycle.active,
-          }))}
+        <Table<CommerceSale>
+          items={cycles}
           tableShape={tableShape}
           onRowClick={onRowClick}
-          onSelect={async (selectedItem, selected) => {
-            if (selectedItem?.id) {
-              await updateCycle({
-                variables: {
-                  commerceSale: {
-                    active: selected,
-                  },
-                  id: selectedItem.id,
-                },
-              });
-            }
-          }}
         />
       </ContainerCard>
     </>

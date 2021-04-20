@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
+import SalesCyclePage from '../pages/SalesCyclePage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
 import TicketCategoriesPage from '../pages/TicketCategoriesPage';
 import TicketTypesPage from '../pages/TicketTypesPage';
@@ -53,6 +54,9 @@ const App = ({ token, apiURL }: AppProps) => {
                 </Route>
                 <Route exact path="/sale-cycles">
                   <SalesCyclesPage />
+                </Route>
+                <Route exact path="/sale-cycle/:id">
+                  <SalesCyclePage />
                 </Route>
                 <Route exact path="/ticket-categories">
                   <TicketCategoriesPage />
