@@ -7366,6 +7366,16 @@ export type CommerceCreateCategoryMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceCreateProductMutationVariables = Exact<{
+  input: CommerceProductCreate;
+}>;
+
+export type CommerceCreateProductMutation = { __typename?: 'Mutation' } & {
+  commerceCreateProduct: Maybe<
+    { __typename?: 'CommerceProduct' } & Pick<CommerceProduct, 'id' | 'active'>
+  >;
+};
+
 export type CommerceCreatePaymentMethodMutationVariables = Exact<{
   paymentMethod: CommercePaymentMethodCreate;
 }>;
@@ -7408,6 +7418,17 @@ export type CommerceUpdateCategoryMutation = { __typename?: 'Mutation' } & {
       CommerceCategory,
       'id' | 'active'
     >
+  >;
+};
+
+export type CommerceUpdateProductMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: CommerceProductUpdate;
+}>;
+
+export type CommerceUpdateProductMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateProduct: Maybe<
+    { __typename?: 'CommerceProduct' } & Pick<CommerceProduct, 'id' | 'active'>
   >;
 };
 
@@ -8041,7 +8062,25 @@ export type CommerceGetStoreQuery = { __typename?: 'Query' } & {
     { __typename?: 'CommerceStore' } & Pick<
       CommerceStore,
       'id' | 'name' | 'active' | 'currencySymbol' | 'country'
-    >
+    > & {
+        taxTypes: Maybe<
+          Array<
+            { __typename?: 'CommerceTaxType' } & Pick<
+              CommerceTaxType,
+              'id' | 'name' | 'description'
+            > & {
+                taxes: Maybe<
+                  Array<
+                    { __typename?: 'CommerceTax' } & Pick<
+                      CommerceTax,
+                      'id' | 'country' | 'name' | 'rateAmount' | 'rateType'
+                    >
+                  >
+                >;
+              }
+          >
+        >;
+      }
   >;
 };
 
@@ -8144,6 +8183,64 @@ export type CommerceListProductsQuery = { __typename?: 'Query' } & {
                 'id' | 'description' | 'name'
               >;
             }
+        >
+      >;
+    }
+  >;
+};
+
+export type CommerceListStoresQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CommerceListStoresQuery = { __typename?: 'Query' } & {
+  commerceListStores: Maybe<
+    { __typename?: 'CommerceSearchResponseStore' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceStore' } & Pick<
+            CommerceStore,
+            'id' | 'name' | 'slug' | 'currencySymbol' | 'country'
+          > & {
+              taxTypes: Maybe<
+                Array<
+                  { __typename?: 'CommerceTaxType' } & Pick<
+                    CommerceTaxType,
+                    'id' | 'name' | 'description'
+                  > & {
+                      taxes: Maybe<
+                        Array<
+                          { __typename?: 'CommerceTax' } & Pick<
+                            CommerceTax,
+                            | 'id'
+                            | 'country'
+                            | 'name'
+                            | 'rateAmount'
+                            | 'rateType'
+                          >
+                        >
+                      >;
+                    }
+                >
+              >;
+            }
+        >
+      >;
+    }
+  >;
+};
+
+export type CommerceListTaxTypesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type CommerceListTaxTypesQuery = { __typename?: 'Query' } & {
+  commerceListTaxTypes: Maybe<
+    { __typename?: 'CommerceSearchResponseTaxType' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceTaxType' } & Pick<
+            CommerceTaxType,
+            'id' | 'description' | 'name'
+          >
         >
       >;
     }
@@ -12608,6 +12705,99 @@ export type CommerceCreateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateCategoryMutation,
   CommerceCreateCategoryMutationVariables
 >;
+export const CommerceCreateProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'commerceCreateProduct' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceProductCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceProductCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreateProductMutationFn = Apollo.MutationFunction<
+  CommerceCreateProductMutation,
+  CommerceCreateProductMutationVariables
+>;
+
+/**
+ * __useCommerceCreateProductMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreateProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreateProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreateProductMutation, { data, loading, error }] = useCommerceCreateProductMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCommerceCreateProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreateProductMutation,
+    CommerceCreateProductMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreateProductMutation,
+    CommerceCreateProductMutationVariables
+  >(CommerceCreateProductDocument, baseOptions);
+}
+export type CommerceCreateProductMutationHookResult = ReturnType<
+  typeof useCommerceCreateProductMutation
+>;
+export type CommerceCreateProductMutationResult = Apollo.MutationResult<CommerceCreateProductMutation>;
+export type CommerceCreateProductMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreateProductMutation,
+  CommerceCreateProductMutationVariables
+>;
 export const CommerceCreatePaymentMethodDocument: DocumentNode = {
   definitions: [
     {
@@ -12924,6 +13114,116 @@ export type CommerceUpdateCategoryMutationResult = Apollo.MutationResult<Commerc
 export type CommerceUpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateCategoryMutation,
   CommerceUpdateCategoryMutationVariables
+>;
+export const CommerceUpdateProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'commerceUpdateProduct' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceProductUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceProductUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateProductMutationFn = Apollo.MutationFunction<
+  CommerceUpdateProductMutation,
+  CommerceUpdateProductMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateProductMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateProductMutation, { data, loading, error }] = useCommerceUpdateProductMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCommerceUpdateProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateProductMutation,
+    CommerceUpdateProductMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateProductMutation,
+    CommerceUpdateProductMutationVariables
+  >(CommerceUpdateProductDocument, baseOptions);
+}
+export type CommerceUpdateProductMutationHookResult = ReturnType<
+  typeof useCommerceUpdateProductMutation
+>;
+export type CommerceUpdateProductMutationResult = Apollo.MutationResult<CommerceUpdateProductMutation>;
+export type CommerceUpdateProductMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateProductMutation,
+  CommerceUpdateProductMutationVariables
 >;
 export const CommerceUpdateStoreDocument: DocumentNode = {
   definitions: [
@@ -16181,6 +16481,50 @@ export const CommerceGetStoreDocument: DocumentNode = {
                   name: { kind: 'Name', value: 'currencySymbol' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxTypes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rateAmount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rateType' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -16661,6 +17005,235 @@ export type CommerceListProductsLazyQueryHookResult = ReturnType<
 export type CommerceListProductsQueryResult = Apollo.QueryResult<
   CommerceListProductsQuery,
   CommerceListProductsQueryVariables
+>;
+export const CommerceListStoresDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListStores' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListStores' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currencySymbol' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxTypes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'taxes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'country' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rateAmount' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rateType' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListStoresQuery__
+ *
+ * To run a query within a React component, call `useCommerceListStoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListStoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListStoresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCommerceListStoresQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListStoresQuery,
+    CommerceListStoresQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListStoresQuery,
+    CommerceListStoresQueryVariables
+  >(CommerceListStoresDocument, baseOptions);
+}
+export function useCommerceListStoresLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListStoresQuery,
+    CommerceListStoresQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListStoresQuery,
+    CommerceListStoresQueryVariables
+  >(CommerceListStoresDocument, baseOptions);
+}
+export type CommerceListStoresQueryHookResult = ReturnType<
+  typeof useCommerceListStoresQuery
+>;
+export type CommerceListStoresLazyQueryHookResult = ReturnType<
+  typeof useCommerceListStoresLazyQuery
+>;
+export type CommerceListStoresQueryResult = Apollo.QueryResult<
+  CommerceListStoresQuery,
+  CommerceListStoresQueryVariables
+>;
+export const CommerceListTaxTypesDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListTaxTypes' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListTaxTypes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListTaxTypesQuery__
+ *
+ * To run a query within a React component, call `useCommerceListTaxTypesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListTaxTypesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListTaxTypesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCommerceListTaxTypesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListTaxTypesQuery,
+    CommerceListTaxTypesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListTaxTypesQuery,
+    CommerceListTaxTypesQueryVariables
+  >(CommerceListTaxTypesDocument, baseOptions);
+}
+export function useCommerceListTaxTypesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListTaxTypesQuery,
+    CommerceListTaxTypesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListTaxTypesQuery,
+    CommerceListTaxTypesQueryVariables
+  >(CommerceListTaxTypesDocument, baseOptions);
+}
+export type CommerceListTaxTypesQueryHookResult = ReturnType<
+  typeof useCommerceListTaxTypesQuery
+>;
+export type CommerceListTaxTypesLazyQueryHookResult = ReturnType<
+  typeof useCommerceListTaxTypesLazyQuery
+>;
+export type CommerceListTaxTypesQueryResult = Apollo.QueryResult<
+  CommerceListTaxTypesQuery,
+  CommerceListTaxTypesQueryVariables
 >;
 export const CountriesDocument: DocumentNode = {
   definitions: [

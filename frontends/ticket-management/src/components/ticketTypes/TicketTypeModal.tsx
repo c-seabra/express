@@ -78,21 +78,26 @@ const FormWrapper = styled.div`
 `;
 
 const useTicketTypeMutations = () => {
-  const { token } = useAppContext();
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
+
   const { success, error } = useSnackbars();
 
   const [createTicketType] = useCommerceCreateProductMutation({
-    context: { token },
+    context,
     onCompleted: () => success('Ticket type created'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context: { token }, query: CommerceListProducts }],
+    refetchQueries: [{ context, query: CommerceListProducts }],
   });
 
   const [updateTicketType] = useCommerceUpdateProductMutation({
-    context: { token },
+    context,
     onCompleted: () => success('Ticket type updated'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context: { token }, query: CommerceListProducts }],
+    refetchQueries: [{ context, query: CommerceListProducts }],
   });
 
   return { createTicketType, updateTicketType };
@@ -240,9 +245,9 @@ const TicketTypeModal = ({
         enableReinitialize
         initialValues={{
           active: ticketType?.active,
-          category:
-            (ticketType?.categories && ticketType?.categories[0]?.id) || '',
           description: ticketType?.description,
+          group:
+            (ticketType?.categories && ticketType?.categories[0]?.id) || '',
           name: ticketType?.name || '',
           price: fromCents(ticketType?.price),
           taxMode: ticketType?.taxMode || '',
@@ -259,7 +264,7 @@ const TicketTypeModal = ({
                 id: ticketType?.id,
                 input: {
                   active,
-                  categories: values?.category ? [{ id: values.category }] : [],
+                  categories: values?.group ? [{ id: values.group }] : [],
                   description,
                   name,
                   price: toCents(price),
@@ -278,7 +283,7 @@ const TicketTypeModal = ({
               variables: {
                 input: {
                   active,
-                  categories: values?.category ? [{ id: values.category }] : [],
+                  categories: values?.group ? [{ id: values.group }] : [],
                   description,
                   name,
                   price: toCents(price),
@@ -335,8 +340,8 @@ const TicketTypeModal = ({
                 />
                 <FieldRow>
                   <StyledSelectField
-                    label="Ticket category"
-                    name="categories"
+                    label="Ticket group"
+                    name="group"
                     options={ticketGroupOptions}
                     placeholder="GA"
                   />

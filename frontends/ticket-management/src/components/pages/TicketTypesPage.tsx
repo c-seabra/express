@@ -167,14 +167,13 @@ const TicketTypesPage = () => {
   );
 
   const { data: storeData } = useCommerceGetStoreQuery({
-    context: { token },
+    context,
   });
 
   const store = storeData?.commerceGetStore;
 
   const taxTypes = store?.taxTypes || [];
 
-  console.log(store);
   return (
     <PageContainer>
       <HeaderContainer>
