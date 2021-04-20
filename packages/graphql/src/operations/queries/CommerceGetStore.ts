@@ -8,6 +8,18 @@ export default gql`
       active
       currencySymbol
       country
+      taxTypes {
+        id
+        name
+        description
+        taxes {
+          id
+          country
+          name
+          rateAmount
+          rateType
+        }
+      }
     }
   }
 `;

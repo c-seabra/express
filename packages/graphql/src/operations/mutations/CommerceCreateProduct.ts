@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const COMMERCE_CREATE_PRODUCT = gql`
+export default gql`
   mutation commerceCreateProduct($input: CommerceProductCreate!) {
     commerceCreateProduct(commerceProductCreate: $input) {
       id
@@ -8,5 +8,3 @@ const COMMERCE_CREATE_PRODUCT = gql`
     }
   }
 `;
-
-export default COMMERCE_CREATE_PRODUCT;

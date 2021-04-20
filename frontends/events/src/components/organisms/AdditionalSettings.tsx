@@ -41,7 +41,7 @@ const PaddedContainer = styled.div`
 `;
 
 type Props = {
-  store?: Partial<CommerceStore> | null;
+  store?: Pick<CommerceStore, 'active' | 'id'> | null;
 };
 
 const AdditionalSettings = ({ store }: Props) => {

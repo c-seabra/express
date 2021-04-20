@@ -1,5 +1,3 @@
-import { ErrorMessage, Field, FieldProps } from 'formik';
-import { FieldValidator } from 'formik/dist/types';
 import React, { HTMLProps } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -46,43 +44,34 @@ const Error = styled.div`
   margin-top: 4px;
 `;
 
-type TextInputFieldProps = HTMLProps<HTMLInputElement> & {
-  name: string;
-  validate?: FieldValidator;
+type TextInputProps = HTMLProps<HTMLInputElement> & {
+  errorMessage?: string;
 };
 
-const TextInputField = ({
+const TextInput = ({
   className,
   label,
-  name,
   required,
   placeholder,
   type = 'text',
   disabled,
-  validate,
-  maxLength,
-}: TextInputFieldProps) => {
+  errorMessage,
+  onChange,
+  value,
+}: TextInputProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
-      <Field name={name} required={required} validate={validate}>
-        {({ meta, field }: FieldProps) => (
-          <StyledInput
-            disabled={disabled}
-            isError={meta.touched && !!meta.error}
-            maxLength={maxLength}
-            type={type}
-            {...field}
-            placeholder={placeholder}
-          />
-        )}
-      </Field>
-      <ErrorMessage
-        name={name}
-        render={(message) => <Error>{message}</Error>}
+      <StyledInput
+        disabled={disabled}
+        placeholder={placeholder}
+        type={type}
+        value={value}
+        onChange={onChange}
       />
+      {errorMessage && <Error>{errorMessage}</Error>}
     </FieldContainer>
   );
 };
 
-export default TextInputField;
+export default TextInput;
