@@ -114,7 +114,7 @@ const ticketPriceVariants = {
 
 const validationSchema = Yup.object().shape({
   bookingRefSuffix: Yup.string().required('Ticket ref suffix is required'),
-  name: Yup.string().required('Name is required'),
+  name: Yup.string(),
   price: Yup.number().when('ticketPriceVariant', {
     is: (ticketPrice: string) =>
       ticketPrice && ticketPrice === ticketPriceVariants.paid,
@@ -217,7 +217,7 @@ const getBookingRefSuffix = (
     name?: string;
   },
 ) => {
-  if (ticketType) {
+  if (ticketType?.metadata) {
     const { bookingRefSuffix } = ticketType?.metadata as {
       bookingRefSuffix?: string;
     };
