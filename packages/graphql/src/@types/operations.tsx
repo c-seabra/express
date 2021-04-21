@@ -8099,6 +8099,7 @@ export type CommerceGetProductQuery = { __typename?: 'Query' } & {
       | 'id'
       | 'lastUpdatedAt'
       | 'name'
+      | 'metadata'
       | 'price'
       | 'taxMode'
     > & {
@@ -16926,6 +16927,7 @@ export const CommerceGetProductDocument: DocumentNode = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'price' } },
                 {
                   kind: 'Field',

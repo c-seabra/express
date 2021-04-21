@@ -45,6 +45,8 @@ const FlexRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 26px 0;
+  width: 70%;
+  min-width: 700px;
 `;
 
 // Good candidate to move to package templates

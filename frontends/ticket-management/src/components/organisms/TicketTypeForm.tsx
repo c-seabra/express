@@ -20,13 +20,14 @@ import {
   useCommerceCreateProductMutation,
   useCommerceUpdateProductMutation,
 } from '@websummit/graphql/src/@types/operations';
+import CommerceGetProduct from '@websummit/graphql/src/operations/queries/CommerceGetProduct';
 import CommerceListProducts from '@websummit/graphql/src/operations/queries/CommerceListProducts';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { useAppContext } from '../app/AppContext';
+import { useRequestContext } from '../app/AppContext';
 
 const FieldRow = styled.div`
   display: flex;
@@ -61,27 +62,30 @@ const ButtonsContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const useTicketTypeMutations = () => {
-  const { conferenceSlug, token } = useAppContext();
-  const context = {
-    slug: conferenceSlug,
-    token,
-  };
-
+const useTicketTypeMutations = ({
+  ticketTypeId,
+}: {
+  ticketTypeId?: string;
+}) => {
+  const context = useRequestContext();
   const { success, error } = useSnackbars();
+
+  const refetchQueries = ticketTypeId
+    ? [{ context, query: CommerceListProducts }]
+    : [{ context, query: CommerceGetProduct, variables: { id: ticketTypeId } }];
 
   const [createTicketType] = useCommerceCreateProductMutation({
     context,
     onCompleted: () => success('Ticket type created'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context, query: CommerceListProducts }],
+    refetchQueries,
   });
 
   const [updateTicketType] = useCommerceUpdateProductMutation({
     context,
     onCompleted: () => success('Ticket type updated'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context, query: CommerceListProducts }],
+    refetchQueries,
   });
 
   return { createTicketType, updateTicketType };
@@ -228,7 +232,9 @@ const TicketTypeForm = ({
   ticketType,
   onCancelClick = () => null,
 }: TicketTypeFormProps) => {
-  const { createTicketType, updateTicketType } = useTicketTypeMutations();
+  const { createTicketType, updateTicketType } = useTicketTypeMutations({
+    ticketTypeId: ticketType?.id,
+  });
 
   const ticketCategoriesOptions = [
     emptyOption,
@@ -284,6 +290,7 @@ const TicketTypeForm = ({
                 categories: values?.category ? [{ id: values.category }] : [],
                 description,
                 metadata: {
+                  ...((ticketType?.metadata as Record<string, unknown>) || {}),
                   bookingRefSuffix,
                 },
                 name,
@@ -325,7 +332,7 @@ const TicketTypeForm = ({
         onCancelClick();
       }}
     >
-      {({ values }) => {
+      {({ values, resetForm }) => {
         const taxRate = values?.taxType
           ? getTaxRateByStoreCountry(
               (taxTypes || []).find((type) => type.id === values?.taxType),
@@ -345,7 +352,7 @@ const TicketTypeForm = ({
                 />
                 <StyledTextInputField
                   required
-                  label="Ticket reference suffix"
+                  label="Ticket type suffix"
                   maxLength={5}
                   name="bookingRefSuffix"
                   placeholder="XXX"
@@ -422,7 +429,13 @@ const TicketTypeForm = ({
               </FieldRow>
             </FormWrapper>
             <ButtonsContainer>
-              <StyledSecondaryButton type="button" onClick={onCancelClick}>
+              <StyledSecondaryButton
+                type="button"
+                onClick={() => {
+                  resetForm();
+                  onCancelClick();
+                }}
+              >
                 Cancel
               </StyledSecondaryButton>
               <Button type="submit">Save</Button>
