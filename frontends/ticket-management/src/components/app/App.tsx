@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import SalesCyclePage from '../pages/SalesCyclePage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
 import TicketCategoriesPage from '../pages/TicketCategoriesPage';
+import TicketTypePage from '../pages/TicketTypePage';
 import TicketTypesPage from '../pages/TicketTypesPage';
 import AppContext from './AppContext';
 
@@ -63,6 +64,9 @@ const App = ({ token, apiURL }: AppProps) => {
                 </Route>
                 <Route exact path="/ticket-types">
                   <TicketTypesPage />
+                </Route>
+                <Route exact path="/ticket-type/:id">
+                  <TicketTypePage />
                 </Route>
               </Switch>
             </StyledContainer>

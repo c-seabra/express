@@ -14,7 +14,8 @@ import {
   useCommerceListCategoriesQuery,
   useCommerceListProductsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
@@ -129,6 +130,8 @@ const tableShape: ColumnDescriptors<CommerceProductTableItem> = [
 
 const TicketTypesPage = () => {
   const { conferenceSlug, token } = useAppContext();
+  const history = useHistory();
+
   const context = {
     slug: conferenceSlug,
     token,
@@ -139,10 +142,6 @@ const TicketTypesPage = () => {
     closeModal: closeTicketTypeModal,
     openModal: openTicketTypeModal,
   } = useModalState();
-
-  const [selectedTicketType, setSelectedTicketType] = useState<
-    CommerceProductTableItem | undefined
-  >();
 
   const { data, loading } = useCommerceListProductsQuery({
     context,
@@ -174,26 +173,22 @@ const TicketTypesPage = () => {
 
   const taxTypes = store?.taxTypes || [];
 
+  const openTicketTypePage = (ticketType: Partial<CommerceProduct>) => {
+    history.push(`/ticket-type/${ticketType?.id || ''}`);
+  };
+
   return (
     <PageContainer>
       <HeaderContainer>
         <Title>Ticket types</Title>
         <TableActionsContainer>
-          <Button
-            onClick={() => {
-              setSelectedTicketType(undefined);
-              openTicketTypeModal();
-            }}
-          >
-            Create new ticket type
-          </Button>
+          <Button onClick={openTicketTypeModal}>Create new ticket type</Button>
           <TicketTypeModal
             country={store?.country}
             currencySymbol={store?.currencySymbol || ''}
             isOpen={isTicketTypeModalOpen}
             taxTypes={taxTypes}
             ticketCategories={ticketCategories}
-            ticketType={selectedTicketType}
             onRequestClose={closeTicketTypeModal}
           />
         </TableActionsContainer>
@@ -212,10 +207,7 @@ const TicketTypesPage = () => {
               <Table<CommerceProductTableItem>
                 items={value as CommerceProductTableItem[]}
                 tableShape={tableShape}
-                onRowClick={(item) => {
-                  setSelectedTicketType(item);
-                  openTicketTypeModal();
-                }}
+                onRowClick={openTicketTypePage}
               />
             </ContainerCard>
           </Spacing>
