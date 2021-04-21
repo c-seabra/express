@@ -1,17 +1,11 @@
-import * as Apollo from '@apollo/client';
+import { JsonObject, AnyJson } from './json'
+import { OperationVariables as QueryVariables } from 'apollo-client'
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-import { OperationVariables as QueryVariables } from 'apollo-client';
-
-import { AnyJson, JsonObject } from './json';
-
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -121,9 +115,7 @@ export type Query = {
    */
   tickets: TicketConnection;
   /** *Equivalent to GET /commerce/audit/{entity}/{id}* */
-  commerceGetAuditForTypeAndTargetAuditEntry: Maybe<
-    Array<Maybe<CommerceAuditEntry>>
-  >;
+  commerceGetAuditForTypeAndTargetAuditEntry: Maybe<Array<Maybe<CommerceAuditEntry>>>;
   /** *Equivalent to GET /commerce/audit/{entity}* */
   commerceGetAuditForTypeAuditEntry: Maybe<Array<Maybe<CommerceAuditEntry>>>;
   /** *Equivalent to GET /commerce/stores/{storeId}/categories/{id}* */
@@ -209,9 +201,11 @@ export type Query = {
   timeZones: TimeZoneConnection;
 };
 
+
 export type QueryBrandingArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryBrandingsArgs = {
   sort?: Maybe<Scalars['String']>;
@@ -220,6 +214,7 @@ export type QueryBrandingsArgs = {
   where?: Maybe<Scalars['JSON']>;
 };
 
+
 export type QueryBrandingsConnectionArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
@@ -227,9 +222,11 @@ export type QueryBrandingsConnectionArgs = {
   where?: Maybe<Scalars['JSON']>;
 };
 
+
 export type QuerySiteArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QuerySitesArgs = {
   sort?: Maybe<Scalars['String']>;
@@ -238,6 +235,7 @@ export type QuerySitesArgs = {
   where?: Maybe<Scalars['JSON']>;
 };
 
+
 export type QuerySitesConnectionArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
@@ -245,9 +243,11 @@ export type QuerySitesConnectionArgs = {
   where?: Maybe<Scalars['JSON']>;
 };
 
+
 export type QueryWebPageConfigArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryWebPageConfigsArgs = {
   sort?: Maybe<Scalars['String']>;
@@ -256,6 +256,7 @@ export type QueryWebPageConfigsArgs = {
   where?: Maybe<Scalars['JSON']>;
 };
 
+
 export type QueryWebPageConfigsConnectionArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
@@ -263,23 +264,28 @@ export type QueryWebPageConfigsConnectionArgs = {
   where?: Maybe<Scalars['JSON']>;
 };
 
+
 export type QueryBrandingBySlugArgs = {
   slug: Scalars['String'];
 };
 
+
 export type QueryWebPageByPathArgs = {
   path: Scalars['String'];
 };
+
 
 export type QueryWebPageByHostPathArgs = {
   host: Scalars['String'];
   path: Scalars['String'];
 };
 
+
 export type QueryWebPageConfigByPathHostArgs = {
   path: Scalars['String'];
   host: Scalars['String'];
 };
+
 
 export type QueryAccessPermissionsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -289,6 +295,7 @@ export type QueryAccessPermissionsArgs = {
   ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
 };
 
+
 export type QueryTicketCategoriesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -296,13 +303,16 @@ export type QueryTicketCategoriesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryTicketReleaseArgs = {
   id: Scalars['ID'];
 };
 
+
 export type QueryTicketReleasePhaseArgs = {
   id?: Maybe<Scalars['ID']>;
 };
+
 
 export type QueryTicketReleasePhasesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -310,6 +320,7 @@ export type QueryTicketReleasePhasesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type QueryTicketReleasesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -322,9 +333,11 @@ export type QueryTicketReleasesArgs = {
   ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
 };
 
+
 export type QueryAdminAttendeeProfileArgs = {
   email: Scalars['String'];
 };
+
 
 export type QueryAdminsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -332,6 +345,7 @@ export type QueryAdminsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type QueryAppearancesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -341,13 +355,16 @@ export type QueryAppearancesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryAttendanceArgs = {
   id: Scalars['ID'];
 };
 
+
 export type QueryAttendanceAppearanceSelectionArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryAttendancesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -359,10 +376,12 @@ export type QueryAttendancesArgs = {
   searchQuery?: Maybe<Scalars['String']>;
 };
 
+
 export type QueryChatChannelArgs = {
   id?: Maybe<Scalars['ID']>;
   providerId?: Maybe<Scalars['ID']>;
 };
+
 
 export type QueryChatChannelsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -375,14 +394,17 @@ export type QueryChatChannelsArgs = {
   providerIds?: Maybe<Array<Scalars['ID']>>;
 };
 
+
 export type QueryConferenceArgs = {
   id?: Maybe<Scalars['ID']>;
   slug?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryInvestorSessionArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryInvestorSessionsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -391,10 +413,12 @@ export type QueryInvestorSessionsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryScheduleTimeslotArgs = {
   id?: Maybe<Scalars['ID']>;
   slug?: Maybe<Scalars['String']>;
 };
+
 
 export type QueryTopicsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -403,6 +427,7 @@ export type QueryTopicsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryUserRolesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -410,17 +435,21 @@ export type QueryUserRolesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryAssignmentProfileArgs = {
   ticketId: Scalars['ID'];
 };
+
 
 export type QueryAssignmentUserArgs = {
   email?: Maybe<Scalars['String']>;
 };
 
+
 export type QueryOrderArgs = {
   reference: Scalars['String'];
 };
+
 
 export type QueryOrdersArgs = {
   after?: Maybe<Scalars['String']>;
@@ -431,17 +460,21 @@ export type QueryOrdersArgs = {
   searchQuery?: Maybe<Scalars['String']>;
 };
 
+
 export type QueryTaEventArgs = {
   slug: Scalars['String'];
 };
+
 
 export type QueryTicketArgs = {
   reference: Scalars['String'];
 };
 
+
 export type QueryTicketTypeArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryTicketTypesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -450,6 +483,7 @@ export type QueryTicketTypesArgs = {
   ids?: Maybe<Array<Scalars['ID']>>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type QueryTicketsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -461,21 +495,25 @@ export type QueryTicketsArgs = {
   searchQuery?: Maybe<Scalars['String']>;
 };
 
+
 export type QueryCommerceGetAuditForTypeAndTargetAuditEntryArgs = {
   entity: Scalars['String'];
   id: Scalars['ID'];
   storeId: Scalars['ID'];
 };
 
+
 export type QueryCommerceGetAuditForTypeAuditEntryArgs = {
   entity: Scalars['String'];
   storeId: Scalars['ID'];
 };
 
+
 export type QueryCommerceGetCategoryArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type QueryCommerceGetCustomerArgs = {
   id: Scalars['ID'];
@@ -483,10 +521,12 @@ export type QueryCommerceGetCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryCommerceGetDealArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type QueryCommerceGetDealItemArgs = {
   dealId: Scalars['ID'];
@@ -494,29 +534,35 @@ export type QueryCommerceGetDealItemArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryCommerceGetOrderArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryCommerceGetPaymentGatewayArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryCommerceGetPaymentMethodArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryCommerceGetProductArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryCommerceGetSaleArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type QueryCommerceGetSaleProductArgs = {
   id: Scalars['ID'];
@@ -524,24 +570,29 @@ export type QueryCommerceGetSaleProductArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryCommerceGetStoreArgs = {
   id?: Maybe<Scalars['ID']>;
 };
+
 
 export type QueryCommerceGetTagArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryCommerceGetTaxArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type QueryCommerceGetTaxTypeArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type QueryCommerceListCategoriesArgs = {
   page?: Maybe<Scalars['Int']>;
@@ -550,6 +601,7 @@ export type QueryCommerceListCategoriesArgs = {
   storeId?: Maybe<Scalars['ID']>;
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
+
 
 export type QueryCommerceListCustomersArgs = {
   orderId: Scalars['ID'];
@@ -560,6 +612,7 @@ export type QueryCommerceListCustomersArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+
 export type QueryCommerceListDealItemsArgs = {
   dealId: Scalars['ID'];
   page?: Maybe<Scalars['Int']>;
@@ -569,6 +622,7 @@ export type QueryCommerceListDealItemsArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+
 export type QueryCommerceListDealsArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -576,6 +630,7 @@ export type QueryCommerceListDealsArgs = {
   storeId?: Maybe<Scalars['ID']>;
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
+
 
 export type QueryCommerceListOrdersArgs = {
   page?: Maybe<Scalars['Int']>;
@@ -585,12 +640,14 @@ export type QueryCommerceListOrdersArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+
 export type QueryCommerceListPaymentGatewaysArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   sort?: Maybe<Array<CommerceSortTerm>>;
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
+
 
 export type QueryCommerceListPaymentMethodsArgs = {
   page?: Maybe<Scalars['Int']>;
@@ -600,6 +657,7 @@ export type QueryCommerceListPaymentMethodsArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+
 export type QueryCommerceListProductsArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -607,6 +665,7 @@ export type QueryCommerceListProductsArgs = {
   storeId?: Maybe<Scalars['ID']>;
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
+
 
 export type QueryCommerceListSaleProductsArgs = {
   page?: Maybe<Scalars['Int']>;
@@ -617,6 +676,7 @@ export type QueryCommerceListSaleProductsArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+
 export type QueryCommerceListSalesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -625,12 +685,14 @@ export type QueryCommerceListSalesArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+
 export type QueryCommerceListStoresArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   sort?: Maybe<Array<CommerceSortTerm>>;
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
+
 
 export type QueryCommerceListTagsArgs = {
   page?: Maybe<Scalars['Int']>;
@@ -640,6 +702,7 @@ export type QueryCommerceListTagsArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+
 export type QueryCommerceListTaxTypesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -647,6 +710,7 @@ export type QueryCommerceListTaxTypesArgs = {
   storeId?: Maybe<Scalars['ID']>;
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
+
 
 export type QueryCommerceListTaxesArgs = {
   page?: Maybe<Scalars['Int']>;
@@ -656,6 +720,7 @@ export type QueryCommerceListTaxesArgs = {
   terms?: Maybe<Array<CommerceSearchTerm>>;
 };
 
+
 export type QueryCountriesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -663,9 +728,11 @@ export type QueryCountriesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryEventArgs = {
   slug?: Maybe<Scalars['String']>;
 };
+
 
 export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -675,6 +742,7 @@ export type QueryEventsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryLegalEntitiesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -682,9 +750,11 @@ export type QueryLegalEntitiesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryLegalEntityArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryTaxRatesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -692,6 +762,7 @@ export type QueryTaxRatesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type QueryTimeZonesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -716,6 +787,7 @@ export type AppConfig = {
   updated_by: Maybe<AdminUser>;
 };
 
+
 export type ComponentSiteConfigGoogleAnalyticsLinkerDomainList = {
   __typename?: 'ComponentSiteConfigGoogleAnalyticsLinkerDomainList';
   id: Scalars['ID'];
@@ -724,6 +796,7 @@ export type ComponentSiteConfigGoogleAnalyticsLinkerDomainList = {
   updatedAt: Scalars['DateTime'];
   domain: Maybe<Scalars['String']>;
 };
+
 
 export type ComponentSiteConfigMetaData = {
   __typename?: 'ComponentSiteConfigMetaData';
@@ -1052,18 +1125,10 @@ export type WebPageConfigGroupBy = {
   createdAt: Maybe<Array<Maybe<WebPageConfigConnectionCreatedAt>>>;
   updatedAt: Maybe<Array<Maybe<WebPageConfigConnectionUpdatedAt>>>;
   title: Maybe<Array<Maybe<WebPageConfigConnectionTitle>>>;
-  googleTagManagerId: Maybe<
-    Array<Maybe<WebPageConfigConnectionGoogleTagManagerId>>
-  >;
-  googleAnalyticsTrackingId: Maybe<
-    Array<Maybe<WebPageConfigConnectionGoogleAnalyticsTrackingId>>
-  >;
-  baseGoogleAnalyticsTrackingId: Maybe<
-    Array<Maybe<WebPageConfigConnectionBaseGoogleAnalyticsTrackingId>>
-  >;
-  googleOptimizeId: Maybe<
-    Array<Maybe<WebPageConfigConnectionGoogleOptimizeId>>
-  >;
+  googleTagManagerId: Maybe<Array<Maybe<WebPageConfigConnectionGoogleTagManagerId>>>;
+  googleAnalyticsTrackingId: Maybe<Array<Maybe<WebPageConfigConnectionGoogleAnalyticsTrackingId>>>;
+  baseGoogleAnalyticsTrackingId: Maybe<Array<Maybe<WebPageConfigConnectionBaseGoogleAnalyticsTrackingId>>>;
+  googleOptimizeId: Maybe<Array<Maybe<WebPageConfigConnectionGoogleOptimizeId>>>;
   metaData: Maybe<Array<Maybe<WebPageConfigConnectionMetaData>>>;
   created_by: Maybe<Array<Maybe<WebPageConfigConnectionCreated_By>>>;
   updated_by: Maybe<Array<Maybe<WebPageConfigConnectionUpdated_By>>>;
@@ -1159,17 +1224,7 @@ export type WebPage = {
   seoTags: Maybe<ComponentWebElementsSeoMetaData>;
 };
 
-export type WebPageContentDynamicZone =
-  | ComponentWebLayoutsTicketSalesPage
-  | ComponentWebLayoutsTicketApplicationsPage
-  | ComponentWebElementsShowcaseGrid
-  | ComponentWebElementsScheduleSearchSidebarFilters
-  | ComponentWebElementsCompanySearchSidebarFilters
-  | ComponentWebElementsAttendeeSearchSidebarFilters
-  | ComponentWebElementsHeroSection
-  | ComponentWebElementsFreshchat
-  | ComponentWebLayoutsStoresTicketSalesPage
-  | ComponentWebLayoutsStoresTicketApplicationsPage;
+export type WebPageContentDynamicZone = ComponentWebLayoutsTicketSalesPage | ComponentWebLayoutsTicketApplicationsPage | ComponentWebElementsShowcaseGrid | ComponentWebElementsScheduleSearchSidebarFilters | ComponentWebElementsCompanySearchSidebarFilters | ComponentWebElementsAttendeeSearchSidebarFilters | ComponentWebElementsHeroSection | ComponentWebElementsFreshchat | ComponentWebLayoutsStoresTicketSalesPage | ComponentWebLayoutsStoresTicketApplicationsPage;
 
 export type ComponentWebLayoutsTicketSalesPage = {
   __typename?: 'ComponentWebLayoutsTicketSalesPage';
@@ -1207,6 +1262,7 @@ export type Menu = {
   menuItems: Array<MenuItem>;
 };
 
+
 export type MenuMenuItemsArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
@@ -1226,10 +1282,7 @@ export type MenuItem = {
   updated_by: Maybe<AdminUser>;
 };
 
-export type MenuItemLinkDynamicZone =
-  | ComponentWebLinksPageLink
-  | ComponentWebLinksUrlLink
-  | ComponentWebLinksSubMenu;
+export type MenuItemLinkDynamicZone = ComponentWebLinksPageLink | ComponentWebLinksUrlLink | ComponentWebLinksSubMenu;
 
 export type ComponentWebLinksPageLink = {
   __typename?: 'ComponentWebLinksPageLink';
@@ -1287,6 +1340,7 @@ export type TicketType = {
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
+
 export type TicketTypeAccessPermissionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1294,10 +1348,12 @@ export type TicketTypeAccessPermissionsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type TicketTypeReleaseArgs = {
   id?: Maybe<Scalars['ID']>;
   releasePhaseId?: Maybe<Scalars['ID']>;
 };
+
 
 export type TicketTypeReleasePhasesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1305,6 +1361,7 @@ export type TicketTypeReleasePhasesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type TicketTypeReleasesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1343,6 +1400,7 @@ export type AccessPermission = {
   /** Human readable title to be shown to customers */
   title: Scalars['String'];
 };
+
 
 /** An access permission denotes what ticket types receive a certain benefit */
 export type AccessPermissionTicketTypesArgs = {
@@ -1395,6 +1453,7 @@ export type TicketCategory = {
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
+
 /** A ticket category groups ticket types by their common denominator */
 export type TicketCategoryTicketTypesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1419,6 +1478,7 @@ export type PaperTrailVersion = {
   whodunnit: Maybe<Scalars['String']>;
 };
 
+
 /** A ticket release combines a ticket type and a release phase, e.g. Early-Bird General Attendee */
 export type TicketRelease = {
   __typename?: 'TicketRelease';
@@ -1442,11 +1502,7 @@ export type TicketRelease = {
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-export type TicketReleaseAction =
-  | TicketReleaseActionsExpiredTicketAction
-  | TicketReleaseActionsPriceAlertAction
-  | TicketReleaseActionsPriceEnquiryAction
-  | TicketReleaseActionsTitoCheckoutAction;
+export type TicketReleaseAction = TicketReleaseActionsExpiredTicketAction | TicketReleaseActionsPriceAlertAction | TicketReleaseActionsPriceEnquiryAction | TicketReleaseActionsTitoCheckoutAction;
 
 export type TicketReleaseActionsExpiredTicketAction = {
   __typename?: 'TicketReleaseActionsExpiredTicketAction';
@@ -1468,10 +1524,12 @@ export type DynamicForm = {
   uiSchema: Scalars['JSONSchemaForm'];
 };
 
+
 export type TicketReleaseActionsPriceEnquiryAction = {
   __typename?: 'TicketReleaseActionsPriceEnquiryAction';
   emailAddress: Maybe<Scalars['EmailAddress']>;
 };
+
 
 export type TicketReleaseActionsTitoCheckoutAction = {
   __typename?: 'TicketReleaseActionsTitoCheckoutAction';
@@ -1497,11 +1555,13 @@ export type Money = {
   format: Scalars['String'];
 };
 
+
 export type MoneyFormatArgs = {
   includeUnit?: Maybe<Scalars['Boolean']>;
   locale?: Maybe<Scalars['String']>;
   precision?: Maybe<Scalars['Int']>;
 };
+
 
 export type Currency = {
   __typename?: 'Currency';
@@ -1545,7 +1605,7 @@ export enum CurrencyCode {
   Try = 'TRY',
   Twd = 'TWD',
   Usd = 'USD',
-  Zar = 'ZAR',
+  Zar = 'ZAR'
 }
 
 export type TaxLine = {
@@ -1572,11 +1632,12 @@ export type TicketReleasePhase = {
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
+
 /** Possible release phase states */
 export enum TicketReleasePhaseStatus {
   Active = 'ACTIVE',
   InTheFuture = 'IN_THE_FUTURE',
-  InThePast = 'IN_THE_PAST',
+  InThePast = 'IN_THE_PAST'
 }
 
 /**
@@ -1595,6 +1656,7 @@ export type TitoTicketRelease = {
   /** The ti.to url that links to this release */
   url: Maybe<Scalars['URL']>;
 };
+
 
 /** The connection type for TicketReleasePhase. */
 export type TicketReleasePhaseConnection = {
@@ -1655,7 +1717,7 @@ export type ComponentWebElementsTicketPromotion = {
 
 export enum TicketPromotionType {
   Annotation = 'ANNOTATION',
-  Highlight = 'HIGHLIGHT',
+  Highlight = 'HIGHLIGHT'
 }
 
 export type ComponentWebElementsReleasePhaseStepper = {
@@ -1682,6 +1744,7 @@ export type ComponentWebLayoutsTicketApplicationsPage = {
   applicationOverviewPanel: Maybe<ComponentWebElementsTicketApplicationOverviewPanel>;
   releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
 };
+
 
 export type Form = {
   __typename?: 'Form';
@@ -1741,6 +1804,7 @@ export type ContentCollection = {
   elements: Array<ContentElement>;
 };
 
+
 export type ContentCollectionElementsArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
@@ -1761,6 +1825,7 @@ export type ContentElement = {
   updated_by: Maybe<AdminUser>;
   collections: Array<ContentCollection>;
 };
+
 
 export type ContentElementCollectionsArgs = {
   sort?: Maybe<Scalars['String']>;
@@ -1794,12 +1859,12 @@ export type ComponentSearchAlgoliaRefinement = {
 };
 
 export enum SearchRefinementWidgetType {
-  DropdownMulti = 'DROPDOWN_MULTI',
   DropdownSingle = 'DROPDOWN_SINGLE',
-  Hidden = 'HIDDEN',
-  LiveTalksOnly = 'LIVE_TALKS_ONLY',
-  NumericSlider = 'NUMERIC_SLIDER',
+  DropdownMulti = 'DROPDOWN_MULTI',
   TagsMulti = 'TAGS_MULTI',
+  NumericSlider = 'NUMERIC_SLIDER',
+  LiveTalksOnly = 'LIVE_TALKS_ONLY',
+  Hidden = 'HIDDEN'
 }
 
 export type ComponentWebElementsCompanySearchSidebarFilters = {
@@ -1841,8 +1906,8 @@ export type ComponentWebElementsHeroSection = {
 };
 
 export enum Enum_Componentwebelementsherosection_Variant {
-  Compact = 'COMPACT',
   Regular = 'REGULAR',
+  Compact = 'COMPACT'
 }
 
 export type ComponentWebElementsCtaLink = {
@@ -1965,12 +2030,14 @@ export type Attendee = {
   talks: ScheduleTimeslotConnection;
 };
 
+
 export type AttendeeOfferingTopicsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type AttendeeSeekingTopicsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1979,12 +2046,14 @@ export type AttendeeSeekingTopicsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type AttendeeSimilarAttendeesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type AttendeeTalksArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2001,6 +2070,7 @@ export type AttendanceAppearanceSelectionsDetails = {
   rejectedSelectionCount: Scalars['Int'];
   submittedSelectionCount: Scalars['Int'];
 };
+
 
 export type AttendanceAppearanceSelectionsDetailsAttendanceAppearanceSelectionsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2043,25 +2113,30 @@ export type AttendanceAppearanceSelection = {
   updatedAt: Scalars['String'];
 };
 
+
 export type AttendanceAppearanceSelectionCreatedAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
+
 
 export type AttendanceAppearanceSelectionEndsAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
 
+
 export type AttendanceAppearanceSelectionStartsAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
 
+
 export type AttendanceAppearanceSelectionSubmittedAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
+
 
 export type AttendanceAppearanceSelectionUpdatedAtArgs = {
   format?: Maybe<Scalars['String']>;
@@ -2074,6 +2149,7 @@ export type Appearance = {
   company: Company;
   id: Scalars['ID'];
 };
+
 
 export type AppearanceAttendanceConnectionsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2219,6 +2295,7 @@ export type ScheduleTimeslot = {
   topics: Array<Topic>;
 };
 
+
 export type ScheduleTimeslotParticipantsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2286,9 +2363,7 @@ export type AppearanceEdge = {
 };
 
 export type AttendanceFilter = {
-  attendanceAppearanceSelectionsStatus?: Maybe<
-    Array<AttendanceAppearanceSelectionsStatus>
-  >;
+  attendanceAppearanceSelectionsStatus?: Maybe<Array<AttendanceAppearanceSelectionsStatus>>;
   type?: Maybe<Attendance>;
 };
 
@@ -2300,14 +2375,14 @@ export enum AttendanceAppearanceSelectionsStatus {
   /** Rejected */
   Rejected = 'REJECTED',
   /** Submitted */
-  Submitted = 'SUBMITTED',
+  Submitted = 'SUBMITTED'
 }
 
 export enum Attendance {
   /** Investor */
   Investor = 'INVESTOR',
   /** Speaker */
-  Speaker = 'SPEAKER',
+  Speaker = 'SPEAKER'
 }
 
 export type ChatChannel = {
@@ -2319,6 +2394,7 @@ export type ChatChannel = {
   provider: ChatProvider;
   providerId: Maybe<Scalars['String']>;
 };
+
 
 export type ChatChannelMembersArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2365,7 +2441,7 @@ export type ChatUserEdge = {
 
 export enum ChatProvider {
   Pubnub = 'PUBNUB',
-  Twilio = 'TWILIO',
+  Twilio = 'TWILIO'
 }
 
 /** The connection type for ChatChannel. */
@@ -2400,9 +2476,11 @@ export type Conference = {
   timezone: Maybe<Scalars['String']>;
 };
 
+
 export type ConferenceEndDateArgs = {
   format?: Maybe<Scalars['String']>;
 };
+
 
 export type ConferenceStartDateArgs = {
   format?: Maybe<Scalars['String']>;
@@ -2417,9 +2495,11 @@ export type ConferenceSchedule = {
   tracks: ConferenceScheduleTrackConnection;
 };
 
+
 export type ConferenceScheduleDayArgs = {
   id?: Maybe<Scalars['ID']>;
 };
+
 
 export type ConferenceScheduleTopicsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2428,9 +2508,11 @@ export type ConferenceScheduleTopicsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type ConferenceScheduleTrackArgs = {
   id: Scalars['ID'];
 };
+
 
 export type ConferenceScheduleTracksArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2453,19 +2535,23 @@ export type ConferenceScheduleDay = {
   tracks: ConferenceScheduleTrackConnection;
 };
 
+
 export type ConferenceScheduleDayDateArgs = {
   format?: Maybe<Scalars['String']>;
 };
+
 
 export type ConferenceScheduleDayEndsAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
 
+
 export type ConferenceScheduleDayStartsAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
+
 
 export type ConferenceScheduleDayTimeslotsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2473,6 +2559,7 @@ export type ConferenceScheduleDayTimeslotsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type ConferenceScheduleDayTracksArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2516,14 +2603,17 @@ export type ConferenceScheduleTimeslot = {
   youtubeUrl: Maybe<Scalars['URL']>;
 };
 
+
 export type ConferenceScheduleTimeslotDurationArgs = {
   unit?: Maybe<TimeUnit>;
 };
+
 
 export type ConferenceScheduleTimeslotEndsAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
+
 
 export type ConferenceScheduleTimeslotParticipantsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2532,10 +2622,12 @@ export type ConferenceScheduleTimeslotParticipantsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 export type ConferenceScheduleTimeslotStartsAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
+
 
 export type ConferenceScheduleTimeslotTopicsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2543,6 +2635,7 @@ export type ConferenceScheduleTimeslotTopicsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
 
 export type ConferenceScheduleTimeslotTracksArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2558,7 +2651,7 @@ export enum TimeUnit {
   Months = 'MONTHS',
   Seconds = 'SECONDS',
   Weeks = 'WEEKS',
-  Years = 'YEARS',
+  Years = 'YEARS'
 }
 
 /** The connection type for ScheduleTimeslotParticipant. */
@@ -2616,9 +2709,11 @@ export type ConferenceScheduleTrack = {
   trackId: Scalars['ID'];
 };
 
+
 export type ConferenceScheduleTrackDayArgs = {
   id?: Maybe<Scalars['ID']>;
 };
+
 
 export type ConferenceScheduleTrackTimeslotsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2654,6 +2749,7 @@ export type User = {
   profile: Maybe<Attendee>;
 };
 
+
 export type UserConnectionLinksArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2662,6 +2758,7 @@ export type UserConnectionLinksArgs = {
   last?: Maybe<Scalars['Int']>;
   type: ConnectionLinkTarget;
 };
+
 
 export type UserConnectionRequestsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2677,7 +2774,7 @@ export enum ConnectionLinkTarget {
   /** Connection to appearance */
   Appearance = 'Appearance',
   /** Connection to attendance */
-  Attendee = 'Attendee',
+  Attendee = 'Attendee'
 }
 
 /** The connection type for ConnectionLink. */
@@ -2713,7 +2810,7 @@ export enum ConnectionRequestStatus {
   /** Pending request */
   Pending = 'PENDING',
   /** Rejected request */
-  Rejected = 'REJECTED',
+  Rejected = 'REJECTED'
 }
 
 /** The connection type for ConnectionRequest. */
@@ -2786,6 +2883,7 @@ export type AssignmentUser = {
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
+
 export type AssignmentUserAssigneeAssignmentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2824,7 +2922,7 @@ export type Assignment = {
 export enum AssignmentState {
   Accepted = 'ACCEPTED',
   Duplicate = 'DUPLICATE',
-  Pending = 'PENDING',
+  Pending = 'PENDING'
 }
 
 export type Order = {
@@ -2847,6 +2945,7 @@ export type Order = {
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
+
 export type OrderTicketsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2857,12 +2956,12 @@ export type OrderTicketsArgs = {
 
 export enum OrderSource {
   TicketMachine = 'TICKET_MACHINE',
-  Tito = 'TITO',
+  Tito = 'TITO'
 }
 
 export enum OrderFilterStatus {
   Active = 'ACTIVE',
-  Cancelled = 'CANCELLED',
+  Cancelled = 'CANCELLED'
 }
 
 export type OrderSummary = {
@@ -2880,7 +2979,7 @@ export type TicketFilter = {
 
 export enum TicketFilterAssignment {
   Assigned = 'ASSIGNED',
-  Unassigned = 'UNASSIGNED',
+  Unassigned = 'UNASSIGNED'
 }
 
 export enum TicketFilterStatus {
@@ -2891,7 +2990,7 @@ export enum TicketFilterStatus {
   Locked = 'LOCKED',
   Rejected = 'REJECTED',
   Unassigned = 'UNASSIGNED',
-  Void = 'VOID',
+  Void = 'VOID'
 }
 
 /** The connection type for Ticket. */
@@ -2925,6 +3024,7 @@ export type Ticket = {
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
+
 export type TicketAssignmentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -2948,7 +3048,7 @@ export enum TicketState {
   Pending = 'PENDING',
   Rejected = 'REJECTED',
   Unassigned = 'UNASSIGNED',
-  Void = 'VOID',
+  Void = 'VOID'
 }
 
 export type TicketsSummary = {
@@ -3082,8 +3182,9 @@ export enum CommerceAuditEntryAction {
   Get = 'GET',
   List = 'LIST',
   NoOp = 'NO_OP',
-  Update = 'UPDATE',
+  Update = 'UPDATE'
 }
+
 
 export type CommerceCategory = {
   __typename?: 'CommerceCategory';
@@ -3142,7 +3243,7 @@ export type CommerceTag = {
 
 export enum CommerceProductTaxMode {
   B2B = 'B2B',
-  B2C = 'B2C',
+  B2C = 'B2C'
 }
 
 export type CommerceTaxType = {
@@ -3174,7 +3275,7 @@ export type CommerceTax = {
 
 export enum CommerceTaxRateType {
   Absolute = 'ABSOLUTE',
-  Percentage = 'PERCENTAGE',
+  Percentage = 'PERCENTAGE'
 }
 
 export type CommerceCustomer = {
@@ -3247,7 +3348,7 @@ export type CommerceDealItem = {
 export enum CommerceDealItemType {
   AbsoluteDiscount = 'ABSOLUTE_DISCOUNT',
   AbsolutePrice = 'ABSOLUTE_PRICE',
-  PercentageDiscount = 'PERCENTAGE_DISCOUNT',
+  PercentageDiscount = 'PERCENTAGE_DISCOUNT'
 }
 
 export type CommerceOrder = {
@@ -3322,14 +3423,14 @@ export enum CommerceOrderPaymentStatus {
   Paid = 'PAID',
   PartiallyRefunded = 'PARTIALLY_REFUNDED',
   Pending = 'PENDING',
-  Refunded = 'REFUNDED',
+  Refunded = 'REFUNDED'
 }
 
 export enum CommerceOrderStatus {
   Cancelled = 'CANCELLED',
   Complete = 'COMPLETE',
   Pending = 'PENDING',
-  Reinstated = 'REINSTATED',
+  Reinstated = 'REINSTATED'
 }
 
 export type CommerceTaxSummary = {
@@ -3345,7 +3446,7 @@ export type CommerceTaxSummary = {
 
 export enum CommerceTaxSummaryRateType {
   Absolute = 'ABSOLUTE',
-  Percentage = 'PERCENTAGE',
+  Percentage = 'PERCENTAGE'
 }
 
 export type CommerceTransaction = {
@@ -3369,7 +3470,7 @@ export type CommerceTransaction = {
 export enum CommerceTransactionStatus {
   Cancelled = 'CANCELLED',
   Complete = 'COMPLETE',
-  Pending = 'PENDING',
+  Pending = 'PENDING'
 }
 
 export type CommerceTaxDetail = {
@@ -3380,7 +3481,7 @@ export type CommerceTaxDetail = {
 
 export enum CommerceTransactionType {
   Payment = 'PAYMENT',
-  Refund = 'REFUND',
+  Refund = 'REFUND'
 }
 
 export type CommercePaymentGateway = {
@@ -3427,7 +3528,7 @@ export type CommerceSaleProduct = {
 export enum CommerceSaleProductType {
   AbsoluteDiscount = 'ABSOLUTE_DISCOUNT',
   AbsolutePrice = 'ABSOLUTE_PRICE',
-  PercentageDiscount = 'PERCENTAGE_DISCOUNT',
+  PercentageDiscount = 'PERCENTAGE_DISCOUNT'
 }
 
 export type CommerceStore = {
@@ -3462,7 +3563,7 @@ export type CommerceStore = {
 
 export enum CommerceStoreStockMode {
   None = 'NONE',
-  Sale = 'SALE',
+  Sale = 'SALE'
 }
 
 export type CommerceStoreBilling = {
@@ -3492,7 +3593,7 @@ export type CommerceSortTerm = {
 
 export enum CommerceSortTermDirection {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type CommerceSearchTerm = {
@@ -3508,8 +3609,9 @@ export enum CommerceSearchTermOp {
   Like = 'like',
   Lt = 'lt',
   Lte = 'lte',
-  Ne = 'ne',
+  Ne = 'ne'
 }
+
 
 export type CommerceSearchResponseCategory = {
   __typename?: 'CommerceSearchResponseCategory';
@@ -3529,7 +3631,7 @@ export type CommerceSortTermOutput = {
 
 export enum CommerceSortTermOutputDirection {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type CommerceSearchTermOutput = {
@@ -3546,7 +3648,7 @@ export enum CommerceSearchTermOutputOp {
   Like = 'like',
   Lt = 'lt',
   Lte = 'lte',
-  Ne = 'ne',
+  Ne = 'ne'
 }
 
 export type CommerceSearchResponseCustomer = {
@@ -3740,6 +3842,7 @@ export type Event = {
   passportRequired: Maybe<Scalars['Boolean']>;
 };
 
+
 export type EventTaxRatesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -3787,12 +3890,12 @@ export enum RateType {
   /** The tax is a fixed amount */
   Absolute = 'ABSOLUTE',
   /** The tax is calculated as a percentage of the order value */
-  Percentage = 'PERCENTAGE',
+  Percentage = 'PERCENTAGE'
 }
 
 export enum TaxType {
   Accommodation = 'ACCOMMODATION',
-  Standard = 'STANDARD',
+  Standard = 'STANDARD'
 }
 
 /** The connection type for TaxRate. */
@@ -3841,15 +3944,18 @@ export type ConferenceInvestorMeetingConfiguration = {
   startupSelectionDeadline: Maybe<Scalars['String']>;
 };
 
+
 export type ConferenceInvestorMeetingConfigurationStartupPortalClosingAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
 
+
 export type ConferenceInvestorMeetingConfigurationStartupPortalOpeningAtArgs = {
   format?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
 };
+
 
 export type ConferenceInvestorMeetingConfigurationStartupSelectionDeadlineArgs = {
   format?: Maybe<Scalars['String']>;
@@ -4101,259 +4207,323 @@ export type Mutation = {
   taxRateUpdate: Maybe<TaxRateUpdatePayload>;
 };
 
+
 export type MutationCreateBrandingArgs = {
   input?: Maybe<CreateBrandingInput>;
 };
+
 
 export type MutationUpdateBrandingArgs = {
   input?: Maybe<UpdateBrandingInput>;
 };
 
+
 export type MutationDeleteBrandingArgs = {
   input?: Maybe<DeleteBrandingInput>;
 };
+
 
 export type MutationCreateSiteArgs = {
   input?: Maybe<CreateSiteInput>;
 };
 
+
 export type MutationUpdateSiteArgs = {
   input?: Maybe<UpdateSiteInput>;
 };
+
 
 export type MutationDeleteSiteArgs = {
   input?: Maybe<DeleteSiteInput>;
 };
 
+
 export type MutationCreateWebPageConfigArgs = {
   input?: Maybe<CreateWebPageConfigInput>;
 };
+
 
 export type MutationUpdateWebPageConfigArgs = {
   input?: Maybe<UpdateWebPageConfigInput>;
 };
 
+
 export type MutationDeleteWebPageConfigArgs = {
   input?: Maybe<DeleteWebPageConfigInput>;
 };
 
+
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
 };
+
 
 export type MutationSubmitDynamicFormstackFormArgs = {
   id: Scalars['ID'];
   input: Scalars['JSON'];
 };
 
+
 export type MutationTicketCategoryCreateArgs = {
   input: TicketCategoryCreateInput;
 };
+
 
 export type MutationTicketCategoryDeleteArgs = {
   input: TicketCategoryDeleteInput;
 };
 
+
 export type MutationTicketCategoryUpdateArgs = {
   input: TicketCategoryUpdateInput;
 };
+
 
 export type MutationTicketReleaseCreateArgs = {
   input: TicketReleaseCreateInput;
 };
 
+
 export type MutationTicketReleasePhaseCreateArgs = {
   input: TicketReleasePhaseCreateInput;
 };
+
 
 export type MutationTicketReleasePhaseDeleteArgs = {
   input: TicketReleasePhaseDeleteInput;
 };
 
+
 export type MutationTicketReleasePhaseUpdateArgs = {
   input: TicketReleasePhaseUpdateInput;
 };
+
 
 export type MutationTicketReleaseUpdateArgs = {
   input: TicketReleaseUpdateInput;
 };
 
+
 export type MutationAdminAssignRoleArgs = {
   input: AdminAssignRoleInput;
 };
+
 
 export type MutationAdminCreateArgs = {
   input: AdminCreateInput;
 };
 
+
 export type MutationAdminUnassignRoleArgs = {
   input: AdminUnassignRoleInput;
 };
+
 
 export type MutationAdminUpdateArgs = {
   input: AdminUpdateInput;
 };
 
+
 export type MutationAttendanceAppearanceSelectionDestroyArgs = {
   input: AttendanceAppearanceSelectionDestroyInput;
 };
+
 
 export type MutationAttendanceAppearanceSelectionUpdateArgs = {
   input: AttendanceAppearanceSelectionsUpdateInput;
 };
 
+
 export type MutationAttendanceInvestorSessionUpdateArgs = {
   input: AttendanceInvestorSessionUpdateInput;
 };
+
 
 export type MutationAttendeeProfileUpdateArgs = {
   input: AttendeeProfileUpdateInput;
 };
 
+
 export type MutationAuthenticateByTokenArgs = {
   input: AuthenticateByTokenInput;
 };
+
 
 export type MutationConnectionLinkRemoveArgs = {
   input: ConnectionLinkRemoveInput;
 };
 
+
 export type MutationConnectionRequestAcceptArgs = {
   input: ConnectionRequestAcceptInput;
 };
+
 
 export type MutationConnectionRequestCreateArgs = {
   input: ConnectionRequestCreateInput;
 };
 
+
 export type MutationConnectionRequestRejectArgs = {
   input: ConnectionRequestRejectInput;
 };
+
 
 export type MutationInvestorAccessGrantArgs = {
   input: InvestorAccessGrantInput;
 };
 
+
 export type MutationInvestorMeetingConfigurationUpdateArgs = {
   input: InvestorMeetingConfigurationUpdateInput;
 };
+
 
 export type MutationInvestorPortalRevokeAccessArgs = {
   input: InvestorPortalRevokeAccessInput;
 };
 
+
 export type MutationInvestorSessionsCreateArgs = {
   input: InvestorSessionsCreateInput;
 };
+
 
 export type MutationMagicLinkGenerateArgs = {
   input: MagicLinkGenerateInput;
 };
 
+
 export type MutationMagicLinkScheduleDeliveryArgs = {
   input: MagicLinkScheduleDeliveryInput;
 };
+
 
 export type MutationMyConnectionsEmailSendArgs = {
   input: MyConnectionsEmailSendInput;
 };
 
+
 export type MutationSessionTimeslotParticipationCreateArgs = {
   input: SessionTimeslotParticipationCreateInput;
 };
+
 
 export type MutationUserRoleCreateArgs = {
   input: UserRoleCreateInput;
 };
 
+
 export type MutationUserRoleUpdateArgs = {
   input: UserRoleUpdateInput;
 };
+
 
 export type MutationAssignmentAccountUpdateArgs = {
   input: AssignmentAccountUpdateInput;
 };
 
+
 export type MutationAssignmentAuthenticateArgs = {
   input: AssignmentAuthenticateInput;
 };
+
 
 export type MutationAssignmentMagicLinkGenerateArgs = {
   input: AssignmentMagicLinkGenerateInput;
 };
 
+
 export type MutationAssignmentMagicLinkLoginRequestArgs = {
   input: AssignmentMagicLinkLoginRequestInput;
 };
+
 
 export type MutationAssignmentProfileAdminUpdateArgs = {
   input: AssignmentProfileAdminUpdateInput;
 };
 
+
 export type MutationAssignmentProfileUpdateArgs = {
   input: AssignmentProfileUpdateInput;
 };
+
 
 export type MutationAssignmentSalesforceAccountUpdateArgs = {
   input: AssignmentSalesforceAccountUpdateInput;
 };
 
+
 export type MutationAssignmentTicketLoginUpdateArgs = {
   input: AssignmentTicketLoginUpdateInput;
 };
+
 
 export type MutationOrderCancelArgs = {
   input: OrderCancelInput;
 };
 
+
 export type MutationOrderCreateArgs = {
   input: OrderCreateInput;
 };
+
 
 export type MutationOrderUpdateArgs = {
   input: OrderUpdateInput;
 };
 
+
 export type MutationTicketAcceptArgs = {
   input: TicketAcceptInput;
 };
+
 
 export type MutationTicketAssignArgs = {
   input: TicketAssignInput;
 };
 
+
 export type MutationTicketCreateArgs = {
   input: TicketCreateInput;
 };
+
 
 export type MutationTicketLockArgs = {
   input: TicketLockInput;
 };
 
+
 export type MutationTicketRejectArgs = {
   input: TicketRejectInput;
 };
+
 
 export type MutationTicketUnlockArgs = {
   input: TicketUnlockInput;
 };
 
+
 export type MutationTicketUnvoidArgs = {
   input: TicketUnvoidInput;
 };
+
 
 export type MutationTicketUpdateArgs = {
   input: TicketUpdateInput;
 };
 
+
 export type MutationTicketVoidArgs = {
   input: TicketVoidInput;
 };
+
 
 export type MutationCommerceCreateCategoryArgs = {
   commerceCategoryCreate: CommerceCategoryCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceCreateCustomerArgs = {
   commerceCustomerCreate: CommerceCustomerCreate;
@@ -4361,10 +4531,12 @@ export type MutationCommerceCreateCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceCreateDealArgs = {
   commerceDealCreate: CommerceDealCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceCreateDealItemArgs = {
   commerceDealItemCreate: CommerceDealItemCreate;
@@ -4372,25 +4544,30 @@ export type MutationCommerceCreateDealItemArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceCreateOrderArgs = {
   commerceOrderCreate: CommerceOrderCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceCreatePaymentMethodArgs = {
   commercePaymentMethodCreate: CommercePaymentMethodCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceCreateProductArgs = {
   commerceProductCreate: CommerceProductCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceCreateSaleArgs = {
   commerceSaleCreate: CommerceSaleCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceCreateSaleProductArgs = {
   commerceSaleProductCreate: CommerceSaleProductCreate;
@@ -4398,24 +4575,29 @@ export type MutationCommerceCreateSaleProductArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceCreateStoreArgs = {
   commerceStoreCreate: CommerceStoreCreate;
 };
+
 
 export type MutationCommerceCreateTagArgs = {
   commerceTagCreate: CommerceTagCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceCreateTaxArgs = {
   commerceTaxCreate: CommerceTaxCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceCreateTaxTypeArgs = {
   commerceTaxTypeCreate: CommerceTaxTypeCreate;
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceCreateTransactionArgs = {
   commerceTransactionCreate: CommerceTransactionCreate;
@@ -4423,10 +4605,12 @@ export type MutationCommerceCreateTransactionArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceDeleteCategoryArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceDeleteCustomerArgs = {
   id: Scalars['ID'];
@@ -4434,10 +4618,12 @@ export type MutationCommerceDeleteCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceDeleteDealArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceDeleteDealItemArgs = {
   dealId: Scalars['ID'];
@@ -4445,20 +4631,24 @@ export type MutationCommerceDeleteDealItemArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceDeletePaymentMethodArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceDeleteProductArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceDeleteSaleArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceDeleteSaleProductArgs = {
   id: Scalars['ID'];
@@ -4466,30 +4656,36 @@ export type MutationCommerceDeleteSaleProductArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceDeleteStoreArgs = {
   id: Scalars['ID'];
 };
+
 
 export type MutationCommerceDeleteTagArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceDeleteTaxArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceDeleteTaxTypeArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceUpdateCategoryArgs = {
   commerceCategoryUpdate: CommerceCategoryUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceUpdateCustomerArgs = {
   commerceCustomerUpdate: CommerceCustomerUpdate;
@@ -4498,11 +4694,13 @@ export type MutationCommerceUpdateCustomerArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceUpdateDealArgs = {
   commerceDealUpdate: CommerceDealUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceUpdateDealItemArgs = {
   commerceDealItemUpdate: CommerceDealItemUpdate;
@@ -4511,11 +4709,13 @@ export type MutationCommerceUpdateDealItemArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceUpdateOrderArgs = {
   commerceOrderUpdate: CommerceOrderUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceUpdatePaymentMethodArgs = {
   commercePaymentMethodUpdate: CommercePaymentMethodUpdate;
@@ -4523,17 +4723,20 @@ export type MutationCommerceUpdatePaymentMethodArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceUpdateProductArgs = {
   commerceProductUpdate: CommerceProductUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceUpdateSaleArgs = {
   commerceSaleUpdate: CommerceSaleUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceUpdateSaleProductArgs = {
   commerceSaleProductUpdate: CommerceSaleProductUpdate;
@@ -4542,10 +4745,12 @@ export type MutationCommerceUpdateSaleProductArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceUpdateStoreArgs = {
   commerceStoreUpdate: CommerceStoreUpdate;
   id: Scalars['ID'];
 };
+
 
 export type MutationCommerceUpdateTagArgs = {
   commerceTagUpdate: CommerceTagUpdate;
@@ -4553,11 +4758,13 @@ export type MutationCommerceUpdateTagArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationCommerceUpdateTaxArgs = {
   commerceTaxUpdate: CommerceTaxUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
+
 
 export type MutationCommerceUpdateTaxTypeArgs = {
   commerceTaxTypeUpdate: CommerceTaxTypeUpdate;
@@ -4565,25 +4772,31 @@ export type MutationCommerceUpdateTaxTypeArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+
 export type MutationEventCreateArgs = {
   input: EventCreateInput;
 };
+
 
 export type MutationEventUpdateArgs = {
   input: EventUpdateInput;
 };
 
+
 export type MutationLegalEntityCreateArgs = {
   input: LegalEntityCreateInput;
 };
+
 
 export type MutationLegalEntityUpdateArgs = {
   input: LegalEntityUpdateInput;
 };
 
+
 export type MutationTaxRateCreateArgs = {
   input: TaxRateCreateInput;
 };
+
 
 export type MutationTaxRateUpdateArgs = {
   input: TaxRateUpdateInput;
@@ -5080,6 +5293,7 @@ export type AttendanceAppearanceSelectionsUpdatePayload = {
   successMessage: Maybe<Scalars['String']>;
   userErrors: Array<UserError>;
 };
+
 
 /** Autogenerated return type of AttendanceAppearanceSelectionsUpdate */
 export type AttendanceAppearanceSelectionsUpdatePayloadAttendancesArgs = {
@@ -6689,6 +6903,7 @@ export type MenuItemInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
+
 export type CreateMenuItemPayload = {
   __typename?: 'createMenuItemPayload';
   menuItem: Maybe<MenuItem>;
@@ -6716,10 +6931,11 @@ export type WebPageInput = {
 };
 
 export enum Enum_Webpage_Status {
-  Archived = 'ARCHIVED',
   Draft = 'DRAFT',
   Published = 'PUBLISHED',
+  Archived = 'ARCHIVED'
 }
+
 
 export type CreateWebPagePayload = {
   __typename?: 'createWebPagePayload';
@@ -7065,6 +7281,8 @@ export type FileInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
+
+
 export type UpdateAppConfigInput = {
   data?: Maybe<EditAppConfigInput>;
 };
@@ -7133,6 +7351,7 @@ export type UpdateWebPagePayload = {
   __typename?: 'updateWebPagePayload';
   webPage: Maybe<WebPage>;
 };
+
 
 export type UsersPermissionsLoginInput = {
   identifier: Scalars['String'];
@@ -7253,198 +7472,180 @@ export type AssignmentAuthenticateMutationVariables = Exact<{
   input: AssignmentAuthenticateInput;
 }>;
 
-export type AssignmentAuthenticateMutation = { __typename?: 'Mutation' } & {
-  assignmentAuthenticate: Maybe<
-    { __typename?: 'AssignmentAuthenticatePayload' } & Pick<
-      AssignmentAuthenticatePayload,
-      'accessToken' | 'conferenceSlug' | 'clientMutationId'
-    > & {
-        userErrors: Array<
-          { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-        >;
-      }
-  >;
-};
+
+export type AssignmentAuthenticateMutation = (
+  { __typename?: 'Mutation' }
+  & { assignmentAuthenticate: Maybe<(
+    { __typename?: 'AssignmentAuthenticatePayload' }
+    & Pick<AssignmentAuthenticatePayload, 'accessToken' | 'conferenceSlug' | 'clientMutationId'>
+    & { userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type ProfileAdminUpdateMutationVariables = Exact<{
   profile: AssignmentProfileAdminUpdateInput;
 }>;
 
-export type ProfileAdminUpdateMutation = { __typename?: 'Mutation' } & {
-  assignmentProfileAdminUpdate: Maybe<
-    { __typename?: 'AssignmentProfileAdminUpdatePayload' } & Pick<
-      AssignmentProfileAdminUpdatePayload,
-      'successMessage'
-    > & {
-        userErrors: Array<
-          { __typename?: 'UserError' } & Pick<UserError, 'path' | 'message'>
-        >;
-        profile: Maybe<
-          { __typename?: 'AssignmentUser' } & Pick<
-            AssignmentUser,
-            | 'email'
-            | 'firstName'
-            | 'lastName'
-            | 'jobTitle'
-            | 'companyName'
-            | 'companySizeId'
-            | 'industryId'
-            | 'phoneNumber'
-            | 'city'
-            | 'passportNumber'
-          >
-        >;
-      }
-  >;
-};
+
+export type ProfileAdminUpdateMutation = (
+  { __typename?: 'Mutation' }
+  & { assignmentProfileAdminUpdate: Maybe<(
+    { __typename?: 'AssignmentProfileAdminUpdatePayload' }
+    & Pick<AssignmentProfileAdminUpdatePayload, 'successMessage'>
+    & { userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'path' | 'message'>
+    )>, profile: Maybe<(
+      { __typename?: 'AssignmentUser' }
+      & Pick<AssignmentUser, 'email' | 'firstName' | 'lastName' | 'jobTitle' | 'companyName' | 'companySizeId' | 'industryId' | 'phoneNumber' | 'city' | 'passportNumber'>
+    )> }
+  )> }
+);
 
 export type ProfileUpdateMutationVariables = Exact<{
   profile: AssignmentProfileUpdateInput;
 }>;
 
-export type ProfileUpdateMutation = { __typename?: 'Mutation' } & {
-  assignmentProfileUpdate: Maybe<
-    { __typename?: 'AssignmentProfileUpdatePayload' } & Pick<
-      AssignmentProfileUpdatePayload,
-      'successMessage'
-    > & {
-        userErrors: Array<
-          { __typename?: 'UserError' } & Pick<UserError, 'path' | 'message'>
-        >;
-        assignee: Maybe<
-          { __typename?: 'AssignmentUser' } & Pick<
-            AssignmentUser,
-            | 'email'
-            | 'firstName'
-            | 'lastName'
-            | 'jobTitle'
-            | 'companyName'
-            | 'companySizeId'
-            | 'industryId'
-            | 'phoneNumber'
-            | 'city'
-            | 'marketingConsent'
-            | 'personalisationConsent'
-            | 'passportNumber'
-          >
-        >;
-      }
-  >;
-};
+
+export type ProfileUpdateMutation = (
+  { __typename?: 'Mutation' }
+  & { assignmentProfileUpdate: Maybe<(
+    { __typename?: 'AssignmentProfileUpdatePayload' }
+    & Pick<AssignmentProfileUpdatePayload, 'successMessage'>
+    & { userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'path' | 'message'>
+    )>, assignee: Maybe<(
+      { __typename?: 'AssignmentUser' }
+      & Pick<AssignmentUser, 'email' | 'firstName' | 'lastName' | 'jobTitle' | 'companyName' | 'companySizeId' | 'industryId' | 'phoneNumber' | 'city' | 'marketingConsent' | 'personalisationConsent' | 'passportNumber'>
+    )> }
+  )> }
+);
 
 export type CommerceCreateSaleMutationVariables = Exact<{
   commerceSale: CommerceSaleCreate;
 }>;
 
-export type CommerceCreateSaleMutation = { __typename?: 'Mutation' } & {
-  commerceCreateSale: Maybe<
-    { __typename?: 'CommerceSale' } & Pick<CommerceSale, 'id' | 'name'>
-  >;
-};
+
+export type CommerceCreateSaleMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceCreateSale: Maybe<(
+    { __typename?: 'CommerceSale' }
+    & Pick<CommerceSale, 'id' | 'name'>
+  )> }
+);
 
 export type CommerceUpdateSaleMutationVariables = Exact<{
   commerceSale: CommerceSaleUpdate;
   id: Scalars['ID'];
 }>;
 
-export type CommerceUpdateSaleMutation = { __typename?: 'Mutation' } & {
-  commerceUpdateSale: Maybe<
-    { __typename?: 'CommerceSale' } & Pick<CommerceSale, 'id' | 'name'>
-  >;
-};
+
+export type CommerceUpdateSaleMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceUpdateSale: Maybe<(
+    { __typename?: 'CommerceSale' }
+    & Pick<CommerceSale, 'id' | 'name'>
+  )> }
+);
 
 export type CommerceCreateCategoryMutationVariables = Exact<{
   input: CommerceCategoryCreate;
 }>;
 
-export type CommerceCreateCategoryMutation = { __typename?: 'Mutation' } & {
-  commerceCreateCategory: Maybe<
-    { __typename?: 'CommerceCategory' } & Pick<
-      CommerceCategory,
-      'id' | 'active'
-    >
-  >;
-};
+
+export type CommerceCreateCategoryMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceCreateCategory: Maybe<(
+    { __typename?: 'CommerceCategory' }
+    & Pick<CommerceCategory, 'id' | 'active'>
+  )> }
+);
 
 export type CommerceCreateProductMutationVariables = Exact<{
   input: CommerceProductCreate;
 }>;
 
-export type CommerceCreateProductMutation = { __typename?: 'Mutation' } & {
-  commerceCreateProduct: Maybe<
-    { __typename?: 'CommerceProduct' } & Pick<CommerceProduct, 'id' | 'active'>
-  >;
-};
+
+export type CommerceCreateProductMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceCreateProduct: Maybe<(
+    { __typename?: 'CommerceProduct' }
+    & Pick<CommerceProduct, 'id' | 'active'>
+  )> }
+);
 
 export type CommerceSaleProductCreateMutationVariables = Exact<{
   commerceSaleProductCreate: CommerceSaleProductCreate;
   saleId: Scalars['ID'];
 }>;
 
-export type CommerceSaleProductCreateMutation = { __typename?: 'Mutation' } & {
-  commerceCreateSaleProduct: Maybe<
-    { __typename?: 'CommerceSaleProduct' } & Pick<
-      CommerceSaleProduct,
-      'id' | 'active'
-    >
-  >;
-};
+
+export type CommerceSaleProductCreateMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceCreateSaleProduct: Maybe<(
+    { __typename?: 'CommerceSaleProduct' }
+    & Pick<CommerceSaleProduct, 'id' | 'active'>
+  )> }
+);
 
 export type CommerceCreatePaymentMethodMutationVariables = Exact<{
   paymentMethod: CommercePaymentMethodCreate;
 }>;
 
-export type CommerceCreatePaymentMethodMutation = {
-  __typename?: 'Mutation';
-} & {
-  commerceCreatePaymentMethod: Maybe<
-    { __typename?: 'CommercePaymentMethod' } & Pick<
-      CommercePaymentMethod,
-      'id' | 'gateway' | 'active' | 'name'
-    >
-  >;
-};
+
+export type CommerceCreatePaymentMethodMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceCreatePaymentMethod: Maybe<(
+    { __typename?: 'CommercePaymentMethod' }
+    & Pick<CommercePaymentMethod, 'id' | 'gateway' | 'active' | 'name'>
+  )> }
+);
 
 export type CommerceUpdatePaymentMethodMutationVariables = Exact<{
   paymentMethod: CommercePaymentMethodUpdate;
   id: Scalars['ID'];
 }>;
 
-export type CommerceUpdatePaymentMethodMutation = {
-  __typename?: 'Mutation';
-} & {
-  commerceUpdatePaymentMethod: Maybe<
-    { __typename?: 'CommercePaymentMethod' } & Pick<
-      CommercePaymentMethod,
-      'id' | 'gateway' | 'active' | 'name'
-    >
-  >;
-};
+
+export type CommerceUpdatePaymentMethodMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceUpdatePaymentMethod: Maybe<(
+    { __typename?: 'CommercePaymentMethod' }
+    & Pick<CommercePaymentMethod, 'id' | 'gateway' | 'active' | 'name'>
+  )> }
+);
 
 export type CommerceUpdateCategoryMutationVariables = Exact<{
   id: Scalars['ID'];
   input: CommerceCategoryUpdate;
 }>;
 
-export type CommerceUpdateCategoryMutation = { __typename?: 'Mutation' } & {
-  commerceUpdateCategory: Maybe<
-    { __typename?: 'CommerceCategory' } & Pick<
-      CommerceCategory,
-      'id' | 'active'
-    >
-  >;
-};
+
+export type CommerceUpdateCategoryMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceUpdateCategory: Maybe<(
+    { __typename?: 'CommerceCategory' }
+    & Pick<CommerceCategory, 'id' | 'active'>
+  )> }
+);
 
 export type CommerceUpdateProductMutationVariables = Exact<{
   id: Scalars['ID'];
   input: CommerceProductUpdate;
 }>;
 
-export type CommerceUpdateProductMutation = { __typename?: 'Mutation' } & {
-  commerceUpdateProduct: Maybe<
-    { __typename?: 'CommerceProduct' } & Pick<CommerceProduct, 'id' | 'active'>
-  >;
-};
+
+export type CommerceUpdateProductMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceUpdateProduct: Maybe<(
+    { __typename?: 'CommerceProduct' }
+    & Pick<CommerceProduct, 'id' | 'active'>
+  )> }
+);
 
 export type CommerceUpdateSaleProductMutationVariables = Exact<{
   commerceSaleProductUpdate: CommerceSaleProductUpdate;
@@ -7452,193 +7653,152 @@ export type CommerceUpdateSaleProductMutationVariables = Exact<{
   saleId: Scalars['ID'];
 }>;
 
-export type CommerceUpdateSaleProductMutation = { __typename?: 'Mutation' } & {
-  commerceUpdateSaleProduct: Maybe<
-    { __typename?: 'CommerceSaleProduct' } & Pick<
-      CommerceSaleProduct,
-      'id' | 'active'
-    >
-  >;
-};
+
+export type CommerceUpdateSaleProductMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceUpdateSaleProduct: Maybe<(
+    { __typename?: 'CommerceSaleProduct' }
+    & Pick<CommerceSaleProduct, 'id' | 'active'>
+  )> }
+);
 
 export type CommerceUpdateStoreMutationVariables = Exact<{
   id: Scalars['ID'];
   input: CommerceStoreUpdate;
 }>;
 
-export type CommerceUpdateStoreMutation = { __typename?: 'Mutation' } & {
-  commerceUpdateStore: Maybe<
-    { __typename?: 'CommerceStore' } & Pick<
-      CommerceStore,
-      'active' | 'id' | 'name'
-    >
-  >;
-};
+
+export type CommerceUpdateStoreMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceUpdateStore: Maybe<(
+    { __typename?: 'CommerceStore' }
+    & Pick<CommerceStore, 'active' | 'id' | 'name'>
+  )> }
+);
 
 export type CreateOrderMutationVariables = Exact<{
   storeId: Scalars['ID'];
   input: CommerceOrderCreate;
 }>;
 
-export type CreateOrderMutation = { __typename?: 'Mutation' } & {
-  commerceCreateOrder: Maybe<
-    { __typename?: 'CommerceOrder' } & Pick<
-      CommerceOrder,
-      'id' | 'reference' | 'locked' | 'status' | 'metadata'
-    > & {
-        items: Array<
-          { __typename?: 'CommerceOrderItem' } & {
-            product: Maybe<
-              { __typename?: 'CommerceProduct' } & Pick<CommerceProduct, 'name'>
-            >;
-          }
-        >;
-      }
-  >;
-};
+
+export type CreateOrderMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceCreateOrder: Maybe<(
+    { __typename?: 'CommerceOrder' }
+    & Pick<CommerceOrder, 'id' | 'reference' | 'locked' | 'status' | 'metadata'>
+    & { items: Array<(
+      { __typename?: 'CommerceOrderItem' }
+      & { product: Maybe<(
+        { __typename?: 'CommerceProduct' }
+        & Pick<CommerceProduct, 'name'>
+      )> }
+    )> }
+  )> }
+);
 
 export type EventCreateMutationVariables = Exact<{
   event: EventCreateInput;
 }>;
 
-export type EventCreateMutation = { __typename?: 'Mutation' } & {
-  eventCreate: Maybe<
-    { __typename?: 'EventCreatePayload' } & {
-      event: Maybe<
-        { __typename?: 'Event' } & Pick<
-          Event,
-          | 'id'
-          | 'name'
-          | 'description'
-          | 'taxNumber'
-          | 'slug'
-          | 'startDate'
-          | 'endDate'
-          | 'timezone'
-          | 'baseUrl'
-          | 'currency'
-        > & {
-            country: Maybe<
-              { __typename?: 'EventConfigurationCountry' } & Pick<
-                EventConfigurationCountry,
-                'id' | 'name'
-              >
-            >;
-          }
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type EventCreateMutation = (
+  { __typename?: 'Mutation' }
+  & { eventCreate: Maybe<(
+    { __typename?: 'EventCreatePayload' }
+    & { event: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'description' | 'taxNumber' | 'slug' | 'startDate' | 'endDate' | 'timezone' | 'baseUrl' | 'currency'>
+      & { country: Maybe<(
+        { __typename?: 'EventConfigurationCountry' }
+        & Pick<EventConfigurationCountry, 'id' | 'name'>
+      )> }
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type EventUpdateMutationVariables = Exact<{
   input: EventUpdateInput;
 }>;
 
-export type EventUpdateMutation = { __typename?: 'Mutation' } & {
-  eventUpdate: Maybe<
-    { __typename?: 'EventUpdatePayload' } & {
-      event: Maybe<
-        { __typename?: 'Event' } & Pick<
-          Event,
-          | 'id'
-          | 'name'
-          | 'description'
-          | 'taxNumber'
-          | 'slug'
-          | 'startDate'
-          | 'endDate'
-          | 'timezone'
-          | 'baseUrl'
-          | 'currency'
-        > & {
-            country: Maybe<
-              { __typename?: 'EventConfigurationCountry' } & Pick<
-                EventConfigurationCountry,
-                'id' | 'name'
-              >
-            >;
-            legalEntity: Maybe<
-              { __typename?: 'LegalEntity' } & Pick<LegalEntity, 'id' | 'name'>
-            >;
-          }
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type EventUpdateMutation = (
+  { __typename?: 'Mutation' }
+  & { eventUpdate: Maybe<(
+    { __typename?: 'EventUpdatePayload' }
+    & { event: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'description' | 'taxNumber' | 'slug' | 'startDate' | 'endDate' | 'timezone' | 'baseUrl' | 'currency'>
+      & { country: Maybe<(
+        { __typename?: 'EventConfigurationCountry' }
+        & Pick<EventConfigurationCountry, 'id' | 'name'>
+      )>, legalEntity: Maybe<(
+        { __typename?: 'LegalEntity' }
+        & Pick<LegalEntity, 'id' | 'name'>
+      )> }
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type LegalEntityCreateMutationVariables = Exact<{
   input: LegalEntityCreateInput;
 }>;
 
-export type LegalEntityCreateMutation = { __typename?: 'Mutation' } & {
-  legalEntityCreate: Maybe<
-    { __typename?: 'LegalEntityCreatePayload' } & {
-      legalEntity: Maybe<
-        { __typename?: 'LegalEntity' } & Pick<
-          LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
-        > & {
-            address: Maybe<
-              { __typename?: 'Address' } & Pick<
-                Address,
-                'id' | 'city' | 'postalCode' | 'lineOne' | 'lineTwo' | 'region'
-              > & {
-                  country: Maybe<
-                    { __typename?: 'EventConfigurationCountry' } & Pick<
-                      EventConfigurationCountry,
-                      'name'
-                    >
-                  >;
-                }
-            >;
-          }
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type LegalEntityCreateMutation = (
+  { __typename?: 'Mutation' }
+  & { legalEntityCreate: Maybe<(
+    { __typename?: 'LegalEntityCreatePayload' }
+    & { legalEntity: Maybe<(
+      { __typename?: 'LegalEntity' }
+      & Pick<LegalEntity, 'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'>
+      & { address: Maybe<(
+        { __typename?: 'Address' }
+        & Pick<Address, 'id' | 'city' | 'postalCode' | 'lineOne' | 'lineTwo' | 'region'>
+        & { country: Maybe<(
+          { __typename?: 'EventConfigurationCountry' }
+          & Pick<EventConfigurationCountry, 'name'>
+        )> }
+      )> }
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type LegalEntityUpdateMutationVariables = Exact<{
   input: LegalEntityUpdateInput;
 }>;
 
-export type LegalEntityUpdateMutation = { __typename?: 'Mutation' } & {
-  legalEntityUpdate: Maybe<
-    { __typename?: 'LegalEntityUpdatePayload' } & {
-      legalEntity: Maybe<
-        { __typename?: 'LegalEntity' } & Pick<
-          LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
-        > & {
-            address: Maybe<
-              { __typename?: 'Address' } & Pick<
-                Address,
-                'id' | 'city' | 'postalCode' | 'lineOne' | 'lineTwo' | 'region'
-              > & {
-                  country: Maybe<
-                    { __typename?: 'EventConfigurationCountry' } & Pick<
-                      EventConfigurationCountry,
-                      'name'
-                    >
-                  >;
-                }
-            >;
-          }
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type LegalEntityUpdateMutation = (
+  { __typename?: 'Mutation' }
+  & { legalEntityUpdate: Maybe<(
+    { __typename?: 'LegalEntityUpdatePayload' }
+    & { legalEntity: Maybe<(
+      { __typename?: 'LegalEntity' }
+      & Pick<LegalEntity, 'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'>
+      & { address: Maybe<(
+        { __typename?: 'Address' }
+        & Pick<Address, 'id' | 'city' | 'postalCode' | 'lineOne' | 'lineTwo' | 'region'>
+        & { country: Maybe<(
+          { __typename?: 'EventConfigurationCountry' }
+          & Pick<EventConfigurationCountry, 'name'>
+        )> }
+      )> }
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type UpdateCommerceOrderMutationVariables = Exact<{
   commerceOrderUpdate: CommerceOrderUpdate;
@@ -7646,111 +7806,117 @@ export type UpdateCommerceOrderMutationVariables = Exact<{
   storeId?: Maybe<Scalars['ID']>;
 }>;
 
-export type UpdateCommerceOrderMutation = { __typename?: 'Mutation' } & {
-  commerceUpdateOrder: Maybe<
-    { __typename?: 'CommerceOrder' } & Pick<CommerceOrder, 'status'>
-  >;
-};
+
+export type UpdateCommerceOrderMutation = (
+  { __typename?: 'Mutation' }
+  & { commerceUpdateOrder: Maybe<(
+    { __typename?: 'CommerceOrder' }
+    & Pick<CommerceOrder, 'status'>
+  )> }
+);
 
 export type OrderTransferMutationVariables = Exact<{
   input: OrderUpdateInput;
 }>;
 
-export type OrderTransferMutation = { __typename?: 'Mutation' } & {
-  orderUpdate: Maybe<
-    { __typename?: 'OrderUpdatePayload' } & Pick<
-      OrderUpdatePayload,
-      'clientMutationId'
-    > & {
-        order: Maybe<
-          { __typename?: 'Order' } & {
-            owner: { __typename?: 'AssignmentUser' } & Pick<
-              AssignmentUser,
-              'email'
-            >;
-          }
-        >;
-        userErrors: Array<
-          { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-        >;
-      }
-  >;
-};
+
+export type OrderTransferMutation = (
+  { __typename?: 'Mutation' }
+  & { orderUpdate: Maybe<(
+    { __typename?: 'OrderUpdatePayload' }
+    & Pick<OrderUpdatePayload, 'clientMutationId'>
+    & { order: Maybe<(
+      { __typename?: 'Order' }
+      & { owner: (
+        { __typename?: 'AssignmentUser' }
+        & Pick<AssignmentUser, 'email'>
+      ) }
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type TicketMagicLoginLinkRequestMutationVariables = Exact<{
   input: AssignmentMagicLinkLoginRequestInput;
 }>;
 
-export type TicketMagicLoginLinkRequestMutation = {
-  __typename?: 'Mutation';
-} & {
-  assignmentMagicLinkLoginRequest: Maybe<
-    { __typename?: 'AssignmentMagicLinkLoginRequestPayload' } & {
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type TicketMagicLoginLinkRequestMutation = (
+  { __typename?: 'Mutation' }
+  & { assignmentMagicLinkLoginRequest: Maybe<(
+    { __typename?: 'AssignmentMagicLinkLoginRequestPayload' }
+    & { userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type TaxRateCreateMutationVariables = Exact<{
   input: TaxRateCreateInput;
 }>;
 
-export type TaxRateCreateMutation = { __typename?: 'Mutation' } & {
-  taxRateCreate: Maybe<
-    { __typename?: 'TaxRateCreatePayload' } & {
-      taxRate: Maybe<
-        { __typename?: 'TaxRate' } & Pick<TaxRate, 'id' | 'name' | 'value'>
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type TaxRateCreateMutation = (
+  { __typename?: 'Mutation' }
+  & { taxRateCreate: Maybe<(
+    { __typename?: 'TaxRateCreatePayload' }
+    & { taxRate: Maybe<(
+      { __typename?: 'TaxRate' }
+      & Pick<TaxRate, 'id' | 'name' | 'value'>
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type TaxRateUpdateMutationVariables = Exact<{
   input: TaxRateUpdateInput;
 }>;
 
-export type TaxRateUpdateMutation = { __typename?: 'Mutation' } & {
-  taxRateUpdate: Maybe<
-    { __typename?: 'TaxRateUpdatePayload' } & {
-      taxRate: Maybe<
-        { __typename?: 'TaxRate' } & Pick<TaxRate, 'id' | 'name' | 'value'>
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type TaxRateUpdateMutation = (
+  { __typename?: 'Mutation' }
+  & { taxRateUpdate: Maybe<(
+    { __typename?: 'TaxRateUpdatePayload' }
+    & { taxRate: Maybe<(
+      { __typename?: 'TaxRate' }
+      & Pick<TaxRate, 'id' | 'name' | 'value'>
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type TicketAcceptMutationVariables = Exact<{
   ticketId: Scalars['ID'];
 }>;
 
-export type TicketAcceptMutation = { __typename?: 'Mutation' } & {
-  ticketAccept: Maybe<
-    { __typename?: 'TicketAcceptPayload' } & {
-      ticket: Maybe<
-        { __typename?: 'Ticket' } & Pick<Ticket, 'id'> & {
-            assignment: Maybe<
-              { __typename?: 'Assignment' } & Pick<Assignment, 'id' | 'state'>
-            >;
-            context: { __typename?: 'TicketContext' } & Pick<
-              TicketContext,
-              'assignable' | 'editable' | 'acceptable' | 'rejectable'
-            >;
-          }
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type TicketAcceptMutation = (
+  { __typename?: 'Mutation' }
+  & { ticketAccept: Maybe<(
+    { __typename?: 'TicketAcceptPayload' }
+    & { ticket: Maybe<(
+      { __typename?: 'Ticket' }
+      & Pick<Ticket, 'id'>
+      & { assignment: Maybe<(
+        { __typename?: 'Assignment' }
+        & Pick<Assignment, 'id' | 'state'>
+      )>, context: (
+        { __typename?: 'TicketContext' }
+        & Pick<TicketContext, 'assignable' | 'editable' | 'acceptable' | 'rejectable'>
+      ) }
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type TicketAssignMutationVariables = Exact<{
   firstName: Scalars['String'];
@@ -7760,4480 +7926,1549 @@ export type TicketAssignMutationVariables = Exact<{
   notify?: Maybe<Scalars['Boolean']>;
 }>;
 
-export type TicketAssignMutation = { __typename?: 'Mutation' } & {
-  ticketAssign: Maybe<
-    { __typename?: 'TicketAssignPayload' } & {
-      ticket: Maybe<
-        { __typename?: 'Ticket' } & Pick<Ticket, 'id'> & {
-            assignment: Maybe<
-              { __typename?: 'Assignment' } & Pick<
-                Assignment,
-                'id' | 'state'
-              > & {
-                  assignee: Maybe<
-                    { __typename?: 'AssignmentUser' } & Pick<
-                      AssignmentUser,
-                      'id' | 'firstName' | 'lastName' | 'email' | 'me'
-                    >
-                  >;
-                }
-            >;
-            context: { __typename?: 'TicketContext' } & Pick<
-              TicketContext,
-              'assignable' | 'editable' | 'acceptable' | 'rejectable'
-            >;
-          }
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type TicketAssignMutation = (
+  { __typename?: 'Mutation' }
+  & { ticketAssign: Maybe<(
+    { __typename?: 'TicketAssignPayload' }
+    & { ticket: Maybe<(
+      { __typename?: 'Ticket' }
+      & Pick<Ticket, 'id'>
+      & { assignment: Maybe<(
+        { __typename?: 'Assignment' }
+        & Pick<Assignment, 'id' | 'state'>
+        & { assignee: Maybe<(
+          { __typename?: 'AssignmentUser' }
+          & Pick<AssignmentUser, 'id' | 'firstName' | 'lastName' | 'email' | 'me'>
+        )> }
+      )>, context: (
+        { __typename?: 'TicketContext' }
+        & Pick<TicketContext, 'assignable' | 'editable' | 'acceptable' | 'rejectable'>
+      ) }
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type TicketRejectMutationVariables = Exact<{
   ticketId: Scalars['ID'];
 }>;
 
-export type TicketRejectMutation = { __typename?: 'Mutation' } & {
-  ticketReject: Maybe<
-    { __typename?: 'TicketRejectPayload' } & {
-      ticket: Maybe<
-        { __typename?: 'Ticket' } & Pick<Ticket, 'id'> & {
-            assignment: Maybe<
-              { __typename?: 'Assignment' } & Pick<Assignment, 'id'>
-            >;
-            context: { __typename?: 'TicketContext' } & Pick<
-              TicketContext,
-              'assignable' | 'editable' | 'acceptable' | 'rejectable'
-            >;
-          }
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type TicketRejectMutation = (
+  { __typename?: 'Mutation' }
+  & { ticketReject: Maybe<(
+    { __typename?: 'TicketRejectPayload' }
+    & { ticket: Maybe<(
+      { __typename?: 'Ticket' }
+      & Pick<Ticket, 'id'>
+      & { assignment: Maybe<(
+        { __typename?: 'Assignment' }
+        & Pick<Assignment, 'id'>
+      )>, context: (
+        { __typename?: 'TicketContext' }
+        & Pick<TicketContext, 'assignable' | 'editable' | 'acceptable' | 'rejectable'>
+      ) }
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type TicketUnvoidMutationVariables = Exact<{
   input: TicketUnvoidInput;
 }>;
 
-export type TicketUnvoidMutation = { __typename?: 'Mutation' } & {
-  ticketUnvoid: Maybe<
-    { __typename?: 'TicketUnvoidPayload' } & {
-      ticket: Maybe<
-        { __typename?: 'Ticket' } & Pick<Ticket, 'id' | 'state' | 'bookingRef'>
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type TicketUnvoidMutation = (
+  { __typename?: 'Mutation' }
+  & { ticketUnvoid: Maybe<(
+    { __typename?: 'TicketUnvoidPayload' }
+    & { ticket: Maybe<(
+      { __typename?: 'Ticket' }
+      & Pick<Ticket, 'id' | 'state' | 'bookingRef'>
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type VoidTicketMutationVariables = Exact<{
   input: TicketVoidInput;
 }>;
 
-export type VoidTicketMutation = { __typename?: 'Mutation' } & {
-  ticketVoid: Maybe<
-    { __typename?: 'TicketVoidPayload' } & {
-      ticket: Maybe<
-        { __typename?: 'Ticket' } & Pick<Ticket, 'id' | 'state' | 'bookingRef'>
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
+
+export type VoidTicketMutation = (
+  { __typename?: 'Mutation' }
+  & { ticketVoid: Maybe<(
+    { __typename?: 'TicketVoidPayload' }
+    & { ticket: Maybe<(
+      { __typename?: 'Ticket' }
+      & Pick<Ticket, 'id' | 'state' | 'bookingRef'>
+    )>, userErrors: Array<(
+      { __typename?: 'UserError' }
+      & Pick<UserError, 'message' | 'path'>
+    )> }
+  )> }
+);
 
 export type AccessPermissionsQueryVariables = Exact<{
   ticketTypeIds?: Maybe<Array<Scalars['ID']> | Scalars['ID']>;
 }>;
 
-export type AccessPermissionsQuery = { __typename?: 'Query' } & {
-  accessPermissions: { __typename?: 'AccessPermissionConnection' } & {
-    edges: Array<
-      { __typename?: 'AccessPermissionEdge' } & {
-        node: { __typename?: 'AccessPermission' } & Pick<
-          AccessPermission,
-          'id' | 'title' | 'detail'
-        > & {
-            ticketTypes: { __typename?: 'TicketTypeConnection' } & {
-              edges: Array<
-                { __typename?: 'TicketTypeEdge' } & {
-                  node: { __typename?: 'TicketType' } & Pick<TicketType, 'id'>;
-                }
-              >;
-            };
-          };
-      }
-    >;
-  };
-};
 
-export type AppConfigQueryVariables = Exact<{ [key: string]: never }>;
+export type AccessPermissionsQuery = (
+  { __typename?: 'Query' }
+  & { accessPermissions: (
+    { __typename?: 'AccessPermissionConnection' }
+    & { edges: Array<(
+      { __typename?: 'AccessPermissionEdge' }
+      & { node: (
+        { __typename?: 'AccessPermission' }
+        & Pick<AccessPermission, 'id' | 'title' | 'detail'>
+        & { ticketTypes: (
+          { __typename?: 'TicketTypeConnection' }
+          & { edges: Array<(
+            { __typename?: 'TicketTypeEdge' }
+            & { node: (
+              { __typename?: 'TicketType' }
+              & Pick<TicketType, 'id'>
+            ) }
+          )> }
+        ) }
+      ) }
+    )> }
+  ) }
+);
 
-export type AppConfigQuery = { __typename?: 'Query' } & {
-  appConfig: Maybe<
-    { __typename?: 'AppConfig' } & Pick<
-      AppConfig,
-      | 'googleAnalyticsTrackingId'
-      | 'googleTagManagerId'
-      | 'googleFontsUrl'
-      | 'theme'
-    > & {
-        googleAnalyticsLinkerDomains: Array<
-          {
-            __typename?: 'ComponentSiteConfigGoogleAnalyticsLinkerDomainList';
-          } & Pick<ComponentSiteConfigGoogleAnalyticsLinkerDomainList, 'domain'>
-        >;
-        metaData: { __typename?: 'ComponentSiteConfigMetaData' } & Pick<
-          ComponentSiteConfigMetaData,
-          | 'siteTitle'
-          | 'siteDescription'
-          | 'facebookId'
-          | 'facebookPublisher'
-          | 'twitterId'
-          | 'twitterCreator'
-        > & {
-            image: Maybe<
-              { __typename?: 'UploadFile' } & { url: UploadFile['absoluteUrl'] }
-            >;
-          };
-      }
-  >;
-};
+export type AppConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type CommerceUserFragment = { __typename?: 'CommerceUser' } & Pick<
-  CommerceUser,
-  'name' | 'email' | 'id'
->;
 
-export type CommerceTaxTypeFragment = { __typename?: 'CommerceTaxType' } & Pick<
-  CommerceTaxType,
-  'createdAt' | 'description' | 'id' | 'lastUpdatedAt' | 'name'
-> & {
-    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
-  };
+export type AppConfigQuery = (
+  { __typename?: 'Query' }
+  & { appConfig: Maybe<(
+    { __typename?: 'AppConfig' }
+    & Pick<AppConfig, 'googleAnalyticsTrackingId' | 'googleTagManagerId' | 'googleFontsUrl' | 'theme'>
+    & { googleAnalyticsLinkerDomains: Array<(
+      { __typename?: 'ComponentSiteConfigGoogleAnalyticsLinkerDomainList' }
+      & Pick<ComponentSiteConfigGoogleAnalyticsLinkerDomainList, 'domain'>
+    )>, metaData: (
+      { __typename?: 'ComponentSiteConfigMetaData' }
+      & Pick<ComponentSiteConfigMetaData, 'siteTitle' | 'siteDescription' | 'facebookId' | 'facebookPublisher' | 'twitterId' | 'twitterCreator'>
+      & { image: Maybe<(
+        { __typename?: 'UploadFile' }
+        & { url: UploadFile['absoluteUrl'] }
+      )> }
+    ) }
+  )> }
+);
 
-export type CommerceTaxFragment = { __typename?: 'CommerceTax' } & Pick<
-  CommerceTax,
-  | 'country'
-  | 'createdAt'
-  | 'id'
-  | 'lastUpdatedAt'
-  | 'name'
-  | 'rateAmount'
-  | 'rateType'
-> & {
-    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
-    taxType: { __typename?: 'CommerceTaxType' } & CommerceTaxTypeFragment;
-  };
+export type CommerceGetDealQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
 
-export type CommerceProductFragment = { __typename?: 'CommerceProduct' } & Pick<
-  CommerceProduct,
-  | 'active'
-  | 'createdAt'
-  | 'description'
-  | 'id'
-  | 'lastUpdatedAt'
-  | 'name'
-  | 'price'
-  | 'taxMode'
-> & {
-    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
-  };
 
-export type CommerceOrderItemFragment = {
-  __typename?: 'CommerceOrderItem';
-} & Pick<
-  CommerceOrderItem,
-  | 'createdAt'
-  | 'id'
-  | 'itemName'
-  | 'lastUpdatedAt'
-  | 'price'
-  | 'productMetadata'
-  | 'quantity'
-  | 'subTotal'
-  | 'taxTotal'
-  | 'total'
-> & {
-    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
-    product: Maybe<
-      { __typename?: 'CommerceProduct' } & CommerceProductFragment
-    >;
-    tax: Maybe<{ __typename?: 'CommerceTax' } & CommerceTaxFragment>;
-  };
+export type CommerceGetDealQuery = (
+  { __typename?: 'Query' }
+  & { commerceGetDeal: Maybe<(
+    { __typename?: 'CommerceDeal' }
+    & Pick<CommerceDeal, 'active' | 'createdAt' | 'description' | 'endDate' | 'id' | 'lastUpdatedAt' | 'metadata' | 'name' | 'startDate'>
+    & { dealItems: Maybe<Array<(
+      { __typename?: 'CommerceDealItem' }
+      & Pick<CommerceDealItem, 'amount' | 'createdAt' | 'id' | 'lastUpdatedAt' | 'max' | 'metadata' | 'min' | 'step' | 'type'>
+    )>> }
+  )> }
+);
 
-export type CommercePaymentMethodFragment = {
-  __typename?: 'CommercePaymentMethod';
-} & Pick<CommercePaymentMethod, 'id' | 'name'>;
+export type CommerceUserFragment = (
+  { __typename?: 'CommerceUser' }
+  & Pick<CommerceUser, 'name' | 'email' | 'id'>
+);
 
-export type CommerceAddressFragment = { __typename?: 'CommerceAddress' } & Pick<
-  CommerceAddress,
-  | 'city'
-  | 'country'
-  | 'createdAt'
-  | 'id'
-  | 'lastUpdatedAt'
-  | 'line1'
-  | 'line2'
-  | 'postalCode'
-  | 'state'
-> & {
-    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
-  };
+export type CommerceTaxTypeFragment = (
+  { __typename?: 'CommerceTaxType' }
+  & Pick<CommerceTaxType, 'createdAt' | 'description' | 'id' | 'lastUpdatedAt' | 'name'>
+  & { createdBy: Maybe<(
+    { __typename?: 'CommerceUser' }
+    & CommerceUserFragment
+  )> }
+);
 
-export type CommerceCustomerFragment = {
-  __typename?: 'CommerceCustomer';
-} & Pick<
-  CommerceCustomer,
-  | 'companyName'
-  | 'createdAt'
-  | 'email'
-  | 'firstName'
-  | 'id'
-  | 'lastName'
-  | 'lastUpdatedAt'
-  | 'phoneNumber'
-  | 'vatNumber'
-  | 'vatVerified'
-> & {
-    address: Maybe<
-      { __typename?: 'CommerceAddress' } & CommerceAddressFragment
-    >;
-    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
-  };
+export type CommerceTaxFragment = (
+  { __typename?: 'CommerceTax' }
+  & Pick<CommerceTax, 'country' | 'createdAt' | 'id' | 'lastUpdatedAt' | 'name' | 'rateAmount' | 'rateType'>
+  & { createdBy: Maybe<(
+    { __typename?: 'CommerceUser' }
+    & CommerceUserFragment
+  )>, taxType: (
+    { __typename?: 'CommerceTaxType' }
+    & CommerceTaxTypeFragment
+  ) }
+);
 
-export type CommerceTransactionFragment = {
-  __typename?: 'CommerceTransaction';
-} & Pick<
-  CommerceTransaction,
-  | 'amount'
-  | 'createdAt'
-  | 'currency'
-  | 'id'
-  | 'lastUpdatedAt'
-  | 'metadata'
-  | 'refundedTransaction'
-  | 'status'
-  | 'timestamp'
-  | 'type'
-> & {
-    createdBy: Maybe<{ __typename?: 'CommerceUser' } & CommerceUserFragment>;
-    paymentMethod: Maybe<
-      { __typename?: 'CommercePaymentMethod' } & CommercePaymentMethodFragment
-    >;
-  };
+export type CommerceProductFragment = (
+  { __typename?: 'CommerceProduct' }
+  & Pick<CommerceProduct, 'active' | 'createdAt' | 'description' | 'id' | 'lastUpdatedAt' | 'name' | 'price' | 'taxMode'>
+  & { createdBy: Maybe<(
+    { __typename?: 'CommerceUser' }
+    & CommerceUserFragment
+  )> }
+);
+
+export type CommerceOrderItemFragment = (
+  { __typename?: 'CommerceOrderItem' }
+  & Pick<CommerceOrderItem, 'createdAt' | 'id' | 'itemName' | 'lastUpdatedAt' | 'price' | 'productMetadata' | 'quantity' | 'subTotal' | 'taxTotal' | 'total'>
+  & { createdBy: Maybe<(
+    { __typename?: 'CommerceUser' }
+    & CommerceUserFragment
+  )>, product: Maybe<(
+    { __typename?: 'CommerceProduct' }
+    & CommerceProductFragment
+  )>, tax: Maybe<(
+    { __typename?: 'CommerceTax' }
+    & CommerceTaxFragment
+  )> }
+);
+
+export type CommercePaymentMethodFragment = (
+  { __typename?: 'CommercePaymentMethod' }
+  & Pick<CommercePaymentMethod, 'id' | 'name'>
+);
+
+export type CommerceAddressFragment = (
+  { __typename?: 'CommerceAddress' }
+  & Pick<CommerceAddress, 'city' | 'country' | 'createdAt' | 'id' | 'lastUpdatedAt' | 'line1' | 'line2' | 'postalCode' | 'state'>
+  & { createdBy: Maybe<(
+    { __typename?: 'CommerceUser' }
+    & CommerceUserFragment
+  )> }
+);
+
+export type CommerceCustomerFragment = (
+  { __typename?: 'CommerceCustomer' }
+  & Pick<CommerceCustomer, 'companyName' | 'createdAt' | 'email' | 'firstName' | 'id' | 'lastName' | 'lastUpdatedAt' | 'phoneNumber' | 'vatNumber' | 'vatVerified'>
+  & { address: Maybe<(
+    { __typename?: 'CommerceAddress' }
+    & CommerceAddressFragment
+  )>, createdBy: Maybe<(
+    { __typename?: 'CommerceUser' }
+    & CommerceUserFragment
+  )> }
+);
+
+export type CommerceTransactionFragment = (
+  { __typename?: 'CommerceTransaction' }
+  & Pick<CommerceTransaction, 'amount' | 'createdAt' | 'currency' | 'id' | 'lastUpdatedAt' | 'metadata' | 'refundedTransaction' | 'status' | 'timestamp' | 'type'>
+  & { createdBy: Maybe<(
+    { __typename?: 'CommerceUser' }
+    & CommerceUserFragment
+  )>, paymentMethod: Maybe<(
+    { __typename?: 'CommercePaymentMethod' }
+    & CommercePaymentMethodFragment
+  )> }
+);
 
 export type CommerceGetOrderQueryVariables = Exact<{
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 }>;
 
-export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
-  commerceGetOrder: Maybe<
-    { __typename?: 'CommerceOrder' } & Pick<
-      CommerceOrder,
-      | 'billed'
-      | 'createdAt'
-      | 'currency'
-      | 'currencySymbol'
-      | 'id'
-      | 'invoiceUrl'
-      | 'lastUpdatedAt'
-      | 'locked'
-      | 'paid'
-      | 'paymentStatus'
-      | 'reference'
-      | 'status'
-      | 'subTotal'
-      | 'taxTotal'
-      | 'total'
-      | 'url'
-    > & {
-        createdBy: Maybe<
-          { __typename?: 'CommerceUser' } & CommerceUserFragment
-        >;
-        customer: Maybe<
-          { __typename?: 'CommerceCustomer' } & CommerceCustomerFragment
-        >;
-        items: Array<
-          { __typename?: 'CommerceOrderItem' } & CommerceOrderItemFragment
-        >;
-        paymentMethod: Maybe<
-          {
-            __typename?: 'CommercePaymentMethod';
-          } & CommercePaymentMethodFragment
-        >;
-        transactions: Maybe<
-          Array<
-            Maybe<
-              {
-                __typename?: 'CommerceTransaction';
-              } & CommerceTransactionFragment
-            >
-          >
-        >;
-      }
-  >;
-};
+
+export type CommerceGetOrderQuery = (
+  { __typename?: 'Query' }
+  & { commerceGetOrder: Maybe<(
+    { __typename?: 'CommerceOrder' }
+    & Pick<CommerceOrder, 'billed' | 'createdAt' | 'currency' | 'currencySymbol' | 'id' | 'invoiceUrl' | 'lastUpdatedAt' | 'locked' | 'paid' | 'paymentStatus' | 'reference' | 'status' | 'subTotal' | 'taxTotal' | 'total' | 'url'>
+    & { createdBy: Maybe<(
+      { __typename?: 'CommerceUser' }
+      & CommerceUserFragment
+    )>, customer: Maybe<(
+      { __typename?: 'CommerceCustomer' }
+      & CommerceCustomerFragment
+    )>, items: Array<(
+      { __typename?: 'CommerceOrderItem' }
+      & CommerceOrderItemFragment
+    )>, paymentMethod: Maybe<(
+      { __typename?: 'CommercePaymentMethod' }
+      & CommercePaymentMethodFragment
+    )>, transactions: Maybe<Array<Maybe<(
+      { __typename?: 'CommerceTransaction' }
+      & CommerceTransactionFragment
+    )>>> }
+  )> }
+);
 
 export type CommerceGetProductQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type CommerceGetProductQuery = { __typename?: 'Query' } & {
-  commerceGetProduct: Maybe<
-    { __typename?: 'CommerceProduct' } & Pick<
-      CommerceProduct,
-      | 'active'
-      | 'createdAt'
-      | 'defaultPrice'
-      | 'description'
-      | 'id'
-      | 'lastUpdatedAt'
-      | 'name'
-      | 'metadata'
-      | 'price'
-      | 'taxMode'
-    > & {
-        categories: Maybe<
-          Array<
-            { __typename?: 'CommerceCategory' } & Pick<
-              CommerceCategory,
-              'id' | 'active' | 'name' | 'description'
-            >
-          >
-        >;
-        createdBy: Maybe<
-          { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name' | 'email'>
-        >;
-        lastUpdatedBy: Maybe<
-          { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name' | 'email'>
-        >;
-        tags: Maybe<
-          Array<
-            { __typename?: 'CommerceTag' } & Pick<
-              CommerceTag,
-              'id' | 'code' | 'name' | 'description'
-            >
-          >
-        >;
-        taxType: { __typename?: 'CommerceTaxType' } & Pick<
-          CommerceTaxType,
-          'id' | 'description' | 'name'
-        >;
-      }
-  >;
-};
 
-export type CommerceGetStoreQueryVariables = Exact<{ [key: string]: never }>;
+export type CommerceGetProductQuery = (
+  { __typename?: 'Query' }
+  & { commerceGetProduct: Maybe<(
+    { __typename?: 'CommerceProduct' }
+    & Pick<CommerceProduct, 'active' | 'createdAt' | 'defaultPrice' | 'description' | 'id' | 'lastUpdatedAt' | 'name' | 'metadata' | 'price' | 'taxMode'>
+    & { categories: Maybe<Array<(
+      { __typename?: 'CommerceCategory' }
+      & Pick<CommerceCategory, 'id' | 'active' | 'name' | 'description'>
+    )>>, createdBy: Maybe<(
+      { __typename?: 'CommerceUser' }
+      & Pick<CommerceUser, 'name' | 'email'>
+    )>, lastUpdatedBy: Maybe<(
+      { __typename?: 'CommerceUser' }
+      & Pick<CommerceUser, 'name' | 'email'>
+    )>, tags: Maybe<Array<(
+      { __typename?: 'CommerceTag' }
+      & Pick<CommerceTag, 'id' | 'code' | 'name' | 'description'>
+    )>>, taxType: (
+      { __typename?: 'CommerceTaxType' }
+      & Pick<CommerceTaxType, 'id' | 'description' | 'name'>
+    ) }
+  )> }
+);
 
-export type CommerceGetStoreQuery = { __typename?: 'Query' } & {
-  commerceGetStore: Maybe<
-    { __typename?: 'CommerceStore' } & Pick<
-      CommerceStore,
-      'id' | 'name' | 'active' | 'currencySymbol' | 'country'
-    > & {
-        taxTypes: Maybe<
-          Array<
-            { __typename?: 'CommerceTaxType' } & Pick<
-              CommerceTaxType,
-              'id' | 'name' | 'description'
-            > & {
-                taxes: Maybe<
-                  Array<
-                    { __typename?: 'CommerceTax' } & Pick<
-                      CommerceTax,
-                      'id' | 'country' | 'name' | 'rateAmount' | 'rateType'
-                    >
-                  >
-                >;
-              }
-          >
-        >;
-      }
-  >;
-};
+export type CommerceGetStoreQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type CommerceListCategoriesQueryVariables = Exact<{
-  [key: string]: never;
-}>;
 
-export type CommerceListCategoriesQuery = { __typename?: 'Query' } & {
-  commerceListCategories: Maybe<
-    { __typename?: 'CommerceSearchResponseCategory' } & {
-      hits: Maybe<
-        Array<
-          { __typename?: 'CommerceCategory' } & Pick<
-            CommerceCategory,
-            'id' | 'name' | 'lastUpdatedAt' | 'description' | 'active'
-          > & {
-              createdBy: Maybe<
-                { __typename?: 'CommerceUser' } & Pick<
-                  CommerceUser,
-                  'id' | 'name' | 'email'
-                >
-              >;
-            }
-        >
-      >;
-    }
-  >;
-};
+export type CommerceGetStoreQuery = (
+  { __typename?: 'Query' }
+  & { commerceGetStore: Maybe<(
+    { __typename?: 'CommerceStore' }
+    & Pick<CommerceStore, 'id' | 'name' | 'active' | 'currencySymbol' | 'country'>
+    & { taxTypes: Maybe<Array<(
+      { __typename?: 'CommerceTaxType' }
+      & Pick<CommerceTaxType, 'id' | 'name' | 'description'>
+      & { taxes: Maybe<Array<(
+        { __typename?: 'CommerceTax' }
+        & Pick<CommerceTax, 'id' | 'country' | 'name' | 'rateAmount' | 'rateType'>
+      )>> }
+    )>> }
+  )> }
+);
+
+export type CommerceListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CommerceListCategoriesQuery = (
+  { __typename?: 'Query' }
+  & { commerceListCategories: Maybe<(
+    { __typename?: 'CommerceSearchResponseCategory' }
+    & { hits: Maybe<Array<(
+      { __typename?: 'CommerceCategory' }
+      & Pick<CommerceCategory, 'id' | 'name' | 'lastUpdatedAt' | 'description' | 'active'>
+      & { createdBy: Maybe<(
+        { __typename?: 'CommerceUser' }
+        & Pick<CommerceUser, 'id' | 'name' | 'email'>
+      )> }
+    )>> }
+  )> }
+);
 
 export type CommerceListDealsQueryVariables = Exact<{
   sort?: Maybe<Array<CommerceSortTerm> | CommerceSortTerm>;
 }>;
 
-export type CommerceListDealsQuery = { __typename?: 'Query' } & {
-  commerceListDeals: Maybe<
-    { __typename?: 'CommerceSearchResponseDeal' } & Pick<
-      CommerceSearchResponseDeal,
-      'total'
-    > & {
-        hits: Maybe<
-          Array<
-            { __typename?: 'CommerceDeal' } & Pick<
-              CommerceDeal,
-              | 'active'
-              | 'createdAt'
-              | 'description'
-              | 'endDate'
-              | 'id'
-              | 'lastUpdatedAt'
-              | 'metadata'
-              | 'name'
-              | 'startDate'
-            >
-          >
-        >;
-      }
-  >;
-};
 
-export type CommerceListPaymentMethodsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
+export type CommerceListDealsQuery = (
+  { __typename?: 'Query' }
+  & { commerceListDeals: Maybe<(
+    { __typename?: 'CommerceSearchResponseDeal' }
+    & Pick<CommerceSearchResponseDeal, 'total'>
+    & { hits: Maybe<Array<(
+      { __typename?: 'CommerceDeal' }
+      & Pick<CommerceDeal, 'active' | 'createdAt' | 'description' | 'endDate' | 'id' | 'lastUpdatedAt' | 'metadata' | 'name' | 'startDate'>
+    )>> }
+  )> }
+);
 
-export type CommerceListPaymentMethodsQuery = { __typename?: 'Query' } & {
-  commerceListPaymentMethods: Maybe<
-    { __typename?: 'CommerceSearchResponsePaymentMethod' } & {
-      hits: Maybe<
-        Array<
-          { __typename?: 'CommercePaymentMethod' } & Pick<
-            CommercePaymentMethod,
-            'id' | 'name' | 'configuration' | 'active' | 'gateway'
-          >
-        >
-      >;
-    }
-  >;
-};
+export type CommerceListPaymentMethodsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type CommerceListProductsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
 
-export type CommerceListProductsQuery = { __typename?: 'Query' } & {
-  commerceListProducts: Maybe<
-    { __typename?: 'CommerceSearchResponseProduct' } & {
-      hits: Maybe<
-        Array<
-          { __typename?: 'CommerceProduct' } & Pick<
-            CommerceProduct,
-            | 'active'
-            | 'createdAt'
-            | 'defaultPrice'
-            | 'description'
-            | 'id'
-            | 'lastUpdatedAt'
-            | 'name'
-            | 'price'
-            | 'taxMode'
-          > & {
-              categories: Maybe<
-                Array<
-                  { __typename?: 'CommerceCategory' } & Pick<
-                    CommerceCategory,
-                    'id' | 'active' | 'name' | 'description'
-                  >
-                >
-              >;
-              createdBy: Maybe<
-                { __typename?: 'CommerceUser' } & Pick<
-                  CommerceUser,
-                  'name' | 'email'
-                >
-              >;
-              lastUpdatedBy: Maybe<
-                { __typename?: 'CommerceUser' } & Pick<
-                  CommerceUser,
-                  'name' | 'email'
-                >
-              >;
-              tags: Maybe<
-                Array<
-                  { __typename?: 'CommerceTag' } & Pick<
-                    CommerceTag,
-                    'id' | 'code' | 'name' | 'description'
-                  >
-                >
-              >;
-              taxType: { __typename?: 'CommerceTaxType' } & Pick<
-                CommerceTaxType,
-                'id' | 'description' | 'name'
-              >;
-            }
-        >
-      >;
-    }
-  >;
-};
+export type CommerceListPaymentMethodsQuery = (
+  { __typename?: 'Query' }
+  & { commerceListPaymentMethods: Maybe<(
+    { __typename?: 'CommerceSearchResponsePaymentMethod' }
+    & { hits: Maybe<Array<(
+      { __typename?: 'CommercePaymentMethod' }
+      & Pick<CommercePaymentMethod, 'id' | 'name' | 'configuration' | 'active' | 'gateway'>
+    )>> }
+  )> }
+);
+
+export type CommerceListProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CommerceListProductsQuery = (
+  { __typename?: 'Query' }
+  & { commerceListProducts: Maybe<(
+    { __typename?: 'CommerceSearchResponseProduct' }
+    & { hits: Maybe<Array<(
+      { __typename?: 'CommerceProduct' }
+      & Pick<CommerceProduct, 'active' | 'createdAt' | 'defaultPrice' | 'description' | 'id' | 'lastUpdatedAt' | 'name' | 'price' | 'taxMode'>
+      & { categories: Maybe<Array<(
+        { __typename?: 'CommerceCategory' }
+        & Pick<CommerceCategory, 'id' | 'active' | 'name' | 'description'>
+      )>>, createdBy: Maybe<(
+        { __typename?: 'CommerceUser' }
+        & Pick<CommerceUser, 'name' | 'email'>
+      )>, lastUpdatedBy: Maybe<(
+        { __typename?: 'CommerceUser' }
+        & Pick<CommerceUser, 'name' | 'email'>
+      )>, tags: Maybe<Array<(
+        { __typename?: 'CommerceTag' }
+        & Pick<CommerceTag, 'id' | 'code' | 'name' | 'description'>
+      )>>, taxType: (
+        { __typename?: 'CommerceTaxType' }
+        & Pick<CommerceTaxType, 'id' | 'description' | 'name'>
+      ) }
+    )>> }
+  )> }
+);
 
 export type CommerceListSaleProductsQueryVariables = Exact<{
   saleId: Scalars['ID'];
   sort?: Maybe<Array<CommerceSortTerm> | CommerceSortTerm>;
 }>;
 
-export type CommerceListSaleProductsQuery = { __typename?: 'Query' } & {
-  commerceListSaleProducts: Maybe<
-    { __typename?: 'CommerceSearchResponseSaleProduct' } & Pick<
-      CommerceSearchResponseSaleProduct,
-      'total'
-    > & {
-        hits: Maybe<
-          Array<
-            { __typename?: 'CommerceSaleProduct' } & Pick<
-              CommerceSaleProduct,
-              | 'active'
-              | 'createdAt'
-              | 'id'
-              | 'price'
-              | 'description'
-              | 'name'
-              | 'type'
-            > & {
-                createdBy: Maybe<
-                  { __typename?: 'CommerceUser' } & Pick<
-                    CommerceUser,
-                    'id' | 'name' | 'email'
-                  >
-                >;
-                product: Maybe<
-                  { __typename?: 'CommerceProduct' } & Pick<
-                    CommerceProduct,
-                    'id' | 'name'
-                  >
-                >;
-              }
-          >
-        >;
-      }
-  >;
-};
 
-export type CommerceListStoresQueryVariables = Exact<{ [key: string]: never }>;
+export type CommerceListSaleProductsQuery = (
+  { __typename?: 'Query' }
+  & { commerceListSaleProducts: Maybe<(
+    { __typename?: 'CommerceSearchResponseSaleProduct' }
+    & Pick<CommerceSearchResponseSaleProduct, 'total'>
+    & { hits: Maybe<Array<(
+      { __typename?: 'CommerceSaleProduct' }
+      & Pick<CommerceSaleProduct, 'active' | 'createdAt' | 'id' | 'price' | 'description' | 'name' | 'type'>
+      & { createdBy: Maybe<(
+        { __typename?: 'CommerceUser' }
+        & Pick<CommerceUser, 'id' | 'name' | 'email'>
+      )>, product: Maybe<(
+        { __typename?: 'CommerceProduct' }
+        & Pick<CommerceProduct, 'id' | 'name'>
+      )> }
+    )>> }
+  )> }
+);
 
-export type CommerceListStoresQuery = { __typename?: 'Query' } & {
-  commerceListStores: Maybe<
-    { __typename?: 'CommerceSearchResponseStore' } & {
-      hits: Maybe<
-        Array<
-          { __typename?: 'CommerceStore' } & Pick<
-            CommerceStore,
-            'id' | 'name' | 'slug' | 'currencySymbol' | 'country'
-          > & {
-              taxTypes: Maybe<
-                Array<
-                  { __typename?: 'CommerceTaxType' } & Pick<
-                    CommerceTaxType,
-                    'id' | 'name' | 'description'
-                  > & {
-                      taxes: Maybe<
-                        Array<
-                          { __typename?: 'CommerceTax' } & Pick<
-                            CommerceTax,
-                            | 'id'
-                            | 'country'
-                            | 'name'
-                            | 'rateAmount'
-                            | 'rateType'
-                          >
-                        >
-                      >;
-                    }
-                >
-              >;
-            }
-        >
-      >;
-    }
-  >;
-};
+export type CommerceListStoresQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type CommerceListTaxTypesQueryVariables = Exact<{
-  [key: string]: never;
-}>;
 
-export type CommerceListTaxTypesQuery = { __typename?: 'Query' } & {
-  commerceListTaxTypes: Maybe<
-    { __typename?: 'CommerceSearchResponseTaxType' } & {
-      hits: Maybe<
-        Array<
-          { __typename?: 'CommerceTaxType' } & Pick<
-            CommerceTaxType,
-            'id' | 'description' | 'name'
-          >
-        >
-      >;
-    }
-  >;
-};
+export type CommerceListStoresQuery = (
+  { __typename?: 'Query' }
+  & { commerceListStores: Maybe<(
+    { __typename?: 'CommerceSearchResponseStore' }
+    & { hits: Maybe<Array<(
+      { __typename?: 'CommerceStore' }
+      & Pick<CommerceStore, 'id' | 'name' | 'slug' | 'currencySymbol' | 'country'>
+      & { taxTypes: Maybe<Array<(
+        { __typename?: 'CommerceTaxType' }
+        & Pick<CommerceTaxType, 'id' | 'name' | 'description'>
+        & { taxes: Maybe<Array<(
+          { __typename?: 'CommerceTax' }
+          & Pick<CommerceTax, 'id' | 'country' | 'name' | 'rateAmount' | 'rateType'>
+        )>> }
+      )>> }
+    )>> }
+  )> }
+);
 
-export type CountriesQueryVariables = Exact<{ [key: string]: never }>;
+export type CommerceListTaxTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type CountriesQuery = { __typename?: 'Query' } & {
-  countries: { __typename?: 'EventConfigurationCountryConnection' } & {
-    edges: Array<
-      { __typename?: 'EventConfigurationCountryEdge' } & {
-        node: { __typename?: 'EventConfigurationCountry' } & Pick<
-          EventConfigurationCountry,
-          'name' | 'code' | 'id'
-        >;
-      }
-    >;
-  };
-};
+
+export type CommerceListTaxTypesQuery = (
+  { __typename?: 'Query' }
+  & { commerceListTaxTypes: Maybe<(
+    { __typename?: 'CommerceSearchResponseTaxType' }
+    & { hits: Maybe<Array<(
+      { __typename?: 'CommerceTaxType' }
+      & Pick<CommerceTaxType, 'id' | 'description' | 'name'>
+    )>> }
+  )> }
+);
+
+export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountriesQuery = (
+  { __typename?: 'Query' }
+  & { countries: (
+    { __typename?: 'EventConfigurationCountryConnection' }
+    & { edges: Array<(
+      { __typename?: 'EventConfigurationCountryEdge' }
+      & { node: (
+        { __typename?: 'EventConfigurationCountry' }
+        & Pick<EventConfigurationCountry, 'name' | 'code' | 'id'>
+      ) }
+    )> }
+  ) }
+);
 
 export type EventQueryVariables = Exact<{
   slug?: Maybe<Scalars['String']>;
 }>;
 
-export type EventQuery = { __typename?: 'Query' } & {
-  event: Maybe<
-    { __typename?: 'Event' } & Pick<
-      Event,
-      | 'id'
-      | 'name'
-      | 'description'
-      | 'slug'
-      | 'startDate'
-      | 'endDate'
-      | 'timezone'
-      | 'baseUrl'
-      | 'taxNumber'
-      | 'currency'
-    > & {
-        timeZone: Maybe<
-          { __typename?: 'TimeZone' } & Pick<
-            TimeZone,
-            'displayName' | 'ianaName' | 'utcOffset'
-          >
-        >;
-        country: Maybe<
-          { __typename?: 'EventConfigurationCountry' } & Pick<
-            EventConfigurationCountry,
-            'id' | 'name' | 'code'
-          >
-        >;
-        legalEntity: Maybe<
-          { __typename?: 'LegalEntity' } & Pick<
-            LegalEntity,
-            | 'email'
-            | 'id'
-            | 'name'
-            | 'phone'
-            | 'regNumber'
-            | 'taxNumber'
-            | 'website'
-          > & {
-              address: Maybe<
-                { __typename?: 'Address' } & Pick<
-                  Address,
-                  | 'city'
-                  | 'id'
-                  | 'lineOne'
-                  | 'lineTwo'
-                  | 'postalCode'
-                  | 'region'
-                > & {
-                    country: Maybe<
-                      { __typename?: 'EventConfigurationCountry' } & Pick<
-                        EventConfigurationCountry,
-                        'id' | 'name'
-                      >
-                    >;
-                  }
-              >;
-            }
-        >;
-        taxRates: Maybe<
-          { __typename?: 'TaxRateConnection' } & {
-            edges: Array<
-              { __typename?: 'TaxRateEdge' } & {
-                node: { __typename?: 'TaxRate' } & Pick<
-                  TaxRate,
-                  'id' | 'rateType' | 'name' | 'taxType' | 'value'
-                > & {
-                    country: {
-                      __typename?: 'EventConfigurationCountry';
-                    } & Pick<EventConfigurationCountry, 'name' | 'id' | 'code'>;
-                  };
-              }
-            >;
-          }
-        >;
-      }
-  >;
-};
+
+export type EventQuery = (
+  { __typename?: 'Query' }
+  & { event: Maybe<(
+    { __typename?: 'Event' }
+    & Pick<Event, 'id' | 'name' | 'description' | 'slug' | 'startDate' | 'endDate' | 'timezone' | 'baseUrl' | 'taxNumber' | 'currency'>
+    & { timeZone: Maybe<(
+      { __typename?: 'TimeZone' }
+      & Pick<TimeZone, 'displayName' | 'ianaName' | 'utcOffset'>
+    )>, country: Maybe<(
+      { __typename?: 'EventConfigurationCountry' }
+      & Pick<EventConfigurationCountry, 'id' | 'name' | 'code'>
+    )>, legalEntity: Maybe<(
+      { __typename?: 'LegalEntity' }
+      & Pick<LegalEntity, 'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'>
+      & { address: Maybe<(
+        { __typename?: 'Address' }
+        & Pick<Address, 'city' | 'id' | 'lineOne' | 'lineTwo' | 'postalCode' | 'region'>
+        & { country: Maybe<(
+          { __typename?: 'EventConfigurationCountry' }
+          & Pick<EventConfigurationCountry, 'id' | 'name'>
+        )> }
+      )> }
+    )>, taxRates: Maybe<(
+      { __typename?: 'TaxRateConnection' }
+      & { edges: Array<(
+        { __typename?: 'TaxRateEdge' }
+        & { node: (
+          { __typename?: 'TaxRate' }
+          & Pick<TaxRate, 'id' | 'rateType' | 'name' | 'taxType' | 'value'>
+          & { country: (
+            { __typename?: 'EventConfigurationCountry' }
+            & Pick<EventConfigurationCountry, 'name' | 'id' | 'code'>
+          ) }
+        ) }
+      )> }
+    )> }
+  )> }
+);
 
 export type EventListQueryQueryVariables = Exact<{
   filter?: Maybe<EventFilter>;
 }>;
 
-export type EventListQueryQuery = { __typename?: 'Query' } & {
-  events: { __typename?: 'EventConnection' } & {
-    edges: Array<
-      { __typename?: 'EventEdge' } & Pick<EventEdge, 'cursor'> & {
-          node: { __typename?: 'Event' } & Pick<
-            Event,
-            | 'id'
-            | 'name'
-            | 'description'
-            | 'slug'
-            | 'startDate'
-            | 'endDate'
-            | 'timezone'
-            | 'baseUrl'
-          > & {
-              country: Maybe<
-                { __typename?: 'EventConfigurationCountry' } & Pick<
-                  EventConfigurationCountry,
-                  'name'
-                >
-              >;
-              versions: Maybe<
-                Array<
-                  { __typename?: 'PaperTrailVersion' } & Pick<
-                    PaperTrailVersion,
-                    'event' | 'createdAt' | 'whodunnit'
-                  >
-                >
-              >;
-              taxRates: Maybe<
-                { __typename?: 'TaxRateConnection' } & {
-                  edges: Array<
-                    { __typename?: 'TaxRateEdge' } & {
-                      node: { __typename?: 'TaxRate' } & Pick<
-                        TaxRate,
-                        'id' | 'rateType' | 'name' | 'taxType' | 'value'
-                      > & {
-                          country: {
-                            __typename?: 'EventConfigurationCountry';
-                          } & Pick<EventConfigurationCountry, 'name'>;
-                        };
-                    }
-                  >;
-                }
-              >;
-            };
-        }
-    >;
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      PageInfo,
-      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
-    >;
-  };
-};
+
+export type EventListQueryQuery = (
+  { __typename?: 'Query' }
+  & { events: (
+    { __typename?: 'EventConnection' }
+    & { edges: Array<(
+      { __typename?: 'EventEdge' }
+      & Pick<EventEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'name' | 'description' | 'slug' | 'startDate' | 'endDate' | 'timezone' | 'baseUrl'>
+        & { country: Maybe<(
+          { __typename?: 'EventConfigurationCountry' }
+          & Pick<EventConfigurationCountry, 'name'>
+        )>, versions: Maybe<Array<(
+          { __typename?: 'PaperTrailVersion' }
+          & Pick<PaperTrailVersion, 'event' | 'createdAt' | 'whodunnit'>
+        )>>, taxRates: Maybe<(
+          { __typename?: 'TaxRateConnection' }
+          & { edges: Array<(
+            { __typename?: 'TaxRateEdge' }
+            & { node: (
+              { __typename?: 'TaxRate' }
+              & Pick<TaxRate, 'id' | 'rateType' | 'name' | 'taxType' | 'value'>
+              & { country: (
+                { __typename?: 'EventConfigurationCountry' }
+                & Pick<EventConfigurationCountry, 'name'>
+              ) }
+            ) }
+          )> }
+        )> }
+      ) }
+    )>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'>
+    ) }
+  ) }
+);
 
 export type TaEventDataQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
-export type TaEventDataQuery = { __typename?: 'Query' } & {
-  taEvent: Maybe<
-    { __typename?: 'TAEvent' } & Pick<
-      TaEvent,
-      | 'id'
-      | 'slug'
-      | 'name'
-      | 'industries'
-      | 'companySizes'
-      | 'passportRequired'
-    >
-  >;
-};
+
+export type TaEventDataQuery = (
+  { __typename?: 'Query' }
+  & { taEvent: Maybe<(
+    { __typename?: 'TAEvent' }
+    & Pick<TaEvent, 'id' | 'slug' | 'name' | 'industries' | 'companySizes' | 'passportRequired'>
+  )> }
+);
 
 export type LegalEntityQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type LegalEntityQuery = { __typename?: 'Query' } & {
-  legalEntity: { __typename?: 'LegalEntity' } & Pick<
-    LegalEntity,
-    'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'
-  > & {
-      address: Maybe<
-        { __typename?: 'Address' } & Pick<
-          Address,
-          'city' | 'id' | 'lineOne' | 'lineTwo' | 'postalCode' | 'region'
-        > & {
-            country: Maybe<
-              { __typename?: 'EventConfigurationCountry' } & Pick<
-                EventConfigurationCountry,
-                'code' | 'id' | 'name'
-              >
-            >;
-          }
-      >;
-    };
-};
 
-export type LegalEntitiesQueryVariables = Exact<{ [key: string]: never }>;
+export type LegalEntityQuery = (
+  { __typename?: 'Query' }
+  & { legalEntity: (
+    { __typename?: 'LegalEntity' }
+    & Pick<LegalEntity, 'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'>
+    & { address: Maybe<(
+      { __typename?: 'Address' }
+      & Pick<Address, 'city' | 'id' | 'lineOne' | 'lineTwo' | 'postalCode' | 'region'>
+      & { country: Maybe<(
+        { __typename?: 'EventConfigurationCountry' }
+        & Pick<EventConfigurationCountry, 'code' | 'id' | 'name'>
+      )> }
+    )> }
+  ) }
+);
 
-export type LegalEntitiesQuery = { __typename?: 'Query' } & {
-  legalEntities: { __typename?: 'LegalEntityConnection' } & {
-    edges: Array<
-      { __typename?: 'LegalEntityEdge' } & Pick<LegalEntityEdge, 'cursor'> & {
-          node: { __typename?: 'LegalEntity' } & Pick<
-            LegalEntity,
-            'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
-          > & {
-              address: Maybe<
-                { __typename?: 'Address' } & Pick<
-                  Address,
-                  | 'id'
-                  | 'city'
-                  | 'postalCode'
-                  | 'lineOne'
-                  | 'lineTwo'
-                  | 'region'
-                > & {
-                    country: Maybe<
-                      { __typename?: 'EventConfigurationCountry' } & Pick<
-                        EventConfigurationCountry,
-                        'name'
-                      >
-                    >;
-                  }
-              >;
-            };
-        }
-    >;
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      PageInfo,
-      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
-    >;
-  };
-};
+export type LegalEntitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type MyAssignmentDashboardQueryVariables = Exact<{
-  [key: string]: never;
-}>;
 
-export type MyAssignmentDashboardQuery = { __typename?: 'Query' } & {
-  assignmentUser: Maybe<
-    { __typename?: 'AssignmentUser' } & Pick<AssignmentUser, 'email'>
-  >;
-  orders: { __typename?: 'OrderConnection' } & {
-    edges: Array<
-      { __typename?: 'OrderEdge' } & {
-        node: { __typename?: 'Order' } & Pick<
-          Order,
-          'id' | 'reference' | 'amount' | 'currency' | 'completedAt'
-        > & {
-            summary: { __typename?: 'OrderSummary' } & Pick<
-              OrderSummary,
-              'tickets'
-            > & {
-                ticketType: Maybe<
-                  { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-                >;
-              };
-          };
-      }
-    >;
-  };
-};
+export type LegalEntitiesQuery = (
+  { __typename?: 'Query' }
+  & { legalEntities: (
+    { __typename?: 'LegalEntityConnection' }
+    & { edges: Array<(
+      { __typename?: 'LegalEntityEdge' }
+      & Pick<LegalEntityEdge, 'cursor'>
+      & { node: (
+        { __typename?: 'LegalEntity' }
+        & Pick<LegalEntity, 'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'>
+        & { address: Maybe<(
+          { __typename?: 'Address' }
+          & Pick<Address, 'id' | 'city' | 'postalCode' | 'lineOne' | 'lineTwo' | 'region'>
+          & { country: Maybe<(
+            { __typename?: 'EventConfigurationCountry' }
+            & Pick<EventConfigurationCountry, 'name'>
+          )> }
+        )> }
+      ) }
+    )>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'>
+    ) }
+  ) }
+);
 
-export type MyDashboardQueryVariables = Exact<{ [key: string]: never }>;
+export type MyAssignmentDashboardQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type MyDashboardQuery = { __typename?: 'Query' } & {
-  orders: { __typename?: 'OrderConnection' } & {
-    edges: Array<
-      { __typename?: 'OrderEdge' } & {
-        node: { __typename?: 'Order' } & Pick<Order, 'id'>;
-      }
-    >;
-  };
-  tickets: { __typename?: 'TicketConnection' } & {
-    edges: Array<
-      { __typename?: 'TicketEdge' } & {
-        node: { __typename?: 'Ticket' } & Pick<Ticket, 'id'>;
-      }
-    >;
-  };
-};
 
-export type MyOrdersQueryVariables = Exact<{ [key: string]: never }>;
+export type MyAssignmentDashboardQuery = (
+  { __typename?: 'Query' }
+  & { assignmentUser: Maybe<(
+    { __typename?: 'AssignmentUser' }
+    & Pick<AssignmentUser, 'email'>
+  )>, orders: (
+    { __typename?: 'OrderConnection' }
+    & { edges: Array<(
+      { __typename?: 'OrderEdge' }
+      & { node: (
+        { __typename?: 'Order' }
+        & Pick<Order, 'id' | 'reference' | 'amount' | 'currency' | 'completedAt'>
+        & { summary: (
+          { __typename?: 'OrderSummary' }
+          & Pick<OrderSummary, 'tickets'>
+          & { ticketType: Maybe<(
+            { __typename?: 'TicketType' }
+            & Pick<TicketType, 'name'>
+          )> }
+        ) }
+      ) }
+    )> }
+  ) }
+);
 
-export type MyOrdersQuery = { __typename?: 'Query' } & {
-  orders: { __typename?: 'OrderConnection' } & {
-    edges: Array<
-      { __typename?: 'OrderEdge' } & {
-        node: { __typename?: 'Order' } & Pick<
-          Order,
-          'id' | 'reference' | 'amount' | 'currency' | 'completedAt'
-        > & {
-            summary: { __typename?: 'OrderSummary' } & Pick<
-              OrderSummary,
-              'tickets'
-            > & {
-                ticketType: Maybe<
-                  { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-                >;
-              };
-          };
-      }
-    >;
-  };
-};
+export type MyDashboardQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type MyTicketsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MyTicketsQuery = { __typename?: 'Query' } & {
-  tickets: { __typename?: 'TicketConnection' } & {
-    edges: Array<
-      { __typename?: 'TicketEdge' } & {
-        node: { __typename?: 'Ticket' } & Pick<
-          Ticket,
-          'id' | 'bookingRef' | 'state'
-        > & {
-            ticketType: Maybe<
-              { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-            >;
-            assignment: Maybe<
-              { __typename?: 'Assignment' } & Pick<
-                Assignment,
-                'id' | 'state' | 'appLoginEmail'
-              > & {
-                  assignee: Maybe<
-                    { __typename?: 'AssignmentUser' } & Pick<
-                      AssignmentUser,
-                      | 'id'
-                      | 'me'
-                      | 'firstName'
-                      | 'lastName'
-                      | 'email'
-                      | 'phoneNumber'
-                      | 'city'
-                      | 'companyName'
-                      | 'companySizeId'
-                      | 'industryId'
-                      | 'jobTitle'
-                      | 'marketingConsent'
-                      | 'passportNumber'
-                      | 'personalisationConsent'
-                    >
-                  >;
-                }
-            >;
-            context: { __typename?: 'TicketContext' } & Pick<
-              TicketContext,
-              'assignable' | 'editable' | 'acceptable' | 'rejectable'
-            >;
-          };
-      }
-    >;
-  };
-};
+export type MyDashboardQuery = (
+  { __typename?: 'Query' }
+  & { orders: (
+    { __typename?: 'OrderConnection' }
+    & { edges: Array<(
+      { __typename?: 'OrderEdge' }
+      & { node: (
+        { __typename?: 'Order' }
+        & Pick<Order, 'id'>
+      ) }
+    )> }
+  ), tickets: (
+    { __typename?: 'TicketConnection' }
+    & { edges: Array<(
+      { __typename?: 'TicketEdge' }
+      & { node: (
+        { __typename?: 'Ticket' }
+        & Pick<Ticket, 'id'>
+      ) }
+    )> }
+  ) }
+);
 
-export type TicketsSummaryFragment = { __typename?: 'TicketsSummary' } & {
-  all: { __typename?: 'All' } & Pick<All, 'count'> & {
-      active: { __typename?: 'Active' } & Pick<Active, 'count'> & {
-          assigned: { __typename?: 'Assigned' } & Pick<Assigned, 'count'> & {
-              accepted: { __typename?: 'Accepted' } & Pick<Accepted, 'count'>;
-              checkedIn: { __typename?: 'CheckedIn' } & Pick<
-                CheckedIn,
-                'count'
-              >;
-              duplicate: { __typename?: 'Duplicate' } & Pick<
-                Duplicate,
-                'count'
-              >;
-              locked: { __typename?: 'Locked' } & Pick<Locked, 'count'>;
-              pending: { __typename?: 'Pending' } & Pick<Pending, 'count'>;
-            };
-          unassigned: { __typename?: 'Unassigned' } & Pick<
-            Unassigned,
-            'count'
-          > & {
-              neverAssigned: { __typename?: 'NeverAssigned' } & Pick<
-                NeverAssigned,
-                'count'
-              >;
-              rejected: { __typename?: 'Rejected' } & Pick<Rejected, 'count'>;
-            };
-        };
-      void: { __typename?: 'Void' } & Pick<Void, 'count'>;
-    };
-};
+export type MyOrdersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyOrdersQuery = (
+  { __typename?: 'Query' }
+  & { orders: (
+    { __typename?: 'OrderConnection' }
+    & { edges: Array<(
+      { __typename?: 'OrderEdge' }
+      & { node: (
+        { __typename?: 'Order' }
+        & Pick<Order, 'id' | 'reference' | 'amount' | 'currency' | 'completedAt'>
+        & { summary: (
+          { __typename?: 'OrderSummary' }
+          & Pick<OrderSummary, 'tickets'>
+          & { ticketType: Maybe<(
+            { __typename?: 'TicketType' }
+            & Pick<TicketType, 'name'>
+          )> }
+        ) }
+      ) }
+    )> }
+  ) }
+);
+
+export type MyTicketsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyTicketsQuery = (
+  { __typename?: 'Query' }
+  & { tickets: (
+    { __typename?: 'TicketConnection' }
+    & { edges: Array<(
+      { __typename?: 'TicketEdge' }
+      & { node: (
+        { __typename?: 'Ticket' }
+        & Pick<Ticket, 'id' | 'bookingRef' | 'state'>
+        & { ticketType: Maybe<(
+          { __typename?: 'TicketType' }
+          & Pick<TicketType, 'name'>
+        )>, assignment: Maybe<(
+          { __typename?: 'Assignment' }
+          & Pick<Assignment, 'id' | 'state' | 'appLoginEmail'>
+          & { assignee: Maybe<(
+            { __typename?: 'AssignmentUser' }
+            & Pick<AssignmentUser, 'id' | 'me' | 'firstName' | 'lastName' | 'email' | 'phoneNumber' | 'city' | 'companyName' | 'companySizeId' | 'industryId' | 'jobTitle' | 'marketingConsent' | 'passportNumber' | 'personalisationConsent'>
+          )> }
+        )>, context: (
+          { __typename?: 'TicketContext' }
+          & Pick<TicketContext, 'assignable' | 'editable' | 'acceptable' | 'rejectable'>
+        ) }
+      ) }
+    )> }
+  ) }
+);
+
+export type TicketsSummaryFragment = (
+  { __typename?: 'TicketsSummary' }
+  & { all: (
+    { __typename?: 'All' }
+    & Pick<All, 'count'>
+    & { active: (
+      { __typename?: 'Active' }
+      & Pick<Active, 'count'>
+      & { assigned: (
+        { __typename?: 'Assigned' }
+        & Pick<Assigned, 'count'>
+        & { accepted: (
+          { __typename?: 'Accepted' }
+          & Pick<Accepted, 'count'>
+        ), checkedIn: (
+          { __typename?: 'CheckedIn' }
+          & Pick<CheckedIn, 'count'>
+        ), duplicate: (
+          { __typename?: 'Duplicate' }
+          & Pick<Duplicate, 'count'>
+        ), locked: (
+          { __typename?: 'Locked' }
+          & Pick<Locked, 'count'>
+        ), pending: (
+          { __typename?: 'Pending' }
+          & Pick<Pending, 'count'>
+        ) }
+      ), unassigned: (
+        { __typename?: 'Unassigned' }
+        & Pick<Unassigned, 'count'>
+        & { neverAssigned: (
+          { __typename?: 'NeverAssigned' }
+          & Pick<NeverAssigned, 'count'>
+        ), rejected: (
+          { __typename?: 'Rejected' }
+          & Pick<Rejected, 'count'>
+        ) }
+      ) }
+    ), void: (
+      { __typename?: 'Void' }
+      & Pick<Void, 'count'>
+    ) }
+  ) }
+);
 
 export type OrderByRefQueryVariables = Exact<{
   reference: Scalars['String'];
 }>;
 
-export type OrderByRefQuery = { __typename?: 'Query' } & {
-  order: Maybe<
-    { __typename?: 'Order' } & Pick<
-      Order,
-      | 'id'
-      | 'amount'
-      | 'currency'
-      | 'reference'
-      | 'completedAt'
-      | 'lastUpdatedAt'
-      | 'state'
-      | 'source'
-      | 'sourceId'
-    > & {
-        ticketsSummary: {
-          __typename?: 'TicketsSummary';
-        } & TicketsSummaryFragment;
-        owner: { __typename?: 'AssignmentUser' } & Pick<
-          AssignmentUser,
-          'id' | 'firstName' | 'lastName' | 'email'
-        >;
-        summary: { __typename?: 'OrderSummary' } & Pick<
-          OrderSummary,
-          'tickets'
-        > & {
-            ticketType: Maybe<
-              { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-            >;
-          };
-        tickets: { __typename?: 'TicketConnection' } & {
-          edges: Array<
-            { __typename?: 'TicketEdge' } & {
-              node: { __typename?: 'Ticket' } & Pick<
-                Ticket,
-                'id' | 'bookingRef' | 'state'
-              > & {
-                  ticketType: Maybe<
-                    { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-                  >;
-                  order: { __typename?: 'Order' } & {
-                    owner: { __typename?: 'AssignmentUser' } & Pick<
-                      AssignmentUser,
-                      'firstName' | 'lastName' | 'email' | 'id'
-                    >;
-                  };
-                  assignment: Maybe<
-                    { __typename?: 'Assignment' } & Pick<
-                      Assignment,
-                      'id' | 'appLoginEmail' | 'state'
-                    > & {
-                        assigner: Maybe<
-                          { __typename?: 'AssignmentUser' } & Pick<
-                            AssignmentUser,
-                            'id' | 'email' | 'firstName' | 'lastName'
-                          >
-                        >;
-                        assignee: Maybe<
-                          { __typename?: 'AssignmentUser' } & Pick<
-                            AssignmentUser,
-                            | 'id'
-                            | 'email'
-                            | 'firstName'
-                            | 'lastName'
-                            | 'lastLoginTokenCreatedAt'
-                          >
-                        >;
-                      }
-                  >;
-                };
-            }
-          >;
-        };
-      }
-  >;
-};
+
+export type OrderByRefQuery = (
+  { __typename?: 'Query' }
+  & { order: Maybe<(
+    { __typename?: 'Order' }
+    & Pick<Order, 'id' | 'amount' | 'currency' | 'reference' | 'completedAt' | 'lastUpdatedAt' | 'state' | 'source' | 'sourceId'>
+    & { ticketsSummary: (
+      { __typename?: 'TicketsSummary' }
+      & TicketsSummaryFragment
+    ), owner: (
+      { __typename?: 'AssignmentUser' }
+      & Pick<AssignmentUser, 'id' | 'firstName' | 'lastName' | 'email'>
+    ), summary: (
+      { __typename?: 'OrderSummary' }
+      & Pick<OrderSummary, 'tickets'>
+      & { ticketType: Maybe<(
+        { __typename?: 'TicketType' }
+        & Pick<TicketType, 'name'>
+      )> }
+    ), tickets: (
+      { __typename?: 'TicketConnection' }
+      & { edges: Array<(
+        { __typename?: 'TicketEdge' }
+        & { node: (
+          { __typename?: 'Ticket' }
+          & Pick<Ticket, 'id' | 'bookingRef' | 'state'>
+          & { ticketType: Maybe<(
+            { __typename?: 'TicketType' }
+            & Pick<TicketType, 'name'>
+          )>, order: (
+            { __typename?: 'Order' }
+            & { owner: (
+              { __typename?: 'AssignmentUser' }
+              & Pick<AssignmentUser, 'firstName' | 'lastName' | 'email' | 'id'>
+            ) }
+          ), assignment: Maybe<(
+            { __typename?: 'Assignment' }
+            & Pick<Assignment, 'id' | 'appLoginEmail' | 'state'>
+            & { assigner: Maybe<(
+              { __typename?: 'AssignmentUser' }
+              & Pick<AssignmentUser, 'id' | 'email' | 'firstName' | 'lastName'>
+            )>, assignee: Maybe<(
+              { __typename?: 'AssignmentUser' }
+              & Pick<AssignmentUser, 'id' | 'email' | 'firstName' | 'lastName' | 'lastLoginTokenCreatedAt'>
+            )> }
+          )> }
+        ) }
+      )> }
+    ) }
+  )> }
+);
 
 export type OrderTicketsQueryVariables = Exact<{
   orderId: Scalars['ID'];
   filter?: Maybe<TicketFilter>;
 }>;
 
-export type OrderTicketsQuery = { __typename?: 'Query' } & {
-  tickets: { __typename?: 'TicketConnection' } & {
-    edges: Array<
-      { __typename?: 'TicketEdge' } & {
-        node: { __typename?: 'Ticket' } & Pick<
-          Ticket,
-          'id' | 'bookingRef' | 'state'
-        > & {
-            ticketType: Maybe<
-              { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-            >;
-            assignment: Maybe<
-              { __typename?: 'Assignment' } & Pick<
-                Assignment,
-                'id' | 'state' | 'appLoginEmail'
-              > & {
-                  assignee: Maybe<
-                    { __typename?: 'AssignmentUser' } & Pick<
-                      AssignmentUser,
-                      | 'id'
-                      | 'me'
-                      | 'firstName'
-                      | 'lastName'
-                      | 'email'
-                      | 'phoneNumber'
-                      | 'city'
-                      | 'companyName'
-                      | 'companySizeId'
-                      | 'industryId'
-                      | 'jobTitle'
-                      | 'marketingConsent'
-                      | 'passportNumber'
-                      | 'personalisationConsent'
-                    >
-                  >;
-                }
-            >;
-            order: { __typename?: 'Order' } & Pick<Order, 'reference'>;
-            context: { __typename?: 'TicketContext' } & Pick<
-              TicketContext,
-              'assignable' | 'editable' | 'acceptable' | 'rejectable'
-            >;
-          };
-      }
-    >;
-  };
-};
+
+export type OrderTicketsQuery = (
+  { __typename?: 'Query' }
+  & { tickets: (
+    { __typename?: 'TicketConnection' }
+    & { edges: Array<(
+      { __typename?: 'TicketEdge' }
+      & { node: (
+        { __typename?: 'Ticket' }
+        & Pick<Ticket, 'id' | 'bookingRef' | 'state'>
+        & { ticketType: Maybe<(
+          { __typename?: 'TicketType' }
+          & Pick<TicketType, 'name'>
+        )>, assignment: Maybe<(
+          { __typename?: 'Assignment' }
+          & Pick<Assignment, 'id' | 'state' | 'appLoginEmail'>
+          & { assignee: Maybe<(
+            { __typename?: 'AssignmentUser' }
+            & Pick<AssignmentUser, 'id' | 'me' | 'firstName' | 'lastName' | 'email' | 'phoneNumber' | 'city' | 'companyName' | 'companySizeId' | 'industryId' | 'jobTitle' | 'marketingConsent' | 'passportNumber' | 'personalisationConsent'>
+          )> }
+        )>, order: (
+          { __typename?: 'Order' }
+          & Pick<Order, 'reference'>
+        ), context: (
+          { __typename?: 'TicketContext' }
+          & Pick<TicketContext, 'assignable' | 'editable' | 'acceptable' | 'rejectable'>
+        ) }
+      ) }
+    )> }
+  ) }
+);
 
 export type SaleCyclesQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type SaleCyclesQuery = { __typename?: 'Query' } & {
-  commerceGetSale: Maybe<
-    { __typename?: 'CommerceSale' } & Pick<
-      CommerceSale,
-      | 'active'
-      | 'createdAt'
-      | 'description'
-      | 'endDate'
-      | 'id'
-      | 'lastUpdatedAt'
-      | 'name'
-      | 'startDate'
-    > & {
-        createdBy: Maybe<
-          { __typename?: 'CommerceUser' } & Pick<
-            CommerceUser,
-            'id' | 'name' | 'email'
-          >
-        >;
-      }
-  >;
-};
 
-export type SalesCyclesQueryVariables = Exact<{ [key: string]: never }>;
+export type SaleCyclesQuery = (
+  { __typename?: 'Query' }
+  & { commerceGetSale: Maybe<(
+    { __typename?: 'CommerceSale' }
+    & Pick<CommerceSale, 'active' | 'createdAt' | 'description' | 'endDate' | 'id' | 'lastUpdatedAt' | 'name' | 'startDate'>
+    & { createdBy: Maybe<(
+      { __typename?: 'CommerceUser' }
+      & Pick<CommerceUser, 'id' | 'name' | 'email'>
+    )> }
+  )> }
+);
 
-export type SalesCyclesQuery = { __typename?: 'Query' } & {
-  commerceListSales: Maybe<
-    { __typename?: 'CommerceSearchResponseSale' } & Pick<
-      CommerceSearchResponseSale,
-      'total'
-    > & {
-        hits: Maybe<
-          Array<
-            { __typename?: 'CommerceSale' } & Pick<
-              CommerceSale,
-              | 'active'
-              | 'createdAt'
-              | 'description'
-              | 'endDate'
-              | 'id'
-              | 'lastUpdatedAt'
-              | 'name'
-              | 'startDate'
-            > & {
-                createdBy: Maybe<
-                  { __typename?: 'CommerceUser' } & Pick<
-                    CommerceUser,
-                    'id' | 'name' | 'email'
-                  >
-                >;
-              }
-          >
-        >;
-      }
-  >;
-};
+export type SalesCyclesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type TaxRatesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type TaxRatesQuery = { __typename?: 'Query' } & {
-  taxRates: { __typename?: 'TaxRateConnection' } & {
-    edges: Array<
-      { __typename?: 'TaxRateEdge' } & {
-        node: { __typename?: 'TaxRate' } & Pick<
-          TaxRate,
-          'id' | 'name' | 'rateType' | 'taxType' | 'value'
-        > & {
-            country: { __typename?: 'EventConfigurationCountry' } & Pick<
-              EventConfigurationCountry,
-              'name'
-            >;
-            event: { __typename?: 'Event' } & Pick<Event, 'name' | 'brandName'>;
-          };
-      }
-    >;
-  };
-};
+export type SalesCyclesQuery = (
+  { __typename?: 'Query' }
+  & { commerceListSales: Maybe<(
+    { __typename?: 'CommerceSearchResponseSale' }
+    & Pick<CommerceSearchResponseSale, 'total'>
+    & { hits: Maybe<Array<(
+      { __typename?: 'CommerceSale' }
+      & Pick<CommerceSale, 'active' | 'createdAt' | 'description' | 'endDate' | 'id' | 'lastUpdatedAt' | 'name' | 'startDate'>
+      & { createdBy: Maybe<(
+        { __typename?: 'CommerceUser' }
+        & Pick<CommerceUser, 'id' | 'name' | 'email'>
+      )> }
+    )>> }
+  )> }
+);
 
-export type TicketCategoriesQueryVariables = Exact<{ [key: string]: never }>;
+export type TaxRatesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type TicketCategoriesQuery = { __typename?: 'Query' } & {
-  ticketCategories: { __typename?: 'TicketCategoryConnection' } & {
-    edges: Array<
-      { __typename?: 'TicketCategoryEdge' } & {
-        node: { __typename?: 'TicketCategory' } & Pick<
-          TicketCategory,
-          'id' | 'name'
-        > & {
-            ticketTypes: { __typename?: 'TicketTypeConnection' } & {
-              edges: Array<
-                { __typename?: 'TicketTypeEdge' } & {
-                  node: { __typename?: 'TicketType' } & Pick<TicketType, 'id'>;
-                }
-              >;
-            };
-          };
-      }
-    >;
-  };
-};
 
-export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never }>;
+export type TaxRatesQuery = (
+  { __typename?: 'Query' }
+  & { taxRates: (
+    { __typename?: 'TaxRateConnection' }
+    & { edges: Array<(
+      { __typename?: 'TaxRateEdge' }
+      & { node: (
+        { __typename?: 'TaxRate' }
+        & Pick<TaxRate, 'id' | 'name' | 'rateType' | 'taxType' | 'value'>
+        & { country: (
+          { __typename?: 'EventConfigurationCountry' }
+          & Pick<EventConfigurationCountry, 'name'>
+        ), event: (
+          { __typename?: 'Event' }
+          & Pick<Event, 'name' | 'brandName'>
+        ) }
+      ) }
+    )> }
+  ) }
+);
 
-export type Unnamed_1_Query = { __typename?: 'Query' } & {
-  tickets: { __typename?: 'TicketConnection' } & {
-    edges: Array<
-      { __typename?: 'TicketEdge' } & {
-        node: { __typename?: 'Ticket' } & Pick<
-          Ticket,
-          'id' | 'bookingRef' | 'state'
-        > & {
-            ticketType: Maybe<
-              { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-            >;
-            order: { __typename?: 'Order' } & {
-              owner: { __typename?: 'AssignmentUser' } & Pick<
-                AssignmentUser,
-                'firstName' | 'lastName' | 'email'
-              >;
-            };
-            assignment: Maybe<
-              { __typename?: 'Assignment' } & Pick<Assignment, 'state'> & {
-                  assignee: Maybe<
-                    { __typename?: 'AssignmentUser' } & Pick<
-                      AssignmentUser,
-                      'email' | 'firstName' | 'lastName'
-                    >
-                  >;
-                }
-            >;
-          };
-      }
-    >;
-  };
-};
+export type TicketCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TicketCategoriesQuery = (
+  { __typename?: 'Query' }
+  & { ticketCategories: (
+    { __typename?: 'TicketCategoryConnection' }
+    & { edges: Array<(
+      { __typename?: 'TicketCategoryEdge' }
+      & { node: (
+        { __typename?: 'TicketCategory' }
+        & Pick<TicketCategory, 'id' | 'name'>
+        & { ticketTypes: (
+          { __typename?: 'TicketTypeConnection' }
+          & { edges: Array<(
+            { __typename?: 'TicketTypeEdge' }
+            & { node: (
+              { __typename?: 'TicketType' }
+              & Pick<TicketType, 'id'>
+            ) }
+          )> }
+        ) }
+      ) }
+    )> }
+  ) }
+);
+
+export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_1_Query = (
+  { __typename?: 'Query' }
+  & { tickets: (
+    { __typename?: 'TicketConnection' }
+    & { edges: Array<(
+      { __typename?: 'TicketEdge' }
+      & { node: (
+        { __typename?: 'Ticket' }
+        & Pick<Ticket, 'id' | 'bookingRef' | 'state'>
+        & { ticketType: Maybe<(
+          { __typename?: 'TicketType' }
+          & Pick<TicketType, 'name'>
+        )>, order: (
+          { __typename?: 'Order' }
+          & { owner: (
+            { __typename?: 'AssignmentUser' }
+            & Pick<AssignmentUser, 'firstName' | 'lastName' | 'email'>
+          ) }
+        ), assignment: Maybe<(
+          { __typename?: 'Assignment' }
+          & Pick<Assignment, 'state'>
+          & { assignee: Maybe<(
+            { __typename?: 'AssignmentUser' }
+            & Pick<AssignmentUser, 'email' | 'firstName' | 'lastName'>
+          )> }
+        )> }
+      ) }
+    )> }
+  ) }
+);
 
 export type TicketReleasePhaseQueryVariables = Exact<{
   id?: Maybe<Scalars['ID']>;
 }>;
 
-export type TicketReleasePhaseQuery = { __typename?: 'Query' } & {
-  ticketReleasePhase: Maybe<
-    { __typename?: 'TicketReleasePhase' } & Pick<
-      TicketReleasePhase,
-      'id' | 'name' | 'active' | 'status' | 'startsAt' | 'endsAt'
-    > & {
-        nextPhase: Maybe<
-          { __typename?: 'TicketReleasePhase' } & Pick<
-            TicketReleasePhase,
-            'name'
-          >
-        >;
-      }
-  >;
-};
+
+export type TicketReleasePhaseQuery = (
+  { __typename?: 'Query' }
+  & { ticketReleasePhase: Maybe<(
+    { __typename?: 'TicketReleasePhase' }
+    & Pick<TicketReleasePhase, 'id' | 'name' | 'active' | 'status' | 'startsAt' | 'endsAt'>
+    & { nextPhase: Maybe<(
+      { __typename?: 'TicketReleasePhase' }
+      & Pick<TicketReleasePhase, 'name'>
+    )> }
+  )> }
+);
 
 export type TicketReleasesQueryVariables = Exact<{
   releasePhaseIds?: Maybe<Array<Scalars['ID']> | Scalars['ID']>;
   ticketTypeIds?: Maybe<Array<Scalars['ID']> | Scalars['ID']>;
 }>;
 
-export type TicketReleasesQuery = { __typename?: 'Query' } & {
-  ticketReleases: { __typename?: 'TicketReleaseConnection' } & {
-    edges: Array<
-      { __typename?: 'TicketReleaseEdge' } & {
-        node: { __typename?: 'TicketRelease' } & DisplayReleaseFragment;
-      }
-    >;
-  };
-};
 
-export type DisplayReleaseFragment = { __typename?: 'TicketRelease' } & Pick<
-  TicketRelease,
-  'id' | 'name' | 'description' | 'active' | 'soldOut'
-> & {
-    action: Maybe<
-      | ({ __typename: 'TicketReleaseActionsExpiredTicketAction' } & Pick<
-          TicketReleaseActionsExpiredTicketAction,
-          'message'
-        > & {
-            suggestedRelease: Maybe<
-              { __typename?: 'TicketRelease' } & Pick<TicketRelease, 'id'>
-            >;
-          })
-      | ({ __typename: 'TicketReleaseActionsPriceAlertAction' } & {
-          dynamicForm: { __typename?: 'DynamicForm' } & Pick<
-            DynamicForm,
-            'id' | 'schema' | 'uiSchema' | 'mutation' | 'data'
-          >;
-        })
-      | ({ __typename: 'TicketReleaseActionsPriceEnquiryAction' } & Pick<
-          TicketReleaseActionsPriceEnquiryAction,
-          'emailAddress'
-        >)
-      | ({ __typename: 'TicketReleaseActionsTitoCheckoutAction' } & Pick<
-          TicketReleaseActionsTitoCheckoutAction,
-          'quantity'
-        >)
-    >;
-    price: Maybe<{ __typename?: 'Price' } & DisplayPriceFragment>;
-    ticketType: { __typename?: 'TicketType' } & Pick<TicketType, 'id'> & {
-        accessPermissions: { __typename?: 'AccessPermissionConnection' } & {
-          edges: Array<
-            { __typename?: 'AccessPermissionEdge' } & {
-              node: { __typename?: 'AccessPermission' } & Pick<
-                AccessPermission,
-                'id' | 'title' | 'detail'
-              >;
-            }
-          >;
-        };
-      };
-    source: Maybe<
-      { __typename: 'TitoTicketRelease' } & Pick<TitoTicketRelease, 'url'>
-    >;
-  };
+export type TicketReleasesQuery = (
+  { __typename?: 'Query' }
+  & { ticketReleases: (
+    { __typename?: 'TicketReleaseConnection' }
+    & { edges: Array<(
+      { __typename?: 'TicketReleaseEdge' }
+      & { node: (
+        { __typename?: 'TicketRelease' }
+        & DisplayReleaseFragment
+      ) }
+    )> }
+  ) }
+);
 
-export type DisplayPriceFragment = { __typename: 'Price' } & {
-  exTax: { __typename?: 'Money' } & DisplayMoneyFragment;
-  totalTax: { __typename?: 'Money' } & DisplayMoneyFragment;
-  total: { __typename?: 'Money' } & DisplayMoneyFragment;
-  taxLines: Array<{ __typename?: 'TaxLine' } & Pick<TaxLine, 'name' | 'rate'>>;
-};
+export type DisplayReleaseFragment = (
+  { __typename?: 'TicketRelease' }
+  & Pick<TicketRelease, 'id' | 'name' | 'description' | 'active' | 'soldOut'>
+  & { action: Maybe<(
+    { __typename: 'TicketReleaseActionsExpiredTicketAction' }
+    & Pick<TicketReleaseActionsExpiredTicketAction, 'message'>
+    & { suggestedRelease: Maybe<(
+      { __typename?: 'TicketRelease' }
+      & Pick<TicketRelease, 'id'>
+    )> }
+  ) | (
+    { __typename: 'TicketReleaseActionsPriceAlertAction' }
+    & { dynamicForm: (
+      { __typename?: 'DynamicForm' }
+      & Pick<DynamicForm, 'id' | 'schema' | 'uiSchema' | 'mutation' | 'data'>
+    ) }
+  ) | (
+    { __typename: 'TicketReleaseActionsPriceEnquiryAction' }
+    & Pick<TicketReleaseActionsPriceEnquiryAction, 'emailAddress'>
+  ) | (
+    { __typename: 'TicketReleaseActionsTitoCheckoutAction' }
+    & Pick<TicketReleaseActionsTitoCheckoutAction, 'quantity'>
+  )>, price: Maybe<(
+    { __typename?: 'Price' }
+    & DisplayPriceFragment
+  )>, ticketType: (
+    { __typename?: 'TicketType' }
+    & Pick<TicketType, 'id'>
+    & { accessPermissions: (
+      { __typename?: 'AccessPermissionConnection' }
+      & { edges: Array<(
+        { __typename?: 'AccessPermissionEdge' }
+        & { node: (
+          { __typename?: 'AccessPermission' }
+          & Pick<AccessPermission, 'id' | 'title' | 'detail'>
+        ) }
+      )> }
+    ) }
+  ), source: Maybe<(
+    { __typename: 'TitoTicketRelease' }
+    & Pick<TitoTicketRelease, 'url'>
+  )> }
+);
 
-export type DisplayMoneyFragment = { __typename?: 'Money' } & Pick<
-  Money,
-  'format'
-> & {
-    currency: { __typename?: 'Currency' } & Pick<Currency, 'code' | 'symbol'>;
-  };
+export type DisplayPriceFragment = (
+  { __typename: 'Price' }
+  & { exTax: (
+    { __typename?: 'Money' }
+    & DisplayMoneyFragment
+  ), totalTax: (
+    { __typename?: 'Money' }
+    & DisplayMoneyFragment
+  ), total: (
+    { __typename?: 'Money' }
+    & DisplayMoneyFragment
+  ), taxLines: Array<(
+    { __typename?: 'TaxLine' }
+    & Pick<TaxLine, 'name' | 'rate'>
+  )> }
+);
+
+export type DisplayMoneyFragment = (
+  { __typename?: 'Money' }
+  & Pick<Money, 'format'>
+  & { currency: (
+    { __typename?: 'Currency' }
+    & Pick<Currency, 'code' | 'symbol'>
+  ) }
+);
 
 export type TicketTypeReleasePhaseSummaryQueryVariables = Exact<{
   ticketTypeId: Scalars['ID'];
   releasePhaseId?: Maybe<Scalars['ID']>;
 }>;
 
-export type TicketTypeReleasePhaseSummaryQuery = { __typename?: 'Query' } & {
-  ticketType: Maybe<
-    { __typename?: 'TicketType' } & Pick<TicketType, 'name'> & {
-        activeRelease: Maybe<
-          { __typename?: 'TicketRelease' } & {
-            releasePhase: {
-              __typename?: 'TicketReleasePhase';
-            } & ReleasePhaseSummaryFragment;
-          }
-        >;
-        release: Maybe<
-          { __typename?: 'TicketRelease' } & {
-            releasePhase: {
-              __typename?: 'TicketReleasePhase';
-            } & ReleasePhaseSummaryFragment;
-          }
-        >;
-      }
-  >;
-};
 
-export type ReleasePhaseSummaryFragment = {
-  __typename?: 'TicketReleasePhase';
-} & Pick<TicketReleasePhase, 'id' | 'name' | 'status' | 'startsAt'>;
+export type TicketTypeReleasePhaseSummaryQuery = (
+  { __typename?: 'Query' }
+  & { ticketType: Maybe<(
+    { __typename?: 'TicketType' }
+    & Pick<TicketType, 'name'>
+    & { activeRelease: Maybe<(
+      { __typename?: 'TicketRelease' }
+      & { releasePhase: (
+        { __typename?: 'TicketReleasePhase' }
+        & ReleasePhaseSummaryFragment
+      ) }
+    )>, release: Maybe<(
+      { __typename?: 'TicketRelease' }
+      & { releasePhase: (
+        { __typename?: 'TicketReleasePhase' }
+        & ReleasePhaseSummaryFragment
+      ) }
+    )> }
+  )> }
+);
+
+export type ReleasePhaseSummaryFragment = (
+  { __typename?: 'TicketReleasePhase' }
+  & Pick<TicketReleasePhase, 'id' | 'name' | 'status' | 'startsAt'>
+);
 
 export type TicketTypeReleasePhasesQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type TicketTypeReleasePhasesQuery = { __typename?: 'Query' } & {
-  ticketType: Maybe<
-    { __typename?: 'TicketType' } & Pick<TicketType, 'id'> & {
-        releasePhases: { __typename?: 'TicketReleasePhaseConnection' } & {
-          edges: Array<
-            { __typename?: 'TicketReleasePhaseEdge' } & {
-              node: { __typename?: 'TicketReleasePhase' } & Pick<
-                TicketReleasePhase,
-                'id' | 'name' | 'active' | 'status' | 'endsAt'
-              >;
-            }
-          >;
-        };
-      }
-  >;
-};
 
-export type TimeZonesQueryVariables = Exact<{ [key: string]: never }>;
+export type TicketTypeReleasePhasesQuery = (
+  { __typename?: 'Query' }
+  & { ticketType: Maybe<(
+    { __typename?: 'TicketType' }
+    & Pick<TicketType, 'id'>
+    & { releasePhases: (
+      { __typename?: 'TicketReleasePhaseConnection' }
+      & { edges: Array<(
+        { __typename?: 'TicketReleasePhaseEdge' }
+        & { node: (
+          { __typename?: 'TicketReleasePhase' }
+          & Pick<TicketReleasePhase, 'id' | 'name' | 'active' | 'status' | 'endsAt'>
+        ) }
+      )> }
+    ) }
+  )> }
+);
 
-export type TimeZonesQuery = { __typename?: 'Query' } & {
-  timeZones: { __typename?: 'TimeZoneConnection' } & {
-    edges: Array<
-      { __typename?: 'TimeZoneEdge' } & {
-        node: { __typename?: 'TimeZone' } & Pick<
-          TimeZone,
-          'displayName' | 'ianaName' | 'utcOffset'
-        >;
-      }
-    >;
-  };
-};
+export type TimeZonesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TimeZonesQuery = (
+  { __typename?: 'Query' }
+  & { timeZones: (
+    { __typename?: 'TimeZoneConnection' }
+    & { edges: Array<(
+      { __typename?: 'TimeZoneEdge' }
+      & { node: (
+        { __typename?: 'TimeZone' }
+        & Pick<TimeZone, 'displayName' | 'ianaName' | 'utcOffset'>
+      ) }
+    )> }
+  ) }
+);
 
 export type WebPageByHostPathQueryVariables = Exact<{
   host: Scalars['String'];
   path: Scalars['String'];
 }>;
 
-export type WebPageByHostPathQuery = { __typename?: 'Query' } & {
-  webPageByHostPath: Maybe<
-    { __typename?: 'WebPage' } & Pick<WebPage, 'id' | 'title'> & {
-        seoTags: Maybe<
-          { __typename?: 'ComponentWebElementsSeoMetaData' } & Pick<
-            ComponentWebElementsSeoMetaData,
-            | 'title'
-            | 'slug'
-            | 'description'
-            | 'twitterTitle'
-            | 'twitterDescription'
-            | 'facebookTitle'
-            | 'facebookDescription'
-          > & {
-              defaultImage: Maybe<
-                { __typename?: 'UploadFile' } & Pick<UploadFile, 'id' | 'url'>
-              >;
-              twitterImage: Maybe<
-                { __typename?: 'UploadFile' } & Pick<UploadFile, 'id' | 'url'>
-              >;
-              facebookImage: Maybe<
-                { __typename?: 'UploadFile' } & Pick<UploadFile, 'id' | 'url'>
-              >;
-            }
-        >;
-        content: Array<
-          | ({
-              __typename: 'ComponentWebLayoutsTicketSalesPage';
-            } & TicketSalesPageLayoutFragment)
-          | ({
-              __typename: 'ComponentWebLayoutsTicketApplicationsPage';
-            } & TicketApplicationsPageLayoutFragment)
-          | ({
-              __typename: 'ComponentWebElementsShowcaseGrid';
-            } & ShowcaseGridFragment)
-          | ({
-              __typename: 'ComponentWebElementsScheduleSearchSidebarFilters';
-            } & ScheduleSearchSidebarFiltersFragment)
-          | ({
-              __typename: 'ComponentWebElementsCompanySearchSidebarFilters';
-            } & CompanySearchSidebarFiltersFragment)
-          | ({
-              __typename: 'ComponentWebElementsAttendeeSearchSidebarFilters';
-            } & AttendeeSearchSidebarFiltersFragment)
-          | ({
-              __typename: 'ComponentWebElementsHeroSection';
-            } & HeroSectionFragment)
-          | { __typename: 'ComponentWebElementsFreshchat' }
-          | { __typename: 'ComponentWebLayoutsStoresTicketSalesPage' }
-          | { __typename: 'ComponentWebLayoutsStoresTicketApplicationsPage' }
-        >;
-      }
-  >;
-};
 
-export type TicketSalesPageLayoutFragment = {
-  __typename?: 'ComponentWebLayoutsTicketSalesPage';
-} & Pick<ComponentWebLayoutsTicketSalesPage, 'id'> & {
-    ticketCategory: Maybe<
-      { __typename?: 'TicketCategory' } & Pick<TicketCategory, 'id' | 'name'>
-    >;
-    ticketReleasesPanel: Maybe<
-      {
-        __typename?: 'ComponentWebElementsTicketReleasesPanel';
-      } & TicketReleasesPanelFragment
-    >;
-    priceIncreaseCountdownTimer: Maybe<
-      { __typename?: 'ComponentWebElementsPriceIncreaseCountdownTimer' } & {
-        ticketType: { __typename?: 'TicketType' } & Pick<TicketType, 'id'>;
-      }
-    >;
-    releasePhaseStepper: Maybe<
-      { __typename?: 'ComponentWebElementsReleasePhaseStepper' } & {
-        ticketType: { __typename?: 'TicketType' } & Pick<TicketType, 'id'>;
-      }
-    >;
-    categoriesMenu: Maybe<{ __typename?: 'Menu' } & TabularMenuFragment>;
-    promotions: Array<
-      { __typename?: 'ComponentWebElementsTicketPromotion' } & Pick<
-        ComponentWebElementsTicketPromotion,
-        'id' | 'label' | 'color' | 'type'
-      > & { ticketType: { __typename?: 'TicketType' } & Pick<TicketType, 'id'> }
-    >;
-  };
+export type WebPageByHostPathQuery = (
+  { __typename?: 'Query' }
+  & { webPageByHostPath: Maybe<(
+    { __typename?: 'WebPage' }
+    & Pick<WebPage, 'id' | 'title'>
+    & { seoTags: Maybe<(
+      { __typename?: 'ComponentWebElementsSeoMetaData' }
+      & Pick<ComponentWebElementsSeoMetaData, 'title' | 'slug' | 'description' | 'twitterTitle' | 'twitterDescription' | 'facebookTitle' | 'facebookDescription'>
+      & { defaultImage: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'url'>
+      )>, twitterImage: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'url'>
+      )>, facebookImage: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'url'>
+      )> }
+    )>, content: Array<(
+      { __typename: 'ComponentWebLayoutsTicketSalesPage' }
+      & TicketSalesPageLayoutFragment
+    ) | (
+      { __typename: 'ComponentWebLayoutsTicketApplicationsPage' }
+      & TicketApplicationsPageLayoutFragment
+    ) | (
+      { __typename: 'ComponentWebElementsShowcaseGrid' }
+      & ShowcaseGridFragment
+    ) | (
+      { __typename: 'ComponentWebElementsScheduleSearchSidebarFilters' }
+      & ScheduleSearchSidebarFiltersFragment
+    ) | (
+      { __typename: 'ComponentWebElementsCompanySearchSidebarFilters' }
+      & CompanySearchSidebarFiltersFragment
+    ) | (
+      { __typename: 'ComponentWebElementsAttendeeSearchSidebarFilters' }
+      & AttendeeSearchSidebarFiltersFragment
+    ) | (
+      { __typename: 'ComponentWebElementsHeroSection' }
+      & HeroSectionFragment
+    ) | { __typename: 'ComponentWebElementsFreshchat' } | { __typename: 'ComponentWebLayoutsStoresTicketSalesPage' } | { __typename: 'ComponentWebLayoutsStoresTicketApplicationsPage' }> }
+  )> }
+);
 
-export type TicketApplicationsPageLayoutFragment = {
-  __typename?: 'ComponentWebLayoutsTicketApplicationsPage';
-} & Pick<
-  ComponentWebLayoutsTicketApplicationsPage,
-  'id' | 'title' | 'description'
-> & {
-    applicationForm: Maybe<{ __typename?: 'Form' } & ApplicationFormFragment>;
-    applicationOverviewPanel: Maybe<
-      {
-        __typename?: 'ComponentWebElementsTicketApplicationOverviewPanel';
-      } & ApplicationOverviewPanelFragment
-    >;
-    ticketInfoPanel: Maybe<
-      {
-        __typename?: 'ComponentWebElementsTicketTypeInformation';
-      } & TicketInfoPanelFragment
-    >;
-    categoriesMenu: Maybe<{ __typename?: 'Menu' } & TabularMenuFragment>;
-    priceIncreaseCountdownTimer: Maybe<
-      { __typename?: 'ComponentWebElementsPriceIncreaseCountdownTimer' } & {
-        ticketType: { __typename?: 'TicketType' } & Pick<TicketType, 'id'>;
-      }
-    >;
-    releasePhaseStepper: Maybe<
-      { __typename?: 'ComponentWebElementsReleasePhaseStepper' } & {
-        ticketType: { __typename?: 'TicketType' } & Pick<TicketType, 'id'>;
-      }
-    >;
-  };
+export type TicketSalesPageLayoutFragment = (
+  { __typename?: 'ComponentWebLayoutsTicketSalesPage' }
+  & Pick<ComponentWebLayoutsTicketSalesPage, 'id'>
+  & { ticketCategory: Maybe<(
+    { __typename?: 'TicketCategory' }
+    & Pick<TicketCategory, 'id' | 'name'>
+  )>, ticketReleasesPanel: Maybe<(
+    { __typename?: 'ComponentWebElementsTicketReleasesPanel' }
+    & TicketReleasesPanelFragment
+  )>, priceIncreaseCountdownTimer: Maybe<(
+    { __typename?: 'ComponentWebElementsPriceIncreaseCountdownTimer' }
+    & { ticketType: (
+      { __typename?: 'TicketType' }
+      & Pick<TicketType, 'id'>
+    ) }
+  )>, releasePhaseStepper: Maybe<(
+    { __typename?: 'ComponentWebElementsReleasePhaseStepper' }
+    & { ticketType: (
+      { __typename?: 'TicketType' }
+      & Pick<TicketType, 'id'>
+    ) }
+  )>, categoriesMenu: Maybe<(
+    { __typename?: 'Menu' }
+    & TabularMenuFragment
+  )>, promotions: Array<(
+    { __typename?: 'ComponentWebElementsTicketPromotion' }
+    & Pick<ComponentWebElementsTicketPromotion, 'id' | 'label' | 'color' | 'type'>
+    & { ticketType: (
+      { __typename?: 'TicketType' }
+      & Pick<TicketType, 'id'>
+    ) }
+  )> }
+);
 
-export type TicketInfoPanelFragment = {
-  __typename?: 'ComponentWebElementsTicketTypeInformation';
-} & Pick<
-  ComponentWebElementsTicketTypeInformation,
-  'heading' | 'showBenefits' | 'displayPriceIncludingTax'
-> & { ticketType: { __typename?: 'TicketType' } & TicketTypeFragment };
+export type TicketApplicationsPageLayoutFragment = (
+  { __typename?: 'ComponentWebLayoutsTicketApplicationsPage' }
+  & Pick<ComponentWebLayoutsTicketApplicationsPage, 'id' | 'title' | 'description'>
+  & { applicationForm: Maybe<(
+    { __typename?: 'Form' }
+    & ApplicationFormFragment
+  )>, applicationOverviewPanel: Maybe<(
+    { __typename?: 'ComponentWebElementsTicketApplicationOverviewPanel' }
+    & ApplicationOverviewPanelFragment
+  )>, ticketInfoPanel: Maybe<(
+    { __typename?: 'ComponentWebElementsTicketTypeInformation' }
+    & TicketInfoPanelFragment
+  )>, categoriesMenu: Maybe<(
+    { __typename?: 'Menu' }
+    & TabularMenuFragment
+  )>, priceIncreaseCountdownTimer: Maybe<(
+    { __typename?: 'ComponentWebElementsPriceIncreaseCountdownTimer' }
+    & { ticketType: (
+      { __typename?: 'TicketType' }
+      & Pick<TicketType, 'id'>
+    ) }
+  )>, releasePhaseStepper: Maybe<(
+    { __typename?: 'ComponentWebElementsReleasePhaseStepper' }
+    & { ticketType: (
+      { __typename?: 'TicketType' }
+      & Pick<TicketType, 'id'>
+    ) }
+  )> }
+);
 
-export type TicketReleasesPanelFragment = {
-  __typename?: 'ComponentWebElementsTicketReleasesPanel';
-} & Pick<ComponentWebElementsTicketReleasesPanel, 'displayPriceIncludingTax'>;
+export type TicketInfoPanelFragment = (
+  { __typename?: 'ComponentWebElementsTicketTypeInformation' }
+  & Pick<ComponentWebElementsTicketTypeInformation, 'heading' | 'showBenefits' | 'displayPriceIncludingTax'>
+  & { ticketType: (
+    { __typename?: 'TicketType' }
+    & TicketTypeFragment
+  ) }
+);
 
-export type TicketTypeFragment = { __typename?: 'TicketType' } & Pick<
-  TicketType,
-  'id' | 'name'
->;
+export type TicketReleasesPanelFragment = (
+  { __typename?: 'ComponentWebElementsTicketReleasesPanel' }
+  & Pick<ComponentWebElementsTicketReleasesPanel, 'displayPriceIncludingTax'>
+);
 
-export type TabularMenuFragment = { __typename?: 'Menu' } & {
-  menuItems: Array<
-    { __typename?: 'MenuItem' } & Pick<MenuItem, 'label'> & {
-        link:
-          | ({ __typename: 'ComponentWebLinksPageLink' } & PageLinkFragment)
-          | ({ __typename: 'ComponentWebLinksUrlLink' } & UrlLinkFragment)
-          | { __typename: 'ComponentWebLinksSubMenu' };
-      }
-  >;
-};
+export type TicketTypeFragment = (
+  { __typename?: 'TicketType' }
+  & Pick<TicketType, 'id' | 'name'>
+);
 
-export type UrlLinkFragment = {
-  __typename?: 'ComponentWebLinksUrlLink';
-} & Pick<ComponentWebLinksUrlLink, 'target' | 'url'>;
+export type TabularMenuFragment = (
+  { __typename?: 'Menu' }
+  & { menuItems: Array<(
+    { __typename?: 'MenuItem' }
+    & Pick<MenuItem, 'label'>
+    & { link: (
+      { __typename: 'ComponentWebLinksPageLink' }
+      & PageLinkFragment
+    ) | (
+      { __typename: 'ComponentWebLinksUrlLink' }
+      & UrlLinkFragment
+    ) | { __typename: 'ComponentWebLinksSubMenu' } }
+  )> }
+);
 
-export type PageLinkFragment = { __typename?: 'ComponentWebLinksPageLink' } & {
-  page: Maybe<{ __typename?: 'WebPage' } & Pick<WebPage, 'path'>>;
-};
+export type UrlLinkFragment = (
+  { __typename?: 'ComponentWebLinksUrlLink' }
+  & Pick<ComponentWebLinksUrlLink, 'target' | 'url'>
+);
 
-export type ApplicationFormFragment = { __typename?: 'Form' } & Pick<
-  Form,
-  'id' | 'contentBefore'
-> & {
-    dynamicForm: { __typename?: 'DynamicForm' } & Pick<
-      DynamicForm,
-      'id' | 'schema' | 'uiSchema' | 'data' | 'mutation'
-    >;
-  };
+export type PageLinkFragment = (
+  { __typename?: 'ComponentWebLinksPageLink' }
+  & { page: Maybe<(
+    { __typename?: 'WebPage' }
+    & Pick<WebPage, 'path'>
+  )> }
+);
 
-export type ApplicationOverviewPanelFragment = {
-  __typename?: 'ComponentWebElementsTicketApplicationOverviewPanel';
-} & Pick<
-  ComponentWebElementsTicketApplicationOverviewPanel,
-  'id' | 'title' | 'description' | 'imageUrl' | 'altImageText'
->;
+export type ApplicationFormFragment = (
+  { __typename?: 'Form' }
+  & Pick<Form, 'id' | 'contentBefore'>
+  & { dynamicForm: (
+    { __typename?: 'DynamicForm' }
+    & Pick<DynamicForm, 'id' | 'schema' | 'uiSchema' | 'data' | 'mutation'>
+  ) }
+);
 
-export type ShowcaseGridFragment = {
-  __typename?: 'ComponentWebElementsShowcaseGrid';
-} & Pick<
-  ComponentWebElementsShowcaseGrid,
-  'id' | 'contentBefore' | 'backgroundColor'
-> & {
-    collection: { __typename?: 'ContentCollection' } & {
-      elements: Array<
-        { __typename?: 'ContentElement' } & Pick<
-          ContentElement,
-          'id' | 'title'
-        > & {
-            image: Maybe<
-              { __typename?: 'UploadFile' } & Pick<UploadFile, 'absoluteUrl'>
-            >;
-          }
-      >;
-    };
-  };
+export type ApplicationOverviewPanelFragment = (
+  { __typename?: 'ComponentWebElementsTicketApplicationOverviewPanel' }
+  & Pick<ComponentWebElementsTicketApplicationOverviewPanel, 'id' | 'title' | 'description' | 'imageUrl' | 'altImageText'>
+);
 
-export type ScheduleSearchSidebarFiltersFragment = {
-  __typename?: 'ComponentWebElementsScheduleSearchSidebarFilters';
-} & Pick<
-  ComponentWebElementsScheduleSearchSidebarFilters,
-  'id' | 'apiKey' | 'indexName'
-> & {
-    refinements: Array<
-      { __typename?: 'ComponentSearchAlgoliaRefinement' } & Pick<
-        ComponentSearchAlgoliaRefinement,
-        'attribute' | 'defaults' | 'variant' | 'title' | 'refinementItemsLimit'
-      >
-    >;
-  };
+export type ShowcaseGridFragment = (
+  { __typename?: 'ComponentWebElementsShowcaseGrid' }
+  & Pick<ComponentWebElementsShowcaseGrid, 'id' | 'contentBefore' | 'backgroundColor'>
+  & { collection: (
+    { __typename?: 'ContentCollection' }
+    & { elements: Array<(
+      { __typename?: 'ContentElement' }
+      & Pick<ContentElement, 'id' | 'title'>
+      & { image: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'absoluteUrl'>
+      )> }
+    )> }
+  ) }
+);
 
-export type AttendeeSearchSidebarFiltersFragment = {
-  __typename?: 'ComponentWebElementsAttendeeSearchSidebarFilters';
-} & Pick<
-  ComponentWebElementsAttendeeSearchSidebarFilters,
-  'id' | 'apiKey' | 'indexName'
-> & {
-    refinements: Array<
-      { __typename?: 'ComponentSearchAlgoliaRefinement' } & Pick<
-        ComponentSearchAlgoliaRefinement,
-        'attribute' | 'defaults' | 'variant' | 'title' | 'refinementItemsLimit'
-      >
-    >;
-  };
+export type ScheduleSearchSidebarFiltersFragment = (
+  { __typename?: 'ComponentWebElementsScheduleSearchSidebarFilters' }
+  & Pick<ComponentWebElementsScheduleSearchSidebarFilters, 'id' | 'apiKey' | 'indexName'>
+  & { refinements: Array<(
+    { __typename?: 'ComponentSearchAlgoliaRefinement' }
+    & Pick<ComponentSearchAlgoliaRefinement, 'attribute' | 'defaults' | 'variant' | 'title' | 'refinementItemsLimit'>
+  )> }
+);
 
-export type CompanySearchSidebarFiltersFragment = {
-  __typename?: 'ComponentWebElementsCompanySearchSidebarFilters';
-} & Pick<
-  ComponentWebElementsCompanySearchSidebarFilters,
-  'id' | 'apiKey' | 'indexName'
-> & {
-    refinements: Array<
-      { __typename?: 'ComponentSearchAlgoliaRefinement' } & Pick<
-        ComponentSearchAlgoliaRefinement,
-        'attribute' | 'defaults' | 'variant' | 'title' | 'refinementItemsLimit'
-      >
-    >;
-  };
+export type AttendeeSearchSidebarFiltersFragment = (
+  { __typename?: 'ComponentWebElementsAttendeeSearchSidebarFilters' }
+  & Pick<ComponentWebElementsAttendeeSearchSidebarFilters, 'id' | 'apiKey' | 'indexName'>
+  & { refinements: Array<(
+    { __typename?: 'ComponentSearchAlgoliaRefinement' }
+    & Pick<ComponentSearchAlgoliaRefinement, 'attribute' | 'defaults' | 'variant' | 'title' | 'refinementItemsLimit'>
+  )> }
+);
 
-export type HeroSectionFragment = {
-  __typename?: 'ComponentWebElementsHeroSection';
-} & Pick<
-  ComponentWebElementsHeroSection,
-  | 'id'
-  | 'variant'
-  | 'backgroundImageAlt'
-  | 'backgroundImageDescription'
-  | 'subtitle'
-  | 'title'
-> & {
-    backgroundImage: Maybe<
-      { __typename?: 'UploadFile' } & { url: UploadFile['absoluteUrl'] }
-    >;
-    ctaLink: Maybe<
-      { __typename?: 'ComponentWebElementsCtaLink' } & Pick<
-        ComponentWebElementsCtaLink,
-        'text' | 'url'
-      >
-    >;
-    brandImage: Maybe<
-      { __typename?: 'UploadFile' } & { url: UploadFile['absoluteUrl'] }
-    >;
-  };
+export type CompanySearchSidebarFiltersFragment = (
+  { __typename?: 'ComponentWebElementsCompanySearchSidebarFilters' }
+  & Pick<ComponentWebElementsCompanySearchSidebarFilters, 'id' | 'apiKey' | 'indexName'>
+  & { refinements: Array<(
+    { __typename?: 'ComponentSearchAlgoliaRefinement' }
+    & Pick<ComponentSearchAlgoliaRefinement, 'attribute' | 'defaults' | 'variant' | 'title' | 'refinementItemsLimit'>
+  )> }
+);
+
+export type HeroSectionFragment = (
+  { __typename?: 'ComponentWebElementsHeroSection' }
+  & Pick<ComponentWebElementsHeroSection, 'id' | 'variant' | 'backgroundImageAlt' | 'backgroundImageDescription' | 'subtitle' | 'title'>
+  & { backgroundImage: Maybe<(
+    { __typename?: 'UploadFile' }
+    & { url: UploadFile['absoluteUrl'] }
+  )>, ctaLink: Maybe<(
+    { __typename?: 'ComponentWebElementsCtaLink' }
+    & Pick<ComponentWebElementsCtaLink, 'text' | 'url'>
+  )>, brandImage: Maybe<(
+    { __typename?: 'UploadFile' }
+    & { url: UploadFile['absoluteUrl'] }
+  )> }
+);
 
 export type WebPageByPathQueryVariables = Exact<{
   path: Scalars['String'];
 }>;
 
-export type WebPageByPathQuery = { __typename?: 'Query' } & {
-  webPageByPath: Maybe<
-    { __typename?: 'WebPage' } & Pick<WebPage, 'id' | 'title'> & {
-        seoTags: Maybe<
-          { __typename?: 'ComponentWebElementsSeoMetaData' } & Pick<
-            ComponentWebElementsSeoMetaData,
-            | 'title'
-            | 'slug'
-            | 'description'
-            | 'twitterTitle'
-            | 'twitterDescription'
-            | 'facebookTitle'
-            | 'facebookDescription'
-          > & {
-              defaultImage: Maybe<
-                { __typename?: 'UploadFile' } & Pick<UploadFile, 'id' | 'url'>
-              >;
-              twitterImage: Maybe<
-                { __typename?: 'UploadFile' } & Pick<UploadFile, 'id' | 'url'>
-              >;
-              facebookImage: Maybe<
-                { __typename?: 'UploadFile' } & Pick<UploadFile, 'id' | 'url'>
-              >;
-            }
-        >;
-        content: Array<
-          | ({
-              __typename: 'ComponentWebLayoutsTicketSalesPage';
-            } & TicketSalesPageLayoutFragment)
-          | ({
-              __typename: 'ComponentWebLayoutsTicketApplicationsPage';
-            } & TicketApplicationsPageLayoutFragment)
-          | ({
-              __typename: 'ComponentWebElementsShowcaseGrid';
-            } & ShowcaseGridFragment)
-          | ({
-              __typename: 'ComponentWebElementsScheduleSearchSidebarFilters';
-            } & ScheduleSearchSidebarFiltersFragment)
-          | ({
-              __typename: 'ComponentWebElementsCompanySearchSidebarFilters';
-            } & CompanySearchSidebarFiltersFragment)
-          | ({
-              __typename: 'ComponentWebElementsAttendeeSearchSidebarFilters';
-            } & AttendeeSearchSidebarFiltersFragment)
-          | ({
-              __typename: 'ComponentWebElementsHeroSection';
-            } & HeroSectionFragment)
-          | { __typename: 'ComponentWebElementsFreshchat' }
-          | { __typename: 'ComponentWebLayoutsStoresTicketSalesPage' }
-          | { __typename: 'ComponentWebLayoutsStoresTicketApplicationsPage' }
-        >;
-      }
-  >;
-};
+
+export type WebPageByPathQuery = (
+  { __typename?: 'Query' }
+  & { webPageByPath: Maybe<(
+    { __typename?: 'WebPage' }
+    & Pick<WebPage, 'id' | 'title'>
+    & { seoTags: Maybe<(
+      { __typename?: 'ComponentWebElementsSeoMetaData' }
+      & Pick<ComponentWebElementsSeoMetaData, 'title' | 'slug' | 'description' | 'twitterTitle' | 'twitterDescription' | 'facebookTitle' | 'facebookDescription'>
+      & { defaultImage: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'url'>
+      )>, twitterImage: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'url'>
+      )>, facebookImage: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'url'>
+      )> }
+    )>, content: Array<(
+      { __typename: 'ComponentWebLayoutsTicketSalesPage' }
+      & TicketSalesPageLayoutFragment
+    ) | (
+      { __typename: 'ComponentWebLayoutsTicketApplicationsPage' }
+      & TicketApplicationsPageLayoutFragment
+    ) | (
+      { __typename: 'ComponentWebElementsShowcaseGrid' }
+      & ShowcaseGridFragment
+    ) | (
+      { __typename: 'ComponentWebElementsScheduleSearchSidebarFilters' }
+      & ScheduleSearchSidebarFiltersFragment
+    ) | (
+      { __typename: 'ComponentWebElementsCompanySearchSidebarFilters' }
+      & CompanySearchSidebarFiltersFragment
+    ) | (
+      { __typename: 'ComponentWebElementsAttendeeSearchSidebarFilters' }
+      & AttendeeSearchSidebarFiltersFragment
+    ) | (
+      { __typename: 'ComponentWebElementsHeroSection' }
+      & HeroSectionFragment
+    ) | { __typename: 'ComponentWebElementsFreshchat' } | { __typename: 'ComponentWebLayoutsStoresTicketSalesPage' } | { __typename: 'ComponentWebLayoutsStoresTicketApplicationsPage' }> }
+  )> }
+);
 
 export type WebPageConfigByPathHostQueryVariables = Exact<{
   path: Scalars['String'];
   host: Scalars['String'];
 }>;
 
-export type WebPageConfigByPathHostQuery = { __typename?: 'Query' } & {
-  webPageConfigByPathHost: Maybe<
-    { __typename?: 'WebPageConfig' } & {
-      site: Maybe<{ __typename?: 'Site' } & Pick<Site, 'title'>>;
-      config: Maybe<
-        { __typename?: 'WebPageConfig' } & Pick<
-          WebPageConfig,
-          | 'baseGoogleAnalyticsTrackingId'
-          | 'googleAnalyticsTrackingId'
-          | 'googleTagManagerId'
-        > & {
-            googleAnalyticsLinkerDomains: Array<
-              {
-                __typename?: 'ComponentSiteConfigGoogleAnalyticsLinkerDomainList';
-              } & Pick<
-                ComponentSiteConfigGoogleAnalyticsLinkerDomainList,
-                'domain'
-              >
-            >;
-            metaData: Maybe<
-              { __typename?: 'ComponentSiteConfigMetaData' } & Pick<
-                ComponentSiteConfigMetaData,
-                | 'siteTitle'
-                | 'siteDescription'
-                | 'facebookId'
-                | 'facebookPublisher'
-                | 'twitterId'
-                | 'twitterCreator'
-              > & {
-                  image: Maybe<
-                    { __typename?: 'UploadFile' } & {
-                      url: UploadFile['absoluteUrl'];
-                    }
-                  >;
-                }
-            >;
-          }
-      >;
-      branding: Maybe<
-        { __typename?: 'Branding' } & Pick<
-          Branding,
-          'googleFontsUrl' | 'theme'
-        > & {
-            logo: Maybe<
-              { __typename?: 'UploadFile' } & Pick<
-                UploadFile,
-                'id' | 'absoluteUrl' | 'alternativeText'
-              >
-            >;
-            headerBranding: Maybe<
-              { __typename?: 'UploadFile' } & Pick<
-                UploadFile,
-                'id' | 'absoluteUrl' | 'alternativeText'
-              >
-            >;
-            favicon: Maybe<
-              { __typename?: 'UploadFile' } & Pick<
-                UploadFile,
-                'id' | 'absoluteUrl'
-              >
-            >;
-            ticketLogo: Maybe<
-              { __typename?: 'UploadFile' } & Pick<
-                UploadFile,
-                'id' | 'absoluteUrl' | 'alternativeText'
-              >
-            >;
-          }
-      >;
-    }
-  >;
-};
 
-export type DynamicFormPayloadFragment = { __typename?: 'DynamicForm' } & Pick<
-  DynamicForm,
-  'id' | 'data' | 'schema' | 'mutation' | 'uiSchema'
->;
+export type WebPageConfigByPathHostQuery = (
+  { __typename?: 'Query' }
+  & { webPageConfigByPathHost: Maybe<(
+    { __typename?: 'WebPageConfig' }
+    & { site: Maybe<(
+      { __typename?: 'Site' }
+      & Pick<Site, 'title'>
+    )>, config: Maybe<(
+      { __typename?: 'WebPageConfig' }
+      & Pick<WebPageConfig, 'baseGoogleAnalyticsTrackingId' | 'googleAnalyticsTrackingId' | 'googleTagManagerId'>
+      & { googleAnalyticsLinkerDomains: Array<(
+        { __typename?: 'ComponentSiteConfigGoogleAnalyticsLinkerDomainList' }
+        & Pick<ComponentSiteConfigGoogleAnalyticsLinkerDomainList, 'domain'>
+      )>, metaData: Maybe<(
+        { __typename?: 'ComponentSiteConfigMetaData' }
+        & Pick<ComponentSiteConfigMetaData, 'siteTitle' | 'siteDescription' | 'facebookId' | 'facebookPublisher' | 'twitterId' | 'twitterCreator'>
+        & { image: Maybe<(
+          { __typename?: 'UploadFile' }
+          & { url: UploadFile['absoluteUrl'] }
+        )> }
+      )> }
+    )>, branding: Maybe<(
+      { __typename?: 'Branding' }
+      & Pick<Branding, 'googleFontsUrl' | 'theme'>
+      & { logo: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'absoluteUrl' | 'alternativeText'>
+      )>, headerBranding: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'absoluteUrl' | 'alternativeText'>
+      )>, favicon: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'absoluteUrl'>
+      )>, ticketLogo: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'id' | 'absoluteUrl' | 'alternativeText'>
+      )> }
+    )> }
+  )> }
+);
 
-export const CommerceUserFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommerceProductFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceProduct' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceProduct' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommerceTaxTypeFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTaxType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTaxType' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommerceTaxFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTax' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceTaxType' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTax' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTaxType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTaxType' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommerceOrderItemFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceOrderItem' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'itemName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'product' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceProduct' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'productMetadata' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'subTotal' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tax' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceTax' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'total' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceOrderItem' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTaxType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTaxType' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTax' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceTaxType' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTax' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceProduct' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceProduct' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommerceAddressFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceAddress' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceAddress' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommerceCustomerFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceCustomer' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'address' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceAddress' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'vatNumber' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'vatVerified' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceCustomer' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceAddress' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceAddress' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommercePaymentMethodFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CommerceTransactionFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTransaction' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'paymentMethod' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommercePaymentMethod' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refundedTransaction' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTransaction' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const TicketsSummaryFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketsSummary' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'all' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'active' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assigned' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'count' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'accepted' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'checkedIn' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'duplicate' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'locked' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'pending' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'unassigned' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'count' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'neverAssigned' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rejected' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'void' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketsSummary' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const DisplayMoneyFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayMoney' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'includeUnit' },
-                value: { kind: 'BooleanValue', value: false },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'precision' },
-                value: { kind: 'IntValue', value: '0' },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'format' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'currency' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'symbol' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Money' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const DisplayPriceFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayPrice' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'exTax' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'totalTax' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'total' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxLines' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Price' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayMoney' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'includeUnit' },
-                value: { kind: 'BooleanValue', value: false },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'precision' },
-                value: { kind: 'IntValue', value: '0' },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'format' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'currency' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'symbol' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Money' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const DisplayReleaseFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayRelease' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'soldOut' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'action' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'quantity' },
-                      },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: {
-                      kind: 'Name',
-                      value: 'TicketReleaseActionsTitoCheckoutAction',
-                    },
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'emailAddress' },
-                      },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: {
-                      kind: 'Name',
-                      value: 'TicketReleaseActionsPriceEnquiryAction',
-                    },
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'suggestedRelease' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: {
-                      kind: 'Name',
-                      value: 'TicketReleaseActionsExpiredTicketAction',
-                    },
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'dynamicForm' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'schema' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'uiSchema' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'mutation' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'data' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: {
-                      kind: 'Name',
-                      value: 'TicketReleaseActionsPriceAlertAction',
-                    },
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'price' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayPrice' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'accessPermissions' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'edges' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'node' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'title' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'detail' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'source' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'TitoTicketRelease' },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketRelease' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayPrice' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'exTax' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'totalTax' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'total' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxLines' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Price' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayMoney' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'includeUnit' },
-                value: { kind: 'BooleanValue', value: false },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'precision' },
-                value: { kind: 'IntValue', value: '0' },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'format' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'currency' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'symbol' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Money' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const ReleasePhaseSummaryFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReleasePhaseSummary' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketReleasePhase' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const TicketReleasesPanelFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketReleasesPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketReleasesPanel',
-        },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const UrlLinkFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UrlLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const PageLinkFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PageLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'page' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const TabularMenuFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TabularMenu' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'menuItems' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'link' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'UrlLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksUrlLink',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'PageLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksPageLink',
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Menu' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UrlLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PageLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'page' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const TicketSalesPageLayoutFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketSalesPageLayout' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketCategory' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketReleasesPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketReleasesPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'releasePhaseStepper' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'categoriesMenu' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TabularMenu' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'promotions' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'color' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLayoutsTicketSalesPage' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketReleasesPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketReleasesPanel',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TabularMenu' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'menuItems' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'link' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'UrlLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksUrlLink',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'PageLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksPageLink',
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Menu' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UrlLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PageLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'page' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const ApplicationFormFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ApplicationForm' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'dynamicForm' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'schema' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'uiSchema' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mutation' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Form' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const ApplicationOverviewPanelFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'altImageText' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketApplicationOverviewPanel',
-        },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const TicketTypeFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketType' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const TicketInfoPanelFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketInfoPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketType' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'heading' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showBenefits' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketTypeInformation',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketType' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const TicketApplicationsPageLayoutFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketApplicationsPageLayout' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'applicationForm' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'ApplicationForm' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'applicationOverviewPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketInfoPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketInfoPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'categoriesMenu' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TabularMenu' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'releasePhaseStepper' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebLayoutsTicketApplicationsPage',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketInfoPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketType' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'heading' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showBenefits' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketTypeInformation',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketType' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TabularMenu' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'menuItems' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'link' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'UrlLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksUrlLink',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'PageLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksPageLink',
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Menu' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UrlLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PageLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'page' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ApplicationForm' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'dynamicForm' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'schema' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'uiSchema' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mutation' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Form' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'altImageText' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketApplicationOverviewPanel',
-        },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const ShowcaseGridFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ShowcaseGrid' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'backgroundColor' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'collection' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'elements' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'absoluteUrl' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebElementsShowcaseGrid' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const ScheduleSearchSidebarFiltersFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ScheduleSearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsScheduleSearchSidebarFilters',
-        },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const AttendeeSearchSidebarFiltersFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AttendeeSearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsAttendeeSearchSidebarFilters',
-        },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const CompanySearchSidebarFiltersFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CompanySearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsCompanySearchSidebarFilters',
-        },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const HeroSectionFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'HeroSection' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImage' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  alias: { kind: 'Name', value: 'url' },
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'absoluteUrl' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ctaLink' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImageAlt' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImageDescription' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'brandImage' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  alias: { kind: 'Name', value: 'url' },
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'absoluteUrl' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebElementsHeroSection' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const DynamicFormPayloadFragmentDoc: DocumentNode = {
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DynamicFormPayload' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'data' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'schema' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'mutation' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'uiSchema' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'DynamicForm' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
-export const AssignmentAuthenticateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'AssignmentAuthenticate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'assignmentAuthenticate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'conferenceSlug' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'AssignmentAuthenticateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type AssignmentAuthenticateMutationFn = Apollo.MutationFunction<
-  AssignmentAuthenticateMutation,
-  AssignmentAuthenticateMutationVariables
->;
+export type DynamicFormPayloadFragment = (
+  { __typename?: 'DynamicForm' }
+  & Pick<DynamicForm, 'id' | 'data' | 'schema' | 'mutation' | 'uiSchema'>
+);
+
+export const CommerceUserFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]};
+export const CommerceProductFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceProduct"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceProduct"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"taxMode"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]};
+export const CommerceTaxTypeFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTaxType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTaxType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]};
+export const CommerceTaxFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTax"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTax"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rateAmount"}},{"kind":"Field","name":{"kind":"Name","value":"rateType"}},{"kind":"Field","name":{"kind":"Name","value":"taxType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceTaxType"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTaxType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTaxType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]};
+export const CommerceOrderItemFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceOrderItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceOrderItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"itemName"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"product"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceProduct"}}]}},{"kind":"Field","name":{"kind":"Name","value":"productMetadata"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"subTotal"}},{"kind":"Field","name":{"kind":"Name","value":"tax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceTax"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxTotal"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTaxType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTaxType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTax"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTax"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rateAmount"}},{"kind":"Field","name":{"kind":"Name","value":"rateType"}},{"kind":"Field","name":{"kind":"Name","value":"taxType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceTaxType"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceProduct"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceProduct"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"taxMode"}}]}}]};
+export const CommerceAddressFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceAddress"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceAddress"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"line1"}},{"kind":"Field","name":{"kind":"Name","value":"line2"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"state"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]};
+export const CommerceCustomerFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceCustomer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceCustomer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceAddress"}}]}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"vatNumber"}},{"kind":"Field","name":{"kind":"Name","value":"vatVerified"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceAddress"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceAddress"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"line1"}},{"kind":"Field","name":{"kind":"Name","value":"line2"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"state"}}]}}]};
+export const CommercePaymentMethodFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommercePaymentMethod"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommercePaymentMethod"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]};
+export const CommerceTransactionFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTransaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTransaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommercePaymentMethod"}}]}},{"kind":"Field","name":{"kind":"Name","value":"refundedTransaction"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommercePaymentMethod"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommercePaymentMethod"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]};
+export const TicketsSummaryFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketsSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketsSummary"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"all"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"active"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"assigned"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"accepted"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"checkedIn"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duplicate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"locked"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pending"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"unassigned"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"neverAssigned"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rejected"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"void"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}}]};
+export const DisplayMoneyFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayMoney"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Money"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"format"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"includeUnit"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"precision"},"value":{"kind":"IntValue","value":"0"}}]},{"kind":"Field","name":{"kind":"Name","value":"currency"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}}]}}]}}]};
+export const DisplayPriceFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayPrice"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Price"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"exTax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalTax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxLines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayMoney"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Money"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"format"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"includeUnit"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"precision"},"value":{"kind":"IntValue","value":"0"}}]},{"kind":"Field","name":{"kind":"Name","value":"currency"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}}]}}]}}]};
+export const DisplayReleaseFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayRelease"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketRelease"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"soldOut"}},{"kind":"Field","name":{"kind":"Name","value":"action"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleaseActionsTitoCheckoutAction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quantity"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleaseActionsPriceEnquiryAction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"emailAddress"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleaseActionsExpiredTicketAction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"suggestedRelease"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleaseActionsPriceAlertAction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dynamicForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"schema"}},{"kind":"Field","name":{"kind":"Name","value":"uiSchema"}},{"kind":"Field","name":{"kind":"Name","value":"mutation"}},{"kind":"Field","name":{"kind":"Name","value":"data"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"price"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayPrice"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"accessPermissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"detail"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TitoTicketRelease"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayPrice"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Price"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"exTax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalTax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxLines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayMoney"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Money"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"format"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"includeUnit"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"precision"},"value":{"kind":"IntValue","value":"0"}}]},{"kind":"Field","name":{"kind":"Name","value":"currency"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}}]}}]}}]};
+export const ReleasePhaseSummaryFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReleasePhaseSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleasePhase"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"startsAt"}}]}}]};
+export const TicketReleasesPanelFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketReleasesPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketReleasesPanel"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayPriceIncludingTax"}}]}}]};
+export const UrlLinkFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UrlLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]};
+export const PageLinkFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]};
+export const TabularMenuFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TabularMenu"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Menu"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"menuItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"link"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UrlLink"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageLink"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UrlLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]};
+export const TicketSalesPageLayoutFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketSalesPageLayout"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketSalesPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ticketCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketReleasesPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketReleasesPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"priceIncreaseCountdownTimer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"releasePhaseStepper"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"categoriesMenu"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TabularMenu"}}]}},{"kind":"Field","name":{"kind":"Name","value":"promotions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"color"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketReleasesPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketReleasesPanel"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayPriceIncludingTax"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TabularMenu"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Menu"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"menuItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"link"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UrlLink"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageLink"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UrlLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]};
+export const ApplicationFormFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApplicationForm"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Form"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"dynamicForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"schema"}},{"kind":"Field","name":{"kind":"Name","value":"uiSchema"}},{"kind":"Field","name":{"kind":"Name","value":"data"}},{"kind":"Field","name":{"kind":"Name","value":"mutation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentBefore"}}]}}]};
+export const ApplicationOverviewPanelFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApplicationOverviewPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketApplicationOverviewPanel"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"altImageText"}}]}}]};
+export const TicketTypeFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]};
+export const TicketInfoPanelFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketInfoPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketTypeInformation"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"showBenefits"}},{"kind":"Field","name":{"kind":"Name","value":"displayPriceIncludingTax"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]};
+export const TicketApplicationsPageLayoutFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketApplicationsPageLayout"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketApplicationsPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"applicationForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ApplicationForm"}}]}},{"kind":"Field","name":{"kind":"Name","value":"applicationOverviewPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ApplicationOverviewPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketInfoPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketInfoPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"categoriesMenu"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TabularMenu"}}]}},{"kind":"Field","name":{"kind":"Name","value":"priceIncreaseCountdownTimer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"releasePhaseStepper"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketInfoPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketTypeInformation"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"showBenefits"}},{"kind":"Field","name":{"kind":"Name","value":"displayPriceIncludingTax"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TabularMenu"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Menu"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"menuItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"link"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UrlLink"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageLink"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UrlLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApplicationForm"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Form"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"dynamicForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"schema"}},{"kind":"Field","name":{"kind":"Name","value":"uiSchema"}},{"kind":"Field","name":{"kind":"Name","value":"data"}},{"kind":"Field","name":{"kind":"Name","value":"mutation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentBefore"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApplicationOverviewPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketApplicationOverviewPanel"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"altImageText"}}]}}]};
+export const ShowcaseGridFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ShowcaseGrid"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsShowcaseGrid"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contentBefore"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundColor"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"elements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"absoluteUrl"}}]}}]}}]}}]}}]};
+export const ScheduleSearchSidebarFiltersFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ScheduleSearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsScheduleSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}}]};
+export const AttendeeSearchSidebarFiltersFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AttendeeSearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsAttendeeSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}}]};
+export const CompanySearchSidebarFiltersFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanySearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsCompanySearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}}]};
+export const HeroSectionFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"HeroSection"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsHeroSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"url"},"name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ctaLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageAlt"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageDescription"}},{"kind":"Field","name":{"kind":"Name","value":"brandImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"url"},"name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]};
+export const DynamicFormPayloadFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DynamicFormPayload"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"DynamicForm"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"data"}},{"kind":"Field","name":{"kind":"Name","value":"schema"}},{"kind":"Field","name":{"kind":"Name","value":"mutation"}},{"kind":"Field","name":{"kind":"Name","value":"uiSchema"}}]}}]};
+export const AssignmentAuthenticateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignmentAuthenticate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AssignmentAuthenticateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignmentAuthenticate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"conferenceSlug"}},{"kind":"Field","name":{"kind":"Name","value":"clientMutationId"}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type AssignmentAuthenticateMutationFn = Apollo.MutationFunction<AssignmentAuthenticateMutation, AssignmentAuthenticateMutationVariables>;
 
 /**
  * __useAssignmentAuthenticateMutation__
@@ -12252,143 +9487,14 @@ export type AssignmentAuthenticateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAssignmentAuthenticateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AssignmentAuthenticateMutation,
-    AssignmentAuthenticateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    AssignmentAuthenticateMutation,
-    AssignmentAuthenticateMutationVariables
-  >(AssignmentAuthenticateDocument, baseOptions);
-}
-export type AssignmentAuthenticateMutationHookResult = ReturnType<
-  typeof useAssignmentAuthenticateMutation
->;
+export function useAssignmentAuthenticateMutation(baseOptions?: Apollo.MutationHookOptions<AssignmentAuthenticateMutation, AssignmentAuthenticateMutationVariables>) {
+        return Apollo.useMutation<AssignmentAuthenticateMutation, AssignmentAuthenticateMutationVariables>(AssignmentAuthenticateDocument, baseOptions);
+      }
+export type AssignmentAuthenticateMutationHookResult = ReturnType<typeof useAssignmentAuthenticateMutation>;
 export type AssignmentAuthenticateMutationResult = Apollo.MutationResult<AssignmentAuthenticateMutation>;
-export type AssignmentAuthenticateMutationOptions = Apollo.BaseMutationOptions<
-  AssignmentAuthenticateMutation,
-  AssignmentAuthenticateMutationVariables
->;
-export const ProfileAdminUpdateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'profileAdminUpdate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'profile' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'assignmentProfileAdminUpdate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'successMessage' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profile' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'firstName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lastName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'jobTitle' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'companyName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'companySizeId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'industryId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'phoneNumber' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'passportNumber' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: {
-                kind: 'Name',
-                value: 'AssignmentProfileAdminUpdateInput',
-              },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'profile' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type ProfileAdminUpdateMutationFn = Apollo.MutationFunction<
-  ProfileAdminUpdateMutation,
-  ProfileAdminUpdateMutationVariables
->;
+export type AssignmentAuthenticateMutationOptions = Apollo.BaseMutationOptions<AssignmentAuthenticateMutation, AssignmentAuthenticateMutationVariables>;
+export const ProfileAdminUpdateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"profileAdminUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"profile"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AssignmentProfileAdminUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignmentProfileAdminUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"profile"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"successMessage"}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"path"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"companySizeId"}},{"kind":"Field","name":{"kind":"Name","value":"industryId"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"passportNumber"}}]}}]}}]}}]};
+export type ProfileAdminUpdateMutationFn = Apollo.MutationFunction<ProfileAdminUpdateMutation, ProfileAdminUpdateMutationVariables>;
 
 /**
  * __useProfileAdminUpdateMutation__
@@ -12407,148 +9513,14 @@ export type ProfileAdminUpdateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useProfileAdminUpdateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ProfileAdminUpdateMutation,
-    ProfileAdminUpdateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    ProfileAdminUpdateMutation,
-    ProfileAdminUpdateMutationVariables
-  >(ProfileAdminUpdateDocument, baseOptions);
-}
-export type ProfileAdminUpdateMutationHookResult = ReturnType<
-  typeof useProfileAdminUpdateMutation
->;
+export function useProfileAdminUpdateMutation(baseOptions?: Apollo.MutationHookOptions<ProfileAdminUpdateMutation, ProfileAdminUpdateMutationVariables>) {
+        return Apollo.useMutation<ProfileAdminUpdateMutation, ProfileAdminUpdateMutationVariables>(ProfileAdminUpdateDocument, baseOptions);
+      }
+export type ProfileAdminUpdateMutationHookResult = ReturnType<typeof useProfileAdminUpdateMutation>;
 export type ProfileAdminUpdateMutationResult = Apollo.MutationResult<ProfileAdminUpdateMutation>;
-export type ProfileAdminUpdateMutationOptions = Apollo.BaseMutationOptions<
-  ProfileAdminUpdateMutation,
-  ProfileAdminUpdateMutationVariables
->;
-export const ProfileUpdateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'profileUpdate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'profile' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'assignmentProfileUpdate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'successMessage' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'assignee' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'firstName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lastName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'jobTitle' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'companyName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'companySizeId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'industryId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'phoneNumber' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'marketingConsent' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'personalisationConsent' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'passportNumber' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'AssignmentProfileUpdateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'profile' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type ProfileUpdateMutationFn = Apollo.MutationFunction<
-  ProfileUpdateMutation,
-  ProfileUpdateMutationVariables
->;
+export type ProfileAdminUpdateMutationOptions = Apollo.BaseMutationOptions<ProfileAdminUpdateMutation, ProfileAdminUpdateMutationVariables>;
+export const ProfileUpdateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"profileUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"profile"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AssignmentProfileUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignmentProfileUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"profile"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"successMessage"}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"path"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"Field","name":{"kind":"Name","value":"assignee"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"companySizeId"}},{"kind":"Field","name":{"kind":"Name","value":"industryId"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"marketingConsent"}},{"kind":"Field","name":{"kind":"Name","value":"personalisationConsent"}},{"kind":"Field","name":{"kind":"Name","value":"passportNumber"}}]}}]}}]}}]};
+export type ProfileUpdateMutationFn = Apollo.MutationFunction<ProfileUpdateMutation, ProfileUpdateMutationVariables>;
 
 /**
  * __useProfileUpdateMutation__
@@ -12567,81 +9539,14 @@ export type ProfileUpdateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useProfileUpdateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ProfileUpdateMutation,
-    ProfileUpdateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    ProfileUpdateMutation,
-    ProfileUpdateMutationVariables
-  >(ProfileUpdateDocument, baseOptions);
-}
-export type ProfileUpdateMutationHookResult = ReturnType<
-  typeof useProfileUpdateMutation
->;
+export function useProfileUpdateMutation(baseOptions?: Apollo.MutationHookOptions<ProfileUpdateMutation, ProfileUpdateMutationVariables>) {
+        return Apollo.useMutation<ProfileUpdateMutation, ProfileUpdateMutationVariables>(ProfileUpdateDocument, baseOptions);
+      }
+export type ProfileUpdateMutationHookResult = ReturnType<typeof useProfileUpdateMutation>;
 export type ProfileUpdateMutationResult = Apollo.MutationResult<ProfileUpdateMutation>;
-export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
-  ProfileUpdateMutation,
-  ProfileUpdateMutationVariables
->;
-export const CommerceCreateSaleDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceCreateSale' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceSaleCreate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'commerceSale' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceCreateSale' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceSaleCreate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'commerceSale' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceCreateSaleMutationFn = Apollo.MutationFunction<
-  CommerceCreateSaleMutation,
-  CommerceCreateSaleMutationVariables
->;
+export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<ProfileUpdateMutation, ProfileUpdateMutationVariables>;
+export const CommerceCreateSaleDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CommerceCreateSale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"commerceSale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceSaleCreate"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceCreateSale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commerceSaleCreate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"commerceSale"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]};
+export type CommerceCreateSaleMutationFn = Apollo.MutationFunction<CommerceCreateSaleMutation, CommerceCreateSaleMutationVariables>;
 
 /**
  * __useCommerceCreateSaleMutation__
@@ -12660,97 +9565,14 @@ export type CommerceCreateSaleMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceCreateSaleMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceCreateSaleMutation,
-    CommerceCreateSaleMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceCreateSaleMutation,
-    CommerceCreateSaleMutationVariables
-  >(CommerceCreateSaleDocument, baseOptions);
-}
-export type CommerceCreateSaleMutationHookResult = ReturnType<
-  typeof useCommerceCreateSaleMutation
->;
+export function useCommerceCreateSaleMutation(baseOptions?: Apollo.MutationHookOptions<CommerceCreateSaleMutation, CommerceCreateSaleMutationVariables>) {
+        return Apollo.useMutation<CommerceCreateSaleMutation, CommerceCreateSaleMutationVariables>(CommerceCreateSaleDocument, baseOptions);
+      }
+export type CommerceCreateSaleMutationHookResult = ReturnType<typeof useCommerceCreateSaleMutation>;
 export type CommerceCreateSaleMutationResult = Apollo.MutationResult<CommerceCreateSaleMutation>;
-export type CommerceCreateSaleMutationOptions = Apollo.BaseMutationOptions<
-  CommerceCreateSaleMutation,
-  CommerceCreateSaleMutationVariables
->;
-export const CommerceUpdateSaleDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceUpdateSale' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceSaleUpdate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'commerceSale' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceUpdateSale' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceSaleUpdate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'commerceSale' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceUpdateSaleMutationFn = Apollo.MutationFunction<
-  CommerceUpdateSaleMutation,
-  CommerceUpdateSaleMutationVariables
->;
+export type CommerceCreateSaleMutationOptions = Apollo.BaseMutationOptions<CommerceCreateSaleMutation, CommerceCreateSaleMutationVariables>;
+export const CommerceUpdateSaleDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CommerceUpdateSale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"commerceSale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceSaleUpdate"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceUpdateSale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commerceSaleUpdate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"commerceSale"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]};
+export type CommerceUpdateSaleMutationFn = Apollo.MutationFunction<CommerceUpdateSaleMutation, CommerceUpdateSaleMutationVariables>;
 
 /**
  * __useCommerceUpdateSaleMutation__
@@ -12770,81 +9592,14 @@ export type CommerceUpdateSaleMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceUpdateSaleMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceUpdateSaleMutation,
-    CommerceUpdateSaleMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceUpdateSaleMutation,
-    CommerceUpdateSaleMutationVariables
-  >(CommerceUpdateSaleDocument, baseOptions);
-}
-export type CommerceUpdateSaleMutationHookResult = ReturnType<
-  typeof useCommerceUpdateSaleMutation
->;
+export function useCommerceUpdateSaleMutation(baseOptions?: Apollo.MutationHookOptions<CommerceUpdateSaleMutation, CommerceUpdateSaleMutationVariables>) {
+        return Apollo.useMutation<CommerceUpdateSaleMutation, CommerceUpdateSaleMutationVariables>(CommerceUpdateSaleDocument, baseOptions);
+      }
+export type CommerceUpdateSaleMutationHookResult = ReturnType<typeof useCommerceUpdateSaleMutation>;
 export type CommerceUpdateSaleMutationResult = Apollo.MutationResult<CommerceUpdateSaleMutation>;
-export type CommerceUpdateSaleMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdateSaleMutation,
-  CommerceUpdateSaleMutationVariables
->;
-export const CommerceCreateCategoryDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'commerceCreateCategory' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceCategoryCreate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceCreateCategory' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceCategoryCreate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceCreateCategoryMutationFn = Apollo.MutationFunction<
-  CommerceCreateCategoryMutation,
-  CommerceCreateCategoryMutationVariables
->;
+export type CommerceUpdateSaleMutationOptions = Apollo.BaseMutationOptions<CommerceUpdateSaleMutation, CommerceUpdateSaleMutationVariables>;
+export const CommerceCreateCategoryDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"commerceCreateCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceCategoryCreate"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceCreateCategory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commerceCategoryCreate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]};
+export type CommerceCreateCategoryMutationFn = Apollo.MutationFunction<CommerceCreateCategoryMutation, CommerceCreateCategoryMutationVariables>;
 
 /**
  * __useCommerceCreateCategoryMutation__
@@ -12863,81 +9618,14 @@ export type CommerceCreateCategoryMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceCreateCategoryMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceCreateCategoryMutation,
-    CommerceCreateCategoryMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceCreateCategoryMutation,
-    CommerceCreateCategoryMutationVariables
-  >(CommerceCreateCategoryDocument, baseOptions);
-}
-export type CommerceCreateCategoryMutationHookResult = ReturnType<
-  typeof useCommerceCreateCategoryMutation
->;
+export function useCommerceCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CommerceCreateCategoryMutation, CommerceCreateCategoryMutationVariables>) {
+        return Apollo.useMutation<CommerceCreateCategoryMutation, CommerceCreateCategoryMutationVariables>(CommerceCreateCategoryDocument, baseOptions);
+      }
+export type CommerceCreateCategoryMutationHookResult = ReturnType<typeof useCommerceCreateCategoryMutation>;
 export type CommerceCreateCategoryMutationResult = Apollo.MutationResult<CommerceCreateCategoryMutation>;
-export type CommerceCreateCategoryMutationOptions = Apollo.BaseMutationOptions<
-  CommerceCreateCategoryMutation,
-  CommerceCreateCategoryMutationVariables
->;
-export const CommerceCreateProductDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'commerceCreateProduct' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceProductCreate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceCreateProduct' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceProductCreate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceCreateProductMutationFn = Apollo.MutationFunction<
-  CommerceCreateProductMutation,
-  CommerceCreateProductMutationVariables
->;
+export type CommerceCreateCategoryMutationOptions = Apollo.BaseMutationOptions<CommerceCreateCategoryMutation, CommerceCreateCategoryMutationVariables>;
+export const CommerceCreateProductDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"commerceCreateProduct"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceProductCreate"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceCreateProduct"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commerceProductCreate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]};
+export type CommerceCreateProductMutationFn = Apollo.MutationFunction<CommerceCreateProductMutation, CommerceCreateProductMutationVariables>;
 
 /**
  * __useCommerceCreateProductMutation__
@@ -12956,100 +9644,14 @@ export type CommerceCreateProductMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceCreateProductMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceCreateProductMutation,
-    CommerceCreateProductMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceCreateProductMutation,
-    CommerceCreateProductMutationVariables
-  >(CommerceCreateProductDocument, baseOptions);
-}
-export type CommerceCreateProductMutationHookResult = ReturnType<
-  typeof useCommerceCreateProductMutation
->;
+export function useCommerceCreateProductMutation(baseOptions?: Apollo.MutationHookOptions<CommerceCreateProductMutation, CommerceCreateProductMutationVariables>) {
+        return Apollo.useMutation<CommerceCreateProductMutation, CommerceCreateProductMutationVariables>(CommerceCreateProductDocument, baseOptions);
+      }
+export type CommerceCreateProductMutationHookResult = ReturnType<typeof useCommerceCreateProductMutation>;
 export type CommerceCreateProductMutationResult = Apollo.MutationResult<CommerceCreateProductMutation>;
-export type CommerceCreateProductMutationOptions = Apollo.BaseMutationOptions<
-  CommerceCreateProductMutation,
-  CommerceCreateProductMutationVariables
->;
-export const CommerceSaleProductCreateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceSaleProductCreate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceSaleProductCreate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'commerceSaleProductCreate' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'saleId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'saleId' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceCreateSaleProduct' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceSaleProductCreate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'commerceSaleProductCreate' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'saleId' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceSaleProductCreateMutationFn = Apollo.MutationFunction<
-  CommerceSaleProductCreateMutation,
-  CommerceSaleProductCreateMutationVariables
->;
+export type CommerceCreateProductMutationOptions = Apollo.BaseMutationOptions<CommerceCreateProductMutation, CommerceCreateProductMutationVariables>;
+export const CommerceSaleProductCreateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CommerceSaleProductCreate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"commerceSaleProductCreate"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceSaleProductCreate"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"saleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceCreateSaleProduct"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commerceSaleProductCreate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"commerceSaleProductCreate"}}},{"kind":"Argument","name":{"kind":"Name","value":"saleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"saleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]};
+export type CommerceSaleProductCreateMutationFn = Apollo.MutationFunction<CommerceSaleProductCreateMutation, CommerceSaleProductCreateMutationVariables>;
 
 /**
  * __useCommerceSaleProductCreateMutation__
@@ -13069,83 +9671,14 @@ export type CommerceSaleProductCreateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceSaleProductCreateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceSaleProductCreateMutation,
-    CommerceSaleProductCreateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceSaleProductCreateMutation,
-    CommerceSaleProductCreateMutationVariables
-  >(CommerceSaleProductCreateDocument, baseOptions);
-}
-export type CommerceSaleProductCreateMutationHookResult = ReturnType<
-  typeof useCommerceSaleProductCreateMutation
->;
+export function useCommerceSaleProductCreateMutation(baseOptions?: Apollo.MutationHookOptions<CommerceSaleProductCreateMutation, CommerceSaleProductCreateMutationVariables>) {
+        return Apollo.useMutation<CommerceSaleProductCreateMutation, CommerceSaleProductCreateMutationVariables>(CommerceSaleProductCreateDocument, baseOptions);
+      }
+export type CommerceSaleProductCreateMutationHookResult = ReturnType<typeof useCommerceSaleProductCreateMutation>;
 export type CommerceSaleProductCreateMutationResult = Apollo.MutationResult<CommerceSaleProductCreateMutation>;
-export type CommerceSaleProductCreateMutationOptions = Apollo.BaseMutationOptions<
-  CommerceSaleProductCreateMutation,
-  CommerceSaleProductCreateMutationVariables
->;
-export const CommerceCreatePaymentMethodDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceCreatePaymentMethod' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commercePaymentMethodCreate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'paymentMethod' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceCreatePaymentMethod' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'gateway' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommercePaymentMethodCreate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'paymentMethod' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceCreatePaymentMethodMutationFn = Apollo.MutationFunction<
-  CommerceCreatePaymentMethodMutation,
-  CommerceCreatePaymentMethodMutationVariables
->;
+export type CommerceSaleProductCreateMutationOptions = Apollo.BaseMutationOptions<CommerceSaleProductCreateMutation, CommerceSaleProductCreateMutationVariables>;
+export const CommerceCreatePaymentMethodDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CommerceCreatePaymentMethod"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"paymentMethod"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommercePaymentMethodCreate"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceCreatePaymentMethod"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commercePaymentMethodCreate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"paymentMethod"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"gateway"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]};
+export type CommerceCreatePaymentMethodMutationFn = Apollo.MutationFunction<CommerceCreatePaymentMethodMutation, CommerceCreatePaymentMethodMutationVariables>;
 
 /**
  * __useCommerceCreatePaymentMethodMutation__
@@ -13164,99 +9697,14 @@ export type CommerceCreatePaymentMethodMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceCreatePaymentMethodMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceCreatePaymentMethodMutation,
-    CommerceCreatePaymentMethodMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceCreatePaymentMethodMutation,
-    CommerceCreatePaymentMethodMutationVariables
-  >(CommerceCreatePaymentMethodDocument, baseOptions);
-}
-export type CommerceCreatePaymentMethodMutationHookResult = ReturnType<
-  typeof useCommerceCreatePaymentMethodMutation
->;
+export function useCommerceCreatePaymentMethodMutation(baseOptions?: Apollo.MutationHookOptions<CommerceCreatePaymentMethodMutation, CommerceCreatePaymentMethodMutationVariables>) {
+        return Apollo.useMutation<CommerceCreatePaymentMethodMutation, CommerceCreatePaymentMethodMutationVariables>(CommerceCreatePaymentMethodDocument, baseOptions);
+      }
+export type CommerceCreatePaymentMethodMutationHookResult = ReturnType<typeof useCommerceCreatePaymentMethodMutation>;
 export type CommerceCreatePaymentMethodMutationResult = Apollo.MutationResult<CommerceCreatePaymentMethodMutation>;
-export type CommerceCreatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<
-  CommerceCreatePaymentMethodMutation,
-  CommerceCreatePaymentMethodMutationVariables
->;
-export const CommerceUpdatePaymentMethodDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceUpdatePaymentMethod' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commercePaymentMethodUpdate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'paymentMethod' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceUpdatePaymentMethod' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'gateway' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommercePaymentMethodUpdate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'paymentMethod' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceUpdatePaymentMethodMutationFn = Apollo.MutationFunction<
-  CommerceUpdatePaymentMethodMutation,
-  CommerceUpdatePaymentMethodMutationVariables
->;
+export type CommerceCreatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<CommerceCreatePaymentMethodMutation, CommerceCreatePaymentMethodMutationVariables>;
+export const CommerceUpdatePaymentMethodDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CommerceUpdatePaymentMethod"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"paymentMethod"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommercePaymentMethodUpdate"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceUpdatePaymentMethod"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commercePaymentMethodUpdate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"paymentMethod"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"gateway"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]};
+export type CommerceUpdatePaymentMethodMutationFn = Apollo.MutationFunction<CommerceUpdatePaymentMethodMutation, CommerceUpdatePaymentMethodMutationVariables>;
 
 /**
  * __useCommerceUpdatePaymentMethodMutation__
@@ -13276,97 +9724,14 @@ export type CommerceUpdatePaymentMethodMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceUpdatePaymentMethodMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceUpdatePaymentMethodMutation,
-    CommerceUpdatePaymentMethodMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceUpdatePaymentMethodMutation,
-    CommerceUpdatePaymentMethodMutationVariables
-  >(CommerceUpdatePaymentMethodDocument, baseOptions);
-}
-export type CommerceUpdatePaymentMethodMutationHookResult = ReturnType<
-  typeof useCommerceUpdatePaymentMethodMutation
->;
+export function useCommerceUpdatePaymentMethodMutation(baseOptions?: Apollo.MutationHookOptions<CommerceUpdatePaymentMethodMutation, CommerceUpdatePaymentMethodMutationVariables>) {
+        return Apollo.useMutation<CommerceUpdatePaymentMethodMutation, CommerceUpdatePaymentMethodMutationVariables>(CommerceUpdatePaymentMethodDocument, baseOptions);
+      }
+export type CommerceUpdatePaymentMethodMutationHookResult = ReturnType<typeof useCommerceUpdatePaymentMethodMutation>;
 export type CommerceUpdatePaymentMethodMutationResult = Apollo.MutationResult<CommerceUpdatePaymentMethodMutation>;
-export type CommerceUpdatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdatePaymentMethodMutation,
-  CommerceUpdatePaymentMethodMutationVariables
->;
-export const CommerceUpdateCategoryDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'commerceUpdateCategory' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceCategoryUpdate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceUpdateCategory' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceCategoryUpdate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceUpdateCategoryMutationFn = Apollo.MutationFunction<
-  CommerceUpdateCategoryMutation,
-  CommerceUpdateCategoryMutationVariables
->;
+export type CommerceUpdatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<CommerceUpdatePaymentMethodMutation, CommerceUpdatePaymentMethodMutationVariables>;
+export const CommerceUpdateCategoryDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"commerceUpdateCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceCategoryUpdate"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceUpdateCategory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"commerceCategoryUpdate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]};
+export type CommerceUpdateCategoryMutationFn = Apollo.MutationFunction<CommerceUpdateCategoryMutation, CommerceUpdateCategoryMutationVariables>;
 
 /**
  * __useCommerceUpdateCategoryMutation__
@@ -13386,97 +9751,14 @@ export type CommerceUpdateCategoryMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceUpdateCategoryMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceUpdateCategoryMutation,
-    CommerceUpdateCategoryMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceUpdateCategoryMutation,
-    CommerceUpdateCategoryMutationVariables
-  >(CommerceUpdateCategoryDocument, baseOptions);
-}
-export type CommerceUpdateCategoryMutationHookResult = ReturnType<
-  typeof useCommerceUpdateCategoryMutation
->;
+export function useCommerceUpdateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CommerceUpdateCategoryMutation, CommerceUpdateCategoryMutationVariables>) {
+        return Apollo.useMutation<CommerceUpdateCategoryMutation, CommerceUpdateCategoryMutationVariables>(CommerceUpdateCategoryDocument, baseOptions);
+      }
+export type CommerceUpdateCategoryMutationHookResult = ReturnType<typeof useCommerceUpdateCategoryMutation>;
 export type CommerceUpdateCategoryMutationResult = Apollo.MutationResult<CommerceUpdateCategoryMutation>;
-export type CommerceUpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdateCategoryMutation,
-  CommerceUpdateCategoryMutationVariables
->;
-export const CommerceUpdateProductDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'commerceUpdateProduct' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceProductUpdate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceUpdateProduct' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceProductUpdate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceUpdateProductMutationFn = Apollo.MutationFunction<
-  CommerceUpdateProductMutation,
-  CommerceUpdateProductMutationVariables
->;
+export type CommerceUpdateCategoryMutationOptions = Apollo.BaseMutationOptions<CommerceUpdateCategoryMutation, CommerceUpdateCategoryMutationVariables>;
+export const CommerceUpdateProductDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"commerceUpdateProduct"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceProductUpdate"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceUpdateProduct"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"commerceProductUpdate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]};
+export type CommerceUpdateProductMutationFn = Apollo.MutationFunction<CommerceUpdateProductMutation, CommerceUpdateProductMutationVariables>;
 
 /**
  * __useCommerceUpdateProductMutation__
@@ -13496,116 +9778,14 @@ export type CommerceUpdateProductMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceUpdateProductMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceUpdateProductMutation,
-    CommerceUpdateProductMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceUpdateProductMutation,
-    CommerceUpdateProductMutationVariables
-  >(CommerceUpdateProductDocument, baseOptions);
-}
-export type CommerceUpdateProductMutationHookResult = ReturnType<
-  typeof useCommerceUpdateProductMutation
->;
+export function useCommerceUpdateProductMutation(baseOptions?: Apollo.MutationHookOptions<CommerceUpdateProductMutation, CommerceUpdateProductMutationVariables>) {
+        return Apollo.useMutation<CommerceUpdateProductMutation, CommerceUpdateProductMutationVariables>(CommerceUpdateProductDocument, baseOptions);
+      }
+export type CommerceUpdateProductMutationHookResult = ReturnType<typeof useCommerceUpdateProductMutation>;
 export type CommerceUpdateProductMutationResult = Apollo.MutationResult<CommerceUpdateProductMutation>;
-export type CommerceUpdateProductMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdateProductMutation,
-  CommerceUpdateProductMutationVariables
->;
-export const CommerceUpdateSaleProductDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceUpdateSaleProduct' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceSaleProductUpdate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'commerceSaleProductUpdate' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'saleId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'saleId' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceUpdateSaleProduct' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceSaleProductUpdate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'commerceSaleProductUpdate' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'saleId' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceUpdateSaleProductMutationFn = Apollo.MutationFunction<
-  CommerceUpdateSaleProductMutation,
-  CommerceUpdateSaleProductMutationVariables
->;
+export type CommerceUpdateProductMutationOptions = Apollo.BaseMutationOptions<CommerceUpdateProductMutation, CommerceUpdateProductMutationVariables>;
+export const CommerceUpdateSaleProductDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CommerceUpdateSaleProduct"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"commerceSaleProductUpdate"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceSaleProductUpdate"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"saleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceUpdateSaleProduct"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commerceSaleProductUpdate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"commerceSaleProductUpdate"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"saleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"saleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]};
+export type CommerceUpdateSaleProductMutationFn = Apollo.MutationFunction<CommerceUpdateSaleProductMutation, CommerceUpdateSaleProductMutationVariables>;
 
 /**
  * __useCommerceUpdateSaleProductMutation__
@@ -13626,98 +9806,14 @@ export type CommerceUpdateSaleProductMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceUpdateSaleProductMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceUpdateSaleProductMutation,
-    CommerceUpdateSaleProductMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceUpdateSaleProductMutation,
-    CommerceUpdateSaleProductMutationVariables
-  >(CommerceUpdateSaleProductDocument, baseOptions);
-}
-export type CommerceUpdateSaleProductMutationHookResult = ReturnType<
-  typeof useCommerceUpdateSaleProductMutation
->;
+export function useCommerceUpdateSaleProductMutation(baseOptions?: Apollo.MutationHookOptions<CommerceUpdateSaleProductMutation, CommerceUpdateSaleProductMutationVariables>) {
+        return Apollo.useMutation<CommerceUpdateSaleProductMutation, CommerceUpdateSaleProductMutationVariables>(CommerceUpdateSaleProductDocument, baseOptions);
+      }
+export type CommerceUpdateSaleProductMutationHookResult = ReturnType<typeof useCommerceUpdateSaleProductMutation>;
 export type CommerceUpdateSaleProductMutationResult = Apollo.MutationResult<CommerceUpdateSaleProductMutation>;
-export type CommerceUpdateSaleProductMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdateSaleProductMutation,
-  CommerceUpdateSaleProductMutationVariables
->;
-export const CommerceUpdateStoreDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceUpdateStore' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceStoreUpdate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceUpdateStore' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceStoreUpdate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CommerceUpdateStoreMutationFn = Apollo.MutationFunction<
-  CommerceUpdateStoreMutation,
-  CommerceUpdateStoreMutationVariables
->;
+export type CommerceUpdateSaleProductMutationOptions = Apollo.BaseMutationOptions<CommerceUpdateSaleProductMutation, CommerceUpdateSaleProductMutationVariables>;
+export const CommerceUpdateStoreDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CommerceUpdateStore"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceStoreUpdate"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceUpdateStore"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"commerceStoreUpdate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]};
+export type CommerceUpdateStoreMutationFn = Apollo.MutationFunction<CommerceUpdateStoreMutation, CommerceUpdateStoreMutationVariables>;
 
 /**
  * __useCommerceUpdateStoreMutation__
@@ -13737,125 +9833,14 @@ export type CommerceUpdateStoreMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCommerceUpdateStoreMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CommerceUpdateStoreMutation,
-    CommerceUpdateStoreMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    CommerceUpdateStoreMutation,
-    CommerceUpdateStoreMutationVariables
-  >(CommerceUpdateStoreDocument, baseOptions);
-}
-export type CommerceUpdateStoreMutationHookResult = ReturnType<
-  typeof useCommerceUpdateStoreMutation
->;
+export function useCommerceUpdateStoreMutation(baseOptions?: Apollo.MutationHookOptions<CommerceUpdateStoreMutation, CommerceUpdateStoreMutationVariables>) {
+        return Apollo.useMutation<CommerceUpdateStoreMutation, CommerceUpdateStoreMutationVariables>(CommerceUpdateStoreDocument, baseOptions);
+      }
+export type CommerceUpdateStoreMutationHookResult = ReturnType<typeof useCommerceUpdateStoreMutation>;
 export type CommerceUpdateStoreMutationResult = Apollo.MutationResult<CommerceUpdateStoreMutation>;
-export type CommerceUpdateStoreMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdateStoreMutation,
-  CommerceUpdateStoreMutationVariables
->;
-export const CreateOrderDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'createOrder' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'storeId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'storeId' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceOrderCreate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceCreateOrder' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'locked' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'items' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'product' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'storeId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceOrderCreate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type CreateOrderMutationFn = Apollo.MutationFunction<
-  CreateOrderMutation,
-  CreateOrderMutationVariables
->;
+export type CommerceUpdateStoreMutationOptions = Apollo.BaseMutationOptions<CommerceUpdateStoreMutation, CommerceUpdateStoreMutationVariables>;
+export const CreateOrderDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createOrder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"storeId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceOrderCreate"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceCreateOrder"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"storeId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"storeId"}}},{"kind":"Argument","name":{"kind":"Name","value":"commerceOrderCreate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"locked"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]};
+export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation, CreateOrderMutationVariables>;
 
 /**
  * __useCreateOrderMutation__
@@ -13875,150 +9860,14 @@ export type CreateOrderMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateOrderMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateOrderMutation,
-    CreateOrderMutationVariables
-  >,
-) {
-  return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(
-    CreateOrderDocument,
-    baseOptions,
-  );
-}
-export type CreateOrderMutationHookResult = ReturnType<
-  typeof useCreateOrderMutation
->;
+export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>) {
+        return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument, baseOptions);
+      }
+export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
 export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
-export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<
-  CreateOrderMutation,
-  CreateOrderMutationVariables
->;
-export const EventCreateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'EventCreate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'event' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventCreate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'event' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxNumber' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startDate' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endDate' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'timezone' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'baseUrl' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'country' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currency' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'EventCreateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'event' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type EventCreateMutationFn = Apollo.MutationFunction<
-  EventCreateMutation,
-  EventCreateMutationVariables
->;
+export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
+export const EventCreateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"EventCreate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"event"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EventCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"eventCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"event"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"event"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"taxNumber"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}},{"kind":"Field","name":{"kind":"Name","value":"baseUrl"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type EventCreateMutationFn = Apollo.MutationFunction<EventCreateMutation, EventCreateMutationVariables>;
 
 /**
  * __useEventCreateMutation__
@@ -14037,167 +9886,14 @@ export type EventCreateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useEventCreateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    EventCreateMutation,
-    EventCreateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<EventCreateMutation, EventCreateMutationVariables>(
-    EventCreateDocument,
-    baseOptions,
-  );
-}
-export type EventCreateMutationHookResult = ReturnType<
-  typeof useEventCreateMutation
->;
+export function useEventCreateMutation(baseOptions?: Apollo.MutationHookOptions<EventCreateMutation, EventCreateMutationVariables>) {
+        return Apollo.useMutation<EventCreateMutation, EventCreateMutationVariables>(EventCreateDocument, baseOptions);
+      }
+export type EventCreateMutationHookResult = ReturnType<typeof useEventCreateMutation>;
 export type EventCreateMutationResult = Apollo.MutationResult<EventCreateMutation>;
-export type EventCreateMutationOptions = Apollo.BaseMutationOptions<
-  EventCreateMutation,
-  EventCreateMutationVariables
->;
-export const EventUpdateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'EventUpdate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventUpdate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'event' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxNumber' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startDate' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endDate' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'timezone' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'baseUrl' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'country' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currency' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'legalEntity' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'EventUpdateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type EventUpdateMutationFn = Apollo.MutationFunction<
-  EventUpdateMutation,
-  EventUpdateMutationVariables
->;
+export type EventCreateMutationOptions = Apollo.BaseMutationOptions<EventCreateMutation, EventCreateMutationVariables>;
+export const EventUpdateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"EventUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EventUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"eventUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"event"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"taxNumber"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}},{"kind":"Field","name":{"kind":"Name","value":"baseUrl"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"legalEntity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type EventUpdateMutationFn = Apollo.MutationFunction<EventUpdateMutation, EventUpdateMutationVariables>;
 
 /**
  * __useEventUpdateMutation__
@@ -14216,163 +9912,14 @@ export type EventUpdateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useEventUpdateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    EventUpdateMutation,
-    EventUpdateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<EventUpdateMutation, EventUpdateMutationVariables>(
-    EventUpdateDocument,
-    baseOptions,
-  );
-}
-export type EventUpdateMutationHookResult = ReturnType<
-  typeof useEventUpdateMutation
->;
+export function useEventUpdateMutation(baseOptions?: Apollo.MutationHookOptions<EventUpdateMutation, EventUpdateMutationVariables>) {
+        return Apollo.useMutation<EventUpdateMutation, EventUpdateMutationVariables>(EventUpdateDocument, baseOptions);
+      }
+export type EventUpdateMutationHookResult = ReturnType<typeof useEventUpdateMutation>;
 export type EventUpdateMutationResult = Apollo.MutationResult<EventUpdateMutation>;
-export type EventUpdateMutationOptions = Apollo.BaseMutationOptions<
-  EventUpdateMutation,
-  EventUpdateMutationVariables
->;
-export const LegalEntityCreateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'LegalEntityCreate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'legalEntityCreate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'legalEntity' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'regNumber' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'website' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxNumber' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'city' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'postalCode' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lineOne' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lineTwo' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'region' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'LegalEntityCreateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type LegalEntityCreateMutationFn = Apollo.MutationFunction<
-  LegalEntityCreateMutation,
-  LegalEntityCreateMutationVariables
->;
+export type EventUpdateMutationOptions = Apollo.BaseMutationOptions<EventUpdateMutation, EventUpdateMutationVariables>;
+export const LegalEntityCreateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LegalEntityCreate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LegalEntityCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"legalEntityCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"legalEntity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"regNumber"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"taxNumber"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"lineOne"}},{"kind":"Field","name":{"kind":"Name","value":"lineTwo"}},{"kind":"Field","name":{"kind":"Name","value":"region"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type LegalEntityCreateMutationFn = Apollo.MutationFunction<LegalEntityCreateMutation, LegalEntityCreateMutationVariables>;
 
 /**
  * __useLegalEntityCreateMutation__
@@ -14391,163 +9938,14 @@ export type LegalEntityCreateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLegalEntityCreateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LegalEntityCreateMutation,
-    LegalEntityCreateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    LegalEntityCreateMutation,
-    LegalEntityCreateMutationVariables
-  >(LegalEntityCreateDocument, baseOptions);
-}
-export type LegalEntityCreateMutationHookResult = ReturnType<
-  typeof useLegalEntityCreateMutation
->;
+export function useLegalEntityCreateMutation(baseOptions?: Apollo.MutationHookOptions<LegalEntityCreateMutation, LegalEntityCreateMutationVariables>) {
+        return Apollo.useMutation<LegalEntityCreateMutation, LegalEntityCreateMutationVariables>(LegalEntityCreateDocument, baseOptions);
+      }
+export type LegalEntityCreateMutationHookResult = ReturnType<typeof useLegalEntityCreateMutation>;
 export type LegalEntityCreateMutationResult = Apollo.MutationResult<LegalEntityCreateMutation>;
-export type LegalEntityCreateMutationOptions = Apollo.BaseMutationOptions<
-  LegalEntityCreateMutation,
-  LegalEntityCreateMutationVariables
->;
-export const LegalEntityUpdateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'LegalEntityUpdate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'legalEntityUpdate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'legalEntity' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'regNumber' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'website' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxNumber' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'city' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'postalCode' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lineOne' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lineTwo' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'region' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'LegalEntityUpdateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type LegalEntityUpdateMutationFn = Apollo.MutationFunction<
-  LegalEntityUpdateMutation,
-  LegalEntityUpdateMutationVariables
->;
+export type LegalEntityCreateMutationOptions = Apollo.BaseMutationOptions<LegalEntityCreateMutation, LegalEntityCreateMutationVariables>;
+export const LegalEntityUpdateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LegalEntityUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LegalEntityUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"legalEntityUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"legalEntity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"regNumber"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"taxNumber"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"lineOne"}},{"kind":"Field","name":{"kind":"Name","value":"lineTwo"}},{"kind":"Field","name":{"kind":"Name","value":"region"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type LegalEntityUpdateMutationFn = Apollo.MutationFunction<LegalEntityUpdateMutation, LegalEntityUpdateMutationVariables>;
 
 /**
  * __useLegalEntityUpdateMutation__
@@ -14566,112 +9964,14 @@ export type LegalEntityUpdateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLegalEntityUpdateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LegalEntityUpdateMutation,
-    LegalEntityUpdateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    LegalEntityUpdateMutation,
-    LegalEntityUpdateMutationVariables
-  >(LegalEntityUpdateDocument, baseOptions);
-}
-export type LegalEntityUpdateMutationHookResult = ReturnType<
-  typeof useLegalEntityUpdateMutation
->;
+export function useLegalEntityUpdateMutation(baseOptions?: Apollo.MutationHookOptions<LegalEntityUpdateMutation, LegalEntityUpdateMutationVariables>) {
+        return Apollo.useMutation<LegalEntityUpdateMutation, LegalEntityUpdateMutationVariables>(LegalEntityUpdateDocument, baseOptions);
+      }
+export type LegalEntityUpdateMutationHookResult = ReturnType<typeof useLegalEntityUpdateMutation>;
 export type LegalEntityUpdateMutationResult = Apollo.MutationResult<LegalEntityUpdateMutation>;
-export type LegalEntityUpdateMutationOptions = Apollo.BaseMutationOptions<
-  LegalEntityUpdateMutation,
-  LegalEntityUpdateMutationVariables
->;
-export const UpdateCommerceOrderDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'UpdateCommerceOrder' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'commerceOrderUpdate' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'commerceOrderUpdate' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'storeId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'storeId' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceUpdateOrder' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommerceOrderUpdate' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'commerceOrderUpdate' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'storeId' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type UpdateCommerceOrderMutationFn = Apollo.MutationFunction<
-  UpdateCommerceOrderMutation,
-  UpdateCommerceOrderMutationVariables
->;
+export type LegalEntityUpdateMutationOptions = Apollo.BaseMutationOptions<LegalEntityUpdateMutation, LegalEntityUpdateMutationVariables>;
+export const UpdateCommerceOrderDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateCommerceOrder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"commerceOrderUpdate"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceOrderUpdate"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"storeId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceUpdateOrder"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"commerceOrderUpdate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"commerceOrderUpdate"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"storeId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"storeId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]};
+export type UpdateCommerceOrderMutationFn = Apollo.MutationFunction<UpdateCommerceOrderMutation, UpdateCommerceOrderMutationVariables>;
 
 /**
  * __useUpdateCommerceOrderMutation__
@@ -14692,119 +9992,14 @@ export type UpdateCommerceOrderMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateCommerceOrderMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateCommerceOrderMutation,
-    UpdateCommerceOrderMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    UpdateCommerceOrderMutation,
-    UpdateCommerceOrderMutationVariables
-  >(UpdateCommerceOrderDocument, baseOptions);
-}
-export type UpdateCommerceOrderMutationHookResult = ReturnType<
-  typeof useUpdateCommerceOrderMutation
->;
+export function useUpdateCommerceOrderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCommerceOrderMutation, UpdateCommerceOrderMutationVariables>) {
+        return Apollo.useMutation<UpdateCommerceOrderMutation, UpdateCommerceOrderMutationVariables>(UpdateCommerceOrderDocument, baseOptions);
+      }
+export type UpdateCommerceOrderMutationHookResult = ReturnType<typeof useUpdateCommerceOrderMutation>;
 export type UpdateCommerceOrderMutationResult = Apollo.MutationResult<UpdateCommerceOrderMutation>;
-export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<
-  UpdateCommerceOrderMutation,
-  UpdateCommerceOrderMutationVariables
->;
-export const OrderTransferDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'OrderTransfer' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'orderUpdate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'order' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'owner' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'OrderUpdateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type OrderTransferMutationFn = Apollo.MutationFunction<
-  OrderTransferMutation,
-  OrderTransferMutationVariables
->;
+export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<UpdateCommerceOrderMutation, UpdateCommerceOrderMutationVariables>;
+export const OrderTransferDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"OrderTransfer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrderUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orderUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"clientMutationId"}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"owner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type OrderTransferMutationFn = Apollo.MutationFunction<OrderTransferMutation, OrderTransferMutationVariables>;
 
 /**
  * __useOrderTransferMutation__
@@ -14823,96 +10018,14 @@ export type OrderTransferMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useOrderTransferMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    OrderTransferMutation,
-    OrderTransferMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    OrderTransferMutation,
-    OrderTransferMutationVariables
-  >(OrderTransferDocument, baseOptions);
-}
-export type OrderTransferMutationHookResult = ReturnType<
-  typeof useOrderTransferMutation
->;
+export function useOrderTransferMutation(baseOptions?: Apollo.MutationHookOptions<OrderTransferMutation, OrderTransferMutationVariables>) {
+        return Apollo.useMutation<OrderTransferMutation, OrderTransferMutationVariables>(OrderTransferDocument, baseOptions);
+      }
+export type OrderTransferMutationHookResult = ReturnType<typeof useOrderTransferMutation>;
 export type OrderTransferMutationResult = Apollo.MutationResult<OrderTransferMutation>;
-export type OrderTransferMutationOptions = Apollo.BaseMutationOptions<
-  OrderTransferMutation,
-  OrderTransferMutationVariables
->;
-export const TicketMagicLoginLinkRequestDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketMagicLoginLinkRequest' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'assignmentMagicLinkLoginRequest' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: {
-                kind: 'Name',
-                value: 'AssignmentMagicLinkLoginRequestInput',
-              },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TicketMagicLoginLinkRequestMutationFn = Apollo.MutationFunction<
-  TicketMagicLoginLinkRequestMutation,
-  TicketMagicLoginLinkRequestMutationVariables
->;
+export type OrderTransferMutationOptions = Apollo.BaseMutationOptions<OrderTransferMutation, OrderTransferMutationVariables>;
+export const TicketMagicLoginLinkRequestDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TicketMagicLoginLinkRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AssignmentMagicLinkLoginRequestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignmentMagicLinkLoginRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type TicketMagicLoginLinkRequestMutationFn = Apollo.MutationFunction<TicketMagicLoginLinkRequestMutation, TicketMagicLoginLinkRequestMutationVariables>;
 
 /**
  * __useTicketMagicLoginLinkRequestMutation__
@@ -14931,105 +10044,14 @@ export type TicketMagicLoginLinkRequestMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTicketMagicLoginLinkRequestMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TicketMagicLoginLinkRequestMutation,
-    TicketMagicLoginLinkRequestMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TicketMagicLoginLinkRequestMutation,
-    TicketMagicLoginLinkRequestMutationVariables
-  >(TicketMagicLoginLinkRequestDocument, baseOptions);
-}
-export type TicketMagicLoginLinkRequestMutationHookResult = ReturnType<
-  typeof useTicketMagicLoginLinkRequestMutation
->;
+export function useTicketMagicLoginLinkRequestMutation(baseOptions?: Apollo.MutationHookOptions<TicketMagicLoginLinkRequestMutation, TicketMagicLoginLinkRequestMutationVariables>) {
+        return Apollo.useMutation<TicketMagicLoginLinkRequestMutation, TicketMagicLoginLinkRequestMutationVariables>(TicketMagicLoginLinkRequestDocument, baseOptions);
+      }
+export type TicketMagicLoginLinkRequestMutationHookResult = ReturnType<typeof useTicketMagicLoginLinkRequestMutation>;
 export type TicketMagicLoginLinkRequestMutationResult = Apollo.MutationResult<TicketMagicLoginLinkRequestMutation>;
-export type TicketMagicLoginLinkRequestMutationOptions = Apollo.BaseMutationOptions<
-  TicketMagicLoginLinkRequestMutation,
-  TicketMagicLoginLinkRequestMutationVariables
->;
-export const TaxRateCreateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'taxRateCreate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxRateCreate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'taxRate' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'TaxRateCreateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TaxRateCreateMutationFn = Apollo.MutationFunction<
-  TaxRateCreateMutation,
-  TaxRateCreateMutationVariables
->;
+export type TicketMagicLoginLinkRequestMutationOptions = Apollo.BaseMutationOptions<TicketMagicLoginLinkRequestMutation, TicketMagicLoginLinkRequestMutationVariables>;
+export const TaxRateCreateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"taxRateCreate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TaxRateCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taxRateCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taxRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type TaxRateCreateMutationFn = Apollo.MutationFunction<TaxRateCreateMutation, TaxRateCreateMutationVariables>;
 
 /**
  * __useTaxRateCreateMutation__
@@ -15048,105 +10070,14 @@ export type TaxRateCreateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTaxRateCreateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TaxRateCreateMutation,
-    TaxRateCreateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TaxRateCreateMutation,
-    TaxRateCreateMutationVariables
-  >(TaxRateCreateDocument, baseOptions);
-}
-export type TaxRateCreateMutationHookResult = ReturnType<
-  typeof useTaxRateCreateMutation
->;
+export function useTaxRateCreateMutation(baseOptions?: Apollo.MutationHookOptions<TaxRateCreateMutation, TaxRateCreateMutationVariables>) {
+        return Apollo.useMutation<TaxRateCreateMutation, TaxRateCreateMutationVariables>(TaxRateCreateDocument, baseOptions);
+      }
+export type TaxRateCreateMutationHookResult = ReturnType<typeof useTaxRateCreateMutation>;
 export type TaxRateCreateMutationResult = Apollo.MutationResult<TaxRateCreateMutation>;
-export type TaxRateCreateMutationOptions = Apollo.BaseMutationOptions<
-  TaxRateCreateMutation,
-  TaxRateCreateMutationVariables
->;
-export const TaxRateUpdateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TaxRateUpdate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxRateUpdate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'taxRate' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'TaxRateUpdateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TaxRateUpdateMutationFn = Apollo.MutationFunction<
-  TaxRateUpdateMutation,
-  TaxRateUpdateMutationVariables
->;
+export type TaxRateCreateMutationOptions = Apollo.BaseMutationOptions<TaxRateCreateMutation, TaxRateCreateMutationVariables>;
+export const TaxRateUpdateDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TaxRateUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TaxRateUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taxRateUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taxRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type TaxRateUpdateMutationFn = Apollo.MutationFunction<TaxRateUpdateMutation, TaxRateUpdateMutationVariables>;
 
 /**
  * __useTaxRateUpdateMutation__
@@ -15165,151 +10096,14 @@ export type TaxRateUpdateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTaxRateUpdateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TaxRateUpdateMutation,
-    TaxRateUpdateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TaxRateUpdateMutation,
-    TaxRateUpdateMutationVariables
-  >(TaxRateUpdateDocument, baseOptions);
-}
-export type TaxRateUpdateMutationHookResult = ReturnType<
-  typeof useTaxRateUpdateMutation
->;
+export function useTaxRateUpdateMutation(baseOptions?: Apollo.MutationHookOptions<TaxRateUpdateMutation, TaxRateUpdateMutationVariables>) {
+        return Apollo.useMutation<TaxRateUpdateMutation, TaxRateUpdateMutationVariables>(TaxRateUpdateDocument, baseOptions);
+      }
+export type TaxRateUpdateMutationHookResult = ReturnType<typeof useTaxRateUpdateMutation>;
 export type TaxRateUpdateMutationResult = Apollo.MutationResult<TaxRateUpdateMutation>;
-export type TaxRateUpdateMutationOptions = Apollo.BaseMutationOptions<
-  TaxRateUpdateMutation,
-  TaxRateUpdateMutationVariables
->;
-export const TicketAcceptDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketAccept' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ticketId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'ticketId' },
-                      },
-                    },
-                  ],
-                  kind: 'ObjectValue',
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketAccept' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticket' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assignment' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'state' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'context' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'editable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'acceptable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rejectable' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'ticketId' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TicketAcceptMutationFn = Apollo.MutationFunction<
-  TicketAcceptMutation,
-  TicketAcceptMutationVariables
->;
+export type TaxRateUpdateMutationOptions = Apollo.BaseMutationOptions<TaxRateUpdateMutation, TaxRateUpdateMutationVariables>;
+export const TicketAcceptDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TicketAccept"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ticketId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketAccept"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"ticketId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ticketId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticket"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"assignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"state"}}]}},{"kind":"Field","name":{"kind":"Name","value":"context"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignable"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"acceptable"}},{"kind":"Field","name":{"kind":"Name","value":"rejectable"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type TicketAcceptMutationFn = Apollo.MutationFunction<TicketAcceptMutation, TicketAcceptMutationVariables>;
 
 /**
  * __useTicketAcceptMutation__
@@ -15328,256 +10122,14 @@ export type TicketAcceptMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTicketAcceptMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TicketAcceptMutation,
-    TicketAcceptMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TicketAcceptMutation,
-    TicketAcceptMutationVariables
-  >(TicketAcceptDocument, baseOptions);
-}
-export type TicketAcceptMutationHookResult = ReturnType<
-  typeof useTicketAcceptMutation
->;
+export function useTicketAcceptMutation(baseOptions?: Apollo.MutationHookOptions<TicketAcceptMutation, TicketAcceptMutationVariables>) {
+        return Apollo.useMutation<TicketAcceptMutation, TicketAcceptMutationVariables>(TicketAcceptDocument, baseOptions);
+      }
+export type TicketAcceptMutationHookResult = ReturnType<typeof useTicketAcceptMutation>;
 export type TicketAcceptMutationResult = Apollo.MutationResult<TicketAcceptMutation>;
-export type TicketAcceptMutationOptions = Apollo.BaseMutationOptions<
-  TicketAcceptMutation,
-  TicketAcceptMutationVariables
->;
-export const TicketAssignDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketAssign' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'firstName' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'firstName' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'lastName' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'lastName' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'email' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'email' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ticketId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'ticketId' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'notify' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'notify' },
-                      },
-                    },
-                  ],
-                  kind: 'ObjectValue',
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketAssign' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticket' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assignment' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'state' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignee' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'firstName' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'lastName' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'email' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'me' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'context' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'editable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'acceptable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rejectable' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'firstName' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'lastName' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'email' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'ticketId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'notify' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TicketAssignMutationFn = Apollo.MutationFunction<
-  TicketAssignMutation,
-  TicketAssignMutationVariables
->;
+export type TicketAcceptMutationOptions = Apollo.BaseMutationOptions<TicketAcceptMutation, TicketAcceptMutationVariables>;
+export const TicketAssignDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TicketAssign"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"firstName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lastName"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ticketId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"notify"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketAssign"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"firstName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"firstName"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"lastName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lastName"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"ticketId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ticketId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"notify"},"value":{"kind":"Variable","name":{"kind":"Name","value":"notify"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticket"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"assignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"assignee"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"me"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"context"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignable"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"acceptable"}},{"kind":"Field","name":{"kind":"Name","value":"rejectable"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type TicketAssignMutationFn = Apollo.MutationFunction<TicketAssignMutation, TicketAssignMutationVariables>;
 
 /**
  * __useTicketAssignMutation__
@@ -15600,147 +10152,14 @@ export type TicketAssignMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTicketAssignMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TicketAssignMutation,
-    TicketAssignMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TicketAssignMutation,
-    TicketAssignMutationVariables
-  >(TicketAssignDocument, baseOptions);
-}
-export type TicketAssignMutationHookResult = ReturnType<
-  typeof useTicketAssignMutation
->;
+export function useTicketAssignMutation(baseOptions?: Apollo.MutationHookOptions<TicketAssignMutation, TicketAssignMutationVariables>) {
+        return Apollo.useMutation<TicketAssignMutation, TicketAssignMutationVariables>(TicketAssignDocument, baseOptions);
+      }
+export type TicketAssignMutationHookResult = ReturnType<typeof useTicketAssignMutation>;
 export type TicketAssignMutationResult = Apollo.MutationResult<TicketAssignMutation>;
-export type TicketAssignMutationOptions = Apollo.BaseMutationOptions<
-  TicketAssignMutation,
-  TicketAssignMutationVariables
->;
-export const TicketRejectDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketReject' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'ticketId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'ticketId' },
-                      },
-                    },
-                  ],
-                  kind: 'ObjectValue',
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketReject' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticket' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assignment' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'context' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'editable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'acceptable' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rejectable' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'ticketId' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TicketRejectMutationFn = Apollo.MutationFunction<
-  TicketRejectMutation,
-  TicketRejectMutationVariables
->;
+export type TicketAssignMutationOptions = Apollo.BaseMutationOptions<TicketAssignMutation, TicketAssignMutationVariables>;
+export const TicketRejectDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TicketReject"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ticketId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketReject"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"ticketId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ticketId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticket"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"assignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"context"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignable"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"acceptable"}},{"kind":"Field","name":{"kind":"Name","value":"rejectable"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type TicketRejectMutationFn = Apollo.MutationFunction<TicketRejectMutation, TicketRejectMutationVariables>;
 
 /**
  * __useTicketRejectMutation__
@@ -15759,108 +10178,14 @@ export type TicketRejectMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTicketRejectMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TicketRejectMutation,
-    TicketRejectMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TicketRejectMutation,
-    TicketRejectMutationVariables
-  >(TicketRejectDocument, baseOptions);
-}
-export type TicketRejectMutationHookResult = ReturnType<
-  typeof useTicketRejectMutation
->;
+export function useTicketRejectMutation(baseOptions?: Apollo.MutationHookOptions<TicketRejectMutation, TicketRejectMutationVariables>) {
+        return Apollo.useMutation<TicketRejectMutation, TicketRejectMutationVariables>(TicketRejectDocument, baseOptions);
+      }
+export type TicketRejectMutationHookResult = ReturnType<typeof useTicketRejectMutation>;
 export type TicketRejectMutationResult = Apollo.MutationResult<TicketRejectMutation>;
-export type TicketRejectMutationOptions = Apollo.BaseMutationOptions<
-  TicketRejectMutation,
-  TicketRejectMutationVariables
->;
-export const TicketUnvoidDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketUnvoid' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketUnvoid' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticket' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'bookingRef' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'TicketUnvoidInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TicketUnvoidMutationFn = Apollo.MutationFunction<
-  TicketUnvoidMutation,
-  TicketUnvoidMutationVariables
->;
+export type TicketRejectMutationOptions = Apollo.BaseMutationOptions<TicketRejectMutation, TicketRejectMutationVariables>;
+export const TicketUnvoidDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TicketUnvoid"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TicketUnvoidInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketUnvoid"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticket"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"bookingRef"}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type TicketUnvoidMutationFn = Apollo.MutationFunction<TicketUnvoidMutation, TicketUnvoidMutationVariables>;
 
 /**
  * __useTicketUnvoidMutation__
@@ -15879,108 +10204,14 @@ export type TicketUnvoidMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTicketUnvoidMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TicketUnvoidMutation,
-    TicketUnvoidMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TicketUnvoidMutation,
-    TicketUnvoidMutationVariables
-  >(TicketUnvoidDocument, baseOptions);
-}
-export type TicketUnvoidMutationHookResult = ReturnType<
-  typeof useTicketUnvoidMutation
->;
+export function useTicketUnvoidMutation(baseOptions?: Apollo.MutationHookOptions<TicketUnvoidMutation, TicketUnvoidMutationVariables>) {
+        return Apollo.useMutation<TicketUnvoidMutation, TicketUnvoidMutationVariables>(TicketUnvoidDocument, baseOptions);
+      }
+export type TicketUnvoidMutationHookResult = ReturnType<typeof useTicketUnvoidMutation>;
 export type TicketUnvoidMutationResult = Apollo.MutationResult<TicketUnvoidMutation>;
-export type TicketUnvoidMutationOptions = Apollo.BaseMutationOptions<
-  TicketUnvoidMutation,
-  TicketUnvoidMutationVariables
->;
-export const VoidTicketDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'VoidTicket' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketVoid' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticket' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'bookingRef' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'TicketVoidInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type VoidTicketMutationFn = Apollo.MutationFunction<
-  VoidTicketMutation,
-  VoidTicketMutationVariables
->;
+export type TicketUnvoidMutationOptions = Apollo.BaseMutationOptions<TicketUnvoidMutation, TicketUnvoidMutationVariables>;
+export const VoidTicketDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VoidTicket"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TicketVoidInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketVoid"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticket"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"bookingRef"}}]}},{"kind":"Field","name":{"kind":"Name","value":"userErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]}}]};
+export type VoidTicketMutationFn = Apollo.MutationFunction<VoidTicketMutation, VoidTicketMutationVariables>;
 
 /**
  * __useVoidTicketMutation__
@@ -15999,152 +10230,13 @@ export type VoidTicketMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useVoidTicketMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    VoidTicketMutation,
-    VoidTicketMutationVariables
-  >,
-) {
-  return Apollo.useMutation<VoidTicketMutation, VoidTicketMutationVariables>(
-    VoidTicketDocument,
-    baseOptions,
-  );
-}
-export type VoidTicketMutationHookResult = ReturnType<
-  typeof useVoidTicketMutation
->;
+export function useVoidTicketMutation(baseOptions?: Apollo.MutationHookOptions<VoidTicketMutation, VoidTicketMutationVariables>) {
+        return Apollo.useMutation<VoidTicketMutation, VoidTicketMutationVariables>(VoidTicketDocument, baseOptions);
+      }
+export type VoidTicketMutationHookResult = ReturnType<typeof useVoidTicketMutation>;
 export type VoidTicketMutationResult = Apollo.MutationResult<VoidTicketMutation>;
-export type VoidTicketMutationOptions = Apollo.BaseMutationOptions<
-  VoidTicketMutation,
-  VoidTicketMutationVariables
->;
-export const AccessPermissionsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'AccessPermissions' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'ticketTypeIds' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'ticketTypeIds' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accessPermissions' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'detail' },
-                            },
-                            {
-                              arguments: [
-                                {
-                                  kind: 'Argument',
-                                  name: { kind: 'Name', value: 'ids' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'ticketTypeIds',
-                                    },
-                                  },
-                                },
-                              ],
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ticketTypes' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'edges' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'node' },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'ticketTypeIds' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export type VoidTicketMutationOptions = Apollo.BaseMutationOptions<VoidTicketMutation, VoidTicketMutationVariables>;
+export const AccessPermissionsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AccessPermissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ticketTypeIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessPermissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ticketTypeIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ticketTypeIds"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"detail"}},{"kind":"Field","name":{"kind":"Name","value":"ticketTypes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ticketTypeIds"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]}}]}}]}}]};
 
 /**
  * __useAccessPermissionsQuery__
@@ -16162,135 +10254,16 @@ export const AccessPermissionsDocument: DocumentNode = {
  *   },
  * });
  */
-export function useAccessPermissionsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    AccessPermissionsQuery,
-    AccessPermissionsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    AccessPermissionsQuery,
-    AccessPermissionsQueryVariables
-  >(AccessPermissionsDocument, baseOptions);
-}
-export function useAccessPermissionsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    AccessPermissionsQuery,
-    AccessPermissionsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    AccessPermissionsQuery,
-    AccessPermissionsQueryVariables
-  >(AccessPermissionsDocument, baseOptions);
-}
-export type AccessPermissionsQueryHookResult = ReturnType<
-  typeof useAccessPermissionsQuery
->;
-export type AccessPermissionsLazyQueryHookResult = ReturnType<
-  typeof useAccessPermissionsLazyQuery
->;
-export type AccessPermissionsQueryResult = Apollo.QueryResult<
-  AccessPermissionsQuery,
-  AccessPermissionsQueryVariables
->;
-export const AppConfigDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'AppConfig' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'appConfig' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'googleAnalyticsTrackingId' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'googleTagManagerId' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'googleAnalyticsLinkerDomains' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'domain' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'googleFontsUrl' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'theme' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'metaData' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              alias: { kind: 'Name', value: 'url' },
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'absoluteUrl' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'siteTitle' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'siteDescription' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'facebookId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'facebookPublisher' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterCreator' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useAccessPermissionsQuery(baseOptions?: Apollo.QueryHookOptions<AccessPermissionsQuery, AccessPermissionsQueryVariables>) {
+        return Apollo.useQuery<AccessPermissionsQuery, AccessPermissionsQueryVariables>(AccessPermissionsDocument, baseOptions);
+      }
+export function useAccessPermissionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AccessPermissionsQuery, AccessPermissionsQueryVariables>) {
+          return Apollo.useLazyQuery<AccessPermissionsQuery, AccessPermissionsQueryVariables>(AccessPermissionsDocument, baseOptions);
+        }
+export type AccessPermissionsQueryHookResult = ReturnType<typeof useAccessPermissionsQuery>;
+export type AccessPermissionsLazyQueryHookResult = ReturnType<typeof useAccessPermissionsLazyQuery>;
+export type AccessPermissionsQueryResult = Apollo.QueryResult<AccessPermissionsQuery, AccessPermissionsQueryVariables>;
+export const AppConfigDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AppConfig"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"appConfig"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"googleAnalyticsTrackingId"}},{"kind":"Field","name":{"kind":"Name","value":"googleTagManagerId"}},{"kind":"Field","name":{"kind":"Name","value":"googleAnalyticsLinkerDomains"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"domain"}}]}},{"kind":"Field","name":{"kind":"Name","value":"googleFontsUrl"}},{"kind":"Field","name":{"kind":"Name","value":"theme"}},{"kind":"Field","name":{"kind":"Name","value":"metaData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"url"},"name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"siteTitle"}},{"kind":"Field","name":{"kind":"Name","value":"siteDescription"}},{"kind":"Field","name":{"kind":"Name","value":"facebookId"}},{"kind":"Field","name":{"kind":"Name","value":"facebookPublisher"}},{"kind":"Field","name":{"kind":"Name","value":"twitterId"}},{"kind":"Field","name":{"kind":"Name","value":"twitterCreator"}}]}}]}}]}}]};
 
 /**
  * __useAppConfigQuery__
@@ -16307,527 +10280,43 @@ export const AppConfigDocument: DocumentNode = {
  *   },
  * });
  */
-export function useAppConfigQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    AppConfigQuery,
-    AppConfigQueryVariables
-  >,
-) {
-  return Apollo.useQuery<AppConfigQuery, AppConfigQueryVariables>(
-    AppConfigDocument,
-    baseOptions,
-  );
-}
-export function useAppConfigLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    AppConfigQuery,
-    AppConfigQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<AppConfigQuery, AppConfigQueryVariables>(
-    AppConfigDocument,
-    baseOptions,
-  );
-}
+export function useAppConfigQuery(baseOptions?: Apollo.QueryHookOptions<AppConfigQuery, AppConfigQueryVariables>) {
+        return Apollo.useQuery<AppConfigQuery, AppConfigQueryVariables>(AppConfigDocument, baseOptions);
+      }
+export function useAppConfigLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppConfigQuery, AppConfigQueryVariables>) {
+          return Apollo.useLazyQuery<AppConfigQuery, AppConfigQueryVariables>(AppConfigDocument, baseOptions);
+        }
 export type AppConfigQueryHookResult = ReturnType<typeof useAppConfigQuery>;
-export type AppConfigLazyQueryHookResult = ReturnType<
-  typeof useAppConfigLazyQuery
->;
-export type AppConfigQueryResult = Apollo.QueryResult<
-  AppConfigQuery,
-  AppConfigQueryVariables
->;
-export const CommerceGetOrderDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'commerceGetOrder' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'storeId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'storeId' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceGetOrder' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'billed' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'createdBy' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'CommerceUser' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'currencySymbol' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'invoiceUrl' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'lastUpdatedAt' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'locked' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'paid' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'customer' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'CommerceCustomer' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'items' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'CommerceOrderItem' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'paymentMethod' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'CommercePaymentMethod' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'paymentStatus' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'subTotal' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'total' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'transactions' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'CommerceTransaction' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'storeId' },
-          },
-        },
-      ],
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTaxType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTaxType' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTax' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceTaxType' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTax' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceProduct' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceProduct' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceOrderItem' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'itemName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'product' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceProduct' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'productMetadata' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'subTotal' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tax' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceTax' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'taxTotal' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'total' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceOrderItem' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceAddress' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceAddress' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceCustomer' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'address' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceAddress' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'vatNumber' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'vatVerified' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceCustomer' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommerceTransaction' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createdBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommerceUser' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastUpdatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'paymentMethod' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'CommercePaymentMethod' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refundedTransaction' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommerceTransaction' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type AppConfigLazyQueryHookResult = ReturnType<typeof useAppConfigLazyQuery>;
+export type AppConfigQueryResult = Apollo.QueryResult<AppConfigQuery, AppConfigQueryVariables>;
+export const CommerceGetDealDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"commerceGetDeal"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceGetDeal"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"dealItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"max"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"min"}},{"kind":"Field","name":{"kind":"Name","value":"step"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]}}]};
+
+/**
+ * __useCommerceGetDealQuery__
+ *
+ * To run a query within a React component, call `useCommerceGetDealQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceGetDealQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceGetDealQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCommerceGetDealQuery(baseOptions: Apollo.QueryHookOptions<CommerceGetDealQuery, CommerceGetDealQueryVariables>) {
+        return Apollo.useQuery<CommerceGetDealQuery, CommerceGetDealQueryVariables>(CommerceGetDealDocument, baseOptions);
+      }
+export function useCommerceGetDealLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceGetDealQuery, CommerceGetDealQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceGetDealQuery, CommerceGetDealQueryVariables>(CommerceGetDealDocument, baseOptions);
+        }
+export type CommerceGetDealQueryHookResult = ReturnType<typeof useCommerceGetDealQuery>;
+export type CommerceGetDealLazyQueryHookResult = ReturnType<typeof useCommerceGetDealLazyQuery>;
+export type CommerceGetDealQueryResult = Apollo.QueryResult<CommerceGetDealQuery, CommerceGetDealQueryVariables>;
+export const CommerceGetOrderDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"commerceGetOrder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"storeId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceGetOrder"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"storeId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"storeId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"billed"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"currencySymbol"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceUrl"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"locked"}},{"kind":"Field","name":{"kind":"Name","value":"paid"}},{"kind":"Field","name":{"kind":"Name","value":"customer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceCustomer"}}]}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceOrderItem"}}]}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommercePaymentMethod"}}]}},{"kind":"Field","name":{"kind":"Name","value":"paymentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"subTotal"}},{"kind":"Field","name":{"kind":"Name","value":"taxTotal"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"transactions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceTransaction"}}]}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTaxType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTaxType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTax"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTax"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rateAmount"}},{"kind":"Field","name":{"kind":"Name","value":"rateType"}},{"kind":"Field","name":{"kind":"Name","value":"taxType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceTaxType"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceProduct"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceProduct"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"taxMode"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceOrderItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceOrderItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"itemName"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"product"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceProduct"}}]}},{"kind":"Field","name":{"kind":"Name","value":"productMetadata"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"subTotal"}},{"kind":"Field","name":{"kind":"Name","value":"tax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceTax"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxTotal"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommercePaymentMethod"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommercePaymentMethod"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceAddress"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceAddress"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"line1"}},{"kind":"Field","name":{"kind":"Name","value":"line2"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"state"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceCustomer"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceCustomer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceAddress"}}]}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"vatNumber"}},{"kind":"Field","name":{"kind":"Name","value":"vatVerified"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CommerceTransaction"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceTransaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommerceUser"}}]}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CommercePaymentMethod"}}]}},{"kind":"Field","name":{"kind":"Name","value":"refundedTransaction"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]};
 
 /**
  * __useCommerceGetOrderQuery__
@@ -16846,170 +10335,16 @@ export const CommerceGetOrderDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceGetOrderQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    CommerceGetOrderQuery,
-    CommerceGetOrderQueryVariables
-  >,
-) {
-  return Apollo.useQuery<CommerceGetOrderQuery, CommerceGetOrderQueryVariables>(
-    CommerceGetOrderDocument,
-    baseOptions,
-  );
-}
-export function useCommerceGetOrderLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceGetOrderQuery,
-    CommerceGetOrderQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceGetOrderQuery,
-    CommerceGetOrderQueryVariables
-  >(CommerceGetOrderDocument, baseOptions);
-}
-export type CommerceGetOrderQueryHookResult = ReturnType<
-  typeof useCommerceGetOrderQuery
->;
-export type CommerceGetOrderLazyQueryHookResult = ReturnType<
-  typeof useCommerceGetOrderLazyQuery
->;
-export type CommerceGetOrderQueryResult = Apollo.QueryResult<
-  CommerceGetOrderQuery,
-  CommerceGetOrderQueryVariables
->;
-export const CommerceGetProductDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceGetProduct' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceGetProduct' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'categories' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'active' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'createdBy' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'defaultPrice' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'lastUpdatedAt' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'lastUpdatedBy' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'tags' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'taxType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceGetOrderQuery(baseOptions: Apollo.QueryHookOptions<CommerceGetOrderQuery, CommerceGetOrderQueryVariables>) {
+        return Apollo.useQuery<CommerceGetOrderQuery, CommerceGetOrderQueryVariables>(CommerceGetOrderDocument, baseOptions);
+      }
+export function useCommerceGetOrderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceGetOrderQuery, CommerceGetOrderQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceGetOrderQuery, CommerceGetOrderQueryVariables>(CommerceGetOrderDocument, baseOptions);
+        }
+export type CommerceGetOrderQueryHookResult = ReturnType<typeof useCommerceGetOrderQuery>;
+export type CommerceGetOrderLazyQueryHookResult = ReturnType<typeof useCommerceGetOrderLazyQuery>;
+export type CommerceGetOrderQueryResult = Apollo.QueryResult<CommerceGetOrderQuery, CommerceGetOrderQueryVariables>;
+export const CommerceGetProductDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceGetProduct"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceGetProduct"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"categories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"defaultPrice"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxMode"}},{"kind":"Field","name":{"kind":"Name","value":"taxType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 
 /**
  * __useCommerceGetProductQuery__
@@ -17027,114 +10362,16 @@ export const CommerceGetProductDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceGetProductQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    CommerceGetProductQuery,
-    CommerceGetProductQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    CommerceGetProductQuery,
-    CommerceGetProductQueryVariables
-  >(CommerceGetProductDocument, baseOptions);
-}
-export function useCommerceGetProductLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceGetProductQuery,
-    CommerceGetProductQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceGetProductQuery,
-    CommerceGetProductQueryVariables
-  >(CommerceGetProductDocument, baseOptions);
-}
-export type CommerceGetProductQueryHookResult = ReturnType<
-  typeof useCommerceGetProductQuery
->;
-export type CommerceGetProductLazyQueryHookResult = ReturnType<
-  typeof useCommerceGetProductLazyQuery
->;
-export type CommerceGetProductQueryResult = Apollo.QueryResult<
-  CommerceGetProductQuery,
-  CommerceGetProductQueryVariables
->;
-export const CommerceGetStoreDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceGetStore' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceGetStore' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'currencySymbol' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'taxTypes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxes' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rateAmount' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rateType' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceGetProductQuery(baseOptions: Apollo.QueryHookOptions<CommerceGetProductQuery, CommerceGetProductQueryVariables>) {
+        return Apollo.useQuery<CommerceGetProductQuery, CommerceGetProductQueryVariables>(CommerceGetProductDocument, baseOptions);
+      }
+export function useCommerceGetProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceGetProductQuery, CommerceGetProductQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceGetProductQuery, CommerceGetProductQueryVariables>(CommerceGetProductDocument, baseOptions);
+        }
+export type CommerceGetProductQueryHookResult = ReturnType<typeof useCommerceGetProductQuery>;
+export type CommerceGetProductLazyQueryHookResult = ReturnType<typeof useCommerceGetProductLazyQuery>;
+export type CommerceGetProductQueryResult = Apollo.QueryResult<CommerceGetProductQuery, CommerceGetProductQueryVariables>;
+export const CommerceGetStoreDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceGetStore"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceGetStore"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"currencySymbol"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"taxTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"taxes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rateAmount"}},{"kind":"Field","name":{"kind":"Name","value":"rateType"}}]}}]}}]}}]}}]};
 
 /**
  * __useCommerceGetStoreQuery__
@@ -17151,106 +10388,16 @@ export const CommerceGetStoreDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceGetStoreQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CommerceGetStoreQuery,
-    CommerceGetStoreQueryVariables
-  >,
-) {
-  return Apollo.useQuery<CommerceGetStoreQuery, CommerceGetStoreQueryVariables>(
-    CommerceGetStoreDocument,
-    baseOptions,
-  );
-}
-export function useCommerceGetStoreLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceGetStoreQuery,
-    CommerceGetStoreQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceGetStoreQuery,
-    CommerceGetStoreQueryVariables
-  >(CommerceGetStoreDocument, baseOptions);
-}
-export type CommerceGetStoreQueryHookResult = ReturnType<
-  typeof useCommerceGetStoreQuery
->;
-export type CommerceGetStoreLazyQueryHookResult = ReturnType<
-  typeof useCommerceGetStoreLazyQuery
->;
-export type CommerceGetStoreQueryResult = Apollo.QueryResult<
-  CommerceGetStoreQuery,
-  CommerceGetStoreQueryVariables
->;
-export const CommerceListCategoriesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceListCategories' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceListCategories' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'hits' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdBy' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lastUpdatedAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'active' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceGetStoreQuery(baseOptions?: Apollo.QueryHookOptions<CommerceGetStoreQuery, CommerceGetStoreQueryVariables>) {
+        return Apollo.useQuery<CommerceGetStoreQuery, CommerceGetStoreQueryVariables>(CommerceGetStoreDocument, baseOptions);
+      }
+export function useCommerceGetStoreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceGetStoreQuery, CommerceGetStoreQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceGetStoreQuery, CommerceGetStoreQueryVariables>(CommerceGetStoreDocument, baseOptions);
+        }
+export type CommerceGetStoreQueryHookResult = ReturnType<typeof useCommerceGetStoreQuery>;
+export type CommerceGetStoreLazyQueryHookResult = ReturnType<typeof useCommerceGetStoreLazyQuery>;
+export type CommerceGetStoreQueryResult = Apollo.QueryResult<CommerceGetStoreQuery, CommerceGetStoreQueryVariables>;
+export const CommerceListCategoriesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceListCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceListCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]}}]};
 
 /**
  * __useCommerceListCategoriesQuery__
@@ -17267,128 +10414,16 @@ export const CommerceListCategoriesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceListCategoriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CommerceListCategoriesQuery,
-    CommerceListCategoriesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    CommerceListCategoriesQuery,
-    CommerceListCategoriesQueryVariables
-  >(CommerceListCategoriesDocument, baseOptions);
-}
-export function useCommerceListCategoriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceListCategoriesQuery,
-    CommerceListCategoriesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceListCategoriesQuery,
-    CommerceListCategoriesQueryVariables
-  >(CommerceListCategoriesDocument, baseOptions);
-}
-export type CommerceListCategoriesQueryHookResult = ReturnType<
-  typeof useCommerceListCategoriesQuery
->;
-export type CommerceListCategoriesLazyQueryHookResult = ReturnType<
-  typeof useCommerceListCategoriesLazyQuery
->;
-export type CommerceListCategoriesQueryResult = Apollo.QueryResult<
-  CommerceListCategoriesQuery,
-  CommerceListCategoriesQueryVariables
->;
-export const CommerceListDealsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceListDeals' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'sort' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'sort' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceListDeals' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'hits' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'active' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endDate' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lastUpdatedAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'metadata' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startDate' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'total' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'CommerceSortTerm' },
-              },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceListCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CommerceListCategoriesQuery, CommerceListCategoriesQueryVariables>) {
+        return Apollo.useQuery<CommerceListCategoriesQuery, CommerceListCategoriesQueryVariables>(CommerceListCategoriesDocument, baseOptions);
+      }
+export function useCommerceListCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceListCategoriesQuery, CommerceListCategoriesQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceListCategoriesQuery, CommerceListCategoriesQueryVariables>(CommerceListCategoriesDocument, baseOptions);
+        }
+export type CommerceListCategoriesQueryHookResult = ReturnType<typeof useCommerceListCategoriesQuery>;
+export type CommerceListCategoriesLazyQueryHookResult = ReturnType<typeof useCommerceListCategoriesLazyQuery>;
+export type CommerceListCategoriesQueryResult = Apollo.QueryResult<CommerceListCategoriesQuery, CommerceListCategoriesQueryVariables>;
+export const CommerceListDealsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceListDeals"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceSortTerm"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceListDeals"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]};
 
 /**
  * __useCommerceListDealsQuery__
@@ -17406,85 +10441,16 @@ export const CommerceListDealsDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceListDealsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CommerceListDealsQuery,
-    CommerceListDealsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    CommerceListDealsQuery,
-    CommerceListDealsQueryVariables
-  >(CommerceListDealsDocument, baseOptions);
-}
-export function useCommerceListDealsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceListDealsQuery,
-    CommerceListDealsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceListDealsQuery,
-    CommerceListDealsQueryVariables
-  >(CommerceListDealsDocument, baseOptions);
-}
-export type CommerceListDealsQueryHookResult = ReturnType<
-  typeof useCommerceListDealsQuery
->;
-export type CommerceListDealsLazyQueryHookResult = ReturnType<
-  typeof useCommerceListDealsLazyQuery
->;
-export type CommerceListDealsQueryResult = Apollo.QueryResult<
-  CommerceListDealsQuery,
-  CommerceListDealsQueryVariables
->;
-export const CommerceListPaymentMethodsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceListPaymentMethods' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceListPaymentMethods' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'hits' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'configuration' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'active' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'gateway' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceListDealsQuery(baseOptions?: Apollo.QueryHookOptions<CommerceListDealsQuery, CommerceListDealsQueryVariables>) {
+        return Apollo.useQuery<CommerceListDealsQuery, CommerceListDealsQueryVariables>(CommerceListDealsDocument, baseOptions);
+      }
+export function useCommerceListDealsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceListDealsQuery, CommerceListDealsQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceListDealsQuery, CommerceListDealsQueryVariables>(CommerceListDealsDocument, baseOptions);
+        }
+export type CommerceListDealsQueryHookResult = ReturnType<typeof useCommerceListDealsQuery>;
+export type CommerceListDealsLazyQueryHookResult = ReturnType<typeof useCommerceListDealsLazyQuery>;
+export type CommerceListDealsQueryResult = Apollo.QueryResult<CommerceListDealsQuery, CommerceListDealsQueryVariables>;
+export const CommerceListPaymentMethodsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceListPaymentMethods"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceListPaymentMethods"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"configuration"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"gateway"}}]}}]}}]}}]};
 
 /**
  * __useCommerceListPaymentMethodsQuery__
@@ -17501,203 +10467,16 @@ export const CommerceListPaymentMethodsDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceListPaymentMethodsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CommerceListPaymentMethodsQuery,
-    CommerceListPaymentMethodsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    CommerceListPaymentMethodsQuery,
-    CommerceListPaymentMethodsQueryVariables
-  >(CommerceListPaymentMethodsDocument, baseOptions);
-}
-export function useCommerceListPaymentMethodsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceListPaymentMethodsQuery,
-    CommerceListPaymentMethodsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceListPaymentMethodsQuery,
-    CommerceListPaymentMethodsQueryVariables
-  >(CommerceListPaymentMethodsDocument, baseOptions);
-}
-export type CommerceListPaymentMethodsQueryHookResult = ReturnType<
-  typeof useCommerceListPaymentMethodsQuery
->;
-export type CommerceListPaymentMethodsLazyQueryHookResult = ReturnType<
-  typeof useCommerceListPaymentMethodsLazyQuery
->;
-export type CommerceListPaymentMethodsQueryResult = Apollo.QueryResult<
-  CommerceListPaymentMethodsQuery,
-  CommerceListPaymentMethodsQueryVariables
->;
-export const CommerceListProductsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceListProducts' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceListProducts' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'hits' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'active' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'categories' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'active' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdBy' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'defaultPrice' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lastUpdatedAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lastUpdatedBy' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'tags' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'code' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxMode' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxType' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceListPaymentMethodsQuery(baseOptions?: Apollo.QueryHookOptions<CommerceListPaymentMethodsQuery, CommerceListPaymentMethodsQueryVariables>) {
+        return Apollo.useQuery<CommerceListPaymentMethodsQuery, CommerceListPaymentMethodsQueryVariables>(CommerceListPaymentMethodsDocument, baseOptions);
+      }
+export function useCommerceListPaymentMethodsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceListPaymentMethodsQuery, CommerceListPaymentMethodsQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceListPaymentMethodsQuery, CommerceListPaymentMethodsQueryVariables>(CommerceListPaymentMethodsDocument, baseOptions);
+        }
+export type CommerceListPaymentMethodsQueryHookResult = ReturnType<typeof useCommerceListPaymentMethodsQuery>;
+export type CommerceListPaymentMethodsLazyQueryHookResult = ReturnType<typeof useCommerceListPaymentMethodsLazyQuery>;
+export type CommerceListPaymentMethodsQueryResult = Apollo.QueryResult<CommerceListPaymentMethodsQuery, CommerceListPaymentMethodsQueryVariables>;
+export const CommerceListProductsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceListProducts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceListProducts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"categories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"defaultPrice"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxMode"}},{"kind":"Field","name":{"kind":"Name","value":"taxType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]};
 
 /**
  * __useCommerceListProductsQuery__
@@ -17714,171 +10493,16 @@ export const CommerceListProductsDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceListProductsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CommerceListProductsQuery,
-    CommerceListProductsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    CommerceListProductsQuery,
-    CommerceListProductsQueryVariables
-  >(CommerceListProductsDocument, baseOptions);
-}
-export function useCommerceListProductsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceListProductsQuery,
-    CommerceListProductsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceListProductsQuery,
-    CommerceListProductsQueryVariables
-  >(CommerceListProductsDocument, baseOptions);
-}
-export type CommerceListProductsQueryHookResult = ReturnType<
-  typeof useCommerceListProductsQuery
->;
-export type CommerceListProductsLazyQueryHookResult = ReturnType<
-  typeof useCommerceListProductsLazyQuery
->;
-export type CommerceListProductsQueryResult = Apollo.QueryResult<
-  CommerceListProductsQuery,
-  CommerceListProductsQueryVariables
->;
-export const CommerceListSaleProductsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceListSaleProducts' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'saleId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'saleId' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'sort' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'sort' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceListSaleProducts' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'hits' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'active' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdBy' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'product' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'total' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'saleId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'CommerceSortTerm' },
-              },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceListProductsQuery(baseOptions?: Apollo.QueryHookOptions<CommerceListProductsQuery, CommerceListProductsQueryVariables>) {
+        return Apollo.useQuery<CommerceListProductsQuery, CommerceListProductsQueryVariables>(CommerceListProductsDocument, baseOptions);
+      }
+export function useCommerceListProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceListProductsQuery, CommerceListProductsQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceListProductsQuery, CommerceListProductsQueryVariables>(CommerceListProductsDocument, baseOptions);
+        }
+export type CommerceListProductsQueryHookResult = ReturnType<typeof useCommerceListProductsQuery>;
+export type CommerceListProductsLazyQueryHookResult = ReturnType<typeof useCommerceListProductsLazyQuery>;
+export type CommerceListProductsQueryResult = Apollo.QueryResult<CommerceListProductsQuery, CommerceListProductsQueryVariables>;
+export const CommerceListSaleProductsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceListSaleProducts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"saleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CommerceSortTerm"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceListSaleProducts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"saleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"saleId"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"product"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]};
 
 /**
  * __useCommerceListSaleProductsQuery__
@@ -17897,132 +10521,16 @@ export const CommerceListSaleProductsDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceListSaleProductsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    CommerceListSaleProductsQuery,
-    CommerceListSaleProductsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    CommerceListSaleProductsQuery,
-    CommerceListSaleProductsQueryVariables
-  >(CommerceListSaleProductsDocument, baseOptions);
-}
-export function useCommerceListSaleProductsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceListSaleProductsQuery,
-    CommerceListSaleProductsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceListSaleProductsQuery,
-    CommerceListSaleProductsQueryVariables
-  >(CommerceListSaleProductsDocument, baseOptions);
-}
-export type CommerceListSaleProductsQueryHookResult = ReturnType<
-  typeof useCommerceListSaleProductsQuery
->;
-export type CommerceListSaleProductsLazyQueryHookResult = ReturnType<
-  typeof useCommerceListSaleProductsLazyQuery
->;
-export type CommerceListSaleProductsQueryResult = Apollo.QueryResult<
-  CommerceListSaleProductsQuery,
-  CommerceListSaleProductsQueryVariables
->;
-export const CommerceListStoresDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceListStores' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceListStores' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'hits' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currencySymbol' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'country' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxTypes' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'taxes' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'country' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'rateAmount' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'rateType' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceListSaleProductsQuery(baseOptions: Apollo.QueryHookOptions<CommerceListSaleProductsQuery, CommerceListSaleProductsQueryVariables>) {
+        return Apollo.useQuery<CommerceListSaleProductsQuery, CommerceListSaleProductsQueryVariables>(CommerceListSaleProductsDocument, baseOptions);
+      }
+export function useCommerceListSaleProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceListSaleProductsQuery, CommerceListSaleProductsQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceListSaleProductsQuery, CommerceListSaleProductsQueryVariables>(CommerceListSaleProductsDocument, baseOptions);
+        }
+export type CommerceListSaleProductsQueryHookResult = ReturnType<typeof useCommerceListSaleProductsQuery>;
+export type CommerceListSaleProductsLazyQueryHookResult = ReturnType<typeof useCommerceListSaleProductsLazyQuery>;
+export type CommerceListSaleProductsQueryResult = Apollo.QueryResult<CommerceListSaleProductsQuery, CommerceListSaleProductsQueryVariables>;
+export const CommerceListStoresDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceListStores"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceListStores"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"currencySymbol"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"taxTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"taxes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rateAmount"}},{"kind":"Field","name":{"kind":"Name","value":"rateType"}}]}}]}}]}}]}}]}}]};
 
 /**
  * __useCommerceListStoresQuery__
@@ -18039,77 +10547,16 @@ export const CommerceListStoresDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceListStoresQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CommerceListStoresQuery,
-    CommerceListStoresQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    CommerceListStoresQuery,
-    CommerceListStoresQueryVariables
-  >(CommerceListStoresDocument, baseOptions);
-}
-export function useCommerceListStoresLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceListStoresQuery,
-    CommerceListStoresQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceListStoresQuery,
-    CommerceListStoresQueryVariables
-  >(CommerceListStoresDocument, baseOptions);
-}
-export type CommerceListStoresQueryHookResult = ReturnType<
-  typeof useCommerceListStoresQuery
->;
-export type CommerceListStoresLazyQueryHookResult = ReturnType<
-  typeof useCommerceListStoresLazyQuery
->;
-export type CommerceListStoresQueryResult = Apollo.QueryResult<
-  CommerceListStoresQuery,
-  CommerceListStoresQueryVariables
->;
-export const CommerceListTaxTypesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'CommerceListTaxTypes' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceListTaxTypes' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'hits' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceListStoresQuery(baseOptions?: Apollo.QueryHookOptions<CommerceListStoresQuery, CommerceListStoresQueryVariables>) {
+        return Apollo.useQuery<CommerceListStoresQuery, CommerceListStoresQueryVariables>(CommerceListStoresDocument, baseOptions);
+      }
+export function useCommerceListStoresLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceListStoresQuery, CommerceListStoresQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceListStoresQuery, CommerceListStoresQueryVariables>(CommerceListStoresDocument, baseOptions);
+        }
+export type CommerceListStoresQueryHookResult = ReturnType<typeof useCommerceListStoresQuery>;
+export type CommerceListStoresLazyQueryHookResult = ReturnType<typeof useCommerceListStoresLazyQuery>;
+export type CommerceListStoresQueryResult = Apollo.QueryResult<CommerceListStoresQuery, CommerceListStoresQueryVariables>;
+export const CommerceListTaxTypesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommerceListTaxTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceListTaxTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 
 /**
  * __useCommerceListTaxTypesQuery__
@@ -18126,92 +10573,16 @@ export const CommerceListTaxTypesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCommerceListTaxTypesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CommerceListTaxTypesQuery,
-    CommerceListTaxTypesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    CommerceListTaxTypesQuery,
-    CommerceListTaxTypesQueryVariables
-  >(CommerceListTaxTypesDocument, baseOptions);
-}
-export function useCommerceListTaxTypesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommerceListTaxTypesQuery,
-    CommerceListTaxTypesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    CommerceListTaxTypesQuery,
-    CommerceListTaxTypesQueryVariables
-  >(CommerceListTaxTypesDocument, baseOptions);
-}
-export type CommerceListTaxTypesQueryHookResult = ReturnType<
-  typeof useCommerceListTaxTypesQuery
->;
-export type CommerceListTaxTypesLazyQueryHookResult = ReturnType<
-  typeof useCommerceListTaxTypesLazyQuery
->;
-export type CommerceListTaxTypesQueryResult = Apollo.QueryResult<
-  CommerceListTaxTypesQuery,
-  CommerceListTaxTypesQueryVariables
->;
-export const CountriesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'countries' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'countries' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'code' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useCommerceListTaxTypesQuery(baseOptions?: Apollo.QueryHookOptions<CommerceListTaxTypesQuery, CommerceListTaxTypesQueryVariables>) {
+        return Apollo.useQuery<CommerceListTaxTypesQuery, CommerceListTaxTypesQueryVariables>(CommerceListTaxTypesDocument, baseOptions);
+      }
+export function useCommerceListTaxTypesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommerceListTaxTypesQuery, CommerceListTaxTypesQueryVariables>) {
+          return Apollo.useLazyQuery<CommerceListTaxTypesQuery, CommerceListTaxTypesQueryVariables>(CommerceListTaxTypesDocument, baseOptions);
+        }
+export type CommerceListTaxTypesQueryHookResult = ReturnType<typeof useCommerceListTaxTypesQuery>;
+export type CommerceListTaxTypesLazyQueryHookResult = ReturnType<typeof useCommerceListTaxTypesLazyQuery>;
+export type CommerceListTaxTypesQueryResult = Apollo.QueryResult<CommerceListTaxTypesQuery, CommerceListTaxTypesQueryVariables>;
+export const CountriesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"countries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"countries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]};
 
 /**
  * __useCountriesQuery__
@@ -18228,263 +10599,16 @@ export const CountriesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useCountriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CountriesQuery,
-    CountriesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<CountriesQuery, CountriesQueryVariables>(
-    CountriesDocument,
-    baseOptions,
-  );
-}
-export function useCountriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CountriesQuery,
-    CountriesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<CountriesQuery, CountriesQueryVariables>(
-    CountriesDocument,
-    baseOptions,
-  );
-}
+export function useCountriesQuery(baseOptions?: Apollo.QueryHookOptions<CountriesQuery, CountriesQueryVariables>) {
+        return Apollo.useQuery<CountriesQuery, CountriesQueryVariables>(CountriesDocument, baseOptions);
+      }
+export function useCountriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountriesQuery, CountriesQueryVariables>) {
+          return Apollo.useLazyQuery<CountriesQuery, CountriesQueryVariables>(CountriesDocument, baseOptions);
+        }
 export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
-export type CountriesLazyQueryHookResult = ReturnType<
-  typeof useCountriesLazyQuery
->;
-export type CountriesQueryResult = Apollo.QueryResult<
-  CountriesQuery,
-  CountriesQueryVariables
->;
-export const EventDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'event' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'slug' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'slug' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'event' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'timezone' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'timeZone' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'displayName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'ianaName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'utcOffset' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'baseUrl' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'country' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'legalEntity' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'address' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'city' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lineOne' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'lineTwo' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'postalCode' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'region' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'regNumber' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'taxNumber' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'website' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'taxRates' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'edges' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'node' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'rateType' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'country' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'name' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'id' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'code' },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'taxType' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'value' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export type CountriesLazyQueryHookResult = ReturnType<typeof useCountriesLazyQuery>;
+export type CountriesQueryResult = Apollo.QueryResult<CountriesQuery, CountriesQueryVariables>;
+export const EventDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"event"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"event"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}},{"kind":"Field","name":{"kind":"Name","value":"timeZone"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"ianaName"}},{"kind":"Field","name":{"kind":"Name","value":"utcOffset"}}]}},{"kind":"Field","name":{"kind":"Name","value":"baseUrl"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"legalEntity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lineOne"}},{"kind":"Field","name":{"kind":"Name","value":"lineTwo"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"region"}}]}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"regNumber"}},{"kind":"Field","name":{"kind":"Name","value":"taxNumber"}},{"kind":"Field","name":{"kind":"Name","value":"website"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxNumber"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"taxRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rateType"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"taxType"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]};
 
 /**
  * __useEventQuery__
@@ -18502,269 +10626,16 @@ export const EventDocument: DocumentNode = {
  *   },
  * });
  */
-export function useEventQuery(
-  baseOptions?: Apollo.QueryHookOptions<EventQuery, EventQueryVariables>,
-) {
-  return Apollo.useQuery<EventQuery, EventQueryVariables>(
-    EventDocument,
-    baseOptions,
-  );
-}
-export function useEventLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<EventQuery, EventQueryVariables>,
-) {
-  return Apollo.useLazyQuery<EventQuery, EventQueryVariables>(
-    EventDocument,
-    baseOptions,
-  );
-}
+export function useEventQuery(baseOptions?: Apollo.QueryHookOptions<EventQuery, EventQueryVariables>) {
+        return Apollo.useQuery<EventQuery, EventQueryVariables>(EventDocument, baseOptions);
+      }
+export function useEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventQuery, EventQueryVariables>) {
+          return Apollo.useLazyQuery<EventQuery, EventQueryVariables>(EventDocument, baseOptions);
+        }
 export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
-export type EventQueryResult = Apollo.QueryResult<
-  EventQuery,
-  EventQueryVariables
->;
-export const EventListQueryDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'EventListQuery' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'filter' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'filter' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'events' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'cursor' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'slug' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'startDate' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'endDate' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'timezone' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'baseUrl' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'versions' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'event' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'createdAt' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'whodunnit' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'taxRates' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'edges' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'node' },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'rateType',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'country',
-                                                },
-                                                selectionSet: {
-                                                  kind: 'SelectionSet',
-                                                  selections: [
-                                                    {
-                                                      kind: 'Field',
-                                                      name: {
-                                                        kind: 'Name',
-                                                        value: 'name',
-                                                      },
-                                                    },
-                                                  ],
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'name',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'taxType',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'value',
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageInfo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasPreviousPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasNextPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endCursor' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startCursor' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'EventFilter' },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'filter' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
+export const EventListQueryDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EventListQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"EventFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"events"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}},{"kind":"Field","name":{"kind":"Name","value":"baseUrl"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"versions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"event"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"whodunnit"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rateType"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"taxType"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}}]}}]}}]}}]};
 
 /**
  * __useEventListQueryQuery__
@@ -18782,97 +10653,16 @@ export const EventListQueryDocument: DocumentNode = {
  *   },
  * });
  */
-export function useEventListQueryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    EventListQueryQuery,
-    EventListQueryQueryVariables
-  >,
-) {
-  return Apollo.useQuery<EventListQueryQuery, EventListQueryQueryVariables>(
-    EventListQueryDocument,
-    baseOptions,
-  );
-}
-export function useEventListQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    EventListQueryQuery,
-    EventListQueryQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<EventListQueryQuery, EventListQueryQueryVariables>(
-    EventListQueryDocument,
-    baseOptions,
-  );
-}
-export type EventListQueryQueryHookResult = ReturnType<
-  typeof useEventListQueryQuery
->;
-export type EventListQueryLazyQueryHookResult = ReturnType<
-  typeof useEventListQueryLazyQuery
->;
-export type EventListQueryQueryResult = Apollo.QueryResult<
-  EventListQueryQuery,
-  EventListQueryQueryVariables
->;
-export const TaEventDataDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'taEventData' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'slug' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'slug' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taEvent' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'industries' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'companySizes' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'passportRequired' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export function useEventListQueryQuery(baseOptions?: Apollo.QueryHookOptions<EventListQueryQuery, EventListQueryQueryVariables>) {
+        return Apollo.useQuery<EventListQueryQuery, EventListQueryQueryVariables>(EventListQueryDocument, baseOptions);
+      }
+export function useEventListQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventListQueryQuery, EventListQueryQueryVariables>) {
+          return Apollo.useLazyQuery<EventListQueryQuery, EventListQueryQueryVariables>(EventListQueryDocument, baseOptions);
+        }
+export type EventListQueryQueryHookResult = ReturnType<typeof useEventListQueryQuery>;
+export type EventListQueryLazyQueryHookResult = ReturnType<typeof useEventListQueryLazyQuery>;
+export type EventListQueryQueryResult = Apollo.QueryResult<EventListQueryQuery, EventListQueryQueryVariables>;
+export const TaEventDataDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"taEventData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taEvent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"industries"}},{"kind":"Field","name":{"kind":"Name","value":"companySizes"}},{"kind":"Field","name":{"kind":"Name","value":"passportRequired"}}]}}]}}]};
 
 /**
  * __useTaEventDataQuery__
@@ -18890,135 +10680,16 @@ export const TaEventDataDocument: DocumentNode = {
  *   },
  * });
  */
-export function useTaEventDataQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    TaEventDataQuery,
-    TaEventDataQueryVariables
-  >,
-) {
-  return Apollo.useQuery<TaEventDataQuery, TaEventDataQueryVariables>(
-    TaEventDataDocument,
-    baseOptions,
-  );
-}
-export function useTaEventDataLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TaEventDataQuery,
-    TaEventDataQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<TaEventDataQuery, TaEventDataQueryVariables>(
-    TaEventDataDocument,
-    baseOptions,
-  );
-}
+export function useTaEventDataQuery(baseOptions: Apollo.QueryHookOptions<TaEventDataQuery, TaEventDataQueryVariables>) {
+        return Apollo.useQuery<TaEventDataQuery, TaEventDataQueryVariables>(TaEventDataDocument, baseOptions);
+      }
+export function useTaEventDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TaEventDataQuery, TaEventDataQueryVariables>) {
+          return Apollo.useLazyQuery<TaEventDataQuery, TaEventDataQueryVariables>(TaEventDataDocument, baseOptions);
+        }
 export type TaEventDataQueryHookResult = ReturnType<typeof useTaEventDataQuery>;
-export type TaEventDataLazyQueryHookResult = ReturnType<
-  typeof useTaEventDataLazyQuery
->;
-export type TaEventDataQueryResult = Apollo.QueryResult<
-  TaEventDataQuery,
-  TaEventDataQueryVariables
->;
-export const LegalEntityDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'legalEntity' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'legalEntity' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'country' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'code' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lineOne' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lineTwo' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'postalCode' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'region' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'regNumber' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export type TaEventDataLazyQueryHookResult = ReturnType<typeof useTaEventDataLazyQuery>;
+export type TaEventDataQueryResult = Apollo.QueryResult<TaEventDataQuery, TaEventDataQueryVariables>;
+export const LegalEntityDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"legalEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"legalEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lineOne"}},{"kind":"Field","name":{"kind":"Name","value":"lineTwo"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"region"}}]}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"regNumber"}},{"kind":"Field","name":{"kind":"Name","value":"taxNumber"}},{"kind":"Field","name":{"kind":"Name","value":"website"}}]}}]}}]};
 
 /**
  * __useLegalEntityQuery__
@@ -19036,177 +10707,16 @@ export const LegalEntityDocument: DocumentNode = {
  *   },
  * });
  */
-export function useLegalEntityQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    LegalEntityQuery,
-    LegalEntityQueryVariables
-  >,
-) {
-  return Apollo.useQuery<LegalEntityQuery, LegalEntityQueryVariables>(
-    LegalEntityDocument,
-    baseOptions,
-  );
-}
-export function useLegalEntityLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    LegalEntityQuery,
-    LegalEntityQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<LegalEntityQuery, LegalEntityQueryVariables>(
-    LegalEntityDocument,
-    baseOptions,
-  );
-}
+export function useLegalEntityQuery(baseOptions: Apollo.QueryHookOptions<LegalEntityQuery, LegalEntityQueryVariables>) {
+        return Apollo.useQuery<LegalEntityQuery, LegalEntityQueryVariables>(LegalEntityDocument, baseOptions);
+      }
+export function useLegalEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LegalEntityQuery, LegalEntityQueryVariables>) {
+          return Apollo.useLazyQuery<LegalEntityQuery, LegalEntityQueryVariables>(LegalEntityDocument, baseOptions);
+        }
 export type LegalEntityQueryHookResult = ReturnType<typeof useLegalEntityQuery>;
-export type LegalEntityLazyQueryHookResult = ReturnType<
-  typeof useLegalEntityLazyQuery
->;
-export type LegalEntityQueryResult = Apollo.QueryResult<
-  LegalEntityQuery,
-  LegalEntityQueryVariables
->;
-export const LegalEntitiesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'legalEntities' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'legalEntities' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'cursor' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'regNumber' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'website' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'taxNumber' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'address' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'city' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'postalCode' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'lineOne' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'lineTwo' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'region' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'country' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'name' },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageInfo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasPreviousPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasNextPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endCursor' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startCursor' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type LegalEntityLazyQueryHookResult = ReturnType<typeof useLegalEntityLazyQuery>;
+export type LegalEntityQueryResult = Apollo.QueryResult<LegalEntityQuery, LegalEntityQueryVariables>;
+export const LegalEntitiesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"legalEntities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"legalEntities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"regNumber"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"taxNumber"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"postalCode"}},{"kind":"Field","name":{"kind":"Name","value":"lineOne"}},{"kind":"Field","name":{"kind":"Name","value":"lineTwo"}},{"kind":"Field","name":{"kind":"Name","value":"region"}},{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}}]}}]}}]}}]};
 
 /**
  * __useLegalEntitiesQuery__
@@ -19223,136 +10733,16 @@ export const LegalEntitiesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useLegalEntitiesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    LegalEntitiesQuery,
-    LegalEntitiesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(
-    LegalEntitiesDocument,
-    baseOptions,
-  );
-}
-export function useLegalEntitiesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    LegalEntitiesQuery,
-    LegalEntitiesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(
-    LegalEntitiesDocument,
-    baseOptions,
-  );
-}
-export type LegalEntitiesQueryHookResult = ReturnType<
-  typeof useLegalEntitiesQuery
->;
-export type LegalEntitiesLazyQueryHookResult = ReturnType<
-  typeof useLegalEntitiesLazyQuery
->;
-export type LegalEntitiesQueryResult = Apollo.QueryResult<
-  LegalEntitiesQuery,
-  LegalEntitiesQueryVariables
->;
-export const MyAssignmentDashboardDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'MyAssignmentDashboard' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'assignmentUser' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'orders' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'reference' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'amount' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'currency' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'summary' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tickets' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'ticketType' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'name' },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'completedAt' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useLegalEntitiesQuery(baseOptions?: Apollo.QueryHookOptions<LegalEntitiesQuery, LegalEntitiesQueryVariables>) {
+        return Apollo.useQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(LegalEntitiesDocument, baseOptions);
+      }
+export function useLegalEntitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LegalEntitiesQuery, LegalEntitiesQueryVariables>) {
+          return Apollo.useLazyQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(LegalEntitiesDocument, baseOptions);
+        }
+export type LegalEntitiesQueryHookResult = ReturnType<typeof useLegalEntitiesQuery>;
+export type LegalEntitiesLazyQueryHookResult = ReturnType<typeof useLegalEntitiesLazyQuery>;
+export type LegalEntitiesQueryResult = Apollo.QueryResult<LegalEntitiesQuery, LegalEntitiesQueryVariables>;
+export const MyAssignmentDashboardDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyAssignmentDashboard"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignmentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"orders"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tickets"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"}}]}}]}}]}}]}}]};
 
 /**
  * __useMyAssignmentDashboardQuery__
@@ -19369,115 +10759,16 @@ export const MyAssignmentDashboardDocument: DocumentNode = {
  *   },
  * });
  */
-export function useMyAssignmentDashboardQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    MyAssignmentDashboardQuery,
-    MyAssignmentDashboardQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    MyAssignmentDashboardQuery,
-    MyAssignmentDashboardQueryVariables
-  >(MyAssignmentDashboardDocument, baseOptions);
-}
-export function useMyAssignmentDashboardLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    MyAssignmentDashboardQuery,
-    MyAssignmentDashboardQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    MyAssignmentDashboardQuery,
-    MyAssignmentDashboardQueryVariables
-  >(MyAssignmentDashboardDocument, baseOptions);
-}
-export type MyAssignmentDashboardQueryHookResult = ReturnType<
-  typeof useMyAssignmentDashboardQuery
->;
-export type MyAssignmentDashboardLazyQueryHookResult = ReturnType<
-  typeof useMyAssignmentDashboardLazyQuery
->;
-export type MyAssignmentDashboardQueryResult = Apollo.QueryResult<
-  MyAssignmentDashboardQuery,
-  MyAssignmentDashboardQueryVariables
->;
-export const MyDashboardDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'MyDashboard' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'orders' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tickets' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useMyAssignmentDashboardQuery(baseOptions?: Apollo.QueryHookOptions<MyAssignmentDashboardQuery, MyAssignmentDashboardQueryVariables>) {
+        return Apollo.useQuery<MyAssignmentDashboardQuery, MyAssignmentDashboardQueryVariables>(MyAssignmentDashboardDocument, baseOptions);
+      }
+export function useMyAssignmentDashboardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyAssignmentDashboardQuery, MyAssignmentDashboardQueryVariables>) {
+          return Apollo.useLazyQuery<MyAssignmentDashboardQuery, MyAssignmentDashboardQueryVariables>(MyAssignmentDashboardDocument, baseOptions);
+        }
+export type MyAssignmentDashboardQueryHookResult = ReturnType<typeof useMyAssignmentDashboardQuery>;
+export type MyAssignmentDashboardLazyQueryHookResult = ReturnType<typeof useMyAssignmentDashboardLazyQuery>;
+export type MyAssignmentDashboardQueryResult = Apollo.QueryResult<MyAssignmentDashboardQuery, MyAssignmentDashboardQueryVariables>;
+export const MyDashboardDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyDashboard"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orders"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"tickets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]};
 
 /**
  * __useMyDashboardQuery__
@@ -19494,124 +10785,16 @@ export const MyDashboardDocument: DocumentNode = {
  *   },
  * });
  */
-export function useMyDashboardQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    MyDashboardQuery,
-    MyDashboardQueryVariables
-  >,
-) {
-  return Apollo.useQuery<MyDashboardQuery, MyDashboardQueryVariables>(
-    MyDashboardDocument,
-    baseOptions,
-  );
-}
-export function useMyDashboardLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    MyDashboardQuery,
-    MyDashboardQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<MyDashboardQuery, MyDashboardQueryVariables>(
-    MyDashboardDocument,
-    baseOptions,
-  );
-}
+export function useMyDashboardQuery(baseOptions?: Apollo.QueryHookOptions<MyDashboardQuery, MyDashboardQueryVariables>) {
+        return Apollo.useQuery<MyDashboardQuery, MyDashboardQueryVariables>(MyDashboardDocument, baseOptions);
+      }
+export function useMyDashboardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyDashboardQuery, MyDashboardQueryVariables>) {
+          return Apollo.useLazyQuery<MyDashboardQuery, MyDashboardQueryVariables>(MyDashboardDocument, baseOptions);
+        }
 export type MyDashboardQueryHookResult = ReturnType<typeof useMyDashboardQuery>;
-export type MyDashboardLazyQueryHookResult = ReturnType<
-  typeof useMyDashboardLazyQuery
->;
-export type MyDashboardQueryResult = Apollo.QueryResult<
-  MyDashboardQuery,
-  MyDashboardQueryVariables
->;
-export const MyOrdersDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'MyOrders' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'orders' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'reference' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'amount' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'currency' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'summary' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tickets' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'ticketType' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'name' },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'completedAt' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type MyDashboardLazyQueryHookResult = ReturnType<typeof useMyDashboardLazyQuery>;
+export type MyDashboardQueryResult = Apollo.QueryResult<MyDashboardQuery, MyDashboardQueryVariables>;
+export const MyOrdersDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyOrders"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orders"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tickets"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"}}]}}]}}]}}]}}]};
 
 /**
  * __useMyOrdersQuery__
@@ -19628,247 +10811,16 @@ export const MyOrdersDocument: DocumentNode = {
  *   },
  * });
  */
-export function useMyOrdersQuery(
-  baseOptions?: Apollo.QueryHookOptions<MyOrdersQuery, MyOrdersQueryVariables>,
-) {
-  return Apollo.useQuery<MyOrdersQuery, MyOrdersQueryVariables>(
-    MyOrdersDocument,
-    baseOptions,
-  );
-}
-export function useMyOrdersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    MyOrdersQuery,
-    MyOrdersQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<MyOrdersQuery, MyOrdersQueryVariables>(
-    MyOrdersDocument,
-    baseOptions,
-  );
-}
+export function useMyOrdersQuery(baseOptions?: Apollo.QueryHookOptions<MyOrdersQuery, MyOrdersQueryVariables>) {
+        return Apollo.useQuery<MyOrdersQuery, MyOrdersQueryVariables>(MyOrdersDocument, baseOptions);
+      }
+export function useMyOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyOrdersQuery, MyOrdersQueryVariables>) {
+          return Apollo.useLazyQuery<MyOrdersQuery, MyOrdersQueryVariables>(MyOrdersDocument, baseOptions);
+        }
 export type MyOrdersQueryHookResult = ReturnType<typeof useMyOrdersQuery>;
-export type MyOrdersLazyQueryHookResult = ReturnType<
-  typeof useMyOrdersLazyQuery
->;
-export type MyOrdersQueryResult = Apollo.QueryResult<
-  MyOrdersQuery,
-  MyOrdersQueryVariables
->;
-export const MyTicketsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'MyTickets' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tickets' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'bookingRef' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ticketType' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignment' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'state' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'appLoginEmail',
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignee' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'id' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'me' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'firstName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'lastName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'email',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'phoneNumber',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'city' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'companyName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'companySizeId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'industryId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'jobTitle',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'marketingConsent',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'passportNumber',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'personalisationConsent',
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'state' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'context' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'editable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'acceptable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'rejectable' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type MyOrdersLazyQueryHookResult = ReturnType<typeof useMyOrdersLazyQuery>;
+export type MyOrdersQueryResult = Apollo.QueryResult<MyOrdersQuery, MyOrdersQueryVariables>;
+export const MyTicketsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyTickets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tickets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"bookingRef"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"assignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"appLoginEmail"}},{"kind":"Field","name":{"kind":"Name","value":"assignee"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"me"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"companySizeId"}},{"kind":"Field","name":{"kind":"Name","value":"industryId"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"marketingConsent"}},{"kind":"Field","name":{"kind":"Name","value":"passportNumber"}},{"kind":"Field","name":{"kind":"Name","value":"personalisationConsent"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"context"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignable"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"acceptable"}},{"kind":"Field","name":{"kind":"Name","value":"rejectable"}}]}}]}}]}}]}}]}}]};
 
 /**
  * __useMyTicketsQuery__
@@ -19885,532 +10837,16 @@ export const MyTicketsDocument: DocumentNode = {
  *   },
  * });
  */
-export function useMyTicketsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    MyTicketsQuery,
-    MyTicketsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<MyTicketsQuery, MyTicketsQueryVariables>(
-    MyTicketsDocument,
-    baseOptions,
-  );
-}
-export function useMyTicketsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    MyTicketsQuery,
-    MyTicketsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<MyTicketsQuery, MyTicketsQueryVariables>(
-    MyTicketsDocument,
-    baseOptions,
-  );
-}
+export function useMyTicketsQuery(baseOptions?: Apollo.QueryHookOptions<MyTicketsQuery, MyTicketsQueryVariables>) {
+        return Apollo.useQuery<MyTicketsQuery, MyTicketsQueryVariables>(MyTicketsDocument, baseOptions);
+      }
+export function useMyTicketsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyTicketsQuery, MyTicketsQueryVariables>) {
+          return Apollo.useLazyQuery<MyTicketsQuery, MyTicketsQueryVariables>(MyTicketsDocument, baseOptions);
+        }
 export type MyTicketsQueryHookResult = ReturnType<typeof useMyTicketsQuery>;
-export type MyTicketsLazyQueryHookResult = ReturnType<
-  typeof useMyTicketsLazyQuery
->;
-export type MyTicketsQueryResult = Apollo.QueryResult<
-  MyTicketsQuery,
-  MyTicketsQueryVariables
->;
-export const OrderByRefDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'OrderByRef' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'reference' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'reference' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'order' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketsSummary' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'TicketsSummary' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'completedAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'lastUpdatedAt' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'owner' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'firstName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lastName' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'source' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'sourceId' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'summary' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'ticketType' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'tickets' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'tickets' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'edges' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'node' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'bookingRef' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'state' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'ticketType' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'name' },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'order' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'owner',
-                                          },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'firstName',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'lastName',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'email',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignment' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'id' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'appLoginEmail',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'state',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'assigner',
-                                          },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'email',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'firstName',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'lastName',
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'assignee',
-                                          },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'email',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'firstName',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'lastName',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value:
-                                                    'lastLoginTokenCreatedAt',
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'reference' },
-          },
-        },
-      ],
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketsSummary' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'all' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'active' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'assigned' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'count' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'accepted' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'checkedIn' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'duplicate' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'locked' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'pending' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'unassigned' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'count' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'neverAssigned' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rejected' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'count' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'void' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketsSummary' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type MyTicketsLazyQueryHookResult = ReturnType<typeof useMyTicketsLazyQuery>;
+export type MyTicketsQueryResult = Apollo.QueryResult<MyTicketsQuery, MyTicketsQueryVariables>;
+export const OrderByRefDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"OrderByRef"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"reference"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"order"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"reference"},"value":{"kind":"Variable","name":{"kind":"Name","value":"reference"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ticketsSummary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketsSummary"}}]}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"owner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"}},{"kind":"Field","name":{"kind":"Name","value":"sourceId"}},{"kind":"Field","name":{"kind":"Name","value":"summary"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tickets"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tickets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"bookingRef"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"owner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"assignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"appLoginEmail"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"assigner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"assignee"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"lastLoginTokenCreatedAt"}}]}}]}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketsSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketsSummary"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"all"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"active"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"assigned"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"accepted"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"checkedIn"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"duplicate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"locked"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pending"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"unassigned"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"neverAssigned"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rejected"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"void"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]}}]};
 
 /**
  * __useOrderByRefQuery__
@@ -20428,305 +10864,16 @@ export const OrderByRefDocument: DocumentNode = {
  *   },
  * });
  */
-export function useOrderByRefQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    OrderByRefQuery,
-    OrderByRefQueryVariables
-  >,
-) {
-  return Apollo.useQuery<OrderByRefQuery, OrderByRefQueryVariables>(
-    OrderByRefDocument,
-    baseOptions,
-  );
-}
-export function useOrderByRefLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    OrderByRefQuery,
-    OrderByRefQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<OrderByRefQuery, OrderByRefQueryVariables>(
-    OrderByRefDocument,
-    baseOptions,
-  );
-}
+export function useOrderByRefQuery(baseOptions: Apollo.QueryHookOptions<OrderByRefQuery, OrderByRefQueryVariables>) {
+        return Apollo.useQuery<OrderByRefQuery, OrderByRefQueryVariables>(OrderByRefDocument, baseOptions);
+      }
+export function useOrderByRefLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrderByRefQuery, OrderByRefQueryVariables>) {
+          return Apollo.useLazyQuery<OrderByRefQuery, OrderByRefQueryVariables>(OrderByRefDocument, baseOptions);
+        }
 export type OrderByRefQueryHookResult = ReturnType<typeof useOrderByRefQuery>;
-export type OrderByRefLazyQueryHookResult = ReturnType<
-  typeof useOrderByRefLazyQuery
->;
-export type OrderByRefQueryResult = Apollo.QueryResult<
-  OrderByRefQuery,
-  OrderByRefQueryVariables
->;
-export const OrderTicketsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'OrderTickets' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderId' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'filter' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'filter' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tickets' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'bookingRef' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ticketType' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignment' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'state' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'appLoginEmail',
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignee' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'id' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'me' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'firstName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'lastName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'email',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'phoneNumber',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'city' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'companyName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'companySizeId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'industryId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'jobTitle',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'marketingConsent',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'passportNumber',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'personalisationConsent',
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'order' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'reference' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'state' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'context' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'editable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'acceptable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'rejectable' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'TicketFilter' },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'filter' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export type OrderByRefLazyQueryHookResult = ReturnType<typeof useOrderByRefLazyQuery>;
+export type OrderByRefQueryResult = Apollo.QueryResult<OrderByRefQuery, OrderByRefQueryVariables>;
+export const OrderTicketsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"OrderTickets"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"TicketFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tickets"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orderId"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"bookingRef"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"assignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"appLoginEmail"}},{"kind":"Field","name":{"kind":"Name","value":"assignee"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"me"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"companySizeId"}},{"kind":"Field","name":{"kind":"Name","value":"industryId"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"marketingConsent"}},{"kind":"Field","name":{"kind":"Name","value":"passportNumber"}},{"kind":"Field","name":{"kind":"Name","value":"personalisationConsent"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reference"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"context"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignable"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"acceptable"}},{"kind":"Field","name":{"kind":"Name","value":"rejectable"}}]}}]}}]}}]}}]}}]};
 
 /**
  * __useOrderTicketsQuery__
@@ -20745,105 +10892,16 @@ export const OrderTicketsDocument: DocumentNode = {
  *   },
  * });
  */
-export function useOrderTicketsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    OrderTicketsQuery,
-    OrderTicketsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(
-    OrderTicketsDocument,
-    baseOptions,
-  );
-}
-export function useOrderTicketsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    OrderTicketsQuery,
-    OrderTicketsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(
-    OrderTicketsDocument,
-    baseOptions,
-  );
-}
-export type OrderTicketsQueryHookResult = ReturnType<
-  typeof useOrderTicketsQuery
->;
-export type OrderTicketsLazyQueryHookResult = ReturnType<
-  typeof useOrderTicketsLazyQuery
->;
-export type OrderTicketsQueryResult = Apollo.QueryResult<
-  OrderTicketsQuery,
-  OrderTicketsQueryVariables
->;
-export const SaleCyclesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'SaleCycles' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceGetSale' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'createdBy' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'lastUpdatedAt' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export function useOrderTicketsQuery(baseOptions: Apollo.QueryHookOptions<OrderTicketsQuery, OrderTicketsQueryVariables>) {
+        return Apollo.useQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(OrderTicketsDocument, baseOptions);
+      }
+export function useOrderTicketsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrderTicketsQuery, OrderTicketsQueryVariables>) {
+          return Apollo.useLazyQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(OrderTicketsDocument, baseOptions);
+        }
+export type OrderTicketsQueryHookResult = ReturnType<typeof useOrderTicketsQuery>;
+export type OrderTicketsLazyQueryHookResult = ReturnType<typeof useOrderTicketsLazyQuery>;
+export type OrderTicketsQueryResult = Apollo.QueryResult<OrderTicketsQuery, OrderTicketsQueryVariables>;
+export const SaleCyclesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SaleCycles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceGetSale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}}]}}]}}]};
 
 /**
  * __useSaleCyclesQuery__
@@ -20861,117 +10919,16 @@ export const SaleCyclesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useSaleCyclesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    SaleCyclesQuery,
-    SaleCyclesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<SaleCyclesQuery, SaleCyclesQueryVariables>(
-    SaleCyclesDocument,
-    baseOptions,
-  );
-}
-export function useSaleCyclesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    SaleCyclesQuery,
-    SaleCyclesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<SaleCyclesQuery, SaleCyclesQueryVariables>(
-    SaleCyclesDocument,
-    baseOptions,
-  );
-}
+export function useSaleCyclesQuery(baseOptions: Apollo.QueryHookOptions<SaleCyclesQuery, SaleCyclesQueryVariables>) {
+        return Apollo.useQuery<SaleCyclesQuery, SaleCyclesQueryVariables>(SaleCyclesDocument, baseOptions);
+      }
+export function useSaleCyclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SaleCyclesQuery, SaleCyclesQueryVariables>) {
+          return Apollo.useLazyQuery<SaleCyclesQuery, SaleCyclesQueryVariables>(SaleCyclesDocument, baseOptions);
+        }
 export type SaleCyclesQueryHookResult = ReturnType<typeof useSaleCyclesQuery>;
-export type SaleCyclesLazyQueryHookResult = ReturnType<
-  typeof useSaleCyclesLazyQuery
->;
-export type SaleCyclesQueryResult = Apollo.QueryResult<
-  SaleCyclesQuery,
-  SaleCyclesQueryVariables
->;
-export const SalesCyclesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'SalesCycles' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'commerceListSales' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'hits' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'active' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdBy' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endDate' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'lastUpdatedAt' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startDate' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'total' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type SaleCyclesLazyQueryHookResult = ReturnType<typeof useSaleCyclesLazyQuery>;
+export type SaleCyclesQueryResult = Apollo.QueryResult<SaleCyclesQuery, SaleCyclesQueryVariables>;
+export const SalesCyclesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SalesCycles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commerceListSales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdBy"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastUpdatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]};
 
 /**
  * __useSalesCyclesQuery__
@@ -20988,128 +10945,16 @@ export const SalesCyclesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useSalesCyclesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    SalesCyclesQuery,
-    SalesCyclesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<SalesCyclesQuery, SalesCyclesQueryVariables>(
-    SalesCyclesDocument,
-    baseOptions,
-  );
-}
-export function useSalesCyclesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    SalesCyclesQuery,
-    SalesCyclesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<SalesCyclesQuery, SalesCyclesQueryVariables>(
-    SalesCyclesDocument,
-    baseOptions,
-  );
-}
+export function useSalesCyclesQuery(baseOptions?: Apollo.QueryHookOptions<SalesCyclesQuery, SalesCyclesQueryVariables>) {
+        return Apollo.useQuery<SalesCyclesQuery, SalesCyclesQueryVariables>(SalesCyclesDocument, baseOptions);
+      }
+export function useSalesCyclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SalesCyclesQuery, SalesCyclesQueryVariables>) {
+          return Apollo.useLazyQuery<SalesCyclesQuery, SalesCyclesQueryVariables>(SalesCyclesDocument, baseOptions);
+        }
 export type SalesCyclesQueryHookResult = ReturnType<typeof useSalesCyclesQuery>;
-export type SalesCyclesLazyQueryHookResult = ReturnType<
-  typeof useSalesCyclesLazyQuery
->;
-export type SalesCyclesQueryResult = Apollo.QueryResult<
-  SalesCyclesQuery,
-  SalesCyclesQueryVariables
->;
-export const TaxRatesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TaxRates' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxRates' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'event' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'brandName' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rateType' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'taxType' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'value' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type SalesCyclesLazyQueryHookResult = ReturnType<typeof useSalesCyclesLazyQuery>;
+export type SalesCyclesQueryResult = Apollo.QueryResult<SalesCyclesQuery, SalesCyclesQueryVariables>;
+export const TaxRatesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TaxRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"taxRates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"country"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"event"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"brandName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rateType"}},{"kind":"Field","name":{"kind":"Name","value":"taxType"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]};
 
 /**
  * __useTaxRatesQuery__
@@ -21126,117 +10971,16 @@ export const TaxRatesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useTaxRatesQuery(
-  baseOptions?: Apollo.QueryHookOptions<TaxRatesQuery, TaxRatesQueryVariables>,
-) {
-  return Apollo.useQuery<TaxRatesQuery, TaxRatesQueryVariables>(
-    TaxRatesDocument,
-    baseOptions,
-  );
-}
-export function useTaxRatesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TaxRatesQuery,
-    TaxRatesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<TaxRatesQuery, TaxRatesQueryVariables>(
-    TaxRatesDocument,
-    baseOptions,
-  );
-}
+export function useTaxRatesQuery(baseOptions?: Apollo.QueryHookOptions<TaxRatesQuery, TaxRatesQueryVariables>) {
+        return Apollo.useQuery<TaxRatesQuery, TaxRatesQueryVariables>(TaxRatesDocument, baseOptions);
+      }
+export function useTaxRatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TaxRatesQuery, TaxRatesQueryVariables>) {
+          return Apollo.useLazyQuery<TaxRatesQuery, TaxRatesQueryVariables>(TaxRatesDocument, baseOptions);
+        }
 export type TaxRatesQueryHookResult = ReturnType<typeof useTaxRatesQuery>;
-export type TaxRatesLazyQueryHookResult = ReturnType<
-  typeof useTaxRatesLazyQuery
->;
-export type TaxRatesQueryResult = Apollo.QueryResult<
-  TaxRatesQuery,
-  TaxRatesQueryVariables
->;
-export const TicketCategoriesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketCategories' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketCategories' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ticketTypes' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'edges' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'node' },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type TaxRatesLazyQueryHookResult = ReturnType<typeof useTaxRatesLazyQuery>;
+export type TaxRatesQueryResult = Apollo.QueryResult<TaxRatesQuery, TaxRatesQueryVariables>;
+export const TicketCategoriesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TicketCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"ticketTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]}}]}}]}}]};
 
 /**
  * __useTicketCategoriesQuery__
@@ -21253,186 +10997,16 @@ export const TicketCategoriesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useTicketCategoriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    TicketCategoriesQuery,
-    TicketCategoriesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<TicketCategoriesQuery, TicketCategoriesQueryVariables>(
-    TicketCategoriesDocument,
-    baseOptions,
-  );
-}
-export function useTicketCategoriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TicketCategoriesQuery,
-    TicketCategoriesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    TicketCategoriesQuery,
-    TicketCategoriesQueryVariables
-  >(TicketCategoriesDocument, baseOptions);
-}
-export type TicketCategoriesQueryHookResult = ReturnType<
-  typeof useTicketCategoriesQuery
->;
-export type TicketCategoriesLazyQueryHookResult = ReturnType<
-  typeof useTicketCategoriesLazyQuery
->;
-export type TicketCategoriesQueryResult = Apollo.QueryResult<
-  TicketCategoriesQuery,
-  TicketCategoriesQueryVariables
->;
-export const Document: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tickets' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'bookingRef' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'state' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ticketType' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'order' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'owner' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'firstName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'lastName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'email',
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignment' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'state' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignee' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'email',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'firstName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'lastName',
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useTicketCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<TicketCategoriesQuery, TicketCategoriesQueryVariables>) {
+        return Apollo.useQuery<TicketCategoriesQuery, TicketCategoriesQueryVariables>(TicketCategoriesDocument, baseOptions);
+      }
+export function useTicketCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TicketCategoriesQuery, TicketCategoriesQueryVariables>) {
+          return Apollo.useLazyQuery<TicketCategoriesQuery, TicketCategoriesQueryVariables>(TicketCategoriesDocument, baseOptions);
+        }
+export type TicketCategoriesQueryHookResult = ReturnType<typeof useTicketCategoriesQuery>;
+export type TicketCategoriesLazyQueryHookResult = ReturnType<typeof useTicketCategoriesLazyQuery>;
+export type TicketCategoriesQueryResult = Apollo.QueryResult<TicketCategoriesQuery, TicketCategoriesQueryVariables>;
+export const Document: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tickets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"bookingRef"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"owner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"assignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"assignee"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}}]}}]}}]};
 
 /**
  * __useQuery__
@@ -21449,76 +11023,16 @@ export const Document: DocumentNode = {
  *   },
  * });
  */
-export function useQuery(
-  baseOptions?: Apollo.QueryHookOptions<Query, QueryVariables>,
-) {
-  return Apollo.useQuery<Query, QueryVariables>(Document, baseOptions);
-}
-export function useLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<Query, QueryVariables>,
-) {
-  return Apollo.useLazyQuery<Query, QueryVariables>(Document, baseOptions);
-}
+export function useQuery(baseOptions?: Apollo.QueryHookOptions<Query, QueryVariables>) {
+        return Apollo.useQuery<Query, QueryVariables>(Document, baseOptions);
+      }
+export function useLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Query, QueryVariables>) {
+          return Apollo.useLazyQuery<Query, QueryVariables>(Document, baseOptions);
+        }
 export type QueryHookResult = ReturnType<typeof useQuery>;
 export type LazyQueryHookResult = ReturnType<typeof useLazyQuery>;
 export type QueryResult = Apollo.QueryResult<Query, QueryVariables>;
-export const TicketReleasePhaseDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketReleasePhase' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketReleasePhase' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'endsAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nextPhase' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export const TicketReleasePhaseDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TicketReleasePhase"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketReleasePhase"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"startsAt"}},{"kind":"Field","name":{"kind":"Name","value":"endsAt"}},{"kind":"Field","name":{"kind":"Name","value":"nextPhase"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 
 /**
  * __useTicketReleasePhaseQuery__
@@ -21536,463 +11050,16 @@ export const TicketReleasePhaseDocument: DocumentNode = {
  *   },
  * });
  */
-export function useTicketReleasePhaseQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    TicketReleasePhaseQuery,
-    TicketReleasePhaseQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    TicketReleasePhaseQuery,
-    TicketReleasePhaseQueryVariables
-  >(TicketReleasePhaseDocument, baseOptions);
-}
-export function useTicketReleasePhaseLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TicketReleasePhaseQuery,
-    TicketReleasePhaseQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    TicketReleasePhaseQuery,
-    TicketReleasePhaseQueryVariables
-  >(TicketReleasePhaseDocument, baseOptions);
-}
-export type TicketReleasePhaseQueryHookResult = ReturnType<
-  typeof useTicketReleasePhaseQuery
->;
-export type TicketReleasePhaseLazyQueryHookResult = ReturnType<
-  typeof useTicketReleasePhaseLazyQuery
->;
-export type TicketReleasePhaseQueryResult = Apollo.QueryResult<
-  TicketReleasePhaseQuery,
-  TicketReleasePhaseQueryVariables
->;
-export const TicketReleasesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketReleases' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'releasePhaseIds' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'releasePhaseIds' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'ticketTypeIds' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'ticketTypeIds' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketReleases' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'DisplayRelease' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'releasePhaseIds' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'ticketTypeIds' },
-          },
-        },
-      ],
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayRelease' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'active' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'soldOut' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'action' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'quantity' },
-                      },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: {
-                      kind: 'Name',
-                      value: 'TicketReleaseActionsTitoCheckoutAction',
-                    },
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'emailAddress' },
-                      },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: {
-                      kind: 'Name',
-                      value: 'TicketReleaseActionsPriceEnquiryAction',
-                    },
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'suggestedRelease' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: {
-                      kind: 'Name',
-                      value: 'TicketReleaseActionsExpiredTicketAction',
-                    },
-                  },
-                },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'dynamicForm' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'schema' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'uiSchema' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'mutation' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'data' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: {
-                      kind: 'Name',
-                      value: 'TicketReleaseActionsPriceAlertAction',
-                    },
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'price' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayPrice' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'accessPermissions' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'edges' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'node' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'title' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'detail' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'source' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                {
-                  kind: 'InlineFragment',
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                    ],
-                  },
-                  typeCondition: {
-                    kind: 'NamedType',
-                    name: { kind: 'Name', value: 'TitoTicketRelease' },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketRelease' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayPrice' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'exTax' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'totalTax' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'total' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'DisplayMoney' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxLines' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Price' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'DisplayMoney' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'includeUnit' },
-                value: { kind: 'BooleanValue', value: false },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'precision' },
-                value: { kind: 'IntValue', value: '0' },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'format' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'currency' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'symbol' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Money' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useTicketReleasePhaseQuery(baseOptions?: Apollo.QueryHookOptions<TicketReleasePhaseQuery, TicketReleasePhaseQueryVariables>) {
+        return Apollo.useQuery<TicketReleasePhaseQuery, TicketReleasePhaseQueryVariables>(TicketReleasePhaseDocument, baseOptions);
+      }
+export function useTicketReleasePhaseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TicketReleasePhaseQuery, TicketReleasePhaseQueryVariables>) {
+          return Apollo.useLazyQuery<TicketReleasePhaseQuery, TicketReleasePhaseQueryVariables>(TicketReleasePhaseDocument, baseOptions);
+        }
+export type TicketReleasePhaseQueryHookResult = ReturnType<typeof useTicketReleasePhaseQuery>;
+export type TicketReleasePhaseLazyQueryHookResult = ReturnType<typeof useTicketReleasePhaseLazyQuery>;
+export type TicketReleasePhaseQueryResult = Apollo.QueryResult<TicketReleasePhaseQuery, TicketReleasePhaseQueryVariables>;
+export const TicketReleasesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TicketReleases"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"releasePhaseIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ticketTypeIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketReleases"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"releasePhaseIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"releasePhaseIds"}}},{"kind":"Argument","name":{"kind":"Name","value":"ticketTypeIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ticketTypeIds"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayRelease"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayRelease"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketRelease"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"soldOut"}},{"kind":"Field","name":{"kind":"Name","value":"action"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleaseActionsTitoCheckoutAction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"quantity"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleaseActionsPriceEnquiryAction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"emailAddress"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleaseActionsExpiredTicketAction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"suggestedRelease"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleaseActionsPriceAlertAction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dynamicForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"schema"}},{"kind":"Field","name":{"kind":"Name","value":"uiSchema"}},{"kind":"Field","name":{"kind":"Name","value":"mutation"}},{"kind":"Field","name":{"kind":"Name","value":"data"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"price"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayPrice"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"accessPermissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"detail"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"source"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TitoTicketRelease"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayPrice"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Price"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"exTax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalTax"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DisplayMoney"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxLines"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DisplayMoney"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Money"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"format"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"includeUnit"},"value":{"kind":"BooleanValue","value":false}},{"kind":"Argument","name":{"kind":"Name","value":"precision"},"value":{"kind":"IntValue","value":"0"}}]},{"kind":"Field","name":{"kind":"Name","value":"currency"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}}]}}]}}]};
 
 /**
  * __useTicketReleasesQuery__
@@ -22011,172 +11078,16 @@ export const TicketReleasesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useTicketReleasesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    TicketReleasesQuery,
-    TicketReleasesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<TicketReleasesQuery, TicketReleasesQueryVariables>(
-    TicketReleasesDocument,
-    baseOptions,
-  );
-}
-export function useTicketReleasesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TicketReleasesQuery,
-    TicketReleasesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<TicketReleasesQuery, TicketReleasesQueryVariables>(
-    TicketReleasesDocument,
-    baseOptions,
-  );
-}
-export type TicketReleasesQueryHookResult = ReturnType<
-  typeof useTicketReleasesQuery
->;
-export type TicketReleasesLazyQueryHookResult = ReturnType<
-  typeof useTicketReleasesLazyQuery
->;
-export type TicketReleasesQueryResult = Apollo.QueryResult<
-  TicketReleasesQuery,
-  TicketReleasesQueryVariables
->;
-export const TicketTypeReleasePhaseSummaryDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketTypeReleasePhaseSummary' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'ticketTypeId' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                {
-                  alias: { kind: 'Name', value: 'activeRelease' },
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'release' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'releasePhase' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'ReleasePhaseSummary',
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'releasePhaseId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'releasePhaseId' },
-                      },
-                    },
-                  ],
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'release' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'releasePhase' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'ReleasePhaseSummary',
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'ticketTypeId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'releasePhaseId' },
-          },
-        },
-      ],
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReleasePhaseSummary' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketReleasePhase' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useTicketReleasesQuery(baseOptions?: Apollo.QueryHookOptions<TicketReleasesQuery, TicketReleasesQueryVariables>) {
+        return Apollo.useQuery<TicketReleasesQuery, TicketReleasesQueryVariables>(TicketReleasesDocument, baseOptions);
+      }
+export function useTicketReleasesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TicketReleasesQuery, TicketReleasesQueryVariables>) {
+          return Apollo.useLazyQuery<TicketReleasesQuery, TicketReleasesQueryVariables>(TicketReleasesDocument, baseOptions);
+        }
+export type TicketReleasesQueryHookResult = ReturnType<typeof useTicketReleasesQuery>;
+export type TicketReleasesLazyQueryHookResult = ReturnType<typeof useTicketReleasesLazyQuery>;
+export type TicketReleasesQueryResult = Apollo.QueryResult<TicketReleasesQuery, TicketReleasesQueryVariables>;
+export const TicketTypeReleasePhaseSummaryDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TicketTypeReleasePhaseSummary"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ticketTypeId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"releasePhaseId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ticketTypeId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","alias":{"kind":"Name","value":"activeRelease"},"name":{"kind":"Name","value":"release"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"releasePhase"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReleasePhaseSummary"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"release"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"releasePhaseId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"releasePhaseId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"releasePhase"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReleasePhaseSummary"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReleasePhaseSummary"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketReleasePhase"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"startsAt"}}]}}]};
 
 /**
  * __useTicketTypeReleasePhaseSummaryQuery__
@@ -22195,130 +11106,16 @@ export const TicketTypeReleasePhaseSummaryDocument: DocumentNode = {
  *   },
  * });
  */
-export function useTicketTypeReleasePhaseSummaryQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    TicketTypeReleasePhaseSummaryQuery,
-    TicketTypeReleasePhaseSummaryQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    TicketTypeReleasePhaseSummaryQuery,
-    TicketTypeReleasePhaseSummaryQueryVariables
-  >(TicketTypeReleasePhaseSummaryDocument, baseOptions);
-}
-export function useTicketTypeReleasePhaseSummaryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TicketTypeReleasePhaseSummaryQuery,
-    TicketTypeReleasePhaseSummaryQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    TicketTypeReleasePhaseSummaryQuery,
-    TicketTypeReleasePhaseSummaryQueryVariables
-  >(TicketTypeReleasePhaseSummaryDocument, baseOptions);
-}
-export type TicketTypeReleasePhaseSummaryQueryHookResult = ReturnType<
-  typeof useTicketTypeReleasePhaseSummaryQuery
->;
-export type TicketTypeReleasePhaseSummaryLazyQueryHookResult = ReturnType<
-  typeof useTicketTypeReleasePhaseSummaryLazyQuery
->;
-export type TicketTypeReleasePhaseSummaryQueryResult = Apollo.QueryResult<
-  TicketTypeReleasePhaseSummaryQuery,
-  TicketTypeReleasePhaseSummaryQueryVariables
->;
-export const TicketTypeReleasePhasesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TicketTypeReleasePhases' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'releasePhases' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'edges' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'node' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'active' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'status' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'endsAt' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export function useTicketTypeReleasePhaseSummaryQuery(baseOptions: Apollo.QueryHookOptions<TicketTypeReleasePhaseSummaryQuery, TicketTypeReleasePhaseSummaryQueryVariables>) {
+        return Apollo.useQuery<TicketTypeReleasePhaseSummaryQuery, TicketTypeReleasePhaseSummaryQueryVariables>(TicketTypeReleasePhaseSummaryDocument, baseOptions);
+      }
+export function useTicketTypeReleasePhaseSummaryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TicketTypeReleasePhaseSummaryQuery, TicketTypeReleasePhaseSummaryQueryVariables>) {
+          return Apollo.useLazyQuery<TicketTypeReleasePhaseSummaryQuery, TicketTypeReleasePhaseSummaryQueryVariables>(TicketTypeReleasePhaseSummaryDocument, baseOptions);
+        }
+export type TicketTypeReleasePhaseSummaryQueryHookResult = ReturnType<typeof useTicketTypeReleasePhaseSummaryQuery>;
+export type TicketTypeReleasePhaseSummaryLazyQueryHookResult = ReturnType<typeof useTicketTypeReleasePhaseSummaryLazyQuery>;
+export type TicketTypeReleasePhaseSummaryQueryResult = Apollo.QueryResult<TicketTypeReleasePhaseSummaryQuery, TicketTypeReleasePhaseSummaryQueryVariables>;
+export const TicketTypeReleasePhasesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TicketTypeReleasePhases"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"releasePhases"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"endsAt"}}]}}]}}]}}]}}]}}]};
 
 /**
  * __useTicketTypeReleasePhasesQuery__
@@ -22336,92 +11133,16 @@ export const TicketTypeReleasePhasesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useTicketTypeReleasePhasesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    TicketTypeReleasePhasesQuery,
-    TicketTypeReleasePhasesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    TicketTypeReleasePhasesQuery,
-    TicketTypeReleasePhasesQueryVariables
-  >(TicketTypeReleasePhasesDocument, baseOptions);
-}
-export function useTicketTypeReleasePhasesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TicketTypeReleasePhasesQuery,
-    TicketTypeReleasePhasesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    TicketTypeReleasePhasesQuery,
-    TicketTypeReleasePhasesQueryVariables
-  >(TicketTypeReleasePhasesDocument, baseOptions);
-}
-export type TicketTypeReleasePhasesQueryHookResult = ReturnType<
-  typeof useTicketTypeReleasePhasesQuery
->;
-export type TicketTypeReleasePhasesLazyQueryHookResult = ReturnType<
-  typeof useTicketTypeReleasePhasesLazyQuery
->;
-export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<
-  TicketTypeReleasePhasesQuery,
-  TicketTypeReleasePhasesQueryVariables
->;
-export const TimeZonesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TimeZones' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'timeZones' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'displayName' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ianaName' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'utcOffset' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useTicketTypeReleasePhasesQuery(baseOptions: Apollo.QueryHookOptions<TicketTypeReleasePhasesQuery, TicketTypeReleasePhasesQueryVariables>) {
+        return Apollo.useQuery<TicketTypeReleasePhasesQuery, TicketTypeReleasePhasesQueryVariables>(TicketTypeReleasePhasesDocument, baseOptions);
+      }
+export function useTicketTypeReleasePhasesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TicketTypeReleasePhasesQuery, TicketTypeReleasePhasesQueryVariables>) {
+          return Apollo.useLazyQuery<TicketTypeReleasePhasesQuery, TicketTypeReleasePhasesQueryVariables>(TicketTypeReleasePhasesDocument, baseOptions);
+        }
+export type TicketTypeReleasePhasesQueryHookResult = ReturnType<typeof useTicketTypeReleasePhasesQuery>;
+export type TicketTypeReleasePhasesLazyQueryHookResult = ReturnType<typeof useTicketTypeReleasePhasesLazyQuery>;
+export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<TicketTypeReleasePhasesQuery, TicketTypeReleasePhasesQueryVariables>;
+export const TimeZonesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TimeZones"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timeZones"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"ianaName"}},{"kind":"Field","name":{"kind":"Name","value":"utcOffset"}}]}}]}}]}}]}}]};
 
 /**
  * __useTimeZonesQuery__
@@ -22438,1024 +11159,16 @@ export const TimeZonesDocument: DocumentNode = {
  *   },
  * });
  */
-export function useTimeZonesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    TimeZonesQuery,
-    TimeZonesQueryVariables
-  >,
-) {
-  return Apollo.useQuery<TimeZonesQuery, TimeZonesQueryVariables>(
-    TimeZonesDocument,
-    baseOptions,
-  );
-}
-export function useTimeZonesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TimeZonesQuery,
-    TimeZonesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<TimeZonesQuery, TimeZonesQueryVariables>(
-    TimeZonesDocument,
-    baseOptions,
-  );
-}
+export function useTimeZonesQuery(baseOptions?: Apollo.QueryHookOptions<TimeZonesQuery, TimeZonesQueryVariables>) {
+        return Apollo.useQuery<TimeZonesQuery, TimeZonesQueryVariables>(TimeZonesDocument, baseOptions);
+      }
+export function useTimeZonesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TimeZonesQuery, TimeZonesQueryVariables>) {
+          return Apollo.useLazyQuery<TimeZonesQuery, TimeZonesQueryVariables>(TimeZonesDocument, baseOptions);
+        }
 export type TimeZonesQueryHookResult = ReturnType<typeof useTimeZonesQuery>;
-export type TimeZonesLazyQueryHookResult = ReturnType<
-  typeof useTimeZonesLazyQuery
->;
-export type TimeZonesQueryResult = Apollo.QueryResult<
-  TimeZonesQuery,
-  TimeZonesQueryVariables
->;
-export const WebPageByHostPathDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'WebPageByHostPath' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'path' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'path' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'host' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'host' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'webPageByHostPath' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'seoTags' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'defaultImage' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterTitle' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterDescription' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterImage' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'facebookTitle' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'facebookImage' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'facebookDescription' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'content' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'TicketSalesPageLayout',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLayoutsTicketSalesPage',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'TicketApplicationsPageLayout',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLayoutsTicketApplicationsPage',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'ShowcaseGrid' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebElementsShowcaseGrid',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'ScheduleSearchSidebarFilters',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value:
-                              'ComponentWebElementsScheduleSearchSidebarFilters',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'AttendeeSearchSidebarFilters',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value:
-                              'ComponentWebElementsAttendeeSearchSidebarFilters',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'CompanySearchSidebarFilters',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value:
-                              'ComponentWebElementsCompanySearchSidebarFilters',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'HeroSection' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebElementsHeroSection',
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'host' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'path' } },
-        },
-      ],
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketSalesPageLayout' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketCategory' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketReleasesPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketReleasesPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'releasePhaseStepper' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'categoriesMenu' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TabularMenu' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'promotions' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'color' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLayoutsTicketSalesPage' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketApplicationsPageLayout' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'applicationForm' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'ApplicationForm' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'applicationOverviewPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketInfoPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketInfoPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'categoriesMenu' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TabularMenu' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'releasePhaseStepper' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebLayoutsTicketApplicationsPage',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketInfoPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketType' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'heading' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showBenefits' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketTypeInformation',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketReleasesPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketReleasesPanel',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketType' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TabularMenu' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'menuItems' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'link' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'UrlLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksUrlLink',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'PageLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksPageLink',
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Menu' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UrlLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PageLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'page' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ApplicationForm' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'dynamicForm' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'schema' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'uiSchema' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mutation' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Form' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'altImageText' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketApplicationOverviewPanel',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ShowcaseGrid' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'backgroundColor' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'collection' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'elements' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'absoluteUrl' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebElementsShowcaseGrid' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ScheduleSearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsScheduleSearchSidebarFilters',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AttendeeSearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsAttendeeSearchSidebarFilters',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CompanySearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsCompanySearchSidebarFilters',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'HeroSection' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImage' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  alias: { kind: 'Name', value: 'url' },
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'absoluteUrl' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ctaLink' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImageAlt' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImageDescription' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'brandImage' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  alias: { kind: 'Name', value: 'url' },
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'absoluteUrl' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebElementsHeroSection' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export type TimeZonesLazyQueryHookResult = ReturnType<typeof useTimeZonesLazyQuery>;
+export type TimeZonesQueryResult = Apollo.QueryResult<TimeZonesQuery, TimeZonesQueryVariables>;
+export const WebPageByHostPathDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WebPageByHostPath"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"host"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"path"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"webPageByHostPath"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"Variable","name":{"kind":"Name","value":"path"}}},{"kind":"Argument","name":{"kind":"Name","value":"host"},"value":{"kind":"Variable","name":{"kind":"Name","value":"host"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"seoTags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"defaultImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"twitterTitle"}},{"kind":"Field","name":{"kind":"Name","value":"twitterDescription"}},{"kind":"Field","name":{"kind":"Name","value":"twitterImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"facebookTitle"}},{"kind":"Field","name":{"kind":"Name","value":"facebookImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"facebookDescription"}}]}},{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketSalesPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketSalesPageLayout"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketApplicationsPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketApplicationsPageLayout"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsShowcaseGrid"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ShowcaseGrid"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsScheduleSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ScheduleSearchSidebarFilters"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsAttendeeSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AttendeeSearchSidebarFilters"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsCompanySearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CompanySearchSidebarFilters"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsHeroSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"HeroSection"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketSalesPageLayout"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketSalesPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ticketCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketReleasesPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketReleasesPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"priceIncreaseCountdownTimer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"releasePhaseStepper"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"categoriesMenu"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TabularMenu"}}]}},{"kind":"Field","name":{"kind":"Name","value":"promotions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"color"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketApplicationsPageLayout"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketApplicationsPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"applicationForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ApplicationForm"}}]}},{"kind":"Field","name":{"kind":"Name","value":"applicationOverviewPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ApplicationOverviewPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketInfoPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketInfoPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"categoriesMenu"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TabularMenu"}}]}},{"kind":"Field","name":{"kind":"Name","value":"priceIncreaseCountdownTimer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"releasePhaseStepper"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketInfoPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketTypeInformation"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"showBenefits"}},{"kind":"Field","name":{"kind":"Name","value":"displayPriceIncludingTax"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketReleasesPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketReleasesPanel"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayPriceIncludingTax"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TabularMenu"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Menu"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"menuItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"link"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UrlLink"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageLink"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UrlLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApplicationForm"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Form"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"dynamicForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"schema"}},{"kind":"Field","name":{"kind":"Name","value":"uiSchema"}},{"kind":"Field","name":{"kind":"Name","value":"data"}},{"kind":"Field","name":{"kind":"Name","value":"mutation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentBefore"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApplicationOverviewPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketApplicationOverviewPanel"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"altImageText"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ShowcaseGrid"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsShowcaseGrid"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contentBefore"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundColor"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"elements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"absoluteUrl"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ScheduleSearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsScheduleSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AttendeeSearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsAttendeeSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanySearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsCompanySearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"HeroSection"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsHeroSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"url"},"name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ctaLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageAlt"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageDescription"}},{"kind":"Field","name":{"kind":"Name","value":"brandImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"url"},"name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]};
 
 /**
  * __useWebPageByHostPathQuery__
@@ -23474,1007 +11187,16 @@ export const WebPageByHostPathDocument: DocumentNode = {
  *   },
  * });
  */
-export function useWebPageByHostPathQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    WebPageByHostPathQuery,
-    WebPageByHostPathQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    WebPageByHostPathQuery,
-    WebPageByHostPathQueryVariables
-  >(WebPageByHostPathDocument, baseOptions);
-}
-export function useWebPageByHostPathLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    WebPageByHostPathQuery,
-    WebPageByHostPathQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    WebPageByHostPathQuery,
-    WebPageByHostPathQueryVariables
-  >(WebPageByHostPathDocument, baseOptions);
-}
-export type WebPageByHostPathQueryHookResult = ReturnType<
-  typeof useWebPageByHostPathQuery
->;
-export type WebPageByHostPathLazyQueryHookResult = ReturnType<
-  typeof useWebPageByHostPathLazyQuery
->;
-export type WebPageByHostPathQueryResult = Apollo.QueryResult<
-  WebPageByHostPathQuery,
-  WebPageByHostPathQueryVariables
->;
-export const WebPageByPathDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'WebPageByPath' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'path' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'path' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'webPageByPath' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'seoTags' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'defaultImage' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                          ],
-                        },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterTitle' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterDescription' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'twitterImage' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'facebookTitle' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'facebookImage' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'facebookDescription' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'content' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'TicketSalesPageLayout',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLayoutsTicketSalesPage',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'TicketApplicationsPageLayout',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLayoutsTicketApplicationsPage',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'ShowcaseGrid' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebElementsShowcaseGrid',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'ScheduleSearchSidebarFilters',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value:
-                              'ComponentWebElementsScheduleSearchSidebarFilters',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'AttendeeSearchSidebarFilters',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value:
-                              'ComponentWebElementsAttendeeSearchSidebarFilters',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: {
-                                kind: 'Name',
-                                value: 'CompanySearchSidebarFilters',
-                              },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value:
-                              'ComponentWebElementsCompanySearchSidebarFilters',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'HeroSection' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebElementsHeroSection',
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'path' } },
-        },
-      ],
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketSalesPageLayout' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketCategory' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketReleasesPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketReleasesPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'releasePhaseStepper' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'categoriesMenu' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TabularMenu' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'promotions' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'color' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLayoutsTicketSalesPage' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketApplicationsPageLayout' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'applicationForm' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'ApplicationForm' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'applicationOverviewPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketInfoPanel' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketInfoPanel' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'categoriesMenu' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TabularMenu' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'priceIncreaseCountdownTimer' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'releasePhaseStepper' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'ticketType' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebLayoutsTicketApplicationsPage',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketInfoPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ticketType' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'TicketType' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'heading' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'showBenefits' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketTypeInformation',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketReleasesPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'displayPriceIncludingTax' },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketReleasesPanel',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TicketType' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'TicketType' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'TabularMenu' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'menuItems' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'link' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'UrlLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksUrlLink',
-                          },
-                        },
-                      },
-                      {
-                        kind: 'InlineFragment',
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'FragmentSpread',
-                              name: { kind: 'Name', value: 'PageLink' },
-                            },
-                          ],
-                        },
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: {
-                            kind: 'Name',
-                            value: 'ComponentWebLinksPageLink',
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Menu' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UrlLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksUrlLink' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PageLink' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'page' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebLinksPageLink' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ApplicationForm' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'dynamicForm' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'schema' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'uiSchema' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'mutation' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Form' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ApplicationOverviewPanel' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'altImageText' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsTicketApplicationOverviewPanel',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ShowcaseGrid' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'contentBefore' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'backgroundColor' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'collection' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'elements' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'absoluteUrl' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebElementsShowcaseGrid' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ScheduleSearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsScheduleSearchSidebarFilters',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AttendeeSearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsAttendeeSearchSidebarFilters',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CompanySearchSidebarFilters' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'apiKey' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'indexName' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'refinements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'attribute' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'defaults' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refinementItemsLimit' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: {
-          kind: 'Name',
-          value: 'ComponentWebElementsCompanySearchSidebarFilters',
-        },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'HeroSection' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'variant' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImage' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  alias: { kind: 'Name', value: 'url' },
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'absoluteUrl' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'ctaLink' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImageAlt' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'backgroundImageDescription' },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'brandImage' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  alias: { kind: 'Name', value: 'url' },
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'absoluteUrl' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'subtitle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'ComponentWebElementsHeroSection' },
-      },
-    },
-  ],
-  kind: 'Document',
-};
+export function useWebPageByHostPathQuery(baseOptions: Apollo.QueryHookOptions<WebPageByHostPathQuery, WebPageByHostPathQueryVariables>) {
+        return Apollo.useQuery<WebPageByHostPathQuery, WebPageByHostPathQueryVariables>(WebPageByHostPathDocument, baseOptions);
+      }
+export function useWebPageByHostPathLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WebPageByHostPathQuery, WebPageByHostPathQueryVariables>) {
+          return Apollo.useLazyQuery<WebPageByHostPathQuery, WebPageByHostPathQueryVariables>(WebPageByHostPathDocument, baseOptions);
+        }
+export type WebPageByHostPathQueryHookResult = ReturnType<typeof useWebPageByHostPathQuery>;
+export type WebPageByHostPathLazyQueryHookResult = ReturnType<typeof useWebPageByHostPathLazyQuery>;
+export type WebPageByHostPathQueryResult = Apollo.QueryResult<WebPageByHostPathQuery, WebPageByHostPathQueryVariables>;
+export const WebPageByPathDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WebPageByPath"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"path"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"webPageByPath"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"Variable","name":{"kind":"Name","value":"path"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"seoTags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"defaultImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"twitterTitle"}},{"kind":"Field","name":{"kind":"Name","value":"twitterDescription"}},{"kind":"Field","name":{"kind":"Name","value":"twitterImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"facebookTitle"}},{"kind":"Field","name":{"kind":"Name","value":"facebookImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"facebookDescription"}}]}},{"kind":"Field","name":{"kind":"Name","value":"content"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketSalesPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketSalesPageLayout"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketApplicationsPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketApplicationsPageLayout"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsShowcaseGrid"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ShowcaseGrid"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsScheduleSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ScheduleSearchSidebarFilters"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsAttendeeSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AttendeeSearchSidebarFilters"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsCompanySearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CompanySearchSidebarFilters"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsHeroSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"HeroSection"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketSalesPageLayout"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketSalesPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ticketCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketReleasesPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketReleasesPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"priceIncreaseCountdownTimer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"releasePhaseStepper"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"categoriesMenu"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TabularMenu"}}]}},{"kind":"Field","name":{"kind":"Name","value":"promotions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"color"}},{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketApplicationsPageLayout"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLayoutsTicketApplicationsPage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"applicationForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ApplicationForm"}}]}},{"kind":"Field","name":{"kind":"Name","value":"applicationOverviewPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ApplicationOverviewPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketInfoPanel"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketInfoPanel"}}]}},{"kind":"Field","name":{"kind":"Name","value":"categoriesMenu"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TabularMenu"}}]}},{"kind":"Field","name":{"kind":"Name","value":"priceIncreaseCountdownTimer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"releasePhaseStepper"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketInfoPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketTypeInformation"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ticketType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TicketType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"showBenefits"}},{"kind":"Field","name":{"kind":"Name","value":"displayPriceIncludingTax"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketReleasesPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketReleasesPanel"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayPriceIncludingTax"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TicketType"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TicketType"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TabularMenu"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Menu"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"menuItems"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"link"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UrlLink"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageLink"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UrlLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksUrlLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageLink"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebLinksPageLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApplicationForm"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Form"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"dynamicForm"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"schema"}},{"kind":"Field","name":{"kind":"Name","value":"uiSchema"}},{"kind":"Field","name":{"kind":"Name","value":"data"}},{"kind":"Field","name":{"kind":"Name","value":"mutation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contentBefore"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ApplicationOverviewPanel"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsTicketApplicationOverviewPanel"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"altImageText"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ShowcaseGrid"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsShowcaseGrid"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contentBefore"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundColor"}},{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"elements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"absoluteUrl"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ScheduleSearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsScheduleSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AttendeeSearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsAttendeeSearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanySearchSidebarFilters"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsCompanySearchSidebarFilters"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"apiKey"}},{"kind":"Field","name":{"kind":"Name","value":"indexName"}},{"kind":"Field","name":{"kind":"Name","value":"refinements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"attribute"}},{"kind":"Field","name":{"kind":"Name","value":"defaults"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"refinementItemsLimit"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"HeroSection"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentWebElementsHeroSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"variant"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"url"},"name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ctaLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageAlt"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImageDescription"}},{"kind":"Field","name":{"kind":"Name","value":"brandImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"url"},"name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]};
 
 /**
  * __useWebPageByPathQuery__
@@ -24492,304 +11214,16 @@ export const WebPageByPathDocument: DocumentNode = {
  *   },
  * });
  */
-export function useWebPageByPathQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    WebPageByPathQuery,
-    WebPageByPathQueryVariables
-  >,
-) {
-  return Apollo.useQuery<WebPageByPathQuery, WebPageByPathQueryVariables>(
-    WebPageByPathDocument,
-    baseOptions,
-  );
-}
-export function useWebPageByPathLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    WebPageByPathQuery,
-    WebPageByPathQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<WebPageByPathQuery, WebPageByPathQueryVariables>(
-    WebPageByPathDocument,
-    baseOptions,
-  );
-}
-export type WebPageByPathQueryHookResult = ReturnType<
-  typeof useWebPageByPathQuery
->;
-export type WebPageByPathLazyQueryHookResult = ReturnType<
-  typeof useWebPageByPathLazyQuery
->;
-export type WebPageByPathQueryResult = Apollo.QueryResult<
-  WebPageByPathQuery,
-  WebPageByPathQueryVariables
->;
-export const WebPageConfigByPathHostDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'webPageConfigByPathHost' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'path' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'path' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'host' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'host' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'webPageConfigByPathHost' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'site' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'config' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: {
-                          kind: 'Name',
-                          value: 'baseGoogleAnalyticsTrackingId',
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: {
-                          kind: 'Name',
-                          value: 'googleAnalyticsTrackingId',
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'googleTagManagerId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: {
-                          kind: 'Name',
-                          value: 'googleAnalyticsLinkerDomains',
-                        },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'domain' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'metaData' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'image' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    alias: { kind: 'Name', value: 'url' },
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'absoluteUrl',
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'siteTitle' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'siteDescription' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'facebookId' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'facebookPublisher',
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'twitterId' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'twitterCreator' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'branding' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'googleFontsUrl' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'theme' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'logo' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'absoluteUrl' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'alternativeText' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'headerBranding' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'absoluteUrl' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'alternativeText' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'favicon' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'absoluteUrl' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'ticketLogo' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'absoluteUrl' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'alternativeText' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'path' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'host' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
+export function useWebPageByPathQuery(baseOptions: Apollo.QueryHookOptions<WebPageByPathQuery, WebPageByPathQueryVariables>) {
+        return Apollo.useQuery<WebPageByPathQuery, WebPageByPathQueryVariables>(WebPageByPathDocument, baseOptions);
+      }
+export function useWebPageByPathLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WebPageByPathQuery, WebPageByPathQueryVariables>) {
+          return Apollo.useLazyQuery<WebPageByPathQuery, WebPageByPathQueryVariables>(WebPageByPathDocument, baseOptions);
+        }
+export type WebPageByPathQueryHookResult = ReturnType<typeof useWebPageByPathQuery>;
+export type WebPageByPathLazyQueryHookResult = ReturnType<typeof useWebPageByPathLazyQuery>;
+export type WebPageByPathQueryResult = Apollo.QueryResult<WebPageByPathQuery, WebPageByPathQueryVariables>;
+export const WebPageConfigByPathHostDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"webPageConfigByPathHost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"path"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"host"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"webPageConfigByPathHost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"Variable","name":{"kind":"Name","value":"path"}}},{"kind":"Argument","name":{"kind":"Name","value":"host"},"value":{"kind":"Variable","name":{"kind":"Name","value":"host"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"site"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"config"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"baseGoogleAnalyticsTrackingId"}},{"kind":"Field","name":{"kind":"Name","value":"googleAnalyticsTrackingId"}},{"kind":"Field","name":{"kind":"Name","value":"googleTagManagerId"}},{"kind":"Field","name":{"kind":"Name","value":"googleAnalyticsLinkerDomains"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"domain"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metaData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"url"},"name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"siteTitle"}},{"kind":"Field","name":{"kind":"Name","value":"siteDescription"}},{"kind":"Field","name":{"kind":"Name","value":"facebookId"}},{"kind":"Field","name":{"kind":"Name","value":"facebookPublisher"}},{"kind":"Field","name":{"kind":"Name","value":"twitterId"}},{"kind":"Field","name":{"kind":"Name","value":"twitterCreator"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"branding"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"googleFontsUrl"}},{"kind":"Field","name":{"kind":"Name","value":"theme"}},{"kind":"Field","name":{"kind":"Name","value":"logo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"absoluteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"headerBranding"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"absoluteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"favicon"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"absoluteUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ticketLogo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"absoluteUrl"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}}]}}]}}]}}]};
 
 /**
  * __useWebPageConfigByPathHostQuery__
@@ -24808,35 +11242,12 @@ export const WebPageConfigByPathHostDocument: DocumentNode = {
  *   },
  * });
  */
-export function useWebPageConfigByPathHostQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    WebPageConfigByPathHostQuery,
-    WebPageConfigByPathHostQueryVariables
-  >,
-) {
-  return Apollo.useQuery<
-    WebPageConfigByPathHostQuery,
-    WebPageConfigByPathHostQueryVariables
-  >(WebPageConfigByPathHostDocument, baseOptions);
-}
-export function useWebPageConfigByPathHostLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    WebPageConfigByPathHostQuery,
-    WebPageConfigByPathHostQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<
-    WebPageConfigByPathHostQuery,
-    WebPageConfigByPathHostQueryVariables
-  >(WebPageConfigByPathHostDocument, baseOptions);
-}
-export type WebPageConfigByPathHostQueryHookResult = ReturnType<
-  typeof useWebPageConfigByPathHostQuery
->;
-export type WebPageConfigByPathHostLazyQueryHookResult = ReturnType<
-  typeof useWebPageConfigByPathHostLazyQuery
->;
-export type WebPageConfigByPathHostQueryResult = Apollo.QueryResult<
-  WebPageConfigByPathHostQuery,
-  WebPageConfigByPathHostQueryVariables
->;
+export function useWebPageConfigByPathHostQuery(baseOptions: Apollo.QueryHookOptions<WebPageConfigByPathHostQuery, WebPageConfigByPathHostQueryVariables>) {
+        return Apollo.useQuery<WebPageConfigByPathHostQuery, WebPageConfigByPathHostQueryVariables>(WebPageConfigByPathHostDocument, baseOptions);
+      }
+export function useWebPageConfigByPathHostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WebPageConfigByPathHostQuery, WebPageConfigByPathHostQueryVariables>) {
+          return Apollo.useLazyQuery<WebPageConfigByPathHostQuery, WebPageConfigByPathHostQueryVariables>(WebPageConfigByPathHostDocument, baseOptions);
+        }
+export type WebPageConfigByPathHostQueryHookResult = ReturnType<typeof useWebPageConfigByPathHostQuery>;
+export type WebPageConfigByPathHostLazyQueryHookResult = ReturnType<typeof useWebPageConfigByPathHostLazyQuery>;
+export type WebPageConfigByPathHostQueryResult = Apollo.QueryResult<WebPageConfigByPathHostQuery, WebPageConfigByPathHostQueryVariables>;
