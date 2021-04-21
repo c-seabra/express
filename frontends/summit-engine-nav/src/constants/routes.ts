@@ -69,6 +69,11 @@ const ROUTES: Routes = [
         meta: { description: 'Ticket types' },
         path: '~ticket-management/#/ticket-types',
       },
+      {
+        isActive: true,
+        meta: { description: 'Packages' },
+        path: '~ticket-management/#/packages',
+      },
     ],
     hasChildren: true,
     isActive: true,

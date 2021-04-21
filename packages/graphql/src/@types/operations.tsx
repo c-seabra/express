@@ -8188,6 +8188,36 @@ export type CommerceListCategoriesQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceListDealsQueryVariables = Exact<{
+  sort?: Maybe<Array<CommerceSortTerm> | CommerceSortTerm>;
+}>;
+
+export type CommerceListDealsQuery = { __typename?: 'Query' } & {
+  commerceListDeals: Maybe<
+    { __typename?: 'CommerceSearchResponseDeal' } & Pick<
+      CommerceSearchResponseDeal,
+      'total'
+    > & {
+        hits: Maybe<
+          Array<
+            { __typename?: 'CommerceDeal' } & Pick<
+              CommerceDeal,
+              | 'active'
+              | 'createdAt'
+              | 'description'
+              | 'endDate'
+              | 'id'
+              | 'lastUpdatedAt'
+              | 'metadata'
+              | 'name'
+              | 'startDate'
+            >
+          >
+        >;
+      }
+  >;
+};
+
 export type CommerceListPaymentMethodsQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -17268,6 +17298,145 @@ export type CommerceListCategoriesLazyQueryHookResult = ReturnType<
 export type CommerceListCategoriesQueryResult = Apollo.QueryResult<
   CommerceListCategoriesQuery,
   CommerceListCategoriesQueryVariables
+>;
+export const CommerceListDealsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListDeals' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sort' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListDeals' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'active' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endDate' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadata' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startDate' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'total' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: {
+                kind: 'NamedType',
+                name: { kind: 'Name', value: 'CommerceSortTerm' },
+              },
+            },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListDealsQuery__
+ *
+ * To run a query within a React component, call `useCommerceListDealsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListDealsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListDealsQuery({
+ *   variables: {
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useCommerceListDealsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListDealsQuery,
+    CommerceListDealsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListDealsQuery,
+    CommerceListDealsQueryVariables
+  >(CommerceListDealsDocument, baseOptions);
+}
+export function useCommerceListDealsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListDealsQuery,
+    CommerceListDealsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListDealsQuery,
+    CommerceListDealsQueryVariables
+  >(CommerceListDealsDocument, baseOptions);
+}
+export type CommerceListDealsQueryHookResult = ReturnType<
+  typeof useCommerceListDealsQuery
+>;
+export type CommerceListDealsLazyQueryHookResult = ReturnType<
+  typeof useCommerceListDealsLazyQuery
+>;
+export type CommerceListDealsQueryResult = Apollo.QueryResult<
+  CommerceListDealsQuery,
+  CommerceListDealsQueryVariables
 >;
 export const CommerceListPaymentMethodsDocument: DocumentNode = {
   definitions: [
