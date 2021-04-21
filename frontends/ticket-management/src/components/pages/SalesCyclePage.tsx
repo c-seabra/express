@@ -31,6 +31,10 @@ export const Container = styled.div`
   padding-top: 1rem;
 `;
 
+export const InnerWrapper = styled.div`
+  width: 75%;
+`;
+
 const Header = styled.div`
   color: #0c1439;
   font-size: 20px;
@@ -152,13 +156,15 @@ const SaleCyclesPage = () => {
         </FlexRow>
 
         <FlexRow>
-          <ContainerCard>
-            <>
-              <Header>Sale cycle</Header>
-              {loadingCycles && <Loader />}
-              {cycle && <SaleCycleForm prefillData={cycle} />}
-            </>
-          </ContainerCard>
+          <InnerWrapper>
+            <ContainerCard>
+              <>
+                <Header>Sale cycle</Header>
+                {loadingCycles && <Loader />}
+                {cycle && <SaleCycleForm prefillData={cycle} />}
+              </>
+            </ContainerCard>
+          </InnerWrapper>
         </FlexRow>
 
         {!products && (
