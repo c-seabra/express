@@ -1,7 +1,7 @@
 import Badge from '@websummit/components/src/atoms/Badge';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
-  ColumnDescriptor,
+  ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDateTime } from '@websummit/components/src/utils/time';
 import { CommerceSale } from '@websummit/graphql/src/@types/operations';
@@ -17,7 +17,7 @@ type PackagesListProps = {
   packages: CommerceSale[];
 };
 const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
-  const tableShape: ColumnDescriptor<any>[] = [
+  const tableShape: ColumnDescriptors<CommerceSale> = [
     {
       header: 'Name',
       renderCell: (deal) => <StyledName>{deal.name || 'N/A'}</StyledName>,
