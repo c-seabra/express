@@ -1,42 +1,35 @@
-
-      export interface PossibleTypesResultData {
-        possibleTypes: {
-          [key: string]: string[]
-        }
-      }
-      const result: PossibleTypesResultData = {
-  "possibleTypes": {
-    "ConnectionEntity": [
-      "Appearance",
-      "Attendee"
+export interface PossibleTypesResultData {
+  possibleTypes: {
+    [key: string]: string[];
+  };
+}
+const result: PossibleTypesResultData = {
+  possibleTypes: {
+    ConnectionEntity: ['Appearance', 'Attendee'],
+    MenuItemLinkDynamicZone: [
+      'ComponentWebLinksPageLink',
+      'ComponentWebLinksUrlLink',
+      'ComponentWebLinksSubMenu',
     ],
-    "MenuItemLinkDynamicZone": [
-      "ComponentWebLinksPageLink",
-      "ComponentWebLinksUrlLink",
-      "ComponentWebLinksSubMenu"
+    SourceTicketReleaseUnion: ['TitoTicketRelease'],
+    TicketReleaseAction: [
+      'TicketReleaseActionsExpiredTicketAction',
+      'TicketReleaseActionsPriceAlertAction',
+      'TicketReleaseActionsPriceEnquiryAction',
+      'TicketReleaseActionsTitoCheckoutAction',
     ],
-    "SourceTicketReleaseUnion": [
-      "TitoTicketRelease"
+    WebPageContentDynamicZone: [
+      'ComponentWebLayoutsTicketSalesPage',
+      'ComponentWebLayoutsTicketApplicationsPage',
+      'ComponentWebElementsShowcaseGrid',
+      'ComponentWebElementsScheduleSearchSidebarFilters',
+      'ComponentWebElementsCompanySearchSidebarFilters',
+      'ComponentWebElementsAttendeeSearchSidebarFilters',
+      'ComponentWebElementsHeroSection',
+      'ComponentWebElementsFreshchat',
+      'ComponentWebLayoutsStoresTicketSalesPage',
+      'ComponentWebLayoutsStoresTicketApplicationsPage',
     ],
-    "TicketReleaseAction": [
-      "TicketReleaseActionsExpiredTicketAction",
-      "TicketReleaseActionsPriceAlertAction",
-      "TicketReleaseActionsPriceEnquiryAction",
-      "TicketReleaseActionsTitoCheckoutAction"
-    ],
-    "WebPageContentDynamicZone": [
-      "ComponentWebLayoutsTicketSalesPage",
-      "ComponentWebLayoutsTicketApplicationsPage",
-      "ComponentWebElementsShowcaseGrid",
-      "ComponentWebElementsScheduleSearchSidebarFilters",
-      "ComponentWebElementsCompanySearchSidebarFilters",
-      "ComponentWebElementsAttendeeSearchSidebarFilters",
-      "ComponentWebElementsHeroSection",
-      "ComponentWebElementsFreshchat",
-      "ComponentWebLayoutsStoresTicketSalesPage",
-      "ComponentWebLayoutsStoresTicketApplicationsPage"
-    ]
-  }
+  },
 };
-      export default result;
-    
+export default result;
