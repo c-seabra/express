@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useAppContext } from '../app/AppContext';
+import {useAppContext, useRequestContext} from '../app/AppContext';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -60,11 +60,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const SaleCycleForm = ({ prefillData }: Props) => {
-  const { conferenceSlug, token } = useAppContext();
-  const context = {
-    slug: conferenceSlug,
-    token,
-  };
+  const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const [updateCycle] = useCommerceUpdateSaleMutation({
