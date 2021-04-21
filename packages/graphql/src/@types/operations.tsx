@@ -8084,6 +8084,54 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceGetProductQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type CommerceGetProductQuery = { __typename?: 'Query' } & {
+  commerceGetProduct: Maybe<
+    { __typename?: 'CommerceProduct' } & Pick<
+      CommerceProduct,
+      | 'active'
+      | 'createdAt'
+      | 'defaultPrice'
+      | 'description'
+      | 'id'
+      | 'lastUpdatedAt'
+      | 'name'
+      | 'price'
+      | 'taxMode'
+    > & {
+        categories: Maybe<
+          Array<
+            { __typename?: 'CommerceCategory' } & Pick<
+              CommerceCategory,
+              'id' | 'active' | 'name' | 'description'
+            >
+          >
+        >;
+        createdBy: Maybe<
+          { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name' | 'email'>
+        >;
+        lastUpdatedBy: Maybe<
+          { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name' | 'email'>
+        >;
+        tags: Maybe<
+          Array<
+            { __typename?: 'CommerceTag' } & Pick<
+              CommerceTag,
+              'id' | 'code' | 'name' | 'description'
+            >
+          >
+        >;
+        taxType: { __typename?: 'CommerceTaxType' } & Pick<
+          CommerceTaxType,
+          'id' | 'description' | 'name'
+        >;
+      }
+  >;
+};
+
 export type CommerceGetStoreQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CommerceGetStoreQuery = { __typename?: 'Query' } & {
@@ -16798,6 +16846,186 @@ export type CommerceGetOrderLazyQueryHookResult = ReturnType<
 export type CommerceGetOrderQueryResult = Apollo.QueryResult<
   CommerceGetOrderQuery,
   CommerceGetOrderQueryVariables
+>;
+export const CommerceGetProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceGetProduct' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceGetProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'categories' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'active' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'defaultPrice' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedAt' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tags' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'taxMode' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceGetProductQuery__
+ *
+ * To run a query within a React component, call `useCommerceGetProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceGetProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceGetProductQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCommerceGetProductQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CommerceGetProductQuery,
+    CommerceGetProductQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceGetProductQuery,
+    CommerceGetProductQueryVariables
+  >(CommerceGetProductDocument, baseOptions);
+}
+export function useCommerceGetProductLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceGetProductQuery,
+    CommerceGetProductQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceGetProductQuery,
+    CommerceGetProductQueryVariables
+  >(CommerceGetProductDocument, baseOptions);
+}
+export type CommerceGetProductQueryHookResult = ReturnType<
+  typeof useCommerceGetProductQuery
+>;
+export type CommerceGetProductLazyQueryHookResult = ReturnType<
+  typeof useCommerceGetProductLazyQuery
+>;
+export type CommerceGetProductQueryResult = Apollo.QueryResult<
+  CommerceGetProductQuery,
+  CommerceGetProductQueryVariables
 >;
 export const CommerceGetStoreDocument: DocumentNode = {
   definitions: [
