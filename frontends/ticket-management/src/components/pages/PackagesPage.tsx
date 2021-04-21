@@ -59,8 +59,8 @@ const PackagesPage = () => {
 
   const hasPackages =
     data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0;
-  const cycles: any = data?.commerceListDeals?.hits;
-  const sortedPackages: any = cycles?.slice()?.sort((a: any, b: any) => {
+  const packages: any = data?.commerceListDeals?.hits;
+  const sortedPackages: any = packages?.slice()?.sort((a: any, b: any) => {
     return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
   });
 
@@ -73,13 +73,13 @@ const PackagesPage = () => {
 
       <FlexCol>
         <FlexRow>
-          <HeaderText>Sale cycles</HeaderText>
+          <HeaderText>Packages</HeaderText>
           <Button onClick={onButtonClick}>Create new package</Button>
         </FlexRow>
 
         {hasPackages && (
           <FlexRow>
-            <PackagesList cycles={sortedPackages} onRowClick={onRowClick} />
+            <PackagesList packages={sortedPackages} onRowClick={onRowClick} />
           </FlexRow>
         )}
       </FlexCol>

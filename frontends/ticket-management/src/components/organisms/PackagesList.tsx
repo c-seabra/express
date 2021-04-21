@@ -13,39 +13,39 @@ const StyledName = styled.span`
 `;
 
 type PackagesListProps = {
-  cycles: CommerceSale[];
   onRowClick?: any;
+  packages: CommerceSale[];
 };
-const PackagesList = ({ cycles, onRowClick }: PackagesListProps) => {
+const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
   const tableShape: ColumnDescriptor<any>[] = [
     {
       header: 'Name',
-      renderCell: (cycle) => <StyledName>{cycle.name || 'N/A'}</StyledName>,
+      renderCell: (deal) => <StyledName>{deal.name || 'N/A'}</StyledName>,
       width: '20%',
     },
     {
       header: 'Start date',
-      renderCell: (cycle) => formatFullDateTime(cycle.startDate) || 'N/A',
+      renderCell: (deal) => formatFullDateTime(deal.startDate) || 'N/A',
     },
     {
       header: 'End date',
-      renderCell: (cycle) => formatFullDateTime(cycle.endDate) || 'N/A',
+      renderCell: (deal) => formatFullDateTime(deal.endDate) || 'N/A',
     },
     {
       header: 'Description',
-      renderCell: (cycle) => cycle.description || 'N/A',
+      renderCell: (deal) => deal.description || 'N/A',
     },
     {
       header: 'Status',
-      renderCell: (cycle) => {
+      renderCell: (deal) => {
         const badge = {
-          background: cycle.active ? '#EAF9EA' : '#FDEBEB',
-          color: cycle.active ? '#3BB273' : '#E15554',
+          background: deal.active ? '#EAF9EA' : '#FDEBEB',
+          color: deal.active ? '#3BB273' : '#E15554',
         };
 
         return (
           <Badge background={badge.background} color={badge.color}>
-            {cycle.active ? 'Active' : 'Inactive' || 'N/A'}
+            {deal.active ? 'Active' : 'Inactive' || 'N/A'}
           </Badge>
         );
       },
@@ -56,7 +56,7 @@ const PackagesList = ({ cycles, onRowClick }: PackagesListProps) => {
     <>
       <ContainerCard noPadding>
         <Table<CommerceSale>
-          items={cycles}
+          items={packages}
           tableShape={tableShape}
           onRowClick={onRowClick}
         />
