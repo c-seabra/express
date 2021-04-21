@@ -352,7 +352,7 @@ const TicketTypeForm = ({
                 />
                 <StyledTextInputField
                   required
-                  label="Ticket reference suffix"
+                  label="Ticket type suffix"
                   maxLength={5}
                   name="bookingRefSuffix"
                   placeholder="XXX"
