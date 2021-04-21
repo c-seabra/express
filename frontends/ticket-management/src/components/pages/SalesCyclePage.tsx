@@ -31,6 +31,10 @@ export const Container = styled.div`
   padding-top: 1rem;
 `;
 
+export const InnerWrapper = styled.div`
+  width: 75%;
+`;
+
 const Header = styled.div`
   color: #0c1439;
   font-size: 20px;
@@ -152,13 +156,19 @@ const SaleCyclesPage = () => {
         </FlexRow>
 
         <FlexRow>
-          <ContainerCard>
-            <>
-              <Header>Sale cycle</Header>
-              {loadingCycles && <Loader />}
-              {cycle && <SaleCycleForm prefillData={cycle} />}
-            </>
-          </ContainerCard>
+          <InnerWrapper>
+            <ContainerCard>
+              <>
+                <Spacing bottom="1.25rem">
+                  <Header>Sale cycle</Header>
+                </Spacing>
+                <SubHeader>Edit sale cycle details</SubHeader>
+
+                {loadingCycles && <Loader />}
+                {cycle && <SaleCycleForm prefillData={cycle} />}
+              </>
+            </ContainerCard>
+          </InnerWrapper>
         </FlexRow>
 
         {!products && (
@@ -173,7 +183,9 @@ const SaleCyclesPage = () => {
           <ContainerCard>
             <>
               <Spacing bottom="2rem" top="1rem">
-                <Header>Price information during sale cycle</Header>
+                <Spacing bottom="1.25rem">
+                  <Header>Price information during sale cycle</Header>
+                </Spacing>
                 <SubHeader>
                   Add price information for ticket types during the sales cycle
                 </SubHeader>

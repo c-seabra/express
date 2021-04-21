@@ -15,34 +15,14 @@ export type Routes = Route[];
 const ROUTES: Routes = [
   {
     isActive: false,
-    meta: { description: 'Customisation' },
-    path: '~customisation',
-  },
-  {
-    isActive: false,
-    meta: { description: 'Dashboard' },
-    path: '~dashboard',
-  },
-  {
-    isActive: false,
-    meta: { description: 'Discounts' },
-    path: '~discounts',
+    meta: { description: 'Home' },
+    path: '~Home',
   },
   {
     hasChildren: false,
     isActive: true,
     meta: { description: 'Events configuration' },
     path: '~events#/',
-  },
-  {
-    isActive: false,
-    meta: { description: 'Private sales' },
-    path: '~private-sales',
-  },
-  {
-    isActive: false,
-    meta: { description: 'Reports' },
-    path: '~reports',
   },
   {
     children: [
@@ -94,6 +74,11 @@ const ROUTES: Routes = [
     isActive: true,
     meta: { description: 'Ticket configuration' },
     path: '~ticket-management#/',
+  },
+  {
+    isActive: false,
+    meta: { description: 'Reports' },
+    path: '~reports',
   },
 ];
 
