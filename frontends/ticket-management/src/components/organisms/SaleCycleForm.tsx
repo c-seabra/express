@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import {useAppContext, useRequestContext} from '../app/AppContext';
+import { useAppContext, useRequestContext } from '../app/AppContext';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;

@@ -13,18 +13,17 @@ export default gql`
       name
       startDate
       dealItems {
-          amount
-          createdAt
-          id
-          lastUpdatedAt
-          max
-          metadata
-          min
-#          product: CommerceProduct
-          step
-          type
+        amount
+        createdAt
+        id
+        lastUpdatedAt
+        max
+        metadata
+        min
+        #          product: CommerceProduct
+        step
+        type
       }
-
     }
   }
 `;

@@ -5,9 +5,7 @@ import Breadcrumbs, {
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {
-  useCommerceGetDealQuery,
-} from '@websummit/graphql/src/@types/operations';
+import { useCommerceGetDealQuery } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -102,20 +100,6 @@ const PackagePage = () => {
   });
   const deal = dealResponse?.commerceGetDeal;
   /* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */
-  // const { loading: loadingDeals, data } = useCommerceListSaleDealsQuery({
-  //   context,
-  //   fetchPolicy: 'network-only',
-  //   onError: (error) => errorSnackbar(error.message),
-  //   variables: {
-  //     saleId,
-  //     sort: [
-  //       {
-  //         direction: CommerceSortTermDirection.Asc,
-  //         field: 'createdAt',
-  //       },
-  //     ],
-  //   },
-  // });
 
   // const hasDeals =
   //   data?.commerceListSaleDeals?.hits &&
@@ -135,7 +119,7 @@ const PackagePage = () => {
     <Container>
       {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
 
-      {/* <SaleProductModalWrapper */}
+      {/* <DealProductModalWrapper */}
       {/*  closeModal={closeModal} */}
       {/*  currencySymbol={storeCurrencySymbol as string} */}
       {/*  existingDeals={products} */}

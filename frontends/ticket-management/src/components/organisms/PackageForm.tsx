@@ -10,8 +10,8 @@ import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { toShortDateTime } from '@websummit/components/src/utils/time';
-import { useCommerceUpdateSaleMutation } from '@websummit/graphql/src/@types/operations';
-import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
+import { useCommerceUpdateDealMutation } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -63,13 +63,13 @@ const PackageForm = ({ prefillData }: Props) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
-  const [updateCycle] = useCommerceUpdateSaleMutation({
+  const [updateDeal] = useCommerceUpdateDealMutation({
     context,
     onCompleted: () => {
       snackbar('Package updated');
     },
-    onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
+    onError: (error) => errorSnackbar(error.message),
+    refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
   });
 
   const initialValues = () => {
@@ -91,8 +91,8 @@ const PackageForm = ({ prefillData }: Props) => {
       startDate: new Date(formData.startDate).toISOString(),
     };
 
-    return updateCycle({
-      variables: { commerceSale: input, id: prefillData.id },
+    return updateDeal({
+      variables: { commerceDealUpdate: input, id: prefillData.id },
     });
   };
 
@@ -118,7 +118,7 @@ const PackageForm = ({ prefillData }: Props) => {
             <InlineWrapper>
               <StyledInputField
                 required
-                label="Sale start date"
+                label="Go live at"
                 name="startDate"
                 type="datetime-local"
               />
