@@ -13,6 +13,30 @@ export default gql`
         metadata
         name
         startDate
+        dealItems {
+          amount
+          createdAt
+          id
+          lastUpdatedAt
+          max
+          metadata
+          min
+          product {
+            id
+            name
+            price
+            categories {
+              id
+              name
+              children {
+                id
+                name
+              }
+            }
+          }
+          step
+          type
+        }
       }
       total
     }

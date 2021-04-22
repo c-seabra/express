@@ -8249,7 +8249,51 @@ export type CommerceListDealsQuery = { __typename?: 'Query' } & {
               | 'metadata'
               | 'name'
               | 'startDate'
-            >
+            > & {
+                dealItems: Maybe<
+                  Array<
+                    { __typename?: 'CommerceDealItem' } & Pick<
+                      CommerceDealItem,
+                      | 'amount'
+                      | 'createdAt'
+                      | 'id'
+                      | 'lastUpdatedAt'
+                      | 'max'
+                      | 'metadata'
+                      | 'min'
+                      | 'step'
+                      | 'type'
+                    > & {
+                        product: Maybe<
+                          { __typename?: 'CommerceProduct' } & Pick<
+                            CommerceProduct,
+                            'id' | 'name' | 'price'
+                          > & {
+                              categories: Maybe<
+                                Array<
+                                  { __typename?: 'CommerceCategory' } & Pick<
+                                    CommerceCategory,
+                                    'id' | 'name'
+                                  > & {
+                                      children: Maybe<
+                                        Array<
+                                          {
+                                            __typename?: 'CommerceCategory';
+                                          } & Pick<
+                                            CommerceCategory,
+                                            'id' | 'name'
+                                          >
+                                        >
+                                      >;
+                                    }
+                                >
+                              >;
+                            }
+                        >;
+                      }
+                  >
+                >;
+              }
           >
         >;
       }
@@ -17532,6 +17576,115 @@ export const CommerceListDealsDocument: DocumentNode = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'startDate' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dealItems' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'amount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lastUpdatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'max' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'metadata' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'min' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'product' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'price' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'categories' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'children',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'name',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'step' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'type' },
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
