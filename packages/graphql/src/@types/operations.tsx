@@ -7342,6 +7342,17 @@ export type CommerceCreateSaleMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceUpdateDealMutationVariables = Exact<{
+  commerceDealUpdate: CommerceDealUpdate;
+  id: Scalars['ID'];
+}>;
+
+export type CommerceUpdateDealMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateDeal: Maybe<
+    { __typename?: 'CommerceDeal' } & Pick<CommerceDeal, 'id' | 'name'>
+  >;
+};
+
 export type CommerceUpdateSaleMutationVariables = Exact<{
   commerceSale: CommerceSaleUpdate;
   id: Scalars['ID'];
@@ -12760,6 +12771,116 @@ export type CommerceCreateSaleMutationResult = Apollo.MutationResult<CommerceCre
 export type CommerceCreateSaleMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateSaleMutation,
   CommerceCreateSaleMutationVariables
+>;
+export const CommerceUpdateDealDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdateDeal' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceDealUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceDealUpdate' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateDeal' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceDealUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceDealUpdate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateDealMutationFn = Apollo.MutationFunction<
+  CommerceUpdateDealMutation,
+  CommerceUpdateDealMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateDealMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateDealMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateDealMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateDealMutation, { data, loading, error }] = useCommerceUpdateDealMutation({
+ *   variables: {
+ *      commerceDealUpdate: // value for 'commerceDealUpdate'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCommerceUpdateDealMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateDealMutation,
+    CommerceUpdateDealMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateDealMutation,
+    CommerceUpdateDealMutationVariables
+  >(CommerceUpdateDealDocument, baseOptions);
+}
+export type CommerceUpdateDealMutationHookResult = ReturnType<
+  typeof useCommerceUpdateDealMutation
+>;
+export type CommerceUpdateDealMutationResult = Apollo.MutationResult<CommerceUpdateDealMutation>;
+export type CommerceUpdateDealMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateDealMutation,
+  CommerceUpdateDealMutationVariables
 >;
 export const CommerceUpdateSaleDocument: DocumentNode = {
   definitions: [
