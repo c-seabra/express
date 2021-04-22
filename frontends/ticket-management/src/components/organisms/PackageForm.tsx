@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import {useAppContext, useRequestContext} from '../app/AppContext';
+import { useRequestContext } from '../app/AppContext';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -66,7 +66,7 @@ const PackageForm = ({ prefillData }: Props) => {
   const [updateCycle] = useCommerceUpdateSaleMutation({
     context,
     onCompleted: () => {
-      snackbar('Sale cycle updated');
+      snackbar('Package updated');
     },
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
@@ -110,7 +110,7 @@ const PackageForm = ({ prefillData }: Props) => {
         <Spacing top="2rem">
           <FieldWrapper>
             <Spacing bottom="8px">
-              <TextInputField required label="Sale cycle name" name="name" />
+              <TextInputField required label="Package name" name="name" />
             </Spacing>
           </FieldWrapper>
 
@@ -118,14 +118,14 @@ const PackageForm = ({ prefillData }: Props) => {
             <InlineWrapper>
               <StyledInputField
                 required
-                label="Start date"
+                label="Sale start date"
                 name="startDate"
                 type="datetime-local"
               />
 
               <StyledInputField
                 required
-                label="End date"
+                label="Sale end date"
                 name="endDate"
                 type="datetime-local"
               />
@@ -136,7 +136,7 @@ const PackageForm = ({ prefillData }: Props) => {
             <Spacing bottom="8px">
               <TextAreaField
                 fieldHeight="80px"
-                label="Sale cycle description"
+                label="Package description"
                 name="description"
               />
             </Spacing>
@@ -144,7 +144,7 @@ const PackageForm = ({ prefillData }: Props) => {
 
           <FieldWrapper>
             <Spacing bottom="8px">
-              <CheckboxField label="Active" name="active" />
+              <CheckboxField label="On sale" name="active" />
             </Spacing>
           </FieldWrapper>
           <FlexEnd>
