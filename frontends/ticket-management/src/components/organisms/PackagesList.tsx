@@ -19,16 +19,16 @@ type PackagesListProps = {
 const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
   const tableShape: ColumnDescriptors<CommerceSale> = [
     {
-      header: 'Name',
+      header: 'Product name',
       renderCell: (deal) => <StyledName>{deal.name || 'N/A'}</StyledName>,
       width: '20%',
     },
     {
-      header: 'Start date',
+      header: 'Sale start date',
       renderCell: (deal) => formatFullDateTime(deal.startDate) || 'N/A',
     },
     {
-      header: 'End date',
+      header: 'Sale end date',
       renderCell: (deal) => formatFullDateTime(deal.endDate) || 'N/A',
     },
     {
@@ -36,7 +36,7 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
       renderCell: (deal) => deal.description || 'N/A',
     },
     {
-      header: 'Status',
+      header: 'On sale',
       renderCell: (deal) => {
         const badge = {
           background: deal.active ? '#EAF9EA' : '#FDEBEB',
@@ -45,7 +45,7 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
 
         return (
           <Badge background={badge.background} color={badge.color}>
-            {deal.active ? 'Active' : 'Inactive' || 'N/A'}
+            {deal.active ? 'Active' : 'Paused' || 'N/A'}
           </Badge>
         );
       },
