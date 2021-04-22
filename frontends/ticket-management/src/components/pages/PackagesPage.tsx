@@ -49,10 +49,12 @@ type GroupedPackages = {
 };
 
 const ungroupedCategoryName = 'Other';
+type CommerceDealWithCategories = CommerceDeal & {
+  categories: CommerceCategory[];
+};
 
 const groupPackagesByCategories = (
-  // packages: Partial<CommerceDeal>[] = [],
-  packages: Partial<any>[] = [],
+  packages: Partial<CommerceDealWithCategories>[] = [],
   ticketCategories: Pick<CommerceCategory, 'name' | 'id'>[] = [],
 ) => {
   let packagesByCategories: GroupedPackages = {};
@@ -116,7 +118,7 @@ const PackagesPage = () => {
     data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0;
   const packages: any = data?.commerceListDeals?.hits;
   const mappedPackages = packages?.map((item: CommerceDeal) => {
-    let category: any = [];
+    let category: CommerceCategory[] = [];
     item.dealItems?.map((elem: any) => {
       category = elem.product.categories;
     });
@@ -146,7 +148,10 @@ const PackagesPage = () => {
           Object.entries(groupedPackages).map(([key, value]) => (
             <Spacing key={key} top="1.5rem">
               <ContainerCard noPadding title={key}>
-                <PackagesList packages={value as any} onRowClick={onRowClick} />
+                <PackagesList
+                  packages={value as CommerceDeal[]}
+                  onRowClick={onRowClick}
+                />
               </ContainerCard>
             </Spacing>
           ))}

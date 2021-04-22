@@ -4,7 +4,7 @@ import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDateTime } from '@websummit/components/src/utils/time';
-import { CommerceSale } from '@websummit/graphql/src/@types/operations';
+import { CommerceDeal } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -14,10 +14,10 @@ const StyledName = styled.span`
 
 type PackagesListProps = {
   onRowClick?: any;
-  packages: CommerceSale[];
+  packages: CommerceDeal[];
 };
 const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
-  const tableShape: ColumnDescriptors<CommerceSale> = [
+  const tableShape: ColumnDescriptors<CommerceDeal> = [
     {
       header: 'Product name',
       renderCell: (deal) => <StyledName>{deal.name || 'N/A'}</StyledName>,
@@ -55,7 +55,7 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
   return (
     <>
       <ContainerCard noPadding>
-        <Table<CommerceSale>
+        <Table<CommerceDeal>
           items={packages}
           tableShape={tableShape}
           onRowClick={onRowClick}
