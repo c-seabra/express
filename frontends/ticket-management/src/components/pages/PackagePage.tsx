@@ -1,22 +1,19 @@
-import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   useCommerceGetDealQuery,
-  useCommerceGetStoreQuery,
 } from '@websummit/graphql/src/@types/operations';
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useRequestContext } from '../app/AppContext';
-import PackageForm, { PackageFormData } from '../organisms/PackageForm';
+import PackageForm from '../organisms/PackageForm';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -57,21 +54,23 @@ const FlexCol = styled.div`
 `;
 
 const PackagePage = () => {
+  const context = useRequestContext();
   const errorSnackbar = useErrorSnackbar();
-  const { isOpen, closeModal, openModal } = useModalState();
-  const [prefillData, setPrefillData] = useState<PackageFormData>();
-  const onButtonClick = () => {
-    // setPrefillData({
-    //   active: false,
-    //   description: '',
-    //   id: '',
-    //   name: '',
-    //   // product: '',
-    //   type: '',
-    // });
-
-    openModal();
-  };
+  /* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */
+  // const { isOpen, closeModal, openModal } = useModalState();
+  // const [prefillData, setPrefillData] = useState<PackageFormData>();
+  // const onButtonClick = () => {
+  //   setPrefillData({
+  //     active: false,
+  //     description: '',
+  //     id: '',
+  //     name: '',
+  //     // product: '',
+  //     type: '',
+  //   });
+  //
+  //   openModal();
+  // };
   // const onRowClick = (event: any) => {
   //   setPrefillData({
   //     active: event.active,
@@ -85,12 +84,11 @@ const PackagePage = () => {
   //
   //   openModal();
   // };
-  const context = useRequestContext();
-  const { data: store } = useCommerceGetStoreQuery({
-    context,
-    onError: (e) => console.error(e.message),
-  });
-  const storeCurrencySymbol = store?.commerceGetStore?.currencySymbol;
+  // const { data: store } = useCommerceGetStoreQuery({
+  //   context,
+  //   onError: (e) => console.error(e.message),
+  // });
+  // const storeCurrencySymbol = store?.commerceGetStore?.currencySymbol;
   const { id: dealId } = useParams<any>();
   const {
     loading: loadingCycles,
@@ -103,6 +101,7 @@ const PackagePage = () => {
     },
   });
   const deal = dealResponse?.commerceGetDeal;
+  /* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */
   // const { loading: loadingDeals, data } = useCommerceListSaleDealsQuery({
   //   context,
   //   fetchPolicy: 'network-only',
@@ -134,6 +133,8 @@ const PackagePage = () => {
 
   return (
     <Container>
+      {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
+
       {/* <SaleProductModalWrapper */}
       {/*  closeModal={closeModal} */}
       {/*  currencySymbol={storeCurrencySymbol as string} */}
@@ -163,6 +164,8 @@ const PackagePage = () => {
             </ContainerCard>
           </InnerWrapper>
         </FlexRow>
+
+        {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
 
         {/* {!products && ( */}
         {/*  <FlexRow> */}
