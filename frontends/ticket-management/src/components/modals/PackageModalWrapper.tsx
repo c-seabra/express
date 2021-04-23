@@ -8,17 +8,16 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { useCommerceCreateSaleMutation } from '@websummit/graphql/src/@types/operations';
-import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
+import { useCommerceCreateDealMutation } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useRequestContext} from '../app/AppContext';
-import SelectField from "../../../../../packages/components/src/molecules/SelectField";
-import CheckboxField from "../../../../../packages/components/src/molecules/CheckboxField";
-import {Button} from "../../../../../packages/components/src/atoms/Button";
+import { useRequestContext } from '../app/AppContext';
+import SelectField from '../../../../../packages/components/src/molecules/SelectField';
+import CheckboxField from '../../../../../packages/components/src/molecules/CheckboxField';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -35,6 +34,8 @@ type ModalProps = {
 };
 
 export type PackageFormData = {
+  active: boolean;
+  category: any; // TODO fix type
   description: string;
   endDate: any;
   id: string;
@@ -43,27 +44,41 @@ export type PackageFormData = {
 };
 
 const validationSchema = Yup.object().shape({
-  description: Yup.string(),
+  active: Yup.boolean(),
+  category: Yup.string(), // default to Other
+  description: Yup.string().nullable(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
+const otherOption = {
+  label: 'Other',
+  value: undefined,
+};
+
+const getTicketTypesOptions = (types: any[] = []) => [
+  otherOption,
+  ...types.map((type) => ({ label: type?.name, value: type?.id })),
+];
+
 const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
-  const [createCycle] = useCommerceCreateSaleMutation({
+  const [createDeal] = useCommerceCreateDealMutation({
     context,
     onCompleted: () => {
-      snackbar('Product added');
+      snackbar('Package updated');
     },
-    onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
+    onError: (error) => errorSnackbar(error.message),
+    refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
   });
 
   const initialValues = () => {
     return {
+      active: false,
+      category: 'Other',
       description: '',
       endDate: '',
       name: '',
@@ -73,20 +88,24 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
 
   const pickMutation = (formData: PackageFormData) => {
     const input = {
-      description: formData.description.trim(),
+      active: formData.active,
+      description: formData.description ? formData.description.trim() : null,
       endDate: new Date(formData.endDate).toISOString(),
       name: formData.name.trim(),
       startDate: new Date(formData.startDate).toISOString(),
     };
 
-    return createCycle({
-      variables: { commerceSale: input },
+    return createDeal({
+      variables: { commerceDealCreate: input },
     });
   };
 
   const setMutation = (formData: PackageFormData) => {
     return pickMutation(formData);
   };
+
+  // const ticketCategoryOptions = getTicketTypesOptions(productOptions as []);
+  const ticketCategoryOptions = getTicketTypesOptions([]);
 
   return (
     <FormikModal
@@ -109,10 +128,10 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
           <FieldWrapper>
             <Spacing bottom="8px">
               <SelectField
-                  required
-                  label="Ticket category"
-                  name="category"
-                  // options={ticketCategoryOptions}
+                required
+                label="Ticket category"
+                name="category"
+                options={ticketCategoryOptions}
               />
             </Spacing>
           </FieldWrapper>
@@ -120,17 +139,17 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
           <FieldWrapper>
             <InlineWrapper>
               <StyledInputField
-                  required
-                  label="Go live at"
-                  name="startDate"
-                  type="datetime-local"
+                required
+                label="Go live at"
+                name="startDate"
+                type="datetime-local"
               />
 
               <StyledInputField
-                  required
-                  label="Sale end date"
-                  name="endDate"
-                  type="datetime-local"
+                required
+                label="Sale end date"
+                name="endDate"
+                type="datetime-local"
               />
             </InlineWrapper>
           </FieldWrapper>
@@ -138,9 +157,9 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
           <FieldWrapper>
             <Spacing bottom="8px">
               <TextAreaField
-                  fieldHeight="80px"
-                  label="Package description"
-                  name="description"
+                fieldHeight="80px"
+                label="Package description"
+                name="description"
               />
             </Spacing>
           </FieldWrapper>
@@ -150,9 +169,6 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
               <CheckboxField label="On sale" name="active" />
             </Spacing>
           </FieldWrapper>
-          {/*<FlexEnd>*/}
-          {/*  <Button type="submit">Edit</Button>*/}
-          {/*</FlexEnd>*/}
         </Spacing>
       </>
     </FormikModal>
