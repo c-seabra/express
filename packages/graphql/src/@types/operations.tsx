@@ -7366,6 +7366,35 @@ export type CommerceCreateCategoryMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommercePaymentMethodFragment = {
+  __typename?: 'CommercePaymentMethod';
+} & Pick<CommercePaymentMethod, 'id' | 'name'>;
+
+export type CommerceCreateOrderMutationVariables = Exact<{
+  commerceOrderCreate: CommerceOrderCreate;
+}>;
+
+export type CommerceCreateOrderMutation = { __typename?: 'Mutation' } & {
+  commerceCreateOrder: Maybe<
+    { __typename?: 'CommerceOrder' } & Pick<
+      CommerceOrder,
+      'billed' | 'currency' | 'id' | 'lastUpdatedAt' | 'status'
+    > & {
+        customer: Maybe<
+          { __typename?: 'CommerceCustomer' } & Pick<
+            CommerceCustomer,
+            'firstName' | 'lastName' | 'email'
+          >
+        >;
+        paymentMethod: Maybe<
+          {
+            __typename?: 'CommercePaymentMethod';
+          } & CommercePaymentMethodFragment
+        >;
+      }
+  >;
+};
+
 export type CommerceCreateProductMutationVariables = Exact<{
   input: CommerceProductCreate;
 }>;
@@ -7387,6 +7416,17 @@ export type CommerceSaleProductCreateMutation = { __typename?: 'Mutation' } & {
       CommerceSaleProduct,
       'id' | 'active'
     >
+  >;
+};
+
+export type CommerceCreateTransactionMutationVariables = Exact<{
+  commerceTransactionCreate: CommerceTransactionCreate;
+  orderId: Scalars['ID'];
+}>;
+
+export type CommerceCreateTransactionMutation = { __typename?: 'Mutation' } & {
+  commerceCreateTransaction: Maybe<
+    { __typename?: 'CommerceTransaction' } & Pick<CommerceTransaction, 'status'>
   >;
 };
 
@@ -7970,10 +8010,6 @@ export type CommerceOrderItemFragment = {
     tax: Maybe<{ __typename?: 'CommerceTax' } & CommerceTaxFragment>;
   };
 
-export type CommercePaymentMethodFragment = {
-  __typename?: 'CommercePaymentMethod';
-} & Pick<CommercePaymentMethod, 'id' | 'name'>;
-
 export type CommerceAddressFragment = { __typename?: 'CommerceAddress' } & Pick<
   CommerceAddress,
   | 'city'
@@ -8128,7 +8164,16 @@ export type CommerceGetProductQuery = { __typename?: 'Query' } & {
         taxType: { __typename?: 'CommerceTaxType' } & Pick<
           CommerceTaxType,
           'id' | 'description' | 'name'
-        >;
+        > & {
+            taxes: Maybe<
+              Array<
+                { __typename?: 'CommerceTax' } & Pick<
+                  CommerceTax,
+                  'rateAmount' | 'rateType' | 'name' | 'country'
+                >
+              >
+            >;
+          };
       }
   >;
 };
@@ -8139,7 +8184,13 @@ export type CommerceGetStoreQuery = { __typename?: 'Query' } & {
   commerceGetStore: Maybe<
     { __typename?: 'CommerceStore' } & Pick<
       CommerceStore,
-      'id' | 'name' | 'active' | 'currencySymbol' | 'country'
+      | 'id'
+      | 'name'
+      | 'active'
+      | 'baseUrl'
+      | 'slug'
+      | 'currencySymbol'
+      | 'country'
     > & {
         taxTypes: Maybe<
           Array<
@@ -10249,6 +10300,21 @@ export const CommerceTransactionFragmentDoc: DocumentNode = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'CommerceUser' },
       selectionSet: {
         kind: 'SelectionSet',
@@ -10261,21 +10327,6 @@ export const CommerceTransactionFragmentDoc: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceUser' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
       },
     },
   ],
@@ -12852,6 +12903,152 @@ export type CommerceCreateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateCategoryMutation,
   CommerceCreateCategoryMutationVariables
 >;
+export const CommerceCreateOrderDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreateOrder' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceOrderCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceOrderCreate' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateOrder' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'billed' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'customer' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedAt' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentMethod' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceOrderCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceOrderCreate' },
+          },
+        },
+      ],
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      },
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreateOrderMutationFn = Apollo.MutationFunction<
+  CommerceCreateOrderMutation,
+  CommerceCreateOrderMutationVariables
+>;
+
+/**
+ * __useCommerceCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreateOrderMutation, { data, loading, error }] = useCommerceCreateOrderMutation({
+ *   variables: {
+ *      commerceOrderCreate: // value for 'commerceOrderCreate'
+ *   },
+ * });
+ */
+export function useCommerceCreateOrderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreateOrderMutation,
+    CommerceCreateOrderMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreateOrderMutation,
+    CommerceCreateOrderMutationVariables
+  >(CommerceCreateOrderDocument, baseOptions);
+}
+export type CommerceCreateOrderMutationHookResult = ReturnType<
+  typeof useCommerceCreateOrderMutation
+>;
+export type CommerceCreateOrderMutationResult = Apollo.MutationResult<CommerceCreateOrderMutation>;
+export type CommerceCreateOrderMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreateOrderMutation,
+  CommerceCreateOrderMutationVariables
+>;
 export const CommerceCreateProductDocument: DocumentNode = {
   definitions: [
     {
@@ -13057,6 +13254,118 @@ export type CommerceSaleProductCreateMutationResult = Apollo.MutationResult<Comm
 export type CommerceSaleProductCreateMutationOptions = Apollo.BaseMutationOptions<
   CommerceSaleProductCreateMutation,
   CommerceSaleProductCreateMutationVariables
+>;
+export const CommerceCreateTransactionDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreateTransaction' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceTransactionCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceTransactionCreate' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'orderId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceTransactionCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceTransactionCreate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'orderId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreateTransactionMutationFn = Apollo.MutationFunction<
+  CommerceCreateTransactionMutation,
+  CommerceCreateTransactionMutationVariables
+>;
+
+/**
+ * __useCommerceCreateTransactionMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreateTransactionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreateTransactionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreateTransactionMutation, { data, loading, error }] = useCommerceCreateTransactionMutation({
+ *   variables: {
+ *      commerceTransactionCreate: // value for 'commerceTransactionCreate'
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useCommerceCreateTransactionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreateTransactionMutation,
+    CommerceCreateTransactionMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreateTransactionMutation,
+    CommerceCreateTransactionMutationVariables
+  >(CommerceCreateTransactionDocument, baseOptions);
+}
+export type CommerceCreateTransactionMutationHookResult = ReturnType<
+  typeof useCommerceCreateTransactionMutation
+>;
+export type CommerceCreateTransactionMutationResult = Apollo.MutationResult<CommerceCreateTransactionMutation>;
+export type CommerceCreateTransactionMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreateTransactionMutation,
+  CommerceCreateTransactionMutationVariables
 >;
 export const CommerceCreatePaymentMethodDocument: DocumentNode = {
   definitions: [
@@ -16456,6 +16765,21 @@ export const CommerceGetOrderDocument: DocumentNode = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'CommerceUser' },
       selectionSet: {
         kind: 'SelectionSet',
@@ -16642,21 +16966,6 @@ export const CommerceGetOrderDocument: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceOrderItem' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
       },
     },
     {
@@ -16958,6 +17267,31 @@ export const CommerceGetProductDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'description' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rateAmount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rateType' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -17047,6 +17381,8 @@ export const CommerceGetStoreDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'active' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'baseUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'currencySymbol' },

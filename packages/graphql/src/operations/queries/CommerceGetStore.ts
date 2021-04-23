@@ -6,6 +6,8 @@ export default gql`
       id
       name
       active
+      baseUrl
+      slug
       currencySymbol
       country
       taxTypes {
