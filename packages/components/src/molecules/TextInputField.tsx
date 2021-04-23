@@ -46,7 +46,19 @@ const Error = styled.div`
   margin-top: 4px;
 `;
 
-type TextInputFieldProps = HTMLProps<HTMLInputElement> & {
+type TextInputFieldProps = Pick<
+  HTMLProps<HTMLInputElement>,
+  | 'className'
+  | 'label'
+  | 'required'
+  | 'type'
+  | 'disabled'
+  | 'min'
+  | 'max'
+  | 'maxLength'
+  | 'placeholder'
+  | 'step'
+> & {
   name: string;
   validate?: FieldValidator;
 };
@@ -61,6 +73,9 @@ const TextInputField = ({
   disabled,
   validate,
   maxLength,
+  min,
+  max,
+  step,
 }: TextInputFieldProps) => {
   return (
     <FieldContainer className={className}>
@@ -70,7 +85,10 @@ const TextInputField = ({
           <StyledInput
             disabled={disabled}
             isError={meta.touched && !!meta.error}
+            max={max}
             maxLength={maxLength}
+            min={min}
+            step={step}
             type={type}
             {...field}
             placeholder={placeholder}

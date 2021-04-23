@@ -9,6 +9,10 @@ const CheckboxContainer = styled.div`
   margin-left: 11px;
 `;
 
+const FieldContainer = styled.div`
+  display: flex;
+`;
+
 const Input = styled.input`
   display: none;
   height: 0;
@@ -129,9 +133,25 @@ const LabelFieldContainer = styled.label`
   font-weight: 400;
 `;
 
+const Label = styled.div<{ required?: boolean }>`
+  color: #091a46;
+  font-size: 14px;
+  margin-bottom: 4px;
+  margin-top: -5px;
+
+  ${(props) =>
+    props.required &&
+    css`
+      &:after {
+        color: #e15554;
+        content: '*';
+      }
+    `}
+`;
+
 type CheckboxProps = Pick<
   HTMLProps<HTMLInputElement>,
-  'className' | 'onChange' | 'checked'
+  'className' | 'onChange' | 'checked' | 'required' | 'label'
 > & {
   isError?: boolean;
 };
@@ -141,17 +161,22 @@ const Checkbox = ({
   onChange,
   checked,
   isError = false,
+  required = false,
+  label,
 }: CheckboxProps) => {
   return (
-    <CheckboxContainer
-      className={className}
-      onClick={(event) => event.stopPropagation()}
-    >
-      <LabelFieldContainer>
-        <Input checked={checked} type="checkbox" onChange={onChange} />
-        <Indicator isChecked={checked} isError={isError} />
-      </LabelFieldContainer>
-    </CheckboxContainer>
+    <FieldContainer>
+      <CheckboxContainer
+        className={className}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <LabelFieldContainer>
+          {label && <Label required={required}>{label}</Label>}
+          <Input checked={checked} type="checkbox" onChange={onChange} />
+          <Indicator isChecked={checked} isError={isError} />
+        </LabelFieldContainer>
+      </CheckboxContainer>
+    </FieldContainer>
   );
 };
 

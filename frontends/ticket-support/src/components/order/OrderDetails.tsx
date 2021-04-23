@@ -2,6 +2,7 @@ import {
   Button,
   SecondaryButton,
 } from '@websummit/components/src/atoms/Button';
+import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
@@ -23,7 +24,6 @@ import styled from 'styled-components';
 import ButtonLink from '../../lib/components/atoms/ButtonLink';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';
-import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';

@@ -37,6 +37,12 @@ export default gql`
         id
         description
         name
+        taxes {
+          rateAmount
+          rateType
+          name
+          country
+        }
       }
     }
   }
