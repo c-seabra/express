@@ -7990,7 +7990,14 @@ export type CommerceGetDealQuery = { __typename?: 'Query' } & {
               | 'min'
               | 'step'
               | 'type'
-            >
+            > & {
+                product: Maybe<
+                  { __typename?: 'CommerceProduct' } & Pick<
+                    CommerceProduct,
+                    'id' | 'active' | 'description' | 'name'
+                  >
+                >;
+              }
           >
         >;
       }
@@ -16911,6 +16918,31 @@ export const CommerceGetDealDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'metadata' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'product' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'active' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'step' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     ],

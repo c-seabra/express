@@ -20,7 +20,12 @@ export default gql`
         max
         metadata
         min
-        #          product: CommerceProduct
+        product {
+          id
+          active
+          description
+          name
+        }
         step
         type
       }
