@@ -25,6 +25,19 @@ export default gql`
           active
           description
           name
+          price
+          taxType {
+            id
+            description
+            name
+            taxes {
+              rateAmount
+              rateType
+              id
+              name
+              country
+            }
+          }
         }
         step
         type

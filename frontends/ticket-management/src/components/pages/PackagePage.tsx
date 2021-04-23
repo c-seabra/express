@@ -17,6 +17,7 @@ import {
   Maybe,
   useCommerceGetDealQuery,
   useCommerceGetStoreQuery,
+  useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -24,6 +25,7 @@ import styled from 'styled-components';
 
 import useCopyToClipboard from '../../lib/hooks/useCopyToClipboard';
 import { useRequestContext } from '../app/AppContext';
+import InviteToPurhcasePackageModal from '../modals/InviteToPurchasePackageModal';
 import PackageForm from '../organisms/PackageForm';
 
 export const Container = styled.div`
@@ -229,6 +231,14 @@ const PackagePage = () => {
 
   const genericLink = generateLink(deal, store);
 
+  const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
+    context,
+  });
+
+  const activePaymentMethods = paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
+    (method) => method.active,
+  );
+
   return (
     <Container>
       {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
@@ -324,13 +334,13 @@ const PackagePage = () => {
                 functionality may be limited.
               </BoxMessage>
             )}
-            {/*<InviteToPurhcaseModal*/}
-            {/*  activePaymentMethods={activePaymentMethods}*/}
-            {/*  isOpen={isOpen}*/}
-            {/*  store={store}*/}
-            {/*  ticketType={ticketType}*/}
-            {/*  onRequestClose={closeModal}*/}
-            {/*/>*/}
+            <InviteToPurhcasePackageModal
+              activePaymentMethods={activePaymentMethods}
+              deal={deal}
+              isOpen={isOpen}
+              store={store}
+              onRequestClose={closeModal}
+            />
             <Spacing bottom="2rem" top="2rem">
               <Separator />
             </Spacing>
