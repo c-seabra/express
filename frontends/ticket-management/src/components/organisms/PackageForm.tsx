@@ -11,7 +11,10 @@ import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { toShortDateTime } from '@websummit/components/src/utils/time';
-import { useCommerceUpdateDealMutation } from '@websummit/graphql/src/@types/operations';
+import {
+  useCommerceListCategoriesQuery,
+  useCommerceUpdateDealMutation,
+} from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
@@ -68,8 +71,8 @@ const otherOption = {
 };
 
 const getTicketTypesOptions = (types: any[] = []) => [
-  otherOption,
   ...types.map((type) => ({ label: type?.name, value: type?.id })),
+  otherOption,
 ];
 
 const PackageForm = ({ prefillData }: Props) => {
@@ -84,6 +87,12 @@ const PackageForm = ({ prefillData }: Props) => {
     onError: (error) => errorSnackbar(error.message),
     refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
   });
+  const { data } = useCommerceListCategoriesQuery({
+    context,
+    onError: (e) => errorSnackbar(e.message),
+  });
+  const ticketCategories = data?.commerceListCategories?.hits;
+  const ticketCategoryOptions = getTicketTypesOptions(ticketCategories as []);
 
   const initialValues = () => {
     return {
@@ -113,10 +122,6 @@ const PackageForm = ({ prefillData }: Props) => {
   const setMutation = (formData: PackageFormData) => {
     return pickMutation(formData);
   };
-
-  // const ticketCategoryOptions = getTicketTypesOptions(productOptions as []);
-  const ticketCategoryOptions = getTicketTypesOptions( []);
-
 
   return (
     <FormikForm

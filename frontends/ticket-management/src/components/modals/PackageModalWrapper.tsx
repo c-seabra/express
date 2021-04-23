@@ -8,16 +8,19 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { useCommerceCreateDealMutation } from '@websummit/graphql/src/@types/operations';
+import {
+  useCommerceCreateDealMutation,
+  useCommerceListCategoriesQuery,
+} from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import CheckboxField from '../../../../../packages/components/src/molecules/CheckboxField';
+import SelectField from '../../../../../packages/components/src/molecules/SelectField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
-import SelectField from '../../../../../packages/components/src/molecules/SelectField';
-import CheckboxField from '../../../../../packages/components/src/molecules/CheckboxField';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -58,8 +61,8 @@ const otherOption = {
 };
 
 const getTicketTypesOptions = (types: any[] = []) => [
-  otherOption,
   ...types.map((type) => ({ label: type?.name, value: type?.id })),
+  otherOption,
 ];
 
 const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
@@ -74,6 +77,12 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
     onError: (error) => errorSnackbar(error.message),
     refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
   });
+  const { data } = useCommerceListCategoriesQuery({
+    context,
+    onError: (e) => errorSnackbar(e.message),
+  });
+  const ticketCategories = data?.commerceListCategories?.hits;
+  const ticketCategoryOptions = getTicketTypesOptions(ticketCategories as []);
 
   const initialValues = () => {
     return {
@@ -103,9 +112,6 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
   const setMutation = (formData: PackageFormData) => {
     return pickMutation(formData);
   };
-
-  // const ticketCategoryOptions = getTicketTypesOptions(productOptions as []);
-  const ticketCategoryOptions = getTicketTypesOptions([]);
 
   return (
     <FormikModal
