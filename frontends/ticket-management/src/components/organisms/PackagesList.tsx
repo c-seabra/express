@@ -4,7 +4,7 @@ import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDateTime } from '@websummit/components/src/utils/time';
-import { CommerceSale } from '@websummit/graphql/src/@types/operations';
+import { CommerceDeal } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -14,21 +14,21 @@ const StyledName = styled.span`
 
 type PackagesListProps = {
   onRowClick?: any;
-  packages: CommerceSale[];
+  packages: CommerceDeal[];
 };
 const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
-  const tableShape: ColumnDescriptors<CommerceSale> = [
+  const tableShape: ColumnDescriptors<CommerceDeal> = [
     {
-      header: 'Name',
+      header: 'Product name',
       renderCell: (deal) => <StyledName>{deal.name || 'N/A'}</StyledName>,
       width: '20%',
     },
     {
-      header: 'Start date',
+      header: 'Sale start date',
       renderCell: (deal) => formatFullDateTime(deal.startDate) || 'N/A',
     },
     {
-      header: 'End date',
+      header: 'Sale end date',
       renderCell: (deal) => formatFullDateTime(deal.endDate) || 'N/A',
     },
     {
@@ -36,7 +36,7 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
       renderCell: (deal) => deal.description || 'N/A',
     },
     {
-      header: 'Status',
+      header: 'On sale',
       renderCell: (deal) => {
         const badge = {
           background: deal.active ? '#EAF9EA' : '#FDEBEB',
@@ -45,7 +45,7 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
 
         return (
           <Badge background={badge.background} color={badge.color}>
-            {deal.active ? 'Active' : 'Inactive' || 'N/A'}
+            {deal.active ? 'Active' : 'Paused' || 'N/A'}
           </Badge>
         );
       },
@@ -55,7 +55,7 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
   return (
     <>
       <ContainerCard noPadding>
-        <Table<CommerceSale>
+        <Table<CommerceDeal>
           items={packages}
           tableShape={tableShape}
           onRowClick={onRowClick}

@@ -1,7 +1,14 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
-import { useCommerceListDealsQuery } from '@websummit/graphql/src/@types/operations';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
+import {
+  CommerceCategory,
+  CommerceDeal,
+  useCommerceListCategoriesQuery,
+  useCommerceListDealsQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -37,6 +44,50 @@ const HeaderText = styled.h1`
   margin: 0;
 `;
 
+type GroupedPackages = {
+  [k: string]: Partial<CommerceDeal>[];
+};
+
+const ungroupedCategoryName = 'Other';
+type CommerceDealWithCategories = CommerceDeal & {
+  categories: CommerceCategory[];
+};
+
+const groupPackagesByCategories = (
+  packages: Partial<CommerceDealWithCategories>[] = [],
+  ticketCategories: Pick<CommerceCategory, 'name' | 'id'>[] = [],
+) => {
+  let packagesByCategories: GroupedPackages = {};
+
+  ticketCategories.forEach((category) => {
+    const packagesByCategory = packages.filter((type) =>
+      type?.categories?.some(
+        (typeCategory: any) => typeCategory.id === category.id,
+      ),
+    );
+
+    if (packagesByCategory.length > 0) {
+      packagesByCategories = {
+        ...packagesByCategories,
+        [category.name]: packagesByCategory,
+      };
+    }
+  });
+
+  const ticketsWithoutCategory = packages.filter(
+    (type) => !type.categories || type?.categories?.length === 0,
+  );
+
+  if (ticketsWithoutCategory.length > 0) {
+    return {
+      ...packagesByCategories,
+      [ungroupedCategoryName]: ticketsWithoutCategory,
+    };
+  }
+
+  return packagesByCategories;
+};
+
 const PackagesPage = () => {
   const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
@@ -45,31 +96,47 @@ const PackagesPage = () => {
   const onButtonClick = () => {
     // openModal();
   };
-  const redirectToCycle = (id: string) => {
+  const redirectToPackage = (id: string) => {
     history.push(`/package/${id}`);
   };
   const onRowClick = (event: any) => {
-    redirectToCycle(event.id);
+    redirectToPackage(event.id);
   };
   const context = useRequestContext();
   const { loading, data } = useCommerceListDealsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
   });
+  const { data: commerceCategories } = useCommerceListCategoriesQuery({
+    context,
+    onError: (e) => errorSnackbar(e.message),
+  });
 
+  const ticketCategories =
+    commerceCategories?.commerceListCategories?.hits || [];
   const hasPackages =
     data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0;
   const packages: any = data?.commerceListDeals?.hits;
-  const sortedPackages: any = packages?.slice()?.sort((a: any, b: any) => {
-    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+  const mappedPackages = packages?.map((item: CommerceDeal) => {
+    let category: CommerceCategory[] = [];
+    item.dealItems?.map((elem: any) => {
+      category = elem.product.categories;
+    });
+
+    return { ...item, categories: category };
   });
+
+  const groupedPackages = groupPackagesByCategories(
+    mappedPackages,
+    ticketCategories,
+  );
 
   return (
     <Container>
       {loading && <Loader />}
 
       {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
-      {/* <SaleCycleModalWrapper closeModal={closeModal} isOpen={isOpen} /> */}
+      {/* <PackageModalWrapper closeModal={closeModal} isOpen={isOpen} /> */}
 
       <FlexCol>
         <FlexRow>
@@ -77,11 +144,17 @@ const PackagesPage = () => {
           <Button onClick={onButtonClick}>Create new package</Button>
         </FlexRow>
 
-        {hasPackages && (
-          <FlexRow>
-            <PackagesList packages={sortedPackages} onRowClick={onRowClick} />
-          </FlexRow>
-        )}
+        {hasPackages &&
+          Object.entries(groupedPackages).map(([key, value]) => (
+            <Spacing key={key} top="1.5rem">
+              <ContainerCard noPadding title={key}>
+                <PackagesList
+                  packages={value as CommerceDeal[]}
+                  onRowClick={onRowClick}
+                />
+              </ContainerCard>
+            </Spacing>
+          ))}
       </FlexCol>
     </Container>
   );

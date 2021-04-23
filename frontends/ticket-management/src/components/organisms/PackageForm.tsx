@@ -10,8 +10,8 @@ import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { toShortDateTime } from '@websummit/components/src/utils/time';
-import { useCommerceUpdateSaleMutation } from '@websummit/graphql/src/@types/operations';
-import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
+import { useCommerceUpdateDealMutation } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -42,7 +42,7 @@ type Props = {
   prefillData: any;
 };
 
-export type SaleCycleFormData = {
+export type PackageFormData = {
   active: boolean;
   description: string;
   endDate: any;
@@ -59,17 +59,17 @@ const validationSchema = Yup.object().shape({
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
-const SaleCycleForm = ({ prefillData }: Props) => {
+const PackageForm = ({ prefillData }: Props) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
-  const [updateCycle] = useCommerceUpdateSaleMutation({
+  const [updateDeal] = useCommerceUpdateDealMutation({
     context,
     onCompleted: () => {
-      snackbar('Sale cycle updated');
+      snackbar('Package updated');
     },
-    onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
+    onError: (error) => errorSnackbar(error.message),
+    refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
   });
 
   const initialValues = () => {
@@ -82,7 +82,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
     };
   };
 
-  const pickMutation = (formData: SaleCycleFormData) => {
+  const pickMutation = (formData: PackageFormData) => {
     const input = {
       active: formData.active,
       description: formData.description ? formData.description.trim() : null,
@@ -91,12 +91,12 @@ const SaleCycleForm = ({ prefillData }: Props) => {
       startDate: new Date(formData.startDate).toISOString(),
     };
 
-    return updateCycle({
-      variables: { commerceSale: input, id: prefillData.id },
+    return updateDeal({
+      variables: { commerceDealUpdate: input, id: prefillData.id },
     });
   };
 
-  const setMutation = (formData: SaleCycleFormData) => {
+  const setMutation = (formData: PackageFormData) => {
     return pickMutation(formData);
   };
 
@@ -110,7 +110,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
         <Spacing top="2rem">
           <FieldWrapper>
             <Spacing bottom="8px">
-              <TextInputField required label="Sale cycle name" name="name" />
+              <TextInputField required label="Package name" name="name" />
             </Spacing>
           </FieldWrapper>
 
@@ -118,14 +118,14 @@ const SaleCycleForm = ({ prefillData }: Props) => {
             <InlineWrapper>
               <StyledInputField
                 required
-                label="Start date"
+                label="Go live at"
                 name="startDate"
                 type="datetime-local"
               />
 
               <StyledInputField
                 required
-                label="End date"
+                label="Sale end date"
                 name="endDate"
                 type="datetime-local"
               />
@@ -136,7 +136,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
             <Spacing bottom="8px">
               <TextAreaField
                 fieldHeight="80px"
-                label="Sale cycle description"
+                label="Package description"
                 name="description"
               />
             </Spacing>
@@ -144,7 +144,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
 
           <FieldWrapper>
             <Spacing bottom="8px">
-              <CheckboxField label="Active" name="active" />
+              <CheckboxField label="On sale" name="active" />
             </Spacing>
           </FieldWrapper>
           <FlexEnd>
@@ -156,4 +156,4 @@ const SaleCycleForm = ({ prefillData }: Props) => {
   );
 };
 
-export default SaleCycleForm;
+export default PackageForm;

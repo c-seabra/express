@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
+import PackagePage from '../pages/PackagePage';
 import PackagesPage from '../pages/PackagesPage';
 import SalesCyclePage from '../pages/SalesCyclePage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
@@ -71,6 +72,9 @@ const App = ({ token, apiURL }: AppProps) => {
                 </Route>
                 <Route exact path="/packages">
                   <PackagesPage />
+                </Route>
+                <Route exact path="/package/:id">
+                  <PackagePage />
                 </Route>
               </Switch>
             </StyledContainer>
