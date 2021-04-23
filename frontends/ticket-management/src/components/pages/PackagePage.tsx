@@ -1,8 +1,10 @@
+import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
@@ -13,11 +15,11 @@ import {
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { useRequestContext } from '../app/AppContext';
+import PackageItemModalWrapper from '../modals/PackageItemModalWrapper';
+import DealItemsList from '../organisms/DealItemsList';
 import PackageForm, { PackageFormData } from '../organisms/PackageForm';
-import { useModalState } from '@websummit/components/src/molecules/Modal';
-import {Button} from "@websummit/components/src/atoms/Button";
-import DealItemsList from "../organisms/DealItemsList";
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -84,7 +86,6 @@ const PackagePage = () => {
     //   product: event.product,
     //   type: event.type,
     // });
-
     // openModal();
   };
   const { data: store } = useCommerceGetStoreQuery({
@@ -93,10 +94,7 @@ const PackagePage = () => {
   });
   const storeCurrencySymbol = store?.commerceGetStore?.currencySymbol;
   const { id: dealId } = useParams<any>();
-  const {
-    loading: dealLoading,
-    data: dealResponse,
-  } = useCommerceGetDealQuery({
+  const { loading: dealLoading, data: dealResponse } = useCommerceGetDealQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
@@ -104,7 +102,10 @@ const PackagePage = () => {
     },
   });
   const deal = dealResponse?.commerceGetDeal;
-  const { loading: dealItemsLoading, data: dealItemsResponse } = useCommerceListDealItemsQuery({
+  const {
+    loading: dealItemsLoading,
+    data: dealItemsResponse,
+  } = useCommerceListDealItemsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
@@ -112,9 +113,7 @@ const PackagePage = () => {
     },
   });
   const dealItems = dealItemsResponse?.commerceListDealItems?.hits;
-  const hasDealItems =
-      dealItems &&
-      dealItems.length > 0;
+  const hasDealItems = dealItems && dealItems.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Packages',
@@ -127,16 +126,14 @@ const PackagePage = () => {
 
   return (
     <Container>
-      {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
-
-      {/* <DealProductModalWrapper */}
-      {/*  closeModal={closeModal} */}
-      {/*  currencySymbol={storeCurrencySymbol as string} */}
-      {/*  existingDeals={products} */}
-      {/*  isOpen={isOpen} */}
-      {/*  prefillData={prefillData} */}
-      {/*  saleId={saleId} */}
-      {/* /> */}
+      <PackageItemModalWrapper
+        closeModal={closeModal}
+        currencySymbol={storeCurrencySymbol as string}
+        dealId={dealId}
+        existingDeals={dealItems}
+        isOpen={isOpen}
+        prefillData={prefillData}
+      />
 
       <FlexCol>
         <FlexRow>

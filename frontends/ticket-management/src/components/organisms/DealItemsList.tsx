@@ -1,4 +1,3 @@
-import Badge from '@websummit/components/src/atoms/Badge';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
@@ -14,7 +13,7 @@ const StyledName = styled.span`
 type DealItemsListProps = {
   currencySymbol?: string | undefined;
   onRowClick?: any;
-  products: any[];
+  products: any;
 };
 const DealItemsList = ({
   products,
@@ -48,22 +47,6 @@ const DealItemsList = ({
     {
       header: 'Pricing applied',
       renderCell: (saleProduct) => saleProduct.type || 'N/A',
-    },
-
-    {
-      header: 'Status',
-      renderCell: (saleProduct) => {
-        const badge = {
-          background: saleProduct.active ? '#EAF9EA' : '#FDEBEB',
-          color: saleProduct.active ? '#3BB273' : '#E15554',
-        };
-
-        return (
-          <Badge background={badge.background} color={badge.color}>
-            {saleProduct.active ? 'Active' : 'Inactive' || 'N/A'}
-          </Badge>
-        );
-      },
     },
   ];
 

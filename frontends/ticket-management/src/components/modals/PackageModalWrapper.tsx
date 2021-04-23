@@ -1,6 +1,8 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
+import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
@@ -17,8 +19,6 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import CheckboxField from '../../../../../packages/components/src/molecules/CheckboxField';
-import SelectField from '../../../../../packages/components/src/molecules/SelectField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
