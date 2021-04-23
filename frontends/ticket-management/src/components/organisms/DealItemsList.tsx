@@ -1,13 +1,14 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
-  ColumnDescriptor,
+  ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import {
+  CommerceDealItem,
   CommerceDealItemType,
-  CommerceSale,
 } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
+
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 
 const StyledName = styled.span`
@@ -15,16 +16,11 @@ const StyledName = styled.span`
 `;
 
 type DealItemsListProps = {
-  currencySymbol?: string | undefined;
   onRowClick?: any;
   products: any;
 };
-const DealItemsList = ({
-  products,
-  onRowClick,
-  currencySymbol,
-}: DealItemsListProps) => {
-  const tableShape: ColumnDescriptor<any>[] = [
+const DealItemsList = ({ products, onRowClick }: DealItemsListProps) => {
+  const tableShape: ColumnDescriptors<CommerceDealItem> = [
     {
       header: 'Ticket type',
       renderCell: (saleProduct) => (
@@ -56,7 +52,7 @@ const DealItemsList = ({
             [CommerceDealItemType.PercentageDiscount]: 'Percentage discount',
             [CommerceDealItemType.AbsoluteDiscount]: 'Absolute discount',
             [CommerceDealItemType.AbsolutePrice]: 'Absolute price',
-          })('N/A')(source) as string;
+          })('N/A')(source);
 
         return formatSourceOfSale(saleProduct.type);
       },
@@ -66,7 +62,7 @@ const DealItemsList = ({
   return (
     <>
       <ContainerCard noPadding>
-        <Table<CommerceSale>
+        <Table<CommerceDealItem>
           items={products}
           tableShape={tableShape}
           onRowClick={onRowClick}

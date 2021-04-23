@@ -44,7 +44,7 @@ export type PackageItemFormData = {
   min: number;
   product: string;
   step: number;
-  type: CommerceDealItemType | undefined;
+  type?: CommerceDealItemType;
 };
 
 const validationSchema = Yup.object().shape({
@@ -102,20 +102,6 @@ const PackageItemModalWrapper = ({
   console.log('prefillData', prefillData);
   const editOn = prefillData && prefillData.id && prefillData.id !== '';
   const products = data?.commerceListProducts?.hits;
-  // const filteredPackageItems = editOn
-  //   ? products
-  //   : products?.filter((el) => {
-  //       return !existingProducts.find(
-  //         (saleProduct: any) => el.id === saleProduct.product.id,
-  //       );
-  //     });
-  // const productOptions = filteredPackageItems?.map((item) => {
-  //   return {
-  //     id: item.id,
-  //     name: item.name,
-  //   };
-  // });
-
   const productOptions = getTicketTypesOptions(products as []);
   const priceTypeOptions = getPriceOptions(typesOptions);
   const [createPackageItem] = useCommerceCreateDealItemMutation({
@@ -139,7 +125,7 @@ const PackageItemModalWrapper = ({
     let values: PackageItemFormData = {
       amount: 1,
       id: '',
-      max: 999,
+      max: 999, // TODO fix to undefined / empty value?
       min: 1,
       product: '',
       step: 1,
@@ -163,9 +149,8 @@ const PackageItemModalWrapper = ({
 
   const pickMutation = (editMode: boolean, formData: PackageItemFormData) => {
     let mutation;
-    const input = {
+    const createInput = {
       amount: Number(formData.amount),
-      id: formData.id,
       max: Number(formData.max),
       min: Number(formData.min),
       product: formData.product,
@@ -173,10 +158,15 @@ const PackageItemModalWrapper = ({
       type: formData.type,
     };
 
+    const updateInput = {
+      id: formData.id,
+      ...createInput,
+    };
+
     if (!editMode) {
       mutation = createPackageItem({
         variables: {
-          commerceDealItemCreate: input,
+          commerceDealItemCreate: createInput,
           dealId,
         },
       });
@@ -185,7 +175,7 @@ const PackageItemModalWrapper = ({
     if (editMode) {
       mutation = updatePackageItem({
         variables: {
-          commerceDealItemUpdate: input,
+          commerceDealItemUpdate: updateInput,
           dealId,
           id: prefillData.id,
         },
