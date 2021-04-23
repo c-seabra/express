@@ -302,7 +302,7 @@ const InviteToPurhcasePackageModal = ({
                   <TicketType disabled label="Package" value={deal?.name} />
                   <TicketPrice
                     disabled
-                    label="Ticket price"
+                    label="Package price"
                     value={formatDisplayPriceWithCurrency(
                       dealPrice,
                       store?.currencySymbol || '',
