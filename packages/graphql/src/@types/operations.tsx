@@ -8298,6 +8298,52 @@ export type CommerceListCategoriesQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceListDealItemsQueryVariables = Exact<{
+  dealId: Scalars['ID'];
+}>;
+
+export type CommerceListDealItemsQuery = { __typename?: 'Query' } & {
+  commerceListDealItems: Maybe<
+    { __typename?: 'CommerceSearchResponseDealItem' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceDealItem' } & Pick<
+            CommerceDealItem,
+            | 'amount'
+            | 'createdAt'
+            | 'id'
+            | 'lastUpdatedAt'
+            | 'max'
+            | 'metadata'
+            | 'min'
+            | 'step'
+            | 'type'
+          > & {
+              createdBy: Maybe<
+                { __typename?: 'CommerceUser' } & Pick<
+                  CommerceUser,
+                  'name' | 'id'
+                >
+              >;
+              lastUpdatedBy: Maybe<
+                { __typename?: 'CommerceUser' } & Pick<
+                  CommerceUser,
+                  'name' | 'id'
+                >
+              >;
+              product: Maybe<
+                { __typename?: 'CommerceProduct' } & Pick<
+                  CommerceProduct,
+                  'id' | 'name'
+                >
+              >;
+            }
+        >
+      >;
+    }
+  >;
+};
+
 export type CommerceListDealsQueryVariables = Exact<{
   sort?: Maybe<Array<CommerceSortTerm> | CommerceSortTerm>;
 }>;
@@ -18075,6 +18121,183 @@ export type CommerceListCategoriesLazyQueryHookResult = ReturnType<
 export type CommerceListCategoriesQueryResult = Apollo.QueryResult<
   CommerceListCategoriesQuery,
   CommerceListCategoriesQueryVariables
+>;
+export const CommerceListDealItemsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListDealItems' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'dealId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'dealId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListDealItems' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'amount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'max' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadata' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'product' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'step' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'dealId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListDealItemsQuery__
+ *
+ * To run a query within a React component, call `useCommerceListDealItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListDealItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListDealItemsQuery({
+ *   variables: {
+ *      dealId: // value for 'dealId'
+ *   },
+ * });
+ */
+export function useCommerceListDealItemsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CommerceListDealItemsQuery,
+    CommerceListDealItemsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListDealItemsQuery,
+    CommerceListDealItemsQueryVariables
+  >(CommerceListDealItemsDocument, baseOptions);
+}
+export function useCommerceListDealItemsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListDealItemsQuery,
+    CommerceListDealItemsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListDealItemsQuery,
+    CommerceListDealItemsQueryVariables
+  >(CommerceListDealItemsDocument, baseOptions);
+}
+export type CommerceListDealItemsQueryHookResult = ReturnType<
+  typeof useCommerceListDealItemsQuery
+>;
+export type CommerceListDealItemsLazyQueryHookResult = ReturnType<
+  typeof useCommerceListDealItemsLazyQuery
+>;
+export type CommerceListDealItemsQueryResult = Apollo.QueryResult<
+  CommerceListDealItemsQuery,
+  CommerceListDealItemsQueryVariables
 >;
 export const CommerceListDealsDocument: DocumentNode = {
   definitions: [
