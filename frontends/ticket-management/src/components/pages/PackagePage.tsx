@@ -65,28 +65,22 @@ const PackagePage = () => {
   const { isOpen, closeModal, openModal } = useModalState();
   const [prefillData, setPrefillData] = useState<PackageFormData>();
   const onButtonClick = () => {
-    // setPrefillData({
-    //   active: false,
-    //   description: '',
-    //   id: '',
-    //   name: '',
-    //   // product: '',
-    //   type: '',
-    // });
-
     openModal();
   };
+  // const onRowClick = (event: PackageItemFormData) => {
   const onRowClick = (event: any) => {
-    // setPrefillData({
-    //   active: event.active,
-    //   amount: event.price,
-    //   description: event.description,
-    //   id: event.id,
-    //   name: event.name,
-    //   product: event.product,
-    //   type: event.type,
-    // });
-    // openModal();
+    console.log('onRowClick', event);
+    setPrefillData({
+      amount: event.amount,
+      id: event.id,
+      max: event.max,
+      min: event.min,
+      product: event.product,
+      step: event.step,
+      type: event.type,
+    });
+
+    openModal();
   };
   const { data: store } = useCommerceGetStoreQuery({
     context,

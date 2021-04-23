@@ -11,6 +11,7 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceDealItemType,
   useCommerceCreateDealItemMutation,
+  useCommerceListProductsQuery,
   useCommerceUpdateDealItemMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
@@ -18,6 +19,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import MoneyInputField from '../../../../../packages/components/src/molecules/MoneyInputField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
@@ -37,18 +39,20 @@ type ModalProps = {
 
 export type PackageItemFormData = {
   amount: number;
+  id: string;
   max: number;
   min: number;
+  product: string;
   step: number;
-  ticketType: string;
-  type: CommerceDealItemType | string;
+  type: CommerceDealItemType | undefined;
 };
 
 const validationSchema = Yup.object().shape({
+  amount: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   max: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   min: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  product: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   step: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  ticketType: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   type: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
@@ -90,14 +94,14 @@ const PackageItemModalWrapper = ({
       variables: { dealId },
     },
   ];
-  // const { data } = useCommerceListProductsQuery({
-  //   context,
-  //   fetchPolicy: 'network-only',
-  //   onError: (e) => errorSnackbar(e.message),
-  // });
+  const { data } = useCommerceListProductsQuery({
+    context,
+    fetchPolicy: 'network-only',
+    onError: (e) => errorSnackbar(e.message),
+  });
   console.log('prefillData', prefillData);
   const editOn = prefillData && prefillData.id && prefillData.id !== '';
-  // const products = data?.commerceListProducts?.hits;
+  const products = data?.commerceListProducts?.hits;
   // const filteredPackageItems = editOn
   //   ? products
   //   : products?.filter((el) => {
@@ -112,7 +116,7 @@ const PackageItemModalWrapper = ({
   //   };
   // });
 
-  // const ticketTypeOptions = getTicketTypesOptions(productOptions as []);
+  const productOptions = getTicketTypesOptions(products as []);
   const priceTypeOptions = getPriceOptions(typesOptions);
   const [createPackageItem] = useCommerceCreateDealItemMutation({
     context,
@@ -134,20 +138,22 @@ const PackageItemModalWrapper = ({
   const initialValues = (editMode: boolean) => {
     let values: PackageItemFormData = {
       amount: 1,
+      id: '',
       max: 999,
       min: 1,
+      product: '',
       step: 1,
-      ticketType: 'Other',
-      type: '',
+      type: undefined,
     };
 
     if (editMode) {
       values = {
         amount: prefillData.amount,
+        id: prefillData.id,
         max: prefillData.max,
         min: prefillData.min,
+        product: prefillData.product,
         step: prefillData.step,
-        ticketType: prefillData.ticketType,
         type: prefillData.type,
       };
     }
@@ -158,11 +164,12 @@ const PackageItemModalWrapper = ({
   const pickMutation = (editMode: boolean, formData: PackageItemFormData) => {
     let mutation;
     const input = {
-      amount: formData.amount,
-      max: formData.max,
-      min: formData.min,
-      step: formData.step,
-      ticketType: formData.ticketType,
+      amount: Number(formData.amount),
+      id: formData.id,
+      max: Number(formData.max),
+      min: Number(formData.min),
+      product: formData.product,
+      step: Number(formData.step),
       type: formData.type,
     };
 
@@ -179,8 +186,8 @@ const PackageItemModalWrapper = ({
       mutation = updatePackageItem({
         variables: {
           commerceDealItemUpdate: input,
-          id: prefillData.id,
           dealId,
+          id: prefillData.id,
         },
       });
     }
@@ -209,8 +216,8 @@ const PackageItemModalWrapper = ({
           <SelectField
             required
             label="Ticket type"
-            name="ticketType"
-            // options={ticketCategoryOptions}
+            name="product"
+            options={productOptions}
           />
         </FieldWrapper>
 
@@ -219,14 +226,16 @@ const PackageItemModalWrapper = ({
             <TextInputField required label="Min ticket qty." name="min" />
             <TextInputField required label="Max ticket qty." name="max" />
             <TextInputField required label="Step sale" name="step" />
-
-            {/* <MoneyInputField */}
-            {/*  required */}
-            {/*  currencySymbol={currencySymbol} */}
-            {/*  label="Amount" */}
-            {/*  name="amount" */}
-            {/* /> */}
           </InlineWrapper>
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <MoneyInputField
+            required
+            currencySymbol={currencySymbol}
+            label="Amount"
+            name="amount"
+          />
         </FieldWrapper>
 
         <FieldWrapper>
