@@ -1,6 +1,7 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
+import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
@@ -44,6 +45,7 @@ type Props = {
 
 export type PackageFormData = {
   active: boolean;
+  category: any; // TODO fix type
   description: string;
   endDate: any;
   id: string;
@@ -53,11 +55,22 @@ export type PackageFormData = {
 
 const validationSchema = Yup.object().shape({
   active: Yup.boolean(),
+  category: Yup.string(), // default to Other
   description: Yup.string().nullable(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
+
+const otherOption = {
+  label: 'Other',
+  value: undefined,
+};
+
+const getTicketTypesOptions = (types: any[] = []) => [
+  otherOption,
+  ...types.map((type) => ({ label: type?.name, value: type?.id })),
+];
 
 const PackageForm = ({ prefillData }: Props) => {
   const context = useRequestContext();
@@ -75,6 +88,7 @@ const PackageForm = ({ prefillData }: Props) => {
   const initialValues = () => {
     return {
       active: prefillData.active,
+      category: 'Other',
       description: prefillData.description,
       endDate: toShortDateTime(prefillData.endDate),
       name: prefillData.name,
@@ -100,6 +114,10 @@ const PackageForm = ({ prefillData }: Props) => {
     return pickMutation(formData);
   };
 
+  // const ticketCategoryOptions = getTicketTypesOptions(productOptions as []);
+  const ticketCategoryOptions = getTicketTypesOptions( []);
+
+
   return (
     <FormikForm
       initialValues={initialValues()}
@@ -111,6 +129,17 @@ const PackageForm = ({ prefillData }: Props) => {
           <FieldWrapper>
             <Spacing bottom="8px">
               <TextInputField required label="Package name" name="name" />
+            </Spacing>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <SelectField
+                required
+                label="Ticket category"
+                name="category"
+                options={ticketCategoryOptions}
+              />
             </Spacing>
           </FieldWrapper>
 
