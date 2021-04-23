@@ -24,7 +24,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useAppContext } from '../app/AppContext';
+import { useRequestContext } from '../app/AppContext';
 
 const InlineWrapper = styled.div`
   display: flex;
@@ -90,12 +90,7 @@ const SaleProductModalWrapper = ({
   currencySymbol,
   existingProducts,
 }: ModalProps) => {
-  const { conferenceSlug, token } = useAppContext();
-  const context = {
-    slug: conferenceSlug,
-    token,
-  };
-
+  const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const refetchQueriesContext = [
