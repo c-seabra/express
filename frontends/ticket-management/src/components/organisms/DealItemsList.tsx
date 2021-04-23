@@ -2,9 +2,13 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
-import { CommerceSale } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceDealItemType,
+  CommerceSale,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 
 const StyledName = styled.span`
   color: #0067e9;
@@ -46,7 +50,16 @@ const DealItemsList = ({
     },
     {
       header: 'Pricing applied',
-      renderCell: (saleProduct) => saleProduct.type || 'N/A',
+      renderCell: (saleProduct) => {
+        const formatSourceOfSale = (source: string): string =>
+          switchCase({
+            [CommerceDealItemType.PercentageDiscount]: 'Percentage discount',
+            [CommerceDealItemType.AbsoluteDiscount]: 'Absolute discount',
+            [CommerceDealItemType.AbsolutePrice]: 'Absolute price',
+          })('N/A')(source) as string;
+
+        return formatSourceOfSale(saleProduct.type);
+      },
     },
   ];
 
