@@ -15,7 +15,10 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useAppContext } from '../app/AppContext';
+import { useRequestContext} from '../app/AppContext';
+import SelectField from "../../../../../packages/components/src/molecules/SelectField";
+import CheckboxField from "../../../../../packages/components/src/molecules/CheckboxField";
+import {Button} from "../../../../../packages/components/src/atoms/Button";
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -47,11 +50,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
-  const { conferenceSlug, token } = useAppContext();
-  const context = {
-    slug: conferenceSlug,
-    token,
-  };
+  const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const [createCycle] = useCommerceCreateSaleMutation({
@@ -91,7 +90,7 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
 
   return (
     <FormikModal
-      alertHeader="Create a sale cycle"
+      alertHeader="Create a package"
       closeModal={closeModal}
       initialValues={initialValues()}
       isOpen={isOpen}
@@ -99,41 +98,63 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
       submitText="Create"
       validationSchema={validationSchema}
     >
-      <Spacing top="8px">
-        <FieldWrapper>
-          <Spacing bottom="8px">
-            <TextInputField required label="Sale cycle name" name="name" />
-          </Spacing>
-        </FieldWrapper>
+      <>
+        <Spacing top="2rem">
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <TextInputField required label="Package name" name="name" />
+            </Spacing>
+          </FieldWrapper>
 
-        <FieldWrapper>
-          <InlineWrapper>
-            <StyledInputField
-              required
-              label="Start date"
-              name="startDate"
-              type="datetime-local"
-            />
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <SelectField
+                  required
+                  label="Ticket category"
+                  name="category"
+                  // options={ticketCategoryOptions}
+              />
+            </Spacing>
+          </FieldWrapper>
 
-            <StyledInputField
-              required
-              label="End date"
-              name="endDate"
-              type="datetime-local"
-            />
-          </InlineWrapper>
-        </FieldWrapper>
+          <FieldWrapper>
+            <InlineWrapper>
+              <StyledInputField
+                  required
+                  label="Go live at"
+                  name="startDate"
+                  type="datetime-local"
+              />
 
-        <FieldWrapper>
-          <Spacing bottom="8px">
-            <TextAreaField
-              fieldHeight="80px"
-              label="Sale cycle description"
-              name="description"
-            />
-          </Spacing>
-        </FieldWrapper>
-      </Spacing>
+              <StyledInputField
+                  required
+                  label="Sale end date"
+                  name="endDate"
+                  type="datetime-local"
+              />
+            </InlineWrapper>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <TextAreaField
+                  fieldHeight="80px"
+                  label="Package description"
+                  name="description"
+              />
+            </Spacing>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <CheckboxField label="On sale" name="active" />
+            </Spacing>
+          </FieldWrapper>
+          {/*<FlexEnd>*/}
+          {/*  <Button type="submit">Edit</Button>*/}
+          {/*</FlexEnd>*/}
+        </Spacing>
+      </>
     </FormikModal>
   );
 };
