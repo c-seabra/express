@@ -5,13 +5,19 @@ import Breadcrumbs, {
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { useCommerceGetDealQuery } from '@websummit/graphql/src/@types/operations';
-import React from 'react';
+import {
+  useCommerceGetDealQuery,
+  useCommerceGetStoreQuery,
+  useCommerceListDealItemsQuery,
+} from '@websummit/graphql/src/@types/operations';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
 import { useRequestContext } from '../app/AppContext';
-import PackageForm from '../organisms/PackageForm';
+import PackageForm, { PackageFormData } from '../organisms/PackageForm';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
+import {Button} from "@websummit/components/src/atoms/Button";
+import DealItemsList from "../organisms/DealItemsList";
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -54,42 +60,41 @@ const FlexCol = styled.div`
 const PackagePage = () => {
   const context = useRequestContext();
   const errorSnackbar = useErrorSnackbar();
-  /* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */
-  // const { isOpen, closeModal, openModal } = useModalState();
-  // const [prefillData, setPrefillData] = useState<PackageFormData>();
-  // const onButtonClick = () => {
-  //   setPrefillData({
-  //     active: false,
-  //     description: '',
-  //     id: '',
-  //     name: '',
-  //     // product: '',
-  //     type: '',
-  //   });
-  //
-  //   openModal();
-  // };
-  // const onRowClick = (event: any) => {
-  //   setPrefillData({
-  //     active: event.active,
-  //     amount: event.price,
-  //     description: event.description,
-  //     id: event.id,
-  //     name: event.name,
-  //     product: event.product,
-  //     type: event.type,
-  //   });
-  //
-  //   openModal();
-  // };
-  // const { data: store } = useCommerceGetStoreQuery({
-  //   context,
-  //   onError: (e) => console.error(e.message),
-  // });
-  // const storeCurrencySymbol = store?.commerceGetStore?.currencySymbol;
+  const { isOpen, closeModal, openModal } = useModalState();
+  const [prefillData, setPrefillData] = useState<PackageFormData>();
+  const onButtonClick = () => {
+    // setPrefillData({
+    //   active: false,
+    //   description: '',
+    //   id: '',
+    //   name: '',
+    //   // product: '',
+    //   type: '',
+    // });
+
+    openModal();
+  };
+  const onRowClick = (event: any) => {
+    // setPrefillData({
+    //   active: event.active,
+    //   amount: event.price,
+    //   description: event.description,
+    //   id: event.id,
+    //   name: event.name,
+    //   product: event.product,
+    //   type: event.type,
+    // });
+
+    // openModal();
+  };
+  const { data: store } = useCommerceGetStoreQuery({
+    context,
+    onError: (e) => console.error(e.message),
+  });
+  const storeCurrencySymbol = store?.commerceGetStore?.currencySymbol;
   const { id: dealId } = useParams<any>();
   const {
-    loading: loadingCycles,
+    loading: dealLoading,
     data: dealResponse,
   } = useCommerceGetDealQuery({
     context,
@@ -99,12 +104,17 @@ const PackagePage = () => {
     },
   });
   const deal = dealResponse?.commerceGetDeal;
-  /* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */
-
-  // const hasDeals =
-  //   data?.commerceListSaleDeals?.hits &&
-  //   data?.commerceListSaleDeals?.hits?.length > 0;
-  // const products: any = data?.commerceListSaleDeals?.hits;
+  const { loading: dealItemsLoading, data: dealItemsResponse } = useCommerceListDealItemsQuery({
+    context,
+    onError: (error) => errorSnackbar(error.message),
+    variables: {
+      dealId,
+    },
+  });
+  const dealItems = dealItemsResponse?.commerceListDealItems?.hits;
+  const hasDealItems =
+      dealItems &&
+      dealItems.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Packages',
@@ -142,54 +152,50 @@ const PackagePage = () => {
                 </Spacing>
                 <SubHeader>Edit package details</SubHeader>
 
-                {loadingCycles && <Loader />}
+                {dealLoading && <Loader />}
                 {deal && <PackageForm prefillData={deal} />}
               </>
             </ContainerCard>
           </InnerWrapper>
         </FlexRow>
 
-        {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
+        {!dealItems && (
+          <FlexRow>
+            <Spacing bottom="2rem">
+              <span>No pricing added yet.</span>
+            </Spacing>
+          </FlexRow>
+        )}
 
-        {/* {!products && ( */}
-        {/*  <FlexRow> */}
-        {/*    <Spacing bottom="2rem"> */}
-        {/*      <span>No pricing added yet.</span> */}
-        {/*    </Spacing> */}
-        {/*  </FlexRow> */}
-        {/* )} */}
+        <FlexRow>
+          <ContainerCard>
+            <>
+              <Spacing bottom="2rem" top="1rem">
+                <Spacing bottom="1.25rem">
+                  <Header>Specify package details</Header>
+                </Spacing>
+                <SubHeader>
+                  Add one or more ticket types to the package
+                </SubHeader>
+              </Spacing>
+              <Spacing bottom="1rem">
+                <Button onClick={onButtonClick}>Add tickets to package</Button>
+              </Spacing>
 
-        {/* <FlexRow> */}
-        {/*  <ContainerCard> */}
-        {/*    <> */}
-        {/*      <Spacing bottom="2rem" top="1rem"> */}
-        {/*        <Spacing bottom="1.25rem"> */}
-        {/*          <Header>Price information during sale cycle</Header> */}
-        {/*        </Spacing> */}
-        {/*        <SubHeader> */}
-        {/*          Add price information for ticket types during the sales cycle */}
-        {/*        </SubHeader> */}
-        {/*      </Spacing> */}
-        {/*      <Spacing bottom="1rem"> */}
-        {/*        <Button onClick={onButtonClick}> */}
-        {/*          Add pricing for sales cycle */}
-        {/*        </Button> */}
-        {/*      </Spacing> */}
+              {dealItemsLoading && <Loader />}
 
-        {/*      {loadingDeals && <Loader />} */}
-
-        {/*      {hasDeals && ( */}
-        {/*        <Spacing bottom="2rem" top="2rem"> */}
-        {/*          <DealsList */}
-        {/*            currencySymbol={storeCurrencySymbol as string} */}
-        {/*            products={products} */}
-        {/*            onRowClick={onRowClick} */}
-        {/*          /> */}
-        {/*        </Spacing> */}
-        {/*      )} */}
-        {/*    </> */}
-        {/*  </ContainerCard> */}
-        {/* </FlexRow> */}
+              {hasDealItems && (
+                <Spacing bottom="2rem" top="2rem">
+                  <DealItemsList
+                    currencySymbol={storeCurrencySymbol as string}
+                    products={dealItems}
+                    onRowClick={onRowClick}
+                  />
+                </Spacing>
+              )}
+            </>
+          </ContainerCard>
+        </FlexRow>
       </FlexCol>
     </Container>
   );
