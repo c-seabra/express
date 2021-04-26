@@ -147,7 +147,8 @@ const PackageItemModalWrapper = ({
     return values;
   };
 
-  const pickMutation = (editMode: boolean, formData: PackageItemFormData) => {
+  const pickMutation = (editMode: boolean, formData: any) => {
+    // TODO fix type
     let mutation;
     const createInput = {
       amount: Number(formData.amount),
@@ -214,28 +215,28 @@ const PackageItemModalWrapper = ({
         <FieldWrapper>
           <InlineWrapper>
             <TextInputField
-                required
-                label="Min ticket qty."
-                min={1}
-                name="min"
-                step={1}
-                type="number"
+              required
+              label="Min ticket qty."
+              min={1}
+              name="min"
+              step={1}
+              type="number"
             />
             <TextInputField
-                required
-                label="Max ticket qty."
-                min={1}
-                name="max"
-                step={1}
-                type="number"
+              required
+              label="Max ticket qty."
+              min={1}
+              name="max"
+              step={1}
+              type="number"
             />
             <TextInputField
-                required
-                label="Step sale"
-                min={1}
-                name="step"
-                step={1}
-                type="number"
+              required
+              label="Step sale"
+              min={1}
+              name="step"
+              step={1}
+              type="number"
             />
           </InlineWrapper>
         </FieldWrapper>

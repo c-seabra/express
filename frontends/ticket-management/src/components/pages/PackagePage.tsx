@@ -63,13 +63,11 @@ const PackagePage = () => {
   const context = useRequestContext();
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
-  const [prefillData, setPrefillData] = useState<PackageFormData>();
+  const [prefillData, setPrefillData] = useState<any>(); // TODO reuse PackageFormData
   const onButtonClick = () => {
     openModal();
   };
-  // const onRowClick = (event: PackageItemFormData) => {
   const onRowClick = (event: any) => {
-    console.log('onRowClick', event);
     setPrefillData({
       amount: event.amount,
       id: event.id,
