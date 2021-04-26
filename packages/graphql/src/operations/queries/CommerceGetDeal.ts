@@ -20,7 +20,25 @@ export default gql`
         max
         metadata
         min
-        #          product: CommerceProduct
+        product {
+          id
+          active
+          description
+          name
+          price
+          taxType {
+            id
+            description
+            name
+            taxes {
+              rateAmount
+              rateType
+              id
+              name
+              country
+            }
+          }
+        }
         step
         type
       }
