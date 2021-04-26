@@ -110,13 +110,13 @@ const SaleProductModalWrapper = ({
     fetchPolicy: 'network-only',
     onError: (e) => errorSnackbar(e.message),
   });
-  console.log('prefillData', prefillData);
+
   const editOn = prefillData && prefillData.id && prefillData.id !== '';
   const products = data?.commerceListProducts?.hits;
   const filteredSaleProducts = editOn
     ? products
     : products?.filter((el) => {
-        return !existingProducts.find(
+        return !existingProducts?.find(
           (saleProduct: any) => el.id === saleProduct.product.id,
         );
       });
