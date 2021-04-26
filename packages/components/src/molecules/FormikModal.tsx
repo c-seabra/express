@@ -47,15 +47,15 @@ export const IconWrapper = styled.div`
 
 type ModalProps = {
   alertHeader: string;
-  children: any;
+  children?: any;
   closeModal: () => void;
-  initialValues: any;
+  initialValues?: any;
   isOpen: boolean;
   submitCallback: (values?: any) => void;
   submitText: string;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
-  validationSchema: any;
+  validationSchema?: any;
 };
 
 const FormikModal = ({
@@ -96,7 +96,7 @@ const FormikModal = ({
               <HeaderText>{alertHeader}</HeaderText>
             </Spacing>
 
-            {children}
+            {children && children}
 
             <Spacing top="48px">
               <FieldWrapper>
