@@ -176,7 +176,7 @@ const PackagePage = () => {
       product: '',
       step: 1,
       type: undefined,
-    })
+    });
 
     packageOpenModal();
   };

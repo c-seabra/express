@@ -1,6 +1,7 @@
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
+import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
@@ -15,14 +16,13 @@ import {
   useCommerceUpdateDealItemMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
+import { Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
-import {Formik} from "formik";
 
 const InlineWrapper = styled.div`
   display: flex;
