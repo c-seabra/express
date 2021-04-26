@@ -18,7 +18,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useAppContext } from '../app/AppContext';
+import { useRequestContext } from '../app/AppContext';
 import SaleProductModalWrapper, {
   SaleProductFormData,
 } from '../modals/SaleProductModalWrapper';
@@ -92,11 +92,7 @@ const SaleCyclesPage = () => {
 
     openModal();
   };
-  const { conferenceSlug, token } = useAppContext();
-  const context = {
-    slug: conferenceSlug,
-    token,
-  };
+  const context = useRequestContext();
   const { data: store } = useCommerceGetStoreQuery({
     context,
     onError: (e) => console.error(e.message),

@@ -17,15 +17,18 @@ import {
   Maybe,
   useCommerceGetDealQuery,
   useCommerceGetStoreQuery,
+  useCommerceListDealItemsQuery,
   useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import useCopyToClipboard from '../../lib/hooks/useCopyToClipboard';
 import { useRequestContext } from '../app/AppContext';
-import InviteToPurhcasePackageModal from '../modals/InviteToPurchasePackageModal';
+import InviteToPurchasePackageModal from '../modals/InviteToPurchasePackageModal';
+import PackageItemModalWrapper from '../modals/PackageItemModalWrapper';
+import DealItemsList from '../organisms/DealItemsList';
 import PackageForm from '../organisms/PackageForm';
 
 export const Container = styled.div`
@@ -158,44 +161,31 @@ const generateLink = (
 const PackagePage = () => {
   const context = useRequestContext();
   const errorSnackbar = useErrorSnackbar();
-  /* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */
-  // const { isOpen, closeModal, openModal } = useModalState();
-  // const [prefillData, setPrefillData] = useState<PackageFormData>();
-  // const onButtonClick = () => {
-  //   setPrefillData({
-  //     active: false,
-  //     description: '',
-  //     id: '',
-  //     name: '',
-  //     // product: '',
-  //     type: '',
-  //   });
-  //
-  //   openModal();
-  // };
-  // const onRowClick = (event: any) => {
-  //   setPrefillData({
-  //     active: event.active,
-  //     amount: event.price,
-  //     description: event.description,
-  //     id: event.id,
-  //     name: event.name,
-  //     product: event.product,
-  //     type: event.type,
-  //   });
-  //
-  //   openModal();
-  // };
-  // const { data: store } = useCommerceGetStoreQuery({
-  //   context,
-  //   onError: (e) => console.error(e.message),
-  // });
-  // const storeCurrencySymbol = store?.commerceGetStore?.currencySymbol;
-  const { id: dealId } = useParams<any>();
   const {
-    loading: loadingCycles,
-    data: dealResponse,
-  } = useCommerceGetDealQuery({
+    isOpen: packageIsOpen,
+    closeModal: packageCloseModal,
+    openModal: packageOpenModal,
+  } = useModalState();
+  const { isOpen, closeModal, openModal } = useModalState();
+  const [prefillData, setPrefillData] = useState<any>(); // TODO reuse PackageFormData
+  const onButtonClick = () => {
+    packageOpenModal();
+  };
+  const onRowClick = (event: any) => {
+    setPrefillData({
+      amount: event.amount,
+      id: event.id,
+      max: event.max,
+      min: event.min,
+      product: event.product,
+      step: event.step,
+      type: event.type,
+    });
+
+    packageOpenModal();
+  };
+  const { id: dealId } = useParams<any>();
+  const { loading: dealLoading, data: dealResponse } = useCommerceGetDealQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
@@ -203,12 +193,18 @@ const PackagePage = () => {
     },
   });
   const deal = dealResponse?.commerceGetDeal;
-  /* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */
-
-  // const hasDeals =
-  //   data?.commerceListSaleDeals?.hits &&
-  //   data?.commerceListSaleDeals?.hits?.length > 0;
-  // const products: any = data?.commerceListSaleDeals?.hits;
+  const {
+    loading: dealItemsLoading,
+    data: dealItemsResponse,
+  } = useCommerceListDealItemsQuery({
+    context,
+    onError: (error) => errorSnackbar(error.message),
+    variables: {
+      dealId,
+    },
+  });
+  const dealItems = dealItemsResponse?.commerceListDealItems?.hits;
+  const hasDealItems = dealItems && dealItems.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Packages',
@@ -220,17 +216,13 @@ const PackagePage = () => {
   ];
 
   const copyToClipboard = useCopyToClipboard();
-  const { isOpen, closeModal, openModal } = useModalState();
-
   const { data: storeData, loading: loadingStore } = useCommerceGetStoreQuery({
     context,
   });
-
   const store = storeData?.commerceGetStore;
   const isStoreConfigured = Boolean(!loadingStore && store);
-
+  const storeCurrencySymbol = storeData?.commerceGetStore?.currencySymbol;
   const genericLink = generateLink(deal, store);
-
   const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
     context,
   });
@@ -241,16 +233,13 @@ const PackagePage = () => {
 
   return (
     <Container>
-      {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
-
-      {/* <DealProductModalWrapper */}
-      {/*  closeModal={closeModal} */}
-      {/*  currencySymbol={storeCurrencySymbol as string} */}
-      {/*  existingDeals={products} */}
-      {/*  isOpen={isOpen} */}
-      {/*  prefillData={prefillData} */}
-      {/*  saleId={saleId} */}
-      {/* /> */}
+      <PackageItemModalWrapper
+        closeModal={packageCloseModal}
+        currencySymbol={storeCurrencySymbol as string}
+        dealId={dealId}
+        isOpen={packageIsOpen}
+        prefillData={prefillData}
+      />
 
       <FlexCol>
         <FlexRow>
@@ -266,54 +255,46 @@ const PackagePage = () => {
                 </Spacing>
                 <SubHeader>Edit package details</SubHeader>
 
-                {loadingCycles && <Loader />}
+                {dealLoading && <Loader />}
                 {deal && <PackageForm prefillData={deal} />}
               </>
             </ContainerCard>
           </InnerWrapper>
         </FlexRow>
 
-        {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
+        {!dealItems && (
+          <FlexRow>
+            <Spacing bottom="2rem">
+              <span>No pricing added yet.</span>
+            </Spacing>
+          </FlexRow>
+        )}
 
-        {/* {!products && ( */}
-        {/*  <FlexRow> */}
-        {/*    <Spacing bottom="2rem"> */}
-        {/*      <span>No pricing added yet.</span> */}
-        {/*    </Spacing> */}
-        {/*  </FlexRow> */}
-        {/* )} */}
+        <FlexRow>
+          <ContainerCard>
+            <>
+              <Spacing bottom="2rem" top="1rem">
+                <Spacing bottom="1.25rem">
+                  <Header>Specify package details</Header>
+                </Spacing>
+                <SubHeader>
+                  Add one or more ticket types to the package
+                </SubHeader>
+              </Spacing>
+              <Spacing bottom="1rem">
+                <Button onClick={onButtonClick}>Add tickets to package</Button>
+              </Spacing>
 
-        {/* <FlexRow> */}
-        {/*  <ContainerCard> */}
-        {/*    <> */}
-        {/*      <Spacing bottom="2rem" top="1rem"> */}
-        {/*        <Spacing bottom="1.25rem"> */}
-        {/*          <Header>Price information during sale cycle</Header> */}
-        {/*        </Spacing> */}
-        {/*        <SubHeader> */}
-        {/*          Add price information for ticket types during the sales cycle */}
-        {/*        </SubHeader> */}
-        {/*      </Spacing> */}
-        {/*      <Spacing bottom="1rem"> */}
-        {/*        <Button onClick={onButtonClick}> */}
-        {/*          Add pricing for sales cycle */}
-        {/*        </Button> */}
-        {/*      </Spacing> */}
+              {dealItemsLoading && <Loader />}
 
-        {/*      {loadingDeals && <Loader />} */}
-
-        {/*      {hasDeals && ( */}
-        {/*        <Spacing bottom="2rem" top="2rem"> */}
-        {/*          <DealsList */}
-        {/*            currencySymbol={storeCurrencySymbol as string} */}
-        {/*            products={products} */}
-        {/*            onRowClick={onRowClick} */}
-        {/*          /> */}
-        {/*        </Spacing> */}
-        {/*      )} */}
-        {/*    </> */}
-        {/*  </ContainerCard> */}
-        {/* </FlexRow> */}
+              {hasDealItems && (
+                <Spacing bottom="2rem" top="2rem">
+                  <DealItemsList products={dealItems} onRowClick={onRowClick} />
+                </Spacing>
+              )}
+            </>
+          </ContainerCard>
+        </FlexRow>
 
         <FlexRow>
           <StyledContainerCard>
@@ -334,7 +315,7 @@ const PackagePage = () => {
                 functionality may be limited.
               </BoxMessage>
             )}
-            <InviteToPurhcasePackageModal
+            <InviteToPurchasePackageModal
               activePaymentMethods={activePaymentMethods}
               deal={deal}
               isOpen={isOpen}

@@ -1,28 +1,25 @@
-import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
-import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
-import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
 import {
-  CommerceSaleProductType,
+  CommerceDealItemType,
+  useCommerceCreateDealItemMutation,
   useCommerceListProductsQuery,
-  useCommerceSaleProductCreateMutation,
-  useCommerceUpdateSaleProductMutation,
+  useCommerceUpdateDealItemMutation,
 } from '@websummit/graphql/src/@types/operations';
-import COMMERCE_SALE_PRODUCTS_LIST from '@websummit/graphql/src/operations/queries/CommerceListSaleProducts';
+import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import MoneyInputField from '../../../../../packages/components/src/molecules/MoneyInputField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
@@ -31,36 +28,30 @@ const InlineWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const CenteredVertically = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 type ModalProps = {
   closeModal: () => void;
   currencySymbol: string;
-  existingProducts: any;
+  dealId: string;
   isOpen: boolean;
   prefillData?: any;
-  saleId: string;
 };
 
-export type SaleProductFormData = {
-  active: boolean;
-  amount?: number;
-  description: string;
+export type PackageItemFormData = {
+  amount: number;
   id: string;
-  name: string;
-  product: string; // ID
-  type: any; // Price type
+  max: number;
+  min: number;
+  product: string;
+  step: number;
+  type?: CommerceDealItemType;
 };
 
 const validationSchema = Yup.object().shape({
-  active: Yup.boolean(),
   amount: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  description: Yup.string(),
-  name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  max: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  min: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   product: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  step: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   type: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
@@ -70,7 +61,9 @@ const emptyOption = {
 };
 
 const typesOptions = [
-  { id: CommerceSaleProductType.AbsolutePrice, name: 'Absolute price' },
+  { id: CommerceDealItemType.PercentageDiscount, name: 'Percentage discount' },
+  { id: CommerceDealItemType.AbsoluteDiscount, name: 'Absolute discount' },
+  { id: CommerceDealItemType.AbsolutePrice, name: 'Absolute price' },
 ];
 const getTicketTypesOptions = (types: any[] = []) => [
   emptyOption,
@@ -82,13 +75,12 @@ const getPriceOptions = (prices: any[] = []) => [
   ...prices.map((price) => ({ label: price?.name, value: price?.id })),
 ];
 
-const SaleProductModalWrapper = ({
+const PackageItemModalWrapper = ({
   isOpen,
   closeModal,
   prefillData,
-  saleId,
+  dealId,
   currencySymbol,
-  existingProducts,
 }: ModalProps) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
@@ -96,8 +88,8 @@ const SaleProductModalWrapper = ({
   const refetchQueriesContext = [
     {
       context,
-      query: COMMERCE_SALE_PRODUCTS_LIST,
-      variables: { saleId },
+      query: COMMERCE_DEAL_ITEMS_LIST,
+      variables: { dealId },
     },
   ];
   const { data } = useCommerceListProductsQuery({
@@ -105,25 +97,12 @@ const SaleProductModalWrapper = ({
     fetchPolicy: 'network-only',
     onError: (e) => errorSnackbar(e.message),
   });
+  console.log('prefillData', prefillData);
   const editOn = prefillData && prefillData.id && prefillData.id !== '';
   const products = data?.commerceListProducts?.hits;
-  const filteredSaleProducts = editOn
-    ? products
-    : products?.filter((el) => {
-        return !existingProducts.find(
-          (saleProduct: any) => el.id === saleProduct.product.id,
-        );
-      });
-  const productOptions = filteredSaleProducts?.map((item) => {
-    return {
-      id: item.id,
-      name: item.name,
-    };
-  });
-
-  const ticketTypeOptions = getTicketTypesOptions(productOptions as []);
+  const productOptions = getTicketTypesOptions(products as []);
   const priceTypeOptions = getPriceOptions(typesOptions);
-  const [createSaleProduct] = useCommerceSaleProductCreateMutation({
+  const [createPackageItem] = useCommerceCreateDealItemMutation({
     context,
     onCompleted: () => {
       snackbar('Pricing for sale cycle added');
@@ -131,7 +110,7 @@ const SaleProductModalWrapper = ({
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: refetchQueriesContext,
   });
-  const [updateSaleProduct] = useCommerceUpdateSaleProductMutation({
+  const [updatePackageItem] = useCommerceUpdateDealItemMutation({
     context,
     onCompleted: () => {
       snackbar('Pricing for sale cycle updated');
@@ -141,23 +120,24 @@ const SaleProductModalWrapper = ({
   });
 
   const initialValues = (editMode: boolean) => {
-    let values: SaleProductFormData = {
-      active: false,
-      description: '',
+    let values: PackageItemFormData = {
+      amount: 1,
       id: '',
-      name: '',
+      max: 999, // TODO fix to undefined / empty value?
+      min: 1,
       product: '',
-      type: '',
+      step: 1,
+      type: undefined,
     };
 
     if (editMode) {
       values = {
-        active: prefillData.active,
-        amount: fromCents(prefillData.amount),
-        description: prefillData.description,
+        amount: prefillData.amount,
         id: prefillData.id,
-        name: prefillData.name,
-        product: prefillData.product.id,
+        max: prefillData.max,
+        min: prefillData.min,
+        product: prefillData.product,
+        step: prefillData.step,
         type: prefillData.type,
       };
     }
@@ -165,32 +145,38 @@ const SaleProductModalWrapper = ({
     return values;
   };
 
-  const pickMutation = (editMode: boolean, formData: SaleProductFormData) => {
+  const pickMutation = (editMode: boolean, formData: any) => {
+    // TODO fix type
     let mutation;
-    const input = {
-      active: formData.active,
-      amount: toCents(Number(formData.amount)),
-      description: formData.description.trim(),
-      name: formData.name.trim(),
+    const createInput = {
+      amount: Number(formData.amount),
+      max: Number(formData.max),
+      min: Number(formData.min),
       product: formData.product,
+      step: Number(formData.step),
       type: formData.type,
     };
 
+    const updateInput = {
+      id: formData.id,
+      ...createInput,
+    };
+
     if (!editMode) {
-      mutation = createSaleProduct({
+      mutation = createPackageItem({
         variables: {
-          commerceSaleProductCreate: input,
-          saleId,
+          commerceDealItemCreate: createInput,
+          dealId,
         },
       });
     }
 
     if (editMode) {
-      mutation = updateSaleProduct({
+      mutation = updatePackageItem({
         variables: {
-          commerceSaleProductUpdate: input,
+          commerceDealItemUpdate: updateInput,
+          dealId,
           id: prefillData.id,
-          saleId,
         },
       });
     }
@@ -198,14 +184,14 @@ const SaleProductModalWrapper = ({
     return mutation;
   };
 
-  const setMutation = (formData: SaleProductFormData) => {
+  const setMutation = (formData: PackageItemFormData) => {
     return pickMutation(editOn, formData);
   };
 
   return (
     <FormikModal
       alertHeader={
-        editOn ? 'Edit pricing for sale cycle' : 'Add pricing for sale cycle'
+        editOn ? 'Edit package constrains' : 'Add new package constrains'
       }
       closeModal={closeModal}
       initialValues={initialValues(editOn)}
@@ -216,59 +202,65 @@ const SaleProductModalWrapper = ({
     >
       <Spacing top="8px">
         <FieldWrapper>
-          <Spacing bottom="8px">
-            <SelectField
-              required
-              label="Select ticket type"
-              name="product"
-              options={ticketTypeOptions}
-            />
-          </Spacing>
+          <SelectField
+            required
+            label="Ticket type"
+            name="product"
+            options={productOptions}
+          />
         </FieldWrapper>
 
         <FieldWrapper>
-          <TextInputField
+          <InlineWrapper>
+            <TextInputField
+              required
+              label="Min ticket qty."
+              min={1}
+              name="min"
+              step={1}
+              type="number"
+            />
+            <TextInputField
+              required
+              label="Max ticket qty."
+              min={1}
+              name="max"
+              step={1}
+              type="number"
+            />
+            <TextInputField
+              required
+              label="Step sale"
+              min={1}
+              name="step"
+              step={1}
+              type="number"
+            />
+          </InlineWrapper>
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <MoneyInputField
             required
-            label="Display name of ticket type"
-            name="name"
-            placeholder="General attendee"
+            currencySymbol={currencySymbol}
+            label="Amount"
+            name="amount"
           />
         </FieldWrapper>
 
         <FieldWrapper>
           <Spacing bottom="8px">
-            <TextAreaField
-              fieldHeight="80px"
-              label="Description"
-              name="description"
-              placeholder="Type description here"
-            />
-          </Spacing>
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <InlineWrapper>
             <SelectField
               required
-              label="Price during sale cycle"
+              label="Pricing applied"
               name="type"
               options={priceTypeOptions}
             />
-
-            <MoneyInputField
-              required
-              currencySymbol={currencySymbol}
-              label="Amount"
-              name="amount"
-            />
-            <CenteredVertically>
-              <CheckboxField label="Active" name="active" />
-            </CenteredVertically>
-          </InlineWrapper>
+          </Spacing>
         </FieldWrapper>
       </Spacing>
     </FormikModal>
   );
 };
 
-export default SaleProductModalWrapper;
+export default PackageItemModalWrapper;

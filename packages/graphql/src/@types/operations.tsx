@@ -7332,6 +7332,27 @@ export type ProfileUpdateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceCreateDealMutationVariables = Exact<{
+  commerceDealCreate: CommerceDealCreate;
+}>;
+
+export type CommerceCreateDealMutation = { __typename?: 'Mutation' } & {
+  commerceCreateDeal: Maybe<
+    { __typename?: 'CommerceDeal' } & Pick<CommerceDeal, 'id' | 'name'>
+  >;
+};
+
+export type CommerceCreateDealItemMutationVariables = Exact<{
+  commerceDealItemCreate: CommerceDealItemCreate;
+  dealId: Scalars['ID'];
+}>;
+
+export type CommerceCreateDealItemMutation = { __typename?: 'Mutation' } & {
+  commerceCreateDealItem: Maybe<
+    { __typename?: 'CommerceDealItem' } & Pick<CommerceDealItem, 'id'>
+  >;
+};
+
 export type CommerceCreateSaleMutationVariables = Exact<{
   commerceSale: CommerceSaleCreate;
 }>;
@@ -7350,6 +7371,18 @@ export type CommerceUpdateDealMutationVariables = Exact<{
 export type CommerceUpdateDealMutation = { __typename?: 'Mutation' } & {
   commerceUpdateDeal: Maybe<
     { __typename?: 'CommerceDeal' } & Pick<CommerceDeal, 'id' | 'name'>
+  >;
+};
+
+export type CommerceUpdateDealItemMutationVariables = Exact<{
+  commerceDealItemUpdate: CommerceDealItemUpdate;
+  id: Scalars['ID'];
+  dealId: Scalars['ID'];
+}>;
+
+export type CommerceUpdateDealItemMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateDealItem: Maybe<
+    { __typename?: 'CommerceDealItem' } & Pick<CommerceDealItem, 'id'>
   >;
 };
 
@@ -8304,6 +8337,52 @@ export type CommerceListCategoriesQuery = { __typename?: 'Query' } & {
                 { __typename?: 'CommerceUser' } & Pick<
                   CommerceUser,
                   'id' | 'name' | 'email'
+                >
+              >;
+            }
+        >
+      >;
+    }
+  >;
+};
+
+export type CommerceListDealItemsQueryVariables = Exact<{
+  dealId: Scalars['ID'];
+}>;
+
+export type CommerceListDealItemsQuery = { __typename?: 'Query' } & {
+  commerceListDealItems: Maybe<
+    { __typename?: 'CommerceSearchResponseDealItem' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceDealItem' } & Pick<
+            CommerceDealItem,
+            | 'amount'
+            | 'createdAt'
+            | 'id'
+            | 'lastUpdatedAt'
+            | 'max'
+            | 'metadata'
+            | 'min'
+            | 'step'
+            | 'type'
+          > & {
+              createdBy: Maybe<
+                { __typename?: 'CommerceUser' } & Pick<
+                  CommerceUser,
+                  'name' | 'id'
+                >
+              >;
+              lastUpdatedBy: Maybe<
+                { __typename?: 'CommerceUser' } & Pick<
+                  CommerceUser,
+                  'name' | 'id'
+                >
+              >;
+              product: Maybe<
+                { __typename?: 'CommerceProduct' } & Pick<
+                  CommerceProduct,
+                  'id' | 'name'
                 >
               >;
             }
@@ -12755,6 +12834,211 @@ export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileUpdateMutation,
   ProfileUpdateMutationVariables
 >;
+export const CommerceCreateDealDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreateDeal' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceDealCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceDealCreate' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateDeal' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceDealCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceDealCreate' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreateDealMutationFn = Apollo.MutationFunction<
+  CommerceCreateDealMutation,
+  CommerceCreateDealMutationVariables
+>;
+
+/**
+ * __useCommerceCreateDealMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreateDealMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreateDealMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreateDealMutation, { data, loading, error }] = useCommerceCreateDealMutation({
+ *   variables: {
+ *      commerceDealCreate: // value for 'commerceDealCreate'
+ *   },
+ * });
+ */
+export function useCommerceCreateDealMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreateDealMutation,
+    CommerceCreateDealMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreateDealMutation,
+    CommerceCreateDealMutationVariables
+  >(CommerceCreateDealDocument, baseOptions);
+}
+export type CommerceCreateDealMutationHookResult = ReturnType<
+  typeof useCommerceCreateDealMutation
+>;
+export type CommerceCreateDealMutationResult = Apollo.MutationResult<CommerceCreateDealMutation>;
+export type CommerceCreateDealMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreateDealMutation,
+  CommerceCreateDealMutationVariables
+>;
+export const CommerceCreateDealItemDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreateDealItem' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceDealItemCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceDealItemCreate' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'dealId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'dealId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateDealItem' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceDealItemCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceDealItemCreate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'dealId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreateDealItemMutationFn = Apollo.MutationFunction<
+  CommerceCreateDealItemMutation,
+  CommerceCreateDealItemMutationVariables
+>;
+
+/**
+ * __useCommerceCreateDealItemMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreateDealItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreateDealItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreateDealItemMutation, { data, loading, error }] = useCommerceCreateDealItemMutation({
+ *   variables: {
+ *      commerceDealItemCreate: // value for 'commerceDealItemCreate'
+ *      dealId: // value for 'dealId'
+ *   },
+ * });
+ */
+export function useCommerceCreateDealItemMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreateDealItemMutation,
+    CommerceCreateDealItemMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreateDealItemMutation,
+    CommerceCreateDealItemMutationVariables
+  >(CommerceCreateDealItemDocument, baseOptions);
+}
+export type CommerceCreateDealItemMutationHookResult = ReturnType<
+  typeof useCommerceCreateDealItemMutation
+>;
+export type CommerceCreateDealItemMutationResult = Apollo.MutationResult<CommerceCreateDealItemMutation>;
+export type CommerceCreateDealItemMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreateDealItemMutation,
+  CommerceCreateDealItemMutationVariables
+>;
 export const CommerceCreateSaleDocument: DocumentNode = {
   definitions: [
     {
@@ -12957,6 +13241,135 @@ export type CommerceUpdateDealMutationResult = Apollo.MutationResult<CommerceUpd
 export type CommerceUpdateDealMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateDealMutation,
   CommerceUpdateDealMutationVariables
+>;
+export const CommerceUpdateDealItemDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdateDealItem' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceDealItemUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceDealItemUpdate' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'dealId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'dealId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateDealItem' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceDealItemUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceDealItemUpdate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'dealId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateDealItemMutationFn = Apollo.MutationFunction<
+  CommerceUpdateDealItemMutation,
+  CommerceUpdateDealItemMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateDealItemMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateDealItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateDealItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateDealItemMutation, { data, loading, error }] = useCommerceUpdateDealItemMutation({
+ *   variables: {
+ *      commerceDealItemUpdate: // value for 'commerceDealItemUpdate'
+ *      id: // value for 'id'
+ *      dealId: // value for 'dealId'
+ *   },
+ * });
+ */
+export function useCommerceUpdateDealItemMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateDealItemMutation,
+    CommerceUpdateDealItemMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateDealItemMutation,
+    CommerceUpdateDealItemMutationVariables
+  >(CommerceUpdateDealItemDocument, baseOptions);
+}
+export type CommerceUpdateDealItemMutationHookResult = ReturnType<
+  typeof useCommerceUpdateDealItemMutation
+>;
+export type CommerceUpdateDealItemMutationResult = Apollo.MutationResult<CommerceUpdateDealItemMutation>;
+export type CommerceUpdateDealItemMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateDealItemMutation,
+  CommerceUpdateDealItemMutationVariables
 >;
 export const CommerceUpdateSaleDocument: DocumentNode = {
   definitions: [
@@ -18088,6 +18501,183 @@ export type CommerceListCategoriesLazyQueryHookResult = ReturnType<
 export type CommerceListCategoriesQueryResult = Apollo.QueryResult<
   CommerceListCategoriesQuery,
   CommerceListCategoriesQueryVariables
+>;
+export const CommerceListDealItemsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListDealItems' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'dealId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'dealId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListDealItems' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'amount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'max' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadata' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'product' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'step' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'dealId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListDealItemsQuery__
+ *
+ * To run a query within a React component, call `useCommerceListDealItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListDealItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListDealItemsQuery({
+ *   variables: {
+ *      dealId: // value for 'dealId'
+ *   },
+ * });
+ */
+export function useCommerceListDealItemsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CommerceListDealItemsQuery,
+    CommerceListDealItemsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListDealItemsQuery,
+    CommerceListDealItemsQueryVariables
+  >(CommerceListDealItemsDocument, baseOptions);
+}
+export function useCommerceListDealItemsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListDealItemsQuery,
+    CommerceListDealItemsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListDealItemsQuery,
+    CommerceListDealItemsQueryVariables
+  >(CommerceListDealItemsDocument, baseOptions);
+}
+export type CommerceListDealItemsQueryHookResult = ReturnType<
+  typeof useCommerceListDealItemsQuery
+>;
+export type CommerceListDealItemsLazyQueryHookResult = ReturnType<
+  typeof useCommerceListDealItemsLazyQuery
+>;
+export type CommerceListDealItemsQueryResult = Apollo.QueryResult<
+  CommerceListDealItemsQuery,
+  CommerceListDealItemsQueryVariables
 >;
 export const CommerceListDealsDocument: DocumentNode = {
   definitions: [
