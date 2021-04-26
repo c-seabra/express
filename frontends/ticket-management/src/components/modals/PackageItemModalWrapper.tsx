@@ -19,9 +19,10 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import MoneyInputField from '../../../../../packages/components/src/molecules/MoneyInputField';
+import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
+import {Formik} from "formik";
 
 const InlineWrapper = styled.div`
   display: flex;
@@ -97,7 +98,7 @@ const PackageItemModalWrapper = ({
     fetchPolicy: 'network-only',
     onError: (e) => errorSnackbar(e.message),
   });
-  const editOn = prefillData && prefillData.id && prefillData.id !== '';
+  const editOn = prefillData && prefillData.product; // product id exists
   const products = data?.commerceListProducts?.hits;
   const productOptions = getTicketTypesOptions(products as []);
   const priceTypeOptions = getPriceOptions(typesOptions);
@@ -175,7 +176,7 @@ const PackageItemModalWrapper = ({
         variables: {
           commerceDealItemUpdate: updateInput,
           dealId,
-          id: prefillData.id,
+          id: formData.id,
         },
       });
     }

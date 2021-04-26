@@ -68,7 +68,6 @@ const FormikModal = ({
   validationSchema,
   validateOnBlur = false,
   validateOnChange = false,
-
   children,
 }: ModalProps) => {
   return (
