@@ -18,9 +18,7 @@ import {
   CommerceTax,
   CommerceTaxRateType,
   CommerceTaxType,
-  CommerceTransactionType,
   useCommerceCreateOrderMutation,
-  useCommerceCreateTransactionMutation,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -177,11 +175,6 @@ const InviteToPurhcaseModal = ({
     onError: (e) => error(e.message),
   });
 
-  const [payForOrder] = useCommerceCreateTransactionMutation({
-    context,
-    onError: (e) => error(e.message),
-  });
-
   const ticketPrice = (ticketType?.price || 0) as TotalInCents;
 
   return (
@@ -203,7 +196,7 @@ const InviteToPurhcaseModal = ({
         onSubmit={async (values) => {
           const isOrderPaidFor = values.external || values.complimentary;
 
-          const { data } = await createOrder({
+          await createOrder({
             variables: {
               commerceOrderCreate: {
                 customer: {
@@ -236,26 +229,6 @@ const InviteToPurhcaseModal = ({
               },
             },
           });
-
-          if (isOrderPaidFor && data?.commerceCreateOrder?.id) {
-            await payForOrder({
-              context: {
-                ...context,
-                headers: {
-                  'x-reason': values.comments || 'invite to purchase',
-                },
-              },
-              variables: {
-                commerceTransactionCreate: {
-                  paymentMethod: {
-                    id: externalPaymentMethodId,
-                  },
-                  type: CommerceTransactionType.Payment,
-                },
-                orderId: data?.commerceCreateOrder?.id,
-              },
-            });
-          }
 
           onRequestClose();
         }}
