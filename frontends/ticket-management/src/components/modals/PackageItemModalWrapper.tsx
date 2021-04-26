@@ -1,14 +1,8 @@
-import FormikModal, {
-  FieldWrapper,
-} from '@websummit/components/src/molecules/FormikModal';
-import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
-import SelectField from '@websummit/components/src/molecules/SelectField';
+import FormikModal from '@websummit/components/src/molecules/FormikModal';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
-import TextInputField from '@websummit/components/src/molecules/TextInputField';
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceDealItemType,
   useCommerceCreateDealItemMutation,
@@ -16,19 +10,12 @@ import {
   useCommerceUpdateDealItemMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
-import { Formik } from 'formik';
 import React from 'react';
-import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 import PackageItemForm from '../organisms/PackageItemForm';
-
-const InlineWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 type ModalProps = {
   closeModal: () => void;
