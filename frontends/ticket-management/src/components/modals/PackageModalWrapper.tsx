@@ -1,6 +1,7 @@
-import { Button } from '@websummit/components/src/atoms/Button';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
-import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
+import FormikModal, {
+  FieldWrapper,
+} from '@websummit/components/src/molecules/FormikModal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
@@ -8,12 +9,10 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
-import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDateTime } from '@websummit/components/src/utils/time';
 import {
+  useCommerceCreateDealMutation,
   useCommerceListCategoriesQuery,
-  useCommerceUpdateDealMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
@@ -27,23 +26,14 @@ const StyledInputField = styled(TextInputField)`
   width: 48%;
 `;
 
-const FlexEnd = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 const InlineWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const Fieldset = styled.fieldset`
-  border: none;
-  padding: 0;
-`;
-
-type Props = {
-  prefillData: any;
+type ModalProps = {
+  closeModal: () => void;
+  isOpen: boolean;
 };
 
 export type PackageFormData = {
@@ -75,11 +65,11 @@ const getTicketTypesOptions = (types: any[] = []) => [
   otherOption,
 ];
 
-const PackageForm = ({ prefillData }: Props) => {
+const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
-  const [updateDeal] = useCommerceUpdateDealMutation({
+  const [createDeal] = useCommerceCreateDealMutation({
     context,
     onCompleted: () => {
       snackbar('Package updated');
@@ -96,12 +86,12 @@ const PackageForm = ({ prefillData }: Props) => {
 
   const initialValues = () => {
     return {
-      active: prefillData.active,
+      active: false,
       category: 'Other',
-      description: prefillData.description,
-      endDate: toShortDateTime(prefillData.endDate),
-      name: prefillData.name,
-      startDate: toShortDateTime(prefillData.startDate),
+      description: '',
+      endDate: '',
+      name: '',
+      startDate: '',
     };
   };
 
@@ -114,8 +104,8 @@ const PackageForm = ({ prefillData }: Props) => {
       startDate: new Date(formData.startDate).toISOString(),
     };
 
-    return updateDeal({
-      variables: { commerceDealUpdate: input, id: prefillData.id },
+    return createDeal({
+      variables: { commerceDealCreate: input },
     });
   };
 
@@ -124,12 +114,16 @@ const PackageForm = ({ prefillData }: Props) => {
   };
 
   return (
-    <FormikForm
+    <FormikModal
+      alertHeader="Create a package"
+      closeModal={closeModal}
       initialValues={initialValues()}
+      isOpen={isOpen}
       submitCallback={setMutation}
+      submitText="Create"
       validationSchema={validationSchema}
     >
-      <Fieldset disabled={false}>
+      <>
         <Spacing top="2rem">
           <FieldWrapper>
             <Spacing bottom="8px">
@@ -181,13 +175,10 @@ const PackageForm = ({ prefillData }: Props) => {
               <CheckboxField label="On sale" name="active" />
             </Spacing>
           </FieldWrapper>
-          <FlexEnd>
-            <Button type="submit">Edit</Button>
-          </FlexEnd>
         </Spacing>
-      </Fieldset>
-    </FormikForm>
+      </>
+    </FormikModal>
   );
 };
 
-export default PackageForm;
+export default PackageModalWrapper;

@@ -13,7 +13,9 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { useModalState } from '../../../../../packages/components/src/molecules/Modal';
 import { useRequestContext } from '../app/AppContext';
+import PackageModalWrapper from '../modals/PackageModalWrapper';
 import PackagesList from '../organisms/PackagesList';
 
 export const Container = styled.div`
@@ -91,10 +93,9 @@ const groupPackagesByCategories = (
 const PackagesPage = () => {
   const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
-  // * DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION
-  // const { isOpen, closeModal, openModal } = useModalState();
+  const { isOpen, closeModal, openModal } = useModalState();
   const onButtonClick = () => {
-    // openModal();
+    openModal();
   };
   const redirectToPackage = (id: string) => {
     history.push(`/package/${id}`);
@@ -135,8 +136,7 @@ const PackagesPage = () => {
     <Container>
       {loading && <Loader />}
 
-      {/* DO NOTE REMOVE: WILL BE USED IN NEXT ITERATION */}
-      {/* <PackageModalWrapper closeModal={closeModal} isOpen={isOpen} /> */}
+      <PackageModalWrapper closeModal={closeModal} isOpen={isOpen} />
 
       <FlexCol>
         <FlexRow>
