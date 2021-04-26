@@ -1,4 +1,6 @@
+﻿import Icon from '@websummit/components/src/atoms/Icon';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
@@ -10,16 +12,28 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
+import PackageItemRemovalModal from '../modals/PackageItemRemovalModal';
 
 const StyledName = styled.span`
   color: #0067e9;
 `;
 
+const IconWrapper = styled.div`
+  > .material-icons {
+    font-size: 24px;
+  }
+`;
+
 type DealItemsListProps = {
+  dealId: string;
   onRowClick?: any;
   products: any;
 };
-const DealItemsList = ({ products, onRowClick }: DealItemsListProps) => {
+const DealItemsList = ({
+  products,
+  onRowClick,
+  dealId,
+}: DealItemsListProps) => {
   const tableShape: ColumnDescriptors<CommerceDealItem> = [
     {
       header: 'Ticket type',
@@ -55,6 +69,39 @@ const DealItemsList = ({ products, onRowClick }: DealItemsListProps) => {
           })('N/A')(source);
 
         return formatSourceOfSale(saleProduct.type);
+      },
+    },
+    {
+      header: 'Action',
+      renderCell: (saleProduct) => {
+        console.log('test action', saleProduct);
+        const {
+          isOpen: isPackageItemModalOpen,
+          closeModal: packageItemModalClose,
+          openModal: packageItemOpenModal,
+        } = useModalState();
+        const openDeleteItemModal = (event: any, dealItemId: string | null) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          packageItemOpenModal();
+        };
+
+        return (
+          <>
+            <PackageItemRemovalModal
+              closeModal={packageItemModalClose}
+              dealId={dealId}
+              isOpen={isPackageItemModalOpen}
+            />
+
+            <IconWrapper
+              onClick={(e) => openDeleteItemModal(e, saleProduct.id)}
+            >
+              <Icon>edit</Icon>
+            </IconWrapper>
+          </>
+        );
       },
     },
   ];

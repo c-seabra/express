@@ -289,7 +289,11 @@ const PackagePage = () => {
 
               {hasDealItems && (
                 <Spacing bottom="2rem" top="2rem">
-                  <DealItemsList products={dealItems} onRowClick={onRowClick} />
+                  <DealItemsList
+                    dealId={dealId}
+                    products={dealItems}
+                    onRowClick={onRowClick}
+                  />
                 </Spacing>
               )}
             </>
