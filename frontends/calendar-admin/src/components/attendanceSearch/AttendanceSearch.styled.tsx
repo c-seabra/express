@@ -2,6 +2,25 @@ import styled from 'styled-components';
 
 import SearchInput from '../../../../../packages/components/src/molecules/SearchInput';
 
+export const DestructiveButton = styled.button`
+  border-radius: 50%;
+  padding: 0.5em;
+  width: 30px;
+  height: 30px;
+  color: #cb1977;
+  background-color: #ffffff;
+  border: 1px solid #cb1977;
+
+  &:hover {
+    background-color: #cb1977;
+    color: #ffffff;
+  }
+
+  &::before {
+    content: 'X';
+  }
+`;
+
 export const ListItem = styled.li`
   font-size: 0.85rem;
   display: flex;

@@ -1,10 +1,14 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 
-import { DestructiveButton } from '../../../../../packages/components/src/atoms/Button';
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance } from '../../lib/types/index';
-import { Column, ListItem, StyledSearchInput } from './AttendanceSearch.styled';
+import {
+  Column,
+  DestructiveButton,
+  ListItem,
+  StyledSearchInput,
+} from './AttendanceSearch.styled';
 
 type AttendanceSearchState = {
   searchQuery?: string;
@@ -80,16 +84,12 @@ const AttendanceSearch = (): ReactElement => {
         </>
       )}
 
-      <h1>Selected Attendees</h1>
-
       {selections.map((selection) => (
         <div key={selection?.id}>
           <ListItem key={selection?.id}>
-            <Column>{selection.name}</Column>
+            {selection.name}
+            <DestructiveButton onClick={() => handleRemove(selection)} />
           </ListItem>
-          <DestructiveButton onClick={() => handleRemove(selection)}>
-            Remove Attendee
-          </DestructiveButton>
         </div>
       ))}
     </>
