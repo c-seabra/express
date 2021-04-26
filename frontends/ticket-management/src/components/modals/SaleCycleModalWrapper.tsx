@@ -1,3 +1,4 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
@@ -32,6 +33,7 @@ type ModalProps = {
 };
 
 export type SaleCycleFormData = {
+  active: boolean;
   description: string;
   endDate: any;
   id: string;
@@ -40,6 +42,7 @@ export type SaleCycleFormData = {
 };
 
 const validationSchema = Yup.object().shape({
+  active: Yup.boolean(),
   description: Yup.string(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
@@ -61,6 +64,7 @@ const SaleCycleModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
 
   const initialValues = () => {
     return {
+      active: false,
       description: '',
       endDate: '',
       name: '',
@@ -70,6 +74,7 @@ const SaleCycleModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
 
   const pickMutation = (formData: SaleCycleFormData) => {
     const input = {
+      active: formData.active,
       description: formData.description.trim(),
       endDate: new Date(formData.endDate).toISOString(),
       name: formData.name.trim(),
@@ -127,6 +132,12 @@ const SaleCycleModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
               label="Sale cycle description"
               name="description"
             />
+          </Spacing>
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <Spacing bottom="8px">
+            <CheckboxField label="Active" name="active" />
           </Spacing>
         </FieldWrapper>
       </Spacing>
