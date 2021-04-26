@@ -19,9 +19,7 @@ import {
   CommerceTax,
   CommerceTaxRateType,
   CommerceTaxType,
-  CommerceTransactionType,
   useCommerceCreateOrderMutation,
-  useCommerceCreateTransactionMutation,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -191,20 +189,15 @@ const InviteToPurhcasePackageModal = ({
     onError: (e) => error(e.message),
   });
 
-  const [payForOrder] = useCommerceCreateTransactionMutation({
-    context,
-    onError: (e) => error(e.message),
-  });
-
   const dealPrice = getDealPrice(deal);
 
+  const dealItems = deal?.dealItems || [];
+
   // For now we are assuming the whole deal is taxed the same
-  const dealProduct = (deal?.dealItems || [])[0]?.product;
+  const dealProduct = dealItems[0]?.product;
   const dealTaxType = dealProduct?.taxType;
 
   const { tax, taxName, taxAmountString } = getTaxDetails(dealTaxType);
-
-  //  const ticketPrice = (ticketType?.price || 0) as TotalInCents;
 
   return (
     <Modal withDefaultFooter isOpen={isOpen} onRequestClose={onRequestClose}>
@@ -225,7 +218,7 @@ const InviteToPurhcasePackageModal = ({
         onSubmit={async (values) => {
           const isOrderPaidFor = values.external || values.complimentary;
 
-          const { data } = await createOrder({
+          await createOrder({
             variables: {
               commerceOrderCreate: {
                 customer: {
@@ -234,12 +227,10 @@ const InviteToPurhcasePackageModal = ({
                   lastName: values.lastName,
                 },
                 deal: deal?.id,
-                items: [
-                  {
-                    product: dealProduct?.id,
-                    quantity: values.quantity,
-                  },
-                ],
+                items: dealItems.map((item) => ({
+                  product: item?.product?.id,
+                  quantity: (item?.step || 0) * values.quantity,
+                })),
                 // If order was paid for by other means
                 // we don't send an email with request for payment
                 ...(isOrderPaidFor
@@ -259,26 +250,6 @@ const InviteToPurhcasePackageModal = ({
               },
             },
           });
-
-          if (isOrderPaidFor && data?.commerceCreateOrder?.id) {
-            await payForOrder({
-              context: {
-                ...context,
-                headers: {
-                  'x-reason': values.comments || 'invite to purchase',
-                },
-              },
-              variables: {
-                commerceTransactionCreate: {
-                  paymentMethod: {
-                    id: externalPaymentMethodId,
-                  },
-                  type: CommerceTransactionType.Payment,
-                },
-                orderId: data?.commerceCreateOrder?.id,
-              },
-            });
-          }
 
           onRequestClose();
         }}
