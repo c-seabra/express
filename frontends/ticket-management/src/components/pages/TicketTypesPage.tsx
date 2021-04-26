@@ -1,6 +1,7 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import Table, {
   ColumnDescriptors,
@@ -9,15 +10,18 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceCategory,
   CommerceProduct,
+  useCommerceGetStoreQuery,
   useCommerceListCategoriesQuery,
   useCommerceListProductsQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketTypesPlaceholder from '../../lib/images/no-ticket-types-placeholder.png';
 import { useAppContext } from '../app/AppContext';
+import TicketTypeModal from '../ticketTypes/TicketTypeModal';
 
 export const Badge = styled.span`
   font-size: 14px;
@@ -74,43 +78,42 @@ type GroupedTicketTypes = {
 
 const ungroupedCategoryName = 'Other';
 
-const groupTicketTypesByGroups = (
+const groupTicketTypesByCategories = (
   ticketTypes: Partial<CommerceProduct>[] = [],
-  ticketGroups: Pick<CommerceCategory, 'name' | 'id'>[] = [],
+  ticketCategories: Pick<CommerceCategory, 'name' | 'id'>[] = [],
 ) => {
-  let ticketTypesByGroups: GroupedTicketTypes = {};
+  let ticketTypesByCategories: GroupedTicketTypes = {};
 
-  ticketGroups.forEach((category) => {
-    const ticketTypesByGroup = ticketTypes.filter((type) =>
+  ticketCategories.forEach((category) => {
+    const ticketTypesByCategory = ticketTypes.filter((type) =>
       type?.categories?.some((typeCategory) => typeCategory.id === category.id),
     );
 
-    if (ticketTypesByGroup.length > 0) {
-      ticketTypesByGroups = {
-        ...ticketTypesByGroups,
-        [category.name]: ticketTypesByGroup,
+    if (ticketTypesByCategory.length > 0) {
+      ticketTypesByCategories = {
+        ...ticketTypesByCategories,
+        [category.name]: ticketTypesByCategory,
       };
     }
   });
 
-  const ticketsWithoutGroup = ticketTypes.filter(
+  const ticketsWithoutCategory = ticketTypes.filter(
     (type) => !type.categories || type?.categories?.length === 0,
   );
 
-  if (ticketsWithoutGroup.length > 0) {
+  if (ticketsWithoutCategory.length > 0) {
     return {
-      ...ticketTypesByGroups,
-      [ungroupedCategoryName]: ticketsWithoutGroup,
+      ...ticketTypesByCategories,
+      [ungroupedCategoryName]: ticketsWithoutCategory,
     };
   }
 
-  return ticketTypesByGroups;
+  return ticketTypesByCategories;
 };
 
-type CommerceProductTableItem = Pick<
-  CommerceProduct,
-  'name' | 'id' | 'active'
-> & {
+type CommerceProductTableItem = Partial<CommerceProduct> & {
+  active: boolean;
+  id: string;
   name?: string;
 };
 
@@ -121,17 +124,25 @@ const tableShape: ColumnDescriptors<CommerceProductTableItem> = [
   },
   {
     header: 'On sale',
-    renderCell: (item) => <TicketTypeState state={!!item.active} />,
+    renderCell: (item) => <TicketTypeState state={item.active} />,
   },
 ];
 
 const TicketTypesPage = () => {
   const { conferenceSlug, token } = useAppContext();
+  const history = useHistory();
+
   const context = {
     slug: conferenceSlug,
     token,
   };
   const error = useErrorSnackbar();
+  const {
+    isOpen: isTicketTypeModalOpen,
+    closeModal: closeTicketTypeModal,
+    openModal: openTicketTypeModal,
+  } = useModalState();
+
   const { data, loading } = useCommerceListProductsQuery({
     context,
     onError: (e) => error(e.message),
@@ -146,20 +157,40 @@ const TicketTypesPage = () => {
   const areCommerceProductsPresent =
     ticketTypes?.length && ticketTypes?.length > 0;
 
-  const ticketGroups =
+  const ticketCategories =
     commerceCategoriesData?.commerceListCategories?.hits || [];
 
-  const ticketTypesByGroups = groupTicketTypesByGroups(
+  const ticketTypesByCategories = groupTicketTypesByCategories(
     ticketTypes as Partial<CommerceProduct>[],
-    ticketGroups,
+    ticketCategories,
   );
+
+  const { data: storeData } = useCommerceGetStoreQuery({
+    context,
+  });
+
+  const store = storeData?.commerceGetStore;
+
+  const taxTypes = store?.taxTypes || [];
+
+  const openTicketTypePage = (ticketType: Partial<CommerceProduct>) => {
+    history.push(`/ticket-type/${ticketType?.id || ''}`);
+  };
 
   return (
     <PageContainer>
       <HeaderContainer>
         <Title>Ticket types</Title>
         <TableActionsContainer>
-          <Button>Create new ticket type</Button>
+          <Button onClick={openTicketTypeModal}>Create new ticket type</Button>
+          <TicketTypeModal
+            country={store?.country}
+            currencySymbol={store?.currencySymbol || ''}
+            isOpen={isTicketTypeModalOpen}
+            taxTypes={taxTypes}
+            ticketCategories={ticketCategories}
+            onRequestClose={closeTicketTypeModal}
+          />
         </TableActionsContainer>
       </HeaderContainer>
 
@@ -170,12 +201,13 @@ const TicketTypesPage = () => {
       )}
 
       {areCommerceProductsPresent ? (
-        Object.entries(ticketTypesByGroups).map(([key, value]) => (
+        Object.entries(ticketTypesByCategories).map(([key, value]) => (
           <Spacing key={key} top="1.5rem">
             <ContainerCard noPadding title={key}>
               <Table<CommerceProductTableItem>
                 items={value as CommerceProductTableItem[]}
                 tableShape={tableShape}
+                onRowClick={openTicketTypePage}
               />
             </ContainerCard>
           </Spacing>

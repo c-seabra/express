@@ -1,6 +1,7 @@
 import { ApolloError } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   Event,
@@ -12,7 +13,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useErrorSnackbar } from '../../../../../packages/components/src/molecules/Snackbar';
 import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
 import { useAppContext } from '../app/AppContext';
@@ -107,7 +107,7 @@ const EventPage = () => {
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);
   const sortedEvents: any = events?.slice()?.sort((a: any, b: any) => {
-    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
   });
 
   const upcomingFilter: EventFilter = {

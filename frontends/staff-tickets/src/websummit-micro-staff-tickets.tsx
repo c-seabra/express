@@ -1607,6 +1607,7 @@ const prodApiUrl = 'https://api.cilabs.com/catalyst';
 
 */
 const prod_cc21: Conference = {
+  guestProductId: 'ac80f764-42c5-4a5e-81a9-5bb0ece37e29',
   slug: 'cc21',
   staffProductId: '6c607f74-d375-48ae-a705-97035e494c96',
   storeId: '32d6f737-1ce9-4ac1-9c23-8e4668292268',

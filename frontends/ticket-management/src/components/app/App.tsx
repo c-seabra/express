@@ -6,8 +6,12 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
+import PackagePage from '../pages/PackagePage';
+import PackagesPage from '../pages/PackagesPage';
+import SalesCyclePage from '../pages/SalesCyclePage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
 import TicketCategoriesPage from '../pages/TicketCategoriesPage';
+import TicketTypePage from '../pages/TicketTypePage';
 import TicketTypesPage from '../pages/TicketTypesPage';
 import AppContext from './AppContext';
 
@@ -54,11 +58,23 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/sale-cycles">
                   <SalesCyclesPage />
                 </Route>
+                <Route exact path="/sale-cycle/:id">
+                  <SalesCyclePage />
+                </Route>
                 <Route exact path="/ticket-categories">
                   <TicketCategoriesPage />
                 </Route>
                 <Route exact path="/ticket-types">
                   <TicketTypesPage />
+                </Route>
+                <Route exact path="/ticket-type/:id">
+                  <TicketTypePage />
+                </Route>
+                <Route exact path="/packages">
+                  <PackagesPage />
+                </Route>
+                <Route exact path="/package/:id">
+                  <PackagePage />
                 </Route>
               </Switch>
             </StyledContainer>

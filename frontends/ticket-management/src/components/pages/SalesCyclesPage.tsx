@@ -1,16 +1,16 @@
-import { Button } from '@websummit/components/src/atoms/Button';
+﻿import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoCyclesPlaceholderImage from '../../lib/images/no-sale-cycle-placeholder.png';
-import { ModalInputMode } from '../../lib/types/modals';
-import { useAppContext } from '../app/AppContext';
+import { useRequestContext } from '../app/AppContext';
 import SaleCycleModalWrapper, {
   SaleCycleFormData,
 } from '../modals/SaleCycleModalWrapper';
@@ -26,7 +26,7 @@ const FlexRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 26px 36px;
+  padding: 26px 0;
 `;
 
 // Good candidate to move to package templates
@@ -62,30 +62,18 @@ const NoSalesCyclesPlaceholder = () => {
 };
 
 const SalesCyclesPage = () => {
+  const context = useRequestContext();
+  const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
-  const [modalMode, setModalMode] = useState<ModalInputMode>('ADD');
-  const [prefillData, setPrefillData] = useState<SaleCycleFormData>();
   const onButtonClick = () => {
-    setModalMode('ADD');
     openModal();
+  };
+  const redirectToCycle = (id: string) => {
+    history.push(`/sale-cycle/${id}`);
   };
   const onRowClick = (event: SaleCycleFormData) => {
-    setPrefillData({
-      description: event.description,
-      endDate: event.endDate,
-      id: event.id,
-      name: event.name,
-      startDate: event.startDate,
-    });
-
-    setModalMode('EDIT');
-    openModal();
-  };
-  const { conferenceSlug, token } = useAppContext();
-  const context = {
-    slug: conferenceSlug,
-    token,
+    redirectToCycle(event.id);
   };
 
   const { loading, data } = useSalesCyclesQuery({
@@ -94,19 +82,17 @@ const SalesCyclesPage = () => {
   });
 
   const hasCycles =
-    data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length;
+    data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length > 0;
   const cycles: any = data?.commerceListSales?.hits;
+  const sortedCycles: any = cycles?.slice()?.sort((a: any, b: any) => {
+    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+  });
 
   return (
     <Container>
       {loading && <Loader />}
 
-      <SaleCycleModalWrapper
-        closeModal={closeModal}
-        isOpen={isOpen}
-        mode={modalMode}
-        prefillData={prefillData}
-      />
+      <SaleCycleModalWrapper closeModal={closeModal} isOpen={isOpen} />
 
       <FlexCol>
         <FlexRow>
@@ -116,9 +102,9 @@ const SalesCyclesPage = () => {
 
         {!loading && !hasCycles && <NoSalesCyclesPlaceholder />}
 
-        {cycles && hasCycles && (
+        {hasCycles && (
           <FlexRow>
-            <SalesCyclesList cycles={cycles} onRowClick={onRowClick} />
+            <SalesCyclesList cycles={sortedCycles} onRowClick={onRowClick} />
           </FlexRow>
         )}
       </FlexCol>

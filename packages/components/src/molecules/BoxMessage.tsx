@@ -70,7 +70,7 @@ const BoxIcon = ({ boxType }: { boxType: BoxType }): ReactElement => {
 
 type BoxMessageProps = {
   backgroundColor: string;
-  children?: ReactElement;
+  children?: ReactElement | string;
   color: string;
   dimension?: Dimension;
   type?: BoxType;
