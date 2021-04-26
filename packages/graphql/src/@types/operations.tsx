@@ -7990,7 +7990,32 @@ export type CommerceGetDealQuery = { __typename?: 'Query' } & {
               | 'min'
               | 'step'
               | 'type'
-            >
+            > & {
+                product: Maybe<
+                  { __typename?: 'CommerceProduct' } & Pick<
+                    CommerceProduct,
+                    'id' | 'active' | 'description' | 'name' | 'price'
+                  > & {
+                      taxType: { __typename?: 'CommerceTaxType' } & Pick<
+                        CommerceTaxType,
+                        'id' | 'description' | 'name'
+                      > & {
+                          taxes: Maybe<
+                            Array<
+                              { __typename?: 'CommerceTax' } & Pick<
+                                CommerceTax,
+                                | 'rateAmount'
+                                | 'rateType'
+                                | 'id'
+                                | 'name'
+                                | 'country'
+                              >
+                            >
+                          >;
+                        };
+                    }
+                >;
+              }
           >
         >;
       }
@@ -16911,6 +16936,97 @@ export const CommerceGetDealDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'metadata' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'product' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'active' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'price' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'taxType' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'description',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'taxes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rateAmount',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rateType',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'country',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'step' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     ],

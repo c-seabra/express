@@ -6,10 +6,7 @@ import Breadcrumbs, {
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
-import {
-  useInfoSnackbar,
-  useSnackbars,
-} from '@websummit/components/src/molecules/Snackbar';
+import { useSnackbars } from '@websummit/components/src/molecules/Snackbar';
 import TextInput from '@websummit/components/src/molecules/TextInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
@@ -25,6 +22,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import useCopyToClipboard from '../../lib/hooks/useCopyToClipboard';
 import { useRequestContext } from '../app/AppContext';
 import InviteToPurhcaseModal from '../modals/InviteToPurchaseModal';
 import TicketTypeForm from '../organisms/TicketTypeForm';
@@ -89,20 +87,6 @@ const StyledButton = styled(Button)`
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 `;
-
-const useCopyToClipboard = () => {
-  const info = useInfoSnackbar();
-
-  return (copyMe: string) => {
-    const textField = document.createElement('textarea');
-    textField.innerText = copyMe;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand('copy');
-    info('Link copied to clipboard');
-    textField.remove();
-  };
-};
 
 const generateLink = (
   ticketType?: Partial<CommerceProduct>,
