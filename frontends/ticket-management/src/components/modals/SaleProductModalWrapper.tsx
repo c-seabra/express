@@ -258,7 +258,7 @@ const SaleProductModalWrapper = ({
             <MoneyInputField
               required
               currencySymbol={currencySymbol}
-              label="Amount"
+              label="Price excluding tax"
               name="amount"
             />
             <CenteredVertically>
