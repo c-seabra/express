@@ -213,9 +213,30 @@ const PackageItemModalWrapper = ({
 
         <FieldWrapper>
           <InlineWrapper>
-            <TextInputField required label="Min ticket qty." name="min" />
-            <TextInputField required label="Max ticket qty." name="max" />
-            <TextInputField required label="Step sale" name="step" />
+            <TextInputField
+                required
+                label="Min ticket qty."
+                min={1}
+                name="min"
+                step={1}
+                type="number"
+            />
+            <TextInputField
+                required
+                label="Max ticket qty."
+                min={1}
+                name="max"
+                step={1}
+                type="number"
+            />
+            <TextInputField
+                required
+                label="Step sale"
+                min={1}
+                name="step"
+                step={1}
+                type="number"
+            />
           </InlineWrapper>
         </FieldWrapper>
 
