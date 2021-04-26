@@ -10,7 +10,6 @@ import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import TextInput from '@websummit/components/src/molecules/TextInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
-  useCommerceListDealItemsQuery,
   CommerceDeal,
   CommerceDealItem,
   CommerceProduct,
@@ -18,6 +17,7 @@ import {
   Maybe,
   useCommerceGetDealQuery,
   useCommerceGetStoreQuery,
+  useCommerceListDealItemsQuery,
   useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
@@ -26,9 +26,9 @@ import styled from 'styled-components';
 
 import useCopyToClipboard from '../../lib/hooks/useCopyToClipboard';
 import { useRequestContext } from '../app/AppContext';
+import InviteToPurchasePackageModal from '../modals/InviteToPurchasePackageModal';
 import PackageItemModalWrapper from '../modals/PackageItemModalWrapper';
 import DealItemsList from '../organisms/DealItemsList';
-import InviteToPurchasePackageModal from '../modals/InviteToPurchasePackageModal';
 import PackageForm from '../organisms/PackageForm';
 
 export const Container = styled.div`
@@ -161,7 +161,11 @@ const generateLink = (
 const PackagePage = () => {
   const context = useRequestContext();
   const errorSnackbar = useErrorSnackbar();
-  const { isOpen: packageIsOpen, closeModal: packageCloseModal, openModal: packageOpenModal } = useModalState();
+  const {
+    isOpen: packageIsOpen,
+    closeModal: packageCloseModal,
+    openModal: packageOpenModal,
+  } = useModalState();
   const { isOpen, closeModal, openModal } = useModalState();
   const [prefillData, setPrefillData] = useState<any>(); // TODO reuse PackageFormData
   const onButtonClick = () => {
@@ -233,7 +237,6 @@ const PackagePage = () => {
         closeModal={packageCloseModal}
         currencySymbol={storeCurrencySymbol as string}
         dealId={dealId}
-        existingDeals={dealItems}
         isOpen={packageIsOpen}
         prefillData={prefillData}
       />

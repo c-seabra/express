@@ -32,7 +32,6 @@ type ModalProps = {
   closeModal: () => void;
   currencySymbol: string;
   dealId: string;
-  existingDeals: any;
   isOpen: boolean;
   prefillData?: any;
 };
@@ -82,7 +81,6 @@ const PackageItemModalWrapper = ({
   prefillData,
   dealId,
   currencySymbol,
-  existingDeals,
 }: ModalProps) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
