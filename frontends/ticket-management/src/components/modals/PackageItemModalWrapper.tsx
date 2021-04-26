@@ -97,7 +97,6 @@ const PackageItemModalWrapper = ({
     fetchPolicy: 'network-only',
     onError: (e) => errorSnackbar(e.message),
   });
-  console.log('prefillData', prefillData);
   const editOn = prefillData && prefillData.id && prefillData.id !== '';
   const products = data?.commerceListProducts?.hits;
   const productOptions = getTicketTypesOptions(products as []);
@@ -191,7 +190,7 @@ const PackageItemModalWrapper = ({
   return (
     <FormikModal
       alertHeader={
-        editOn ? 'Edit package constrains' : 'Add new package constrains'
+        editOn ? 'Edit package constraint' : 'Add new package constraint'
       }
       closeModal={closeModal}
       initialValues={initialValues(editOn)}
