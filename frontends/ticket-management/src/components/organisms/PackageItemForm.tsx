@@ -18,6 +18,7 @@ const PackageItemForm = ({
   currencySymbol,
   productOptions,
   priceTypeOptions,
+  submitText,
   closeModal,
   values,
 }: any) => {
@@ -101,7 +102,10 @@ const PackageItemForm = ({
 
       <Spacing top="48px">
         <FieldWrapper>
-          <Modal.DefaultFooter submitText="Save" onCancelClick={closeModal} />
+          <Modal.DefaultFooter
+            submitText={submitText}
+            onCancelClick={closeModal}
+          />
         </FieldWrapper>
       </Spacing>
     </Form>

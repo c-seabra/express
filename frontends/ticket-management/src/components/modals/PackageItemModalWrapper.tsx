@@ -23,6 +23,7 @@ import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
+import PackageItemForm from '../organisms/PackageItemForm';
 
 const InlineWrapper = styled.div`
   display: flex;
@@ -194,72 +195,22 @@ const PackageItemModalWrapper = ({
         editOn ? 'Edit package constraint' : 'Add new package constraint'
       }
       closeModal={closeModal}
+      customForm={(props: any) => (
+        <PackageItemForm
+          closeModal={closeModal}
+          currencySymbol={currencySymbol}
+          priceTypeOptions={priceTypeOptions}
+          productOptions={productOptions}
+          submitText={editOn ? 'Save' : 'Create'}
+          {...props}
+        />
+      )}
       initialValues={initialValues(editOn)}
       isOpen={isOpen}
       submitCallback={setMutation}
       submitText={editOn ? 'Save' : 'Create'}
       validationSchema={validationSchema}
-    >
-      <Spacing top="8px">
-        <FieldWrapper>
-          <SelectField
-            required
-            label="Ticket type"
-            name="product"
-            options={productOptions}
-          />
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <InlineWrapper>
-            <TextInputField
-              required
-              label="Min ticket qty."
-              min={1}
-              name="min"
-              step={1}
-              type="number"
-            />
-            <TextInputField
-              required
-              label="Max ticket qty."
-              min={1}
-              name="max"
-              step={1}
-              type="number"
-            />
-            <TextInputField
-              required
-              label="Step sale"
-              min={1}
-              name="step"
-              step={1}
-              type="number"
-            />
-          </InlineWrapper>
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <MoneyInputField
-            required
-            currencySymbol={currencySymbol}
-            label="Amount"
-            name="amount"
-          />
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <Spacing bottom="8px">
-            <SelectField
-              required
-              label="Pricing applied"
-              name="type"
-              options={priceTypeOptions}
-            />
-          </Spacing>
-        </FieldWrapper>
-      </Spacing>
-    </FormikModal>
+    />
   );
 };
 

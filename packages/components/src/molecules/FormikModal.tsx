@@ -53,7 +53,7 @@ type ModalProps = {
   initialValues: any;
   isOpen: boolean;
   submitCallback: (values?: any) => void;
-  submitText: string;
+  submitText?: string;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
   validationSchema: any;
