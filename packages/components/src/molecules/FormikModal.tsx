@@ -49,10 +49,11 @@ type ModalProps = {
   alertHeader: string;
   children?: any;
   closeModal: () => void;
+  customForm?: any;
   initialValues?: any;
   isOpen: boolean;
   submitCallback: (values?: any) => void;
-  submitText: string;
+  submitText?: string;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
   validationSchema?: any;
@@ -68,47 +69,61 @@ const FormikModal = ({
   validationSchema,
   validateOnBlur = false,
   validateOnChange = false,
-
   children,
+  customForm,
 }: ModalProps) => {
+  const submit = (values: any) => {
+    submitCallback(values);
+    closeModal();
+  };
+
   return (
     <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>
-      <Formik
-        initialValues={initialValues}
-        validateOnBlur={validateOnBlur}
-        validateOnChange={validateOnChange}
-        validationSchema={validationSchema}
-        onSubmit={(values) => {
-          submitCallback(values);
+      <Wrapper>
+        <Spacing bottom="10px">
+          <IconWrapper>
+            <Icon>info</Icon>
+          </IconWrapper>
+        </Spacing>
 
-          closeModal();
-        }}
-      >
-        <Form>
-          <Wrapper>
-            <Spacing bottom="10px">
-              <IconWrapper>
-                <Icon>info</Icon>
-              </IconWrapper>
-            </Spacing>
+        <Spacing bottom="40px">
+          <HeaderText>{alertHeader}</HeaderText>
+        </Spacing>
 
-            <Spacing bottom="40px">
-              <HeaderText>{alertHeader}</HeaderText>
-            </Spacing>
+        {customForm && (
+          <Formik
+            component={customForm}
+            initialValues={initialValues}
+            validateOnBlur={validateOnBlur}
+            validateOnChange={validateOnChange}
+            validationSchema={validationSchema}
+            onSubmit={submit}
+          />
+        )}
 
-            {children && children}
+        {!customForm && (
+          <Formik
+            initialValues={initialValues}
+            validateOnBlur={validateOnBlur}
+            validateOnChange={validateOnChange}
+            validationSchema={validationSchema}
+            onSubmit={submit}
+          >
+            <Form>
+              {children}
 
-            <Spacing top="48px">
-              <FieldWrapper>
-                <Modal.DefaultFooter
-                  submitText={submitText}
-                  onCancelClick={closeModal}
-                />
-              </FieldWrapper>
-            </Spacing>
-          </Wrapper>
-        </Form>
-      </Formik>
+              <Spacing top="48px">
+                <FieldWrapper>
+                  <Modal.DefaultFooter
+                    submitText={submitText}
+                    onCancelClick={closeModal}
+                  />
+                </FieldWrapper>
+              </Spacing>
+            </Form>
+          </Formik>
+        )}
+      </Wrapper>
     </Modal>
   );
 };

@@ -25,6 +25,7 @@ const IconWrapper = styled.div`
 `;
 
 type DealItemsListProps = {
+  currencySymbol: string;
   dealId: string;
   onRowClick?: any;
   products: any;
@@ -32,8 +33,23 @@ type DealItemsListProps = {
 const DealItemsList = ({
   products,
   onRowClick,
+  currencySymbol,
   dealId,
 }: DealItemsListProps) => {
+  const formatPricingApplied = (source: string): string =>
+    switchCase({
+      [CommerceDealItemType.PercentageDiscount]: 'Percentage discount',
+      [CommerceDealItemType.AbsoluteDiscount]: 'Absolute discount',
+      [CommerceDealItemType.AbsolutePrice]: 'Absolute price',
+    })('N/A')(source);
+
+  const formatAmount = (amount: number, source: string): string =>
+    switchCase({
+      [CommerceDealItemType.PercentageDiscount]: `${amount}%`,
+      [CommerceDealItemType.AbsoluteDiscount]: `${amount}${currencySymbol}`,
+      [CommerceDealItemType.AbsolutePrice]: `${amount}${currencySymbol}`,
+    })('N/A')(source);
+
   const tableShape: ColumnDescriptors<CommerceDealItem> = [
     {
       header: 'Ticket type',
@@ -56,25 +72,16 @@ const DealItemsList = ({
     },
     {
       header: 'Amount',
-      renderCell: (saleProduct) => saleProduct.amount || 'N/A',
+      renderCell: (saleProduct) =>
+        formatAmount(saleProduct.amount, saleProduct.type),
     },
     {
       header: 'Pricing applied',
-      renderCell: (saleProduct) => {
-        const formatSourceOfSale = (source: string): string =>
-          switchCase({
-            [CommerceDealItemType.PercentageDiscount]: 'Percentage discount',
-            [CommerceDealItemType.AbsoluteDiscount]: 'Absolute discount',
-            [CommerceDealItemType.AbsolutePrice]: 'Absolute price',
-          })('N/A')(source);
-
-        return formatSourceOfSale(saleProduct.type);
-      },
+      renderCell: (saleProduct) => formatPricingApplied(saleProduct.type),
     },
     {
       header: 'Action',
       renderCell: (saleProduct) => {
-        console.log('test action', saleProduct);
         const {
           isOpen: isPackageItemModalOpen,
           closeModal: packageItemModalClose,
