@@ -169,6 +169,15 @@ const PackagePage = () => {
   const { isOpen, closeModal, openModal } = useModalState();
   const [prefillData, setPrefillData] = useState<any>(); // TODO reuse PackageFormData
   const onButtonClick = () => {
+    setPrefillData({
+      amount: 1,
+      max: 999, // TODO fix to undefined / empty value?
+      min: 1,
+      product: '',
+      step: 1,
+      type: undefined,
+    });
+
     packageOpenModal();
   };
   const onRowClick = (event: any) => {
@@ -177,7 +186,7 @@ const PackagePage = () => {
       id: event.id,
       max: event.max,
       min: event.min,
-      product: event.product,
+      product: event.product.id,
       step: event.step,
       type: event.type,
     });
@@ -289,7 +298,11 @@ const PackagePage = () => {
 
               {hasDealItems && (
                 <Spacing bottom="2rem" top="2rem">
-                  <DealItemsList products={dealItems} onRowClick={onRowClick} />
+                  <DealItemsList
+                    currencySymbol={storeCurrencySymbol as string}
+                    products={dealItems}
+                    onRowClick={onRowClick}
+                  />
                 </Spacing>
               )}
             </>
