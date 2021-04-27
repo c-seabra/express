@@ -28,6 +28,7 @@ import useCopyToClipboard from '../../lib/hooks/useCopyToClipboard';
 import { useRequestContext } from '../app/AppContext';
 import InviteToPurchasePackageModal from '../modals/InviteToPurchasePackageModal';
 import PackageItemModalWrapper from '../modals/PackageItemModalWrapper';
+import PackageItemRemovalModal from '../modals/PackageItemRemovalModal';
 import DealItemsList from '../organisms/DealItemsList';
 import PackageForm from '../organisms/PackageForm';
 
@@ -239,6 +240,20 @@ const PackagePage = () => {
   const activePaymentMethods = paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
     (method) => method.active,
   );
+  const [dealItemId, setDealItemId] = useState<string>();
+  const {
+    isOpen: isPackageItemModalOpen,
+    closeModal: packageItemModalClose,
+    openModal: packageItemOpenModal,
+  } = useModalState();
+  const openDeleteItemModal = (event: any, itemId: string) => {
+    console.log('openDeleteItemModal', event, itemId);
+    event.preventDefault();
+    event.stopPropagation();
+
+    setDealItemId(itemId);
+    packageItemOpenModal();
+  };
 
   return (
     <Container>
@@ -248,6 +263,13 @@ const PackagePage = () => {
         dealId={dealId}
         isOpen={packageIsOpen}
         prefillData={prefillData}
+      />
+
+      <PackageItemRemovalModal
+        closeModal={packageItemModalClose}
+        dealId={dealId}
+        dealItemId={dealItemId as string}
+        isOpen={isPackageItemModalOpen}
       />
 
       <FlexCol>
@@ -302,6 +324,7 @@ const PackagePage = () => {
                     currencySymbol={storeCurrencySymbol as string}
                     dealId={dealId}
                     products={dealItems}
+                    onActionClick={openDeleteItemModal}
                     onRowClick={onRowClick}
                   />
                 </Spacing>

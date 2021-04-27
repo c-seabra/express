@@ -1,6 +1,5 @@
-﻿import Icon from '@websummit/components/src/atoms/Icon';
+import Icon from '@websummit/components/src/atoms/Icon';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import { useModalState } from '@websummit/components/src/molecules/Modal';
 import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
@@ -12,7 +11,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import PackageItemRemovalModal from '../modals/PackageItemRemovalModal';
 
 const StyledName = styled.span`
   color: #0067e9;
@@ -27,6 +25,7 @@ const IconWrapper = styled.div`
 type DealItemsListProps = {
   currencySymbol: string;
   dealId: string;
+  onActionClick?: any;
   onRowClick?: any;
   products: any;
 };
@@ -35,6 +34,7 @@ const DealItemsList = ({
   onRowClick,
   currencySymbol,
   dealId,
+  onActionClick,
 }: DealItemsListProps) => {
   const formatPricingApplied = (source: string): string =>
     switchCase({
@@ -82,30 +82,10 @@ const DealItemsList = ({
     {
       header: 'Action',
       renderCell: (saleProduct) => {
-        const {
-          isOpen: isPackageItemModalOpen,
-          closeModal: packageItemModalClose,
-          openModal: packageItemOpenModal,
-        } = useModalState();
-        const openDeleteItemModal = (event: any, dealItemId: string | null) => {
-          event.preventDefault();
-          event.stopPropagation();
-
-          packageItemOpenModal();
-        };
-
         return (
           <>
-            <PackageItemRemovalModal
-              closeModal={packageItemModalClose}
-              dealId={dealId}
-              isOpen={isPackageItemModalOpen}
-            />
-
-            <IconWrapper
-              onClick={(e) => openDeleteItemModal(e, saleProduct.id)}
-            >
-              <Icon>edit</Icon>
+            <IconWrapper onClick={(e) => onActionClick(e, saleProduct.id)}>
+              <Icon>delete</Icon>
             </IconWrapper>
           </>
         );

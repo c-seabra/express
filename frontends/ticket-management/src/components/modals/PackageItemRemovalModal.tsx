@@ -12,22 +12,15 @@ import { useRequestContext } from '../app/AppContext';
 type ModalProps = {
   closeModal: () => void;
   dealId: string;
+  dealItemId: string;
   isOpen: boolean;
-};
-
-type FormData = {
-  active: boolean;
-  description: string;
-  endDate: any;
-  id: string;
-  name: string;
-  startDate: any;
 };
 
 const PackageItemRemovalModal = ({
   isOpen,
   closeModal,
   dealId,
+  dealItemId,
 }: ModalProps) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
@@ -49,27 +42,22 @@ const PackageItemRemovalModal = ({
     refetchQueries: refetchQueriesContext,
   });
 
-  const triggerMutation = (dealItemId: string | null) => {
+  const setMutation = () => {
     console.log('event', dealItemId, dealId);
 
-    if (dealItemId) {
-      // return deletePackageItem({
-      //   variables: {
-      //     dealId,
-      //     id: dealItemId,
-      //   },
-      // });
-    }
-  };
-
-  const setMutation = (formData: any) => {
-    return triggerMutation(formData);
+    return deletePackageItem({
+      variables: {
+        dealId,
+        id: dealItemId,
+      },
+    });
   };
 
   return (
     <FormikModal
       alertHeader="Remove package constraint"
       closeModal={closeModal}
+      initialValues={{}}
       isOpen={isOpen}
       submitCallback={setMutation}
       submitText="Delete"
