@@ -5,7 +5,7 @@ import SelectField from '@websummit/components/src/molecules/SelectField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { CommerceDealItemType } from '@websummit/graphql/src/@types/operations';
-import { Form } from 'formik';
+import { Form, FormikProps } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -14,6 +14,14 @@ const InlineWrapper = styled.div`
   justify-content: space-between;
 `;
 
+type PackageItemFormProps = {
+  closeModal: any;
+  currencySymbol: string;
+  priceTypeOptions: any;
+  productOptions: any[];
+  submitText: string;
+} & FormikProps<any>;
+
 const PackageItemForm = ({
   currencySymbol,
   productOptions,
@@ -21,7 +29,7 @@ const PackageItemForm = ({
   submitText,
   closeModal,
   values,
-}: any) => {
+}: PackageItemFormProps) => {
   const isAbsoluteValue =
     values.type === CommerceDealItemType.AbsoluteDiscount ||
     values.type === CommerceDealItemType.AbsolutePrice;
