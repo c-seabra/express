@@ -1,13 +1,8 @@
-import FormikModal, {
-  FieldWrapper,
-} from '@websummit/components/src/molecules/FormikModal';
-import SelectField from '@websummit/components/src/molecules/SelectField';
+import FormikModal from '@websummit/components/src/molecules/FormikModal';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
-import TextInputField from '@websummit/components/src/molecules/TextInputField';
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceDealItemType,
   useCommerceCreateDealItemMutation,
@@ -16,17 +11,11 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
 import React from 'react';
-import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import MoneyInputField from '../../../../../packages/components/src/molecules/MoneyInputField';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
-
-const InlineWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+import PackageItemForm from '../organisms/PackageItemForm';
 
 type ModalProps = {
   closeModal: () => void;
@@ -97,7 +86,7 @@ const PackageItemModalWrapper = ({
     fetchPolicy: 'network-only',
     onError: (e) => errorSnackbar(e.message),
   });
-  const editOn = prefillData && prefillData.id && prefillData.id !== '';
+  const editOn = prefillData && prefillData.product; // product id exists
   const products = data?.commerceListProducts?.hits;
   const productOptions = getTicketTypesOptions(products as []);
   const priceTypeOptions = getPriceOptions(typesOptions);
@@ -175,7 +164,7 @@ const PackageItemModalWrapper = ({
         variables: {
           commerceDealItemUpdate: updateInput,
           dealId,
-          id: prefillData.id,
+          id: formData.id,
         },
       });
     }
@@ -193,72 +182,22 @@ const PackageItemModalWrapper = ({
         editOn ? 'Edit package constraint' : 'Add new package constraint'
       }
       closeModal={closeModal}
+      customForm={(props: any) => (
+        <PackageItemForm
+          closeModal={closeModal}
+          currencySymbol={currencySymbol}
+          priceTypeOptions={priceTypeOptions}
+          productOptions={productOptions}
+          submitText={editOn ? 'Save' : 'Create'}
+          {...props}
+        />
+      )}
       initialValues={initialValues(editOn)}
       isOpen={isOpen}
       submitCallback={setMutation}
       submitText={editOn ? 'Save' : 'Create'}
       validationSchema={validationSchema}
-    >
-      <Spacing top="8px">
-        <FieldWrapper>
-          <SelectField
-            required
-            label="Ticket type"
-            name="product"
-            options={productOptions}
-          />
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <InlineWrapper>
-            <TextInputField
-              required
-              label="Min ticket qty."
-              min={1}
-              name="min"
-              step={1}
-              type="number"
-            />
-            <TextInputField
-              required
-              label="Max ticket qty."
-              min={1}
-              name="max"
-              step={1}
-              type="number"
-            />
-            <TextInputField
-              required
-              label="Step sale"
-              min={1}
-              name="step"
-              step={1}
-              type="number"
-            />
-          </InlineWrapper>
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <MoneyInputField
-            required
-            currencySymbol={currencySymbol}
-            label="Amount"
-            name="amount"
-          />
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <Spacing bottom="8px">
-            <SelectField
-              required
-              label="Pricing applied"
-              name="type"
-              options={priceTypeOptions}
-            />
-          </Spacing>
-        </FieldWrapper>
-      </Spacing>
-    </FormikModal>
+    />
   );
 };
 

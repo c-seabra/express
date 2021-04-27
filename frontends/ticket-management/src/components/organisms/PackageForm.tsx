@@ -97,7 +97,7 @@ const PackageForm = ({ prefillData }: Props) => {
   const initialValues = () => {
     return {
       active: prefillData.active,
-      category: 'Other',
+      category: prefillData.id,
       description: prefillData.description,
       endDate: toShortDateTime(prefillData.endDate),
       name: prefillData.name,
@@ -108,6 +108,7 @@ const PackageForm = ({ prefillData }: Props) => {
   const pickMutation = (formData: PackageFormData) => {
     const input = {
       active: formData.active,
+      category: formData.id,
       description: formData.description ? formData.description.trim() : null,
       endDate: new Date(formData.endDate).toISOString(),
       name: formData.name.trim(),
