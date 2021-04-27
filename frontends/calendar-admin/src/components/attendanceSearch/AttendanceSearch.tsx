@@ -4,7 +4,6 @@ import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance } from '../../lib/types/index';
 import {
-  Column,
   DestructiveButton,
   ListItem,
   StyledSearchInput,
