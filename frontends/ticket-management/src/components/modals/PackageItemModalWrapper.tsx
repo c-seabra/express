@@ -30,6 +30,7 @@ export type PackageItemFormData = {
   id: string;
   max: number;
   min: number;
+  name: string;
   product: string;
   step: number;
   type?: CommerceDealItemType;
@@ -113,6 +114,7 @@ const PackageItemModalWrapper = ({
       id: '',
       max: 999, // TODO fix to undefined / empty value?
       min: 1,
+      name: '',
       product: '',
       step: 1,
       type: undefined,
@@ -124,6 +126,7 @@ const PackageItemModalWrapper = ({
         id: prefillData.id,
         max: prefillData.max,
         min: prefillData.min,
+        name: prefillData?.name,
         product: prefillData.product,
         step: prefillData.step,
         type: prefillData.type,
@@ -140,6 +143,7 @@ const PackageItemModalWrapper = ({
       amount: Number(formData.amount),
       max: Number(formData.max),
       min: Number(formData.min),
+      name: formData.name,
       product: formData.product,
       step: Number(formData.step),
       type: formData.type,
@@ -178,9 +182,7 @@ const PackageItemModalWrapper = ({
 
   return (
     <FormikModal
-      alertHeader={
-        editOn ? 'Edit package constraint' : 'Add new package constraint'
-      }
+      alertHeader="Add ticket type to package"
       closeModal={closeModal}
       customForm={(props: any) => (
         <PackageItemForm
@@ -188,6 +190,11 @@ const PackageItemModalWrapper = ({
           currencySymbol={currencySymbol}
           priceTypeOptions={priceTypeOptions}
           productOptions={productOptions}
+          selectedProductName={
+            productOptions?.find(
+              (option) => option.value === props?.values?.product,
+            )?.label
+          }
           submitText={editOn ? 'Save' : 'Create'}
           {...props}
         />

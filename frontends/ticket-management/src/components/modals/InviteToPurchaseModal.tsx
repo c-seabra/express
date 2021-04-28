@@ -25,6 +25,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { externalPaymentMethods } from '../../lib/constants/paymentGateways';
 import { useRequestContext } from '../app/AppContext';
 
 const Wrapper = styled.div`
@@ -147,12 +148,13 @@ type InviteToPurchaseModalProps = Pick<
   ModalProps,
   'isOpen' | 'onRequestClose'
 > & {
-  activePaymentMethods?: Pick<CommercePaymentMethod, 'id' | 'gateway'>[];
+  activePaymentMethods?: Pick<
+    CommercePaymentMethod,
+    'id' | 'gateway' | 'configuration'
+  >[];
   store?: Pick<CommerceStore, 'currencySymbol'> | null;
   ticketType?: Partial<CommerceProduct>;
 };
-
-const EXTERNAL_PAYMENT_GATEWAY_ID = 'f163017a-cc4f-4619-9e72-26c5ac9ea5e7';
 
 const InviteToPurhcaseModal = ({
   activePaymentMethods = [],
@@ -166,7 +168,15 @@ const InviteToPurhcaseModal = ({
   const { tax, taxName, taxAmountString } = getTaxDetails(ticketType?.taxType);
 
   const externalPaymentMethodId = activePaymentMethods?.find(
-    (method) => method.gateway === EXTERNAL_PAYMENT_GATEWAY_ID,
+    (method) =>
+      (method?.configuration as { type?: string })?.type ===
+      externalPaymentMethods.external,
+  )?.id;
+
+  const complementaryPaymentMethodId = activePaymentMethods?.find(
+    (method) =>
+      (method?.configuration as { type?: string })?.type ===
+      externalPaymentMethods.complementary,
   )?.id;
 
   const [createOrder] = useCommerceCreateOrderMutation({
@@ -183,7 +193,7 @@ const InviteToPurhcaseModal = ({
         enableReinitialize
         initialValues={{
           comments: '',
-          complimentary: false,
+          complementary: false,
           email: '',
           external: false,
           firstName: '',
@@ -194,7 +204,7 @@ const InviteToPurhcaseModal = ({
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
-          const isOrderPaidFor = values.external || values.complimentary;
+          const isOrderPaidFor = values.external || values.complementary;
 
           await createOrder({
             variables: {
@@ -210,22 +220,20 @@ const InviteToPurhcaseModal = ({
                     quantity: values.quantity,
                   },
                 ],
+                locked: true,
                 // If order was paid for by other means
                 // we don't send an email with request for payment
                 ...(isOrderPaidFor
                   ? {
                       metadata: { inviteToPurchase: false },
-                      paymentMethod: externalPaymentMethodId,
+                      paymentMethod: values.external
+                        ? externalPaymentMethodId
+                        : complementaryPaymentMethodId,
                       status: CommerceOrderStatus.Complete,
                     }
                   : {
                       metadata: { inviteToPurchase: true },
                     }),
-                taxes: [
-                  {
-                    taxId: tax.id,
-                  },
-                ],
               },
             },
           });
@@ -304,30 +312,34 @@ const InviteToPurhcaseModal = ({
                   />
                 </FieldRow>
                 <RadioGroup>
-                  <Checkbox
-                    checked={values.complimentary}
-                    label="Complimentary sale"
-                    onChange={() => {
-                      if (values.complimentary) {
-                        setFieldValue('complimentary', false);
-                      } else {
-                        setFieldValue('complimentary', true);
-                        setFieldValue('external', false);
-                      }
-                    }}
-                  />
-                  <Checkbox
-                    checked={values.external}
-                    label="Paid by external means"
-                    onChange={() => {
-                      if (values.external) {
-                        setFieldValue('external', false);
-                      } else {
-                        setFieldValue('external', true);
-                        setFieldValue('complimentary', false);
-                      }
-                    }}
-                  />
+                  {complementaryPaymentMethodId && (
+                    <Checkbox
+                      checked={values.complementary}
+                      label="Complementary sale"
+                      onChange={() => {
+                        if (values.complementary) {
+                          setFieldValue('complementary', false);
+                        } else {
+                          setFieldValue('complementary', true);
+                          setFieldValue('external', false);
+                        }
+                      }}
+                    />
+                  )}
+                  {externalPaymentMethodId && (
+                    <Checkbox
+                      checked={values.external}
+                      label="Paid by external means"
+                      onChange={() => {
+                        if (values.external) {
+                          setFieldValue('external', false);
+                        } else {
+                          setFieldValue('external', true);
+                          setFieldValue('complementary', false);
+                        }
+                      }}
+                    />
+                  )}
                 </RadioGroup>
                 <TextAreaField
                   fieldHeight="100px"
@@ -360,7 +372,7 @@ const InviteToPurhcaseModal = ({
               </FormWrapper>
               <Modal.DefaultFooter
                 submitText={
-                  values.external || values.complimentary
+                  values.external || values.complementary
                     ? 'Generate and email order details'
                     : 'Create order'
                 }
