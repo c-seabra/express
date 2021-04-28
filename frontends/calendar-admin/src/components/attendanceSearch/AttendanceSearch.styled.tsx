@@ -2,6 +2,10 @@ import styled from 'styled-components';
 
 import SearchInput from '../../../../../packages/components/src/molecules/SearchInput';
 
+export const SearchContainer = styled.div`
+  width: 100%;
+`;
+
 export const DestructiveButton = styled.button`
   border-radius: 50%;
   padding: 0.5em;
@@ -22,6 +26,8 @@ export const DestructiveButton = styled.button`
 `;
 
 export const ListItem = styled.li`
+  margin-right: calc(2rem + 20px);
+  width: 450px;
   font-size: 0.85rem;
   display: flex;
   padding: 0.75rem;
@@ -40,21 +46,24 @@ export const ListItem = styled.li`
   }
 `;
 
-export const ColumnStyles = styled.div`
-  display: flex;
+export const StyledSearch = styled.div`
+  width: 50%;
+  float: left;
+  padding-bottom: 1rem;
+  -webkit-box-align: center;
   align-items: center;
-  padding: 0 0.25rem;
-  word-break: break-word;
-`;
-export const Column = styled(ColumnStyles)`
-  width: 15%;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 `;
 
 export const StyledSearchInput = styled(SearchInput)`
-  // Remove these offsets
-  margin-left: 8px;
-  margin-top: 24px;
-  margin-right: calc(2rem + 1px);
-
+  margin-right: calc(2rem + 20px);
   width: 450px;
+`;
+
+export const StyledDisplay = styled.div`
+  width: 50%;
+  float: right;
+  padding-bottom: 2rem;
 `;

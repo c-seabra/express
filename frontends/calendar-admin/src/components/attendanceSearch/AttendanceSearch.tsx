@@ -6,6 +6,9 @@ import { Attendance } from '../../lib/types/index';
 import {
   DestructiveButton,
   ListItem,
+  SearchContainer,
+  StyledDisplay,
+  StyledSearch,
   StyledSearchInput,
 } from './AttendanceSearch.styled';
 
@@ -60,38 +63,41 @@ const AttendanceSearch = (): ReactElement => {
   };
 
   return (
-    <>
-      <StyledSearchInput
-        defaultValue={searchQuery}
-        placeholder="Search by Attendance name."
-        type="text"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyDown={handleSearchKey}
-      />
-      {display && !loading && !error && (
-        <>
-          {results?.map((attendance, i) => (
-            <div key={i}>
-              {!selections.includes(attendance) && (
-                <ListItem key={i} onClick={() => handleSelect(attendance)}>
-                  {attendance.name}
-                </ListItem>
-              )}
-            </div>
-          ))}
-        </>
-      )}
-
-      {selections.map((selection) => (
-        <div key={selection?.id}>
-          <ListItem key={selection?.id}>
-            {selection.name}
-            <DestructiveButton onClick={() => handleRemove(selection)} />
-          </ListItem>
-        </div>
-      ))}
-    </>
+    <SearchContainer>
+      <StyledSearch>
+        <StyledSearchInput
+          defaultValue={searchQuery}
+          placeholder="Search by Attendance name."
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={handleSearchKey}
+        />
+        {display && !loading && !error && (
+          <>
+            {results?.map((attendance, i) => (
+              <div key={i}>
+                {!selections.includes(attendance) && (
+                  <ListItem key={i} onClick={() => handleSelect(attendance)}>
+                    {attendance.name} - {attendance.bookingRef}
+                  </ListItem>
+                )}
+              </div>
+            ))}
+          </>
+        )}
+      </StyledSearch>
+      <StyledDisplay>
+        {selections.map((selection) => (
+          <div key={selection?.id}>
+            <ListItem key={selection?.id}>
+              {selection.name} - {selection.bookingRef}
+              <DestructiveButton onClick={() => handleRemove(selection)} />
+            </ListItem>
+          </div>
+        ))}
+      </StyledDisplay>
+    </SearchContainer>
   );
 };
 

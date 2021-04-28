@@ -18,6 +18,7 @@ const ATTENDANCES_LIST = gql`
         node {
           id
           name
+          bookingRef
           attendanceAppearanceSelectionsDetails {
             acceptedSelectionCount
             pendingSelectionCount
