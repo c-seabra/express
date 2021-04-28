@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import {
+  externalPaymentMethods,
   PaymentGateway,
   paymentGatewayIds,
 } from '../../lib/constants/paymentGateways';
@@ -73,6 +74,7 @@ const paymentGatewayOptions = [
     value: paymentGatewayIds.paypal,
   },
   { label: 'External', value: paymentGatewayIds.external },
+  { label: 'Complementary', value: paymentGatewayIds.complementary },
 ];
 
 const FieldsContainer = styled.div`
@@ -122,6 +124,7 @@ const ExternalConfiguration = () => (
 
 const getFieldsForPaymentGateway = (gateway?: string) => {
   switch (gateway) {
+    case paymentGatewayIds.complementary:
     case paymentGatewayIds.external:
       return <ExternalConfiguration />;
     case paymentGatewayIds.paypal:
@@ -142,6 +145,7 @@ type PaypalConfigType = {
 type ExternalConfigType = {
   acceptUnpaidRefunds?: boolean;
   refundMethod?: boolean;
+  type?: keyof typeof externalPaymentMethods;
 };
 
 const validationSchema = Yup.object().shape({
@@ -173,6 +177,7 @@ const trimConfiguration = (
         env: env?.trim() || '',
       };
     }
+    case paymentGatewayIds.complementary:
     case paymentGatewayIds.external: {
       const {
         refundMethod,
@@ -181,6 +186,10 @@ const trimConfiguration = (
       return {
         acceptUnpaidRefunds: acceptUnpaidRefunds ? 'true' : 'false',
         refundMethod: refundMethod ? 'true' : 'false',
+        type:
+          gateway === paymentGatewayIds.complementary
+            ? externalPaymentMethods.complementary
+            : externalPaymentMethods.external,
       };
     }
     default:
@@ -215,14 +224,17 @@ const getInitialConfigValues = (
           env,
         };
       }
+      case paymentGatewayIds.complementary:
       case paymentGatewayIds.external: {
         const {
           refundMethod,
           acceptUnpaidRefunds,
+          type,
         } = paymentMethod.configuration as ExternalConfigType;
         return {
           acceptUnpaidRefunds,
           refundMethod,
+          type,
         };
       }
       default:
@@ -250,17 +262,29 @@ const PaymentMethodModal = ({
   updatePaymentMethod,
   createPaymentMethod,
 }: PaymentMethodModalProps) => {
+  const configuration = getInitialConfigValues(paymentMethod);
   return (
     <Modal withDefaultFooter isOpen={isOpen} onRequestClose={onRequestClose}>
       <Formik
         enableReinitialize
         initialValues={{
-          configuration: getInitialConfigValues(paymentMethod),
-          gateway: paymentMethod?.gateway as PaymentGateway,
+          configuration,
+          gateway:
+            configuration?.type === externalPaymentMethods.complementary
+              ? paymentGatewayIds.complementary
+              : (paymentMethod?.gateway as PaymentGateway),
           name: paymentMethod?.name || '',
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
+          const gateway =
+            values.gateway === externalPaymentMethods.complementary
+              ? paymentGatewayIds.external
+              : values.gateway;
+
+          console.log(values.gateway, values.configuration);
+          console.log(trimConfiguration(values.gateway, values.configuration));
+
           if (paymentMethod?.id) {
             await updatePaymentMethod({
               variables: {
@@ -271,6 +295,7 @@ const PaymentMethodModal = ({
                     values.gateway,
                     values.configuration,
                   ),
+                  gateway,
                 },
               },
             });
@@ -283,6 +308,7 @@ const PaymentMethodModal = ({
                     values.gateway,
                     values.configuration,
                   ),
+                  gateway,
                 },
               },
             });

@@ -3239,6 +3239,7 @@ export type CommerceDealItem = {
   max: Scalars['Int'];
   metadata: Maybe<Scalars['JSON']>;
   min: Scalars['Int'];
+  name: Maybe<Scalars['String']>;
   product: Maybe<CommerceProduct>;
   step: Scalars['Int'];
   type: CommerceDealItemType;
@@ -3418,7 +3419,7 @@ export type CommerceSaleProduct = {
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
+  name: Maybe<Scalars['String']>;
   price: Maybe<Scalars['Int']>;
   product: Maybe<CommerceProduct>;
   type: CommerceSaleProductType;
@@ -5916,6 +5917,7 @@ export type CommerceDealItemCreateOrUpdate = {
   id?: Maybe<Scalars['ID']>;
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   product?: Maybe<Scalars['ID']>;
   step?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceDealItemType>;
@@ -5925,6 +5927,7 @@ export type CommerceDealItemCreate = {
   amount: Scalars['Int'];
   max: Scalars['Int'];
   min: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
   product: Scalars['ID'];
   step: Scalars['Int'];
   type: CommerceDealItemType;
@@ -6043,7 +6046,7 @@ export type CommerceSaleProductCreate = {
   amount: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   product: Scalars['ID'];
   type: CommerceSaleProductType;
 };
@@ -6177,6 +6180,7 @@ export type CommerceDealItemUpdate = {
   id?: Maybe<Scalars['ID']>;
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   product?: Maybe<Scalars['ID']>;
   step?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceDealItemType>;
