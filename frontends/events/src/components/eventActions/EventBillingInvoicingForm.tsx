@@ -8,6 +8,7 @@ import {
   useInfoSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
@@ -36,6 +37,10 @@ const FieldRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const FullWidthContainer = styled.div`
+  width: 100%;
 `;
 
 const Header = styled.div`
@@ -78,6 +83,7 @@ const eventBillingSchema = Yup.object().shape({
   companyName: Yup.string().required('Host company name is required'),
   country: Yup.string().required('Country is required'),
   email: Yup.string().email('Invalid email'),
+  invoiceComments: Yup.string(),
   phone: Yup.string().required('Phone is required'),
   postalCode: Yup.string().required('Postal is required'),
   region: Yup.string().required('Region is required'),
@@ -331,6 +337,17 @@ const EventBillingForm = ({
                 placeholder="+353 1 437 0969"
                 type="text"
               />
+            </FieldRow>
+
+            <FieldRow>
+              <FullWidthContainer>
+                <TextAreaField
+                  fieldHeight="80px"
+                  label="Comments on invoice"
+                  maxLength={200}
+                  name="invoiceComments"
+                />
+              </FullWidthContainer>
             </FieldRow>
           </Spacing>
 
