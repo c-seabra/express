@@ -282,9 +282,6 @@ const PaymentMethodModal = ({
               ? paymentGatewayIds.external
               : values.gateway;
 
-          console.log(values.gateway, values.configuration);
-          console.log(trimConfiguration(values.gateway, values.configuration));
-
           if (paymentMethod?.id) {
             await updatePaymentMethod({
               variables: {
