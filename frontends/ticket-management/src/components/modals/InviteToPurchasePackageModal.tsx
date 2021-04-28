@@ -255,11 +255,6 @@ const InviteToPurhcasePackageModal = ({
                   : {
                       metadata: { inviteToPurchase: true },
                     }),
-                taxes: [
-                  {
-                    taxId: tax?.id,
-                  },
-                ],
               },
             },
           });
