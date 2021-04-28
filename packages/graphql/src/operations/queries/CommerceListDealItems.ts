@@ -23,6 +23,7 @@ export default gql`
           id
           name
         }
+        name
         step
         type
       }

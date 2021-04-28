@@ -209,66 +209,70 @@ const SaleProductModalWrapper = ({
         editOn ? 'Edit pricing for sale cycle' : 'Add pricing for sale cycle'
       }
       closeModal={closeModal}
+      customForm={(props: any) => (
+        <Spacing top="8px">
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <SelectField
+                required
+                label="Select ticket type"
+                name="product"
+                options={ticketTypeOptions}
+              />
+            </Spacing>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <TextInputField
+              label="Display name of ticket type"
+              name="name"
+              placeholder={
+                ticketTypeOptions?.find(
+                  (type) => type.value === props?.values?.product,
+                )?.label
+              }
+            />
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <TextAreaField
+                fieldHeight="80px"
+                label="Description"
+                name="description"
+                placeholder="Type description here"
+              />
+            </Spacing>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <InlineWrapper>
+              <SelectField
+                required
+                label="Price during sale cycle"
+                name="type"
+                options={priceTypeOptions}
+              />
+
+              <MoneyInputField
+                required
+                currencySymbol={currencySymbol}
+                label="Price excluding tax"
+                name="amount"
+              />
+              <CenteredVertically>
+                <CheckboxField label="Active" name="active" />
+              </CenteredVertically>
+            </InlineWrapper>
+          </FieldWrapper>
+        </Spacing>
+      )}
       initialValues={initialValues(editOn)}
       isOpen={isOpen}
       submitCallback={setMutation}
       submitText={editOn ? 'Save' : 'Create'}
       validationSchema={validationSchema}
-    >
-      <Spacing top="8px">
-        <FieldWrapper>
-          <Spacing bottom="8px">
-            <SelectField
-              required
-              label="Select ticket type"
-              name="product"
-              options={ticketTypeOptions}
-            />
-          </Spacing>
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <TextInputField
-            required
-            label="Display name of ticket type"
-            name="name"
-            placeholder="General attendee"
-          />
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <Spacing bottom="8px">
-            <TextAreaField
-              fieldHeight="80px"
-              label="Description"
-              name="description"
-              placeholder="Type description here"
-            />
-          </Spacing>
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <InlineWrapper>
-            <SelectField
-              required
-              label="Price during sale cycle"
-              name="type"
-              options={priceTypeOptions}
-            />
-
-            <MoneyInputField
-              required
-              currencySymbol={currencySymbol}
-              label="Price excluding tax"
-              name="amount"
-            />
-            <CenteredVertically>
-              <CheckboxField label="Active" name="active" />
-            </CenteredVertically>
-          </InlineWrapper>
-        </FieldWrapper>
-      </Spacing>
-    </FormikModal>
+    />
   );
 };
 
