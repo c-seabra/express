@@ -19,11 +19,11 @@ const constructContextHeaders = (
     'x-event-id': eventSlug,
     ...commonHeaders,
   };
-  if(owner) {
+  if (owner) {
     headers = {
       ...headers,
       'x-owner': owner,
-    }
+    };
   }
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -45,8 +45,13 @@ const createApolloClient = (apiURL: string) => {
       token?: string;
     };
     const eventSlug = slug || DEFAULT_CONFERENCE_SLUG;
-    const owner = headers?.owner
-    const contextHeaders = constructContextHeaders(headers, eventSlug, token, owner);
+    const owner = headers?.owner;
+    const contextHeaders = constructContextHeaders(
+      headers,
+      eventSlug,
+      token,
+      owner,
+    );
     operation.setContext({ headers: contextHeaders });
     return forward(operation);
   });

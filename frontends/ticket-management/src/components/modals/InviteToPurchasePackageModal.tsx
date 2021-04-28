@@ -197,7 +197,7 @@ const InviteToPurhcasePackageModal = ({
     context: {
       ...context,
       headers: {
-        owner: 'user'
+        owner: 'user',
       },
     },
     onCompleted: () => success('Order created'),
