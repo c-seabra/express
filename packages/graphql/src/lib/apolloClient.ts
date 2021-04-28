@@ -13,9 +13,11 @@ const constructContextHeaders = (
   commonHeaders: Record<string, string>,
   eventSlug: string,
   token?: string,
+  owner?: string,
 ) => {
   const headers: Record<string, string> = {
     'x-event-id': eventSlug,
+    'x-owner': owner || 'user',
     ...commonHeaders,
   };
   if (token) {
@@ -38,7 +40,8 @@ const createApolloClient = (apiURL: string) => {
       token?: string;
     };
     const eventSlug = slug || DEFAULT_CONFERENCE_SLUG;
-    const contextHeaders = constructContextHeaders(headers, eventSlug, token);
+    const owner = headers?.['x-owner']
+    const contextHeaders = constructContextHeaders(headers, eventSlug, token, owner);
     operation.setContext({ headers: contextHeaders });
     return forward(operation);
   });

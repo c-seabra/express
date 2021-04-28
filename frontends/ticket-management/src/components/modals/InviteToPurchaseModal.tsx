@@ -180,12 +180,7 @@ const InviteToPurhcaseModal = ({
   )?.id;
 
   const [createOrder] = useCommerceCreateOrderMutation({
-    context: {
-      ...context,
-      headers: {
-        'x-owner': 'user',
-      },
-    },
+    context,
     onCompleted: () => success('Order created'),
     onError: (e) => error(e.message),
   });
