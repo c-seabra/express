@@ -1,12 +1,11 @@
+import SearchInput from '@websummit/components/src/molecules/SearchInput';
 import styled from 'styled-components';
-
-import SearchInput from '../../../../../packages/components/src/molecules/SearchInput';
 
 export const SearchContainer = styled.div`
   width: 100%;
 `;
 
-export const DestructiveButton = styled.button`
+export const RemoveButton = styled.button`
   border-radius: 50%;
   padding: 0.5em;
   width: 30px;

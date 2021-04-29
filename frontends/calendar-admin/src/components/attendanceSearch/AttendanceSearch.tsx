@@ -1,11 +1,11 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
-import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
+import React, { KeyboardEvent, ReactElement, useState } from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance } from '../../lib/types/index';
 import {
-  DestructiveButton,
   ListItem,
+  RemoveButton,
   SearchContainer,
   StyledDisplay,
   StyledSearch,
@@ -90,7 +90,7 @@ const AttendanceSearch = (): ReactElement => {
           <div key={selection?.id}>
             <ListItem key={selection?.id}>
               {selection.name} - {selection.bookingRef}
-              <DestructiveButton onClick={() => handleRemove(selection)} />
+              <RemoveButton onClick={() => handleRemove(selection)} />
             </ListItem>
           </div>
         ))}

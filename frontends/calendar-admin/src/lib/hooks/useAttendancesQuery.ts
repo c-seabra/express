@@ -1,5 +1,6 @@
-import usePaginatedQuery from '../../../../../packages/graphql/src/lib/hooks/usePaginatedQuery';
-import ATTENDANCES_LIST from '../../../../../packages/graphql/src/operations/queries/Attendances';
+import usePaginatedQuery from '@websummit/graphql/src/lib/hooks/usePaginatedQuery';
+import ATTENDANCES_LIST from '@websummit/graphql/src/operations/queries/Attendances';
+
 import { useAppContext } from '../../components/app/AppContext';
 import { Attendance } from '../types';
 

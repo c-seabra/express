@@ -1,8 +1,8 @@
 import Icon from '@websummit/components/src/atoms/Icon';
+import Logo from '@websummit/components/src/atoms/Logo';
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import Logo from '../../../../packages/components/src/atoms/Logo';
 import ROUTES, { Route } from '../constants/routes';
 
 const GlobalStyle = createGlobalStyle`
