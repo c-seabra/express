@@ -83,7 +83,7 @@ const eventBillingSchema = Yup.object().shape({
   companyName: Yup.string().required('Host company name is required'),
   country: Yup.string().required('Country is required'),
   email: Yup.string().email('Invalid email'),
-  invoiceComments: Yup.string(),
+  note: Yup.string(),
   phone: Yup.string().required('Phone is required'),
   postalCode: Yup.string().required('Postal is required'),
   region: Yup.string().required('Region is required'),
@@ -233,6 +233,7 @@ const EventBillingForm = ({
         country: legalEntityData?.legalEntity?.address?.country?.id || '',
         email: legalEntityData?.legalEntity?.email || '',
         name: legalEntityData?.legalEntity?.name || '',
+        note: legalEntityData?.legalEntity?.note || '',
         phone: legalEntityData?.legalEntity?.phone || '',
         postalCode: legalEntityData?.legalEntity?.address?.postalCode || '',
         region: legalEntityData?.legalEntity?.address?.region || '',
@@ -250,6 +251,7 @@ const EventBillingForm = ({
       country: eventBilling?.address?.country.id || '',
       email: eventBilling?.email || '',
       name: eventBilling?.name || '',
+      note: eventBilling?.note || '',
       phone: eventBilling?.phone || '',
       postalCode: eventBilling?.address?.postalCode || '',
       region: eventBilling?.address?.region || '',
@@ -280,6 +282,7 @@ const EventBillingForm = ({
               id: (isCompanyChanged
                 ? legalEntityData?.legalEntity?.id
                 : eventBilling?.id) as string,
+              note: values.note.trim(),
               phone: values.phone.trim(),
               regNumber: values.registrationNumber.trim(),
               taxNumber: values.taxNumber.trim(),
@@ -345,7 +348,7 @@ const EventBillingForm = ({
                   fieldHeight="80px"
                   label="Comments on invoice"
                   maxLength={200}
-                  name="invoiceComments"
+                  name="note"
                 />
               </FullWidthContainer>
             </FieldRow>
