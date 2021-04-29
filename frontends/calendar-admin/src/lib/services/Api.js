@@ -147,7 +147,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
         }),
         method: 'GET',
         body: {
-          attendances: attendancesArray
+          attendances: attendancesArray,
         },
       };
       const requestUrl = `${String(
@@ -155,7 +155,6 @@ export function withConfig({ token: _token, env: _env } = {}) {
       )}/conferences/${String(conferenceSlug)}/admin_calendar_events`;
       return handleFetch(new Request(requestUrl, requestData));
     },
-
 
     getAttendance: async (
       attendanceId,
