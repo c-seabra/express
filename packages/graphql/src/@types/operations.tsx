@@ -279,6 +279,7 @@ export type QueryWebPageByHostPathArgs = {
 export type QueryWebPageConfigByPathHostArgs = {
   path: Scalars['String'];
   host: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type QueryAccessPermissionsArgs = {
@@ -3239,6 +3240,7 @@ export type CommerceDealItem = {
   max: Scalars['Int'];
   metadata: Maybe<Scalars['JSON']>;
   min: Scalars['Int'];
+  name: Maybe<Scalars['String']>;
   product: Maybe<CommerceProduct>;
   step: Scalars['Int'];
   type: CommerceDealItemType;
@@ -3418,7 +3420,7 @@ export type CommerceSaleProduct = {
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
+  name: Maybe<Scalars['String']>;
   price: Maybe<Scalars['Int']>;
   product: Maybe<CommerceProduct>;
   type: CommerceSaleProductType;
@@ -3479,6 +3481,7 @@ export type CommerceStoreBilling = {
   lastUpdatedBy: Maybe<CommerceUser>;
   line1: Scalars['String'];
   line2: Maybe<Scalars['String']>;
+  note: Maybe<Scalars['String']>;
   phone: Scalars['String'];
   postalCode: Scalars['String'];
   state: Maybe<Scalars['String']>;
@@ -3753,6 +3756,7 @@ export type LegalEntity = {
   email: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
+  note: Maybe<Scalars['String']>;
   phone: Maybe<Scalars['String']>;
   regNumber: Maybe<Scalars['String']>;
   taxNumber: Maybe<Scalars['String']>;
@@ -5916,6 +5920,7 @@ export type CommerceDealItemCreateOrUpdate = {
   id?: Maybe<Scalars['ID']>;
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   product?: Maybe<Scalars['ID']>;
   step?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceDealItemType>;
@@ -5925,6 +5930,7 @@ export type CommerceDealItemCreate = {
   amount: Scalars['Int'];
   max: Scalars['Int'];
   min: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
   product: Scalars['ID'];
   step: Scalars['Int'];
   type: CommerceDealItemType;
@@ -6043,7 +6049,7 @@ export type CommerceSaleProductCreate = {
   amount: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   product: Scalars['ID'];
   type: CommerceSaleProductType;
 };
@@ -6098,6 +6104,7 @@ export type CommerceStoreBillingCreateOrUpdate = {
   id?: Maybe<Scalars['ID']>;
   line1?: Maybe<Scalars['String']>;
   line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
@@ -6177,6 +6184,7 @@ export type CommerceDealItemUpdate = {
   id?: Maybe<Scalars['ID']>;
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   product?: Maybe<Scalars['ID']>;
   step?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceDealItemType>;
@@ -6358,6 +6366,7 @@ export type LegalEntityCreateInput = {
   email?: Maybe<Scalars['String']>;
   /** Must be unique */
   name: Scalars['String'];
+  note?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   regNumber?: Maybe<Scalars['String']>;
   taxNumber?: Maybe<Scalars['String']>;
@@ -6390,6 +6399,7 @@ export type LegalEntityUpdateInput = {
   email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   regNumber?: Maybe<Scalars['String']>;
   taxNumber?: Maybe<Scalars['String']>;
@@ -7198,6 +7208,7 @@ export type CommerceStoreBillingCreate = {
   email: Scalars['String'];
   line1: Scalars['String'];
   line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   phone: Scalars['String'];
   postalCode: Scalars['String'];
   state?: Maybe<Scalars['String']>;
@@ -7213,6 +7224,7 @@ export type CommerceStoreBillingUpdate = {
   id?: Maybe<Scalars['ID']>;
   line1?: Maybe<Scalars['String']>;
   line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
@@ -7666,7 +7678,13 @@ export type LegalEntityCreateMutation = { __typename?: 'Mutation' } & {
       legalEntity: Maybe<
         { __typename?: 'LegalEntity' } & Pick<
           LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          | 'id'
+          | 'name'
+          | 'regNumber'
+          | 'website'
+          | 'taxNumber'
+          | 'email'
+          | 'note'
         > & {
             address: Maybe<
               { __typename?: 'Address' } & Pick<
@@ -7700,7 +7718,13 @@ export type LegalEntityUpdateMutation = { __typename?: 'Mutation' } & {
       legalEntity: Maybe<
         { __typename?: 'LegalEntity' } & Pick<
           LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          | 'id'
+          | 'name'
+          | 'regNumber'
+          | 'website'
+          | 'taxNumber'
+          | 'email'
+          | 'note'
         > & {
             address: Maybe<
               { __typename?: 'Address' } & Pick<
@@ -8694,6 +8718,7 @@ export type EventQuery = { __typename?: 'Query' } & {
         legalEntity: Maybe<
           { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
+            | 'note'
             | 'email'
             | 'id'
             | 'name'
@@ -8826,7 +8851,14 @@ export type LegalEntityQueryVariables = Exact<{
 export type LegalEntityQuery = { __typename?: 'Query' } & {
   legalEntity: { __typename?: 'LegalEntity' } & Pick<
     LegalEntity,
-    'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'
+    | 'email'
+    | 'id'
+    | 'name'
+    | 'phone'
+    | 'regNumber'
+    | 'taxNumber'
+    | 'website'
+    | 'note'
   > & {
       address: Maybe<
         { __typename?: 'Address' } & Pick<
@@ -8852,7 +8884,13 @@ export type LegalEntitiesQuery = { __typename?: 'Query' } & {
       { __typename?: 'LegalEntityEdge' } & Pick<LegalEntityEdge, 'cursor'> & {
           node: { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
-            'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+            | 'id'
+            | 'name'
+            | 'regNumber'
+            | 'website'
+            | 'taxNumber'
+            | 'email'
+            | 'note'
           > & {
               address: Maybe<
                 { __typename?: 'Address' } & Pick<
@@ -15231,6 +15269,7 @@ export const LegalEntityCreateDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'taxNumber' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -15406,6 +15445,7 @@ export const LegalEntityUpdateDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'taxNumber' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -19819,6 +19859,7 @@ export const EventDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -20489,6 +20530,7 @@ export const LegalEntityDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'regNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'note' } },
               ],
             },
           },
@@ -20609,6 +20651,10 @@ export const LegalEntitiesDocument: DocumentNode = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'note' },
                             },
                             {
                               kind: 'Field',
