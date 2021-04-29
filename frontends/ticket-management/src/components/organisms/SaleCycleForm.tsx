@@ -9,8 +9,14 @@ import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDateTime } from '@websummit/components/src/utils/time';
-import { useCommerceUpdateSaleMutation } from '@websummit/graphql/src/@types/operations';
+import {
+  toIsoDateTime,
+  toShortDateTime,
+} from '@websummit/components/src/utils/time';
+import {
+  useCommerceUpdateSaleMutation,
+  useEventTimeZoneQuery,
+} from '@websummit/graphql/src/@types/operations';
 import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';
@@ -63,6 +69,17 @@ const SaleCycleForm = ({ prefillData }: Props) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
+
+  const { data: evenTimeZoneData } = useEventTimeZoneQuery({
+    context,
+    variables: {
+      slug: context?.slug,
+    },
+  });
+
+  const eventTimeZone = evenTimeZoneData?.event?.timeZone;
+  const { ianaName } = eventTimeZone || {};
+
   const [updateCycle] = useCommerceUpdateSaleMutation({
     context,
     onCompleted: () => {
@@ -76,9 +93,9 @@ const SaleCycleForm = ({ prefillData }: Props) => {
     return {
       active: prefillData.active,
       description: prefillData.description,
-      endDate: toShortDateTime(prefillData.endDate),
+      endDate: toShortDateTime(prefillData.endDate, ianaName),
       name: prefillData.name,
-      startDate: toShortDateTime(prefillData.startDate),
+      startDate: toShortDateTime(prefillData.startDate, ianaName),
     };
   };
 
@@ -86,9 +103,9 @@ const SaleCycleForm = ({ prefillData }: Props) => {
     const input = {
       active: formData.active,
       description: formData.description ? formData.description.trim() : null,
-      endDate: new Date(formData.endDate).toISOString(),
+      endDate: toIsoDateTime(formData.endDate, ianaName),
       name: formData.name.trim(),
-      startDate: new Date(formData.startDate).toISOString(),
+      startDate: toIsoDateTime(formData.startDate, ianaName),
     };
 
     return updateCycle({

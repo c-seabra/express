@@ -10,10 +10,14 @@ import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDateTime } from '@websummit/components/src/utils/time';
+import {
+  toIsoDateTime,
+  toShortDateTime,
+} from '@websummit/components/src/utils/time';
 import {
   useCommerceListCategoriesQuery,
   useCommerceUpdateDealMutation,
+  useEventTimeZoneQuery,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
@@ -79,6 +83,17 @@ const PackageForm = ({ prefillData }: Props) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
+
+  const { data: evenTimeZoneData } = useEventTimeZoneQuery({
+    context,
+    variables: {
+      slug: context?.slug,
+    },
+  });
+
+  const eventTimeZone = evenTimeZoneData?.event?.timeZone;
+  const { ianaName } = eventTimeZone || {};
+
   const [updateDeal] = useCommerceUpdateDealMutation({
     context,
     onCompleted: () => {
@@ -99,9 +114,9 @@ const PackageForm = ({ prefillData }: Props) => {
       active: prefillData.active,
       category: prefillData.id,
       description: prefillData.description,
-      endDate: toShortDateTime(prefillData.endDate),
+      endDate: toShortDateTime(prefillData.endDate, ianaName),
       name: prefillData.name,
-      startDate: toShortDateTime(prefillData.startDate),
+      startDate: toShortDateTime(prefillData.startDate, ianaName),
     };
   };
 
@@ -110,9 +125,9 @@ const PackageForm = ({ prefillData }: Props) => {
       active: formData.active,
       category: formData.id,
       description: formData.description ? formData.description.trim() : null,
-      endDate: new Date(formData.endDate).toISOString(),
+      endDate: toIsoDateTime(formData.endDate, ianaName),
       name: formData.name.trim(),
-      startDate: new Date(formData.startDate).toISOString(),
+      startDate: toIsoDateTime(formData.startDate, ianaName),
     };
 
     return updateDeal({

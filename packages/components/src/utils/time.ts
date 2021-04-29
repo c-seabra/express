@@ -21,10 +21,13 @@ export const formatDateTime = (dateTime: string) => {
   return formattedDateTime.toString();
 };
 
-export const isIsoDate = (value: string): boolean => {
-  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(value)) return false;
-  const d = new Date(value);
-  return d.toISOString() === value;
+export const toIsoDateTime = (value: string, timezoneIanaName?: string) => {
+  const date = DateTime.fromISO(
+    value,
+    timezoneIanaName ? { zone: timezoneIanaName } : undefined,
+  );
+
+  return date.toISO();
 };
 
 export const formatFullDate = (isoDate?: string): string => {
@@ -36,21 +39,43 @@ export const formatFullDate = (isoDate?: string): string => {
   return date.toLocaleString(DateTime.DATE_FULL);
 };
 
-export const formatFullDateTime = (isoDate?: string): string => {
+export const formatFullDateTime = (
+  isoDate?: string,
+  timezoneIanaName?: string,
+): string => {
   if (!isoDate) {
     return 'N/A';
   }
 
-  const date = DateTime.fromISO(isoDate);
+  const date = DateTime.fromISO(
+    isoDate,
+    timezoneIanaName ? { zone: timezoneIanaName } : undefined,
+  );
   return date.toLocaleString(DateTime.DATETIME_FULL);
 };
 
-export const toShortDate = (dateTime: string): string => {
-  return new Date(dateTime).toISOString().slice(0, 10);
+export const toShortDate = (
+  dateTime: string,
+  timezoneIanaName?: string,
+): string => {
+  const date = DateTime.fromISO(
+    dateTime,
+    timezoneIanaName ? { zone: timezoneIanaName } : undefined,
+  );
+
+  return date.toString().slice(0, 12);
 };
 
-export const toShortDateTime = (dateTime: string): string => {
-  return new Date(dateTime).toISOString().slice(0, 16);
+export const toShortDateTime = (
+  dateTime: string,
+  timezoneIanaName?: string,
+): string => {
+  const date = DateTime.fromISO(
+    dateTime,
+    timezoneIanaName ? { zone: timezoneIanaName } : undefined,
+  );
+
+  return date.toString().slice(0, 16);
 };
 
 export const timeTo = (startIsoDate: string): Duration => {

@@ -4,9 +4,14 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDateTime } from '@websummit/components/src/utils/time';
-import { CommerceSale } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceSale,
+  useEventTimeZoneQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
+
+import { useRequestContext } from '../app/AppContext';
 
 const StyledName = styled.span`
   color: #0067e9;
@@ -17,6 +22,17 @@ type SalesCyclesListProps = {
   onRowClick?: any;
 };
 const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
+  const context = useRequestContext();
+  const { data: evenTimeZoneData } = useEventTimeZoneQuery({
+    context,
+    variables: {
+      slug: context?.slug,
+    },
+  });
+
+  const eventTimeZone = evenTimeZoneData?.event?.timeZone;
+  const { ianaName } = eventTimeZone || {};
+
   const tableShape: ColumnDescriptor<CommerceSale>[] = [
     {
       header: 'Name',
@@ -25,11 +41,13 @@ const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
     },
     {
       header: 'Start date',
-      renderCell: (cycle) => formatFullDateTime(cycle.startDate) || 'N/A',
+      renderCell: (cycle) =>
+        formatFullDateTime(cycle.startDate, ianaName) || 'N/A',
     },
     {
       header: 'End date',
-      renderCell: (cycle) => formatFullDateTime(cycle.endDate) || 'N/A',
+      renderCell: (cycle) =>
+        formatFullDateTime(cycle.endDate, ianaName) || 'N/A',
     },
     {
       header: 'Description',

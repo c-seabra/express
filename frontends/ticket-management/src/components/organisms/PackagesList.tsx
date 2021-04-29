@@ -4,9 +4,14 @@ import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDateTime } from '@websummit/components/src/utils/time';
-import { CommerceDeal } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceDeal,
+  useEventTimeZoneQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
+
+import { useRequestContext } from '../app/AppContext';
 
 const StyledName = styled.span`
   color: #0067e9;
@@ -17,6 +22,17 @@ type PackagesListProps = {
   packages: CommerceDeal[];
 };
 const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
+  const context = useRequestContext();
+  const { data: evenTimeZoneData } = useEventTimeZoneQuery({
+    context,
+    variables: {
+      slug: context?.slug,
+    },
+  });
+
+  const eventTimeZone = evenTimeZoneData?.event?.timeZone;
+  const { ianaName } = eventTimeZone || {};
+
   const tableShape: ColumnDescriptors<CommerceDeal> = [
     {
       header: 'Product name',
@@ -25,11 +41,12 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
     },
     {
       header: 'Sale start date',
-      renderCell: (deal) => formatFullDateTime(deal.startDate) || 'N/A',
+      renderCell: (deal) =>
+        formatFullDateTime(deal.startDate, ianaName) || 'N/A',
     },
     {
       header: 'Sale end date',
-      renderCell: (deal) => formatFullDateTime(deal.endDate) || 'N/A',
+      renderCell: (deal) => formatFullDateTime(deal.endDate, ianaName) || 'N/A',
     },
     {
       header: 'Description',
