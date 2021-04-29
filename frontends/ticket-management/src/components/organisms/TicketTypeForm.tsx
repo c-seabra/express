@@ -100,7 +100,10 @@ const validationSchema = Yup.object().shape({
   bookingRefSuffix: Yup.string()
     .min(1)
     .max(5)
-    .matches(/^[A-Z0-9]{1,5}$/, 'Only upper case letters and digits up to 5 chars'),
+    .matches(
+      /^[A-Z0-9]{1,5}$/,
+      'Only upper case letters and digits up to 5 chars',
+    ),
   name: Yup.string(),
   price: Yup.number().when('ticketPriceVariant', {
     is: (ticketPrice: string) =>
