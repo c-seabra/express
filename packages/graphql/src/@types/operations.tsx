@@ -8388,6 +8388,7 @@ export type CommerceListDealItemsQuery = { __typename?: 'Query' } & {
             | 'max'
             | 'metadata'
             | 'min'
+            | 'name'
             | 'step'
             | 'type'
           > & {
@@ -18643,6 +18644,7 @@ export const CommerceListDealItemsDocument: DocumentNode = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'step' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     ],

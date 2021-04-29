@@ -19,6 +19,7 @@ type PackageItemFormProps = {
   currencySymbol: string;
   priceTypeOptions: any;
   productOptions: any[];
+  selectedProductName?: string;
   submitText: string;
 } & FormikProps<any>;
 
@@ -29,6 +30,7 @@ const PackageItemForm = ({
   submitText,
   closeModal,
   values,
+  selectedProductName,
 }: PackageItemFormProps) => {
   const isAbsoluteValue =
     values.type === CommerceDealItemType.AbsoluteDiscount ||
@@ -45,6 +47,13 @@ const PackageItemForm = ({
             label="Ticket type"
             name="product"
             options={productOptions}
+          />
+        </FieldWrapper>
+        <FieldWrapper>
+          <TextInputField
+            label="Display name of ticket type"
+            name="name"
+            placeholder={selectedProductName}
           />
         </FieldWrapper>
         <FieldWrapper>
