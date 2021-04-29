@@ -123,6 +123,40 @@ export function withConfig({ token: _token, env: _env } = {}) {
       return handleFetch(new Request(requestUrl, requestData));
     },
 
+    getAdminAttendance: async (
+      attendancesArray,
+      conferenceSlug,
+      token = String(_token),
+      env = _env,
+    ) => {
+      if (env === 'mock') {
+        const att = stubAttendancesResponse.data.find(
+          (mockAtt) => mockAtt.id === attendanceId,
+        );
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: att });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+      const requestData = {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+        method: 'GET',
+        body: {
+          attendances: attendancesArray
+        },
+      };
+      const requestUrl = `${String(
+        CONFIG[env].AVENGER_URL,
+      )}/conferences/${String(conferenceSlug)}/admin_calendar_events`;
+      return handleFetch(new Request(requestUrl, requestData));
+    },
+
+
     getAttendance: async (
       attendanceId,
       conferenceSlug,

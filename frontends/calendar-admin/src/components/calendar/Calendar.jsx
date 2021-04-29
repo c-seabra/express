@@ -105,7 +105,7 @@ const Calendar = ({ token, env }) => {
 
   const getRSVPSDetails = async (invitations) => {
     invitations.forEach(async (invitation) => {
-      const result = await Api.getAttendance(
+      const result = await Api.getAdminAttendance(
         invitation.invitee.id,
         confSlug,
         currentToken,
