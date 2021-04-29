@@ -35,20 +35,18 @@ const AttendanceSearch = (): ReactElement => {
     searchQuery: searchState.searchQuery,
   });
 
-  useEffect(() => {
-    setDisplay(false);
-  }, []);
-
   const handleSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (searchQuery === '') setDisplay(false);
     if (e.key === 'Enter') {
-      setDisplay(true);
-      const element = e.currentTarget as HTMLInputElement;
-      setSearchState((prevState) => ({
-        ...prevState,
-        searchQuery: element.value,
-      }));
-      setSearchQuery(element.value);
+      if (searchQuery === '') setDisplay(false);
+      else {
+        setDisplay(true);
+        const element = e.currentTarget as HTMLInputElement;
+        setSearchState((prevState) => ({
+          ...prevState,
+          searchQuery: element.value,
+        }));
+        setSearchQuery(element.value);
+      }
     }
   };
 
