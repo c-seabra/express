@@ -4,14 +4,10 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDateTime } from '@websummit/components/src/utils/time';
-import {
-  CommerceSale,
-  useEventTimeZoneQuery,
-} from '@websummit/graphql/src/@types/operations';
+import { CommerceSale } from '@websummit/graphql/src/@types/operations';
+import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import React from 'react';
 import styled from 'styled-components';
-
-import { useRequestContext } from '../app/AppContext';
 
 const StyledName = styled.span`
   color: #0067e9;
@@ -22,15 +18,7 @@ type SalesCyclesListProps = {
   onRowClick?: any;
 };
 const SalesCyclesList = ({ cycles, onRowClick }: SalesCyclesListProps) => {
-  const context = useRequestContext();
-  const { data: evenTimeZoneData } = useEventTimeZoneQuery({
-    context,
-    variables: {
-      slug: context?.slug,
-    },
-  });
-
-  const eventTimeZone = evenTimeZoneData?.event?.timeZone;
+  const eventTimeZone = useGetEventTimeZone();
   const { ianaName } = eventTimeZone || {};
 
   const tableShape: ColumnDescriptor<CommerceSale>[] = [

@@ -13,10 +13,8 @@ import {
   toIsoDateTime,
   toShortDateTime,
 } from '@websummit/components/src/utils/time';
-import {
-  useCommerceUpdateSaleMutation,
-  useEventTimeZoneQuery,
-} from '@websummit/graphql/src/@types/operations';
+import { useCommerceUpdateSaleMutation } from '@websummit/graphql/src/@types/operations';
+import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';
@@ -70,14 +68,7 @@ const SaleCycleForm = ({ prefillData }: Props) => {
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
 
-  const { data: evenTimeZoneData } = useEventTimeZoneQuery({
-    context,
-    variables: {
-      slug: context?.slug,
-    },
-  });
-
-  const eventTimeZone = evenTimeZoneData?.event?.timeZone;
+  const eventTimeZone = useGetEventTimeZone();
   const { ianaName } = eventTimeZone || {};
 
   const [updateCycle] = useCommerceUpdateSaleMutation({

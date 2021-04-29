@@ -17,8 +17,8 @@ import {
 import {
   useCommerceListCategoriesQuery,
   useCommerceUpdateDealMutation,
-  useEventTimeZoneQuery,
 } from '@websummit/graphql/src/@types/operations';
+import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
@@ -84,14 +84,7 @@ const PackageForm = ({ prefillData }: Props) => {
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
 
-  const { data: evenTimeZoneData } = useEventTimeZoneQuery({
-    context,
-    variables: {
-      slug: context?.slug,
-    },
-  });
-
-  const eventTimeZone = evenTimeZoneData?.event?.timeZone;
+  const eventTimeZone = useGetEventTimeZone();
   const { ianaName } = eventTimeZone || {};
 
   const [updateDeal] = useCommerceUpdateDealMutation({

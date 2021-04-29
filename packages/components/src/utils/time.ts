@@ -21,13 +21,15 @@ export const formatDateTime = (dateTime: string) => {
   return formattedDateTime.toString();
 };
 
-export const toIsoDateTime = (value: string, timezoneIanaName?: string) => {
-  const date = DateTime.fromISO(
+const fromIso = (value: string, timezoneIanaName?: string) => {
+  return DateTime.fromISO(
     value,
     timezoneIanaName ? { zone: timezoneIanaName } : undefined,
   );
+};
 
-  return date.toISO();
+export const toIsoDateTime = (value: string, timezoneIanaName?: string) => {
+  return fromIso(value, timezoneIanaName).toISO();
 };
 
 export const formatFullDate = (isoDate?: string): string => {
@@ -47,35 +49,23 @@ export const formatFullDateTime = (
     return 'N/A';
   }
 
-  const date = DateTime.fromISO(
-    isoDate,
-    timezoneIanaName ? { zone: timezoneIanaName } : undefined,
+  return fromIso(isoDate, timezoneIanaName).toLocaleString(
+    DateTime.DATETIME_FULL,
   );
-  return date.toLocaleString(DateTime.DATETIME_FULL);
 };
 
 export const toShortDate = (
   dateTime: string,
   timezoneIanaName?: string,
 ): string => {
-  const date = DateTime.fromISO(
-    dateTime,
-    timezoneIanaName ? { zone: timezoneIanaName } : undefined,
-  );
-
-  return date.toString().slice(0, 12);
+  return fromIso(dateTime, timezoneIanaName).toString().slice(0, 12);
 };
 
 export const toShortDateTime = (
   dateTime: string,
   timezoneIanaName?: string,
 ): string => {
-  const date = DateTime.fromISO(
-    dateTime,
-    timezoneIanaName ? { zone: timezoneIanaName } : undefined,
-  );
-
-  return date.toString().slice(0, 16);
+  return fromIso(dateTime, timezoneIanaName).toString().slice(0, 16);
 };
 
 export const timeTo = (startIsoDate: string): Duration => {
