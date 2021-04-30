@@ -30,6 +30,7 @@ const FormikForm = ({
 }: ModalProps) => {
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       validateOnBlur={validateOnBlur}
       validateOnChange={validateOnChange}

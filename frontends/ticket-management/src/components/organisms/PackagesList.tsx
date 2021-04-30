@@ -5,6 +5,7 @@ import Table, {
 } from '@websummit/components/src/molecules/Table';
 import { formatFullDateTime } from '@websummit/components/src/utils/time';
 import { CommerceDeal } from '@websummit/graphql/src/@types/operations';
+import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -17,6 +18,9 @@ type PackagesListProps = {
   packages: CommerceDeal[];
 };
 const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
+  const eventTimeZone = useGetEventTimeZone();
+  const { ianaName } = eventTimeZone || {};
+
   const tableShape: ColumnDescriptors<CommerceDeal> = [
     {
       header: 'Product name',
@@ -25,11 +29,12 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
     },
     {
       header: 'Sale start date',
-      renderCell: (deal) => formatFullDateTime(deal.startDate) || 'N/A',
+      renderCell: (deal) =>
+        formatFullDateTime(deal.startDate, ianaName) || 'N/A',
     },
     {
       header: 'Sale end date',
-      renderCell: (deal) => formatFullDateTime(deal.endDate) || 'N/A',
+      renderCell: (deal) => formatFullDateTime(deal.endDate, ianaName) || 'N/A',
     },
     {
       header: 'Description',
