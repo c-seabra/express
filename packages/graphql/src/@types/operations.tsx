@@ -8827,6 +8827,23 @@ export type EventListQueryQuery = { __typename?: 'Query' } & {
   };
 };
 
+export type EventTimeZoneQueryVariables = Exact<{
+  slug?: Maybe<Scalars['String']>;
+}>;
+
+export type EventTimeZoneQuery = { __typename?: 'Query' } & {
+  event: Maybe<
+    { __typename?: 'Event' } & {
+      timeZone: Maybe<
+        { __typename?: 'TimeZone' } & Pick<
+          TimeZone,
+          'displayName' | 'ianaName' | 'utcOffset'
+        >
+      >;
+    }
+  >;
+};
+
 export type TaEventDataQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -20345,6 +20362,117 @@ export type EventListQueryLazyQueryHookResult = ReturnType<
 export type EventListQueryQueryResult = Apollo.QueryResult<
   EventListQueryQuery,
   EventListQueryQueryVariables
+>;
+export const EventTimeZoneDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'EventTimeZone' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'slug' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'slug' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'event' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'timeZone' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'displayName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ianaName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utcOffset' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useEventTimeZoneQuery__
+ *
+ * To run a query within a React component, call `useEventTimeZoneQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventTimeZoneQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventTimeZoneQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useEventTimeZoneQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    EventTimeZoneQuery,
+    EventTimeZoneQueryVariables
+  >,
+) {
+  return Apollo.useQuery<EventTimeZoneQuery, EventTimeZoneQueryVariables>(
+    EventTimeZoneDocument,
+    baseOptions,
+  );
+}
+export function useEventTimeZoneLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EventTimeZoneQuery,
+    EventTimeZoneQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<EventTimeZoneQuery, EventTimeZoneQueryVariables>(
+    EventTimeZoneDocument,
+    baseOptions,
+  );
+}
+export type EventTimeZoneQueryHookResult = ReturnType<
+  typeof useEventTimeZoneQuery
+>;
+export type EventTimeZoneLazyQueryHookResult = ReturnType<
+  typeof useEventTimeZoneLazyQuery
+>;
+export type EventTimeZoneQueryResult = Apollo.QueryResult<
+  EventTimeZoneQuery,
+  EventTimeZoneQueryVariables
 >;
 export const TaEventDataDocument: DocumentNode = {
   definitions: [
