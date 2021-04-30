@@ -1,5 +1,6 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
+import DateTimeInputField from '@websummit/components/src/molecules/DateTimeInputField';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
 import {
   useErrorSnackbar,
@@ -9,8 +10,12 @@ import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDateTime } from '@websummit/components/src/utils/time';
+import {
+  toIsoDateTime,
+  toShortDateTime,
+} from '@websummit/components/src/utils/time';
 import { useCommerceUpdateSaleMutation } from '@websummit/graphql/src/@types/operations';
+import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';
@@ -18,10 +23,6 @@ import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
-
-const StyledInputField = styled(TextInputField)`
-  width: 48%;
-`;
 
 const FlexEnd = styled.div`
   display: flex;
@@ -36,6 +37,10 @@ const InlineWrapper = styled.div`
 const Fieldset = styled.fieldset`
   border: none;
   padding: 0;
+`;
+
+const StyledDateTimeInputField = styled(DateTimeInputField)`
+  width: 48%;
 `;
 
 type Props = {
@@ -63,6 +68,10 @@ const SaleCycleForm = ({ prefillData }: Props) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
+
+  const eventTimeZone = useGetEventTimeZone();
+  const { ianaName } = eventTimeZone || {};
+
   const [updateCycle] = useCommerceUpdateSaleMutation({
     context,
     onCompleted: () => {
@@ -76,9 +85,9 @@ const SaleCycleForm = ({ prefillData }: Props) => {
     return {
       active: prefillData.active,
       description: prefillData.description,
-      endDate: toShortDateTime(prefillData.endDate),
+      endDate: toShortDateTime(prefillData.endDate, ianaName),
       name: prefillData.name,
-      startDate: toShortDateTime(prefillData.startDate),
+      startDate: toShortDateTime(prefillData.startDate, ianaName),
     };
   };
 
@@ -86,9 +95,9 @@ const SaleCycleForm = ({ prefillData }: Props) => {
     const input = {
       active: formData.active,
       description: formData.description ? formData.description.trim() : null,
-      endDate: new Date(formData.endDate).toISOString(),
+      endDate: toIsoDateTime(formData.endDate, ianaName),
       name: formData.name.trim(),
-      startDate: new Date(formData.startDate).toISOString(),
+      startDate: toIsoDateTime(formData.startDate, ianaName),
     };
 
     return updateCycle({
@@ -116,18 +125,18 @@ const SaleCycleForm = ({ prefillData }: Props) => {
 
           <FieldWrapper>
             <InlineWrapper>
-              <StyledInputField
+              <StyledDateTimeInputField
                 required
+                ianaTimeZoneName={ianaName}
                 label="Start date"
                 name="startDate"
-                type="datetime-local"
               />
 
-              <StyledInputField
+              <StyledDateTimeInputField
                 required
+                ianaTimeZoneName={ianaName}
                 label="End date"
                 name="endDate"
-                type="datetime-local"
               />
             </InlineWrapper>
           </FieldWrapper>

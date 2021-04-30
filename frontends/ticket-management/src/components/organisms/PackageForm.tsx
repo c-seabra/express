@@ -1,5 +1,6 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
+import DateTimeInputField from '@websummit/components/src/molecules/DateTimeInputField';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
@@ -10,11 +11,15 @@ import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDateTime } from '@websummit/components/src/utils/time';
+import {
+  toIsoDateTime,
+  toShortDateTime,
+} from '@websummit/components/src/utils/time';
 import {
   useCommerceListCategoriesQuery,
   useCommerceUpdateDealMutation,
 } from '@websummit/graphql/src/@types/operations';
+import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
@@ -22,10 +27,6 @@ import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
-
-const StyledInputField = styled(TextInputField)`
-  width: 48%;
-`;
 
 const FlexEnd = styled.div`
   display: flex;
@@ -40,6 +41,10 @@ const InlineWrapper = styled.div`
 const Fieldset = styled.fieldset`
   border: none;
   padding: 0;
+`;
+
+const StyledDateTimeInputField = styled(DateTimeInputField)`
+  width: 48%;
 `;
 
 type Props = {
@@ -79,6 +84,10 @@ const PackageForm = ({ prefillData }: Props) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
+
+  const eventTimeZone = useGetEventTimeZone();
+  const { ianaName } = eventTimeZone || {};
+
   const [updateDeal] = useCommerceUpdateDealMutation({
     context,
     onCompleted: () => {
@@ -99,9 +108,9 @@ const PackageForm = ({ prefillData }: Props) => {
       active: prefillData.active,
       category: prefillData.id,
       description: prefillData.description,
-      endDate: toShortDateTime(prefillData.endDate),
+      endDate: toShortDateTime(prefillData.endDate, ianaName),
       name: prefillData.name,
-      startDate: toShortDateTime(prefillData.startDate),
+      startDate: toShortDateTime(prefillData.startDate, ianaName),
     };
   };
 
@@ -110,9 +119,9 @@ const PackageForm = ({ prefillData }: Props) => {
       active: formData.active,
       category: formData.id,
       description: formData.description ? formData.description.trim() : null,
-      endDate: new Date(formData.endDate).toISOString(),
+      endDate: toIsoDateTime(formData.endDate, ianaName),
       name: formData.name.trim(),
-      startDate: new Date(formData.startDate).toISOString(),
+      startDate: toIsoDateTime(formData.startDate, ianaName),
     };
 
     return updateDeal({
@@ -151,18 +160,18 @@ const PackageForm = ({ prefillData }: Props) => {
 
           <FieldWrapper>
             <InlineWrapper>
-              <StyledInputField
+              <StyledDateTimeInputField
                 required
+                ianaTimeZoneName={ianaName}
                 label="Go live at"
                 name="startDate"
-                type="datetime-local"
               />
 
-              <StyledInputField
+              <StyledDateTimeInputField
                 required
+                ianaTimeZoneName={ianaName}
                 label="Sale end date"
                 name="endDate"
-                type="datetime-local"
               />
             </InlineWrapper>
           </FieldWrapper>
