@@ -117,14 +117,12 @@ const PackageForm = ({ prefillData }: Props) => {
   const pickMutation = (formData: PackageFormData) => {
     const input = {
       active: formData.active,
-      category: formData.category,
+      category: formData.id,
       description: formData.description ? formData.description.trim() : null,
       endDate: toIsoDateTime(formData.endDate, ianaName),
       name: formData.name.trim(),
       startDate: toIsoDateTime(formData.startDate, ianaName),
     };
-
-    console.log(input);
 
     return updateDeal({
       variables: { commerceDealUpdate: input, id: prefillData.id },
