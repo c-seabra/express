@@ -1,5 +1,6 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
+import DateTimeInputField from '@websummit/components/src/molecules/DateTimeInputField';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
@@ -27,10 +28,6 @@ import * as Yup from 'yup';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
-const StyledInputField = styled(TextInputField)`
-  width: 48%;
-`;
-
 const FlexEnd = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -44,6 +41,10 @@ const InlineWrapper = styled.div`
 const Fieldset = styled.fieldset`
   border: none;
   padding: 0;
+`;
+
+const StyledDateTimeInputField = styled(DateTimeInputField)`
+  width: 48%;
 `;
 
 type Props = {
@@ -116,12 +117,14 @@ const PackageForm = ({ prefillData }: Props) => {
   const pickMutation = (formData: PackageFormData) => {
     const input = {
       active: formData.active,
-      category: formData.id,
+      category: formData.category,
       description: formData.description ? formData.description.trim() : null,
       endDate: toIsoDateTime(formData.endDate, ianaName),
       name: formData.name.trim(),
       startDate: toIsoDateTime(formData.startDate, ianaName),
     };
+
+    console.log(input);
 
     return updateDeal({
       variables: { commerceDealUpdate: input, id: prefillData.id },
@@ -159,18 +162,18 @@ const PackageForm = ({ prefillData }: Props) => {
 
           <FieldWrapper>
             <InlineWrapper>
-              <StyledInputField
+              <StyledDateTimeInputField
                 required
+                ianaTimeZoneName={ianaName}
                 label="Go live at"
                 name="startDate"
-                type="datetime-local"
               />
 
-              <StyledInputField
+              <StyledDateTimeInputField
                 required
+                ianaTimeZoneName={ianaName}
                 label="Sale end date"
                 name="endDate"
-                type="datetime-local"
               />
             </InlineWrapper>
           </FieldWrapper>

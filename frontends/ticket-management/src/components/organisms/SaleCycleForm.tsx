@@ -1,5 +1,6 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
+import DateTimeInputField from '@websummit/components/src/molecules/DateTimeInputField';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
 import {
   useErrorSnackbar,
@@ -23,10 +24,6 @@ import * as Yup from 'yup';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
-const StyledInputField = styled(TextInputField)`
-  width: 48%;
-`;
-
 const FlexEnd = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -40,6 +37,10 @@ const InlineWrapper = styled.div`
 const Fieldset = styled.fieldset`
   border: none;
   padding: 0;
+`;
+
+const StyledDateTimeInputField = styled(DateTimeInputField)`
+  width: 48%;
 `;
 
 type Props = {
@@ -124,18 +125,18 @@ const SaleCycleForm = ({ prefillData }: Props) => {
 
           <FieldWrapper>
             <InlineWrapper>
-              <StyledInputField
+              <StyledDateTimeInputField
                 required
+                ianaTimeZoneName={ianaName}
                 label="Start date"
                 name="startDate"
-                type="datetime-local"
               />
 
-              <StyledInputField
+              <StyledDateTimeInputField
                 required
+                ianaTimeZoneName={ianaName}
                 label="End date"
                 name="endDate"
-                type="datetime-local"
               />
             </InlineWrapper>
           </FieldWrapper>

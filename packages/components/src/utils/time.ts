@@ -16,6 +16,10 @@ export const formatDefaultDateTime = (isoDate?: string): string => {
   return date.toLocaleString(DateTime.DATETIME_SHORT);
 };
 
+export const getTimeZoneAbbreviation = (timeZoneIanaName: string) => {
+  return DateTime.now().setZone(timeZoneIanaName).toFormat('ZZZZ');
+};
+
 export const formatDateTime = (dateTime: string) => {
   const formattedDateTime = new Date(dateTime);
   return formattedDateTime.toString();
@@ -47,6 +51,14 @@ export const formatFullDateTime = (
 ): string => {
   if (!isoDate) {
     return 'N/A';
+  }
+
+  const date = fromIso(isoDate, timezoneIanaName);
+
+  if (timezoneIanaName) {
+    return `${date.toLocaleString(DateTime.DATETIME_MED)} ${date.toFormat(
+      'ZZZZ',
+    )}`;
   }
 
   return fromIso(isoDate, timezoneIanaName).toLocaleString(
