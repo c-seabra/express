@@ -98,12 +98,12 @@ const ticketPriceVariants = {
 
 const validationSchema = Yup.object().shape({
   bookingRefSuffix: Yup.string()
-    .min(1)
     .max(5)
     .matches(
-      /^[A-Z0-9]{1,5}$/,
-      'Only upper case letters and digits up to 5 chars',
-    ),
+      /^[A-Z][A-Z0-9]{0,4}$/,
+      'Only upper case letters and digits up to 5 chars starting with letter eg. GA123',
+    )
+    .required('Suffix is required'),
   name: Yup.string(),
   price: Yup.number().when('ticketPriceVariant', {
     is: (ticketPrice: string) =>
@@ -357,6 +357,7 @@ const TicketTypeForm = ({
                   placeholder="General attendee"
                 />
                 <StyledTextInputField
+                  required
                   label="Ticket type suffix (case sensitive)"
                   maxLength={5}
                   name="bookingRefSuffix"
