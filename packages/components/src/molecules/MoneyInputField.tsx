@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, FieldProps, useFormikContext } from 'formik';
+import { Field, FieldProps, useFormikContext } from 'formik';
 import React, { HTMLProps } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import styled, { css } from 'styled-components';
@@ -66,25 +66,24 @@ const MoneyInputField = ({
       {label && <Label required={required}>{label}</Label>}
       <Field name={name} required={required}>
         {({ meta, field }: FieldProps<number>) => (
-          <CurrencyInput
-            customInput={meta.error ? StyledErrorInput : StyledInput}
-            decimalScale={2}
-            decimalsLimit={2}
-            defaultValue={field.value || 0}
-            disabled={disabled}
-            name={field.name}
-            placeholder={placeholder}
-            prefix={currencySymbol || ''}
-            onValueChange={(value) => {
-              setFieldValue(name, value);
-            }}
-          />
+          <>
+            <CurrencyInput
+              customInput={meta.error ? StyledErrorInput : StyledInput}
+              decimalScale={2}
+              decimalsLimit={2}
+              defaultValue={field.value || 0}
+              disabled={disabled}
+              name={field.name}
+              placeholder={placeholder}
+              prefix={currencySymbol || ''}
+              onValueChange={(value) => {
+                setFieldValue(name, value);
+              }}
+            />
+            {meta.error && <Error>{meta.error}</Error>}
+          </>
         )}
       </Field>
-      <ErrorMessage
-        name={name}
-        render={(message) => <Error>{message}</Error>}
-      />
     </FieldContainer>
   );
 };

@@ -96,7 +96,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       ticketAccept({
         context: {
           slug: conference.slug,
-          storesToken: token,
+          token,
         },
         variables: {
           input: {
@@ -106,10 +106,10 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
               lastName,
             },
             items: productsList,
-            metadata: {
-              disableEmailNotification: true,
-              disableOrderEmail: true,
-            },
+            // metadata: {
+            //   disableEmailNotification: true,
+            //   disableOrderEmail: true,
+            // },
             status: CommerceOrderStatus.Complete,
           },
           storeId: conference.storeId || '',
@@ -123,7 +123,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
           type: 'ERROR',
         });
       });
-    }, index * 50);
+    }, index * 250);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -82,7 +82,8 @@ const displayLocation = (event?: Event) => {
 
 const displayTimeTo = (startDate: string): string => {
   const { days } = timeTo(startDate);
-  return `${days} ${days > 1 ? 'days' : 'day'}`;
+  const daysFormatted = Math.ceil(days);
+  return `${daysFormatted} ${days > 1 ? 'days' : 'day'}`;
 };
 
 const UpcomingEvents = ({

@@ -94,7 +94,7 @@ const DefaultModalFooter = ({
   <ModalFooter>
     {red ? (
       <>
-        <StyledDisabledButton onClick={onCancelClick}>
+        <StyledDisabledButton type="button" onClick={onCancelClick}>
           {cancelText}
         </StyledDisabledButton>
         <ErrorButton type="submit" onClick={onSubmitClick}>
@@ -103,7 +103,7 @@ const DefaultModalFooter = ({
       </>
     ) : (
       <>
-        <StyledSecondaryButton onClick={onCancelClick}>
+        <StyledSecondaryButton type="button" onClick={onCancelClick}>
           {cancelText}
         </StyledSecondaryButton>
         <Button type="submit" onClick={onSubmitClick}>
@@ -116,7 +116,8 @@ const DefaultModalFooter = ({
 
 const DefaultFooterSpacer = styled.div`
   width: 100%;
-  height: 2rem;
+  padding: 1rem;
+  z-index: -1;
 `;
 
 const Modal = ({
