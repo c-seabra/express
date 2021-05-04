@@ -64,7 +64,11 @@ const Calendar = ({ token, env }) => {
       ? setChosenDate(new Date(confResult.data.data.start_date))
       : addError(confResult.error);
 
-    const eventsResults = await Api.getAdminEvents(attendancesArray, token, env);
+    const eventsResults = await Api.getAdminEvents(
+      attendancesArray,
+      token,
+      env,
+    );
     eventsResults.data
       ? setEvents(eventsResults.data.data)
       : addError(eventsResults.error);
