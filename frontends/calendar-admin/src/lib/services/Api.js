@@ -123,9 +123,8 @@ export function withConfig({ token: _token, env: _env } = {}) {
       return handleFetch(new Request(requestUrl, requestData));
     },
 
-    getAdminAttendance: async (
+    getAdminEvents: async (
       attendancesArray,
-      conferenceSlug,
       token = String(_token),
       env = _env,
     ) => {
@@ -146,13 +145,11 @@ export function withConfig({ token: _token, env: _env } = {}) {
           Authorization: `Bearer ${token}`,
         }),
         method: 'GET',
-        body: {
-          attendances: attendancesArray,
-        },
       };
+
       const requestUrl = `${String(
         CONFIG[env].AVENGER_URL,
-      )}/conferences/${String(conferenceSlug)}/admin_calendar_events`;
+      )}/admin_calendar_events/?attendances=${attendancesArray}`;
       return handleFetch(new Request(requestUrl, requestData));
     },
 

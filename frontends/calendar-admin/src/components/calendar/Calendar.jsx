@@ -64,7 +64,7 @@ const Calendar = ({ token, env }) => {
       ? setChosenDate(new Date(confResult.data.data.start_date))
       : addError(confResult.error);
 
-    const eventsResults = await Api.getEvents(token, env);
+    const eventsResults = await Api.getAdminEvents(attendancesArray, token, env);
     eventsResults.data
       ? setEvents(eventsResults.data.data)
       : addError(eventsResults.error);
@@ -105,7 +105,7 @@ const Calendar = ({ token, env }) => {
 
   const getRSVPSDetails = async (invitations) => {
     invitations.forEach(async (invitation) => {
-      const result = await Api.getAdminAttendance(
+      const result = await Api.getAttendance(
         invitation.invitee.id,
         confSlug,
         currentToken,
