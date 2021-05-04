@@ -37,6 +37,10 @@ const Calendar = ({ token, env }) => {
   const [currentUserId, setCurrentUserId] = useState();
   const [responseStatuses, setResponseStatuses] = useState();
 
+  const addError = (error) => {
+    setErrors((errors) => errors.concat([error]));
+  };
+
   useEffect(() => {
     const tokenPayload = jwt(token);
     try {
@@ -69,9 +73,14 @@ const Calendar = ({ token, env }) => {
       token,
       env,
     );
-    eventsResults.data
-      ? setEvents(eventsResults.data.data)
-      : addError(eventsResults.error);
+
+    if (eventsResults.data) {
+      const event_res = [];
+      eventsResults.data.data.map((e) => event_res.push(...e.calendar_events));
+      setEvents(event_res);
+    } else {
+      addError(eventsResults.error);
+    }
 
     const locationsResult = await Api.getLocations(payload.conf_slug, env);
     locationsResult.data
@@ -82,10 +91,6 @@ const Calendar = ({ token, env }) => {
     responseStatusesResult.data
       ? setResponseStatuses(responseStatusesResult.data.data)
       : addError(responseStatusesResult.error);
-  };
-
-  const addError = (error) => {
-    setErrors((errors) => errors.concat([error]));
   };
 
   const addRsvp = (rsvp) => {
