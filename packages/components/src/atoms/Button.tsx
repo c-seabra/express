@@ -68,6 +68,17 @@ export const ErrorButton = styled(Button)`
   }
 `;
 
+export const DestructiveButton = styled(Button)`
+  color: #cb1977;
+  background-color: #ffffff;
+  border: 1px solid #cb1977;
+
+  &:hover {
+    background-color: #cb1977;
+    color: #ffffff;
+  }
+`;
+
 export const DisabledButton = styled(Button)`
   background-color: #949494;
   border: 1px solid #949494;
