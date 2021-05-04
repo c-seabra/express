@@ -1,7 +1,9 @@
+import Badge from '@websummit/components/src/atoms/Badge';
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
@@ -15,9 +17,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
-import NoTicketGroupsPlaceholder from '../../lib/images/no-ticket-groups-placeholder.png';
+import NoTicketCategoriesPlaceholder from '../../lib/images/no-ticket-categories-placeholder.png';
 import { useAppContext } from '../app/AppContext';
-import TicketGroupModal from '../ticketGroups/TicketGroupModal';
+import TicketCategoryModal from '../ticketCategories/TicketCategoryModal';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -39,12 +41,12 @@ const Placeholder = styled.img`
   max-width: 1440px;
 `;
 
-type TicketGroup = Pick<
+type TicketCategory = Pick<
   CommerceCategory,
   'active' | 'id' | 'name' | 'lastUpdatedAt' | 'createdBy' | 'description'
 >;
 
-const ticketGroupsTableShape: ColumnDescriptors<TicketGroup> = [
+const ticketCategoriesTableShape: ColumnDescriptors<TicketCategory> = [
   {
     header: 'Name',
     renderCell: (item) => item.name,
@@ -59,45 +61,66 @@ const ticketGroupsTableShape: ColumnDescriptors<TicketGroup> = [
     renderCell: (item) => formatDefaultDateTime(item.lastUpdatedAt || ''),
     width: '30%',
   },
+  {
+    header: 'Status',
+    renderCell: (item) => {
+      const badge = {
+        background: item.active ? '#EAF9EA' : '#FDEBEB',
+        color: item.active ? '#3BB273' : '#E15554',
+      };
+
+      return (
+        <Badge background={badge.background} color={badge.color}>
+          {item.active ? 'Active' : 'Inactive' || 'N/A'}
+        </Badge>
+      );
+    },
+  },
 ];
 
-const TicketGroupsPage = () => {
-  const { token } = useAppContext();
+const TicketCategoriesPage = () => {
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
   const {
-    isOpen: isTicketGroupModalOpen,
-    closeModal: closeTicketGroupModal,
-    openModal: openTicketGroupModal,
+    isOpen: isTicketCategoryModalOpen,
+    closeModal: closeTicketCategoryModal,
+    openModal: openTicketCategoryModal,
   } = useModalState();
+  const error = useErrorSnackbar();
 
-  const [selectedTicketGroup, setSelectedTicketGroup] = useState<
-    TicketGroup | undefined
+  const [selectedTicketCategory, setSelectedTicketCategory] = useState<
+    TicketCategory | undefined
   >();
 
   const { data, loading } = useCommerceListCategoriesQuery({
-    context: { token },
+    context,
+    onError: (e) => error(e.message),
   });
 
-  const ticketGroups = data?.commerceListCategories?.hits || [];
+  const ticketCategories = data?.commerceListCategories?.hits || [];
 
-  const areTicketGroupsPresent = ticketGroups.length > 0;
+  const areTicketCategoriesPresent = ticketCategories.length > 0;
 
   return (
     <PageContainer>
       <HeaderContainer>
-        <Title>Ticket groups</Title>
+        <Title>Ticket categories</Title>
         <SearchBar>
           <Button
             onClick={() => {
-              setSelectedTicketGroup(undefined);
-              openTicketGroupModal();
+              setSelectedTicketCategory(undefined);
+              openTicketCategoryModal();
             }}
           >
-            Create new ticket group
+            Create new ticket category
           </Button>
-          <TicketGroupModal
-            isOpen={isTicketGroupModalOpen}
-            ticketGroup={selectedTicketGroup}
-            onRequestClose={closeTicketGroupModal}
+          <TicketCategoryModal
+            isOpen={isTicketCategoryModalOpen}
+            ticketCategory={selectedTicketCategory}
+            onRequestClose={closeTicketCategoryModal}
           />
         </SearchBar>
       </HeaderContainer>
@@ -108,22 +131,22 @@ const TicketGroupsPage = () => {
         </Spacing>
       )}
 
-      {!loading && !areTicketGroupsPresent && (
+      {!loading && !areTicketCategoriesPresent && (
         <Placeholder
-          alt="no ticket groups placeholder"
-          src={NoTicketGroupsPlaceholder}
+          alt="no ticket categories placeholder"
+          src={NoTicketCategoriesPlaceholder}
         />
       )}
 
-      {!loading && areTicketGroupsPresent && (
+      {!loading && areTicketCategoriesPresent && (
         <Spacing top="1.5rem">
           <ContainerCard noPadding>
-            <Table<TicketGroup & { id: string | null }>
-              items={ticketGroups}
-              tableShape={ticketGroupsTableShape}
+            <Table<TicketCategory & { id: string | null }>
+              items={ticketCategories}
+              tableShape={ticketCategoriesTableShape}
               onRowClick={(item) => {
-                setSelectedTicketGroup(item);
-                openTicketGroupModal();
+                setSelectedTicketCategory(item);
+                openTicketCategoryModal();
               }}
             />
           </ContainerCard>
@@ -133,4 +156,4 @@ const TicketGroupsPage = () => {
   );
 };
 
-export default TicketGroupsPage;
+export default TicketCategoriesPage;

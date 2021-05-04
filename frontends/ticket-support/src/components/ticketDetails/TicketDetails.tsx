@@ -1,3 +1,4 @@
+import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
@@ -11,7 +12,6 @@ import styled from 'styled-components';
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import TextHeading from '../../lib/components/atoms/Heading';
 import BlockMessage from '../../lib/components/molecules/BlockMessage';
-import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';

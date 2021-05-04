@@ -1,3 +1,4 @@
+import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { SpacingBottom } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
@@ -5,7 +6,6 @@ import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import BoxMessage from '../../lib/components/molecules/BoxMessage';
 import Modal from '../../lib/components/molecules/Modal';
 import STATIC_MESSAGES from '../../lib/constants/messages';
 import useUpdateLoginMutation from '../../lib/hooks/useUpdateAppLoginEmail';

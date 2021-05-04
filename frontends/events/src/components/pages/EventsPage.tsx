@@ -1,6 +1,7 @@
 import { ApolloError } from '@apollo/client';
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   Event,
@@ -21,7 +22,7 @@ import UpcomingEvents from '../templates/UpcomingEvents';
 export const Container = styled.div`
   max-width: 1440px;
   margin: auto;
-  padding-top: 1rem;
+  padding: 1rem;
 `;
 
 const FlexEnd = styled.div`
@@ -92,15 +93,22 @@ const EventPage = () => {
     conferenceSlug,
     token,
   };
+  const errSnackbar = useErrorSnackbar();
 
   const {
     loading,
     error,
     data,
-  }: EventListQueryResponse = useEventListQueryQuery({ context });
+  }: EventListQueryResponse = useEventListQueryQuery({
+    context,
+    onError: (e) => errSnackbar(e.message),
+  });
 
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);
+  const sortedEvents: any = events?.slice()?.sort((a: any, b: any) => {
+    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+  });
 
   const upcomingFilter: EventFilter = {
     startDateAfter: todayISO,
@@ -111,11 +119,17 @@ const EventPage = () => {
     data: dataUpcoming,
   }: EventListQueryResponse = useEventListQueryQuery({
     context,
+    onError: (e) => errSnackbar(e.message),
     variables: { filter: upcomingFilter },
   });
 
   const eventsAfter =
     dataUpcoming?.events && dataUpcoming?.events.edges.map((node) => node.node);
+  const sortedEventsAfter: any = eventsAfter
+    ?.slice()
+    ?.sort((a: any, b: any) => {
+      return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    });
   const redirectToEvent = (item: Event) => {
     history.push(`/${item.slug.toString()}/settings`);
   };
@@ -133,10 +147,10 @@ const EventPage = () => {
           </FlexEnd>
 
           <UpcomingEvents
-            events={eventsAfter}
+            events={sortedEventsAfter}
             onElementClick={redirectToEvent}
           />
-          <EventList error={error} events={events} />
+          <EventList error={error} events={sortedEvents} />
         </>
       ) : (
         <>{!loading && !loadingUpcoming && <NoEventsPlaceholder />}</>
