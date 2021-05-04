@@ -112,6 +112,9 @@ const PaymentMethods = ({ paymentMethods }: PaymentMethodsProps) => {
     context: { slug, token },
     onCompleted: () => success('Payment method updated'),
     onError: (e) => error(e.message),
+    refetchQueries: [
+      { context: { slug, token }, query: CommerceListPaymentMethods },
+    ],
   });
   const [createPaymentMethod] = useCommerceCreatePaymentMethodMutation({
     context: { slug, token },

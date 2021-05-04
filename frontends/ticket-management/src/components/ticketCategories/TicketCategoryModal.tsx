@@ -50,59 +50,69 @@ const FormWrapper = styled.div`
   width: 100%;
 `;
 
-const useTicketGroupMutations = () => {
-  const { token } = useAppContext();
+const useTicketCategoryMutations = () => {
+  const { conferenceSlug, token } = useAppContext();
+  const context = {
+    slug: conferenceSlug,
+    token,
+  };
   const { success, error } = useSnackbars();
 
-  const [createTicketGroup] = useCommerceCreateCategoryMutation({
-    context: { token },
-    onCompleted: () => success('Ticket group created'),
+  const [createTicketCategory] = useCommerceCreateCategoryMutation({
+    context,
+    onCompleted: () => success('Ticket category created'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_LIST_CATEGORIES }],
+    refetchQueries: [{ context, query: COMMERCE_LIST_CATEGORIES }],
   });
 
-  const [updateTicketGroup] = useCommerceUpdateCategoryMutation({
-    context: { token },
-    onCompleted: () => success('Ticket group updated'),
+  const [updateTicketCategory] = useCommerceUpdateCategoryMutation({
+    context,
+    onCompleted: () => success('Ticket category updated'),
     onError: (e) => error(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_LIST_CATEGORIES }],
+    refetchQueries: [{ context, query: COMMERCE_LIST_CATEGORIES }],
   });
 
-  return { createTicketGroup, updateTicketGroup };
+  return { createTicketCategory, updateTicketCategory };
 };
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
 });
 
-type TicketGroupModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
-  ticketGroup?: Partial<CommerceCategory>;
+type TicketCategoryModalProps = Pick<
+  ModalProps,
+  'isOpen' | 'onRequestClose'
+> & {
+  ticketCategory?: Partial<CommerceCategory>;
 };
 
-const TicketGroupModal = ({
+const TicketCategoryModal = ({
   isOpen,
   onRequestClose,
-  ticketGroup,
-}: TicketGroupModalProps) => {
-  const { createTicketGroup, updateTicketGroup } = useTicketGroupMutations();
+  ticketCategory,
+}: TicketCategoryModalProps) => {
+  const {
+    createTicketCategory,
+    updateTicketCategory,
+  } = useTicketCategoryMutations();
 
   return (
     <Modal withDefaultFooter isOpen={isOpen} onRequestClose={onRequestClose}>
       <Formik
         enableReinitialize
         initialValues={{
-          active: ticketGroup?.active,
-          description: ticketGroup?.description,
-          name: ticketGroup?.name || '',
+          active: ticketCategory?.active,
+          description: ticketCategory?.description,
+          name: ticketCategory?.name || '',
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
-          if (ticketGroup?.id) {
-            await updateTicketGroup({
-              variables: { id: ticketGroup?.id, input: values },
+          if (ticketCategory?.id) {
+            await updateTicketCategory({
+              variables: { id: ticketCategory?.id, input: values },
             });
           } else {
-            await createTicketGroup({
+            await createTicketCategory({
               variables: {
                 input: values,
               },
@@ -122,17 +132,17 @@ const TicketGroupModal = ({
 
             <Spacing bottom="40px">
               <HeaderText>
-                {ticketGroup?.id ? 'Edit' : 'Add'}&nbsp;ticket group
+                {ticketCategory?.id ? 'Edit' : 'Add'}&nbsp;ticket category
               </HeaderText>
             </Spacing>
           </Wrapper>
           <FormWrapper>
-            <TextInputField required label="Group name" name="name" />
+            <TextInputField required label="Category name" name="name" />
             <TextAreaField label="Description" name="description" />
             <CheckboxField label="Active" name="active" />
           </FormWrapper>
           <Modal.DefaultFooter
-            submitText="Save ticket group"
+            submitText="Save ticket category"
             onCancelClick={onRequestClose}
           />
         </Form>
@@ -141,4 +151,4 @@ const TicketGroupModal = ({
   );
 };
 
-export default TicketGroupModal;
+export default TicketCategoryModal;

@@ -1,11 +1,8 @@
-import { createContext, useContext } from 'react';
+import AppContext, {
+  useAppContext,
+  useRequestContext,
+} from '@websummit/graphql/src/utils/AppContext';
 
-type AppContextType = { conferenceSlug?: string; token?: string };
-
-const AppContext = createContext<AppContextType>({});
-
-export const useAppContext = () => {
-  return useContext(AppContext);
-};
+export { useAppContext, useRequestContext };
 
 export default AppContext;
