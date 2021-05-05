@@ -20,7 +20,7 @@ const DragAndDropCalendar = withDragAndDrop(BigCalendar.Calendar);
 const localizer = BigCalendar.momentLocalizer(moment);
 
 const Calendar = ({ token, env }) => {
-  const {attendances} = useContext(AppContext);
+  const { attendances } = useContext(AppContext);
   const attendancesArray = attendances.map((att) => {
     return att.id;
   });
@@ -47,7 +47,7 @@ const Calendar = ({ token, env }) => {
   };
 
   useEffect(() => {
-    console.log("HELLO")
+    console.log('HELLO');
     const tokenPayload = jwt(token);
     try {
       setCurrentToken(token); // use token or currentToken, not both (below)

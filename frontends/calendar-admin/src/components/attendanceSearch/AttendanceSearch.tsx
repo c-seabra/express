@@ -1,5 +1,10 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
-import React, { KeyboardEvent, ReactElement, useContext, useState } from 'react';
+import React, {
+  KeyboardEvent,
+  ReactElement,
+  useContext,
+  useState,
+} from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance } from '../../lib/types/index';
@@ -19,7 +24,7 @@ type AttendanceSearchState = {
 };
 
 const AttendanceSearch = (): ReactElement => {
-  const {setAttendances} = useContext(AppContext);
+  const { setAttendances } = useContext(AppContext);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selections, setSelections] = useState<Array<Attendance>>([]);

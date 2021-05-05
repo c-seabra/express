@@ -38,8 +38,6 @@ const App = ({ token, apiURL }: AppProps) => {
 
   const apolloClient = initApollo({ apiURL });
 
-
-
   return (
     <ApolloProvider client={apolloClient}>
       <SnackbarProvider>
@@ -55,7 +53,7 @@ const App = ({ token, apiURL }: AppProps) => {
             <StyledContainer>
               <h1>Calendar</h1>
               <AttendanceSearch />
-              <Calendar env={process.env.NODE_ENV} token={token}/>
+              <Calendar env={process.env.NODE_ENV} token={token} />
             </StyledContainer>
           </AppContext.Provider>
         </Router>
