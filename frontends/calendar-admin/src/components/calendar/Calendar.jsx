@@ -75,9 +75,9 @@ const Calendar = ({ token, env }) => {
     );
 
     if (eventsResults.data) {
-      const event_res = [];
-      eventsResults.data.data.map((e) => event_res.push(...e.calendar_events));
-      setEvents(event_res);
+      const eventRes = [];
+      eventsResults.data.data.map((e) => eventRes.push(...e.calendar_events));
+      setEvents(eventRes);
     } else {
       addError(eventsResults.error);
     }
