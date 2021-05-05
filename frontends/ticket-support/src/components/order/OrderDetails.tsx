@@ -439,11 +439,7 @@ const OrderDetails = (): ReactElement => {
                         value={perPage}
                         onChange={(e) => {
                           const newPerPage = parseInt(e.target.value, 10);
-                          if (newPerPage > 0) {
-                            setPerPage(perPage);
-                          } else {
-                            setPerPage(DEFAULT_PER_PAGE);
-                          }
+                          setPerPage(newPerPage);
                         }}
                       />
                     </PaginationContainer>
