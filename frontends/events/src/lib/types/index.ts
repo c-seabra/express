@@ -78,6 +78,7 @@ export type LegalEntity = {
   email?: string;
   id: string;
   name: string;
+  note?: string;
   phone: string;
   regNumber?: string;
   taxNumber?: string;

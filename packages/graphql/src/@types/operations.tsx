@@ -279,6 +279,7 @@ export type QueryWebPageByHostPathArgs = {
 export type QueryWebPageConfigByPathHostArgs = {
   path: Scalars['String'];
   host: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type QueryAccessPermissionsArgs = {
@@ -3239,6 +3240,7 @@ export type CommerceDealItem = {
   max: Scalars['Int'];
   metadata: Maybe<Scalars['JSON']>;
   min: Scalars['Int'];
+  name: Maybe<Scalars['String']>;
   product: Maybe<CommerceProduct>;
   step: Scalars['Int'];
   type: CommerceDealItemType;
@@ -3418,7 +3420,7 @@ export type CommerceSaleProduct = {
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
+  name: Maybe<Scalars['String']>;
   price: Maybe<Scalars['Int']>;
   product: Maybe<CommerceProduct>;
   type: CommerceSaleProductType;
@@ -3479,6 +3481,7 @@ export type CommerceStoreBilling = {
   lastUpdatedBy: Maybe<CommerceUser>;
   line1: Scalars['String'];
   line2: Maybe<Scalars['String']>;
+  note: Maybe<Scalars['String']>;
   phone: Scalars['String'];
   postalCode: Scalars['String'];
   state: Maybe<Scalars['String']>;
@@ -3753,6 +3756,7 @@ export type LegalEntity = {
   email: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
+  note: Maybe<Scalars['String']>;
   phone: Maybe<Scalars['String']>;
   regNumber: Maybe<Scalars['String']>;
   taxNumber: Maybe<Scalars['String']>;
@@ -5916,6 +5920,7 @@ export type CommerceDealItemCreateOrUpdate = {
   id?: Maybe<Scalars['ID']>;
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   product?: Maybe<Scalars['ID']>;
   step?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceDealItemType>;
@@ -5925,6 +5930,7 @@ export type CommerceDealItemCreate = {
   amount: Scalars['Int'];
   max: Scalars['Int'];
   min: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
   product: Scalars['ID'];
   step: Scalars['Int'];
   type: CommerceDealItemType;
@@ -6043,7 +6049,7 @@ export type CommerceSaleProductCreate = {
   amount: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   product: Scalars['ID'];
   type: CommerceSaleProductType;
 };
@@ -6098,6 +6104,7 @@ export type CommerceStoreBillingCreateOrUpdate = {
   id?: Maybe<Scalars['ID']>;
   line1?: Maybe<Scalars['String']>;
   line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
@@ -6177,6 +6184,7 @@ export type CommerceDealItemUpdate = {
   id?: Maybe<Scalars['ID']>;
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   product?: Maybe<Scalars['ID']>;
   step?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceDealItemType>;
@@ -6358,6 +6366,7 @@ export type LegalEntityCreateInput = {
   email?: Maybe<Scalars['String']>;
   /** Must be unique */
   name: Scalars['String'];
+  note?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   regNumber?: Maybe<Scalars['String']>;
   taxNumber?: Maybe<Scalars['String']>;
@@ -6390,6 +6399,7 @@ export type LegalEntityUpdateInput = {
   email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   regNumber?: Maybe<Scalars['String']>;
   taxNumber?: Maybe<Scalars['String']>;
@@ -7198,6 +7208,7 @@ export type CommerceStoreBillingCreate = {
   email: Scalars['String'];
   line1: Scalars['String'];
   line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   phone: Scalars['String'];
   postalCode: Scalars['String'];
   state?: Maybe<Scalars['String']>;
@@ -7213,6 +7224,7 @@ export type CommerceStoreBillingUpdate = {
   id?: Maybe<Scalars['ID']>;
   line1?: Maybe<Scalars['String']>;
   line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
@@ -7677,7 +7689,13 @@ export type LegalEntityCreateMutation = { __typename?: 'Mutation' } & {
       legalEntity: Maybe<
         { __typename?: 'LegalEntity' } & Pick<
           LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          | 'id'
+          | 'name'
+          | 'regNumber'
+          | 'website'
+          | 'taxNumber'
+          | 'email'
+          | 'note'
         > & {
             address: Maybe<
               { __typename?: 'Address' } & Pick<
@@ -7711,7 +7729,13 @@ export type LegalEntityUpdateMutation = { __typename?: 'Mutation' } & {
       legalEntity: Maybe<
         { __typename?: 'LegalEntity' } & Pick<
           LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          | 'id'
+          | 'name'
+          | 'regNumber'
+          | 'website'
+          | 'taxNumber'
+          | 'email'
+          | 'note'
         > & {
             address: Maybe<
               { __typename?: 'Address' } & Pick<
@@ -8375,6 +8399,7 @@ export type CommerceListDealItemsQuery = { __typename?: 'Query' } & {
             | 'max'
             | 'metadata'
             | 'min'
+            | 'name'
             | 'step'
             | 'type'
           > & {
@@ -8705,6 +8730,7 @@ export type EventQuery = { __typename?: 'Query' } & {
         legalEntity: Maybe<
           { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
+            | 'note'
             | 'email'
             | 'id'
             | 'name'
@@ -8812,6 +8838,23 @@ export type EventListQueryQuery = { __typename?: 'Query' } & {
   };
 };
 
+export type EventTimeZoneQueryVariables = Exact<{
+  slug?: Maybe<Scalars['String']>;
+}>;
+
+export type EventTimeZoneQuery = { __typename?: 'Query' } & {
+  event: Maybe<
+    { __typename?: 'Event' } & {
+      timeZone: Maybe<
+        { __typename?: 'TimeZone' } & Pick<
+          TimeZone,
+          'displayName' | 'ianaName' | 'utcOffset'
+        >
+      >;
+    }
+  >;
+};
+
 export type TaEventDataQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -8837,7 +8880,14 @@ export type LegalEntityQueryVariables = Exact<{
 export type LegalEntityQuery = { __typename?: 'Query' } & {
   legalEntity: { __typename?: 'LegalEntity' } & Pick<
     LegalEntity,
-    'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'
+    | 'email'
+    | 'id'
+    | 'name'
+    | 'phone'
+    | 'regNumber'
+    | 'taxNumber'
+    | 'website'
+    | 'note'
   > & {
       address: Maybe<
         { __typename?: 'Address' } & Pick<
@@ -8863,7 +8913,13 @@ export type LegalEntitiesQuery = { __typename?: 'Query' } & {
       { __typename?: 'LegalEntityEdge' } & Pick<LegalEntityEdge, 'cursor'> & {
           node: { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
-            'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+            | 'id'
+            | 'name'
+            | 'regNumber'
+            | 'website'
+            | 'taxNumber'
+            | 'email'
+            | 'note'
           > & {
               address: Maybe<
                 { __typename?: 'Address' } & Pick<
@@ -15348,6 +15404,7 @@ export const LegalEntityCreateDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'taxNumber' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -15523,6 +15580,7 @@ export const LegalEntityUpdateDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'taxNumber' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -18720,6 +18778,7 @@ export const CommerceListDealItemsDocument: DocumentNode = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'step' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     ],
@@ -19936,6 +19995,7 @@ export const EventDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -20420,6 +20480,117 @@ export type EventListQueryQueryResult = Apollo.QueryResult<
   EventListQueryQuery,
   EventListQueryQueryVariables
 >;
+export const EventTimeZoneDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'EventTimeZone' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'slug' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'slug' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'event' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'timeZone' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'displayName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ianaName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utcOffset' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useEventTimeZoneQuery__
+ *
+ * To run a query within a React component, call `useEventTimeZoneQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventTimeZoneQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventTimeZoneQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useEventTimeZoneQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    EventTimeZoneQuery,
+    EventTimeZoneQueryVariables
+  >,
+) {
+  return Apollo.useQuery<EventTimeZoneQuery, EventTimeZoneQueryVariables>(
+    EventTimeZoneDocument,
+    baseOptions,
+  );
+}
+export function useEventTimeZoneLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EventTimeZoneQuery,
+    EventTimeZoneQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<EventTimeZoneQuery, EventTimeZoneQueryVariables>(
+    EventTimeZoneDocument,
+    baseOptions,
+  );
+}
+export type EventTimeZoneQueryHookResult = ReturnType<
+  typeof useEventTimeZoneQuery
+>;
+export type EventTimeZoneLazyQueryHookResult = ReturnType<
+  typeof useEventTimeZoneLazyQuery
+>;
+export type EventTimeZoneQueryResult = Apollo.QueryResult<
+  EventTimeZoneQuery,
+  EventTimeZoneQueryVariables
+>;
 export const TaEventDataDocument: DocumentNode = {
   definitions: [
     {
@@ -20606,6 +20777,7 @@ export const LegalEntityDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'regNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'note' } },
               ],
             },
           },
@@ -20726,6 +20898,10 @@ export const LegalEntitiesDocument: DocumentNode = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'note' },
                             },
                             {
                               kind: 'Field',

@@ -22,6 +22,7 @@ const EVENT = gql`
         code
       }
       legalEntity {
+        note
         address {
           city
           country {

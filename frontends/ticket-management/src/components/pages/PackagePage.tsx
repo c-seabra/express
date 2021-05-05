@@ -14,6 +14,8 @@ import {
   CommerceDealItem,
   CommerceProduct,
   CommerceStore,
+  CommerceTax,
+  CommerceTaxType,
   Maybe,
   useCommerceGetDealQuery,
   useCommerceGetStoreQuery,
@@ -130,8 +132,26 @@ const generateLink = (
                   product: Maybe<
                     { __typename?: 'CommerceProduct' } & Pick<
                       CommerceProduct,
-                      'id' | 'active' | 'description' | 'name'
-                    >
+                      'id' | 'active' | 'description' | 'name' | 'price'
+                    > & {
+                        taxType: { __typename?: 'CommerceTaxType' } & Pick<
+                          CommerceTaxType,
+                          'id' | 'description' | 'name'
+                        > & {
+                            taxes: Maybe<
+                              Array<
+                                { __typename?: 'CommerceTax' } & Pick<
+                                  CommerceTax,
+                                  | 'rateAmount'
+                                  | 'rateType'
+                                  | 'id'
+                                  | 'name'
+                                  | 'country'
+                                >
+                              >
+                            >;
+                          };
+                      }
                   >;
                 }
             >
@@ -174,6 +194,7 @@ const PackagePage = () => {
       amount: 1,
       max: 999, // TODO fix to undefined / empty value?
       min: 1,
+      name: '',
       product: '',
       step: 1,
       type: undefined,
@@ -187,6 +208,7 @@ const PackagePage = () => {
       id: event.id,
       max: event.max,
       min: event.min,
+      name: event.name,
       product: event.product.id,
       step: event.step,
       type: event.type,

@@ -23,6 +23,7 @@ const LEGAL_ENTITY = gql`
       regNumber
       taxNumber
       website
+      note
     }
   }
 `;
