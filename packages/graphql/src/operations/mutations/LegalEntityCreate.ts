@@ -10,6 +10,7 @@ export const LEGAL_ENTITY_CREATE_MUTATION = gql`
         website
         taxNumber
         email
+        note
         address {
           id
           city

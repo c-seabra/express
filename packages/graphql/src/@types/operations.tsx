@@ -279,6 +279,7 @@ export type QueryWebPageByHostPathArgs = {
 export type QueryWebPageConfigByPathHostArgs = {
   path: Scalars['String'];
   host: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type QueryAccessPermissionsArgs = {
@@ -7677,7 +7678,13 @@ export type LegalEntityCreateMutation = { __typename?: 'Mutation' } & {
       legalEntity: Maybe<
         { __typename?: 'LegalEntity' } & Pick<
           LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          | 'id'
+          | 'name'
+          | 'regNumber'
+          | 'website'
+          | 'taxNumber'
+          | 'email'
+          | 'note'
         > & {
             address: Maybe<
               { __typename?: 'Address' } & Pick<
@@ -7711,7 +7718,13 @@ export type LegalEntityUpdateMutation = { __typename?: 'Mutation' } & {
       legalEntity: Maybe<
         { __typename?: 'LegalEntity' } & Pick<
           LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          | 'id'
+          | 'name'
+          | 'regNumber'
+          | 'website'
+          | 'taxNumber'
+          | 'email'
+          | 'note'
         > & {
             address: Maybe<
               { __typename?: 'Address' } & Pick<
@@ -8706,6 +8719,7 @@ export type EventQuery = { __typename?: 'Query' } & {
         legalEntity: Maybe<
           { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
+            | 'note'
             | 'email'
             | 'id'
             | 'name'
@@ -8855,7 +8869,14 @@ export type LegalEntityQueryVariables = Exact<{
 export type LegalEntityQuery = { __typename?: 'Query' } & {
   legalEntity: { __typename?: 'LegalEntity' } & Pick<
     LegalEntity,
-    'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'
+    | 'email'
+    | 'id'
+    | 'name'
+    | 'phone'
+    | 'regNumber'
+    | 'taxNumber'
+    | 'website'
+    | 'note'
   > & {
       address: Maybe<
         { __typename?: 'Address' } & Pick<
@@ -8881,7 +8902,13 @@ export type LegalEntitiesQuery = { __typename?: 'Query' } & {
       { __typename?: 'LegalEntityEdge' } & Pick<LegalEntityEdge, 'cursor'> & {
           node: { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
-            'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+            | 'id'
+            | 'name'
+            | 'regNumber'
+            | 'website'
+            | 'taxNumber'
+            | 'email'
+            | 'note'
           > & {
               address: Maybe<
                 { __typename?: 'Address' } & Pick<
@@ -15260,6 +15287,7 @@ export const LegalEntityCreateDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'taxNumber' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -15435,6 +15463,7 @@ export const LegalEntityUpdateDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'taxNumber' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -19849,6 +19878,7 @@ export const EventDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -20630,6 +20660,7 @@ export const LegalEntityDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'regNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'note' } },
               ],
             },
           },
@@ -20750,6 +20781,10 @@ export const LegalEntitiesDocument: DocumentNode = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'note' },
                             },
                             {
                               kind: 'Field',

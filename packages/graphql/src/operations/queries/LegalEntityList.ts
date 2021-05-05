@@ -12,6 +12,7 @@ const LEGAL_ENTITY_LIST = gql`
           website
           taxNumber
           email
+          note
           address {
             id
             city

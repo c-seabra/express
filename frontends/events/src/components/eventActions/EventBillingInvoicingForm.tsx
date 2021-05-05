@@ -8,6 +8,7 @@ import {
   useInfoSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
@@ -36,6 +37,10 @@ const FieldRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const FullWidthContainer = styled.div`
+  width: 100%;
 `;
 
 const Header = styled.div`
@@ -78,6 +83,7 @@ const eventBillingSchema = Yup.object().shape({
   companyName: Yup.string().required('Host company name is required'),
   country: Yup.string().required('Country is required'),
   email: Yup.string().email('Invalid email'),
+  note: Yup.string(),
   phone: Yup.string().required('Phone is required'),
   postalCode: Yup.string().required('Postal is required'),
   region: Yup.string().required('Region is required'),
@@ -227,6 +233,7 @@ const EventBillingForm = ({
         country: legalEntityData?.legalEntity?.address?.country?.id || '',
         email: legalEntityData?.legalEntity?.email || '',
         name: legalEntityData?.legalEntity?.name || '',
+        note: legalEntityData?.legalEntity?.note || '',
         phone: legalEntityData?.legalEntity?.phone || '',
         postalCode: legalEntityData?.legalEntity?.address?.postalCode || '',
         region: legalEntityData?.legalEntity?.address?.region || '',
@@ -244,6 +251,7 @@ const EventBillingForm = ({
       country: eventBilling?.address?.country.id || '',
       email: eventBilling?.email || '',
       name: eventBilling?.name || '',
+      note: eventBilling?.note || '',
       phone: eventBilling?.phone || '',
       postalCode: eventBilling?.address?.postalCode || '',
       region: eventBilling?.address?.region || '',
@@ -274,6 +282,7 @@ const EventBillingForm = ({
               id: (isCompanyChanged
                 ? legalEntityData?.legalEntity?.id
                 : eventBilling?.id) as string,
+              note: values.note.trim(),
               phone: values.phone.trim(),
               regNumber: values.registrationNumber.trim(),
               taxNumber: values.taxNumber.trim(),
@@ -331,6 +340,17 @@ const EventBillingForm = ({
                 placeholder="+353 1 437 0969"
                 type="text"
               />
+            </FieldRow>
+
+            <FieldRow>
+              <FullWidthContainer>
+                <TextAreaField
+                  fieldHeight="80px"
+                  label="Comments on invoice"
+                  maxLength={200}
+                  name="note"
+                />
+              </FullWidthContainer>
             </FieldRow>
           </Spacing>
 
