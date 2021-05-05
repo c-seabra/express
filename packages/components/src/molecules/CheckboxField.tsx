@@ -117,7 +117,7 @@ const CheckboxField = ({
           <Field name={name} required={required}>
             {({ meta, field }: FieldProps) => (
               <>
-                <Input type="checkbox" {...field} />
+                <Input checked={!!meta.value} type="checkbox" {...field} />
                 <Indicator
                   color={color}
                   isChecked={!!meta.value}

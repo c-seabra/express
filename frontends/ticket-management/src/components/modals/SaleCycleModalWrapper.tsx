@@ -1,3 +1,4 @@
+import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
@@ -8,20 +9,14 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { toShortDateTime } from '@websummit/components/src/utils/time';
-import {
-  useCommerceCreateSaleMutation,
-  useCommerceUpdateSaleMutation,
-} from '@websummit/graphql/src/@types/operations';
+import { useCommerceCreateSaleMutation } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import { ModalInputMode } from '../../lib/types/modals';
-import { useAppContext } from '../app/AppContext';
+import { useRequestContext } from '../app/AppContext';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;
@@ -35,11 +30,10 @@ const InlineWrapper = styled.div`
 type ModalProps = {
   closeModal: () => void;
   isOpen: boolean;
-  mode?: ModalInputMode;
-  prefillData?: any;
 };
 
 export type SaleCycleFormData = {
+  active: boolean;
   description: string;
   endDate: any;
   id: string;
@@ -47,109 +41,63 @@ export type SaleCycleFormData = {
   startDate: any;
 };
 
-const alertHeaderText = (_mode: string): string => {
-  return switchCase({
-    ADD: 'Create a sale cycle',
-    EDIT: `Edit sale cycle`,
-  })('')(_mode);
-};
-
-const submitText = (_mode: string): string => {
-  return switchCase({
-    ADD: 'Create',
-    EDIT: 'Edit',
-  })('')(_mode);
-};
-
 const validationSchema = Yup.object().shape({
+  active: Yup.boolean(),
   description: Yup.string(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
-const SaleCycleModalWrapper = ({
-  isOpen,
-  closeModal,
-  mode = 'ADD',
-  prefillData,
-}: ModalProps) => {
-  const { token } = useAppContext();
+const SaleCycleModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
+  const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
   const [createCycle] = useCommerceCreateSaleMutation({
-    context: { token },
+    context,
     onCompleted: () => {
       snackbar('Sale cycle added');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
-  });
-  const [updateCycle] = useCommerceUpdateSaleMutation({
-    context: { token },
-    onCompleted: () => {
-      snackbar('Sale cycle updated');
-    },
-    onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context: { token }, query: COMMERCE_SALES_LIST }],
+    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
   });
 
-  const initialValues = (_mode: ModalInputMode) => {
-    let values = {
+  const initialValues = () => {
+    return {
+      active: false,
       description: '',
       endDate: '',
       name: '',
       startDate: '',
     };
-
-    if (_mode === 'EDIT') {
-      values = {
-        description: prefillData.description,
-        endDate: toShortDateTime(prefillData.endDate),
-        name: prefillData.name,
-        startDate: toShortDateTime(prefillData.startDate),
-      };
-    }
-
-    return values;
   };
 
-  const pickMutation = (_mode: ModalInputMode, formData: SaleCycleFormData) => {
-    let mutation;
+  const pickMutation = (formData: SaleCycleFormData) => {
     const input = {
+      active: formData.active,
       description: formData.description.trim(),
       endDate: new Date(formData.endDate).toISOString(),
       name: formData.name.trim(),
       startDate: new Date(formData.startDate).toISOString(),
     };
 
-    if (_mode === 'ADD') {
-      mutation = createCycle({
-        variables: { commerceSale: input },
-      });
-    }
-
-    if (_mode === 'EDIT') {
-      mutation = updateCycle({
-        variables: { commerceSale: input, id: prefillData.id },
-      });
-    }
-
-    return mutation;
+    return createCycle({
+      variables: { commerceSale: input },
+    });
   };
 
   const setMutation = (formData: SaleCycleFormData) => {
-    return pickMutation(mode, formData);
+    return pickMutation(formData);
   };
 
   return (
     <FormikModal
-      alertHeader={alertHeaderText(mode)}
+      alertHeader="Create a sale cycle"
       closeModal={closeModal}
-      initialValues={initialValues(mode)}
+      initialValues={initialValues()}
       isOpen={isOpen}
       submitCallback={setMutation}
-      submitText={submitText(mode)}
+      submitText="Create"
       validationSchema={validationSchema}
     >
       <Spacing top="8px">
@@ -184,6 +132,12 @@ const SaleCycleModalWrapper = ({
               label="Sale cycle description"
               name="description"
             />
+          </Spacing>
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <Spacing bottom="8px">
+            <CheckboxField label="Active" name="active" />
           </Spacing>
         </FieldWrapper>
       </Spacing>

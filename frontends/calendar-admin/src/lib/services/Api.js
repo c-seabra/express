@@ -148,8 +148,10 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
 
       const requestUrl = `${String(
-        CONFIG[env].AVENGER_URL,
-      )}/admin_calendar_events/?attendances=${attendancesArray}`;
+        CONFIG[env].CALENDAR_URL,
+      )}/admin_calendar_events/?attendances[]=${attendancesArray.join(
+        '&attendances[]=',
+      )}`;
       return handleFetch(new Request(requestUrl, requestData));
     },
 

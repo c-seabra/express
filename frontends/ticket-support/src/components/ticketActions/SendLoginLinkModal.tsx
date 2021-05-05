@@ -55,7 +55,10 @@ const SendLoginLinkModal = ({
               label="Please enter a reason for this change"
               name="reason"
             />
-            <Modal.DefaultFooter submitText="Confirm" />
+            <Modal.DefaultFooter
+              submitText="Confirm"
+              onCancelClick={onRequestClose}
+            />
           </Form>
         </Formik>
       </SendLinkModalContent>

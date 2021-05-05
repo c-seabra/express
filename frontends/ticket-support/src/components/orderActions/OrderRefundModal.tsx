@@ -168,7 +168,7 @@ const DependentTaxRateAmountInputField = ({
 
 const autoRefundOption = {
   label: "Refund via customer's payment method",
-  value: undefined,
+  value: '',
 };
 
 const getRefundMethodOptions = (

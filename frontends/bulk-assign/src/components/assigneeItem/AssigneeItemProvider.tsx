@@ -70,7 +70,8 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       variables: {
         ticketId,
       },
-    }).catch(() => {
+    }).catch((data) => {
+      console.log('ticketAccept error', { data });
       setStatus({
         message: `Unable to assign this ticket - ${bookingRef}`,
         type: 'ERROR',
@@ -172,14 +173,15 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
 
   const [ticketAssign] = useMutation(TICKET_ASSIGN_MUTATION, {
     onCompleted: ({
-      ticketAssignData,
+      ticketAssign: ticketAssignData,
     }: {
-      ticketAssignData: {
+      ticketAssign: {
         ticket: {
           assignment: {
             assignee: Assignee;
             state: 'PENDING' | 'ACCEPTED' | 'REJECTED';
           };
+          id: string;
         };
         userErrors: [{ message: string }];
       };
@@ -189,15 +191,17 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
           message: 'Assignment has been successful',
           type: 'SUCCESS',
         });
-        if (hasAutoClaim && data?.ticket?.id) claimTicket(data?.ticket?.id);
+        if (hasAutoClaim && ticketAssignData?.ticket?.id) {
+          claimTicket(ticketAssignData?.ticket?.id);
+        }
       }
       if (ticketAssignData?.userErrors.length) {
         setStatus({
-          message: ticketAssignData.userErrors[0].message,
+          message: ticketAssignData?.userErrors[0].message,
           type: 'ERROR',
         });
         setClaimStatus({
-          message: `${ticketAssignData.userErrors[0].message} - and can not auto claim`,
+          message: `${ticketAssignData?.userErrors[0].message} - and can not auto claim`,
           type: 'ERROR',
         });
       }
@@ -235,6 +239,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
             ticketId: data?.ticket?.id,
           },
         }).catch(() => {
+          console.log('ticketAssign error', { data });
           setStatus({
             message: `Unable to assign this ticket - ${bookingRef}`,
             type: 'ERROR',
