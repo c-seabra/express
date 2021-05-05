@@ -5,12 +5,13 @@ import './Calendar.css';
 import update from 'immutability-helper';
 import jwt from 'jwt-decode';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as BigCalendar from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 
 import Api from '../../lib/services/Api';
 import AgendaEvent from '../agendaEvent/AgendaEvent';
+import AppContext from '../app/AppContext';
 import Error from '../error/Error';
 import Popup from '../popup/Popup';
 import { DetailsContext } from './Context';
@@ -19,6 +20,10 @@ const DragAndDropCalendar = withDragAndDrop(BigCalendar.Calendar);
 const localizer = BigCalendar.momentLocalizer(moment);
 
 const Calendar = ({ token, env }) => {
+  const {attendances} = useContext(AppContext);
+  const attendancesArray = attendances.map((att) => {
+    return att.id;
+  });
   if (!token) return null;
   // console.log({ token, env });
   // const [ENV, setENV] = useState();
@@ -42,6 +47,7 @@ const Calendar = ({ token, env }) => {
   };
 
   useEffect(() => {
+    console.log("HELLO")
     const tokenPayload = jwt(token);
     try {
       setCurrentToken(token); // use token or currentToken, not both (below)
@@ -56,7 +62,7 @@ const Calendar = ({ token, env }) => {
     } catch (e) {
       addError(e);
     }
-  }, [token]);
+  }, [attendances, token]);
 
   const getRequiredData = async (payload) => {
     const confResult = await Api.getConferenceDetails(
@@ -68,11 +74,13 @@ const Calendar = ({ token, env }) => {
       ? setChosenDate(new Date(confResult.data.data.start_date))
       : addError(confResult.error);
 
-    const eventsResults = await Api.getAdminEvents(
-      attendancesArray,
-      token,
-      env,
-    );
+    if (attendancesArray.length > 0) {
+      const eventsResults = await Api.getAdminEvents(
+        attendancesArray,
+        token,
+        env,
+      );
+    }
 
     if (eventsResults.data) {
       const eventRes = [];

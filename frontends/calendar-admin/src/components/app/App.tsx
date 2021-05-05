@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Attendance } from '../../lib/types';
 import AttendanceSearch from '../attendanceSearch/AttendanceSearch';
 import Calendar from '../calendar/Calendar';
 import AppContext from './AppContext';
@@ -27,6 +28,7 @@ const App = ({ token, apiURL }: AppProps) => {
   const [conferenceSlug, setConferenceSlug] = useState<string>(
     tokenPayload.conf_slug,
   );
+  const [attendances, setAttendances] = useState<Array<Attendance>>([]);
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
@@ -36,20 +38,24 @@ const App = ({ token, apiURL }: AppProps) => {
 
   const apolloClient = initApollo({ apiURL });
 
+
+
   return (
     <ApolloProvider client={apolloClient}>
       <SnackbarProvider>
         <Router>
           <AppContext.Provider
             value={{
+              attendances,
               conferenceSlug,
+              setAttendances,
               token,
             }}
           >
             <StyledContainer>
               <h1>Calendar</h1>
               <AttendanceSearch />
-              <Calendar env={process.env.NODE_ENV} token={token} />
+              <Calendar env={process.env.NODE_ENV} token={token}/>
             </StyledContainer>
           </AppContext.Provider>
         </Router>
