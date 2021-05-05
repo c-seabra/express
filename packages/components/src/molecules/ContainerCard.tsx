@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
 const Container = styled.div`
@@ -53,7 +53,7 @@ const ChildrenWrapper = styled.div<{ noPadding?: boolean }>`
 `;
 
 type ContainerCardProps = {
-  children?: ReactElement | ReactElement[];
+  children?: ReactElement | ReactElement[] | ReactNode;
   className?: string;
   noPadding?: boolean;
   renderActions?: () => ReactElement;

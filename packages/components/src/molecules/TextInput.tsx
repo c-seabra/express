@@ -58,12 +58,14 @@ const TextInput = ({
   errorMessage,
   onChange,
   value,
+  list,
 }: TextInputProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
       <StyledInput
         disabled={disabled}
+        list={list}
         placeholder={placeholder}
         type={type}
         value={value}
