@@ -8651,6 +8651,29 @@ export type CommerceListStoresQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceListTagsQueryVariables = Exact<{
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm> | CommerceSortTerm>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm> | CommerceSearchTerm>;
+}>;
+
+export type CommerceListTagsQuery = { __typename?: 'Query' } & {
+  commerceListTags: Maybe<
+    { __typename?: 'CommerceSearchResponseTag' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceTag' } & Pick<
+            CommerceTag,
+            'id' | 'code' | 'description' | 'name'
+          >
+        >
+      >;
+    }
+  >;
+};
+
 export type CommerceListTaxTypesQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -19618,6 +19641,195 @@ export type CommerceListStoresLazyQueryHookResult = ReturnType<
 export type CommerceListStoresQueryResult = Apollo.QueryResult<
   CommerceListStoresQuery,
   CommerceListStoresQueryVariables
+>;
+export const CommerceListTagsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListTags' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'page' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'page' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'pageSize' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'pageSize' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sort' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'storeId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'storeId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'terms' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'terms' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListTags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'page' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'pageSize' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: {
+                kind: 'NamedType',
+                name: { kind: 'Name', value: 'CommerceSortTerm' },
+              },
+            },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'storeId' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: {
+                kind: 'NamedType',
+                name: { kind: 'Name', value: 'CommerceSearchTerm' },
+              },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'terms' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListTagsQuery__
+ *
+ * To run a query within a React component, call `useCommerceListTagsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListTagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListTagsQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      sort: // value for 'sort'
+ *      storeId: // value for 'storeId'
+ *      terms: // value for 'terms'
+ *   },
+ * });
+ */
+export function useCommerceListTagsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListTagsQuery,
+    CommerceListTagsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<CommerceListTagsQuery, CommerceListTagsQueryVariables>(
+    CommerceListTagsDocument,
+    baseOptions,
+  );
+}
+export function useCommerceListTagsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListTagsQuery,
+    CommerceListTagsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListTagsQuery,
+    CommerceListTagsQueryVariables
+  >(CommerceListTagsDocument, baseOptions);
+}
+export type CommerceListTagsQueryHookResult = ReturnType<
+  typeof useCommerceListTagsQuery
+>;
+export type CommerceListTagsLazyQueryHookResult = ReturnType<
+  typeof useCommerceListTagsLazyQuery
+>;
+export type CommerceListTagsQueryResult = Apollo.QueryResult<
+  CommerceListTagsQuery,
+  CommerceListTagsQueryVariables
 >;
 export const CommerceListTaxTypesDocument: DocumentNode = {
   definitions: [

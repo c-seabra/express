@@ -14,10 +14,12 @@ import {
   CommerceCategory,
   CommerceProduct,
   CommerceProductTaxMode,
+  CommerceSearchTermOp,
   CommerceTax,
   CommerceTaxType,
   Maybe,
   useCommerceCreateProductMutation,
+  useCommerceListTagsQuery,
   useCommerceUpdateProductMutation,
 } from '@websummit/graphql/src/@types/operations';
 import CommerceGetProduct from '@websummit/graphql/src/operations/queries/CommerceGetProduct';
@@ -71,8 +73,8 @@ const useTicketTypeMutations = ({
   const { success, error } = useSnackbars();
 
   const refetchQueries = ticketTypeId
-    ? [{ context, query: CommerceListProducts }]
-    : [{ context, query: CommerceGetProduct, variables: { id: ticketTypeId } }];
+    ? [{ context, query: CommerceGetProduct, variables: { id: ticketTypeId } }]
+    : [{ context, query: CommerceListProducts }];
 
   const [createTicketType] = useCommerceCreateProductMutation({
     context,
@@ -230,6 +232,32 @@ type TicketTypeFormProps = {
   };
 };
 
+// On ticket type (CommerceProduct) creation,
+// we need always include the default 'ticket' tag
+// The specific tag we are looking for is named 'ticket'
+// This tag is created on store upsertion,
+// before ticket type configuration takes place
+const defaultTicketTagCode = 'ticket';
+
+const useDefaultTicketTag = () => {
+  const context = useRequestContext();
+
+  const { data: ticketTagData } = useCommerceListTagsQuery({
+    context,
+    variables: {
+      terms: [
+        {
+          field: 'code',
+          op: CommerceSearchTermOp.Eq,
+          value: defaultTicketTagCode,
+        },
+      ],
+    },
+  });
+
+  return (ticketTagData?.commerceListTags?.hits || [])[0];
+};
+
 const TicketTypeForm = ({
   country = '',
   currencySymbol = '',
@@ -241,6 +269,8 @@ const TicketTypeForm = ({
   const { createTicketType, updateTicketType } = useTicketTypeMutations({
     ticketTypeId: ticketType?.id,
   });
+
+  const defaultTag = useDefaultTicketTag();
 
   const ticketCategoriesOptions = [
     emptyOption,
@@ -323,6 +353,9 @@ const TicketTypeForm = ({
                 },
                 name,
                 price: toCents(price),
+                // when adding multiple tags on creation
+                // we still need to include the default tag here
+                tags: [{ id: defaultTag?.id }],
                 taxMode:
                   taxMode === CommerceProductTaxMode.B2B
                     ? CommerceProductTaxMode.B2B
