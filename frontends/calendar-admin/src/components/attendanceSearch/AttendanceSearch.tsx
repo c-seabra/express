@@ -1,8 +1,14 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
-import React, { KeyboardEvent, ReactElement, useState } from 'react';
+import React, {
+  KeyboardEvent,
+  ReactElement,
+  useContext,
+  useState,
+} from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance } from '../../lib/types/index';
+import AppContext from '../app/AppContext';
 import {
   ListItem,
   RemoveButton,
@@ -17,6 +23,8 @@ type AttendanceSearchState = {
 };
 
 const AttendanceSearch = (): ReactElement => {
+  const { setAttendances } = useContext(AppContext);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selections, setSelections] = useState<Array<Attendance>>([]);
   const [display, setDisplay] = useState<boolean>(false);
@@ -52,12 +60,14 @@ const AttendanceSearch = (): ReactElement => {
 
   const handleSelect = (att: Attendance) => {
     if (!selections.includes(att)) setSelections([...selections, att]);
+    if (!selections.includes(att)) setAttendances?.([...selections, att]);
   };
 
   const handleRemove = (att: Attendance) => {
     const index = selections.indexOf(att);
     selections.splice(index, 1);
     setSelections([...selections]);
+    setAttendances?.([...selections]);
   };
 
   return (

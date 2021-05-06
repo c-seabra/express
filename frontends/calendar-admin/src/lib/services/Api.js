@@ -14,7 +14,7 @@ const CONFIG = {
   },
   production: {
     AVENGER_URL: 'https://api.cilabs.com',
-    CALENDAR_URL: 'https://api.cilabs.com',
+    CALENDAR_URL: 'http://calendar.calendar.svc.cluster.local:80',
   },
   staging: {
     AVENGER_URL: 'https://sapi.cilabs.com',
@@ -119,6 +119,38 @@ export function withConfig({ token: _token, env: _env } = {}) {
         CONFIG[env].CALENDAR_URL,
       )}/calendar_events/${String(calendar_event_id)}/invitations/${String(
         invitation_id,
+      )}`;
+      return handleFetch(new Request(requestUrl, requestData));
+    },
+
+    getAdminEvents: async (
+      attendancesArray,
+      token = String(_token),
+      env = _env,
+    ) => {
+      if (env === 'mock') {
+        const att = stubAttendancesResponse.data.find(
+          (mockAtt) => mockAtt.id === attendanceId,
+        );
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: att });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+      const requestData = {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+        method: 'GET',
+      };
+
+      const requestUrl = `${String(
+        CONFIG[env].CALENDAR_URL,
+      )}/admin_calendar_events/?attendances[]=${attendancesArray.join(
+        '&attendances[]=',
       )}`;
       return handleFetch(new Request(requestUrl, requestData));
     },
