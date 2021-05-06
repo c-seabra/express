@@ -24,7 +24,6 @@ const IconWrapper = styled.div`
 
 type DealItemsListProps = {
   currencySymbol: string;
-  dealId: string;
   onActionClick?: any;
   onRowClick?: any;
   products: any;
@@ -33,7 +32,6 @@ const DealItemsList = ({
   products,
   onRowClick,
   currencySymbol,
-  dealId,
   onActionClick,
 }: DealItemsListProps) => {
   const formatPricingApplied = (source: string): string =>

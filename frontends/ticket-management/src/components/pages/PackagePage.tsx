@@ -344,7 +344,6 @@ const PackagePage = () => {
                 <Spacing bottom="2rem" top="2rem">
                   <DealItemsList
                     currencySymbol={storeCurrencySymbol as string}
-                    dealId={dealId}
                     products={dealItems}
                     onActionClick={openDeleteItemModal}
                     onRowClick={onRowClick}
