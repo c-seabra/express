@@ -61,14 +61,14 @@ const AttendanceSearch = (): ReactElement => {
 
   const handleSelect = (att: Attendance) => {
     if (!selections.includes(att)) setSelections([...selections, att]);
-    if (!selections.includes(att)) setAttendances([...selections, att]);
+    if (!selections.includes(att)) setAttendances?.([...selections, att]);
   };
 
   const handleRemove = (att: Attendance) => {
     const index = selections.indexOf(att);
     selections.splice(index, 1);
     setSelections([...selections]);
-    setAttendances([...selections]);
+    setAttendances?.([...selections]);
   };
 
   return (

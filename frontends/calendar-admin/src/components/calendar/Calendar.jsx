@@ -91,7 +91,6 @@ const Calendar = ({ token, env }) => {
       setEvents([]);
     }
 
-
     const locationsResult = await Api.getLocations(payload.conf_slug, env);
     locationsResult.data
       ? setLocations(locationsResult.data.data)

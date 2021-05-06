@@ -5,7 +5,7 @@ import { Attendance } from '../../lib/types/index';
 type AppContextType = {
   attendances?: Attendance[];
   conferenceSlug?: string;
-  setAttendances: () => Attendance[];
+  setAttendances?: (attendance: Attendance[]) => void;
   token?: string;
 };
 
