@@ -14,7 +14,7 @@ const CONFIG = {
   },
   production: {
     AVENGER_URL: 'https://api.cilabs.com',
-    CALENDAR_URL: 'https://api.cilabs.com',
+    CALENDAR_URL: 'http://calendar.calendar.svc.cluster.local:80',
   },
   staging: {
     AVENGER_URL: 'https://sapi.cilabs.com',

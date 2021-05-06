@@ -8,7 +8,6 @@ import React, {
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance } from '../../lib/types/index';
-import App from '../app/App';
 import AppContext from '../app/AppContext';
 import {
   ListItem,
