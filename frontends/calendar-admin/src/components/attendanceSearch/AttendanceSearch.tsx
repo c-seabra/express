@@ -1,10 +1,5 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
-import React, {
-  KeyboardEvent,
-  ReactElement,
-  useContext,
-  useState,
-} from 'react';
+import React, { ReactElement, useContext, useEffect, useState } from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance } from '../../lib/types/index';
@@ -33,34 +28,25 @@ const AttendanceSearch = (): ReactElement => {
     if (state.searchQuery) setSearchQuery(state.searchQuery);
   };
 
-  const { searchState, setSearchState } = useSearchState<AttendanceSearchState>(
-    {
-      processInitialSearchState,
-    },
-  );
-
-  const { results, error, loading } = useAttendancesQuery({
-    searchQuery: searchState.searchQuery,
+  const { setSearchState } = useSearchState<AttendanceSearchState>({
+    processInitialSearchState,
   });
 
-  const handleSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (searchQuery === '') setDisplay(false);
-      else {
-        setDisplay(true);
-        const element = e.currentTarget as HTMLInputElement;
-        setSearchState((prevState) => ({
-          ...prevState,
-          searchQuery: element.value,
-        }));
-        setSearchQuery(element.value);
-      }
-    }
+  const { results, error, loading } = useAttendancesQuery({
+    searchQuery,
+  });
+
+  const handleSearch = (query: string) => {
+    setDisplay(query.length > 2);
+    setSearchState((prevState) => ({
+      ...prevState,
+      searchQuery: query,
+    }));
   };
 
   const handleSelect = (att: Attendance) => {
-    if (!selections.includes(att)) setSelections([...selections, att]);
-    if (!selections.includes(att)) setAttendances?.([...selections, att]);
+    if (!selections.find((e) => e.id === att.id))
+      setSelections([...selections, att]);
   };
 
   const handleRemove = (att: Attendance) => {
@@ -69,6 +55,11 @@ const AttendanceSearch = (): ReactElement => {
     setSelections([...selections]);
     setAttendances?.([...selections]);
   };
+
+  useEffect(() => {
+    handleSearch(searchQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   return (
     <SearchContainer>
@@ -79,13 +70,12 @@ const AttendanceSearch = (): ReactElement => {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={handleSearchKey}
         />
         {display && !loading && !error && (
           <>
             {results?.map((attendance, i) => (
               <div key={i}>
-                {!selections.includes(attendance) && (
+                {!selections.find((e) => e.id === attendance.id) && (
                   <ListItem key={i} onClick={() => handleSelect(attendance)}>
                     {attendance.name} - {attendance.bookingRef}
                   </ListItem>
