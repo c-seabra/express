@@ -45,8 +45,10 @@ const AttendanceSearch = (): ReactElement => {
   };
 
   const handleSelect = (att: Attendance) => {
-    if (!selections.find((e) => e.id === att.id))
+    if (!selections.find((e) => e.id === att.id)) {
       setSelections([...selections, att]);
+      setAttendances?.([...selections, att]);
+    }
   };
 
   const handleRemove = (att: Attendance) => {
