@@ -47,7 +47,6 @@ const Calendar = ({ token, env }) => {
   };
 
   useEffect(() => {
-    console.log('HELLO');
     const tokenPayload = jwt(token);
     try {
       setCurrentToken(token); // use token or currentToken, not both (below)
