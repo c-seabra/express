@@ -11,6 +11,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
+import { Maybe } from 'graphql/jsutils/Maybe';
 
 const StyledName = styled.span`
   color: #0067e9;
@@ -34,6 +35,12 @@ const DealItemsList = ({
   currencySymbol,
   onActionClick,
 }: DealItemsListProps) => {
+  const eventWrapper = (event: any, id: Maybe<string>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    onActionClick(id);
+  };
   const formatPricingApplied = (source: string): string =>
     switchCase({
       [CommerceDealItemType.PercentageDiscount]: 'Percentage discount',
@@ -82,7 +89,7 @@ const DealItemsList = ({
       renderCell: (saleProduct) => {
         return (
           <>
-            <IconWrapper onClick={(e) => onActionClick(e, saleProduct.id)}>
+            <IconWrapper onClick={(e) => eventWrapper(e, saleProduct?.id)}>
               <Icon>delete</Icon>
             </IconWrapper>
           </>

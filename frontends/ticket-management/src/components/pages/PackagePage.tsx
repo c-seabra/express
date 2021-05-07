@@ -268,10 +268,7 @@ const PackagePage = () => {
     closeModal: packageItemModalClose,
     openModal: packageItemOpenModal,
   } = useModalState();
-  const openDeleteItemModal = (event: any, itemId: string) => {
-    event.preventDefault();
-    event.stopPropagation();
-
+  const openDeleteItemModal = (itemId: string) => {
     setDealItemId(itemId);
     packageItemOpenModal();
   };
