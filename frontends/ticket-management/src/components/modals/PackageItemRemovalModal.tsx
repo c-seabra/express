@@ -43,8 +43,6 @@ const PackageItemRemovalModal = ({
   });
 
   const setMutation = () => {
-    console.log('event', dealItemId, dealId);
-
     return deletePackageItem({
       variables: {
         dealId,
