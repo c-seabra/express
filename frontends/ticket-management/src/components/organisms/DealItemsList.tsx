@@ -7,11 +7,11 @@ import {
   CommerceDealItem,
   CommerceDealItemType,
 } from '@websummit/graphql/src/@types/operations';
+import { Maybe } from 'graphql/jsutils/Maybe';
 import React from 'react';
 import styled from 'styled-components';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import { Maybe } from 'graphql/jsutils/Maybe';
 
 const StyledName = styled.span`
   color: #0067e9;
