@@ -24,6 +24,16 @@ const Calendar = ({ token, env }) => {
   const attendancesArray = attendances.map((att) => {
     return att.id;
   });
+
+  const colors = {};
+  attendancesArray.forEach((att) => {
+    if (!(att in colors)) {
+      colors[att] = {
+        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      };
+    }
+  });
+
   if (!token) return null;
   // console.log({ token, env });
   // const [ENV, setENV] = useState();
@@ -81,7 +91,13 @@ const Calendar = ({ token, env }) => {
       );
       if (eventsResults.data) {
         let eventRes = [];
-        eventsResults.data.data.map((e) => eventRes.push(...e.calendar_events));
+        eventsResults.data.data.map((e) => {
+          e.calendar_events.map((i) => {
+            i.attendance_id = e.id;
+            return e;
+          });
+          eventRes.push(...e.calendar_events);
+        });
 
         eventRes = eventRes.map((e) => {
           const offsetString = moment(e.starts_at)
@@ -318,19 +334,7 @@ const Calendar = ({ token, env }) => {
 
   const eventPropGetter = (e) => {
     const style = {};
-    if (e.allDay === true) {
-      style.backgroundColor = 'orange';
-    }
-    if (e.saved === false) {
-      style.border = '2px solid red';
-      style.zIndex = 6;
-    }
-    if (e.pin_id) {
-      style.backgroundColor = 'green';
-    }
-    if (e.invited_by_admin) {
-      style.backgroundColor = 'purple';
-    }
+    style.backgroundColor = colors[e.attendance_id]?.color;
     return { style };
   };
 
