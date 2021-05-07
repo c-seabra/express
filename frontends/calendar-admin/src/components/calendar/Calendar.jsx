@@ -4,7 +4,7 @@ import './Calendar.css';
 
 import update from 'immutability-helper';
 import jwt from 'jwt-decode';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import React, { useContext, useEffect, useState } from 'react';
 import * as BigCalendar from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
@@ -80,8 +80,21 @@ const Calendar = ({ token, env }) => {
         env,
       );
       if (eventsResults.data) {
-        const eventRes = [];
+        let eventRes = [];
         eventsResults.data.data.map((e) => eventRes.push(...e.calendar_events));
+
+        eventRes = eventRes.map((e) => {
+          const offsetString = moment(e.starts_at)
+            .tz(confResult.data.data.timezone, true)
+            .format();
+          e.starts_at = moment(e.starts_at)
+            .utcOffset(offsetString)
+            .format('YYYY-MM-DDTHH:mm');
+          e.ends_at = moment(e.ends_at)
+            .utcOffset(offsetString)
+            .format('YYYY-MM-DDTHH:mm');
+          return e;
+        });
         setEvents(eventRes);
       } else {
         addError(eventsResults.error);

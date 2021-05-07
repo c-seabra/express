@@ -54,9 +54,9 @@ const ExistingEvent = ({ event, close_popup }) => {
   const [eventTime, setEventTime] = useState();
 
   const formatDate = (startsAt, endsAt) => {
-    const dateFormatted = `${moment(startsAt)
-      .utc()
-      .format('dddd, DD MMMM - HH:mm')}-${moment(endsAt).format('HH:mm')}`;
+    const dateFormatted = `${moment(startsAt).format(
+      'dddd, DD MMMM - HH:mm',
+    )}-${moment(endsAt).format('HH:mm')}`;
 
     setEventTime(dateFormatted);
   };
