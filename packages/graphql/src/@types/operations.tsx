@@ -9207,10 +9207,18 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
 export type OrderTicketsQueryVariables = Exact<{
   orderId: Scalars['ID'];
   filter?: Maybe<TicketFilter>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 }>;
 
 export type OrderTicketsQuery = { __typename?: 'Query' } & {
   tickets: { __typename?: 'TicketConnection' } & {
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'
+    >;
     edges: Array<
       { __typename?: 'TicketEdge' } & {
         node: { __typename?: 'Ticket' } & Pick<
@@ -22479,12 +22487,69 @@ export const OrderTicketsDocument: DocumentNode = {
                   name: { kind: 'Name', value: 'filter' },
                 },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'before' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'last' },
+                },
+              },
             ],
             kind: 'Field',
             name: { kind: 'Name', value: 'tickets' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'edges' },
@@ -22716,6 +22781,35 @@ export const OrderTicketsDocument: DocumentNode = {
             name: { kind: 'Name', value: 'filter' },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'before' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+        },
       ],
     },
   ],
@@ -22736,6 +22830,10 @@ export const OrderTicketsDocument: DocumentNode = {
  *   variables: {
  *      orderId: // value for 'orderId'
  *      filter: // value for 'filter'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
  *   },
  * });
  */
