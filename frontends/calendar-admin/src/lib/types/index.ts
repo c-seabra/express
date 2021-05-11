@@ -9,4 +9,3 @@ export type Color = {
   colorHash: string;
   id: string;
 };
-
