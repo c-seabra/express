@@ -21,17 +21,9 @@ const localizer = BigCalendar.momentLocalizer(moment);
 
 const Calendar = ({ token, env }) => {
   const { attendances } = useContext(AppContext);
+  const { colors } = useContext(AppContext);
   const attendancesArray = attendances.map((att) => {
     return att.id;
-  });
-
-  const colors = {};
-  attendancesArray.forEach((att) => {
-    if (!(att in colors)) {
-      colors[att] = {
-        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      };
-    }
   });
 
   if (!token) return null;
@@ -334,7 +326,9 @@ const Calendar = ({ token, env }) => {
 
   const eventPropGetter = (e) => {
     const style = {};
-    style.backgroundColor = colors[e.attendance_id]?.color;
+    style.backgroundColor = colors.find(
+      (c) => c.id === e.attendance_id,
+    ).colorHash;
     return { style };
   };
 
