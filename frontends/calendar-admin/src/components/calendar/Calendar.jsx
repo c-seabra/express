@@ -82,10 +82,9 @@ const Calendar = ({ token, env }) => {
       );
       if (eventsResults.data) {
         let eventRes = [];
-        eventsResults.data.data.map((e) => {
-          e.calendar_events.map((i) => {
+        eventsResults.data.data.forEach((e) => {
+          e.calendar_events.forEach((i) => {
             i.attendance_id = e.id;
-            return e;
           });
           eventRes.push(...e.calendar_events);
         });
