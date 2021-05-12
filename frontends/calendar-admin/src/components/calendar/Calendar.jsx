@@ -20,10 +20,11 @@ const DragAndDropCalendar = withDragAndDrop(BigCalendar.Calendar);
 const localizer = BigCalendar.momentLocalizer(moment);
 
 const Calendar = ({ token, env }) => {
-  const { attendances } = useContext(AppContext);
+  const { attendances, colors } = useContext(AppContext);
   const attendancesArray = attendances.map((att) => {
     return att.id;
   });
+
   if (!token) return null;
   // console.log({ token, env });
   // const [ENV, setENV] = useState();
@@ -81,7 +82,12 @@ const Calendar = ({ token, env }) => {
       );
       if (eventsResults.data) {
         let eventRes = [];
-        eventsResults.data.data.map((e) => eventRes.push(...e.calendar_events));
+        eventsResults.data.data.forEach((e) => {
+          e.calendar_events.forEach((i) => {
+            i.attendance_id = e.id;
+          });
+          eventRes.push(...e.calendar_events);
+        });
 
         eventRes = eventRes.map((e) => {
           const offsetString = moment(e.starts_at)
@@ -148,16 +154,18 @@ const Calendar = ({ token, env }) => {
   };
 
   const onSelectEvent = (e, syntheticEvent) => {
-    // don't do anything if already doing
-    if (newEvent || existingEvent) return;
-    // keep the click data
-    syntheticEvent.persist();
-    e.syntheticEvent = syntheticEvent;
+    if (e.invited_by_admin === true) {
+      // don't do anything if already doing
+      if (newEvent || existingEvent) return;
+      // keep the click data
+      syntheticEvent.persist();
+      e.syntheticEvent = syntheticEvent;
 
-    getRSVPSDetails(e.invitations);
+      getRSVPSDetails(e.invitations);
 
-    // meanwhile render
-    setExistingEvent(e);
+      // meanwhile render
+      setExistingEvent(e);
+    }
   };
 
   const onUpdateEventInvitationResponse = async (eventId, response) => {
@@ -312,25 +320,20 @@ const Calendar = ({ token, env }) => {
   const tooltipAccessor = (e) =>
     `${e.title} -> ${e.starts_at} + ${e.description || ''}`;
 
+  const titleAccessor = (e) => {
+    if (!e.invited_by_admin) return 'Private Event';
+    return `${e.title}`;
+  };
+
   const startAccessor = (e) => moment(e.starts_at).toDate();
 
   const endAccessor = (e) => moment(e.ends_at).toDate();
 
   const eventPropGetter = (e) => {
     const style = {};
-    if (e.allDay === true) {
-      style.backgroundColor = 'orange';
-    }
-    if (e.saved === false) {
-      style.border = '2px solid red';
-      style.zIndex = 6;
-    }
-    if (e.pin_id) {
-      style.backgroundColor = 'green';
-    }
-    if (e.invited_by_admin) {
-      style.backgroundColor = 'purple';
-    }
+    style.backgroundColor = colors.find(
+      (c) => c.id === e.attendance_id,
+    )?.colorHash;
     return { style };
   };
 
@@ -437,7 +440,7 @@ const Calendar = ({ token, env }) => {
           step={60}
           style={{ fontSize: '14px', height: '100vh' }}
           timeslots={1}
-          titleAccessor="title"
+          titleAccessor={titleAccessor}
           tooltipAccessor={tooltipAccessor}
           view={currentView}
           onDrillDown={onDrillDown}

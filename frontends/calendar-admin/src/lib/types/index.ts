@@ -4,3 +4,8 @@ export type Attendance = {
   id: string;
   name?: string;
 };
+
+export type Color = {
+  colorHash: string;
+  id: string;
+};

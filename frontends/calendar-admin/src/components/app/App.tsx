@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Attendance } from '../../lib/types';
+import { Attendance, Color } from '../../lib/types';
 import AttendanceSearch from '../attendanceSearch/AttendanceSearch';
 import Calendar from '../calendar/Calendar';
 import AppContext from './AppContext';
@@ -29,6 +29,7 @@ const App = ({ token, apiURL }: AppProps) => {
     tokenPayload.conf_slug,
   );
   const [attendances, setAttendances] = useState<Array<Attendance>>([]);
+  const [colors, setColors] = useState<Array<Color>>([]);
 
   useEffect(() => {
     setConferenceSlug(tokenPayload.conf_slug);
@@ -45,8 +46,10 @@ const App = ({ token, apiURL }: AppProps) => {
           <AppContext.Provider
             value={{
               attendances,
+              colors,
               conferenceSlug,
               setAttendances,
+              setColors,
               token,
             }}
           >

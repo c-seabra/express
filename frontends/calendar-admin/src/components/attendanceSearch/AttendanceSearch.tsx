@@ -2,7 +2,7 @@ import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
-import { Attendance } from '../../lib/types/index';
+import { Attendance, Color } from '../../lib/types/index';
 import AppContext from '../app/AppContext';
 import {
   ListItem,
@@ -18,9 +18,10 @@ type AttendanceSearchState = {
 };
 
 const AttendanceSearch = (): ReactElement => {
-  const { setAttendances } = useContext(AppContext);
+  const { setAttendances, setColors } = useContext(AppContext);
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [paints, setPaints] = useState<Array<Color>>([]);
   const [selections, setSelections] = useState<Array<Attendance>>([]);
   const [display, setDisplay] = useState<boolean>(false);
 
@@ -46,8 +47,14 @@ const AttendanceSearch = (): ReactElement => {
 
   const handleSelect = (att: Attendance) => {
     if (!selections.find((e) => e.id === att.id)) {
+      const color = {
+        colorHash: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+        id: att.id,
+      } as Color;
       setSelections([...selections, att]);
       setAttendances?.([...selections, att]);
+      setPaints?.([...paints, color]);
+      setColors?.([...paints, color]);
     }
   };
 
@@ -56,6 +63,12 @@ const AttendanceSearch = (): ReactElement => {
     selections.splice(index, 1);
     setSelections([...selections]);
     setAttendances?.([...selections]);
+    const paint = paints.find((e) => e.id === att.id);
+    if (paint) {
+      paints.splice(paints.indexOf(paint), 1);
+      setPaints?.([...paints]);
+      setColors?.([...paints]);
+    }
   };
 
   useEffect(() => {
@@ -90,7 +103,14 @@ const AttendanceSearch = (): ReactElement => {
       <StyledDisplay>
         {selections.map((selection) => (
           <div key={selection?.id}>
-            <ListItem key={selection?.id}>
+            <ListItem
+              key={selection?.id}
+              style={{
+                border: `1px solid ${
+                  paints.find((e) => e.id === selection.id)!.colorHash
+                }`,
+              }}
+            >
               {selection.name} - {selection.bookingRef}
               <RemoveButton onClick={() => handleRemove(selection)} />
             </ListItem>
