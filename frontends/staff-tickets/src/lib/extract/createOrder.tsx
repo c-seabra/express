@@ -1,8 +1,8 @@
 import { FetchResult } from '@apollo/client';
 import {
+  CommerceCreateOrderMutation,
   CommerceOrderStatus,
-  CreateOrderMutation,
-  useCreateOrderMutation,
+  useCommerceCreateOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
 
 export type StatusType = {
@@ -99,7 +99,7 @@ export async function processCreateOrderWorkUnit(
   };
 
   const variables = {
-    input: {
+    commerceOrderCreate: {
       customer: {
         email: workUnit.email,
         firstName: workUnit.firstName,
@@ -109,19 +109,22 @@ export async function processCreateOrderWorkUnit(
       metadata: {},
       status: CommerceOrderStatus.Complete,
     },
-    storeId: '',
   };
 
   if (workUnit.notify) {
-    variables.input.metadata = {
+    variables.commerceOrderCreate.metadata = {
       disableEmailNotification: true,
       disableOrderEmail: true,
     };
   }
 
-  const [createOrder] = useCreateOrderMutation();
-  const result: FetchResult<CreateOrderMutation> = await createOrder({
-    context, variables
+  // bit quirky but this should work :)
+  // saves me from reimplementing the whole codegen shenanigans
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [createOrder] = useCommerceCreateOrderMutation();
+  const result: FetchResult<CommerceCreateOrderMutation> = await createOrder({
+    context,
+    variables,
   });
 
   if (result.errors) {
@@ -132,4 +135,9 @@ export async function processCreateOrderWorkUnit(
     return workUnit;
   }
 
+  workUnit.status = {
+    message: `Created an order with reference: ${result.data?.commerceCreateOrder?.reference}`,
+    type: 'SUCCESS',
+  };
+  return workUnit;
 }

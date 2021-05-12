@@ -102,6 +102,9 @@ module.exports = {
     // we run prettier anyway extra
     'prettier/prettier': 'off',
 
+    // props should be true here
+    'no-param-reassign': ['error', { props: false }],
+
     // react specific rules
     'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-key': ['error', { checkFragmentShorthand: true }],
@@ -149,6 +152,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
 
     // results in false positives for single spa
     'react/display-name': 'off',
