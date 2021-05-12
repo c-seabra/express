@@ -7,12 +7,12 @@ import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import Select from '@websummit/components/src/molecules/Select';
 import {
   CommerceOrderPaymentStatus,
   CommerceTransaction,
   CommerceTransactionType,
   Order,
-  Ticket,
   useCommerceListPaymentMethodsQuery,
   useOrderByRefQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -28,9 +28,11 @@ import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
+import useTicketsQuery from '../../lib/hooks/useTicketsQuery';
 import Loader from '../../lib/Loading';
+import Pagination from '../../lib/Pagination';
 import { switchCase } from '../../lib/utils/logic';
-import { useAppContext } from '../app/AppContext';
+import { useRequestContext } from '../app/AppContext';
 import OrderRefundModal from '../orderActions/OrderRefundModal';
 import Warning from '../ticketActions/Warning';
 import TicketList from '../ticketList/TicketList';
@@ -106,9 +108,29 @@ const ButtonWithSpacing = styled(SecondaryButton)`
   margin-right: 16px;
 `;
 
+const StyledSelect = styled(Select)`
+  min-height: 36px;
+  width: 70px;
+`;
+
+const pagingOptions = [
+  { label: 10, value: 10 },
+  { label: 15, value: 15 },
+  { label: 20, value: 20 },
+  { label: 25, value: 25 },
+];
+
+const DEFAULT_PER_PAGE = 10;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const OrderDetails = (): ReactElement => {
   const { orderRef } = useParams<{ orderRef: string }>();
-  const { conferenceSlug, token } = useAppContext();
+  const context = useRequestContext();
   const {
     openModal: openOrderCancelModal,
     isOpen: isOrderCancelModalOpen,
@@ -136,10 +158,7 @@ const OrderDetails = (): ReactElement => {
   } = useModalState();
 
   const { data, loading, error, refetch } = useOrderByRefQuery({
-    context: {
-      slug: conferenceSlug,
-      token,
-    },
+    context,
     variables: {
       reference: orderRef,
     },
@@ -158,11 +177,25 @@ const OrderDetails = (): ReactElement => {
   });
 
   const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
-    context: { slug: conferenceSlug, token },
+    context,
+  });
+
+  const [perPage, setPerPage] = useState(DEFAULT_PER_PAGE);
+
+  const {
+    results: tickets,
+    loading: ticketsLoading,
+    isForwardDisabled,
+    isBackwardsDisabled,
+    nextPage,
+    previousPage,
+  } = useTicketsQuery({
+    orderId: order?.id,
+    perPage: perPage || DEFAULT_PER_PAGE,
+    skip: !order?.id,
   });
 
   const owner = order?.owner;
-  const tickets = order?.tickets;
 
   const isFromTito = (source: string): boolean => {
     return switchCase({
@@ -389,12 +422,28 @@ const OrderDetails = (): ReactElement => {
                 </SpacingBottom>
               )}
             </div>
-            {tickets && tickets.edges?.length > 0 && (
+            {tickets && tickets.length > 0 && (
               <div>
                 <ContainerCard noPadding title="Ticket information">
-                  <TicketList
-                    list={tickets.edges.map(({ node }) => node as Ticket)}
-                  />
+                  <TicketList list={tickets} loading={ticketsLoading} />
+                  {!ticketsLoading && tickets.length >= perPage ? (
+                    <PaginationContainer>
+                      <Pagination
+                        isForwardDisabled={isForwardDisabled}
+                        isPreviousDisabled={isBackwardsDisabled}
+                        nextPage={nextPage}
+                        previousPage={previousPage}
+                      />
+                      <StyledSelect
+                        options={pagingOptions}
+                        value={perPage}
+                        onChange={(e) => {
+                          const newPerPage = parseInt(e.target.value, 10);
+                          setPerPage(newPerPage);
+                        }}
+                      />
+                    </PaginationContainer>
+                  ) : null}
                 </ContainerCard>
               </div>
             )}

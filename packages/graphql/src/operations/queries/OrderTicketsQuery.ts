@@ -1,8 +1,28 @@
 import { gql } from '@apollo/client';
 
 export default gql`
-  query OrderTickets($orderId: ID!, $filter: TicketFilter) {
-    tickets(orderId: $orderId, filter: $filter) {
+  query OrderTickets(
+    $orderId: ID!
+    $filter: TicketFilter
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+  ) {
+    tickets(
+      orderId: $orderId
+      filter: $filter
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+    ) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        endCursor
+        startCursor
+      }
       edges {
         node {
           id

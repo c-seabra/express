@@ -2,7 +2,6 @@ import { Button } from '@websummit/components/src/atoms/Button';
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import DateTimeInputField from '@websummit/components/src/molecules/DateTimeInputField';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
-import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
@@ -15,10 +14,7 @@ import {
   toIsoDateTime,
   toShortDateTime,
 } from '@websummit/components/src/utils/time';
-import {
-  useCommerceListCategoriesQuery,
-  useCommerceUpdateDealMutation,
-} from '@websummit/graphql/src/@types/operations';
+import { useCommerceUpdateDealMutation } from '@websummit/graphql/src/@types/operations';
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
@@ -53,7 +49,6 @@ type Props = {
 
 export type PackageFormData = {
   active: boolean;
-  category: any; // TODO fix type
   description: string;
   endDate: any;
   id: string;
@@ -63,22 +58,11 @@ export type PackageFormData = {
 
 const validationSchema = Yup.object().shape({
   active: Yup.boolean(),
-  category: Yup.string(), // default to Other
   description: Yup.string().nullable(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
-
-const otherOption = {
-  label: 'Other',
-  value: undefined,
-};
-
-const getTicketTypesOptions = (types: any[] = []) => [
-  ...types.map((type) => ({ label: type?.name, value: type?.id })),
-  otherOption,
-];
 
 const PackageForm = ({ prefillData }: Props) => {
   const context = useRequestContext();
@@ -96,17 +80,10 @@ const PackageForm = ({ prefillData }: Props) => {
     onError: (error) => errorSnackbar(error.message),
     refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
   });
-  const { data } = useCommerceListCategoriesQuery({
-    context,
-    onError: (e) => errorSnackbar(e.message),
-  });
-  const ticketCategories = data?.commerceListCategories?.hits;
-  const ticketCategoryOptions = getTicketTypesOptions(ticketCategories as []);
 
   const initialValues = () => {
     return {
       active: prefillData.active,
-      category: prefillData.id,
       description: prefillData.description,
       endDate: toShortDateTime(prefillData.endDate, ianaName),
       name: prefillData.name,
@@ -117,7 +94,6 @@ const PackageForm = ({ prefillData }: Props) => {
   const pickMutation = (formData: PackageFormData) => {
     const input = {
       active: formData.active,
-      category: formData.id,
       description: formData.description ? formData.description.trim() : null,
       endDate: toIsoDateTime(formData.endDate, ianaName),
       name: formData.name.trim(),
@@ -144,17 +120,6 @@ const PackageForm = ({ prefillData }: Props) => {
           <FieldWrapper>
             <Spacing bottom="8px">
               <TextInputField required label="Package name" name="name" />
-            </Spacing>
-          </FieldWrapper>
-
-          <FieldWrapper>
-            <Spacing bottom="8px">
-              <SelectField
-                required
-                label="Ticket category"
-                name="category"
-                options={ticketCategoryOptions}
-              />
             </Spacing>
           </FieldWrapper>
 

@@ -1,7 +1,9 @@
+import Badge from '@websummit/components/src/atoms/Badge';
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
@@ -14,7 +16,6 @@ import {
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { useErrorSnackbar } from '../../../../../packages/components/src/molecules/Snackbar';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketCategoriesPlaceholder from '../../lib/images/no-ticket-categories-placeholder.png';
 import { useAppContext } from '../app/AppContext';
@@ -59,6 +60,21 @@ const ticketCategoriesTableShape: ColumnDescriptors<TicketCategory> = [
     header: 'Last updated on',
     renderCell: (item) => formatDefaultDateTime(item.lastUpdatedAt || ''),
     width: '30%',
+  },
+  {
+    header: 'Status',
+    renderCell: (item) => {
+      const badge = {
+        background: item.active ? '#EAF9EA' : '#FDEBEB',
+        color: item.active ? '#3BB273' : '#E15554',
+      };
+
+      return (
+        <Badge background={badge.background} color={badge.color}>
+          {item.active ? 'Active' : 'Inactive' || 'N/A'}
+        </Badge>
+      );
+    },
   },
 ];
 
