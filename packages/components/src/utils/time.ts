@@ -7,6 +7,10 @@ import { DateTime, Duration } from 'luxon';
  * @param isoDate
  */
 
+export const getNow = () => {
+  return DateTime.now().toLocaleString();
+};
+
 export const formatDefaultDateTime = (isoDate?: string): string => {
   if (!isoDate) {
     return '';
