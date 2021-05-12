@@ -147,13 +147,11 @@ const MainNavigation = () => {
         );
       });
     }
-
+    const routeActive =
+      route.isActive && (!route.conferenceSpecific || !!conferenceSlug);
     return (
       <li key={route.path}>
-        <a
-          className={route.isActive ? '' : 'disabled'}
-          href={prefix + route.path}
-        >
+        <a className={routeActive ? '' : 'disabled'} href={prefix + route.path}>
           {route?.meta?.description}
         </a>
         <StyledDropbox className="navigation_submenu">
