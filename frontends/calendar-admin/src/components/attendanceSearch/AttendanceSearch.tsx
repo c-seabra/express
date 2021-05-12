@@ -18,8 +18,7 @@ type AttendanceSearchState = {
 };
 
 const AttendanceSearch = (): ReactElement => {
-  const { setAttendances } = useContext(AppContext);
-  const { setColors } = useContext(AppContext);
+  const { setAttendances, setColors } = useContext(AppContext);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [paints, setPaints] = useState<Array<Color>>([]);
