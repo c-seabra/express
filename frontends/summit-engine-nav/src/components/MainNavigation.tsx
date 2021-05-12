@@ -110,7 +110,6 @@ const StyledDropbox = styled.div`
 
 const MainNavigation = () => {
   const { conferenceSlug, token } = useAppContext();
-  const usedSlug = conferenceSlug;
   const { data } = useEventQuery({
     context: {
       token,
@@ -118,7 +117,7 @@ const MainNavigation = () => {
     onError: (e) => console.error(e.message),
     skip: !conferenceSlug,
     variables: {
-      slug: usedSlug,
+      slug: conferenceSlug,
     },
   });
 
@@ -129,31 +128,39 @@ const MainNavigation = () => {
   const match = matcher.exec(window.location.pathname);
   const prefix = match ? match[0] : '/';
 
-  const navElements = ROUTES.map((route: Route) => (
-    <li key={route.path}>
-      <a
-        className={route.isActive ? '' : 'disabled'}
-        href={prefix + route.path}
-      >
-        {route?.meta?.description}
-      </a>
-      <StyledDropbox className="navigation_submenu">
-        {route.children &&
-          route.children?.length > 0 &&
-          route.children?.map((childRoute: Route) => (
-            <li key={childRoute.path}>
-              <a
-                className={childRoute.isActive ? '' : 'disabled'}
-                href={prefix + childRoute.path}
-              >
-                {childRoute?.meta?.description}
-              </a>
-            </li>
-          ))}
-      </StyledDropbox>
-      {route.hasChildren && <Icon>keyboard_arrow_down</Icon>}
-    </li>
-  ));
+  const navElements = ROUTES.map((route: Route) => {
+    let childRoutes;
+    if (route.children && route.children?.length > 0) {
+      childRoutes = route.children?.map((childRoute: Route) => {
+        const routeActive =
+          childRoute.isActive &&
+          (!childRoute.conferenceSpecific || !!conferenceSlug);
+        return (
+          <li key={childRoute.path}>
+            <a
+              className={routeActive ? '' : 'disabled'}
+              href={prefix + childRoute.path}
+            >
+              {childRoute?.meta?.description}
+            </a>
+          </li>
+        );
+      });
+    }
+    const routeActive =
+      route.isActive && (!route.conferenceSpecific || !!conferenceSlug);
+    return (
+      <li key={route.path}>
+        <a className={routeActive ? '' : 'disabled'} href={prefix + route.path}>
+          {route?.meta?.description}
+        </a>
+        <StyledDropbox className="navigation_submenu">
+          {childRoutes}
+        </StyledDropbox>
+        {route.hasChildren && <Icon>keyboard_arrow_down</Icon>}
+      </li>
+    );
+  });
 
   return (
     <>

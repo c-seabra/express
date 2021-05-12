@@ -1,4 +1,4 @@
-import React, { HTMLProps } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 
 const FieldContainer = styled.div`
@@ -22,8 +22,8 @@ const Label = styled.div<{ required?: boolean }>`
     `}
 `;
 
-const StyledInput = styled.input<{ isError?: boolean }>`
-  font-size: 14px;
+const StyledSelect = styled.select<{ isError?: boolean }>`
+  font-size: 16px;
   font-weight: 300;
   border: 1px solid ${(props) => (props.isError ? '#e15554' : '#dcdfe5')};
   border-radius: 2px;
@@ -44,36 +44,59 @@ const Error = styled.div`
   margin-top: 4px;
 `;
 
-type TextInputProps = HTMLProps<HTMLInputElement> & {
-  errorMessage?: string;
+type SelectFieldOption = {
+  disabled?: boolean;
+  label?: string | number;
+  value?: string | number;
 };
 
-const TextInput = ({
+type SelectFieldProps = {
+  className?: string;
+  disabled?: boolean;
+  error?: string;
+  label?: string;
+  onChange?: (event: any) => void;
+  options?: SelectFieldOption[];
+  placeholder?: string;
+  required?: boolean;
+  value?: string | number;
+};
+
+const Select = ({
   className,
   label,
-  required,
   placeholder,
-  type = 'text',
-  disabled,
-  errorMessage,
-  onChange,
+  options = [],
+  required = false,
+  disabled = false,
+  onChange = undefined,
   value,
-  list,
-}: TextInputProps) => {
+  error,
+}: SelectFieldProps) => {
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
-      <StyledInput
+      <StyledSelect
         disabled={disabled}
-        list={list}
+        isError={!!error}
         placeholder={placeholder}
-        type={type}
         value={value}
         onChange={onChange}
-      />
-      {errorMessage && <Error>{errorMessage}</Error>}
+      >
+        {options.map((option) => (
+          <option
+            key={option.value}
+            disabled={option.disabled}
+            value={option.value}
+          >
+            {option.label}
+          </option>
+        ))}
+      </StyledSelect>
+
+      {error && <Error>{error}</Error>}
     </FieldContainer>
   );
 };
 
-export default TextInput;
+export default Select;

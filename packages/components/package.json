@@ -26,7 +26,10 @@
     "formik": "*",
     "luxon": "*",
     "react-simple-snackbar": "*",
-    "react-currency-input-field": "*"
+    "react-currency-input-field": "*",
+    "react-csv": "*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/react-csv": "*"
+  }
 }

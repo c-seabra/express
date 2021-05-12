@@ -50,13 +50,13 @@ type ModalProps = {
   children?: any;
   closeModal: () => void;
   customForm?: any;
-  initialValues: any;
+  initialValues?: any;
   isOpen: boolean;
   submitCallback: (values?: any) => void;
   submitText?: string;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
-  validationSchema: any;
+  validationSchema?: any;
 };
 
 const FormikModal = ({

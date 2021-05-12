@@ -1,4 +1,5 @@
 import { ApolloError } from '@apollo/client';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Ticket } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -20,7 +21,11 @@ const TicketList = ({
   const history = useHistory();
 
   if (loading) {
-    return <Loader />;
+    return (
+      <Spacing bottom="3rem" top="3rem">
+        <Loader />
+      </Spacing>
+    );
   }
 
   if (error) {

@@ -1,4 +1,4 @@
-import { DocumentNode, useQuery } from '@apollo/client';
+import { ApolloError, DocumentNode, useQuery } from '@apollo/client';
 import { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { useEffect, useState } from 'react';
 
@@ -22,14 +22,18 @@ type UsePaginatedQueryArgs<
 > = {
   context?: TContext;
   initialPage?: string;
+  onError?: (error: ApolloError) => void;
   query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+  skip?: boolean;
   variables?: TVariables & { after?: string };
 };
 
 const usePaginatedQuery = <TData, key, TVariables, TContext = unknown>({
   initialPage = '',
   context,
+  onError,
   query,
+  skip,
   variables,
 }: UsePaginatedQueryArgs<TData, TVariables, TContext>) => {
   const [afterCursor, setAfterCursor] = useState<string | undefined>(
@@ -46,6 +50,8 @@ const usePaginatedQuery = <TData, key, TVariables, TContext = unknown>({
     TVariables & { after?: string }
   >(query, {
     context,
+    onError,
+    skip,
     variables: queryVariablesWithCursor,
   });
   const [cursorStack, setCursorStack] = useState<string[]>([]);

@@ -279,6 +279,7 @@ export type QueryWebPageByHostPathArgs = {
 export type QueryWebPageConfigByPathHostArgs = {
   path: Scalars['String'];
   host: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type QueryAccessPermissionsArgs = {
@@ -7374,6 +7375,17 @@ export type CommerceCreateSaleMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceDeleteDealItemMutationVariables = Exact<{
+  id: Scalars['ID'];
+  dealId: Scalars['ID'];
+}>;
+
+export type CommerceDeleteDealItemMutation = { __typename?: 'Mutation' } & {
+  commerceDeleteDealItem: Maybe<
+    { __typename?: 'CommerceDealItem' } & Pick<CommerceDealItem, 'id'>
+  >;
+};
+
 export type CommerceUpdateDealMutationVariables = Exact<{
   commerceDealUpdate: CommerceDealUpdate;
   id: Scalars['ID'];
@@ -7677,7 +7689,13 @@ export type LegalEntityCreateMutation = { __typename?: 'Mutation' } & {
       legalEntity: Maybe<
         { __typename?: 'LegalEntity' } & Pick<
           LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          | 'id'
+          | 'name'
+          | 'regNumber'
+          | 'website'
+          | 'taxNumber'
+          | 'email'
+          | 'note'
         > & {
             address: Maybe<
               { __typename?: 'Address' } & Pick<
@@ -7711,7 +7729,13 @@ export type LegalEntityUpdateMutation = { __typename?: 'Mutation' } & {
       legalEntity: Maybe<
         { __typename?: 'LegalEntity' } & Pick<
           LegalEntity,
-          'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+          | 'id'
+          | 'name'
+          | 'regNumber'
+          | 'website'
+          | 'taxNumber'
+          | 'email'
+          | 'note'
         > & {
             address: Maybe<
               { __typename?: 'Address' } & Pick<
@@ -8638,6 +8662,29 @@ export type CommerceListStoresQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceListTagsQueryVariables = Exact<{
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm> | CommerceSortTerm>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm> | CommerceSearchTerm>;
+}>;
+
+export type CommerceListTagsQuery = { __typename?: 'Query' } & {
+  commerceListTags: Maybe<
+    { __typename?: 'CommerceSearchResponseTag' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceTag' } & Pick<
+            CommerceTag,
+            'id' | 'code' | 'description' | 'name'
+          >
+        >
+      >;
+    }
+  >;
+};
+
 export type CommerceListTaxTypesQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -8706,6 +8753,7 @@ export type EventQuery = { __typename?: 'Query' } & {
         legalEntity: Maybe<
           { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
+            | 'note'
             | 'email'
             | 'id'
             | 'name'
@@ -8855,7 +8903,14 @@ export type LegalEntityQueryVariables = Exact<{
 export type LegalEntityQuery = { __typename?: 'Query' } & {
   legalEntity: { __typename?: 'LegalEntity' } & Pick<
     LegalEntity,
-    'email' | 'id' | 'name' | 'phone' | 'regNumber' | 'taxNumber' | 'website'
+    | 'email'
+    | 'id'
+    | 'name'
+    | 'phone'
+    | 'regNumber'
+    | 'taxNumber'
+    | 'website'
+    | 'note'
   > & {
       address: Maybe<
         { __typename?: 'Address' } & Pick<
@@ -8881,7 +8936,13 @@ export type LegalEntitiesQuery = { __typename?: 'Query' } & {
       { __typename?: 'LegalEntityEdge' } & Pick<LegalEntityEdge, 'cursor'> & {
           node: { __typename?: 'LegalEntity' } & Pick<
             LegalEntity,
-            'id' | 'name' | 'regNumber' | 'website' | 'taxNumber' | 'email'
+            | 'id'
+            | 'name'
+            | 'regNumber'
+            | 'website'
+            | 'taxNumber'
+            | 'email'
+            | 'note'
           > & {
               address: Maybe<
                 { __typename?: 'Address' } & Pick<
@@ -9146,10 +9207,18 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
 export type OrderTicketsQueryVariables = Exact<{
   orderId: Scalars['ID'];
   filter?: Maybe<TicketFilter>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 }>;
 
 export type OrderTicketsQuery = { __typename?: 'Query' } & {
   tickets: { __typename?: 'TicketConnection' } & {
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'
+    >;
     edges: Array<
       { __typename?: 'TicketEdge' } & {
         node: { __typename?: 'Ticket' } & Pick<
@@ -13161,6 +13230,112 @@ export type CommerceCreateSaleMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateSaleMutation,
   CommerceCreateSaleMutationVariables
 >;
+export const CommerceDeleteDealItemDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceDeleteDealItem' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'dealId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'dealId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceDeleteDealItem' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'dealId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceDeleteDealItemMutationFn = Apollo.MutationFunction<
+  CommerceDeleteDealItemMutation,
+  CommerceDeleteDealItemMutationVariables
+>;
+
+/**
+ * __useCommerceDeleteDealItemMutation__
+ *
+ * To run a mutation, you first call `useCommerceDeleteDealItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceDeleteDealItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceDeleteDealItemMutation, { data, loading, error }] = useCommerceDeleteDealItemMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      dealId: // value for 'dealId'
+ *   },
+ * });
+ */
+export function useCommerceDeleteDealItemMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceDeleteDealItemMutation,
+    CommerceDeleteDealItemMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceDeleteDealItemMutation,
+    CommerceDeleteDealItemMutationVariables
+  >(CommerceDeleteDealItemDocument, baseOptions);
+}
+export type CommerceDeleteDealItemMutationHookResult = ReturnType<
+  typeof useCommerceDeleteDealItemMutation
+>;
+export type CommerceDeleteDealItemMutationResult = Apollo.MutationResult<CommerceDeleteDealItemMutation>;
+export type CommerceDeleteDealItemMutationOptions = Apollo.BaseMutationOptions<
+  CommerceDeleteDealItemMutation,
+  CommerceDeleteDealItemMutationVariables
+>;
 export const CommerceUpdateDealDocument: DocumentNode = {
   definitions: [
     {
@@ -15260,6 +15435,7 @@ export const LegalEntityCreateDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'taxNumber' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -15435,6 +15611,7 @@ export const LegalEntityUpdateDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'taxNumber' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -19590,6 +19767,195 @@ export type CommerceListStoresQueryResult = Apollo.QueryResult<
   CommerceListStoresQuery,
   CommerceListStoresQueryVariables
 >;
+export const CommerceListTagsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListTags' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'page' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'page' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'pageSize' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'pageSize' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sort' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'storeId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'storeId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'terms' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'terms' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListTags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'page' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'pageSize' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: {
+                kind: 'NamedType',
+                name: { kind: 'Name', value: 'CommerceSortTerm' },
+              },
+            },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'storeId' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: {
+                kind: 'NamedType',
+                name: { kind: 'Name', value: 'CommerceSearchTerm' },
+              },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'terms' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListTagsQuery__
+ *
+ * To run a query within a React component, call `useCommerceListTagsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListTagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListTagsQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      sort: // value for 'sort'
+ *      storeId: // value for 'storeId'
+ *      terms: // value for 'terms'
+ *   },
+ * });
+ */
+export function useCommerceListTagsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListTagsQuery,
+    CommerceListTagsQueryVariables
+  >,
+) {
+  return Apollo.useQuery<CommerceListTagsQuery, CommerceListTagsQueryVariables>(
+    CommerceListTagsDocument,
+    baseOptions,
+  );
+}
+export function useCommerceListTagsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListTagsQuery,
+    CommerceListTagsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListTagsQuery,
+    CommerceListTagsQueryVariables
+  >(CommerceListTagsDocument, baseOptions);
+}
+export type CommerceListTagsQueryHookResult = ReturnType<
+  typeof useCommerceListTagsQuery
+>;
+export type CommerceListTagsLazyQueryHookResult = ReturnType<
+  typeof useCommerceListTagsLazyQuery
+>;
+export type CommerceListTagsQueryResult = Apollo.QueryResult<
+  CommerceListTagsQuery,
+  CommerceListTagsQueryVariables
+>;
 export const CommerceListTaxTypesDocument: DocumentNode = {
   definitions: [
     {
@@ -19849,6 +20215,7 @@ export const EventDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'address' },
@@ -20630,6 +20997,7 @@ export const LegalEntityDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'regNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'taxNumber' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'note' } },
               ],
             },
           },
@@ -20750,6 +21118,10 @@ export const LegalEntitiesDocument: DocumentNode = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'note' },
                             },
                             {
                               kind: 'Field',
@@ -22115,12 +22487,69 @@ export const OrderTicketsDocument: DocumentNode = {
                   name: { kind: 'Name', value: 'filter' },
                 },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'before' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'last' },
+                },
+              },
             ],
             kind: 'Field',
             name: { kind: 'Name', value: 'tickets' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'edges' },
@@ -22352,6 +22781,35 @@ export const OrderTicketsDocument: DocumentNode = {
             name: { kind: 'Name', value: 'filter' },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'before' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+        },
       ],
     },
   ],
@@ -22372,6 +22830,10 @@ export const OrderTicketsDocument: DocumentNode = {
  *   variables: {
  *      orderId: // value for 'orderId'
  *      filter: // value for 'filter'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
  *   },
  * });
  */

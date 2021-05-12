@@ -2,7 +2,6 @@ import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
-import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
@@ -10,10 +9,7 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {
-  useCommerceCreateDealMutation,
-  useCommerceListCategoriesQuery,
-} from '@websummit/graphql/src/@types/operations';
+import { useCommerceCreateDealMutation } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
@@ -38,7 +34,6 @@ type ModalProps = {
 
 export type PackageFormData = {
   active: boolean;
-  category: any; // TODO fix type
   description: string;
   endDate: any;
   id: string;
@@ -48,22 +43,11 @@ export type PackageFormData = {
 
 const validationSchema = Yup.object().shape({
   active: Yup.boolean(),
-  category: Yup.string(), // default to Other
   description: Yup.string().nullable(),
   endDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
-
-const otherOption = {
-  label: 'Other',
-  value: undefined,
-};
-
-const getTicketTypesOptions = (types: any[] = []) => [
-  ...types.map((type) => ({ label: type?.name, value: type?.id })),
-  otherOption,
-];
 
 const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
   const context = useRequestContext();
@@ -77,17 +61,10 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
     onError: (error) => errorSnackbar(error.message),
     refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
   });
-  const { data } = useCommerceListCategoriesQuery({
-    context,
-    onError: (e) => errorSnackbar(e.message),
-  });
-  const ticketCategories = data?.commerceListCategories?.hits;
-  const ticketCategoryOptions = getTicketTypesOptions(ticketCategories as []);
 
   const initialValues = () => {
     return {
       active: false,
-      category: 'Other',
       description: '',
       endDate: '',
       name: '',
@@ -128,17 +105,6 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
           <FieldWrapper>
             <Spacing bottom="8px">
               <TextInputField required label="Package name" name="name" />
-            </Spacing>
-          </FieldWrapper>
-
-          <FieldWrapper>
-            <Spacing bottom="8px">
-              <SelectField
-                required
-                label="Ticket category"
-                name="category"
-                options={ticketCategoryOptions}
-              />
             </Spacing>
           </FieldWrapper>
 
