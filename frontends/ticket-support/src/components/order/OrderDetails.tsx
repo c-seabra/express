@@ -426,7 +426,7 @@ const OrderDetails = (): ReactElement => {
               <div>
                 <ContainerCard noPadding title="Ticket information">
                   <TicketList list={tickets} loading={ticketsLoading} />
-                  {!ticketsLoading && tickets.length >= perPage ? (
+                  {!ticketsLoading ? (
                     <PaginationContainer>
                       <Pagination
                         isForwardDisabled={isForwardDisabled}
@@ -434,14 +434,18 @@ const OrderDetails = (): ReactElement => {
                         nextPage={nextPage}
                         previousPage={previousPage}
                       />
-                      <StyledSelect
-                        options={pagingOptions}
-                        value={perPage}
-                        onChange={(e) => {
-                          const newPerPage = parseInt(e.target.value, 10);
-                          setPerPage(newPerPage);
-                        }}
-                      />
+                      {isForwardDisabled &&
+                      isBackwardsDisabled &&
+                      perPage === DEFAULT_PER_PAGE ? null : (
+                        <StyledSelect
+                          options={pagingOptions}
+                          value={perPage}
+                          onChange={(e) => {
+                            const newPerPage = parseInt(e.target.value, 10);
+                            setPerPage(newPerPage);
+                          }}
+                        />
+                      )}
                     </PaginationContainer>
                   ) : null}
                 </ContainerCard>
