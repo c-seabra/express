@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error renders single error message 1`] = `
+<div
+  className={undefined}
+>
+  Bad request
+</div>
+`;
+
+exports[`Error renders two error messages 1`] = `
+<div
+  className={undefined}
+>
+  Bad request, Fetch failed
+</div>
+`;
+
+exports[`Error with empty props doesn't render 1`] = `null`;
+
+exports[`Error without props doesn't render 1`] = `null`;

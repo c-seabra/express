@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Avatar renders with props 1`] = `
+<div
+  className={undefined}
+>
+  <div
+    className={undefined}
+  >
+    <object
+      data="https://s3-eu-west-1.amazonaws.com/avenger.cilabs.net/staging/avatars/medium/8a86c417e1f0bf13bcd3f1b33fe7f36dd29dc5ff.png?1524668194"
+      type="image/png"
+    >
+      <img
+        alt="Invitee avatar"
+        src="https://s3-eu-west-1.amazonaws.com/assets.cilabs.com/images/person.svg"
+        style={
+          Object {
+            "borderColor": "transparent",
+          }
+        }
+      />
+    </object>
+    <svg
+      viewBox="0 0 9 9"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <g>
+          <g>
+            <path
+              d="M4.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9z"
+              fill="#757575"
+            />
+          </g>
+        </g>
+        <g>
+          <path
+            d="M2 4h5v1H2z"
+            fill="#fff"
+          />
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div
+    className={undefined}
+  />
+</div>
+`;
+
+exports[`Avatar renders without props 1`] = `
+<div
+  className={undefined}
+>
+  <div
+    className={undefined}
+  >
+    <object
+      data={undefined}
+      type="image/png"
+    >
+      <img
+        alt={undefined}
+        src="https://s3-eu-west-1.amazonaws.com/assets.cilabs.com/images/person.svg"
+        style={
+          Object {
+            "borderColor": "transparent",
+          }
+        }
+      />
+    </object>
+    <svg
+      viewBox="0 0 9 9"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <g>
+          <g>
+            <path
+              d="M4.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9z"
+              fill="#757575"
+            />
+          </g>
+        </g>
+        <g>
+          <path
+            d="M2 4h5v1H2z"
+            fill="#fff"
+          />
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div
+    className={undefined}
+  />
+</div>
+`;

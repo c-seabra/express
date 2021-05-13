@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AgendaEvent renders with props and context 1`] = `
+<div
+  onClick={[Function]}
+>
+  Test Calendar event
+   - 
+  Under palm tree
+</div>
+`;
+
+exports[`AgendaEvent renders with props, and no context 1`] = `
+<div
+  onClick={[Function]}
+>
+  Test Calendar event
+   - 
+  Under palm tree
+</div>
+`;
+
+exports[`AgendaEvent renders without props or context 1`] = `
+<div
+  onClick={[Function]}
+>
+   - 
+</div>
+`;
