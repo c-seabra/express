@@ -434,7 +434,9 @@ const OrderDetails = (): ReactElement => {
                         nextPage={nextPage}
                         previousPage={previousPage}
                       />
-                      {isForwardDisabled && isBackwardsDisabled ? null : (
+                      {isForwardDisabled &&
+                      isBackwardsDisabled &&
+                      perPage === DEFAULT_PER_PAGE ? null : (
                         <StyledSelect
                           options={pagingOptions}
                           value={perPage}
