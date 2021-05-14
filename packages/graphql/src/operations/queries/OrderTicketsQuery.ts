@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export default gql`
   query OrderTickets(
-    $orderId: ID!
+    $orderId: ID
     $filter: TicketFilter
     $after: String
     $before: String
