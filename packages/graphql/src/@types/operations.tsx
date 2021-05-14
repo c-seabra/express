@@ -154,6 +154,8 @@ export type Query = {
   commerceGetTax: Maybe<CommerceTax>;
   /** *Equivalent to GET /commerce/stores/{storeId}/taxTypes/{id}* */
   commerceGetTaxType: Maybe<CommerceTaxType>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/vouchers/{id}* */
+  commerceGetVoucher: Maybe<CommerceVoucher>;
   /** *Equivalent to GET /commerce/stores/{storeId}/categories* */
   commerceListCategories: Maybe<CommerceSearchResponseCategory>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers* */
@@ -187,6 +189,8 @@ export type Query = {
   commerceListTaxTypes: Maybe<CommerceSearchResponseTaxType>;
   /** *Equivalent to GET /commerce/stores/{storeId}/taxes* */
   commerceListTaxes: Maybe<CommerceSearchResponseTax>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/vouchers* */
+  commerceListVouchers: Maybe<CommerceSearchResponseVoucher>;
   /** Retrieves all countries. */
   countries: EventConfigurationCountryConnection;
   /**
@@ -274,6 +278,7 @@ export type QueryWebPageByPathArgs = {
 export type QueryWebPageByHostPathArgs = {
   host: Scalars['String'];
   path: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type QueryWebPageConfigByPathHostArgs = {
@@ -544,6 +549,11 @@ export type QueryCommerceGetTaxTypeArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type QueryCommerceGetVoucherArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type QueryCommerceListCategoriesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -650,6 +660,14 @@ export type QueryCommerceListTaxTypesArgs = {
 };
 
 export type QueryCommerceListTaxesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListVouchersArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   sort?: Maybe<Array<CommerceSortTerm>>;
@@ -1037,6 +1055,12 @@ export type WebPageConfig = {
   site: Maybe<Site>;
   branding: Maybe<Branding>;
   config: Maybe<WebPageConfig>;
+  event: Maybe<WebPageEvent>;
+};
+
+export type WebPageEvent = {
+  __typename?: 'WebPageEvent';
+  slug: Maybe<Scalars['String']>;
 };
 
 export type WebPageConfigConnection = {
@@ -3216,6 +3240,7 @@ export type CommerceAddress = {
 export type CommerceDeal = {
   __typename?: 'CommerceDeal';
   active: Maybe<Scalars['Boolean']>;
+  code: Maybe<Scalars['String']>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<CommerceUser>;
   dealItems: Maybe<Array<CommerceDealItem>>;
@@ -3227,6 +3252,7 @@ export type CommerceDeal = {
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   startDate: Scalars['Date'];
+  usages: Maybe<Scalars['Int']>;
 };
 
 export type CommerceDealItem = {
@@ -3262,9 +3288,11 @@ export type CommerceOrder = {
   currencySymbol: Maybe<Scalars['String']>;
   customer: Maybe<CommerceCustomer>;
   deal: Maybe<CommerceDeal>;
+  dealDiscount: Maybe<Scalars['Int']>;
   discountTotal: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['ID']>;
   invoiceUrl: Maybe<Scalars['String']>;
+  itemSubtotal: Maybe<Scalars['Int']>;
   items: Array<CommerceOrderItem>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
@@ -3283,12 +3311,15 @@ export type CommerceOrder = {
   transactions: Maybe<Array<Maybe<CommerceTransaction>>>;
   url: Maybe<Scalars['String']>;
   valueTotal: Maybe<Scalars['Int']>;
+  voucher: Maybe<CommerceVoucher>;
+  voucherDiscount: Maybe<Scalars['Int']>;
 };
 
 export type CommerceOrderItem = {
   __typename?: 'CommerceOrderItem';
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<CommerceUser>;
+  dealDiscount: Maybe<Scalars['Int']>;
   discountTotal: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['ID']>;
   itemName: Maybe<Scalars['String']>;
@@ -3304,6 +3335,7 @@ export type CommerceOrderItem = {
   taxTotal: Maybe<Scalars['Int']>;
   total: Maybe<Scalars['Int']>;
   valueTotal: Maybe<Scalars['Int']>;
+  voucherDiscount: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethod = {
@@ -3385,6 +3417,27 @@ export enum CommerceTransactionType {
   Refund = 'REFUND',
 }
 
+export type CommerceVoucher = {
+  __typename?: 'CommerceVoucher';
+  active: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
+  code: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  type: CommerceVoucherType;
+  usages: Maybe<Scalars['Int']>;
+};
+
+export enum CommerceVoucherType {
+  Absolute = 'ABSOLUTE',
+  Percentage = 'PERCENTAGE',
+}
+
 export type CommercePaymentGateway = {
   __typename?: 'CommercePaymentGateway';
   configKeys: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -3460,6 +3513,7 @@ export type CommerceStore = {
   taxTypes: Maybe<Array<CommerceTaxType>>;
   taxes: Maybe<Array<CommerceTax>>;
   vatNumber: Scalars['String'];
+  vouchers: Maybe<Array<CommerceVoucher>>;
 };
 
 export enum CommerceStoreStockMode {
@@ -3675,6 +3729,16 @@ export type CommerceSearchResponseTaxType = {
 export type CommerceSearchResponseTax = {
   __typename?: 'CommerceSearchResponseTax';
   hits: Maybe<Array<CommerceTax>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseVoucher = {
+  __typename?: 'CommerceSearchResponseVoucher';
+  hits: Maybe<Array<CommerceVoucher>>;
   page: Maybe<Scalars['Int']>;
   pageSize: Maybe<Scalars['Int']>;
   sort: Maybe<Array<CommerceSortTermOutput>>;
@@ -4041,6 +4105,8 @@ export type Mutation = {
   commerceCreateTaxType: Maybe<CommerceTaxType>;
   /** *Equivalent to POST /commerce/stores/{storeId}/orders/{orderId}/transactions* */
   commerceCreateTransaction: Maybe<CommerceTransaction>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/vouchers* */
+  commerceCreateVoucher: Maybe<CommerceVoucher>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/categories/{id}* */
   commerceDeleteCategory: Maybe<CommerceCategory>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
@@ -4065,6 +4131,8 @@ export type Mutation = {
   commerceDeleteTax: Maybe<CommerceTax>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/taxTypes/{id}* */
   commerceDeleteTaxType: Maybe<CommerceTaxType>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/vouchers/{id}* */
+  commerceDeleteVoucher: Maybe<CommerceVoucher>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/categories/{id}* */
   commerceUpdateCategory: Maybe<CommerceCategory>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
@@ -4091,6 +4159,8 @@ export type Mutation = {
   commerceUpdateTax: Maybe<CommerceTax>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/taxTypes/{id}* */
   commerceUpdateTaxType: Maybe<CommerceTaxType>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/vouchers/{id}* */
+  commerceUpdateVoucher: Maybe<CommerceVoucher>;
   /** Creates a new event */
   eventCreate: Maybe<EventCreatePayload>;
   /** Updates an existing event */
@@ -4427,6 +4497,11 @@ export type MutationCommerceCreateTransactionArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceCreateVoucherArgs = {
+  commerceVoucherCreate: CommerceVoucherCreate;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceDeleteCategoryArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
@@ -4485,6 +4560,11 @@ export type MutationCommerceDeleteTaxArgs = {
 };
 
 export type MutationCommerceDeleteTaxTypeArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceDeleteVoucherArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
@@ -4565,6 +4645,12 @@ export type MutationCommerceUpdateTaxArgs = {
 
 export type MutationCommerceUpdateTaxTypeArgs = {
   commerceTaxTypeUpdate: CommerceTaxTypeUpdate;
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdateVoucherArgs = {
+  commerceVoucherUpdate: CommerceVoucherUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
@@ -5908,11 +5994,13 @@ export type CommerceAddressCreateOrUpdate = {
 
 export type CommerceDealCreate = {
   active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
   name: Scalars['String'];
   startDate: Scalars['Date'];
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceDealItemCreateOrUpdate = {
@@ -5943,8 +6031,10 @@ export type CommerceOrderCreate = {
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
   deal?: Maybe<Scalars['ID']>;
+  dealDiscount?: Maybe<Scalars['Int']>;
   discountTotal?: Maybe<Scalars['Int']>;
   invoiceUrl?: Maybe<Scalars['String']>;
+  itemSubtotal?: Maybe<Scalars['Int']>;
   items: Array<CommerceOrderItemCreateOrUpdate>;
   locked?: Maybe<Scalars['Boolean']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5957,16 +6047,20 @@ export type CommerceOrderCreate = {
   total?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceDealCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceCustomerCreateOrUpdate = {
@@ -5981,6 +6075,7 @@ export type CommerceCustomerCreateOrUpdate = {
 };
 
 export type CommerceOrderItemCreateOrUpdate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   itemName?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5991,6 +6086,7 @@ export type CommerceOrderItemCreateOrUpdate = {
   subTotal?: Maybe<Scalars['Int']>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceTaxSummaryCreateOrUpdate = {
@@ -6001,6 +6097,16 @@ export type CommerceTaxSummaryCreateOrUpdate = {
   taxId?: Maybe<Scalars['ID']>;
   taxType?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceVoucherCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceVoucherType>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethodCreate = {
@@ -6074,6 +6180,7 @@ export type CommerceStoreCreate = {
   taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
   vatNumber: Scalars['String'];
+  vouchers?: Maybe<Array<CommerceVoucherCreateOrUpdate>>;
 };
 
 export type CommercePaymentMethodCreateOrUpdate = {
@@ -6148,6 +6255,15 @@ export type CommerceTaxDetailCreateOrUpdate = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type CommerceVoucherCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  type: CommerceVoucherType;
+  usages?: Maybe<Scalars['Int']>;
+};
+
 export type CommerceCategoryUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
@@ -6171,12 +6287,14 @@ export type CommerceCustomerUpdate = {
 
 export type CommerceDealUpdate = {
   active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceDealItemUpdate = {
@@ -6197,9 +6315,11 @@ export type CommerceOrderUpdate = {
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
   deal?: Maybe<Scalars['ID']>;
+  dealDiscount?: Maybe<Scalars['Int']>;
   discountTotal?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   invoiceUrl?: Maybe<Scalars['String']>;
+  itemSubtotal?: Maybe<Scalars['Int']>;
   items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
   locked?: Maybe<Scalars['Boolean']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -6212,6 +6332,8 @@ export type CommerceOrderUpdate = {
   total?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethodUpdate = {
@@ -6279,6 +6401,7 @@ export type CommerceStoreUpdate = {
   taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
   vatNumber?: Maybe<Scalars['String']>;
+  vouchers?: Maybe<Array<CommerceVoucherCreateOrUpdate>>;
 };
 
 export type CommerceTagUpdate = {
@@ -6302,6 +6425,16 @@ export type CommerceTaxTypeUpdate = {
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
+};
+
+export type CommerceVoucherUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceVoucherType>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 /** Autogenerated input type of EventCreate */
@@ -7176,6 +7309,7 @@ export type CommerceAddressUpdate = {
 };
 
 export type CommerceOrderItemCreate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
   itemName?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
   price?: Maybe<Scalars['Int']>;
@@ -7185,9 +7319,11 @@ export type CommerceOrderItemCreate = {
   subTotal?: Maybe<Scalars['Int']>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceOrderItemUpdate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   itemName?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -7198,6 +7334,7 @@ export type CommerceOrderItemUpdate = {
   subTotal?: Maybe<Scalars['Int']>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceStoreBillingCreate = {
@@ -9205,7 +9342,7 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
 };
 
 export type OrderTicketsQueryVariables = Exact<{
-  orderId: Scalars['ID'];
+  orderId?: Maybe<Scalars['ID']>;
   filter?: Maybe<TicketFilter>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -22761,10 +22898,7 @@ export const OrderTicketsDocument: DocumentNode = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           variable: {
             kind: 'Variable',
             name: { kind: 'Name', value: 'orderId' },
@@ -22838,7 +22972,7 @@ export const OrderTicketsDocument: DocumentNode = {
  * });
  */
 export function useOrderTicketsQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     OrderTicketsQuery,
     OrderTicketsQueryVariables
   >,
