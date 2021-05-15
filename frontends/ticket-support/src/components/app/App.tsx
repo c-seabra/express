@@ -16,6 +16,7 @@ import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
 import TicketDashboard from '../ticketDashboard/TicketDashboard';
 import TicketDetails from '../ticketDetails/TicketDetails';
 import AppContext from './AppContext';
+import OrderInvoicePage from "../pages/OrderInvoicePage";
 
 const StyledContainer = styled.section`
   margin: 0 auto;
@@ -63,6 +64,9 @@ const App = ({ token, apiURL }: AppProps) => {
                 </Route>
                 <Route path="/ticket/:bookingRef">
                   <TicketDetails />
+                </Route>
+                <Route path="/order/:orderRef/invoice">
+                  <OrderInvoicePage />
                 </Route>
                 <Route path="/order/:orderRef">
                   <OrderDetails />
