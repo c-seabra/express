@@ -19,9 +19,14 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
+type OrderActions = {
+  invoiceRedirect: any;
+};
+type ExtendedOrder = Order & OrderActions;
+
+const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
   {
-    header: 'Order reference #',
+    header: 'Order reference',
     renderCell: (order) => order.reference,
   },
   {
@@ -40,10 +45,23 @@ const orderDetailsTableShape: ColumnDescriptor<Order>[] = [
     header: 'Order status',
     renderCell: (order) => <StatePlate state={order?.state} />,
   },
+  {
+    header: 'Invoice .pdf',
+    renderCell: (order) => {
+      return <a href={order?.invoiceUrl || null}>Download</a>;
+    },
+  },
+  {
+    header: 'Invoice',
+    renderCell: (order) => {
+      return <a onClick={order.invoiceRedirect}>View</a>;
+    },
+  },
 ];
 
 type Props = {
   error?: ApolloError;
+  invoiceRedirect: any;
   loading: boolean;
   order?: Order | null;
 };
@@ -52,7 +70,12 @@ const OrderDetailsSummary = ({
   loading,
   error,
   order,
+  invoiceRedirect,
 }: Props): ReactElement => {
+  const orderWithActions: any = {
+    ...order,
+    invoiceRedirect,
+  };
   return (
     <ContainerCard noPadding title="Order details">
       <StyledContainer>
@@ -67,7 +90,10 @@ const OrderDetailsSummary = ({
           </Warning>
         )}
         {!loading && !error && order && (
-          <Table<Order> items={[order]} tableShape={orderDetailsTableShape} />
+          <Table<ExtendedOrder>
+            items={[orderWithActions]}
+            tableShape={orderDetailsTableShape}
+          />
         )}
       </StyledContainer>
     </ContainerCard>
