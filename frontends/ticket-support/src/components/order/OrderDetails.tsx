@@ -18,7 +18,7 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import styled from 'styled-components';
 
 import ButtonLink from '../../lib/components/atoms/ButtonLink';
@@ -129,6 +129,7 @@ const PaginationContainer = styled.div`
 `;
 
 const OrderDetails = (): ReactElement => {
+  const history = useHistory();
   const { orderRef } = useParams<{ orderRef: string }>();
   const context = useRequestContext();
   const {
@@ -262,6 +263,11 @@ const OrderDetails = (): ReactElement => {
     ?.filter(
       (transaction) => transaction?.type === CommerceTransactionType.Refund,
     ) as CommerceTransaction[];
+  console.log(commerceOrder)
+
+  const invoiceRedirect = () => {
+    history.push(`/order/${orderRef}/invoice`)
+  }
 
   return (
     <>
@@ -354,6 +360,7 @@ const OrderDetails = (): ReactElement => {
               <SpacingBottom>
                 <OrderDetailsSummary
                   error={error}
+                  invoiceRedirect={invoiceRedirect}
                   loading={loading}
                   order={order as Order}
                 />
