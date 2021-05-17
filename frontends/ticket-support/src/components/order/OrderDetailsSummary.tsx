@@ -48,7 +48,18 @@ const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
   {
     header: 'Invoice .pdf',
     renderCell: (order) => {
-      return <a href={order?.invoiceUrl || null}>Download</a>;
+      console.log('order', order);
+      return (
+        <>
+          {order?.invoiceUrl ? (
+            <a href={order?.invoiceUrl || '#'} rel="noreferrer" target="_blank">
+              Download
+            </a>
+          ) : (
+            <span>N/A</span>
+          )}
+        </>
+      );
     },
   },
   {
