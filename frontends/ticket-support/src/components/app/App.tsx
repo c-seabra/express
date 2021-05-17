@@ -13,10 +13,10 @@ import styled from 'styled-components';
 
 import OrderDetails from '../order/OrderDetails';
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
+import OrderInvoicePage from "../pages/OrderInvoicePage";
 import TicketDashboard from '../ticketDashboard/TicketDashboard';
 import TicketDetails from '../ticketDetails/TicketDetails';
 import AppContext from './AppContext';
-import OrderInvoicePage from "../pages/OrderInvoicePage";
 
 const StyledContainer = styled.section`
   margin: 0 auto;
@@ -65,7 +65,7 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route path="/ticket/:bookingRef">
                   <TicketDetails />
                 </Route>
-                <Route path="/order/:orderRef/invoice">
+                <Route path="/order/:orderRef/invoice/:orderId">
                   <OrderInvoicePage />
                 </Route>
                 <Route path="/order/:orderRef">
