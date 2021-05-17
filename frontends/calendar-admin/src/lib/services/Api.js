@@ -285,6 +285,39 @@ export function withConfig({ token: _token, env: _env } = {}) {
       );
     },
 
+    createEvent: async (
+      attendancesArray,
+      end,
+      start,
+      title,
+      token = String(_token),
+      env = _env,
+      invitee,
+    ) => {
+      const requestData = {
+        body: JSON.stringify({
+          attendancesArray: attendancesArray,
+          end: end,
+          start: start,
+          title: title,
+          token: token,
+          env: env,
+        }),
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+      };
+      return handleFetch(
+        new Request(
+          `${String(CONFIG[env].CALENDAR_URL)}/admin_calendar_events/`,
+          requestData
+        ),
+      );
+    },
+
     updateEvent: async (
       calendar_event_id,
       content_update,

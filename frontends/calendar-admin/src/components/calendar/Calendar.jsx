@@ -370,19 +370,21 @@ const Calendar = ({ token, env }) => {
     setEvents(nextEvents);
   };
 
-  const createEvent = (event) => {
-    const newEvent = {
-      allDay: event.slots.length === 1,
-      ends_at: event.end,
-      event,
-      id: events.length + 1,
-      saved: false,
-      starts_at: event.start,
-      title: 'New Event',
-    };
-    const updatedEvents = events.concat([newEvent]);
-    setEvents(updatedEvents);
-    setNewEvent(newEvent);
+  const createEvent = ({ start, end }) => {
+    const title = window.prompt('New Event name');
+
+    if (title) {
+      Api.createEvent(attendancesArray, end, start, title, token, env);
+
+      const createdEvent = {
+        ends_at: end,
+        id: events.length + 1,
+        starts_at: start,
+        title,
+      };
+      const updatedEvents = events.concat(createdEvent);
+      setEvents(updatedEvents);
+    }
   };
 
   const cleanupData = (newEvents = events) => {
