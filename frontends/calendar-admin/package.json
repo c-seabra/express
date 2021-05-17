@@ -13,18 +13,15 @@
     "start:standalone": "webpack serve --env standalone"
   },
   "devDependencies": {
-    "@babel/polyfill": "^7.8.3",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-config-standard-react": "^9.2.0",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-standard": "^4.0.1",
     "react-test-renderer": "^16.12.0"
   },
   "dependencies": {
     "@apollo/client": "*",
-    "@bootstrap-styled/v4": "^3.2.0",
-    "@material-ui/core": "^4.5.1",
-    "@material-ui/icons": "^4.5.1",
+    "@bootstrap-styled/v4": "*",
+    "@material-ui/core": "*",
+    "@material-ui/icons": "*",
     "@websummit/graphql": "*",
     "graphql": "*",
     "immutability-helper": "^3.0.1",
@@ -39,8 +36,8 @@
     "react-big-calendar": "*",
     "react-dom": "*",
     "react-datetime": "^2.16.3",
-    "react-router-dom": "^5.1.2",
-    "styled-components": "^4.4.0"
+    "react-router-dom": "*",
+    "styled-components": "*"
   },
   "browserslist": {
     "production": [
