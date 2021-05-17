@@ -1,5 +1,6 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
+import SelectField from "@websummit/components/src/molecules/SelectField";
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
@@ -7,13 +8,15 @@ import {
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { useCommerceUpdateSaleMutation } from '@websummit/graphql/src/@types/operations';
-import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';
+import {
+  EventConfigurationCountry,
+  useCommerceUpdateCustomerMutation, useCountriesQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
+import STATIC_MESSAGES from "../../lib/constants/messages";
 import { useRequestContext } from '../app/AppContext';
 
 const FlexEnd = styled.div`
@@ -35,85 +38,112 @@ const StyledInputField = styled(TextInputField)`
   width: 48%;
 `;
 
+const StyledSelectField = styled(SelectField)`
+  width: 48%;
+`;
+
 type Props = {
+  orderId: string;
   prefillData: any;
 };
 
 export type OrderInvoiceFormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
   addressLine1: string;
   addressLine2: string;
   addressLine3: string;
   addressLine4: string;
   companyTaxNo: string;
+  email: string;
+  firstName: string;
+  lastName: string;
 };
 
 const validationSchema = Yup.object().shape({
+  addressLine1: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  addressLine2: Yup.string(),
+  addressLine3: Yup.string(),
+  addressLine4: Yup.string(),
+  companyTaxNo: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  email: Yup.string().email().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   firstName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   lastName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  email: Yup.string().email().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  addressLine1: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  addressLine2: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  addressLine3: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  addressLine4: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  companyTaxNo: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
-const OrderInvoiceForm = ({ prefillData }: Props) => {
+const emptyCountryOption = {
+  label: 'Select country',
+  value: undefined,
+};
+
+const getCountryOptions = (
+    countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+) => [
+  emptyCountryOption,
+  ...countries.map((country) => ({ label: country?.name, value: country?.id })),
+];
+
+const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
 
-  const [updateCycle] = useCommerceUpdateSaleMutation({
+  const [updateCustomer] = useCommerceUpdateCustomerMutation({
     context,
     onCompleted: () => {
-      snackbar('Sale cycle updated');
+      snackbar('Customer data updated');
     },
     onError: (e) => errorSnackbar(e.message),
-    refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
   });
-  // const [updateCycle] = useCommerceUpdateSaleMutation({
-  //   context,
-  //   onCompleted: () => {
-  //     snackbar('Sale cycle updated');
-  //   },
-  //   onError: (e) => errorSnackbar(e.message),
-  //   refetchQueries: [{ context, query: COMMERCE_SALES_LIST }],
-  // });
+
+  const { data } = useCountriesQuery();
+  const mappedCountries = data?.countries?.edges?.map((edge) => edge.node);
+  const sortedCountries = mappedCountries?.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+  const countryOptions = getCountryOptions(sortedCountries);
+
 
   const initialValues = () => {
     return {
-      // firstName: prefillData.;
-      // lastName: prefillData.;
-      // email: prefillData.;
-      // addressLine1: prefillData.;
-      // addressLine2: prefillData.;
-      // addressLine3: prefillData.;
-      // addressLine4: prefillData.;
-      // companyTaxNo: prefillData.;
+      addressLine1: prefillData.addressLine1,
+      addressLine2: prefillData.addressLine2,
+      companyTaxNo: prefillData.companyTaxNo,
+      email: prefillData.email,
+      firstName: prefillData.firstName,
+      lastName: prefillData.lastName,
+      postalCode: prefillData.postalCode,
+      country: prefillData.country,
+      city: prefillData.city,
     };
   };
 
-  // const pickMutation = (formData: SaleCycleFormData) => {
-  const pickMutation = (formData: any) => {
-    const input = {};
+  // const pickMutation = (formData: CommerceCustomer) => {
+  const onSubmit = (formData: any) => {
+    const input = {
+      address: {
+        city: formData.city,
+        country: formData.country,
+        line1: formData.addressLine1,
+        line2: formData.addressLine1,
+        postalCode: formData.postalCode
+        // state: String
+      },
+      // companyName: String
+      email: formData.email,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      // phoneNumber: String
+      vatNumber: formData.companyTaxNo
+    };
 
-    return updateCycle({
-      variables: { commerceSale: input, id: prefillData.id },
+    return updateCustomer({
+      variables: { commerceCustomerUpdate: input, id: prefillData.id, orderId },
     });
-  };
-
-  // const setMutation = (formData: SaleCycleFormData) => {
-  const setMutation = (formData: any) => {
-    return pickMutation(formData);
   };
 
   return (
     <FormikForm
       initialValues={initialValues()}
-      submitCallback={setMutation}
+      submitCallback={onSubmit}
       validationSchema={validationSchema}
     >
       <Fieldset disabled={false}>
@@ -169,30 +199,40 @@ const OrderInvoiceForm = ({ prefillData }: Props) => {
 
           <FieldWrapper>
             <InlineWrapper>
-              <StyledInputField
-                label="Address line 3"
-                name="addressLine3"
-                placeholder="Green lane"
-                type="text"
+              <StyledSelectField
+                  required
+                  label="Country"
+                  name="country"
+                  options={countryOptions}
               />
 
               <StyledInputField
-                label="Address line 4"
-                name="addressLine4"
-                placeholder="Green lane"
+                label="City"
+                name="city"
+                placeholder="Dublin"
                 type="text"
               />
             </InlineWrapper>
           </FieldWrapper>
 
           <FieldWrapper>
-            <StyledInputField
-              required
-              label="Company tax no."
-              name="companyTaxNo"
-              placeholder="IE 1234567"
-              type="text"
-            />
+            <InlineWrapper>
+              <StyledInputField
+                  required
+                  label="Postal code"
+                  name="postalCode"
+                  placeholder="R12 AB12"
+                  type="text"
+              />
+
+              <StyledInputField
+                  required
+                  label="Company tax no."
+                  name="companyTaxNo"
+                  placeholder="IE 1234567"
+                  type="text"
+              />
+            </InlineWrapper>
           </FieldWrapper>
 
           <FlexEnd>
