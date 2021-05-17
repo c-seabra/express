@@ -53,6 +53,11 @@ export default gql`
           }
           order {
             reference
+            owner {
+              firstName
+              lastName
+              email
+            }
           }
           state
           context {
