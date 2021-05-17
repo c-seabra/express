@@ -197,7 +197,6 @@ const OrderDetails = (): ReactElement => {
   });
 
   const owner = order?.owner;
-
   const isFromTito = (source: string): boolean => {
     return switchCase({
       TICKET_MACHINE: false,
@@ -266,7 +265,7 @@ const OrderDetails = (): ReactElement => {
   console.log(commerceOrder)
 
   const invoiceRedirect = () => {
-    history.push(`/order/${orderRef}/invoice`)
+    history.push(`/order/${orderRef}/invoice/${sourceId}`)
   }
 
   return (
