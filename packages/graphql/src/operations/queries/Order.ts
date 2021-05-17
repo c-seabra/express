@@ -48,6 +48,7 @@ export default gql`
       ticketsSummary {
         ...TicketsSummary
       }
+      invoiceUrl
       amount
       currency
       reference

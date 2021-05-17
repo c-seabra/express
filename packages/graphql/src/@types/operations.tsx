@@ -3303,6 +3303,7 @@ export type CommerceOrder = {
   paymentMethod: Maybe<CommercePaymentMethod>;
   paymentStatus: Maybe<CommerceOrderPaymentStatus>;
   reference: Maybe<Scalars['String']>;
+  refundReceiptUrl: Maybe<Scalars['String']>;
   status: Maybe<CommerceOrderStatus>;
   subTotal: Maybe<Scalars['Int']>;
   taxTotal: Maybe<Scalars['Int']>;
@@ -6040,6 +6041,7 @@ export type CommerceOrderCreate = {
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
+  refundReceiptUrl?: Maybe<Scalars['String']>;
   status?: Maybe<CommerceOrderStatus>;
   subTotal?: Maybe<Scalars['Int']>;
   taxTotal?: Maybe<Scalars['Int']>;
@@ -6325,6 +6327,7 @@ export type CommerceOrderUpdate = {
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
+  refundReceiptUrl?: Maybe<Scalars['String']>;
   status?: Maybe<CommerceOrderStatus>;
   subTotal?: Maybe<Scalars['Int']>;
   taxTotal?: Maybe<Scalars['Int']>;
@@ -9309,6 +9312,7 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
     { __typename?: 'Order' } & Pick<
       Order,
       | 'id'
+      | 'invoiceUrl'
       | 'amount'
       | 'currency'
       | 'reference'
@@ -22401,6 +22405,7 @@ export const OrderByRefDocument: DocumentNode = {
                     ],
                   },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'invoiceUrl' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
