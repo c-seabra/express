@@ -9391,7 +9391,12 @@ export type OrderTicketsQuery = { __typename?: 'Query' } & {
                   >;
                 }
             >;
-            order: { __typename?: 'Order' } & Pick<Order, 'reference'>;
+            order: { __typename?: 'Order' } & Pick<Order, 'reference'> & {
+                owner: { __typename?: 'AssignmentUser' } & Pick<
+                  AssignmentUser,
+                  'firstName' | 'lastName' | 'email'
+                >;
+              };
             context: { __typename?: 'TicketContext' } & Pick<
               TicketContext,
               'assignable' | 'editable' | 'acceptable' | 'rejectable'
@@ -22851,6 +22856,36 @@ export const OrderTicketsDocument: DocumentNode = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'reference' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'owner' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firstName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lastName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
