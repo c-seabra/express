@@ -313,7 +313,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       return handleFetch(
         new Request(
           `${String(CONFIG[env].CALENDAR_URL)}/admin_calendar_events/`,
-          requestData
+          requestData,
         ),
       );
     },
