@@ -1,6 +1,6 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import { FieldWrapper } from '@websummit/components/src/molecules/FormikModal';
-import SelectField from "@websummit/components/src/molecules/SelectField";
+import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
@@ -10,13 +10,14 @@ import FormikForm from '@websummit/components/src/templates/FormikForm';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   EventConfigurationCountry,
-  useCommerceUpdateCustomerMutation, useCountriesQuery,
+  useCommerceUpdateCustomerMutation,
+  useCountriesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import STATIC_MESSAGES from "../../lib/constants/messages";
+import STATIC_MESSAGES from '../../lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
 const FlexEnd = styled.div`
@@ -50,12 +51,13 @@ type Props = {
 export type OrderInvoiceFormData = {
   addressLine1: string;
   addressLine2: string;
-  addressLine3: string;
-  addressLine4: string;
+  city: string;
   companyTaxNo: string;
+  country: string;
   email: string;
   firstName: string;
   lastName: string;
+  postalCode: string;
 };
 
 const validationSchema = Yup.object().shape({
@@ -75,7 +77,7 @@ const emptyCountryOption = {
 };
 
 const getCountryOptions = (
-    countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+  countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
 ) => [
   emptyCountryOption,
   ...countries.map((country) => ({ label: country?.name, value: country?.id })),
@@ -101,30 +103,29 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
   });
   const countryOptions = getCountryOptions(sortedCountries);
 
-
   const initialValues = () => {
     return {
       addressLine1: prefillData.addressLine1,
       addressLine2: prefillData.addressLine2,
+      city: prefillData.city,
       companyTaxNo: prefillData.companyTaxNo,
+      country: prefillData.country,
       email: prefillData.email,
       firstName: prefillData.firstName,
       lastName: prefillData.lastName,
       postalCode: prefillData.postalCode,
-      country: prefillData.country,
-      city: prefillData.city,
     };
   };
 
   // const pickMutation = (formData: CommerceCustomer) => {
-  const onSubmit = (formData: any) => {
+  const onSubmit = (formData: OrderInvoiceFormData) => {
     const input = {
       address: {
         city: formData.city,
         country: formData.country,
         line1: formData.addressLine1,
-        line2: formData.addressLine1,
-        postalCode: formData.postalCode
+        line2: formData.addressLine2,
+        postalCode: formData.postalCode,
         // state: String
       },
       // companyName: String
@@ -132,7 +133,7 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
       firstName: formData.firstName,
       lastName: formData.lastName,
       // phoneNumber: String
-      vatNumber: formData.companyTaxNo
+      vatNumber: formData.companyTaxNo,
     };
 
     return updateCustomer({
@@ -200,10 +201,10 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
           <FieldWrapper>
             <InlineWrapper>
               <StyledSelectField
-                  required
-                  label="Country"
-                  name="country"
-                  options={countryOptions}
+                required
+                label="Country"
+                name="country"
+                options={countryOptions}
               />
 
               <StyledInputField
@@ -218,19 +219,19 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
           <FieldWrapper>
             <InlineWrapper>
               <StyledInputField
-                  required
-                  label="Postal code"
-                  name="postalCode"
-                  placeholder="R12 AB12"
-                  type="text"
+                required
+                label="Postal code"
+                name="postalCode"
+                placeholder="R12 AB12"
+                type="text"
               />
 
               <StyledInputField
-                  required
-                  label="Company tax no."
-                  name="companyTaxNo"
-                  placeholder="IE 1234567"
-                  type="text"
+                required
+                label="Company tax no."
+                name="companyTaxNo"
+                placeholder="IE 1234567"
+                type="text"
               />
             </InlineWrapper>
           </FieldWrapper>
