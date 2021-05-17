@@ -3,20 +3,14 @@ import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import { useModalState } from '@websummit/components/src/molecules/Modal';
-import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {
-  SaleCyclesQueryVariables,
-  useCommerceGetStoreQuery,
-  useSaleCyclesQuery,
-} from '@websummit/graphql/src/@types/operations';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
-import { useRequestContext } from '../app/AppContext';
+import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
+import OrderInvoiceForm from '../order/OrderInvoiceForm';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -57,36 +51,33 @@ const FlexCol = styled.div`
 `;
 
 const OrderInvoicePage = () => {
-  const errorSnackbar = useErrorSnackbar();
-  const { isOpen, closeModal, openModal } = useModalState();
-  const [prefillData, setPrefillData] = useState<any>();
-  const onButtonClick = () => {
+  const { orderRef, orderId } = useParams<{
+    orderId: string;
+    orderRef: string;
+  }>();
+  const { commerceOrder, loadingCommerceOrder } = useSingleCommerceOrderQuery({
+    id: orderId,
+  });
+
+  const customer = commerceOrder?.customer;
+  const [prefillData, setPrefillData] = useState({});
+  console.log(customer);
+  useEffect(() => {
     setPrefillData({
-      active: false,
-      description: '',
-      id: '',
-      name: '',
-      product: '',
-      type: '',
+      addressLine1: customer?.address?.line1,
+      addressLine2: customer?.address?.line2,
+      companyTaxNo: customer?.vatNumber,
+      email: customer?.email,
+      firstName: customer?.firstName,
+      id: customer?.id,
+      lastName: customer?.lastName,
+      postalCode: customer?.address?.postalCode,
+      country: customer?.address?.country,
+      city: customer?.address?.city,
+
     });
+  }, [customer]);
 
-    openModal();
-  };
-  const context = useRequestContext();
-  const { data: store } = useCommerceGetStoreQuery({
-    context,
-    onError: (e) => console.error(e.message),
-  });
-  const { id: saleId } = useParams<SaleCyclesQueryVariables>();
-  const { loading, data } = useSaleCyclesQuery({
-    context,
-    onError: (error) => errorSnackbar(error.message),
-    variables: {
-      id: saleId,
-    },
-  });
-
-  const orderRef = 'test'
   const { event } = useEventDataQuery();
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -122,8 +113,13 @@ const OrderInvoicePage = () => {
                 </Spacing>
                 <SubHeader>Edit order invoice details</SubHeader>
 
-                {loading && <Loader />}
-                {/* {invoice && <OrderInvoiceForm prefillData={cycle} />} */}
+                {loadingCommerceOrder && <Loader />}
+                {!loadingCommerceOrder && (
+                  <OrderInvoiceForm
+                    orderId={orderId}
+                    prefillData={prefillData}
+                  />
+                )}
               </>
             </ContainerCard>
           </InnerWrapper>
