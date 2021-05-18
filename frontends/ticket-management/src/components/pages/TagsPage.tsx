@@ -16,6 +16,7 @@ import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
 import { useRequestContext } from '../app/AppContext';
+import TagModal from '../modals/TagModal';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -96,11 +97,11 @@ const TagsPage = () => {
           >
             Create new tag
           </Button>
-          {/* <TagModal */}
-          {/*  isOpen={isTagModalOpen} */}
-          {/*  tag={selectedTag} */}
-          {/*  onRequestClose={closeTagModal} */}
-          {/* /> */}
+          <TagModal
+            isOpen={isTagModalOpen}
+            tag={selectedTag}
+            onRequestClose={closeTagModal}
+          />
         </SearchBar>
       </HeaderContainer>
 
