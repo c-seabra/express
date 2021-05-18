@@ -16,8 +16,11 @@ import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
 import { Button } from '../../lib/components/atoms/Button';
 
-const Flex = styled.div`
+const Container = styled.div`
   display: flex;
+  padding: 20px;
+  justify-content: flex-end;
+  border-top: 1px solid #dde0e5;
 `;
 
 const StyledContainer = styled.div`
@@ -98,7 +101,7 @@ const OrderDetailsSummary = ({
   error,
   order,
   invoiceRedirect,
-                               invoiceSendEmail,
+  invoiceSendEmail,
 }: Props): ReactElement => {
   const orderWithActions: any = {
     ...order,
@@ -123,9 +126,9 @@ const OrderDetailsSummary = ({
               items={[orderWithActions]}
               tableShape={orderDetailsTableShape}
             />
-            <Flex>
-              <Button onClick={invoiceSendEmail}>Send email</Button>
-            </Flex>
+            <Container>
+              <Button onClick={invoiceSendEmail}>Send email with invoice</Button>
+            </Container>
           </StyledContainer>
         )}
       </StyledContainer>
