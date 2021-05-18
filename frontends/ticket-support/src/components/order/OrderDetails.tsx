@@ -9,6 +9,10 @@ import Breadcrumbs, {
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Select from '@websummit/components/src/molecules/Select';
 import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
+import {
   CommerceOrderPaymentStatus,
   CommerceTransaction,
   CommerceTransactionType,
@@ -22,10 +26,6 @@ import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {
-  useErrorSnackbar,
-  useSuccessSnackbar,
-} from '../../../../../packages/components/src/molecules/Snackbar';
 import ButtonLink from '../../lib/components/atoms/ButtonLink';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';

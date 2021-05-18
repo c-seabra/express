@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
@@ -8,7 +9,6 @@ import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { useModalState } from '../../../../../packages/components/src/molecules/Modal';
 import { Button } from '../../lib/components/atoms/Button';
 import ButtonLink, { StyledLink } from '../../lib/components/atoms/ButtonLink';
 import Loader from '../../lib/Loading';
