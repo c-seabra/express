@@ -14,6 +14,11 @@ import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
 import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
+import { Button } from '../../lib/components/atoms/Button';
+
+const Flex = styled.div`
+  display: flex;
+`;
 
 const StyledContainer = styled.div`
   display: flex;
@@ -83,6 +88,7 @@ const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
 type Props = {
   error?: ApolloError;
   invoiceRedirect: any;
+  invoiceSendEmail: any;
   loading: boolean;
   order?: Order | null;
 };
@@ -92,6 +98,7 @@ const OrderDetailsSummary = ({
   error,
   order,
   invoiceRedirect,
+                               invoiceSendEmail,
 }: Props): ReactElement => {
   const orderWithActions: any = {
     ...order,
@@ -111,10 +118,15 @@ const OrderDetailsSummary = ({
           </Warning>
         )}
         {!loading && !error && order && (
-          <Table<ExtendedOrder>
-            items={[orderWithActions]}
-            tableShape={orderDetailsTableShape}
-          />
+          <StyledContainer>
+            <Table<ExtendedOrder>
+              items={[orderWithActions]}
+              tableShape={orderDetailsTableShape}
+            />
+            <Flex>
+              <Button onClick={invoiceSendEmail}>Send email</Button>
+            </Flex>
+          </StyledContainer>
         )}
       </StyledContainer>
     </ContainerCard>
