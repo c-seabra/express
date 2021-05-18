@@ -8,6 +8,7 @@ import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
+import ButtonLink, { StyledLink } from '../../lib/components/atoms/ButtonLink';
 import Loader from '../../lib/Loading';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
@@ -52,9 +53,14 @@ const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
       return (
         <>
           {order?.invoiceUrl ? (
-            <a href={order?.invoiceUrl || '#'} rel="noreferrer" target="_blank">
-              Download
-            </a>
+            <StyledLink
+              download="invoice.pdf"
+              href={order?.invoiceUrl || '#'}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <>Download</>
+            </StyledLink>
           ) : (
             <span>N/A</span>
           )}
@@ -65,7 +71,11 @@ const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
   {
     header: 'Invoice',
     renderCell: (order) => {
-      return <a onClick={order.invoiceRedirect}>View</a>;
+      return (
+        <ButtonLink onClick={order.invoiceRedirect}>
+          <>View</>
+        </ButtonLink>
+      );
     },
   },
 ];
