@@ -8,13 +8,13 @@ import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
+import { Button } from '../../lib/components/atoms/Button';
 import ButtonLink, { StyledLink } from '../../lib/components/atoms/ButtonLink';
 import Loader from '../../lib/Loading';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
 import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
-import { Button } from '../../lib/components/atoms/Button';
 
 const Container = styled.div`
   display: flex;
@@ -127,7 +127,9 @@ const OrderDetailsSummary = ({
               tableShape={orderDetailsTableShape}
             />
             <Container>
-              <Button onClick={invoiceSendEmail}>Send email with invoice</Button>
+              <Button onClick={invoiceSendEmail}>
+                Send email with invoice
+              </Button>
             </Container>
           </StyledContainer>
         )}

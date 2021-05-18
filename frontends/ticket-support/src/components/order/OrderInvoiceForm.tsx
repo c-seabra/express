@@ -57,6 +57,7 @@ export type OrderInvoiceFormData = {
   email: string;
   firstName: string;
   lastName: string;
+  phoneNumber: string;
   postalCode: string;
 };
 
@@ -68,6 +69,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   firstName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   lastName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  phoneNumber: Yup.string(),
   postalCode: Yup.string(),
 });
 
@@ -77,10 +79,13 @@ const emptyCountryOption = {
 };
 
 const getCountryOptions = (
-  countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
+  countries: Pick<EventConfigurationCountry, 'name' | 'id' | 'code'>[] = [],
 ) => [
   emptyCountryOption,
-  ...countries.map((country) => ({ label: country?.name, value: country?.code })),
+  ...countries.map((country) => ({
+    label: country?.name,
+    value: country?.code,
+  })),
 ];
 
 const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
@@ -113,27 +118,27 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
       email: prefillData.email,
       firstName: prefillData.firstName,
       lastName: prefillData.lastName,
+      phoneNumber: prefillData.phoneNumber,
       postalCode: prefillData.postalCode,
     };
   };
 
-  // const pickMutation = (formData: CommerceCustomer) => {
   const onSubmit = (formData: OrderInvoiceFormData) => {
     const input = {
       address: {
-        city: formData.city,
-        country: formData.country,
-        line1: formData.addressLine1,
-        line2: formData.addressLine2,
-        postalCode: formData.postalCode,
+        city: formData.city.trim(),
+        country: formData.country.trim(),
+        line1: formData.addressLine1.trim(),
+        line2: formData.addressLine2.trim(),
+        postalCode: formData.postalCode.trim(),
         // state: String
       },
       // companyName: String
-      email: formData.email,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      // phoneNumber: String
-      vatNumber: formData.companyTaxNo,
+      email: formData.email.trim(),
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      phoneNumber: formData.phoneNumber.trim(),
+      vatNumber: formData.companyTaxNo.trim(),
     };
 
     return updateCustomer({
@@ -234,6 +239,15 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
                 type="text"
               />
             </InlineWrapper>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <StyledInputField
+              label="Company’s phone"
+              name="phoneNumber"
+              placeholder="+353 1 437 0969"
+              type="text"
+            />
           </FieldWrapper>
 
           <FlexEnd>

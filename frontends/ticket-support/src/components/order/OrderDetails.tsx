@@ -15,12 +15,17 @@ import {
   Order,
   useCommerceListPaymentMethodsQuery,
   useOrderByRefQuery,
+  useOrderInvoiceSendMutation,
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import {useHistory, useParams} from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '../../../../../packages/components/src/molecules/Snackbar';
 import ButtonLink from '../../lib/components/atoms/ButtonLink';
 import TextHeading from '../../lib/components/atoms/Heading';
 import Icon from '../../lib/components/atoms/Icon';
@@ -130,6 +135,8 @@ const PaginationContainer = styled.div`
 
 const OrderDetails = (): ReactElement => {
   const history = useHistory();
+  const snackbar = useSuccessSnackbar();
+  const errSnackbar = useErrorSnackbar();
   const { orderRef } = useParams<{ orderRef: string }>();
   const context = useRequestContext();
   const {
@@ -262,11 +269,27 @@ const OrderDetails = (): ReactElement => {
     ?.filter(
       (transaction) => transaction?.type === CommerceTransactionType.Refund,
     ) as CommerceTransaction[];
-  console.log(commerceOrder)
 
   const invoiceRedirect = () => {
-    history.push(`/order/${orderRef}/invoice/${sourceId}`)
-  }
+    history.push(`/order/${orderRef}/invoice/${sourceId}`);
+  };
+
+  const [sendEmail] = useOrderInvoiceSendMutation({
+    context,
+    onCompleted: () => {
+      snackbar(`Email with invoice sent`);
+    },
+    onError: (e) => errSnackbar(e.message),
+  });
+  const invoiceSendEmail = async () => {
+    await sendEmail({
+      variables: {
+        input: {
+          reference: orderRef,
+        },
+      },
+    });
+  };
 
   return (
     <>
@@ -360,6 +383,7 @@ const OrderDetails = (): ReactElement => {
                 <OrderDetailsSummary
                   error={error}
                   invoiceRedirect={invoiceRedirect}
+                  invoiceSendEmail={invoiceSendEmail}
                   loading={loading}
                   order={order as Order}
                 />

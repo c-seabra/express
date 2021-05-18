@@ -61,20 +61,19 @@ const OrderInvoicePage = () => {
 
   const customer = commerceOrder?.customer;
   const [prefillData, setPrefillData] = useState({});
-  console.log(customer);
   useEffect(() => {
     setPrefillData({
-      addressLine1: customer?.address?.line1,
-      addressLine2: customer?.address?.line2,
-      companyTaxNo: customer?.vatNumber,
-      email: customer?.email,
-      firstName: customer?.firstName,
+      addressLine1: customer?.address?.line1?.trim(),
+      addressLine2: customer?.address?.line2?.trim(),
+      city: customer?.address?.city.trim(),
+      companyTaxNo: customer?.vatNumber?.trim(),
+      country: customer?.address?.country?.trim(),
+      email: customer?.email.trim(),
+      firstName: customer?.firstName.trim(),
       id: customer?.id,
-      lastName: customer?.lastName,
-      postalCode: customer?.address?.postalCode,
-      country: customer?.address?.country,
-      city: customer?.address?.city,
-
+      lastName: customer?.lastName.trim(),
+      phoneNumber: customer?.phoneNumber?.trim(),
+      postalCode: customer?.address?.postalCode.trim(),
     });
   }, [customer]);
 
