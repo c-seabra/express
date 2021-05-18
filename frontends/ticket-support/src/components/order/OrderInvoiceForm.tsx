@@ -62,13 +62,13 @@ export type OrderInvoiceFormData = {
 
 const validationSchema = Yup.object().shape({
   addressLine1: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  addressLine2: Yup.string(),
-  addressLine3: Yup.string(),
-  addressLine4: Yup.string(),
+  city: Yup.string(),
   companyTaxNo: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  country: Yup.string(),
   email: Yup.string().email().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   firstName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   lastName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  postalCode: Yup.string(),
 });
 
 const emptyCountryOption = {
@@ -80,7 +80,7 @@ const getCountryOptions = (
   countries: Pick<EventConfigurationCountry, 'name' | 'id'>[] = [],
 ) => [
   emptyCountryOption,
-  ...countries.map((country) => ({ label: country?.name, value: country?.id })),
+  ...countries.map((country) => ({ label: country?.name, value: country?.code })),
 ];
 
 const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
