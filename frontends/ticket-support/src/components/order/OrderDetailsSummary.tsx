@@ -8,6 +8,7 @@ import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
+import { useModalState } from '../../../../../packages/components/src/molecules/Modal';
 import { Button } from '../../lib/components/atoms/Button';
 import ButtonLink, { StyledLink } from '../../lib/components/atoms/ButtonLink';
 import Loader from '../../lib/Loading';
@@ -15,6 +16,7 @@ import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
 import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
+import OrderSendInvoiceModal from './OrderSendInvoiceModal';
 
 const Container = styled.div`
   display: flex;
@@ -57,7 +59,6 @@ const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
   {
     header: 'Invoice .pdf',
     renderCell: (order) => {
-      console.log('order', order);
       return (
         <>
           {order?.invoiceUrl ? (
@@ -107,6 +108,8 @@ const OrderDetailsSummary = ({
     ...order,
     invoiceRedirect,
   };
+  const { isOpen, closeModal, openModal } = useModalState();
+
   return (
     <ContainerCard noPadding title="Order details">
       <StyledContainer>
@@ -127,9 +130,12 @@ const OrderDetailsSummary = ({
               tableShape={orderDetailsTableShape}
             />
             <Container>
-              <Button onClick={invoiceSendEmail}>
-                Send email with invoice
-              </Button>
+              <OrderSendInvoiceModal
+                closeModal={closeModal}
+                isOpen={isOpen}
+                sendEmail={invoiceSendEmail}
+              />
+              <Button onClick={openModal}>Send email with invoice</Button>
             </Container>
           </StyledContainer>
         )}
