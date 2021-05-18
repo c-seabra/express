@@ -52,6 +52,7 @@ export type OrderInvoiceFormData = {
   addressLine1: string;
   addressLine2: string;
   city: string;
+  companyName: string;
   companyTaxNo: string;
   country: string;
   email: string;
@@ -64,6 +65,7 @@ export type OrderInvoiceFormData = {
 const validationSchema = Yup.object().shape({
   addressLine1: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   city: Yup.string(),
+  companyName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   companyTaxNo: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   country: Yup.string(),
   email: Yup.string().email().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
@@ -113,6 +115,7 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
       addressLine1: prefillData.addressLine1,
       addressLine2: prefillData.addressLine2,
       city: prefillData.city,
+      companyName: prefillData.companyName,
       companyTaxNo: prefillData.companyTaxNo,
       country: prefillData.country,
       email: prefillData.email,
@@ -133,7 +136,7 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
         postalCode: formData.postalCode.trim(),
         // state: String
       },
-      // companyName: String
+      companyName: formData.companyName.trim(),
       email: formData.email.trim(),
       firstName: formData.firstName.trim(),
       lastName: formData.lastName.trim(),
@@ -154,6 +157,16 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
     >
       <Fieldset disabled={false}>
         <Spacing top="2rem">
+          <FieldWrapper>
+            <TextInputField
+              required
+              label="Company's name"
+              name="companyName"
+              placeholder="ABC Corp."
+              type="text"
+            />
+          </FieldWrapper>
+
           <FieldWrapper>
             <InlineWrapper>
               <StyledInputField

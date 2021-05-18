@@ -66,6 +66,7 @@ const OrderInvoicePage = () => {
       addressLine1: customer?.address?.line1?.trim(),
       addressLine2: customer?.address?.line2?.trim(),
       city: customer?.address?.city.trim(),
+      companyName: customer?.companyName?.trim(),
       companyTaxNo: customer?.vatNumber?.trim(),
       country: customer?.address?.country?.trim(),
       email: customer?.email.trim(),
