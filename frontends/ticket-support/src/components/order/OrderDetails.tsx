@@ -386,6 +386,7 @@ const OrderDetails = (): ReactElement => {
                   invoiceRedirect={invoiceRedirect}
                   invoiceSendEmail={invoiceSendEmail}
                   loading={loading}
+                  loadingCommerceOrder={loadingCommerceOrder}
                   order={order as Order}
                 />
               </SpacingBottom>

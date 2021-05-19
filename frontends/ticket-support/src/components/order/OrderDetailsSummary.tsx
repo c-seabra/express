@@ -26,6 +26,12 @@ const Container = styled.div`
   border-top: 1px solid #dde0e5;
 `;
 
+const ContainerCentered = styled.div`
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+`;
+
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -98,6 +104,7 @@ type Props = {
   invoiceRedirect: any;
   invoiceSendEmail: any;
   loading: boolean;
+  loadingCommerceOrder: boolean;
   order?: Order | null;
 };
 
@@ -108,6 +115,7 @@ const OrderDetailsSummary = ({
   invoiceRedirect,
   invoiceSendEmail,
   commerceOrder,
+  loadingCommerceOrder,
 }: Props): ReactElement => {
   const orderWithActions: any = {
     ...order,
@@ -115,33 +123,32 @@ const OrderDetailsSummary = ({
     invoiceRedirect,
   };
   const { isOpen, closeModal, openModal } = useModalState();
-  const defaultTableShape =
-    orderDetailsTableShape.concat(tableShapeWithInvoice)
+  const defaultTableShape = orderDetailsTableShape.concat(
+    tableShapeWithInvoice,
+  );
 
   const tableShape =
-      commerceOrder && commerceOrder.billed > 0 ? defaultTableShape : orderDetailsTableShape;
+    commerceOrder && commerceOrder.billed > 0
+      ? defaultTableShape
+      : orderDetailsTableShape;
 
-  console.log('order', order);
-  console.log('commerceOrder', commerceOrder);
   return (
     <ContainerCard noPadding title="Order details">
       <StyledContainer>
-        {loading && (
-          <Spacing top="2rem">
-            <Loader />
-          </Spacing>
-        )}
-        {error && (
-          <Warning>
-            <span>{error.message}</span>
-          </Warning>
-        )}
+        <ContainerCentered>
+          {loading || (loadingCommerceOrder && <Loader />)}
+          {error && (
+            <Warning>
+              <span>{error.message}</span>
+            </Warning>
+          )}
+        </ContainerCentered>
+
         {!loading && !error && order && commerceOrder && (
           <StyledContainer>
             <Table<ExtendedOrder>
               items={[orderWithActions]}
               tableShape={tableShape}
-              // tableShape={commerceOrder && commerceOrder.billed > 0 ? defaultTableShape : orderDetailsTableShape}
             />
             {commerceOrder.billed > 0 && (
               <Container>
