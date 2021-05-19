@@ -370,21 +370,15 @@ const Calendar = ({ token, env }) => {
     setEvents(nextEvents);
   };
 
-  const createEvent = ({ start, end }) => {
-    const title = window.prompt('New Event name');
-
-    if (title) {
-      Api.createEvent(attendancesArray, end, start, title, token, env);
-
-      const createdEvent = {
-        ends_at: end,
-        id: events.length + 1,
-        starts_at: start,
-        title,
-      };
-      const updatedEvents = events.concat(createdEvent);
+  const onCreateEvent = (event, submitted) => {
+    setNewEvent(event);
+    setEvents(events.concat([event]));
+    event.saved = true;
+    if(submitted) {
+      Api.createEvent(attendancesArray, event.end, event.start, event.title, token, env);
+      const updatedEvents = events.concat([event]);
       setEvents(updatedEvents);
-    }
+    };
   };
 
   const cleanupData = (newEvents = events) => {
@@ -409,6 +403,7 @@ const Calendar = ({ token, env }) => {
           currentUserId,
           events,
           locations,
+          onCreateEvent,
           onDeleteEvent,
           onDeleteEventInvitation,
           onSelectEvent,
@@ -450,7 +445,7 @@ const Calendar = ({ token, env }) => {
           onEventResize={resizeEvent}
           onNavigate={onNavigate}
           onSelectEvent={onSelectEvent}
-          onSelectSlot={createEvent}
+          onSelectSlot={onCreateEvent}
           onView={onView}
         />
       </DetailsContext.Provider>

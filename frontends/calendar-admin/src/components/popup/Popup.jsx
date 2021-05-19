@@ -21,29 +21,16 @@ const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
     );
   };
 
-  const renderNewEvent = ({ allDay, event, starts_at }) => {
-    let popupStyle;
-
-    if (allDay) {
-      popupStyle = {
-        top: '200px',
-        left: '200px',
-      };
-    } else {
-      const e = event;
-      const x = e.action === 'click' ? 'box' : 'bounds';
-      popupStyle = {
-        top: `${e[x].y}px`,
-        left: `${e[x].x}px`,
-      };
-    }
-
+  const renderNewEvent = () => {
+    const popupStyle = {
+      top: '200px',
+      left: '200px',
+    };
     return (
       <>
         <PopupContainer style={popupStyle}>
-          <NewEvent starts_at={starts_at} />
+          <NewEvent event={newEvent}/>
         </PopupContainer>
-        <Overlay onClick={handleOnClick} />
       </>
     );
   };
