@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import Button from '../button/Button';
 import { DetailsContext } from '../calendar/Context';
 
-const NewEvent = ({event}) => {
+const NewEvent = ({ event }) => {
   const { title, description, location } = event;
   const starts_at = event.start;
   const ends_at = event.end;
@@ -23,14 +23,14 @@ const NewEvent = ({event}) => {
 
   return (
     <div>
-    {!closePopup && (
+      {!closePopup && (
         <form onSubmit={(e) => handleSubmit(e)}>
           <label htmlFor="title">Title: </label>
           <br />
           <input
             id="title"
             type="text"
-            onChange={(e) => handleChange("title", e.target.value)}
+            onChange={(e) => handleChange('title', e.target.value)}
             value={
               createdEvent.title !== undefined ? createdEvent.title : title
             }
@@ -43,9 +43,11 @@ const NewEvent = ({event}) => {
             id="starts_at"
             type="text"
             defaultValue={starts_at}
-            onChange={(e) => handleChange("starts_at", e.target.value)}
+            onChange={(e) => handleChange('starts_at', e.target.value)}
             value={
-              createdEvent.starts_at !== undefined ? createdEvent.starts_at : starts_at
+              createdEvent.starts_at !== undefined
+                ? createdEvent.starts_at
+                : starts_at
             }
           />
           <br />
@@ -56,9 +58,11 @@ const NewEvent = ({event}) => {
             id="ends_at"
             type="text"
             defaultValue={ends_at}
-            onChange={(e) => handleChange("ends_at", e.target.value)}
+            onChange={(e) => handleChange('ends_at', e.target.value)}
             value={
-              createdEvent.ends_at !== undefined ? createdEvent.ends_at : ends_at
+              createdEvent.ends_at !== undefined
+                ? createdEvent.ends_at
+                : ends_at
             }
           />
           <br />
@@ -68,9 +72,11 @@ const NewEvent = ({event}) => {
           <input
             id="location"
             type="text"
-            onChange={(e) => handleChange("location", e.target.value)}
+            onChange={(e) => handleChange('location', e.target.value)}
             value={
-              createdEvent.location !== undefined ? createdEvent.location : location
+              createdEvent.location !== undefined
+                ? createdEvent.location
+                : location
             }
           />
           <br />
@@ -80,13 +86,17 @@ const NewEvent = ({event}) => {
           <input
             id="description"
             type="text"
-            onChange={(e) => handleChange("description", e.target.value)}
+            onChange={(e) => handleChange('description', e.target.value)}
             value={
-              createdEvent.description !== undefined ? createdEvent.description : description
+              createdEvent.description !== undefined
+                ? createdEvent.description
+                : description
             }
           />
           <br />
-          <Button onBtnClick={(e) => handleSubmit(e)} type="submit">Save</Button>
+          <Button onBtnClick={(e) => handleSubmit(e)} type="submit">
+            Save
+          </Button>
         </form>
       )}
     </div>

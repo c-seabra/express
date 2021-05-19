@@ -374,11 +374,18 @@ const Calendar = ({ token, env }) => {
     setNewEvent(event);
     setEvents(events.concat([event]));
     event.saved = true;
-    if(submitted) {
-      Api.createEvent(attendancesArray, event.end, event.start, event.title, token, env);
+    if (submitted) {
+      Api.createEvent(
+        attendancesArray,
+        event.end,
+        event.start,
+        event.title,
+        token,
+        env,
+      );
       const updatedEvents = events.concat([event]);
       setEvents(updatedEvents);
-    };
+    }
   };
 
   const cleanupData = (newEvents = events) => {

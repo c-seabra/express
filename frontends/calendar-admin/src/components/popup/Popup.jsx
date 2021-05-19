@@ -29,7 +29,7 @@ const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
     return (
       <>
         <PopupContainer style={popupStyle}>
-          <NewEvent event={newEvent}/>
+          <NewEvent event={newEvent} />
         </PopupContainer>
       </>
     );
