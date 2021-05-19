@@ -138,18 +138,18 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
   const onSubmit = (formData: OrderInvoiceFormData) => {
     const input = {
       address: {
-        city: formData.city.trim(),
-        country: formData.country.trim(),
-        line1: formData.addressLine1.trim(),
-        line2: formData.addressLine2.trim(),
-        postalCode: formData.postalCode.trim(),
+        city: formData?.city?.trim(),
+        country: formData?.country?.trim(),
+        line1: formData?.addressLine1?.trim(),
+        line2: formData?.addressLine2?.trim(),
+        postalCode: formData?.postalCode?.trim(),
       },
-      companyName: formData.companyName.trim(),
-      email: formData.email.trim(),
-      firstName: formData.firstName.trim(),
-      lastName: formData.lastName.trim(),
-      phoneNumber: formData.phoneNumber.trim(),
-      vatNumber: formData.companyTaxNo.trim(),
+      companyName: formData?.companyName?.trim(),
+      email: formData?.email?.trim(),
+      firstName: formData?.firstName?.trim(),
+      lastName: formData?.lastName?.trim(),
+      phoneNumber: formData?.phoneNumber?.trim(),
+      vatNumber: formData?.companyTaxNo?.trim(),
     };
 
     return updateCustomer({
