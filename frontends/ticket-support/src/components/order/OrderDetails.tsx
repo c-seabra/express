@@ -381,6 +381,7 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderDetailsSummary
+                  commerceOrder={commerceOrder}
                   error={error}
                   invoiceRedirect={invoiceRedirect}
                   invoiceSendEmail={invoiceSendEmail}

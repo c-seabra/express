@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { Button } from '../../lib/components/atoms/Button';
 import ButtonLink, { StyledLink } from '../../lib/components/atoms/ButtonLink';
 import Loader from '../../lib/Loading';
+import { CommerceOrder } from '../../lib/types';
 import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
 import Warning from '../ticketActions/Warning';
@@ -33,7 +34,7 @@ const StyledContainer = styled.div`
 type OrderActions = {
   invoiceRedirect: any;
 };
-type ExtendedOrder = Order & OrderActions;
+type ExtendedOrder = Order & CommerceOrder & OrderActions;
 
 const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
   {
@@ -56,6 +57,8 @@ const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
     header: 'Order status',
     renderCell: (order) => <StatePlate state={order?.state} />,
   },
+];
+const tableShapeWithInvoice: ColumnDescriptor<ExtendedOrder>[] = [
   {
     header: 'Invoice .pdf',
     renderCell: (order) => {
@@ -90,6 +93,7 @@ const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
 ];
 
 type Props = {
+  commerceOrder?: any | null;
   error?: ApolloError;
   invoiceRedirect: any;
   invoiceSendEmail: any;
@@ -103,13 +107,22 @@ const OrderDetailsSummary = ({
   order,
   invoiceRedirect,
   invoiceSendEmail,
+  commerceOrder,
 }: Props): ReactElement => {
   const orderWithActions: any = {
     ...order,
+    ...commerceOrder,
     invoiceRedirect,
   };
   const { isOpen, closeModal, openModal } = useModalState();
+  const defaultTableShape =
+    orderDetailsTableShape.concat(tableShapeWithInvoice)
 
+  const tableShape =
+      commerceOrder && commerceOrder.billed > 0 ? defaultTableShape : orderDetailsTableShape;
+
+  console.log('order', order);
+  console.log('commerceOrder', commerceOrder);
   return (
     <ContainerCard noPadding title="Order details">
       <StyledContainer>
@@ -123,20 +136,23 @@ const OrderDetailsSummary = ({
             <span>{error.message}</span>
           </Warning>
         )}
-        {!loading && !error && order && (
+        {!loading && !error && order && commerceOrder && (
           <StyledContainer>
             <Table<ExtendedOrder>
               items={[orderWithActions]}
-              tableShape={orderDetailsTableShape}
+              tableShape={tableShape}
+              // tableShape={commerceOrder && commerceOrder.billed > 0 ? defaultTableShape : orderDetailsTableShape}
             />
-            <Container>
-              <OrderSendInvoiceModal
-                closeModal={closeModal}
-                isOpen={isOpen}
-                sendEmail={invoiceSendEmail}
-              />
-              <Button onClick={openModal}>Send email with invoice</Button>
-            </Container>
+            {commerceOrder.billed > 0 && (
+              <Container>
+                <OrderSendInvoiceModal
+                  closeModal={closeModal}
+                  isOpen={isOpen}
+                  sendEmail={invoiceSendEmail}
+                />
+                <Button onClick={openModal}>Send email with invoice</Button>
+              </Container>
+            )}
           </StyledContainer>
         )}
       </StyledContainer>
