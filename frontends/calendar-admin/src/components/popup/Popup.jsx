@@ -31,6 +31,7 @@ const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
         <PopupContainer style={popupStyle}>
           <NewEvent event={newEvent} />
         </PopupContainer>
+        <Overlay onClick={handleOnClick} />
       </>
     );
   };

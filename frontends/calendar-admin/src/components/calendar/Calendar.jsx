@@ -370,20 +370,18 @@ const Calendar = ({ token, env }) => {
     setEvents(nextEvents);
   };
 
-  const onCreateEvent = (event, submitted) => {
+  const onCreateEvent = async (event) => {
     setNewEvent(event);
-    setEvents(events.concat([event]));
-    event.saved = true;
-    if (submitted) {
-      Api.createEvent(
+    if (event.title) {
+      const createdEvent = await Api.createEvent(
         attendancesArray,
         event.end,
         event.start,
         event.title,
         token,
         env,
-      );
-      const updatedEvents = events.concat([event]);
+      )
+      const updatedEvents = events.concat([createdEvent.data.data]);
       setEvents(updatedEvents);
     }
   };
