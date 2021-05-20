@@ -1,6 +1,15 @@
 import { createContext, useContext } from 'react';
 
-type AppContextType = { conferenceSlug?: string; token?: string };
+import { Attendance, Color } from '../../lib/types/index';
+
+type AppContextType = {
+  attendances?: Attendance[];
+  colors?: Color[];
+  conferenceSlug?: string;
+  setAttendances?: (attendance: Attendance[]) => void;
+  setColors?: (color: Color[]) => void;
+  token?: string;
+};
 
 const AppContext = createContext<AppContextType>({});
 
