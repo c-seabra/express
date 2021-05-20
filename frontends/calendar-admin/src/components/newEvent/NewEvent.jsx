@@ -28,9 +28,7 @@ const NewEvent = ({ event }) => {
           id="title"
           type="text"
           onChange={(e) => handleChange('title', e.target.value)}
-          value={
-            createdEvent.title !== undefined ? createdEvent.title : title
-          }
+          value={createdEvent.title !== undefined ? createdEvent.title : title}
         />
         <br />
         <label htmlFor="starts_at">Starts at: </label>
@@ -55,9 +53,7 @@ const NewEvent = ({ event }) => {
           defaultValue={ends_at}
           onChange={(e) => handleChange('ends_at', e.target.value)}
           value={
-            createdEvent.ends_at !== undefined
-              ? createdEvent.ends_at
-              : ends_at
+            createdEvent.ends_at !== undefined ? createdEvent.ends_at : ends_at
           }
         />
         <br />

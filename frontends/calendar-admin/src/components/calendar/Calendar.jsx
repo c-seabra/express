@@ -380,7 +380,7 @@ const Calendar = ({ token, env }) => {
         event.title,
         token,
         env,
-      )
+      );
       const updatedEvents = events.concat([createdEvent.data.data]);
       setEvents(updatedEvents);
     }
