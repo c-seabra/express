@@ -1,0 +1,421 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditEvent renders with props and context 1`] = `
+<form
+  className={undefined}
+  onSubmit={[Function]}
+>
+  <div
+    className={undefined}
+  >
+    <div
+      className={undefined}
+    >
+      <svg
+        version="1.1"
+        viewBox="0 0 15 15"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+      >
+        <title>
+          Rectangle
+        </title>
+        <desc>
+          Created with Sketch.
+        </desc>
+        <g
+          fill="none"
+          fillRule="evenodd"
+          id="Symbols"
+          stroke="none"
+          strokeWidth="1"
+        >
+          <g
+            fill="#FA7E23"
+            fillRule="nonzero"
+            id="1:1-Private-Meeting-small"
+            transform="translate(-23.000000, -64.000000)"
+          >
+            <rect
+              fill={undefined}
+              height="15"
+              id="Rectangle"
+              rx="4"
+              width="15"
+              x="23"
+              y="64"
+            />
+          </g>
+        </g>
+      </svg>
+      <input
+        name="title"
+        onChange={[Function]}
+        type="text"
+        value="Event Title"
+      />
+    </div>
+    <div
+      className={undefined}
+    >
+      <input
+        name="location_name"
+        onChange={[Function]}
+        type="text"
+        value="Under palm tree"
+      />
+      <select
+        name="location_id"
+        onChange={[Function]}
+        value={undefined}
+      >
+        <option
+          value="czxczc"
+        >
+          Sunset Summit
+        </option>
+        <option
+          value="dsadasd"
+        >
+          Surf Summit (Invite-only)
+        </option>
+        <option
+          value="123456778"
+        >
+          FullSTK
+        </option>
+      </select>
+    </div>
+    <div
+      className={undefined}
+    >
+      <textarea
+        name="description"
+        onChange={[Function]}
+        value="SOme event description"
+      />
+    </div>
+    <button
+      className={undefined}
+      type="submit"
+    >
+      Save
+    </button>
+    <button
+      className={undefined}
+      onClick={[Function]}
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+  <div
+    className="undefined undefined"
+  >
+    <ul
+      className={undefined}
+    >
+      <li>
+        <div
+          className={undefined}
+        >
+          <div
+            className={undefined}
+          >
+            <object
+              data={undefined}
+              type="image/png"
+            >
+              <img
+                alt="Invitee avatar"
+                src="https://s3-eu-west-1.amazonaws.com/assets.cilabs.com/images/person.svg"
+                style={
+                  Object {
+                    "borderColor": "transparent",
+                  }
+                }
+              />
+            </object>
+            <svg
+              viewBox="0 0 10 9"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <clipPath
+                  id="vrmva"
+                >
+                  <path
+                    d="M4.125 5.725L2.9 4.5l-.408.408 1.633 1.634 3.5-3.5-.408-.409z"
+                  />
+                </clipPath>
+              </defs>
+              <g>
+                <g>
+                  <g>
+                    <path
+                      d="M5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9z"
+                      fill="#f8992c"
+                    />
+                  </g>
+                  <g>
+                    <g />
+                    <g
+                      clipPath="url(#vrmva)"
+                    >
+                      <g>
+                        <path
+                          d="M1.5 1h7v7h-7z"
+                          fill="#fff"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <div
+            className={undefined}
+          >
+            <p
+              className={undefined}
+            >
+              Tomasz undefined
+            </p>
+          </div>
+          <span
+            className={undefined}
+            onClick={[Function]}
+          >
+            <svg
+              viewBox="0 0 10 9"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <clipPath
+                  id="en5za"
+                >
+                  <path
+                    d="M7.333 2.637l-.47-.47L5 4.03 3.137 2.167l-.47.47L4.53 4.5 2.667 6.363l.47.47L5 4.97l1.863 1.863.47-.47L5.47 4.5z"
+                  />
+                </clipPath>
+              </defs>
+              <g>
+                <g>
+                  <g>
+                    <path
+                      d="M4.95 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9z"
+                      fill="#ed1846"
+                    />
+                  </g>
+                </g>
+                <g>
+                  <g />
+                  <g
+                    clipPath="url(#en5za)"
+                  >
+                    <g>
+                      <path
+                        d="M1 .5h8v8H1z"
+                        fill="#fff"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</form>
+`;
+
+exports[`EditEvent renders with props, and no context 1`] = `
+<form
+  className={undefined}
+  onSubmit={[Function]}
+>
+  <div
+    className={undefined}
+  >
+    <div
+      className={undefined}
+    >
+      <svg
+        version="1.1"
+        viewBox="0 0 15 15"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+      >
+        <title>
+          Rectangle
+        </title>
+        <desc>
+          Created with Sketch.
+        </desc>
+        <g
+          fill="none"
+          fillRule="evenodd"
+          id="Symbols"
+          stroke="none"
+          strokeWidth="1"
+        >
+          <g
+            fill="#FA7E23"
+            fillRule="nonzero"
+            id="1:1-Private-Meeting-small"
+            transform="translate(-23.000000, -64.000000)"
+          >
+            <rect
+              fill={undefined}
+              height="15"
+              id="Rectangle"
+              rx="4"
+              width="15"
+              x="23"
+              y="64"
+            />
+          </g>
+        </g>
+      </svg>
+      <input
+        name="title"
+        onChange={[Function]}
+        type="text"
+        value="Event Title"
+      />
+    </div>
+    <div
+      className={undefined}
+    >
+      <input
+        name="location_name"
+        onChange={[Function]}
+        type="text"
+        value="Under palm tree"
+      />
+    </div>
+    <div
+      className={undefined}
+    >
+      <textarea
+        name="description"
+        onChange={[Function]}
+        value="Some event description"
+      />
+    </div>
+    <button
+      className={undefined}
+      type="submit"
+    >
+      Save
+    </button>
+    <button
+      className={undefined}
+      onClick={[Function]}
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+  <div
+    className="undefined undefined"
+  />
+</form>
+`;
+
+exports[`EditEvent renders without props or context 1`] = `
+<form
+  className={undefined}
+  onSubmit={[Function]}
+>
+  <div
+    className={undefined}
+  >
+    <div
+      className={undefined}
+    >
+      <svg
+        version="1.1"
+        viewBox="0 0 15 15"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+      >
+        <title>
+          Rectangle
+        </title>
+        <desc>
+          Created with Sketch.
+        </desc>
+        <g
+          fill="none"
+          fillRule="evenodd"
+          id="Symbols"
+          stroke="none"
+          strokeWidth="1"
+        >
+          <g
+            fill="#FA7E23"
+            fillRule="nonzero"
+            id="1:1-Private-Meeting-small"
+            transform="translate(-23.000000, -64.000000)"
+          >
+            <rect
+              fill={undefined}
+              height="15"
+              id="Rectangle"
+              rx="4"
+              width="15"
+              x="23"
+              y="64"
+            />
+          </g>
+        </g>
+      </svg>
+      <input
+        name="title"
+        onChange={[Function]}
+        type="text"
+        value={undefined}
+      />
+    </div>
+    <div
+      className={undefined}
+    >
+      <input
+        name="location_name"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className={undefined}
+    >
+      <textarea
+        name="description"
+        onChange={[Function]}
+        value={undefined}
+      />
+    </div>
+    <button
+      className={undefined}
+      type="submit"
+    >
+      Save
+    </button>
+    <button
+      className={undefined}
+      onClick={[Function]}
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+  <div
+    className="undefined undefined"
+  />
+</form>
+`;

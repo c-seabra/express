@@ -51,9 +51,11 @@
     "@babel/core": "7.13.14",
     "@babel/helper-call-delegate": "7.12.13",
     "@babel/helper-create-regexp-features-plugin": "7.12.17",
+    "@babel/plugin-proposal-export-default-from": "7.12.13",
     "@babel/plugin-syntax-jsx": "7.12.13",
     "@babel/plugin-transform-regenerator": "7.12.13",
     "@babel/plugin-transform-runtime": "7.13.10",
+    "@babel/polyfill": "7.8.3",
     "@babel/preset-env": "7.13.12",
     "@babel/preset-react": "7.12.13",
     "@babel/preset-typescript": "7.13.0",
@@ -80,6 +82,7 @@
     "@types/next": "9.0.0",
     "@types/qs": "6.9.6",
     "@types/react": "17.0.1",
+    "@types/react-csv": "^1.1.1",
     "@types/react-dom": "17.0.2",
     "@types/react-helmet": "6.1.0",
     "@types/react-modal": "3.12.0",
@@ -135,6 +138,8 @@
     "eslint-plugin-simple-import-sort": "5.0.3",
     "eslint-plugin-sort-keys-fix": "1.1.1",
     "eslint-plugin-typescript-sort-keys": "1.5.0",
+    "eslint-config-standard": "14.1.0",
+    "eslint-config-standard-react": "9.2.0",
     "global": "4.4.0",
     "graphql": "15.5.0",
     "graphql-tag": "2.11.0",
@@ -201,6 +206,7 @@
     "moment-timezone": "0.5.33",
     "qs": "6.10.1",
     "react": "17.0.1",
+    "react-big-calendar": "^0.33.2",
     "react-dom": "17.0.1",
     "react-helmet": "6.1.0",
     "react-modal": "3.12.1",
@@ -214,8 +220,10 @@
     "yup": "0.32.9"
   },
   "dependencies": {
+    "@bootstrap-styled/v4": "3.2.0",
     "@types/lodash.get": "4.4.6",
     "lint-staged": "10.5.4",
-    "lodash.get": "4.4.2"
+    "lodash.get": "4.4.2",
+    "react-csv": "^2.0.3"
   }
 }

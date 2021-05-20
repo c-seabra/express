@@ -9,16 +9,21 @@ import Breadcrumbs, {
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Select from '@websummit/components/src/molecules/Select';
 import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
+import {
   CommerceOrderPaymentStatus,
   CommerceTransaction,
   CommerceTransactionType,
   Order,
   useCommerceListPaymentMethodsQuery,
   useOrderByRefQuery,
+  useOrderInvoiceSendMutation,
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ButtonLink from '../../lib/components/atoms/ButtonLink';
@@ -129,6 +134,9 @@ const PaginationContainer = styled.div`
 `;
 
 const OrderDetails = (): ReactElement => {
+  const history = useHistory();
+  const snackbar = useSuccessSnackbar();
+  const errSnackbar = useErrorSnackbar();
   const { orderRef } = useParams<{ orderRef: string }>();
   const context = useRequestContext();
   const {
@@ -196,7 +204,6 @@ const OrderDetails = (): ReactElement => {
   });
 
   const owner = order?.owner;
-
   const isFromTito = (source: string): boolean => {
     return switchCase({
       TICKET_MACHINE: false,
@@ -262,6 +269,27 @@ const OrderDetails = (): ReactElement => {
     ?.filter(
       (transaction) => transaction?.type === CommerceTransactionType.Refund,
     ) as CommerceTransaction[];
+
+  const invoiceRedirect = () => {
+    history.push(`/order/${orderRef}/invoice/${sourceId}`);
+  };
+
+  const [sendEmail] = useOrderInvoiceSendMutation({
+    context,
+    onCompleted: () => {
+      snackbar(`Email with invoice sent`);
+    },
+    onError: (e) => errSnackbar(e.message),
+  });
+  const invoiceSendEmail = async () => {
+    await sendEmail({
+      variables: {
+        input: {
+          reference: orderRef,
+        },
+      },
+    });
+  };
 
   return (
     <>
@@ -353,8 +381,12 @@ const OrderDetails = (): ReactElement => {
 
               <SpacingBottom>
                 <OrderDetailsSummary
+                  commerceOrder={commerceOrder}
                   error={error}
+                  invoiceRedirect={invoiceRedirect}
+                  invoiceSendEmail={invoiceSendEmail}
                   loading={loading}
+                  loadingCommerceOrder={loadingCommerceOrder}
                   order={order as Order}
                 />
               </SpacingBottom>
@@ -426,7 +458,7 @@ const OrderDetails = (): ReactElement => {
               <div>
                 <ContainerCard noPadding title="Ticket information">
                   <TicketList list={tickets} loading={ticketsLoading} />
-                  {!ticketsLoading && tickets.length >= perPage ? (
+                  {!ticketsLoading ? (
                     <PaginationContainer>
                       <Pagination
                         isForwardDisabled={isForwardDisabled}
@@ -434,14 +466,18 @@ const OrderDetails = (): ReactElement => {
                         nextPage={nextPage}
                         previousPage={previousPage}
                       />
-                      <StyledSelect
-                        options={pagingOptions}
-                        value={perPage}
-                        onChange={(e) => {
-                          const newPerPage = parseInt(e.target.value, 10);
-                          setPerPage(newPerPage);
-                        }}
-                      />
+                      {isForwardDisabled &&
+                      isBackwardsDisabled &&
+                      perPage === DEFAULT_PER_PAGE ? null : (
+                        <StyledSelect
+                          options={pagingOptions}
+                          value={perPage}
+                          onChange={(e) => {
+                            const newPerPage = parseInt(e.target.value, 10);
+                            setPerPage(newPerPage);
+                          }}
+                        />
+                      )}
                     </PaginationContainer>
                   ) : null}
                 </ContainerCard>

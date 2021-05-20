@@ -12,15 +12,32 @@
     "start": "webpack serve --port 9008",
     "start:standalone": "webpack serve --env standalone"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "react-test-renderer": "^16.12.0"
+  },
   "dependencies": {
     "@apollo/client": "*",
+    "@bootstrap-styled/v4": "*",
+    "@material-ui/core": "*",
+    "@material-ui/icons": "*",
     "@websummit/graphql": "*",
     "graphql": "*",
+    "immutability-helper": "^3.0.1",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",
+    "material-table": "^1.54.1",
+    "moment": "*",
+    "moment-timezone": "*",
+    "node-sass": "^4.13.0",
+    "prop-types": "^15.7.2",
     "react": "*",
-    "react-dom": "*"
+    "react-big-calendar": "*",
+    "react-dom": "*",
+    "react-datetime": "^2.16.3",
+    "react-router-dom": "*",
+    "styled-components": "*"
   },
   "browserslist": {
     "production": [

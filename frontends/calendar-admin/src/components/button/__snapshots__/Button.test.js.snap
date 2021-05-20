@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button renders with props 1`] = `
+<button
+  className="button"
+  onClick={[Function]}
+>
+  Some Text
+</button>
+`;
+
+exports[`Button renders without props 1`] = `
+<button
+  className={undefined}
+  onClick={[Function]}
+/>
+`;

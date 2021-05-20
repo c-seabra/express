@@ -51,6 +51,7 @@ const AttendanceAppearanceSelectionList = ({
   useEffect(() => {
     handleStatus();
     setEventTimezone(data?.event.timeZone.ianaName || 'Europe/Dublin');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const {

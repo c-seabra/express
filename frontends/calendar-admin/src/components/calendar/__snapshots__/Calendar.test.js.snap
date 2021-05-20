@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calendar does render with token 1`] = `
+<Unknown>
+  <Unknown
+    value={
+      Object {
+        "locations": undefined,
+        "onDeleteEvent": [Function],
+        "onDeleteEventInvitation": [Function],
+        "onSelectEvent": [Function],
+        "onUpdateEvent": [Function],
+        "onUpdateEventInvitationResponse": [Function],
+        "payload": undefined,
+        "rsvps": Array [],
+      }
+    }
+  >
+    <Error
+      errors={Array []}
+    />
+    <Popup
+      existingEvent={undefined}
+      handleOnClick={[Function]}
+      newEvent={undefined}
+      rsvps={Array []}
+    />
+    <DragAndDropCalendar
+      components={
+        Object {
+          "agenda": Object {
+            "event": [Function],
+          },
+        }
+      }
+      date={undefined}
+      defaultView="week"
+      draggableAccessor={null}
+      endAccessor={[Function]}
+      eventPropGetter={[Function]}
+      events={Array []}
+      getNow={[Function]}
+      length={60}
+      localizer={
+        DateLocalizer {
+          "format": [Function],
+          "formats": Object {
+            "agendaDateFormat": "ddd MMM DD",
+            "agendaHeaderFormat": [Function],
+            "agendaTimeFormat": "LT",
+            "agendaTimeRangeFormat": [Function],
+            "dateFormat": "DD",
+            "dayFormat": "DD ddd",
+            "dayHeaderFormat": "dddd MMM DD",
+            "dayRangeHeaderFormat": [Function],
+            "eventTimeRangeEndFormat": [Function],
+            "eventTimeRangeFormat": [Function],
+            "eventTimeRangeStartFormat": [Function],
+            "monthHeaderFormat": "MMMM YYYY",
+            "selectRangeFormat": [Function],
+            "timeGutterFormat": "LT",
+            "weekdayFormat": "ddd",
+          },
+          "propType": [Function],
+          "startOfWeek": [Function],
+        }
+      }
+      max={2000-01-01T23:00:00.000Z}
+      min={2000-01-01T01:00:00.000Z}
+      onDrillDown={[Function]}
+      onEventDrop={[Function]}
+      onEventResize={[Function]}
+      onNavigate={[Function]}
+      onSelectEvent={[Function]}
+      onSelectSlot={[Function]}
+      onView={[Function]}
+      popup={true}
+      resizableAccessor={null}
+      selectable={true}
+      startAccessor={[Function]}
+      step={60}
+      style={
+        Object {
+          "height": "100vh",
+        }
+      }
+      timeslots={1}
+      titleAccessor="title"
+      tooltipAccessor={[Function]}
+      view="week"
+    />
+  </Unknown>
+</Unknown>
+`;
+
+exports[`Calendar doesn't render without props 1`] = `null`;
