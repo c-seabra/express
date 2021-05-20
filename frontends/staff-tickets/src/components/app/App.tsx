@@ -1,8 +1,14 @@
-import { ApolloProvider } from '@apollo/client';
+import { ApolloClient, ApolloProvider } from '@apollo/client';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
+import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import React, { createContext, useState } from 'react';
 import styled from 'styled-components';
 
+import BulkOperation from '../../lib/extract/bulkOperation';
+import {
+  CreateOrderWorkUnit,
+  processCreateOrderWorkUnit,
+} from '../../lib/extract/createOrder';
 import AssigneeList from '../assigneeList/AssigneeList';
 import Form from '../form/Form';
 
@@ -25,7 +31,7 @@ export type Staff = {
   lastName: string;
 };
 
-export type TicketList = Array<Staff>;
+export type TicketList = Array<CreateOrderWorkUnit>;
 export type SetTicketList = (tickets: TicketList) => void;
 export type Ticket = Staff;
 
@@ -59,11 +65,18 @@ const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
 
   const apolloClient = initApollo({ apiURL });
 
+  const bulkContext: GraphQLParams = {
+    apolloClient,
+    conferenceSlug: conference.slug,
+    token,
+  };
+
   return (
     <ApolloProvider client={apolloClient}>
       <AppContext.Provider
         value={{
           apiURL,
+          apolloClient,
           conference,
           setTicketsList: setTicketList,
           staffList,
@@ -78,7 +91,12 @@ const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
           </StyledSection>
           <StyledSection>
             {ticketsList && ticketsList?.length > 0 && (
-              <AssigneeList list={ticketsList} />
+              <BulkOperation
+                Display={AssigneeList}
+                context={bulkContext}
+                input={ticketsList}
+                process={processCreateOrderWorkUnit}
+              />
             )}
           </StyledSection>
         </StyledContainer>

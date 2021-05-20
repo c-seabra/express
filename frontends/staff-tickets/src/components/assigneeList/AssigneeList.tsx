@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { TicketList } from '../app/App';
+import { CreateOrderWorkUnit } from '../../lib/extract/createOrder';
 import AssigneeItem from '../assigneeItem/AssigneeItem';
-import AssigneeItemProvider from '../assigneeItem/AssigneeItemProvider';
 import AssigneeListHeader from './AssigneeListHeader';
 
 const StyledList = styled.ul`
@@ -12,31 +11,21 @@ const StyledList = styled.ul`
   list-style: none;
 `;
 
-const AssigneeList: React.FC<{ list: TicketList }> = ({ list }) => {
+const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
   if (!list || list?.length < 0) return null;
   return (
     <StyledList>
       <AssigneeListHeader />
-      {list.map(({ firstName, lastName, email, bookingRef }, index) => {
-        if (!bookingRef && !email)
-          return (
-            <AssigneeItem
-              bookingRef={bookingRef || '???'}
-              firstName={firstName}
-              lastName={lastName}
-            />
-          );
-        return (
-          <AssigneeItemProvider
-            key={bookingRef}
-            bookingRef={bookingRef}
-            email={email}
-            firstName={firstName}
-            index={index}
-            lastName={lastName}
-          />
-        );
-      })}
+      {list.map((order) => (
+        <AssigneeItem
+          key={order.email}
+          bookingRef={order.reference || order.singleTicket?.bookingRef || '⌛'}
+          email={order.email}
+          firstName={order.firstName}
+          lastName={order.lastName}
+          status={order.status}
+        />
+      ))}
     </StyledList>
   );
 };

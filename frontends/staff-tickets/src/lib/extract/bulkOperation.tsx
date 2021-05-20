@@ -10,22 +10,33 @@ export enum Status {
 
 export type BulkInput<Element> = Element[];
 
-export type BulkOperationConfig<Element> = {
+export type BulkOperationConfig<Element, Context> = {
   Display: FunctionComponent<{ list: Element[] }>;
+  context: Context;
   input: BulkInput<Element>;
-  process: (element: Element) => Promise<Element>;
+  process: (
+    element: Element,
+    context: Context,
+    forceUpdate: () => void,
+  ) => Promise<Element>;
 };
 
 type WorkingMemory<Element> = {
   completed: boolean;
+  forceUpdate: () => void;
   list: Element[];
   started: boolean;
   updated: boolean;
 };
 
-async function doSomeBulkOperationWork<Element>(
+async function doSomeBulkOperationWork<Element, Context>(
   workingMemory: React.MutableRefObject<WorkingMemory<Element>>,
-  process: (element: Element) => Promise<Element>,
+  process: (
+    element: Element,
+    context: Context,
+    forceUpdate: () => void,
+  ) => Promise<Element>,
+  context: Context,
 ) {
   type WorkUnit = {
     completed: boolean;
@@ -40,7 +51,7 @@ async function doSomeBulkOperationWork<Element>(
   }
 
   let counter = 0;
-  const MAX_CONCURRENT_CONNECTIONS = 5;
+  const MAX_CONCURRENT_CONNECTIONS = 1;
 
   async function enqueueProcessing(element: Element, index: number) {
     // this seems weird but works because js is single threaded async
@@ -56,17 +67,27 @@ async function doSomeBulkOperationWork<Element>(
     try {
       // since our work has completed, we need to write the result back
       // eslint-disable-next-line no-param-reassign
-      workingMemory.current.list[index] = await process(element);
+      workingMemory.current.list[index] = await process(
+        element,
+        context,
+        workingMemory.current.forceUpdate,
+      );
       // now we need to let react know that it should update
       // this only works since js is single threaded
-      // eslint-disable-next-line no-param-reassign
-      workingMemory.current.updated = true;
+      workingMemory.current.forceUpdate();
     } catch (e) {
-      console.error(
-        `There was an error processing element ${index} which was: ${JSON.stringify(
-          element,
-        )}`,
-      );
+      try {
+        console.error(
+          `There was an error processing element ${index} which was: ${JSON.stringify(
+            element,
+          )}`,
+        );
+      } catch (err) {
+        console.error(
+          `There was an error processing element ${index} which was: ${element}`,
+        );
+        console.error(err);
+      }
       console.error(e);
     }
 
@@ -76,23 +97,31 @@ async function doSomeBulkOperationWork<Element>(
     counter -= 1;
   }
 
+  workingMemory.current.forceUpdate();
   // lets do the actual processing and wait for all of them to finish
   await Promise.all(workingMemory.current.list.map(enqueueProcessing));
 }
 
-function BulkOperation<Element>({
+function BulkOperation<Element, Context>({
   input,
   Display,
   process,
-}: BulkOperationConfig<Element>) {
+  context,
+}: BulkOperationConfig<Element, Context>) {
   const workingMemory = useRef<WorkingMemory<Element>>({
     completed: false,
+    forceUpdate: () => undefined,
     list: [],
     started: false,
     updated: false,
   });
 
   const [resultList, setResultList] = useState<Element[]>([]);
+  const [update, setUpdate] = useState<boolean>(true);
+  workingMemory.current.forceUpdate = () => {
+    workingMemory.current.updated = true;
+    setUpdate(!update);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -108,13 +137,13 @@ function BulkOperation<Element>({
     }
     // kick off the work
     workingMemory.current.started = true;
-    workingMemory.current.updated = false;
+    workingMemory.current.updated = true;
     workingMemory.current.completed = false;
     workingMemory.current.list = input;
     // the then is important to make sure that work actually kicks off
     // but we intentionally do not await here!
     // eslint-disable-next-line promise/catch-or-return
-    doSomeBulkOperationWork(workingMemory, process).then(
+    doSomeBulkOperationWork(workingMemory, process, context).then(
       // eslint-disable-next-line promise/always-return
       () => {
         console.log('All Operations completed!');

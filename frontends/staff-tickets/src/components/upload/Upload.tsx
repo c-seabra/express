@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
+import { transformStaffIntoWorkUnit } from '../../lib/extract/createOrder';
 import { AppContext, TicketList } from '../app/App';
 
 const Field = styled.label`
@@ -25,7 +26,7 @@ const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
   setAssignees,
 }) => {
   const [error, setError] = useState('');
-  const { staffList } = useContext(AppContext);
+  const context = useContext(AppContext);
 
   const onUpload = () => {
     const input = document.getElementById('csvFileInput') as HTMLInputElement;
@@ -41,29 +42,43 @@ const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
       const csv = fileReader?.target?.result as string;
       if (csv) {
         const lines = csv.split('\n');
-        const result = [];
+        const result: TicketList = [];
 
         for (let i = 0; i <= lines.length - 1; i++) {
-          const email = lines[i]
-            .replace(/(\r\n|\n|\r|)/gm, '')
-            .replace(/,$/g, '')
-            .toLowerCase();
-          if (staffList) {
-            let staff = staffList[email];
-            if (!staff) {
-              const name = email.split('@')[0];
-              const [firstName, lastName] = name.split('.');
-              staff = {
-                email,
-                firstName: capitalizeFirstLetter(firstName),
-                lastName: capitalizeFirstLetter(lastName),
-              };
-            }
-            result.push(staff);
-          }
+          const line = lines[i].replace(/(\r\n|\n|\r|)/gm, '');
+          const [firstName, lastName, email] = line.split(',');
+
+          result.push(
+            transformStaffIntoWorkUnit(context, {
+              email,
+              firstName,
+              lastName,
+            }),
+          );
+          // const email = lines[i]
+          //   .replace(/(\r\n|\n|\r|)/gm, '')
+          //   .replace(/,$/g, '')
+          //   .toLowerCase();
+          // if (context.staffList) {
+          //   let staff = context.staffList[email];
+          //   if (!staff) {
+          //     const name = email.split('@')[0];
+          //     const [firstName, lastName] = name.split('.');
+          //     if (!lastName) {
+          //       console.error(email)
+          //     }
+          //     staff = {
+          //       email,
+          //       firstName: capitalizeFirstLetter(firstName),
+          //       lastName: capitalizeFirstLetter(lastName),
+          //     };
+          //   }
+          //   const workUnit = transformStaffIntoWorkUnit(context, staff);
+          //   result.push(workUnit);
+          // }
         }
 
-        setAssignees(result as TicketList);
+        setAssignees(result);
       } else {
         setError(
           'There has been an issue reading uploaded CSV try again or check your CSV has correct format.',

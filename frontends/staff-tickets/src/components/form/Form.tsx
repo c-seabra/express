@@ -1,7 +1,12 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
-import { AppContext, TicketList } from '../app/App';
+import {
+  CreateOrderWorkUnit,
+  defaultStatus,
+  transformStaffIntoWorkUnit,
+} from '../../lib/extract/createOrder';
+import { AppContext, Staff, StaffTicketContext, TicketList } from '../app/App';
 import Upload from '../upload/Upload';
 
 const SubmitButton = styled.button`
@@ -24,13 +29,13 @@ function capitalizeFirstLetter(input: string) {
 }
 
 const Form: React.FC = () => {
-  const { setTicketsList, staffList } = useContext(AppContext);
+  const context = useContext(AppContext);
   const [formError, setFormError] = useState(false);
   const [assignees, setAssignees] = useState<TicketList>([]);
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (assignees && assignees.length > 0 && setTicketsList) {
-      setTicketsList(assignees);
+    if (assignees && assignees.length > 0 && context.setTicketsList) {
+      context.setTicketsList(assignees);
     } else {
       setFormError(true);
     }
@@ -41,8 +46,8 @@ const Form: React.FC = () => {
     const emailField = (e.target as any).email.value as string;
     const email: string = emailField.toLowerCase().trim();
 
-    if (setTicketsList && staffList) {
-      let staff = staffList[email];
+    if (context.setTicketsList && context.staffList) {
+      let staff = context.staffList[email];
       if (!staff) {
         const name = email.split('@')[0];
         const [firstName, lastName] = name.split('.');
@@ -52,8 +57,9 @@ const Form: React.FC = () => {
           lastName: capitalizeFirstLetter(lastName),
         };
       }
-      console.log(email, JSON.stringify(staff));
-      setTicketsList([staff]);
+
+      const workUnit = transformStaffIntoWorkUnit(context, staff);
+      context.setTicketsList([workUnit]);
     } else {
       setFormError(true);
     }

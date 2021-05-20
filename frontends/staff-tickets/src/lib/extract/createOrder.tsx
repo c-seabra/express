@@ -1,9 +1,14 @@
-import { FetchResult } from '@apollo/client';
+import { ApolloClient, FetchResult, TypedDocumentNode } from '@apollo/client';
+import { GraphQLParams } from '@websummit/graphql';
 import {
+  CommerceCreateOrderDocument,
   CommerceCreateOrderMutation,
   CommerceOrderStatus,
   useCommerceCreateOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
+import { NormalizedCacheObject } from 'apollo-cache-inmemory';
+
+import { Staff, StaffTicketContext } from '../../components/app/App';
 
 export type StatusType = {
   message: string;
@@ -15,13 +20,12 @@ export type CreateOrderWorkUnit = {
   firstName: string;
   lastName: string;
   notify: boolean;
+  reference?: string;
   singleTicket?: {
     bookingRef?: string;
     productID: string;
   };
-  slug: string;
   status: StatusType;
-  token: string;
   volumeTickets?: {
     productID: string;
     quantity: number;
@@ -43,20 +47,49 @@ type Product = {
   quantity: number;
 };
 
-export function defaultStatus() {
+export function defaultStatus(): StatusType {
   return {
     message: 'Waiting for other operations to finish before this one starts',
     type: 'QUEUED',
   };
 }
 
+export function transformStaffIntoWorkUnit(
+  context: StaffTicketContext,
+  staff: Staff,
+): CreateOrderWorkUnit {
+  const workUnit: CreateOrderWorkUnit = {
+    email: staff.email,
+    firstName: staff.firstName,
+    lastName: staff.lastName,
+    notify: true,
+    status: defaultStatus(),
+  };
+  if (context.conference.staffProductId) {
+    workUnit.singleTicket = {
+      bookingRef: staff.bookingRef,
+      productID: context.conference.staffProductId,
+    };
+  }
+  if (context.conference.guestProductId) {
+    workUnit.volumeTickets = {
+      productID: context.conference.guestProductId,
+      quantity: 20,
+    };
+  }
+  return workUnit;
+}
+
 export async function processCreateOrderWorkUnit(
   workUnit: CreateOrderWorkUnit,
+  context: GraphQLParams,
+  forceUpdate: () => void,
 ) {
   workUnit.status = {
     message: 'Starting to create the Order',
     type: 'PENDING',
   };
+  forceUpdate();
 
   const productsList: Product[] = [];
   if (workUnit.singleTicket) {
@@ -93,11 +126,6 @@ export async function processCreateOrderWorkUnit(
     return workUnit;
   }
 
-  const context = {
-    slug: workUnit.slug,
-    token: workUnit.token,
-  };
-
   const variables = {
     commerceOrderCreate: {
       customer: {
@@ -111,25 +139,27 @@ export async function processCreateOrderWorkUnit(
     },
   };
 
-  if (workUnit.notify) {
+  if (!workUnit.notify) {
     variables.commerceOrderCreate.metadata = {
       disableEmailNotification: true,
       disableOrderEmail: true,
     };
   }
 
-  // bit quirky but this should work :)
-  // saves me from reimplementing the whole codegen shenanigans
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [createOrder] = useCommerceCreateOrderMutation();
-  const result: FetchResult<CommerceCreateOrderMutation> = await createOrder({
-    context,
+  const result:
+    | FetchResult<CommerceCreateOrderMutation>
+    | undefined = await context.apolloClient?.mutate({
+    context: {
+      slug: context.conferenceSlug,
+      token: context.token,
+    },
+    mutation: CommerceCreateOrderDocument as TypedDocumentNode<CommerceCreateOrderMutation>,
     variables,
   });
 
-  if (result.errors) {
+  if (!result || result.errors) {
     workUnit.status = {
-      message: `There were errors when creating the Order: ${result.errors}`,
+      message: `There were errors when creating the Order: ${result?.errors}`,
       type: 'ERROR',
     };
     return workUnit;
@@ -139,5 +169,9 @@ export async function processCreateOrderWorkUnit(
     message: `Created an order with reference: ${result.data?.commerceCreateOrder?.reference}`,
     type: 'SUCCESS',
   };
+  workUnit.reference = result.data?.commerceCreateOrder?.reference || '';
+  if (workUnit.singleTicket?.bookingRef) {
+    workUnit.reference = `${workUnit.reference} (${workUnit.singleTicket?.bookingRef})`;
+  }
   return workUnit;
 }
