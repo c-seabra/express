@@ -10,9 +10,17 @@
     "clean": "rimraf -rf ./dist",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
     "start": "webpack serve --port 9007",
-    "start:standalone": "webpack serve --env standalone"
+    "start:standalone": "webpack serve --env standalone",
+    "test": "jest",
+    "test:watch": "jest --watch --verbose"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@testing-library/react-hooks": "*",
+    "@types/jest": "*",
+    "jest": "*"
+  },
   "dependencies": {
     "@apollo/client": "*",
     "@websummit/components": "*",

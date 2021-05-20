@@ -37,7 +37,8 @@
     "start:omnia-container": "lerna run start --scope @websummit-micro/omnia-container",
     "start:omnia": "concurrently -n \"s3,webpack\" -k \"yarn run start:serve\" \"yarn run start:omnia-container\"",
     "start:serve": "yarn run build:standalone && yarn serve --cors -s builds -l 9337",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "test:watch": "lerna run test:watch --stream"
   },
   "husky": {
     "hooks": {
@@ -76,6 +77,7 @@
     "@nighttrax/eslint-config-tsx": "7.0.0",
     "@testing-library/jest-dom": "5.11.10",
     "@testing-library/react": "11.2.5",
+    "@testing-library/react-hooks": "^5.0.3",
     "@types/jest": "26.0.22",
     "@types/jwt-decode": "2.2.1",
     "@types/luxon": "1.26.2",
