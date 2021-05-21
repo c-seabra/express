@@ -19,6 +19,7 @@ describe('AgendaEvent', () => {
 
   test('renders without props or context', () => {
     useContextMock.mockReturnValue({});
+    // eslint-disable-next-line react/jsx-filename-extension
     const component = renderer.create(<AgendaEvent />);
     expect(component.toJSON()).toMatchSnapshot();
   });

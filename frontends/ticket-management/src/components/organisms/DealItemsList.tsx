@@ -4,6 +4,10 @@ import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import {
+  formatDisplayPrice,
+  TotalInCents,
+} from '@websummit/glue/src/lib/utils/price';
+import {
   CommerceDealItem,
   CommerceDealItemType,
 } from '@websummit/graphql/src/@types/operations';
@@ -51,8 +55,12 @@ const DealItemsList = ({
   const formatAmount = (amount: number, source: string): string =>
     switchCase({
       [CommerceDealItemType.PercentageDiscount]: `${amount}%`,
-      [CommerceDealItemType.AbsoluteDiscount]: `${amount}${currencySymbol}`,
-      [CommerceDealItemType.AbsolutePrice]: `${amount}${currencySymbol}`,
+      [CommerceDealItemType.AbsoluteDiscount]: `${formatDisplayPrice(
+        amount as TotalInCents,
+      )}${currencySymbol}`,
+      [CommerceDealItemType.AbsolutePrice]: `${formatDisplayPrice(
+        amount as TotalInCents,
+      )}${currencySymbol}`,
     })('N/A')(source);
 
   const tableShape: ColumnDescriptors<CommerceDealItem> = [

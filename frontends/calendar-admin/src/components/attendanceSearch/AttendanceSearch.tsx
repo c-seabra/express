@@ -71,6 +71,10 @@ const AttendanceSearch = (): ReactElement => {
     }
   };
 
+  const hex = (id: string) => {
+    return paints?.find((e) => e.id === id)?.colorHash as string;
+  };
+
   useEffect(() => {
     handleSearch(searchQuery);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,9 +110,7 @@ const AttendanceSearch = (): ReactElement => {
             <ListItem
               key={selection?.id}
               style={{
-                border: `1px solid ${
-                  paints.find((e) => e.id === selection.id)!.colorHash
-                }`,
+                border: `1px solid ${hex(selection?.id)}`,
               }}
             >
               {selection.name} - {selection.bookingRef}

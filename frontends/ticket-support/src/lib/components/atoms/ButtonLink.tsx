@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
-const StyledLink = styled.a`
+export const StyledLink = styled.a`
   display: flex;
   align-items: center;
   color: #0067e9;

@@ -3,6 +3,7 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
 import {
   CommerceDealItemType,
   useCommerceCreateDealItemMutation,
@@ -14,6 +15,7 @@ import React from 'react';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useRequestContext } from '../app/AppContext';
 import PackageItemForm from '../organisms/PackageItemForm';
 
@@ -108,6 +110,20 @@ const PackageItemModalWrapper = ({
     refetchQueries: refetchQueriesContext,
   });
 
+  const setAmountToBackend = (amount: any, source: any): any =>
+    switchCase({
+      [CommerceDealItemType.PercentageDiscount]: amount,
+      [CommerceDealItemType.AbsoluteDiscount]: toCents(amount),
+      [CommerceDealItemType.AbsolutePrice]: toCents(amount),
+    })(1)(source);
+
+  const setAmountFromBackend = (amount: any, source: any): any =>
+    switchCase({
+      [CommerceDealItemType.PercentageDiscount]: amount,
+      [CommerceDealItemType.AbsoluteDiscount]: fromCents(amount),
+      [CommerceDealItemType.AbsolutePrice]: fromCents(amount),
+    })(1)(source);
+
   const initialValues = (editMode: boolean) => {
     let values: PackageItemFormData = {
       amount: 1,
@@ -122,7 +138,7 @@ const PackageItemModalWrapper = ({
 
     if (editMode) {
       values = {
-        amount: prefillData.amount,
+        amount: setAmountFromBackend(prefillData.amount, prefillData.type),
         id: prefillData.id,
         max: prefillData.max,
         min: prefillData.min,
@@ -140,7 +156,7 @@ const PackageItemModalWrapper = ({
     // TODO fix type
     let mutation;
     const createInput = {
-      amount: Number(formData.amount),
+      amount: setAmountToBackend(formData.amount, formData.type),
       max: Number(formData.max),
       min: Number(formData.min),
       name: formData.name,
