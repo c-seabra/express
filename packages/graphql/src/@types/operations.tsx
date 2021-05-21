@@ -3086,6 +3086,8 @@ export type TaEvent = {
   name: Maybe<Scalars['String']>;
   passportRequired: Scalars['Boolean'];
   slug: Scalars['String'];
+  sponsorName: Maybe<Scalars['String']>;
+  sponsorPrivacyPolicyUrl: Maybe<Scalars['String']>;
 };
 
 export type CommerceAuditEntry = {
@@ -9429,72 +9431,6 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
   >;
 };
 
-export type OrderTicketsQueryVariables = Exact<{
-  orderId?: Maybe<Scalars['ID']>;
-  filter?: Maybe<TicketFilter>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-}>;
-
-export type OrderTicketsQuery = { __typename?: 'Query' } & {
-  tickets: { __typename?: 'TicketConnection' } & {
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      PageInfo,
-      'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'
-    >;
-    edges: Array<
-      { __typename?: 'TicketEdge' } & {
-        node: { __typename?: 'Ticket' } & Pick<
-          Ticket,
-          'id' | 'bookingRef' | 'state'
-        > & {
-            ticketType: Maybe<
-              { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-            >;
-            assignment: Maybe<
-              { __typename?: 'Assignment' } & Pick<
-                Assignment,
-                'id' | 'state' | 'appLoginEmail'
-              > & {
-                  assignee: Maybe<
-                    { __typename?: 'AssignmentUser' } & Pick<
-                      AssignmentUser,
-                      | 'id'
-                      | 'me'
-                      | 'firstName'
-                      | 'lastName'
-                      | 'email'
-                      | 'phoneNumber'
-                      | 'city'
-                      | 'companyName'
-                      | 'companySizeId'
-                      | 'industryId'
-                      | 'jobTitle'
-                      | 'marketingConsent'
-                      | 'passportNumber'
-                      | 'personalisationConsent'
-                    >
-                  >;
-                }
-            >;
-            order: { __typename?: 'Order' } & Pick<Order, 'reference'> & {
-                owner: { __typename?: 'AssignmentUser' } & Pick<
-                  AssignmentUser,
-                  'firstName' | 'lastName' | 'email'
-                >;
-              };
-            context: { __typename?: 'TicketContext' } & Pick<
-              TicketContext,
-              'assignable' | 'editable' | 'acceptable' | 'rejectable'
-            >;
-          };
-      }
-    >;
-  };
-};
-
 export type SaleCyclesQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -9779,6 +9715,73 @@ export type TicketTypeReleasePhasesQuery = { __typename?: 'Query' } & {
         };
       }
   >;
+};
+
+export type TicketsQueryVariables = Exact<{
+  orderId?: Maybe<Scalars['ID']>;
+  filter?: Maybe<TicketFilter>;
+  searchQuery?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+export type TicketsQuery = { __typename?: 'Query' } & {
+  tickets: { __typename?: 'TicketConnection' } & {
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'
+    >;
+    edges: Array<
+      { __typename?: 'TicketEdge' } & Pick<TicketEdge, 'cursor'> & {
+          node: { __typename?: 'Ticket' } & Pick<
+            Ticket,
+            'id' | 'bookingRef' | 'state'
+          > & {
+              ticketType: Maybe<
+                { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
+              >;
+              order: { __typename?: 'Order' } & Pick<Order, 'reference'> & {
+                  owner: { __typename?: 'AssignmentUser' } & Pick<
+                    AssignmentUser,
+                    'firstName' | 'lastName' | 'email'
+                  >;
+                };
+              context: { __typename?: 'TicketContext' } & Pick<
+                TicketContext,
+                'assignable' | 'editable' | 'acceptable' | 'rejectable'
+              >;
+              assignment: Maybe<
+                { __typename?: 'Assignment' } & Pick<
+                  Assignment,
+                  'id' | 'state' | 'appLoginEmail'
+                > & {
+                    assignee: Maybe<
+                      { __typename?: 'AssignmentUser' } & Pick<
+                        AssignmentUser,
+                        | 'id'
+                        | 'me'
+                        | 'firstName'
+                        | 'lastName'
+                        | 'email'
+                        | 'phoneNumber'
+                        | 'city'
+                        | 'companyName'
+                        | 'companySizeId'
+                        | 'industryId'
+                        | 'jobTitle'
+                        | 'marketingConsent'
+                        | 'passportNumber'
+                        | 'personalisationConsent'
+                      >
+                    >;
+                  }
+              >;
+            };
+        }
+    >;
+  };
 };
 
 export type TimeZonesQueryVariables = Exact<{ [key: string]: never }>;
@@ -23088,442 +23091,6 @@ export type OrderByRefQueryResult = Apollo.QueryResult<
   OrderByRefQuery,
   OrderByRefQueryVariables
 >;
-export const OrderTicketsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'OrderTickets' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderId' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'filter' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'filter' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'after' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'after' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'before' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'before' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'first' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'first' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'last' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'last' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tickets' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageInfo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasNextPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasPreviousPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endCursor' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startCursor' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'bookingRef' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ticketType' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignment' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'state' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'appLoginEmail',
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignee' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'id' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'me' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'firstName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'lastName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'email',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'phoneNumber',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'city' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'companyName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'companySizeId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'industryId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'jobTitle',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'marketingConsent',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'passportNumber',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'personalisationConsent',
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'order' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'reference' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'owner' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'firstName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'lastName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'email',
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'state' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'context' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'editable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'acceptable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'rejectable' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'TicketFilter' },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'filter' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'after' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'before' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'first' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-
-/**
- * __useOrderTicketsQuery__
- *
- * To run a query within a React component, call `useOrderTicketsQuery` and pass it any options that fit your needs.
- * When your component renders, `useOrderTicketsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useOrderTicketsQuery({
- *   variables: {
- *      orderId: // value for 'orderId'
- *      filter: // value for 'filter'
- *      after: // value for 'after'
- *      before: // value for 'before'
- *      first: // value for 'first'
- *      last: // value for 'last'
- *   },
- * });
- */
-export function useOrderTicketsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    OrderTicketsQuery,
-    OrderTicketsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(
-    OrderTicketsDocument,
-    baseOptions,
-  );
-}
-export function useOrderTicketsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    OrderTicketsQuery,
-    OrderTicketsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(
-    OrderTicketsDocument,
-    baseOptions,
-  );
-}
-export type OrderTicketsQueryHookResult = ReturnType<
-  typeof useOrderTicketsQuery
->;
-export type OrderTicketsLazyQueryHookResult = ReturnType<
-  typeof useOrderTicketsLazyQuery
->;
-export type OrderTicketsQueryResult = Apollo.QueryResult<
-  OrderTicketsQuery,
-  OrderTicketsQueryVariables
->;
 export const SaleCyclesDocument: DocumentNode = {
   definitions: [
     {
@@ -25114,6 +24681,485 @@ export type TicketTypeReleasePhasesLazyQueryHookResult = ReturnType<
 export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<
   TicketTypeReleasePhasesQuery,
   TicketTypeReleasePhasesQueryVariables
+>;
+export const TicketsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'Tickets' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'orderId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'before' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'last' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'searchQuery' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'searchQuery' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tickets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'bookingRef' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'state' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'ticketType' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'order' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'reference' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'owner' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firstName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lastName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'state' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'context' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'assignable' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'editable' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'acceptable' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rejectable' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'assignment' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'state' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'appLoginEmail',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'assignee' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'me' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firstName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lastName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'phoneNumber',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'city' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'companyName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'companySizeId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'industryId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'jobTitle',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'marketingConsent',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'passportNumber',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'personalisationConsent',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'orderId' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'TicketFilter' },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'searchQuery' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'before' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useTicketsQuery__
+ *
+ * To run a query within a React component, call `useTicketsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketsQuery({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *      filter: // value for 'filter'
+ *      searchQuery: // value for 'searchQuery'
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      last: // value for 'last'
+ *   },
+ * });
+ */
+export function useTicketsQuery(
+  baseOptions?: Apollo.QueryHookOptions<TicketsQuery, TicketsQueryVariables>,
+) {
+  return Apollo.useQuery<TicketsQuery, TicketsQueryVariables>(
+    TicketsDocument,
+    baseOptions,
+  );
+}
+export function useTicketsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketsQuery,
+    TicketsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<TicketsQuery, TicketsQueryVariables>(
+    TicketsDocument,
+    baseOptions,
+  );
+}
+export type TicketsQueryHookResult = ReturnType<typeof useTicketsQuery>;
+export type TicketsLazyQueryHookResult = ReturnType<typeof useTicketsLazyQuery>;
+export type TicketsQueryResult = Apollo.QueryResult<
+  TicketsQuery,
+  TicketsQueryVariables
 >;
 export const TimeZonesDocument: DocumentNode = {
   definitions: [
