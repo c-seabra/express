@@ -7,6 +7,7 @@ import AppContext from '../app/AppContext';
 import {
   ListItem,
   RemoveButton,
+  ResultsContainer,
   SearchContainer,
   StyledDisplay,
   StyledSearch,
@@ -91,7 +92,7 @@ const AttendanceSearch = (): ReactElement => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         {display && !loading && !error && (
-          <>
+          <ResultsContainer>
             {results?.map((attendance, i) => (
               <div key={i}>
                 {!selections.find((e) => e.id === attendance.id) && (
@@ -101,22 +102,20 @@ const AttendanceSearch = (): ReactElement => {
                 )}
               </div>
             ))}
-          </>
+          </ResultsContainer>
         )}
       </StyledSearch>
       <StyledDisplay>
         {selections.map((selection) => (
-          <div key={selection?.id}>
-            <ListItem
-              key={selection?.id}
-              style={{
-                border: `1px solid ${hex(selection?.id)}`,
-              }}
-            >
-              {selection.name} - {selection.bookingRef}
-              <RemoveButton onClick={() => handleRemove(selection)} />
-            </ListItem>
-          </div>
+          <ListItem
+            key={selection?.id}
+            style={{
+              border: `1px solid ${hex(selection?.id)}`,
+            }}
+          >
+            <RemoveButton onClick={() => handleRemove(selection)} />
+            {selection.name} <span>({selection.bookingRef})</span>
+          </ListItem>
         ))}
       </StyledDisplay>
     </SearchContainer>
