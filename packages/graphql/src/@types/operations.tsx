@@ -3086,6 +3086,8 @@ export type TaEvent = {
   name: Maybe<Scalars['String']>;
   passportRequired: Scalars['Boolean'];
   slug: Scalars['String'];
+  sponsorName: Maybe<Scalars['String']>;
+  sponsorPrivacyPolicyUrl: Maybe<Scalars['String']>;
 };
 
 export type CommerceAuditEntry = {
@@ -5638,7 +5640,7 @@ export type AssignmentProfileUpdateInput = {
   jobTitle: Scalars['String'];
   lastName?: Maybe<Scalars['String']>;
   marketingConsent: Scalars['String'];
-  partnerSharingConsent: Scalars['String'];
+  partnerSharingConsent?: Maybe<Scalars['String']>;
   passportNumber?: Maybe<Scalars['String']>;
   personalisationConsent: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
