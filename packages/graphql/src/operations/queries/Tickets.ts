@@ -2,17 +2,29 @@ import { gql } from '@apollo/client';
 
 export default gql`
   query(
+    $orderId: ID
     $filter: TicketFilter
     $searchQuery: String
     $first: Int
     $after: String
+    $before: String
+    $last: Int
   ) {
     tickets(
+      orderId: $orderId
       filter: $filter
-      searchQuery: $searchQuery
-      first: $first
       after: $after
+      before: $before
+      first: $first
+      last: $last
+      searchQuery: $searchQuery
     ) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        endCursor
+        startCursor
+      }
       edges {
         cursor
         node {
@@ -23,18 +35,39 @@ export default gql`
             name
           }
           order {
+            reference
             owner {
               firstName
               lastName
               email
             }
           }
+          state
+          context {
+            assignable
+            editable
+            acceptable
+            rejectable
+          }
           assignment {
+            id
             state
+            appLoginEmail
             assignee {
-              email
+              id
+              me
               firstName
               lastName
+              email
+              phoneNumber
+              city
+              companyName
+              companySizeId
+              industryId
+              jobTitle
+              marketingConsent
+              passportNumber
+              personalisationConsent
             }
           }
         }
