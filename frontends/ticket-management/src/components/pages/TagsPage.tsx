@@ -29,6 +29,12 @@ const Title = styled.div`
   color: #0c1439;
 `;
 
+const SubTitle = styled(Title)`
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 400;
+`;
+
 const SearchBar = styled.div`
   display: flex;
   justify-content: space-between;
@@ -52,12 +58,12 @@ const tagsTableShape: ColumnDescriptors<CommerceTagTableItem> = [
     renderCell: (item) => item.name,
   },
   {
-    header: 'Tag code',
-    renderCell: (item) => item.code,
-  },
-  {
     header: 'Description',
     renderCell: (item) => item.description,
+  },
+  {
+    header: 'Tag code',
+    renderCell: (item) => item.code,
   },
 ];
 
@@ -87,7 +93,14 @@ const TagsPage = () => {
   return (
     <PageContainer>
       <HeaderContainer>
-        <Title>Tags</Title>
+        <div>
+          <Title>Benefits & permissions</Title>
+          <SubTitle>
+            Create tags on ticket - benefits and permissions associated to the
+            ticket
+          </SubTitle>
+        </div>
+
         <SearchBar>
           <Button
             onClick={() => {

@@ -88,7 +88,7 @@ const ROUTES: Routes = [
       {
         conferenceSpecific: true,
         isActive: true,
-        meta: { description: 'Tags' },
+        meta: { description: 'Benefits & permissions' },
         path: '~ticket-management/#/tags',
       },
     ],
