@@ -4,15 +4,16 @@ import Button from '../button/Button';
 import { DetailsContext } from '../calendar/Context';
 
 const NewEvent = ({ event }) => {
-  const { title, description, location } = event;
-  const starts_at = event.start;
-  const ends_at = event.end;
+  const { title, description, location, start, end } = event;
   const { onCreateEvent } = useContext(DetailsContext);
-  const [createdEvent, setCreatedEvent] = useState({});
+  const [createdEvent, setCreatedEvent] = useState({"end": end, "start": start});
 
-  const handleChange = (name, value) => {
-    event[name] = value;
-    setCreatedEvent(event);
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setCreatedEvent((entity) => ({
+      ...entity,
+      [name]: value || '',
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -26,34 +27,37 @@ const NewEvent = ({ event }) => {
         <br />
         <input
           id="title"
+          name="title"
           type="text"
-          onChange={(e) => handleChange('title', e.target.value)}
+          onChange={(e) => handleChange(e)}
           value={createdEvent.title !== undefined ? createdEvent.title : title}
         />
         <br />
-        <label htmlFor="starts_at">Starts at: </label>
+        <label htmlFor="start">Starts at: </label>
         <br />
         <input
-          id="starts_at"
+          id="start"
+          name="start"
           type="text"
-          defaultValue={starts_at}
-          onChange={(e) => handleChange('starts_at', e.target.value)}
+          defaultValue={start}
+          onChange={(e) => handleChange(e)}
           value={
-            createdEvent.starts_at !== undefined
-              ? createdEvent.starts_at
-              : starts_at
+            createdEvent.start !== undefined
+              ? createdEvent.start
+              : start
           }
         />
         <br />
-        <label htmlFor="ends_at">Ends at: </label>
+        <label htmlFor="end">Ends at: </label>
         <br />
         <input
-          id="ends_at"
+          id="end"
+          name="end"
           type="text"
-          defaultValue={ends_at}
-          onChange={(e) => handleChange('ends_at', e.target.value)}
+          defaultValue={end}
+          onChange={(e) => handleChange(e)}
           value={
-            createdEvent.ends_at !== undefined ? createdEvent.ends_at : ends_at
+            createdEvent.end !== undefined ? createdEvent.end : end
           }
         />
         <br />
@@ -61,8 +65,9 @@ const NewEvent = ({ event }) => {
         <br />
         <input
           id="location"
+          name="location"
           type="text"
-          onChange={(e) => handleChange('location', e.target.value)}
+          onChange={(e) => handleChange(e)}
           value={
             createdEvent.location !== undefined
               ? createdEvent.location
@@ -74,8 +79,9 @@ const NewEvent = ({ event }) => {
         <br />
         <input
           id="description"
+          name="description"
           type="text"
-          onChange={(e) => handleChange('description', e.target.value)}
+          onChange={(e) => handleChange(e)}
           value={
             createdEvent.description !== undefined
               ? createdEvent.description
