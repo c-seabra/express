@@ -378,6 +378,8 @@ const Calendar = ({ token, env }) => {
         event.end,
         event.start,
         event.title,
+        event.description,
+        event.location,
         token,
         env,
       );
