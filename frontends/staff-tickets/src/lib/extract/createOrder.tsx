@@ -54,8 +54,14 @@ export function defaultStatus(): StatusType {
   };
 }
 
+export type WorkUnitContext = {
+  guestProductId?: string;
+  quantity?: number;
+  staffProductId?: string;
+};
+
 export function transformStaffIntoWorkUnit(
-  context: StaffTicketContext,
+  context: WorkUnitContext,
   staff: Staff,
 ): CreateOrderWorkUnit {
   const workUnit: CreateOrderWorkUnit = {
@@ -65,16 +71,16 @@ export function transformStaffIntoWorkUnit(
     notify: true,
     status: defaultStatus(),
   };
-  if (context.conference.staffProductId) {
+  if (context.staffProductId) {
     workUnit.singleTicket = {
       bookingRef: staff.bookingRef,
-      productID: context.conference.staffProductId,
+      productID: context.staffProductId,
     };
   }
-  if (context.conference.guestProductId) {
+  if (context.guestProductId) {
     workUnit.volumeTickets = {
-      productID: context.conference.guestProductId,
-      quantity: 20,
+      productID: context.guestProductId,
+      quantity: context.quantity || 20,
     };
   }
   return workUnit;

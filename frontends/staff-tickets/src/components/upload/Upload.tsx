@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { transformStaffIntoWorkUnit } from '../../lib/extract/createOrder';
-import { AppContext, TicketList } from '../app/App';
+import { AppContext, Staff, TicketList } from '../app/App';
 
 const Field = styled.label`
   display: flex;
@@ -22,11 +22,10 @@ function capitalizeFirstLetter(input: string) {
   return input.charAt(0).toUpperCase() + input.slice(1);
 }
 
-const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
+const Upload: React.FC<{ setAssignees: (list: Staff[]) => void }> = ({
   setAssignees,
 }) => {
   const [error, setError] = useState('');
-  const context = useContext(AppContext);
 
   const onUpload = () => {
     const input = document.getElementById('csvFileInput') as HTMLInputElement;
@@ -42,19 +41,17 @@ const Upload: React.FC<{ setAssignees: (list: TicketList) => void }> = ({
       const csv = fileReader?.target?.result as string;
       if (csv) {
         const lines = csv.split('\n');
-        const result: TicketList = [];
+        const result: Staff[] = [];
 
         for (let i = 0; i <= lines.length - 1; i++) {
           const line = lines[i].replace(/(\r\n|\n|\r|)/gm, '');
           const [firstName, lastName, email] = line.split(',');
 
-          result.push(
-            transformStaffIntoWorkUnit(context, {
-              email,
-              firstName,
-              lastName,
-            }),
-          );
+          result.push({
+            email,
+            firstName,
+            lastName,
+          });
           // const email = lines[i]
           //   .replace(/(\r\n|\n|\r|)/gm, '')
           //   .replace(/,$/g, '')
