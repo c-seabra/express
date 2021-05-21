@@ -2,7 +2,7 @@ import React from 'react';
 
 import ExistingEvent from '../existingEvent/ExistingEvent';
 import NewEvent from '../newEvent/NewEvent';
-import { Overlay, PopupContainer } from './Popup.styled';
+import { CreatePopupContainer, Overlay, PopupContainer } from './Popup.styled';
 
 const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
   const renderExistingEvent = ({ syntheticEvent }) => {
@@ -22,15 +22,11 @@ const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
   };
 
   const renderNewEvent = () => {
-    const popupStyle = {
-      top: '200px',
-      left: '200px',
-    };
     return (
       <>
-        <PopupContainer style={popupStyle}>
-          <NewEvent event={newEvent} />
-        </PopupContainer>
+        <CreatePopupContainer>
+          <NewEvent closePopup={handleOnClick} event={newEvent} />
+        </CreatePopupContainer>
         <Overlay onClick={handleOnClick} />
       </>
     );

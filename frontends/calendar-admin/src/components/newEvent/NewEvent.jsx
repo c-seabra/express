@@ -1,12 +1,18 @@
 import React, { useContext, useState } from 'react';
 
-import Button from '../button/Button';
 import { DetailsContext } from '../calendar/Context';
+import {
+  CreateButton,
+  CreatePopupHeading,
+  Form,
+  FormInput,
+  FormLabel,
+} from './NewEvent.styled';
 
-const NewEvent = ({ event }) => {
+const NewEvent = ({ closePopup, event }) => {
   const { title, description, location, start, end } = event;
   const { onCreateEvent } = useContext(DetailsContext);
-  const [createdEvent, setCreatedEvent] = useState({ end: end, start: start });
+  const [createdEvent, setCreatedEvent] = useState({ end, start });
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -18,24 +24,23 @@ const NewEvent = ({ event }) => {
 
   const handleSubmit = (e) => {
     onCreateEvent(createdEvent);
+    closePopup();
   };
 
   return (
     <div>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <label htmlFor="title">Title: </label>
-        <br />
-        <input
+      <CreatePopupHeading>Create Event</CreatePopupHeading>
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <FormLabel htmlFor="title">Title: </FormLabel>
+        <FormInput
           id="title"
           name="title"
           type="text"
           onChange={(e) => handleChange(e)}
           value={createdEvent.title !== undefined ? createdEvent.title : title}
         />
-        <br />
-        <label htmlFor="start">Starts at: </label>
-        <br />
-        <input
+        <FormLabel htmlFor="start">Starts at: </FormLabel>
+        <FormInput
           id="start"
           name="start"
           type="text"
@@ -43,10 +48,8 @@ const NewEvent = ({ event }) => {
           onChange={(e) => handleChange(e)}
           value={createdEvent.start !== undefined ? createdEvent.start : start}
         />
-        <br />
-        <label htmlFor="end">Ends at: </label>
-        <br />
-        <input
+        <FormLabel htmlFor="end">Ends at: </FormLabel>
+        <FormInput
           id="end"
           name="end"
           type="text"
@@ -54,10 +57,8 @@ const NewEvent = ({ event }) => {
           onChange={(e) => handleChange(e)}
           value={createdEvent.end !== undefined ? createdEvent.end : end}
         />
-        <br />
-        <label htmlFor="location">Location: </label>
-        <br />
-        <input
+        <FormLabel htmlFor="location">Location: </FormLabel>
+        <FormInput
           id="location"
           name="location"
           type="text"
@@ -68,10 +69,8 @@ const NewEvent = ({ event }) => {
               : location
           }
         />
-        <br />
-        <label htmlFor="description">Description: </label>
-        <br />
-        <input
+        <FormLabel htmlFor="description">Description: </FormLabel>
+        <FormInput
           id="description"
           name="description"
           type="text"
@@ -82,11 +81,10 @@ const NewEvent = ({ event }) => {
               : description
           }
         />
-        <br />
-        <Button onBtnClick={(e) => handleSubmit(e)} type="submit">
-          Save
-        </Button>
-      </form>
+      </Form>
+      <CreateButton onClick={(e) => handleSubmit(e)} type="submit">
+        Create
+      </CreateButton>
     </div>
   );
 };

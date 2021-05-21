@@ -42,6 +42,7 @@ const Calendar = ({ token, env }) => {
   const [chosenDate, setChosenDate] = useState();
   const [currentUserId, setCurrentUserId] = useState();
   const [responseStatuses, setResponseStatuses] = useState();
+  const [timezone, setTimezone] = useState();
 
   const addError = (error) => {
     setErrors((errors) => errors.concat([error]));
@@ -70,10 +71,12 @@ const Calendar = ({ token, env }) => {
       token,
       env,
     );
-    confResult.data
-      ? setChosenDate(new Date(confResult.data.data.start_date))
-      : addError(confResult.error);
-
+    if (confResult.data) {
+      setChosenDate(new Date(confResult.data.data.start_date));
+      setTimezone(confResult.data.data.timezone);
+    } else {
+      addError(confResult.error);
+    }
     if (attendancesArray.length > 0) {
       const eventsResults = await Api.getAdminEvents(
         attendancesArray,
@@ -90,9 +93,7 @@ const Calendar = ({ token, env }) => {
         });
 
         eventRes = eventRes.map((e) => {
-          const offsetString = moment(e.starts_at)
-            .tz(confResult.data.data.timezone, true)
-            .format();
+          const offsetString = moment(e.starts_at).tz(timezone, true).format();
           e.starts_at = moment(e.starts_at)
             .utcOffset(offsetString)
             .format('YYYY-MM-DDTHH:mm');
@@ -375,14 +376,15 @@ const Calendar = ({ token, env }) => {
     if (event.title) {
       const createdEvent = await Api.createEvent(
         attendancesArray,
-        event.end,
-        event.start,
+        moment(event.end).tz(timezone, true).format(),
+        moment(event.start).tz(timezone, true).format(),
         event.title,
         event.description,
         event.location,
         token,
         env,
       );
+      createdEvent.data.data.invited_by_admin = true;
       const updatedEvents = events.concat([createdEvent.data.data]);
       setEvents(updatedEvents);
     }
