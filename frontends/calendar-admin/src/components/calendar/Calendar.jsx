@@ -385,8 +385,12 @@ const Calendar = ({ token, env }) => {
         env,
       );
       createdEvent.data.data.invited_by_admin = true;
-      const offsetString = moment(createdEvent.data.data.starts_at).tz(timezone, true).format();
-      createdEvent.data.data.starts_at = moment(createdEvent.data.data.starts_at)
+      const offsetString = moment(createdEvent.data.data.starts_at)
+        .tz(timezone, true)
+        .format();
+      createdEvent.data.data.starts_at = moment(
+        createdEvent.data.data.starts_at,
+      )
         .utcOffset(offsetString)
         .format('YYYY-MM-DDTHH:mm');
       createdEvent.data.data.ends_at = moment(createdEvent.data.data.ends_at)
