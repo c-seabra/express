@@ -6,7 +6,7 @@ import { DetailsContext } from '../calendar/Context';
 const NewEvent = ({ event }) => {
   const { title, description, location, start, end } = event;
   const { onCreateEvent } = useContext(DetailsContext);
-  const [createdEvent, setCreatedEvent] = useState({"end": end, "start": start});
+  const [createdEvent, setCreatedEvent] = useState({ end: end, start: start });
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -41,11 +41,7 @@ const NewEvent = ({ event }) => {
           type="text"
           defaultValue={start}
           onChange={(e) => handleChange(e)}
-          value={
-            createdEvent.start !== undefined
-              ? createdEvent.start
-              : start
-          }
+          value={createdEvent.start !== undefined ? createdEvent.start : start}
         />
         <br />
         <label htmlFor="end">Ends at: </label>
@@ -56,9 +52,7 @@ const NewEvent = ({ event }) => {
           type="text"
           defaultValue={end}
           onChange={(e) => handleChange(e)}
-          value={
-            createdEvent.end !== undefined ? createdEvent.end : end
-          }
+          value={createdEvent.end !== undefined ? createdEvent.end : end}
         />
         <br />
         <label htmlFor="location">Location: </label>
