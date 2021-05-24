@@ -10,17 +10,33 @@ import {
   FormTextArea,
 } from './NewEvent.styled';
 
-const NewEvent = ({ closePopup, event }) => {
+const NewEvent = ({ closePopup, event, locations }) => {
   const { title, description, location, start, end } = event;
   const { onCreateEvent } = useContext(DetailsContext);
   const [createdEvent, setCreatedEvent] = useState({ end, start });
+  const locationNames = locations.map((loc) => {
+    return loc.name;
+  });
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    setCreatedEvent((entity) => ({
-      ...entity,
-      [name]: value || '',
-    }));
+    let id;
+    if (name === 'location' && locationNames.includes(value)) {
+      locations.forEach((loc) => {
+        if (loc.name === value) {
+          id = loc.id;
+        }
+      });
+      setCreatedEvent((entity) => ({
+        ...entity,
+        location_id: id,
+      }));
+    } else {
+      setCreatedEvent((entity) => ({
+        ...entity,
+        [name]: value || '',
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -61,6 +77,7 @@ const NewEvent = ({ closePopup, event }) => {
         <FormLabel htmlFor="location">Location: </FormLabel>
         <FormInput
           id="location"
+          list="locations"
           name="location"
           type="text"
           value={
@@ -70,6 +87,13 @@ const NewEvent = ({ closePopup, event }) => {
           }
           onChange={(e) => handleChange(e)}
         />
+        <datalist id="locations">
+          {locations?.map((loc, i) => (
+            <option key={i} value={loc.name}>
+              {loc.name}
+            </option>
+          ))}
+        </datalist>
         <FormLabel htmlFor="description">Description: </FormLabel>
         <FormTextArea
           id="description"

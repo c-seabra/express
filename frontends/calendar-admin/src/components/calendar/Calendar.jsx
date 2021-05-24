@@ -385,6 +385,7 @@ const Calendar = ({ token, env }) => {
         event.title,
         event.description,
         event.location,
+        event.location_id,
         token,
         env,
       );
@@ -428,6 +429,7 @@ const Calendar = ({ token, env }) => {
         <Popup
           existingEvent={existingEvent}
           handleOnClick={() => cleanupData()}
+          locations={locations}
           newEvent={newEvent}
         />
         <DragAndDropCalendar
