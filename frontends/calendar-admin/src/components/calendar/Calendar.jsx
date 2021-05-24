@@ -442,14 +442,11 @@ const Calendar = ({ token, env }) => {
           eventPropGetter={eventPropGetter}
           events={events}
           getNow={() => moment().toDate()}
-          length={60}
           localizer={localizer}
           max={moment('2000-01-01T23:00:00.000Z').toDate()}
           min={moment('2000-01-01T01:00:00.000Z').toDate()}
           startAccessor={startAccessor}
-          step={60}
           style={{ fontSize: '14px', height: '100vh' }}
-          timeslots={1}
           titleAccessor={titleAccessor}
           tooltipAccessor={tooltipAccessor}
           view={currentView}
