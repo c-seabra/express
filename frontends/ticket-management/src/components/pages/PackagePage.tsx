@@ -239,8 +239,8 @@ const PackagePage = () => {
   const hasDealItems = dealItems && dealItems.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
-      label: 'Packages',
-      redirectUrl: '/packages',
+      label: 'deals',
+      redirectUrl: '/deals',
     },
     {
       label: `${deal?.name as string}`,

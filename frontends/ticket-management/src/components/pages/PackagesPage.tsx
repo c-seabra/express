@@ -98,7 +98,7 @@ const PackagesPage = () => {
     openModal();
   };
   const redirectToPackage = (id: string) => {
-    history.push(`/package/${id}`);
+    history.push(`/deal/${id}`);
   };
   const onRowClick = (event: any) => {
     redirectToPackage(event.id);
