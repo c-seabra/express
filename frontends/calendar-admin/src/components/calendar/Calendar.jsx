@@ -376,20 +376,22 @@ const Calendar = ({ token, env }) => {
   };
 
   const onCreateEvent = async (event) => {
-    setNewEvent(event);
-    if (event.title) {
-      await Api.createEvent(
-        attendancesArray,
-        moment(event.end).tz(timezone, true).format(),
-        moment(event.start).tz(timezone, true).format(),
-        event.title,
-        event.description,
-        event.location,
-        event.location_id,
-        token,
-        env,
-      );
-      await getAdminEvents();
+    if (attendancesArray.length > 0) {
+      setNewEvent(event);
+      if (event.title) {
+        await Api.createEvent(
+          attendancesArray,
+          moment(event.end).tz(timezone, true).format(),
+          moment(event.start).tz(timezone, true).format(),
+          event.title,
+          event.description,
+          event.location,
+          event.location_id,
+          token,
+          env,
+        );
+        await getAdminEvents();
+      }
     }
   };
 
