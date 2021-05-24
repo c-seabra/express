@@ -7,6 +7,7 @@ import {
   Form,
   FormInput,
   FormLabel,
+  FormTextArea,
 } from './NewEvent.styled';
 
 const NewEvent = ({ closePopup, event }) => {
@@ -36,53 +37,53 @@ const NewEvent = ({ closePopup, event }) => {
           id="title"
           name="title"
           type="text"
-          onChange={(e) => handleChange(e)}
           value={createdEvent.title !== undefined ? createdEvent.title : title}
+          onChange={(e) => handleChange(e)}
         />
         <FormLabel htmlFor="start">Starts at: </FormLabel>
         <FormInput
+          defaultValue={start}
           id="start"
           name="start"
           type="text"
-          defaultValue={start}
-          onChange={(e) => handleChange(e)}
           value={createdEvent.start !== undefined ? createdEvent.start : start}
+          onChange={(e) => handleChange(e)}
         />
         <FormLabel htmlFor="end">Ends at: </FormLabel>
         <FormInput
+          defaultValue={end}
           id="end"
           name="end"
           type="text"
-          defaultValue={end}
-          onChange={(e) => handleChange(e)}
           value={createdEvent.end !== undefined ? createdEvent.end : end}
+          onChange={(e) => handleChange(e)}
         />
         <FormLabel htmlFor="location">Location: </FormLabel>
         <FormInput
           id="location"
           name="location"
           type="text"
-          onChange={(e) => handleChange(e)}
           value={
             createdEvent.location !== undefined
               ? createdEvent.location
               : location
           }
+          onChange={(e) => handleChange(e)}
         />
         <FormLabel htmlFor="description">Description: </FormLabel>
-        <FormInput
+        <FormTextArea
           id="description"
           name="description"
           type="text"
-          onChange={(e) => handleChange(e)}
           value={
             createdEvent.description !== undefined
               ? createdEvent.description
               : description
           }
+          onChange={(e) => handleChange(e)}
         />
       </Form>
-      <CreateButton onClick={(e) => handleSubmit(e)} type="submit">
+      <CreateButton type="submit" onClick={(e) => handleSubmit(e)}>
         Create
       </CreateButton>
     </div>

@@ -13,6 +13,7 @@ export const CreatePopupHeading = styled.div`
 
 export const Form = styled.form`
   margin: 20px;
+  margin-left: 20%;
   display: flow-root;
 `;
 
@@ -35,8 +36,17 @@ export const FormInput = styled.input`
   height: 30px;
 `;
 
+export const FormTextArea = styled.textarea`
+  margin-left: 50px;
+  margin-bottom: 40px;
+  display: inline-block;
+  float: left;
+  width: 200px;
+`;
+
 export const CreateButton = styled(Button)`
-  margin: 20px;
   margin-right: 40px;
   float: right;
+  bottom: 5%;
+  position: sticky;
 `;

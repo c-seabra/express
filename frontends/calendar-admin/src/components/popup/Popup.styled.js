@@ -29,7 +29,7 @@ export const CreatePopupContainer = styled.div`
   top: 25%;
   left: 25%;
   height: 60%;
-  width: 50%;
+  width: 40%;
   background-color: white;
   border-radius: 4px;
   overflow: hidden;
