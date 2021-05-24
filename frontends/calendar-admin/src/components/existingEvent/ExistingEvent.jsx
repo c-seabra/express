@@ -19,6 +19,8 @@ import {
   Overlay,
   OverlayButton,
   OverlayButtons,
+  PopupContainer,
+  PopupHeading,
   Title,
   UserRsvp,
   Wrapper,
@@ -160,17 +162,20 @@ const ExistingEvent = ({ event, close_popup }) => {
 
       {editPopupActive && (
         <FormWrap>
-          <TopButtons>
-            <Button className="topButton" onBtnClick={handleDelete}>
-              <BinIcon />
-            </Button>
-          </TopButtons>
-          <EditEvent
-            eventId={id}
-            organizerId={organizer ? organizer.id : undefined}
-            setEditPopupActive={setEditPopupActive}
-            {...{ description, location, rsvps, title }}
-          />
+          <PopupContainer>
+            <PopupHeading>Edit Event</PopupHeading>
+            <TopButtons>
+              <Button className="topButton" onBtnClick={handleDelete}>
+                <BinIcon />
+              </Button>
+            </TopButtons>
+            <EditEvent
+              eventId={id}
+              organizerId={organizer ? organizer.id : undefined}
+              setEditPopupActive={setEditPopupActive}
+              {...{ description, ends_at, location, rsvps, starts_at, title,}}
+            />
+          </PopupContainer>
         </FormWrap>
       )}
 

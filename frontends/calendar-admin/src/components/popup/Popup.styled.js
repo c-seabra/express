@@ -18,11 +18,6 @@ export const PopupContainer = styled.div`
   &:hover {
     cursor: default;
   }
-
-  & * {
-    font-size: 14px;
-    box-sizing: border-box;
-  }
 `;
 
 export const Button = styled.button`

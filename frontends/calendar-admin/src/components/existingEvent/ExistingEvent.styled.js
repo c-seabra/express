@@ -119,11 +119,39 @@ export const FormWrap = styled.div`
   top: 0;
   height: 100%;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  background: white;
-  padding-top: 0;
   flex-direction: column;
+  background: white;
   left: 0;
   width: 100%;
+`;
+
+export const PopupContainer = styled.div`
+  height: 80%;
+  width: 70%;
+  position: relative;
+  background-color: white;
+  color: #3e3d44;
+  border-radius: 4px;
+  overflow: auto;
+  top: 10%;
+  align-self: center;
+  z-index: 10;
+  -webkit-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+
+  &:hover {
+    cursor: default;
+  }
+`;
+
+export const PopupHeading = styled.div`
+  background-color: #4688d9;
+  height: 30px;
+  justify-content: center;
+  display: flex;
+  padding-top: 6px;
+  color: white;
+  font-size: 16px;
 `;

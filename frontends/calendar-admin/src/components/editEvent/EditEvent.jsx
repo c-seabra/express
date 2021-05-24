@@ -2,13 +2,13 @@ import React, { useContext, useState } from 'react';
 
 import AvatarList from '../avatarList/AvatarList';
 import { DetailsContext } from '../calendar/Context';
-import OvalSquare from '../svgs/OvalSquare';
 import {
-  Button,
   Form,
-  FormEditContent,
   FormEditInvitee,
   FormInput,
+  FormLabel,
+  FormTextArea,
+  StyledButton,
 } from './EditEvent.styled';
 
 const EditEvent = ({
@@ -17,6 +17,8 @@ const EditEvent = ({
   title,
   location,
   description,
+  starts_at,
+  ends_at,
   organizerId,
 }) => {
   const {
@@ -67,68 +69,74 @@ const EditEvent = ({
 
   return (
     <Form onSubmit={(e) => handleSubmit(e)}>
-      <FormEditContent>
-        <FormInput>
-          <OvalSquare />
-          <input
-            name="title"
-            type="text"
-            value={
-              editedEntity.title !== undefined ? editedEntity.title : title
-            }
-            onChange={(e) => handleChange(e)}
-          />
-        </FormInput>
-
-        <FormInput>
-          <input
-            name="location_name"
-            type="text"
-            value={
-              editedEntity.location_name !== undefined
-                ? editedEntity.location_name
-                : location.name
-            }
-            onChange={(e) => handleChange(e)}
-          />
-          {locations && (
-            <select
-              name="location_id"
-              value={
-                editedEntity.location_id !== undefined
-                  ? editedEntity.location_id
-                  : location.id
-              }
-              onChange={(e) => handleChange(e)}
-            >
-              <option key="emptySelect" disabled value="">
-                Select location
-              </option>
-              {locations.map((loc) => (
-                <option key={loc.id} value={loc.id}>
-                  {loc && loc.name}
-                </option>
-              ))}
-            </select>
-          )}
-        </FormInput>
-        <FormInput>
-          <textarea
-            name="description"
-            value={
-              editedEntity.description !== undefined
-                ? editedEntity.description
-                : description
-            }
-            onChange={(e) => handleChange(e)}
-          />
-        </FormInput>
-        <Button type="submit">Save</Button>
-        <Button type="button" onClick={() => setEditPopupActive(false)}>
-          Cancel
-        </Button>
-      </FormEditContent>
-
+      <FormLabel>Title: </FormLabel>
+      <FormInput
+        name="title"
+        type="text"
+        value={editedEntity.title !== undefined ? editedEntity.title : title}
+        onChange={(e) => handleChange(e)}
+      />
+      <FormLabel>Starts At: </FormLabel>
+      <FormInput
+        name="starts_at"
+        type="text"
+        value={
+          editedEntity.starts_at !== undefined
+            ? editedEntity.starts_at
+            : starts_at
+        }
+        onChange={(e) => handleChange(e)}
+      />
+      <FormLabel>Ends At: </FormLabel>
+      <FormInput
+        name="ends_at"
+        type="text"
+        value={
+          editedEntity.ends_at !== undefined ? editedEntity.ends_at : ends_at
+        }
+        onChange={(e) => handleChange(e)}
+      />
+      <FormLabel>Location: </FormLabel>
+      <FormInput
+        name="location_name"
+        type="text"
+        value={
+          editedEntity.location_name !== undefined
+            ? editedEntity.location_name
+            : location.name
+        }
+        onChange={(e) => handleChange(e)}
+      />
+      {locations.length > 0 && (
+        <select
+          name="location_id"
+          value={
+            editedEntity.location_id !== undefined
+              ? editedEntity.location_id
+              : location.id
+          }
+          onChange={(e) => handleChange(e)}
+        >
+          <option key="emptySelect" disabled value="">
+            Select location
+          </option>
+          {locations.map((loc) => (
+            <option key={loc.id} value={loc.id}>
+              {loc && loc.name}
+            </option>
+          ))}
+        </select>
+      )}
+      <FormLabel>Description: </FormLabel>
+      <FormTextArea
+        name="description"
+        value={
+          editedEntity.description !== undefined
+            ? editedEntity.description
+            : description
+        }
+        onChange={(e) => handleChange(e)}
+      />
       <FormEditInvitee>
         <AvatarList
           iconActive
@@ -138,6 +146,10 @@ const EditEvent = ({
           organizerId={organizerId}
         />
       </FormEditInvitee>
+      <StyledButton type="submit">Save</StyledButton>
+      <StyledButton type="button" onClick={() => setEditPopupActive(false)}>
+        Cancel
+      </StyledButton>
     </Form>
   );
 };

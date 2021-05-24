@@ -1,34 +1,37 @@
+import { Button } from '@websummit/components/src/atoms/Button';
 import styled from 'styled-components';
 
 export const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
+  margin: 20px;
+  margin-left: 20%;
+  display: flow-root;
 `;
 
-export const FormInput = styled.div`
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  & svg {
-    width: 20px;
-  }
-
-  & input {
-    width: calc(100% - 42px);
-    padding: 0.5rem 0.7rem;
-  }
+export const FormLabel = styled.label`
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-block;
+  float: left;
+  clear: left;
+  text-align: left;
+  width: 100px;
 `;
 
-export const FormEditContent = styled.div`
-  width: 450px;
-  max-width: 100%;
-  margin-right: 3rem;
+export const FormInput = styled.input`
+  margin-left: 50px;
+  margin-bottom: 40px;
+  display: inline-block;
+  float: left;
+  width: 200px;
+  height: 30px;
+`;
+
+export const FormTextArea = styled.textarea`
+  margin-left: 50px;
+  margin-bottom: 40px;
+  display: inline-block;
+  float: left;
+  width: 200px;
 `;
 
 export const FormEditInvitee = styled.div`
@@ -36,18 +39,10 @@ export const FormEditInvitee = styled.div`
   max-width: 100%;
 `;
 
-export const Button = styled.button`
-  color: #3e3d44;
-  border: 1px solid #cecece;
-  transition: all 0.4s ease;
+export const StyledButton = styled(Button)`
   padding: 0.5rem 1.2rem;
-  background: white;
-  border-radius: 4px;
-  margin-left: 5px;
-
-  &:hover {
-    background: #fa7e23;
-    color: #fff;
-    cursor: pointer;
-  }
+  margin-right: 1rem;
+  float: right;
+  bottom: 5%;
+  position: sticky;
 `;
