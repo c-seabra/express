@@ -300,7 +300,7 @@ const PackagePage = () => {
             <ContainerCard>
               <>
                 <Spacing bottom="1.25rem">
-                  <Header>Package</Header>
+                  <Header>Deal</Header>
                 </Spacing>
                 <SubHeader>Edit package details</SubHeader>
 
@@ -324,14 +324,14 @@ const PackagePage = () => {
             <>
               <Spacing bottom="2rem" top="1rem">
                 <Spacing bottom="1.25rem">
-                  <Header>Specify package details</Header>
+                  <Header>Specify deal details</Header>
                 </Spacing>
                 <SubHeader>
-                  Add one or more ticket types to the package
+                  Add one or more ticket types to the deal
                 </SubHeader>
               </Spacing>
               <Spacing bottom="1rem">
-                <Button onClick={onButtonClick}>Add tickets to package</Button>
+                <Button onClick={onButtonClick}>Add tickets to deal</Button>
               </Spacing>
 
               {dealItemsLoading && <Loader />}

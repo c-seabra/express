@@ -75,7 +75,7 @@ const PackageForm = ({ prefillData }: Props) => {
   const [updateDeal] = useCommerceUpdateDealMutation({
     context,
     onCompleted: () => {
-      snackbar('Package updated');
+      snackbar('Deal updated');
     },
     onError: (error) => errorSnackbar(error.message),
     refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
