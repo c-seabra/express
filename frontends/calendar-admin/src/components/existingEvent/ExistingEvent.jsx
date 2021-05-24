@@ -173,7 +173,7 @@ const ExistingEvent = ({ event, close_popup }) => {
               eventId={id}
               organizerId={organizer ? organizer.id : undefined}
               setEditPopupActive={setEditPopupActive}
-              {...{ description, ends_at, location, rsvps, starts_at, title,}}
+              {...{ description, ends_at, location, rsvps, starts_at, title }}
             />
           </PopupContainer>
         </FormWrap>
