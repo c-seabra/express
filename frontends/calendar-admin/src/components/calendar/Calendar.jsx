@@ -65,6 +65,37 @@ const Calendar = ({ token, env }) => {
     }
   }, [attendances, token]);
 
+  const getAdminEvents = async () => {
+    const eventsResults = await Api.getAdminEvents(
+      attendancesArray,
+      token,
+      env,
+    );
+    if (eventsResults.data) {
+      let eventRes = [];
+      eventsResults.data.data.forEach((e) => {
+        e.calendar_events.forEach((i) => {
+          i.attendance_id = e.id;
+        });
+        eventRes.push(...e.calendar_events);
+      });
+
+      eventRes = eventRes.map((e) => {
+        const offsetString = moment(e.starts_at).tz(timezone, true).format();
+        e.starts_at = moment(e.starts_at)
+          .utcOffset(offsetString)
+          .format('YYYY-MM-DDTHH:mm');
+        e.ends_at = moment(e.ends_at)
+          .utcOffset(offsetString)
+          .format('YYYY-MM-DDTHH:mm');
+        return e;
+      });
+      setEvents(eventRes);
+    } else {
+      addError(eventsResults.error);
+    }
+  };
+
   const getRequiredData = async (payload) => {
     const confResult = await Api.getConferenceDetails(
       payload.conf_id,
@@ -78,34 +109,7 @@ const Calendar = ({ token, env }) => {
       addError(confResult.error);
     }
     if (attendancesArray.length > 0) {
-      const eventsResults = await Api.getAdminEvents(
-        attendancesArray,
-        token,
-        env,
-      );
-      if (eventsResults.data) {
-        let eventRes = [];
-        eventsResults.data.data.forEach((e) => {
-          e.calendar_events.forEach((i) => {
-            i.attendance_id = e.id;
-          });
-          eventRes.push(...e.calendar_events);
-        });
-
-        eventRes = eventRes.map((e) => {
-          const offsetString = moment(e.starts_at).tz(timezone, true).format();
-          e.starts_at = moment(e.starts_at)
-            .utcOffset(offsetString)
-            .format('YYYY-MM-DDTHH:mm');
-          e.ends_at = moment(e.ends_at)
-            .utcOffset(offsetString)
-            .format('YYYY-MM-DDTHH:mm');
-          return e;
-        });
-        setEvents(eventRes);
-      } else {
-        addError(eventsResults.error);
-      }
+      await getAdminEvents();
     } else {
       setEvents([]);
     }
@@ -374,7 +378,7 @@ const Calendar = ({ token, env }) => {
   const onCreateEvent = async (event) => {
     setNewEvent(event);
     if (event.title) {
-      const createdEvent = await Api.createEvent(
+      await Api.createEvent(
         attendancesArray,
         moment(event.end).tz(timezone, true).format(),
         moment(event.start).tz(timezone, true).format(),
@@ -384,20 +388,7 @@ const Calendar = ({ token, env }) => {
         token,
         env,
       );
-      createdEvent.data.data.invited_by_admin = true;
-      const offsetString = moment(createdEvent.data.data.starts_at)
-        .tz(timezone, true)
-        .format();
-      createdEvent.data.data.starts_at = moment(
-        createdEvent.data.data.starts_at,
-      )
-        .utcOffset(offsetString)
-        .format('YYYY-MM-DDTHH:mm');
-      createdEvent.data.data.ends_at = moment(createdEvent.data.data.ends_at)
-        .utcOffset(offsetString)
-        .format('YYYY-MM-DDTHH:mm');
-      const updatedEvents = events.concat([createdEvent.data.data]);
-      setEvents(updatedEvents);
+      await getAdminEvents();
     }
   };
 
