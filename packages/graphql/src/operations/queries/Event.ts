@@ -65,6 +65,7 @@ const EVENT = gql`
         id
         company {
           name
+          privacyPolicyUrl
         }
       }
     }

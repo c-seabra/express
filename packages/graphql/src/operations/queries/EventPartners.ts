@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
 
 export default gql`
-  query EventAppearances($slug: String) {
+  query EventPartners($slug: String) {
     event(slug: $slug) {
-      appearances {
+      partners {
         edges {
           node {
             id
