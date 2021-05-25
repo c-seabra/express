@@ -239,7 +239,7 @@ const PackagePage = () => {
   const hasDealItems = dealItems && dealItems.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
-      label: 'deals',
+      label: 'Deals',
       redirectUrl: '/deals',
     },
     {
@@ -302,7 +302,7 @@ const PackagePage = () => {
                 <Spacing bottom="1.25rem">
                   <Header>Deal</Header>
                 </Spacing>
-                <SubHeader>Edit package details</SubHeader>
+                <SubHeader>Edit deal details</SubHeader>
 
                 {dealLoading && <Loader />}
                 {deal && <PackageForm prefillData={deal} />}
@@ -326,9 +326,7 @@ const PackagePage = () => {
                 <Spacing bottom="1.25rem">
                   <Header>Specify deal details</Header>
                 </Spacing>
-                <SubHeader>
-                  Add one or more ticket types to the deal
-                </SubHeader>
+                <SubHeader>Add one or more ticket types to the deal</SubHeader>
               </Spacing>
               <Spacing bottom="1rem">
                 <Button onClick={onButtonClick}>Add tickets to deal</Button>

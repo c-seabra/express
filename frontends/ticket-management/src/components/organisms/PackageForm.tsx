@@ -119,7 +119,7 @@ const PackageForm = ({ prefillData }: Props) => {
         <Spacing top="2rem">
           <FieldWrapper>
             <Spacing bottom="8px">
-              <TextInputField required label="Package name" name="name" />
+              <TextInputField required label="Deal name" name="name" />
             </Spacing>
           </FieldWrapper>
 
@@ -145,7 +145,7 @@ const PackageForm = ({ prefillData }: Props) => {
             <Spacing bottom="8px">
               <TextAreaField
                 fieldHeight="80px"
-                label="Package description"
+                label="Deal description"
                 name="description"
               />
             </Spacing>
