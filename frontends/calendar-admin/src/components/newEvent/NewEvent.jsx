@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import React, { useContext, useState } from 'react';
 
 import { DetailsContext } from '../calendar/Context';
@@ -27,17 +28,15 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
     }));
   };
 
-  const handleChange = (e) => {
+  const handleTimeChange = (e) => {
+    const { value, name } = e.target;
+    handleSetCreatedEvent(name, value);
+  };
+
+  const handleLocationChange = (e) => {
     const { value, name } = e.target;
     let id;
-    if (name === 'event_format_id') {
-      formats.forEach((format) => {
-        if (format.label === value) {
-          id = format.id;
-        }
-      });
-      handleSetCreatedEvent('event_format_id', id);
-    } else if (name === 'location' && locationNames.includes(value)) {
+    if (locationNames.includes(value)) {
       setLocationName(value);
       locations.forEach((loc) => {
         if (loc.name === value) {
@@ -46,11 +45,20 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
       });
       handleSetCreatedEvent('location_id', id);
     } else {
-      if (name === 'location') {
-        setLocationName('');
-      }
+      setLocationName('');
       handleSetCreatedEvent(name, value);
     }
+  };
+
+  const handleFormatChange = (e) => {
+    const { value, name } = e.target;
+    let id;
+    formats.forEach((format) => {
+      if (format.label === value) {
+        id = format.id;
+      }
+    });
+    handleSetCreatedEvent(name, id);
   };
 
   const handleSubmit = () => {
@@ -68,28 +76,34 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
         <FormLabel htmlFor="title">Title: </FormLabel>
         <FormInput
           id="title"
-          name="title"
           type="text"
           value={createdEvent.title !== undefined ? createdEvent.title : title}
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleSetCreatedEvent('title', e.target.value)}
         />
         <FormLabel htmlFor="start">Starts at: </FormLabel>
         <FormInput
-          defaultValue={start}
           id="start"
           name="start"
-          type="text"
-          value={createdEvent.start !== undefined ? createdEvent.start : start}
-          onChange={(e) => handleChange(e)}
+          type="datetime-local"
+          value={
+            createdEvent.start !== undefined
+              ? moment(createdEvent.start).format('YYYY-MM-DDTHH:mm')
+              : moment(start).format('YYYY-MM-DDTHH:mm')
+          }
+          onChange={(e) => handleTimeChange(e)}
         />
         <FormLabel htmlFor="end">Ends at: </FormLabel>
         <FormInput
-          defaultValue={end}
+          defaultValue={moment(end).format('YYYY-MM-DD')}
           id="end"
           name="end"
-          type="text"
-          value={createdEvent.end !== undefined ? createdEvent.end : end}
-          onChange={(e) => handleChange(e)}
+          type="datetime-local"
+          value={
+            createdEvent.end !== undefined
+              ? moment(createdEvent.end).format('YYYY-MM-DDTHH:mm')
+              : moment(end).format('YYYY-MM-DDTHH:mm')
+          }
+          onChange={(e) => handleTimeChange(e)}
         />
         <FormLabel htmlFor="location">Location: </FormLabel>
         <FormInput
@@ -102,7 +116,7 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
               ? createdEvent.location
               : locationName
           }
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleLocationChange(e)}
         />
         <datalist id="locations">
           {locations?.map((loc, i) => (
@@ -116,7 +130,7 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
           id="event_format_id"
           name="event_format_id"
           type="text"
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleFormatChange(e)}
         >
           <option defaultChecked>Please select a format</option>
           {formats?.map((format, i) => (
@@ -128,14 +142,13 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
         <FormLabel htmlFor="description">Description: </FormLabel>
         <FormTextArea
           id="description"
-          name="description"
           type="text"
           value={
             createdEvent.description !== undefined
               ? createdEvent.description
               : description
           }
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleSetCreatedEvent('description', e.target.value)}
         />
       </Form>
       <CreateButton type="submit" onClick={handleSubmit}>
