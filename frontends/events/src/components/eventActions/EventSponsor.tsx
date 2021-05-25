@@ -4,11 +4,12 @@ import {
 } from '@websummit/components/src/atoms/Button';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import { useSnackbars } from '@websummit/components/src/molecules/Snackbar';
+import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import {
   Appearance,
   Company,
   useAppearanceUpdateMutation,
-  useEventAppearancesQuery,
+  useEventPartnersQuery,
   useEventQuery,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
@@ -33,10 +34,18 @@ const EventSponsorContainer = styled.div`
   margin: 2rem -1.8rem -2.8rem;
 `;
 
-const Separator = styled.div`
-  width: 100%;
-  height: 1px;
-  border-top: 3px solid #f1f1f1;
+const Header = styled.div`
+  color: #0c1439;
+  font-weight: 500;
+  font-size: 24px;
+  padding: 1.2rem 0rem;
+`;
+
+const SubHeader = styled.div`
+  color: #0c1439;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
 `;
 
 const PaddedContainer = styled.div`
@@ -48,16 +57,16 @@ const EventSponsor = ({ eventSlug }: { eventSlug: string | undefined }) => {
   const { token } = useAppContext();
 
   const getSponsorOptions = (
-    appearances:
+    partners:
       | ({ __typename?: 'Appearance' } & Pick<Appearance, 'id'> & {
             company: Pick<Company, 'name'> | null;
           })[]
       | undefined = [],
   ) => [
     emptyOption,
-    ...appearances.map((appearance) => ({
-      label: appearance?.company?.name,
-      value: appearance.id,
+    ...partners.map((partner) => ({
+      label: partner?.company?.name,
+      value: partner.id,
     })),
   ];
 
@@ -69,15 +78,14 @@ const EventSponsor = ({ eventSlug }: { eventSlug: string | undefined }) => {
     },
   });
 
-  const { data: eventAppearancesData } = useEventAppearancesQuery({
+  const { data: eventPartnersData } = useEventPartnersQuery({
     context: { token },
     onError: (e) => error(e.message),
     variables: {
       slug: eventSlug,
     },
   });
-
-  const mappedSponsors = eventAppearancesData?.event?.appearances?.edges?.map(
+  const mappedSponsors = eventPartnersData?.event?.partners?.edges?.map(
     (edge) => edge.node,
   );
   const sponsorOptions = getSponsorOptions(mappedSponsors);
@@ -93,23 +101,39 @@ const EventSponsor = ({ eventSlug }: { eventSlug: string | undefined }) => {
     <EventSponsorContainer>
       <Formik
         enableReinitialize
-        initialValues={{ eventSponsor: data?.event?.sponsor?.id }}
+        initialValues={{
+          eventSponsor: data?.event?.sponsor?.id,
+          privacyPolicyUrl: data?.event?.sponsor?.company?.privacyPolicyUrl,
+        }}
         onSubmit={async (values) => {
           await updateEventSponsor({
-            variables: { id: values.eventSponsor, isSponsor: true },
+            variables: {
+              id: values.eventSponsor,
+              isSponsor: true,
+              privacyPolicyUrl: values.privacyPolicyUrl,
+            },
           });
         }}
       >
         {({ resetForm }) => (
           <Form>
             <PaddedContainer>
+              <Header>Event Sponsorship</Header>
+              <SubHeader>
+                This section is only applicable for partner sponsored events.
+              </SubHeader>
+            </PaddedContainer>
+            <PaddedContainer>
               <SelectField
-                label="Event Sponsor"
+                label="Event sponsor name"
                 name="eventSponsor"
                 options={sponsorOptions}
               />
+              <TextInputField
+                label="Sponsor privacy policy URL"
+                name="privacyPolicyUrl"
+              />
             </PaddedContainer>
-            <Separator />
             <PaddedContainer>
               <ButtonsContainer>
                 <SecondaryButton type="button" onClick={() => resetForm()}>
