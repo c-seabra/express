@@ -70,9 +70,8 @@ const ActivateStore = ({ store }: Props) => {
         {({ resetForm }) => (
           <Form>
             <PaddedContainer>
-              <CheckboxField label="Store active" name="active" />
+              <CheckboxField label="Event sales active" name="active" />
             </PaddedContainer>
-            <Separator />
             <PaddedContainer>
               <ButtonsContainer>
                 <SecondaryButton type="button" onClick={() => resetForm()}>
@@ -81,6 +80,7 @@ const ActivateStore = ({ store }: Props) => {
                 <Button type="submit">Save changes</Button>
               </ButtonsContainer>
             </PaddedContainer>
+            <Separator />
           </Form>
         )}
       </Formik>
