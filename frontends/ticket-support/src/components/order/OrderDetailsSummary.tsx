@@ -4,7 +4,6 @@ import { useModalState } from '@websummit/components/src/molecules/Modal';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Order } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
