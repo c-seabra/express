@@ -35,6 +35,7 @@ const Calendar = ({ token, env }) => {
   const [newEvent, setNewEvent] = useState();
   const [existingEvent, setExistingEvent] = useState();
   const [locations, setLocations] = useState();
+  const [formats, setFormats] = useState();
   const [rsvps, setRsvps] = useState([]);
   // const [payload, setPayload] = useState()
   const [confSlug, setConfSlug] = useState();
@@ -123,6 +124,11 @@ const Calendar = ({ token, env }) => {
     responseStatusesResult.data
       ? setResponseStatuses(responseStatusesResult.data.data)
       : addError(responseStatusesResult.error);
+
+    const formatsResult = await Api.getEventFormats(token, env);
+    formatsResult.data
+      ? setFormats(formatsResult.data.data)
+      : addError(formatsResult.error);
   };
 
   const addRsvp = (rsvp) => {
@@ -387,6 +393,7 @@ const Calendar = ({ token, env }) => {
           event.description,
           event.location,
           event.location_id,
+          event.event_format_id,
           token,
           env,
         );
@@ -430,6 +437,7 @@ const Calendar = ({ token, env }) => {
         <Error errors={errors} />
         <Popup
           existingEvent={existingEvent}
+          formats={formats}
           handleOnClick={() => cleanupData()}
           locations={locations}
           newEvent={newEvent}

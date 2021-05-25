@@ -4,7 +4,13 @@ import ExistingEvent from '../existingEvent/ExistingEvent';
 import NewEvent from '../newEvent/NewEvent';
 import { CreatePopupContainer, Overlay, PopupContainer } from './Popup.styled';
 
-const Popup = ({ existingEvent, newEvent, handleOnClick, locations }) => {
+const Popup = ({
+  existingEvent,
+  newEvent,
+  handleOnClick,
+  locations,
+  formats,
+}) => {
   const renderExistingEvent = ({ syntheticEvent }) => {
     const popupStyle = {
       top: `${syntheticEvent.pageY}px`,
@@ -28,6 +34,7 @@ const Popup = ({ existingEvent, newEvent, handleOnClick, locations }) => {
           <NewEvent
             closePopup={handleOnClick}
             event={newEvent}
+            formats={formats}
             locations={locations}
           />
         </CreatePopupContainer>

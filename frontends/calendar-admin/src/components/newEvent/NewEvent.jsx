@@ -7,39 +7,56 @@ import {
   Form,
   FormInput,
   FormLabel,
+  FormSelect,
   FormTextArea,
 } from './NewEvent.styled';
 
-const NewEvent = ({ closePopup, event, locations }) => {
-  const { title, description, location, start, end } = event;
+const NewEvent = ({ closePopup, event, locations, formats }) => {
+  const { title, description, start, end } = event;
   const { onCreateEvent } = useContext(DetailsContext);
   const [createdEvent, setCreatedEvent] = useState({ end, start });
+  const [locationName, setLocationName] = useState();
   const locationNames = locations.map((loc) => {
     return loc.name;
   });
 
+  const handleSetCreatedEvent = (name, value) => {
+    setCreatedEvent((entity) => ({
+      ...entity,
+      [name]: value,
+    }));
+  };
+
   const handleChange = (e) => {
     const { value, name } = e.target;
     let id;
-    if (name === 'location' && locationNames.includes(value)) {
+    if (name === 'event_format_id') {
+      formats.forEach((format) => {
+        if (format.label === value) {
+          id = format.id;
+        }
+      });
+      handleSetCreatedEvent('event_format_id', id);
+    } else if (name === 'location' && locationNames.includes(value)) {
+      setLocationName(value);
       locations.forEach((loc) => {
         if (loc.name === value) {
           id = loc.id;
         }
       });
-      setCreatedEvent((entity) => ({
-        ...entity,
-        location_id: id,
-      }));
+      handleSetCreatedEvent('location_id', id);
     } else {
-      setCreatedEvent((entity) => ({
-        ...entity,
-        [name]: value || '',
-      }));
+      if (name === 'location') {
+        setLocationName('');
+      }
+      handleSetCreatedEvent(name, value);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
+    if (createdEvent.location) {
+      createdEvent.location_id = undefined;
+    }
     onCreateEvent(createdEvent);
     closePopup();
   };
@@ -81,9 +98,9 @@ const NewEvent = ({ closePopup, event, locations }) => {
           name="location"
           type="text"
           value={
-            createdEvent.location !== undefined
+            createdEvent.location !== undefined && createdEvent.location !== ''
               ? createdEvent.location
-              : location
+              : locationName
           }
           onChange={(e) => handleChange(e)}
         />
@@ -94,6 +111,20 @@ const NewEvent = ({ closePopup, event, locations }) => {
             </option>
           ))}
         </datalist>
+        <FormLabel htmlFor="event_format_id">Format: </FormLabel>
+        <FormSelect
+          id="event_format_id"
+          name="event_format_id"
+          type="text"
+          onChange={(e) => handleChange(e)}
+        >
+          <option defaultChecked>Please select a format</option>
+          {formats?.map((format, i) => (
+            <option key={i} value={format.label}>
+              {format.label}
+            </option>
+          ))}
+        </FormSelect>
         <FormLabel htmlFor="description">Description: </FormLabel>
         <FormTextArea
           id="description"
@@ -107,7 +138,7 @@ const NewEvent = ({ closePopup, event, locations }) => {
           onChange={(e) => handleChange(e)}
         />
       </Form>
-      <CreateButton type="submit" onClick={(e) => handleSubmit(e)}>
+      <CreateButton type="submit" onClick={handleSubmit}>
         Create
       </CreateButton>
     </div>

@@ -209,6 +209,30 @@ export function withConfig({ token: _token, env: _env } = {}) {
       );
     },
 
+    getEventFormats: async (token = String(_token), env = _env) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+      const requestData = {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+        method: 'GET',
+      };
+      return handleFetch(
+        new Request(
+          `${String(CONFIG[env].CALENDAR_URL)}/event_formats/`,
+          requestData,
+        ),
+      );
+    },
+
     getEvents: async (token = String(_token), env = _env) => {
       // console.log({ getEvents: env })
       if (env === 'mock') {
@@ -293,6 +317,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       description,
       location,
       locationId,
+      eventFormatId,
       token = String(_token),
       env = _env,
       invitee,
@@ -306,6 +331,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
           description: description,
           location: location,
           locationId: locationId,
+          eventFormatId: eventFormatId,
           token: token,
           env: env,
         }),
