@@ -100,9 +100,9 @@ const EventSponsor = ({ eventSlug }: { eventSlug: string | undefined }) => {
   const [sponsorId, setSponsorId] = useState(data?.event?.sponsor?.id);
   const [sponsorPrivacyPolicyURL, setSponsorPrivacyPolicyURL] = useState(data?.event?.sponsor?.company?.privacyPolicyUrl);
   const updateSponsorPrivacyPolicyUrl = (event: any) => {
-    const sponsorId = event.target.value;
+    const targetSponsorId = event.target.value;
     const sponsor = mappedSponsors?.filter(
-      (element) => element.id === sponsorId,
+      (element) => element.id === targetSponsorId,
     )[0];
     const privacyPolicyUrl = sponsor?.company?.privacyPolicyUrl;
 
