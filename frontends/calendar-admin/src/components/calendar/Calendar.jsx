@@ -382,6 +382,7 @@ const Calendar = ({ token, env }) => {
   };
 
   const onCreateEvent = async (event) => {
+    const tokenPayload = jwt(token);
     if (attendancesArray.length > 0) {
       setNewEvent(event);
       if (event.title) {
@@ -395,6 +396,7 @@ const Calendar = ({ token, env }) => {
           event.location_id,
           event.event_format_id,
           token,
+          tokenPayload.conf_id,
           env,
         );
         await getAdminEvents();

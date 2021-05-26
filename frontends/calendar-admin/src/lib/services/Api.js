@@ -319,20 +319,22 @@ export function withConfig({ token: _token, env: _env } = {}) {
       locationId,
       eventFormatId,
       token = String(_token),
+      confId,
       env = _env,
       invitee,
     ) => {
       const requestData = {
         body: JSON.stringify({
           attendancesArray: attendancesArray,
-          end: end,
-          start: start,
+          ends_at: end,
+          starts_at: start,
           title: title,
           description: description,
-          location: location,
-          locationId: locationId,
-          eventFormatId: eventFormatId,
+          location_name: location,
+          location_id: locationId,
+          event_format_id: eventFormatId,
           token: token,
+          conference_id: confId,
           env: env,
         }),
         headers: new Headers({
