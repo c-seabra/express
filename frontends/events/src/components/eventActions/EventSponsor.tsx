@@ -98,7 +98,9 @@ const EventSponsor = ({ eventSlug }: { eventSlug: string | undefined }) => {
   });
 
   const [sponsorId, setSponsorId] = useState(data?.event?.sponsor?.id);
-  const [sponsorPrivacyPolicyURL, setSponsorPrivacyPolicyURL] = useState(data?.event?.sponsor?.company?.privacyPolicyUrl);
+  const [sponsorPrivacyPolicyURL, setSponsorPrivacyPolicyURL] = useState(
+    data?.event?.sponsor?.company?.privacyPolicyUrl,
+  );
   const updateSponsorPrivacyPolicyUrl = (event: any) => {
     const targetSponsorId = event.target.value;
     const sponsor = mappedSponsors?.filter(
@@ -106,7 +108,7 @@ const EventSponsor = ({ eventSlug }: { eventSlug: string | undefined }) => {
     )[0];
     const privacyPolicyUrl = sponsor?.company?.privacyPolicyUrl;
 
-    setSponsorId(sponsor?.id)
+    setSponsorId(sponsor?.id);
     setSponsorPrivacyPolicyURL(privacyPolicyUrl || '');
   };
 
