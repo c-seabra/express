@@ -1,7 +1,11 @@
+import { ApolloError } from '@apollo/client';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
+import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useHistory } from 'react-router-dom';
 
 import FilterButton from '../../lib/components/atoms/FilterButton';
 import TextHeading from '../../lib/components/atoms/Heading';
@@ -13,7 +17,7 @@ import useOrdersQuery from '../../lib/hooks/useOrdersQuery';
 import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
 import Pagination from '../../lib/Pagination';
 import { OrderState } from '../../lib/types';
-import OrderList from '../orderList/OrderList';
+import OrdersTable from '../orderList/OrdersTable';
 import {
   DashboardContainer,
   FiltersSearchContainer,
@@ -31,6 +35,8 @@ type OrderSearchState = {
 };
 
 const OrdersDashboard = (): ReactElement => {
+  const history = useHistory();
+  const errSnackbar = useErrorSnackbar();
   const [searchQuery, setSearchQuery] = useState('');
 
   const processInitialSearchState = (state: OrderSearchState) => {
@@ -53,6 +59,7 @@ const OrdersDashboard = (): ReactElement => {
     resetPage,
   } = useOrdersQuery({
     initialPage: searchState.page,
+    onError: (e: ApolloError) => errSnackbar(e.message),
     searchQuery: searchState.searchQuery,
     status: searchState.orderState,
     ticketTypeIds: searchState?.ticketTypeIds?.split(','),
@@ -125,6 +132,16 @@ const OrdersDashboard = (): ReactElement => {
 
   const ticketTypes = useTicketTypesQuery();
 
+  const eventTimeZone = useGetEventTimeZone();
+  const { ianaName } = eventTimeZone || {};
+
+  const redirectToOrder = (id: string) => {
+    history.push(`/order/${id}`);
+  };
+  const onRowClick = (event: any) => {
+    redirectToOrder(event.reference);
+  };
+
   return (
     <DashboardContainer>
       <Helmet>
@@ -159,7 +176,12 @@ const OrdersDashboard = (): ReactElement => {
         </FiltersSearchContainer>
       </SearchFilters>
       <ContainerCard noPadding>
-        <OrderList error={error} list={results} loading={loading} />
+        <OrdersTable
+          ianaName={ianaName}
+          loading={loading}
+          orders={results}
+          onRowClick={onRowClick}
+        />
       </ContainerCard>
       {!loading && !error && (
         <Pagination
