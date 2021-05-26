@@ -9245,7 +9245,10 @@ export type EventPartnersQuery = { __typename?: 'Query' } & {
           edges: Array<
             { __typename?: 'AppearanceEdge' } & {
               node: { __typename?: 'Appearance' } & Pick<Appearance, 'id'> & {
-                  company: { __typename?: 'Company' } & Pick<Company, 'name'>;
+                  company: { __typename?: 'Company' } & Pick<
+                    Company,
+                    'name' | 'privacyPolicyUrl'
+                  >;
                 };
             }
           >;
@@ -21961,6 +21964,13 @@ export const EventPartnersDocument: DocumentNode = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'name' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'privacyPolicyUrl',
+                                          },
                                         },
                                       ],
                                     },

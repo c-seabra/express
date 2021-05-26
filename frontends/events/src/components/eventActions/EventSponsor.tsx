@@ -13,7 +13,7 @@ import {
   useEventQuery,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '../app/AppContext';
@@ -97,13 +97,26 @@ const EventSponsor = ({ eventSlug }: { eventSlug: string | undefined }) => {
     refetchQueries: ['Event'],
   });
 
+  const [sponsorId, setSponsorId] = useState(data?.event?.sponsor?.id);
+  const [sponsorPrivacyPolicyURL, setSponsorPrivacyPolicyURL] = useState(data?.event?.sponsor?.company?.privacyPolicyUrl);
+  const updateSponsorPrivacyPolicyUrl = (event: any) => {
+    const sponsorId = event.target.value;
+    const sponsor = mappedSponsors?.filter(
+      (element) => element.id === sponsorId,
+    )[0];
+    const privacyPolicyUrl = sponsor?.company?.privacyPolicyUrl;
+
+    setSponsorId(sponsor?.id)
+    setSponsorPrivacyPolicyURL(privacyPolicyUrl || '');
+  };
+
   return (
     <EventSponsorContainer>
       <Formik
         enableReinitialize
         initialValues={{
-          eventSponsor: data?.event?.sponsor?.id,
-          privacyPolicyUrl: data?.event?.sponsor?.company?.privacyPolicyUrl,
+          eventSponsor: sponsorId,
+          privacyPolicyUrl: sponsorPrivacyPolicyURL,
         }}
         onSubmit={async (values) => {
           await updateEventSponsor({
@@ -128,6 +141,7 @@ const EventSponsor = ({ eventSlug }: { eventSlug: string | undefined }) => {
                 label="Event sponsor name"
                 name="eventSponsor"
                 options={sponsorOptions}
+                onChange={updateSponsorPrivacyPolicyUrl}
               />
               <TextInputField
                 label="Sponsor privacy policy URL"

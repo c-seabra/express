@@ -9,6 +9,7 @@ export default gql`
             id
             company {
               name
+              privacyPolicyUrl
             }
           }
         }
