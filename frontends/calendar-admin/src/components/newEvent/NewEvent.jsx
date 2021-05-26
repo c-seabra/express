@@ -52,12 +52,8 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
 
   const handleFormatChange = (e) => {
     const { value, name } = e.target;
-    let id;
-    formats.forEach((format) => {
-      if (format.label === value) {
-        id = format.id;
-      }
-    });
+    const format = formats.find((item) => item.label === value);
+    const { id } = format;
     handleSetCreatedEvent(name, id);
   };
 
