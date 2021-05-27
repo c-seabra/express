@@ -35,14 +35,9 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
 
   const handleLocationChange = (e) => {
     const { value, name } = e.target;
-    let id;
     if (locationNames.includes(value)) {
       setLocationName(value);
-      locations.forEach((loc) => {
-        if (loc.name === value) {
-          id = loc.id;
-        }
-      });
+      const { id } = locations.find((item) => item.name === value);
       handleSetCreatedEvent('location_id', id);
     } else {
       setLocationName('');
@@ -52,8 +47,7 @@ const NewEvent = ({ closePopup, event, locations, formats }) => {
 
   const handleFormatChange = (e) => {
     const { value, name } = e.target;
-    const format = formats.find((item) => item.label === value);
-    const { id } = format;
+    const { id } = formats.find((item) => item.label === value);
     handleSetCreatedEvent(name, id);
   };
 
