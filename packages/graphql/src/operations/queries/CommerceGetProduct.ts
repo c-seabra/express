@@ -27,6 +27,16 @@ export default gql`
       name
       metadata
       price
+      packagedProducts {
+        packagedProduct {
+          id
+          name
+        }
+        createdAt
+        id
+        lastUpdatedAt
+        quantity
+      }
       tags {
         id
         code
