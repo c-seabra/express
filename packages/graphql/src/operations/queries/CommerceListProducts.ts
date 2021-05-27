@@ -4,6 +4,7 @@ export default gql`
   query CommerceListProducts {
     commerceListProducts {
       hits {
+        type
         active
         categories {
           id

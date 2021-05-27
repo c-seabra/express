@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 export default gql`
   query CommerceGetProduct($id: ID!) {
     commerceGetProduct(id: $id) {
+      type
       active
       categories {
         id
