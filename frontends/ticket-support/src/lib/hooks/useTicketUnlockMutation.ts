@@ -22,7 +22,7 @@ type UnlockTicketsArgs = {
 };
 
 const useUnlockTicketMutation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const [error, setError] = useState('');
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
@@ -48,7 +48,7 @@ const useUnlockTicketMutation = () => {
         headers: {
           'x-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {

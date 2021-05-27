@@ -14,12 +14,12 @@ const useAttendanceAppearanceSelectionQuery = ({
 }: {
   selectionId: string;
 }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const { data, error, loading } = useQuery<AttendanceAppearanceSelectionData>(
     ATTENDANCE_APPEARANCE_SELECTION,
     {
-      context: { slug: conferenceSlug, token },
+      context: { slug, token },
       variables: { id: selectionId },
     },
   );

@@ -8,7 +8,7 @@ import { useAppContext } from '../../components/app/AppContext';
 import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject';
 
 const useUnassignTicketMutation = ({ ticketId }: { ticketId: string }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const error = useErrorSnackbar();
 
@@ -35,7 +35,7 @@ const useUnassignTicketMutation = ({ ticketId }: { ticketId: string }) => {
         headers: {
           'x-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['TicketAuditTrail', 'Ticket'],

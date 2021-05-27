@@ -169,8 +169,8 @@ const settingsTableShape = (
 const EventSettings = () => {
   const { slug } = useParams<{ slug: string }>();
   const error = useErrorSnackbar();
-  const { conferenceSlug, token } = useAppContext();
-  const usedSlug = slug || conferenceSlug;
+  const { slug: eventSlug, token } = useAppContext();
+  const usedSlug = slug || eventSlug;
   const { data, loading, refetch } = useEventQuery({
     context: {
       token,

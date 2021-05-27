@@ -19,7 +19,7 @@ export type OrderReinstateRequest = {
 };
 
 export const useOrderReinstateMutation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
@@ -41,7 +41,7 @@ export const useOrderReinstateMutation = () => {
         headers: {
           'X-Reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {
