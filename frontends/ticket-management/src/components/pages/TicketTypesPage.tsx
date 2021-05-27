@@ -10,6 +10,7 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceCategory,
   CommerceProduct,
+  CommerceProductType,
   useCommerceGetStoreQuery,
   useCommerceListCategoriesQuery,
   useCommerceListProductsQuery,
@@ -22,6 +23,7 @@ import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketTypesPlaceholder from '../../lib/images/no-ticket-types-placeholder.png';
 import { useAppContext } from '../app/AppContext';
 import TicketTypeModal from '../ticketTypes/TicketTypeModal';
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 
 export const Badge = styled.span`
   font-size: 14px;
@@ -121,6 +123,16 @@ const tableShape: ColumnDescriptors<CommerceProductTableItem> = [
   {
     header: 'Name',
     renderCell: (item) => item.name,
+  },
+  {
+    header: 'Type',
+    renderCell: (item) => {
+      const type = item?.type;
+      return switchCase({
+        [CommerceProductType.Simple]: '-',
+        [CommerceProductType.Package]: 'Package',
+      })('N/A')(type as string);
+    },
   },
   {
     header: 'On sale',
