@@ -1628,6 +1628,11 @@ const prod_tfh20: Conference = {
   staffProductId: '5e1680c4-cb87-4367-acf1-b85b9f625660',
 };
 
+const prod_xtest20: Conference = {
+  slug: 'xtest20',
+  staffProductId: '2c064ea5-409d-496e-9855-cc042025c896',
+};
+
 const lifecycles = singleSpaReact({
   React,
   ReactDOM,

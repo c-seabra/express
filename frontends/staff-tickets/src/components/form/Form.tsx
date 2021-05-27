@@ -75,6 +75,8 @@ const Form: React.FC = () => {
 
   const products = data?.commerceListProducts?.hits;
 
+  const firstOption = products?.[0].id || 'no id';
+
   const options: SelectFieldOption[] | undefined = products?.map((product) => ({
     disabled: !product.id,
     label: product.name,
@@ -89,6 +91,8 @@ const Form: React.FC = () => {
         onChange={(event: any) => {
           const value = (event.target).checked as boolean;
           setSingleTicketEnabled(value);
+
+          setSingleTicketProductID(firstOption);
         }}
       />
       Should each order have a single ticket assigned to the order owner?
@@ -126,6 +130,7 @@ const Form: React.FC = () => {
         onChange={(event: any) => {
           const value = (event.target).checked as boolean;
           setVolumeTicketsEnabled(value);
+          setVolumeTicketsProductID(firstOption);
         }}
       />
       Should each order have multiple unassigned tickets?
