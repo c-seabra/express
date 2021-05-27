@@ -96,7 +96,7 @@ const PackageItemModalWrapper = ({
   const [createPackageItem] = useCommerceCreateDealItemMutation({
     context,
     onCompleted: () => {
-      snackbar('Pricing for sale cycle added');
+      snackbar('Pricing for deal detail added');
     },
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: refetchQueriesContext,
@@ -104,7 +104,7 @@ const PackageItemModalWrapper = ({
   const [updatePackageItem] = useCommerceUpdateDealItemMutation({
     context,
     onCompleted: () => {
-      snackbar('Pricing for sale cycle updated');
+      snackbar('Pricing for deal detail updated');
     },
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: refetchQueriesContext,
@@ -198,7 +198,7 @@ const PackageItemModalWrapper = ({
 
   return (
     <FormikModal
-      alertHeader="Add ticket type to package"
+      alertHeader="Add ticket type to deal"
       closeModal={closeModal}
       customForm={(props: any) => (
         <PackageItemForm

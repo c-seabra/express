@@ -36,7 +36,7 @@ const PackageItemRemovalModal = ({
   const [deletePackageItem] = useCommerceDeleteDealItemMutation({
     context,
     onCompleted: () => {
-      snackbar('Pricing for package deleted');
+      snackbar('Pricing for deal detail deleted');
     },
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: refetchQueriesContext,
@@ -53,7 +53,7 @@ const PackageItemRemovalModal = ({
 
   return (
     <FormikModal
-      alertHeader="Remove package constraint"
+      alertHeader="Remove deal constraint?"
       closeModal={closeModal}
       initialValues={{}}
       isOpen={isOpen}
