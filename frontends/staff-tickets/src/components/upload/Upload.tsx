@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { transformStaffIntoWorkUnit } from '../../lib/extract/createOrder';
-import { AppContext, Staff, TicketList } from '../app/App';
+import { Staff } from '../app/App';
 
 const Field = styled.label`
   display: flex;
@@ -17,10 +16,6 @@ const Field = styled.label`
     margin-bottom: 0.5rem;
   }
 `;
-
-function capitalizeFirstLetter(input: string) {
-  return input.charAt(0).toUpperCase() + input.slice(1);
-}
 
 const Upload: React.FC<{ setAssignees: (list: Staff[]) => void }> = ({
   setAssignees,
@@ -52,27 +47,6 @@ const Upload: React.FC<{ setAssignees: (list: Staff[]) => void }> = ({
             firstName,
             lastName,
           });
-          // const email = lines[i]
-          //   .replace(/(\r\n|\n|\r|)/gm, '')
-          //   .replace(/,$/g, '')
-          //   .toLowerCase();
-          // if (context.staffList) {
-          //   let staff = context.staffList[email];
-          //   if (!staff) {
-          //     const name = email.split('@')[0];
-          //     const [firstName, lastName] = name.split('.');
-          //     if (!lastName) {
-          //       console.error(email)
-          //     }
-          //     staff = {
-          //       email,
-          //       firstName: capitalizeFirstLetter(firstName),
-          //       lastName: capitalizeFirstLetter(lastName),
-          //     };
-          //   }
-          //   const workUnit = transformStaffIntoWorkUnit(context, staff);
-          //   result.push(workUnit);
-          // }
         }
 
         setAssignees(result);

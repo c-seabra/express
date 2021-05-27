@@ -1,14 +1,13 @@
-import { ApolloClient, FetchResult, TypedDocumentNode } from '@apollo/client';
+import { FetchResult, TypedDocumentNode } from '@apollo/client';
 import { GraphQLParams } from '@websummit/graphql';
 import {
   CommerceCreateOrderDocument,
   CommerceCreateOrderMutation,
   CommerceOrderStatus,
-  useCommerceCreateOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
-import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
-import { Staff, StaffTicketContext } from '../../components/app/App';
+import { Staff } from '../../components/app/App';
+import { StaffList } from './staffList';
 
 export type StatusType = {
   message: string;
@@ -72,8 +71,11 @@ export function transformStaffIntoWorkUnit(
     status: defaultStatus(),
   };
   if (context.staffProductId) {
+    const bookingRef: string | undefined =
+      staff.bookingRef || StaffList[staff.email];
+
     workUnit.singleTicket = {
-      bookingRef: staff.bookingRef,
+      bookingRef,
       productID: context.staffProductId,
     };
   }
@@ -156,7 +158,7 @@ export async function processCreateOrderWorkUnit(
     | FetchResult<CommerceCreateOrderMutation>
     | undefined = await context.apolloClient?.mutate({
     context: {
-      slug: context.conferenceSlug,
+      slug: context.slug,
       token: context.token,
     },
     mutation: CommerceCreateOrderDocument as TypedDocumentNode<CommerceCreateOrderMutation>,

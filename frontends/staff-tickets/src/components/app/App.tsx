@@ -1,7 +1,7 @@
-import { ApolloClient, ApolloProvider } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
-import { NormalizedCacheObject } from 'apollo-cache-inmemory';
-import React, { createContext, useState } from 'react';
+import jwt from 'jwt-decode';
+import React, { createContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import BulkOperation from '../../lib/extract/bulkOperation';
@@ -43,23 +43,25 @@ export type Conference = {
 };
 
 export type StaffTicketContext = GraphQLParams & {
-  conference: Conference;
   setTicketsList?: SetTicketList;
-  staffList: StaffList;
   ticketsList?: TicketList;
 };
 
 export const AppContext = createContext<StaffTicketContext>({
   apiURL: '',
-  conference: {
-    slug: '',
-  },
-  staffList: {},
+  slug: '',
   token: '',
 });
 
-const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
+const App = ({ token, apiURL }: StaffTicketContext) => {
   const [ticketsList, setTicketList] = useState<TicketList>();
+
+  const tokenPayload: { conf_slug: string; email: string } = jwt(token || '');
+  const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
+
+  useEffect(() => {
+    setSlug(tokenPayload.conf_slug);
+  }, [tokenPayload.conf_slug]);
 
   if (!token) return null;
 
@@ -67,7 +69,7 @@ const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
 
   const bulkContext: GraphQLParams = {
     apolloClient,
-    conferenceSlug: conference.slug,
+    slug,
     token,
   };
 
@@ -77,9 +79,8 @@ const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
         value={{
           apiURL,
           apolloClient,
-          conference,
           setTicketsList: setTicketList,
-          staffList,
+          slug,
           ticketsList,
           token,
         }}
