@@ -19,11 +19,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketTypesPlaceholder from '../../lib/images/no-ticket-types-placeholder.png';
 import { useAppContext } from '../app/AppContext';
 import TicketTypeModal from '../ticketTypes/TicketTypeModal';
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 
 export const Badge = styled.span`
   font-size: 14px;

@@ -30,8 +30,8 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useRequestContext } from '../app/AppContext';
-import {switchCase} from "../../../../ticket-support/src/lib/utils/logic";
 
 const FieldRow = styled.div`
   display: flex;
@@ -232,6 +232,7 @@ type TicketTypeFormProps = {
     id: string;
     name?: string;
   };
+  type?: CommerceProductType;
 };
 
 // On ticket type (CommerceProduct) creation,
@@ -299,8 +300,7 @@ const TicketTypeForm = ({
       [CommerceProductType.Simple]: false,
       [CommerceProductType.Package]: true,
     })('N/A')(type);
-
-  }
+  };
 
   return (
     <Formik
@@ -316,7 +316,7 @@ const TicketTypeForm = ({
         taxMode: ticketType?.taxMode || '',
         taxType: ticketType?.taxType?.id || '',
         ticketPriceVariant: getPriceVariant(ticketType),
-        type: mapInitialType(ticketType?.type),
+        type: mapInitialType(ticketType?.type as CommerceProductType),
       }}
       validationSchema={validationSchema}
       onSubmit={async (values) => {
