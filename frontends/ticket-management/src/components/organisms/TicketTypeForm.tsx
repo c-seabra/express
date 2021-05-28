@@ -299,7 +299,7 @@ const TicketTypeForm = ({
     return switchCase({
       [CommerceProductType.Simple]: false,
       [CommerceProductType.Package]: true,
-    })('N/A')(type);
+    })(false)(type);
   };
 
   return (
