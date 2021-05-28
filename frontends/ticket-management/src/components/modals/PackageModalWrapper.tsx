@@ -138,7 +138,7 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
 
           <FieldWrapper>
             <Spacing bottom="8px">
-              <CheckboxField label="On sale" name="active" />
+              <CheckboxField label="Public sale status" name="active" />
             </Spacing>
           </FieldWrapper>
         </Spacing>
