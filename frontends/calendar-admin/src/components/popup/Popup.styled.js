@@ -28,6 +28,7 @@ export const CreatePopupContainer = styled.div`
   background-color: white;
   border-radius: 4px;
   overflow: auto;
+  overflow-x: hidden;
   position: absolute;
   z-index: 10;
   -webkit-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);

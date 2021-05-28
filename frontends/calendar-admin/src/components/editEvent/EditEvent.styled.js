@@ -53,5 +53,5 @@ export const StyledButton = styled(Button)`
   margin-right: 1rem;
   float: right;
   bottom: 5%;
-  position: sticky;
+  position: static;
 `;

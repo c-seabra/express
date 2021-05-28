@@ -133,6 +133,7 @@ export const PopupContainer = styled.div`
   color: #3e3d44;
   border-radius: 4px;
   overflow: auto;
+  overflow-x: hidden;
   top: 10%;
   align-self: center;
   z-index: 10;
