@@ -35,16 +35,6 @@ const validationSchema = Yup.object().shape({
   quantity: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });
 
-const emptyOption = {
-  label: 'Please select',
-  value: undefined,
-};
-
-const getTicketTypesOptions = (types: any[] = []) => [
-  emptyOption,
-  ...types.map((type) => ({ label: type?.name, value: type?.id })),
-];
-
 const TicketPackageItemModalWrapper = ({
   isOpen,
   closeModal,
@@ -62,11 +52,22 @@ const TicketPackageItemModalWrapper = ({
     },
   ];
 
-  const { data } = useCommerceListProductsQuery({
+  const { data, loading } = useCommerceListProductsQuery({
     context,
     fetchPolicy: 'network-only',
     onError: (e) => errorSnackbar(e.message),
   });
+
+  const emptyOption = {
+    label: loading ? 'Loading ticket types...' : 'Please select',
+    value: undefined,
+  };
+
+  const getTicketTypesOptions = (types: any[] = []) => [
+    emptyOption,
+    ...types.map((type) => ({ label: type?.name, value: type?.id })),
+  ];
+
   const editOn = prefillData && prefillData?.id;
   const products = data?.commerceListProducts?.hits;
   const productsWithoutPackages = products?.filter((element: any) => {
@@ -78,7 +79,7 @@ const TicketPackageItemModalWrapper = ({
     },
   );
   const productOptions = getTicketTypesOptions(
-      sortedProductsWithoutPackages as [],
+    sortedProductsWithoutPackages as [],
   );
 
   const [createTicketPackageItem] = useCommerceCreatePackagedProductMutation({
@@ -166,6 +167,7 @@ const TicketPackageItemModalWrapper = ({
       customForm={(props: any) => (
         <TicketPackageItemForm
           closeModal={closeModal}
+          isListLoading={loading}
           productOptions={productOptions}
           selectedProductName={
             productOptions?.find(

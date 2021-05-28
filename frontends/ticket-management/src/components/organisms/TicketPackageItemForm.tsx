@@ -14,6 +14,7 @@ const InlineWrapper = styled.div`
 
 type TicketPackageItemFormProps = {
   closeModal: any;
+  isListLoading: boolean;
   productOptions: any[];
   submitText: string;
 } & FormikProps<any>;
@@ -22,6 +23,7 @@ const TicketPackageItemForm = ({
   productOptions,
   submitText,
   closeModal,
+  isListLoading,
 }: TicketPackageItemFormProps) => {
   return (
     <Form>
@@ -29,6 +31,7 @@ const TicketPackageItemForm = ({
         <FieldWrapper>
           <SelectField
             required
+            disabled={isListLoading}
             label="Ticket type"
             name="product"
             options={productOptions}
