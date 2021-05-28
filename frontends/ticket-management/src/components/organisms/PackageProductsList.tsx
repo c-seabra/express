@@ -46,18 +46,19 @@ const PackageProductsList = ({
     {
       header: 'Qty of tickets',
       renderCell: (packageItem) => packageItem.quantity || 'N/A',
-      // width: '70%',
+      width: '70%',
     },
-    {
-      header: 'packageItem Id',
-      renderCell: (packageItem) => packageItem.id || 'N/A',
-      // width: '70%',
-    },
-    {
-      header: 'packagedProduct Id',
-      renderCell: (packageItem) => packageItem?.packagedProduct?.id || 'N/A',
-      // width: '70%',
-    },
+    // For debugging purpose only
+    // {
+    //   header: 'packageItem Id',
+    //   renderCell: (packageItem) => packageItem.id || 'N/A',
+    //   // width: '70%',
+    // },
+    // {
+    //   header: 'packagedProduct Id',
+    //   renderCell: (packageItem) => packageItem?.packagedProduct?.id || 'N/A',
+    //   // width: '70%',
+    // },
     {
       header: 'Action',
       renderCell: (packageItem) => {

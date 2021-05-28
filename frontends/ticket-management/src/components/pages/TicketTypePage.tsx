@@ -190,8 +190,8 @@ const TicketTypePage = () => {
     closeModal: packageItemRemovalModalClose,
     openModal: packageItemRemovalOpenModal,
   } = useModalState();
-  const [packageItemId, setPackageItemId] = useState<any>()
-    const openDeleteItemModal = (itemId: string) => {
+  const [packageItemId, setPackageItemId] = useState<any>();
+  const openDeleteItemModal = (itemId: string) => {
     console.log('openDeleteItemModal', itemId);
     setPackageItemId(itemId);
     packageItemRemovalOpenModal();

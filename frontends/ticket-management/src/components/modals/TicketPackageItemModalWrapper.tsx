@@ -4,7 +4,7 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import {
-  CommerceProductType, Maybe, Scalars,
+  CommerceProductType,
   useCommerceCreatePackagedProductMutation,
   useCommerceListProductsQuery,
   useCommerceUpdatePackagedProductMutation,
@@ -70,12 +70,16 @@ const TicketPackageItemModalWrapper = ({
   const editOn = prefillData && prefillData?.id;
   const products = data?.commerceListProducts?.hits;
   const productsWithoutPackages = products?.filter((element: any) => {
-    return element.type === CommerceProductType.Simple
-  })
-  const sortedproductsWithoutPackages = productsWithoutPackages?.sort((a, b) => {
-    return a.name.localeCompare(b.name);
+    return element.type === CommerceProductType.Simple;
   });
-  const productOptions = getTicketTypesOptions(sortedproductsWithoutPackages as []);
+  const sortedproductsWithoutPackages = productsWithoutPackages?.sort(
+    (a, b) => {
+      return a.name.localeCompare(b.name);
+    },
+  );
+  const productOptions = getTicketTypesOptions(
+    sortedproductsWithoutPackages as [],
+  );
 
   const [createTicketPackageItem] = useCommerceCreatePackagedProductMutation({
     context,
@@ -134,7 +138,7 @@ const TicketPackageItemModalWrapper = ({
     }
 
     if (formData.id) {
-      console.log('before', productId, updateInput)
+      console.log('before', productId, updateInput);
 
       mutation = updateTicketPackageItem({
         variables: {
@@ -142,7 +146,7 @@ const TicketPackageItemModalWrapper = ({
             // id: productId,
             id: formData.id,
             packagedProduct: formData.product,
-            quantity:  updateInput.quantity
+            quantity: updateInput.quantity,
           },
           id: formData.id,
           // productId:formData.product,
