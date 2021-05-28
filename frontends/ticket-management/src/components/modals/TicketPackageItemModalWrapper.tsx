@@ -72,13 +72,13 @@ const TicketPackageItemModalWrapper = ({
   const productsWithoutPackages = products?.filter((element: any) => {
     return element.type === CommerceProductType.Simple;
   });
-  const sortedproductsWithoutPackages = productsWithoutPackages?.sort(
+  const sortedProductsWithoutPackages = productsWithoutPackages?.sort(
     (a, b) => {
       return a.name.localeCompare(b.name);
     },
   );
   const productOptions = getTicketTypesOptions(
-    sortedproductsWithoutPackages as [],
+      sortedProductsWithoutPackages as [],
   );
 
   const [createTicketPackageItem] = useCommerceCreatePackagedProductMutation({
@@ -116,7 +116,6 @@ const TicketPackageItemModalWrapper = ({
   };
 
   const pickMutation = (formData: any) => {
-    console.log('pickMutation', formData);
     let mutation;
     const createInput = {
       packagedProduct: formData.product,
@@ -138,18 +137,14 @@ const TicketPackageItemModalWrapper = ({
     }
 
     if (formData.id) {
-      console.log('before', productId, updateInput);
-
       mutation = updateTicketPackageItem({
         variables: {
           commercePackagedProductUpdate: {
-            // id: productId,
             id: formData.id,
             packagedProduct: formData.product,
             quantity: updateInput.quantity,
           },
           id: formData.id,
-          // productId:formData.product,
           productId,
         },
       });

@@ -192,7 +192,6 @@ const TicketTypePage = () => {
   } = useModalState();
   const [packageItemId, setPackageItemId] = useState<any>();
   const openDeleteItemModal = (itemId: string) => {
-    console.log('openDeleteItemModal', itemId);
     setPackageItemId(itemId);
     packageItemRemovalOpenModal();
   };
@@ -216,7 +215,6 @@ const TicketTypePage = () => {
     packageOpenModal();
   };
   const onRowClick = (event: any) => {
-    console.log('onRowClick', event);
     setPrefillData({
       id: event.id,
       product: event.packagedProduct.id,
