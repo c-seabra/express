@@ -418,7 +418,7 @@ const TicketTypeForm = ({
                 label="Ticket description"
                 maxLength={100}
                 name="description"
-                placeholder="This ticket shall be given to GA"
+                placeholder="Specify ticket description"
               />
               <FieldRow>
                 <CheckboxField label="Package of tickets" name="type" />
