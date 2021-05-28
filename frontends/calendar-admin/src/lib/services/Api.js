@@ -325,7 +325,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
     ) => {
       const requestData = {
         body: JSON.stringify({
-          attendancesArray: attendancesArray,
+          attendances_array: attendancesArray,
           ends_at: end,
           starts_at: start,
           title: title,
