@@ -180,6 +180,7 @@ const TicketTypePage = () => {
       [CommerceProductType.Package]: true,
     })(false)(type);
   };
+  const productId = data?.commerceGetProduct?.id as string;
 
   const isPackage = mapInitialType(
     data?.commerceGetProduct?.type as CommerceProductType,
@@ -189,9 +190,10 @@ const TicketTypePage = () => {
     closeModal: packageItemRemovalModalClose,
     openModal: packageItemRemovalOpenModal,
   } = useModalState();
-  const openDeleteItemModal = (itemId: string) => {
+  const [packageItemId, setPackageItemId] = useState<any>()
+    const openDeleteItemModal = (itemId: string) => {
     console.log('openDeleteItemModal', itemId);
-    // setDealItemId(itemId);
+    setPackageItemId(itemId);
     packageItemRemovalOpenModal();
   };
 
@@ -214,9 +216,10 @@ const TicketTypePage = () => {
     packageOpenModal();
   };
   const onRowClick = (event: any) => {
+    console.log('onRowClick', event);
     setPrefillData({
       id: event.id,
-      product: event.product.id,
+      product: event.packagedProduct.id,
       quantity: event.quantity,
     });
 
@@ -225,18 +228,20 @@ const TicketTypePage = () => {
 
   return (
     <Container>
-      {/*<TicketPackageItemModalWrapper*/}
-      {/*  closeModal={packageCloseModal}*/}
-      {/*  isOpen={packageIsOpen}*/}
-      {/*  prefillData={prefillData}*/}
-      {/*  productId={data?.commerceGetProduct?.id as string}*/}
-      {/*/>*/}
+      {productId && (
+        <TicketPackageItemModalWrapper
+          closeModal={packageCloseModal}
+          isOpen={packageIsOpen}
+          prefillData={prefillData}
+          productId={productId}
+        />
+      )}
 
       <TicketPackageItemRemovalModal
         closeModal={packageItemRemovalModalClose}
         id={data?.commerceGetProduct?.id as string}
         isOpen={isPackageItemRemovalModalOpen}
-        itemId={prefillData?.id}
+        itemId={packageItemId}
       />
 
       <FlexCol>

@@ -4,11 +4,12 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import {
+  CommerceProductType, Maybe, Scalars,
   useCommerceCreatePackagedProductMutation,
   useCommerceListProductsQuery,
   useCommerceUpdatePackagedProductMutation,
 } from '@websummit/graphql/src/@types/operations';
-import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
+import COMMERCE_GET_PRODUCT from '@websummit/graphql/src/operations/queries/CommerceGetProduct';
 import React from 'react';
 import * as Yup from 'yup';
 
@@ -53,28 +54,36 @@ const TicketPackageItemModalWrapper = ({
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
-  // const refetchQueriesContext = [
-  //   {
-  //     context,
-  //     query: COMMERCE_DEAL_ITEMS_LIST,
-  //     variables: { productId },
-  //   },
-  // ];
+  const refetchQueriesContext = [
+    {
+      context,
+      query: COMMERCE_GET_PRODUCT,
+      variables: { id: productId },
+    },
+  ];
+
   const { data } = useCommerceListProductsQuery({
     context,
     fetchPolicy: 'network-only',
     onError: (e) => errorSnackbar(e.message),
   });
-  const editOn = prefillData && prefillData?.id; // product id exists
+  const editOn = prefillData && prefillData?.id;
   const products = data?.commerceListProducts?.hits;
-  const productOptions = getTicketTypesOptions(products as []);
+  const productsWithoutPackages = products?.filter((element: any) => {
+    return element.type === CommerceProductType.Simple
+  })
+  const sortedproductsWithoutPackages = productsWithoutPackages?.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+  const productOptions = getTicketTypesOptions(sortedproductsWithoutPackages as []);
+
   const [createTicketPackageItem] = useCommerceCreatePackagedProductMutation({
     context,
     onCompleted: () => {
       snackbar('Ticket type added to package');
     },
     onError: (e) => errorSnackbar(e.message),
-    // refetchQueries: refetchQueriesContext,
+    refetchQueries: refetchQueriesContext,
   });
   const [updateTicketPackageItem] = useCommerceUpdatePackagedProductMutation({
     context,
@@ -82,7 +91,7 @@ const TicketPackageItemModalWrapper = ({
       snackbar('Ticket type updated in package');
     },
     onError: (e) => errorSnackbar(e.message),
-    // refetchQueries: refetchQueriesContext,
+    refetchQueries: refetchQueriesContext,
   });
 
   const initialValues = () => {
@@ -106,32 +115,37 @@ const TicketPackageItemModalWrapper = ({
     console.log('pickMutation', formData);
     let mutation;
     const createInput = {
-      product: formData.product,
+      packagedProduct: formData.product,
       quantity: formData.quantity,
     };
 
     const updateInput = {
-      id: formData.id,
+      id: productId,
       ...createInput,
     };
 
     if (!formData.id) {
       mutation = createTicketPackageItem({
         variables: {
-          commercePackagedProductCreate: {
-            packagedProduct: '',
-            quantity: createInput.quantity,
-          },
+          commercePackagedProductCreate: createInput,
           productId,
         },
       });
     }
 
     if (formData.id) {
+      console.log('before', productId, updateInput)
+
       mutation = updateTicketPackageItem({
         variables: {
-          commercePackagedProductUpdate: updateInput,
+          commercePackagedProductUpdate: {
+            // id: productId,
+            id: formData.id,
+            packagedProduct: formData.product,
+            quantity:  updateInput.quantity
+          },
           id: formData.id,
+          // productId:formData.product,
           productId,
         },
       });
@@ -146,7 +160,9 @@ const TicketPackageItemModalWrapper = ({
 
   return (
     <FormikModal
-      alertHeader="Add ticket type to package"
+      alertHeader={
+        editOn ? 'Edit ticket type in package' : 'Add ticket type to package'
+      }
       closeModal={closeModal}
       customForm={(props: any) => (
         <TicketPackageItemForm
