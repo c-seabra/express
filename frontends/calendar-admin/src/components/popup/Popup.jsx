@@ -2,9 +2,15 @@ import React from 'react';
 
 import ExistingEvent from '../existingEvent/ExistingEvent';
 import NewEvent from '../newEvent/NewEvent';
-import { Overlay, PopupContainer } from './Popup.styled';
+import { CreatePopupContainer, Overlay, PopupContainer } from './Popup.styled';
 
-const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
+const Popup = ({
+  existingEvent,
+  newEvent,
+  handleOnClick,
+  locations,
+  formats,
+}) => {
   const renderExistingEvent = ({ syntheticEvent }) => {
     const popupStyle = {
       top: `${syntheticEvent.pageY}px`,
@@ -21,28 +27,17 @@ const Popup = ({ existingEvent, newEvent, handleOnClick }) => {
     );
   };
 
-  const renderNewEvent = ({ allDay, event, starts_at }) => {
-    let popupStyle;
-
-    if (allDay) {
-      popupStyle = {
-        top: '200px',
-        left: '200px',
-      };
-    } else {
-      const e = event;
-      const x = e.action === 'click' ? 'box' : 'bounds';
-      popupStyle = {
-        top: `${e[x].y}px`,
-        left: `${e[x].x}px`,
-      };
-    }
-
+  const renderNewEvent = () => {
     return (
       <>
-        <PopupContainer style={popupStyle}>
-          <NewEvent starts_at={starts_at} />
-        </PopupContainer>
+        <CreatePopupContainer>
+          <NewEvent
+            closePopup={handleOnClick}
+            event={newEvent}
+            formats={formats}
+            locations={locations}
+          />
+        </CreatePopupContainer>
         <Overlay onClick={handleOnClick} />
       </>
     );

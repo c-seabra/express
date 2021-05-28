@@ -1,6 +1,7 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
@@ -13,7 +14,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useModalState } from '../../../../../packages/components/src/molecules/Modal';
 import { useRequestContext } from '../app/AppContext';
 import PackageModalWrapper from '../modals/PackageModalWrapper';
 import PackagesList from '../organisms/PackagesList';
@@ -98,7 +98,7 @@ const PackagesPage = () => {
     openModal();
   };
   const redirectToPackage = (id: string) => {
-    history.push(`/package/${id}`);
+    history.push(`/deal/${id}`);
   };
   const onRowClick = (event: any) => {
     redirectToPackage(event.id);
@@ -134,15 +134,15 @@ const PackagesPage = () => {
 
   return (
     <Container>
-      {loading && <Loader />}
-
       <PackageModalWrapper closeModal={closeModal} isOpen={isOpen} />
 
       <FlexCol>
         <FlexRow>
-          <HeaderText>Packages</HeaderText>
-          <Button onClick={onButtonClick}>Create new package</Button>
+          <HeaderText>Deals</HeaderText>
+          <Button onClick={onButtonClick}>Create new deal</Button>
         </FlexRow>
+
+        {loading && <Loader />}
 
         {hasPackages &&
           Object.entries(groupedPackages).map(([key, value]) => (

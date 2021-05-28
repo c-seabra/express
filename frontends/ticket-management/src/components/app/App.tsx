@@ -10,6 +10,7 @@ import PackagePage from '../pages/PackagePage';
 import PackagesPage from '../pages/PackagesPage';
 import SalesCyclePage from '../pages/SalesCyclePage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
+import TagsPage from '../pages/TagsPage';
 import TicketCategoriesPage from '../pages/TicketCategoriesPage';
 import TicketTypePage from '../pages/TicketTypePage';
 import TicketTypesPage from '../pages/TicketTypesPage';
@@ -70,11 +71,14 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/ticket-type/:id">
                   <TicketTypePage />
                 </Route>
-                <Route exact path="/packages">
+                <Route exact path="/deals">
                   <PackagesPage />
                 </Route>
-                <Route exact path="/package/:id">
+                <Route exact path="/deal/:id">
                   <PackagePage />
+                </Route>
+                <Route exact path="/tags">
+                  <TagsPage />
                 </Route>
               </Switch>
             </StyledContainer>

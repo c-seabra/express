@@ -40,6 +40,8 @@ export type Scalars = {
   URL: string;
   /** Valid markdown, ready for translation to HTML, JSX, etc. */
   Markdown: string;
+  /** A valid UUID */
+  UUID: any;
   Date: string;
   Object: any;
   /** Input type for dynamic zone link of MenuItem */
@@ -78,6 +80,7 @@ export type Query = {
   ticketReleases: TicketReleaseConnection;
   adminAttendeeProfile: Maybe<Attendee>;
   admins: AdminConnection;
+  appearance: Maybe<Appearance>;
   appearances: AppearanceConnection;
   attendance: Maybe<Attendee>;
   attendanceAppearanceSelection: AttendanceAppearanceSelection;
@@ -136,6 +139,8 @@ export type Query = {
   commerceGetDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{id}* */
   commerceGetOrder: Maybe<CommerceOrder>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/product/{productId}/packagedProducts/{id}* */
+  commerceGetPackagedProduct: Maybe<CommercePackagedProduct>;
   /** *Equivalent to GET /commerce/paymentGateways/{id}* */
   commerceGetPaymentGateway: Maybe<CommercePaymentGateway>;
   /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods/{id}* */
@@ -154,6 +159,8 @@ export type Query = {
   commerceGetTax: Maybe<CommerceTax>;
   /** *Equivalent to GET /commerce/stores/{storeId}/taxTypes/{id}* */
   commerceGetTaxType: Maybe<CommerceTaxType>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/vouchers/{id}* */
+  commerceGetVoucher: Maybe<CommerceVoucher>;
   /** *Equivalent to GET /commerce/stores/{storeId}/categories* */
   commerceListCategories: Maybe<CommerceSearchResponseCategory>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers* */
@@ -164,6 +171,8 @@ export type Query = {
   commerceListDeals: Maybe<CommerceSearchResponseDeal>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders* */
   commerceListOrders: Maybe<CommerceSearchResponseOrder>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/product/{productId}/packagedProducts* */
+  commerceListPackagedProducts: Maybe<CommerceSearchResponsePackagedProduct>;
   /** *Equivalent to GET /commerce/paymentGateways* */
   commerceListPaymentGateways: Maybe<CommerceSearchResponsePaymentGateway>;
   /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods* */
@@ -187,6 +196,8 @@ export type Query = {
   commerceListTaxTypes: Maybe<CommerceSearchResponseTaxType>;
   /** *Equivalent to GET /commerce/stores/{storeId}/taxes* */
   commerceListTaxes: Maybe<CommerceSearchResponseTax>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/vouchers* */
+  commerceListVouchers: Maybe<CommerceSearchResponseVoucher>;
   /** Retrieves all countries. */
   countries: EventConfigurationCountryConnection;
   /**
@@ -274,6 +285,7 @@ export type QueryWebPageByPathArgs = {
 export type QueryWebPageByHostPathArgs = {
   host: Scalars['String'];
   path: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type QueryWebPageConfigByPathHostArgs = {
@@ -332,6 +344,10 @@ export type QueryAdminsArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryAppearanceArgs = {
+  id: Scalars['UUID'];
 };
 
 export type QueryAppearancesArgs = {
@@ -500,6 +516,12 @@ export type QueryCommerceGetOrderArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type QueryCommerceGetPackagedProductArgs = {
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type QueryCommerceGetPaymentGatewayArgs = {
   id: Scalars['ID'];
 };
@@ -544,6 +566,11 @@ export type QueryCommerceGetTaxTypeArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type QueryCommerceGetVoucherArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type QueryCommerceListCategoriesArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -581,6 +608,15 @@ export type QueryCommerceListDealsArgs = {
 export type QueryCommerceListOrdersArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListPackagedProductsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  productId: Scalars['ID'];
   sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
   terms?: Maybe<Array<CommerceSearchTerm>>;
@@ -650,6 +686,14 @@ export type QueryCommerceListTaxTypesArgs = {
 };
 
 export type QueryCommerceListTaxesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListVouchersArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   sort?: Maybe<Array<CommerceSortTerm>>;
@@ -1037,6 +1081,12 @@ export type WebPageConfig = {
   site: Maybe<Site>;
   branding: Maybe<Branding>;
   config: Maybe<WebPageConfig>;
+  event: Maybe<WebPageEvent>;
+};
+
+export type WebPageEvent = {
+  __typename?: 'WebPageEvent';
+  slug: Maybe<Scalars['String']>;
 };
 
 export type WebPageConfigConnection = {
@@ -1810,6 +1860,7 @@ export type ComponentWebElementsCompanySearchSidebarFilters = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   apiKey: Scalars['String'];
+  conferenceId: Maybe<Scalars['String']>;
   indexName: Scalars['String'];
   refinements: Array<ComponentSearchAlgoliaRefinement>;
 };
@@ -2115,6 +2166,7 @@ export type Company = {
   id: Scalars['ID'];
   logoUrl: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  privacyPolicyUrl: Maybe<Scalars['String']>;
 };
 
 export type CompanySize = {
@@ -2781,6 +2833,7 @@ export type AssignmentUser = {
   lastName: Maybe<Scalars['String']>;
   marketingConsent: Maybe<Scalars['String']>;
   me: Scalars['Boolean'];
+  partnerSharingConsent: Maybe<Scalars['String']>;
   passportNumber: Maybe<Scalars['String']>;
   personalisationConsent: Maybe<Scalars['String']>;
   phoneNumber: Maybe<Scalars['String']>;
@@ -3061,6 +3114,8 @@ export type TaEvent = {
   name: Maybe<Scalars['String']>;
   passportRequired: Scalars['Boolean'];
   slug: Scalars['String'];
+  sponsorName: Maybe<Scalars['String']>;
+  sponsorPrivacyPolicyUrl: Maybe<Scalars['String']>;
 };
 
 export type CommerceAuditEntry = {
@@ -3122,10 +3177,24 @@ export type CommerceProduct = {
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
+  packagedProducts: Maybe<Array<CommercePackagedProduct>>;
   price: Scalars['Int'];
   tags: Maybe<Array<CommerceTag>>;
   taxMode: Maybe<CommerceProductTaxMode>;
   taxType: CommerceTaxType;
+  type: Maybe<CommerceProductType>;
+  usages: Maybe<Scalars['Int']>;
+};
+
+export type CommercePackagedProduct = {
+  __typename?: 'CommercePackagedProduct';
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  packagedProduct: Maybe<CommerceProduct>;
+  quantity: Scalars['Int'];
 };
 
 export type CommerceTag = {
@@ -3168,6 +3237,7 @@ export type CommerceTax = {
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
+  note: Maybe<Scalars['String']>;
   rateAmount: Scalars['Int'];
   rateType: CommerceTaxRateType;
   taxType: CommerceTaxType;
@@ -3176,6 +3246,11 @@ export type CommerceTax = {
 export enum CommerceTaxRateType {
   Absolute = 'ABSOLUTE',
   Percentage = 'PERCENTAGE',
+}
+
+export enum CommerceProductType {
+  Package = 'PACKAGE',
+  Simple = 'SIMPLE',
 }
 
 export type CommerceCustomer = {
@@ -3216,6 +3291,7 @@ export type CommerceAddress = {
 export type CommerceDeal = {
   __typename?: 'CommerceDeal';
   active: Maybe<Scalars['Boolean']>;
+  code: Maybe<Scalars['String']>;
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<CommerceUser>;
   dealItems: Maybe<Array<CommerceDealItem>>;
@@ -3227,6 +3303,7 @@ export type CommerceDeal = {
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   startDate: Scalars['Date'];
+  usages: Maybe<Scalars['Int']>;
 };
 
 export type CommerceDealItem = {
@@ -3262,9 +3339,11 @@ export type CommerceOrder = {
   currencySymbol: Maybe<Scalars['String']>;
   customer: Maybe<CommerceCustomer>;
   deal: Maybe<CommerceDeal>;
+  dealDiscount: Maybe<Scalars['Int']>;
   discountTotal: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['ID']>;
   invoiceUrl: Maybe<Scalars['String']>;
+  itemSubtotal: Maybe<Scalars['Int']>;
   items: Array<CommerceOrderItem>;
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
@@ -3275,6 +3354,7 @@ export type CommerceOrder = {
   paymentMethod: Maybe<CommercePaymentMethod>;
   paymentStatus: Maybe<CommerceOrderPaymentStatus>;
   reference: Maybe<Scalars['String']>;
+  refundReceiptUrl: Maybe<Scalars['String']>;
   status: Maybe<CommerceOrderStatus>;
   subTotal: Maybe<Scalars['Int']>;
   taxTotal: Maybe<Scalars['Int']>;
@@ -3283,12 +3363,15 @@ export type CommerceOrder = {
   transactions: Maybe<Array<Maybe<CommerceTransaction>>>;
   url: Maybe<Scalars['String']>;
   valueTotal: Maybe<Scalars['Int']>;
+  voucher: Maybe<CommerceVoucher>;
+  voucherDiscount: Maybe<Scalars['Int']>;
 };
 
 export type CommerceOrderItem = {
   __typename?: 'CommerceOrderItem';
   createdAt: Maybe<Scalars['Date']>;
   createdBy: Maybe<CommerceUser>;
+  dealDiscount: Maybe<Scalars['Int']>;
   discountTotal: Maybe<Scalars['Int']>;
   id: Maybe<Scalars['ID']>;
   itemName: Maybe<Scalars['String']>;
@@ -3304,6 +3387,7 @@ export type CommerceOrderItem = {
   taxTotal: Maybe<Scalars['Int']>;
   total: Maybe<Scalars['Int']>;
   valueTotal: Maybe<Scalars['Int']>;
+  voucherDiscount: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethod = {
@@ -3385,6 +3469,27 @@ export enum CommerceTransactionType {
   Refund = 'REFUND',
 }
 
+export type CommerceVoucher = {
+  __typename?: 'CommerceVoucher';
+  active: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
+  code: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  type: CommerceVoucherType;
+  usages: Maybe<Scalars['Int']>;
+};
+
+export enum CommerceVoucherType {
+  Absolute = 'ABSOLUTE',
+  Percentage = 'PERCENTAGE',
+}
+
 export type CommercePaymentGateway = {
   __typename?: 'CommercePaymentGateway';
   configKeys: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -3460,6 +3565,7 @@ export type CommerceStore = {
   taxTypes: Maybe<Array<CommerceTaxType>>;
   taxes: Maybe<Array<CommerceTax>>;
   vatNumber: Scalars['String'];
+  vouchers: Maybe<Array<CommerceVoucher>>;
 };
 
 export enum CommerceStoreStockMode {
@@ -3592,6 +3698,16 @@ export type CommerceSearchResponseOrder = {
   total: Maybe<Scalars['Int']>;
 };
 
+export type CommerceSearchResponsePackagedProduct = {
+  __typename?: 'CommerceSearchResponsePackagedProduct';
+  hits: Maybe<Array<CommercePackagedProduct>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
 export type CommerceSearchResponsePaymentGateway = {
   __typename?: 'CommerceSearchResponsePaymentGateway';
   hits: Maybe<Array<Maybe<CommercePaymentGateway>>>;
@@ -3682,6 +3798,16 @@ export type CommerceSearchResponseTax = {
   total: Maybe<Scalars['Int']>;
 };
 
+export type CommerceSearchResponseVoucher = {
+  __typename?: 'CommerceSearchResponseVoucher';
+  hits: Maybe<Array<CommerceVoucher>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
 /** The connection type for EventConfigurationCountry. */
 export type EventConfigurationCountryConnection = {
   __typename?: 'EventConfigurationCountryConnection';
@@ -3740,10 +3866,19 @@ export type Event = {
   configuration: Maybe<ConferenceConfiguration>;
   industries: Maybe<Array<Industry>>;
   investorSessionsSummary: Maybe<Array<InvestorSessionsSummary>>;
+  partners: Maybe<AppearanceConnection>;
   passportRequired: Maybe<Scalars['Boolean']>;
+  sponsor: Maybe<Appearance>;
 };
 
 export type EventTaxRatesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type EventPartnersArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -3963,6 +4098,7 @@ export type Mutation = {
   adminCreate: Maybe<AdminCreatePayload>;
   adminUnassignRole: Maybe<AdminUnassignRolePayload>;
   adminUpdate: Maybe<AdminUpdatePayload>;
+  appearanceUpdate: Maybe<AppearanceUpdatePayload>;
   attendanceAppearanceSelectionDestroy: Maybe<AttendanceAppearanceSelectionDestroyPayload>;
   attendanceAppearanceSelectionUpdate: Maybe<AttendanceAppearanceSelectionsUpdatePayload>;
   attendanceInvestorSessionUpdate: Maybe<AttendanceInvestorSessionUpdatePayload>;
@@ -3993,6 +4129,7 @@ export type Mutation = {
   assignmentTicketLoginUpdate: Maybe<AssignmentTicketLoginUpdatePayload>;
   orderCancel: Maybe<OrderCancelPayload>;
   orderCreate: Maybe<OrderCreatePayload>;
+  orderInvoiceSend: Maybe<OrderInvoiceSendPayload>;
   orderUpdate: Maybe<OrderUpdatePayload>;
   ticketAccept: Maybe<TicketAcceptPayload>;
   ticketAssign: Maybe<TicketAssignPayload>;
@@ -4023,6 +4160,8 @@ export type Mutation = {
    * order for an unidentified new user (the server generates a new UUID to set as the owner).
    */
   commerceCreateOrder: Maybe<CommerceOrder>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/product/{productId}/packagedProducts* */
+  commerceCreatePackagedProduct: Maybe<CommercePackagedProduct>;
   /** *Equivalent to POST /commerce/stores/{storeId}/paymentMethods* */
   commerceCreatePaymentMethod: Maybe<CommercePaymentMethod>;
   /** *Equivalent to POST /commerce/stores/{storeId}/products* */
@@ -4041,6 +4180,8 @@ export type Mutation = {
   commerceCreateTaxType: Maybe<CommerceTaxType>;
   /** *Equivalent to POST /commerce/stores/{storeId}/orders/{orderId}/transactions* */
   commerceCreateTransaction: Maybe<CommerceTransaction>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/vouchers* */
+  commerceCreateVoucher: Maybe<CommerceVoucher>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/categories/{id}* */
   commerceDeleteCategory: Maybe<CommerceCategory>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
@@ -4049,6 +4190,8 @@ export type Mutation = {
   commerceDeleteDeal: Maybe<CommerceDeal>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
   commerceDeleteDealItem: Maybe<CommerceDealItem>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/product/{productId}/packagedProducts/{id}* */
+  commerceDeletePackagedProduct: Maybe<CommercePackagedProduct>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/paymentMethods/{id}* */
   commerceDeletePaymentMethod: Maybe<CommercePaymentMethod>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/products/{id}* */
@@ -4065,6 +4208,8 @@ export type Mutation = {
   commerceDeleteTax: Maybe<CommerceTax>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/taxTypes/{id}* */
   commerceDeleteTaxType: Maybe<CommerceTaxType>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/vouchers/{id}* */
+  commerceDeleteVoucher: Maybe<CommerceVoucher>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/categories/{id}* */
   commerceUpdateCategory: Maybe<CommerceCategory>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
@@ -4075,6 +4220,8 @@ export type Mutation = {
   commerceUpdateDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{id}* */
   commerceUpdateOrder: Maybe<CommerceOrder>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/product/{productId}/packagedProducts/{id}* */
+  commerceUpdatePackagedProduct: Maybe<CommercePackagedProduct>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/paymentMethods/{id}* */
   commerceUpdatePaymentMethod: Maybe<CommercePaymentMethod>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/products/{id}* */
@@ -4091,6 +4238,8 @@ export type Mutation = {
   commerceUpdateTax: Maybe<CommerceTax>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/taxTypes/{id}* */
   commerceUpdateTaxType: Maybe<CommerceTaxType>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/vouchers/{id}* */
+  commerceUpdateVoucher: Maybe<CommerceVoucher>;
   /** Creates a new event */
   eventCreate: Maybe<EventCreatePayload>;
   /** Updates an existing event */
@@ -4196,6 +4345,10 @@ export type MutationAdminUnassignRoleArgs = {
 
 export type MutationAdminUpdateArgs = {
   input: AdminUpdateInput;
+};
+
+export type MutationAppearanceUpdateArgs = {
+  input: AppearanceUpdateInput;
 };
 
 export type MutationAttendanceAppearanceSelectionDestroyArgs = {
@@ -4314,6 +4467,10 @@ export type MutationOrderCreateArgs = {
   input: OrderCreateInput;
 };
 
+export type MutationOrderInvoiceSendArgs = {
+  input: OrderInvoiceSendInput;
+};
+
 export type MutationOrderUpdateArgs = {
   input: OrderUpdateInput;
 };
@@ -4381,6 +4538,12 @@ export type MutationCommerceCreateOrderArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceCreatePackagedProductArgs = {
+  commercePackagedProductCreate: CommercePackagedProductCreate;
+  productId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceCreatePaymentMethodArgs = {
   commercePaymentMethodCreate: CommercePaymentMethodCreate;
   storeId?: Maybe<Scalars['ID']>;
@@ -4427,6 +4590,11 @@ export type MutationCommerceCreateTransactionArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceCreateVoucherArgs = {
+  commerceVoucherCreate: CommerceVoucherCreate;
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceDeleteCategoryArgs = {
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
@@ -4446,6 +4614,12 @@ export type MutationCommerceDeleteDealArgs = {
 export type MutationCommerceDeleteDealItemArgs = {
   dealId: Scalars['ID'];
   id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceDeletePackagedProductArgs = {
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
@@ -4489,6 +4663,11 @@ export type MutationCommerceDeleteTaxTypeArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceDeleteVoucherArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceUpdateCategoryArgs = {
   commerceCategoryUpdate: CommerceCategoryUpdate;
   id: Scalars['ID'];
@@ -4518,6 +4697,13 @@ export type MutationCommerceUpdateDealItemArgs = {
 export type MutationCommerceUpdateOrderArgs = {
   commerceOrderUpdate: CommerceOrderUpdate;
   id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdatePackagedProductArgs = {
+  commercePackagedProductUpdate: CommercePackagedProductUpdate;
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
@@ -4565,6 +4751,12 @@ export type MutationCommerceUpdateTaxArgs = {
 
 export type MutationCommerceUpdateTaxTypeArgs = {
   commerceTaxTypeUpdate: CommerceTaxTypeUpdate;
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdateVoucherArgs = {
+  commerceVoucherUpdate: CommerceVoucherUpdate;
   id: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
@@ -5051,6 +5243,33 @@ export type AdminUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
+/** Autogenerated input type of AppearanceUpdate */
+export type AppearanceUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+  isSponsor: Scalars['Boolean'];
+  privacyPolicyUrl?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of AppearanceUpdate */
+export type AppearanceUpdatePayload = {
+  __typename?: 'AppearanceUpdatePayload';
+  appearance: Maybe<Appearance>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  errors: Array<Error>;
+};
+
+export type Error = {
+  __typename?: 'Error';
+  /** A description of the error */
+  message: Scalars['String'];
+  /** Which input value this error came from */
+  path: Maybe<Array<Scalars['String']>>;
+  type: Scalars['String'];
+};
+
 /** Autogenerated input type of AttendanceAppearanceSelectionDestroy */
 export type AttendanceAppearanceSelectionDestroyInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -5177,15 +5396,6 @@ export type ConnectionLinkRemovePayload = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId: Maybe<Scalars['String']>;
   errors: Array<Error>;
-};
-
-export type Error = {
-  __typename?: 'Error';
-  /** A description of the error */
-  message: Scalars['String'];
-  /** Which input value this error came from */
-  path: Maybe<Array<Scalars['String']>>;
-  type: Scalars['String'];
 };
 
 /** Autogenerated input type of ConnectionRequestAccept */
@@ -5545,6 +5755,7 @@ export type AssignmentProfileUpdateInput = {
   jobTitle: Scalars['String'];
   lastName?: Maybe<Scalars['String']>;
   marketingConsent: Scalars['String'];
+  partnerSharingConsent?: Maybe<Scalars['String']>;
   passportNumber?: Maybe<Scalars['String']>;
   personalisationConsent: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
@@ -5649,6 +5860,22 @@ export type TicketAttributes = {
 /** Autogenerated return type of OrderCreate */
 export type OrderCreatePayload = {
   __typename?: 'OrderCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  order: Maybe<Order>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of OrderInvoiceSend */
+export type OrderInvoiceSendInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  reference: Scalars['String'];
+};
+
+/** Autogenerated return type of OrderInvoiceSend */
+export type OrderInvoiceSendPayload = {
+  __typename?: 'OrderInvoiceSendPayload';
   /** A unique identifier for the client performing the mutation. */
   clientMutationId: Maybe<Scalars['String']>;
   order: Maybe<Order>;
@@ -5857,10 +6084,19 @@ export type CommerceProductCreateOrUpdate = {
   id?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
+  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
   price?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+  type?: Maybe<CommerceProductType>;
+  usages?: Maybe<Scalars['Int']>;
+};
+
+export type CommercePackagedProductCreateOrUpdate = {
+  id?: Maybe<Scalars['ID']>;
+  packagedProduct?: Maybe<Scalars['ID']>;
+  quantity?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceTagCreateOrUpdate = {
@@ -5881,6 +6117,7 @@ export type CommerceTaxCreateOrUpdate = {
   country?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxRateType>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
@@ -5908,11 +6145,13 @@ export type CommerceAddressCreateOrUpdate = {
 
 export type CommerceDealCreate = {
   active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
   name: Scalars['String'];
   startDate: Scalars['Date'];
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceDealItemCreateOrUpdate = {
@@ -5943,13 +6182,16 @@ export type CommerceOrderCreate = {
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
   deal?: Maybe<Scalars['ID']>;
+  dealDiscount?: Maybe<Scalars['Int']>;
   discountTotal?: Maybe<Scalars['Int']>;
   invoiceUrl?: Maybe<Scalars['String']>;
+  itemSubtotal?: Maybe<Scalars['Int']>;
   items: Array<CommerceOrderItemCreateOrUpdate>;
   locked?: Maybe<Scalars['Boolean']>;
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
+  refundReceiptUrl?: Maybe<Scalars['String']>;
   status?: Maybe<CommerceOrderStatus>;
   subTotal?: Maybe<Scalars['Int']>;
   taxTotal?: Maybe<Scalars['Int']>;
@@ -5957,16 +6199,20 @@ export type CommerceOrderCreate = {
   total?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceDealCreateOrUpdate = {
   active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceCustomerCreateOrUpdate = {
@@ -5981,6 +6227,7 @@ export type CommerceCustomerCreateOrUpdate = {
 };
 
 export type CommerceOrderItemCreateOrUpdate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   itemName?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -5991,6 +6238,7 @@ export type CommerceOrderItemCreateOrUpdate = {
   subTotal?: Maybe<Scalars['Int']>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceTaxSummaryCreateOrUpdate = {
@@ -6001,6 +6249,21 @@ export type CommerceTaxSummaryCreateOrUpdate = {
   taxId?: Maybe<Scalars['ID']>;
   taxType?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceVoucherCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceVoucherType>;
+  usages?: Maybe<Scalars['Int']>;
+};
+
+export type CommercePackagedProductCreate = {
+  packagedProduct: Scalars['ID'];
+  quantity: Scalars['Int'];
 };
 
 export type CommercePaymentMethodCreate = {
@@ -6017,10 +6280,13 @@ export type CommerceProductCreate = {
   description?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
+  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
   price: Scalars['Int'];
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType: CommerceTaxTypeCreateOrUpdate;
+  type?: Maybe<CommerceProductType>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceSaleCreate = {
@@ -6074,6 +6340,7 @@ export type CommerceStoreCreate = {
   taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
   vatNumber: Scalars['String'];
+  vouchers?: Maybe<Array<CommerceVoucherCreateOrUpdate>>;
 };
 
 export type CommercePaymentMethodCreateOrUpdate = {
@@ -6120,6 +6387,7 @@ export type CommerceTagCreate = {
 export type CommerceTaxCreate = {
   country: Scalars['String'];
   name: Scalars['String'];
+  note?: Maybe<Scalars['String']>;
   rateAmount: Scalars['Int'];
   rateType: CommerceTaxRateType;
   taxType: CommerceTaxTypeCreateOrUpdate;
@@ -6148,6 +6416,15 @@ export type CommerceTaxDetailCreateOrUpdate = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type CommerceVoucherCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  type: CommerceVoucherType;
+  usages?: Maybe<Scalars['Int']>;
+};
+
 export type CommerceCategoryUpdate = {
   active?: Maybe<Scalars['Boolean']>;
   children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
@@ -6171,12 +6448,14 @@ export type CommerceCustomerUpdate = {
 
 export type CommerceDealUpdate = {
   active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceDealItemUpdate = {
@@ -6197,14 +6476,17 @@ export type CommerceOrderUpdate = {
   currencySymbol?: Maybe<Scalars['String']>;
   customer?: Maybe<CommerceCustomerCreateOrUpdate>;
   deal?: Maybe<Scalars['ID']>;
+  dealDiscount?: Maybe<Scalars['Int']>;
   discountTotal?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   invoiceUrl?: Maybe<Scalars['String']>;
+  itemSubtotal?: Maybe<Scalars['Int']>;
   items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
   locked?: Maybe<Scalars['Boolean']>;
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
+  refundReceiptUrl?: Maybe<Scalars['String']>;
   status?: Maybe<CommerceOrderStatus>;
   subTotal?: Maybe<Scalars['Int']>;
   taxTotal?: Maybe<Scalars['Int']>;
@@ -6212,6 +6494,14 @@ export type CommerceOrderUpdate = {
   total?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
+};
+
+export type CommercePackagedProductUpdate = {
+  id?: Maybe<Scalars['ID']>;
+  packagedProduct?: Maybe<Scalars['ID']>;
+  quantity?: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethodUpdate = {
@@ -6230,10 +6520,13 @@ export type CommerceProductUpdate = {
   id?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
+  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
   price?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+  type?: Maybe<CommerceProductType>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceSaleUpdate = {
@@ -6279,6 +6572,7 @@ export type CommerceStoreUpdate = {
   taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
   vatNumber?: Maybe<Scalars['String']>;
+  vouchers?: Maybe<Array<CommerceVoucherCreateOrUpdate>>;
 };
 
 export type CommerceTagUpdate = {
@@ -6292,6 +6586,7 @@ export type CommerceTaxUpdate = {
   country?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
   rateAmount?: Maybe<Scalars['Int']>;
   rateType?: Maybe<CommerceTaxRateType>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
@@ -6302,6 +6597,16 @@ export type CommerceTaxTypeUpdate = {
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
+};
+
+export type CommerceVoucherUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceVoucherType>;
+  usages?: Maybe<Scalars['Int']>;
 };
 
 /** Autogenerated input type of EventCreate */
@@ -6485,6 +6790,7 @@ export type ComponentWebElementsAttendeeSearchSidebarFilterInput = {
 
 export type ComponentWebElementsCompanySearchSidebarFilterInput = {
   apiKey: Scalars['String'];
+  conferenceId?: Maybe<Scalars['String']>;
   indexName: Scalars['String'];
   refinements: Array<ComponentSearchAlgoliaRefinementInput>;
 };
@@ -6825,6 +7131,7 @@ export type EditComponentWebElementsAttendeeSearchSidebarFilterInput = {
 export type EditComponentWebElementsCompanySearchSidebarFilterInput = {
   id?: Maybe<Scalars['ID']>;
   apiKey?: Maybe<Scalars['String']>;
+  conferenceId?: Maybe<Scalars['String']>;
   indexName?: Maybe<Scalars['String']>;
   refinements: Array<EditComponentSearchAlgoliaRefinementInput>;
 };
@@ -7176,6 +7483,7 @@ export type CommerceAddressUpdate = {
 };
 
 export type CommerceOrderItemCreate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
   itemName?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
   price?: Maybe<Scalars['Int']>;
@@ -7185,9 +7493,11 @@ export type CommerceOrderItemCreate = {
   subTotal?: Maybe<Scalars['Int']>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceOrderItemUpdate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   itemName?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
@@ -7198,6 +7508,7 @@ export type CommerceOrderItemUpdate = {
   subTotal?: Maybe<Scalars['Int']>;
   total?: Maybe<Scalars['Int']>;
   valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceStoreBillingCreate = {
@@ -7462,6 +7773,22 @@ export type CommerceCreateOrderMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceCreatePackagedProductMutationVariables = Exact<{
+  commercePackagedProductCreate: CommercePackagedProductCreate;
+  productId: Scalars['ID'];
+}>;
+
+export type CommerceCreatePackagedProductMutation = {
+  __typename?: 'Mutation';
+} & {
+  commerceCreatePackagedProduct: Maybe<
+    { __typename?: 'CommercePackagedProduct' } & Pick<
+      CommercePackagedProduct,
+      'id'
+    >
+  >;
+};
+
 export type CommerceCreateProductMutationVariables = Exact<{
   input: CommerceProductCreate;
 }>;
@@ -7486,6 +7813,19 @@ export type CommerceSaleProductCreateMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceCreateTagMutationVariables = Exact<{
+  commerceTagCreate: CommerceTagCreate;
+}>;
+
+export type CommerceCreateTagMutation = { __typename?: 'Mutation' } & {
+  commerceCreateTag: Maybe<
+    { __typename?: 'CommerceTag' } & Pick<
+      CommerceTag,
+      'id' | 'code' | 'description'
+    >
+  >;
+};
+
 export type CommerceCreateTransactionMutationVariables = Exact<{
   commerceTransactionCreate: CommerceTransactionCreate;
   orderId: Scalars['ID'];
@@ -7494,6 +7834,22 @@ export type CommerceCreateTransactionMutationVariables = Exact<{
 export type CommerceCreateTransactionMutation = { __typename?: 'Mutation' } & {
   commerceCreateTransaction: Maybe<
     { __typename?: 'CommerceTransaction' } & Pick<CommerceTransaction, 'status'>
+  >;
+};
+
+export type CommerceDeletePackagedProductMutationVariables = Exact<{
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
+}>;
+
+export type CommerceDeletePackagedProductMutation = {
+  __typename?: 'Mutation';
+} & {
+  commerceDeletePackagedProduct: Maybe<
+    { __typename?: 'CommercePackagedProduct' } & Pick<
+      CommercePackagedProduct,
+      'id'
+    >
   >;
 };
 
@@ -7542,6 +7898,23 @@ export type CommerceUpdateCategoryMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceUpdatePackagedProductMutationVariables = Exact<{
+  commercePackagedProductUpdate: CommercePackagedProductUpdate;
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
+}>;
+
+export type CommerceUpdatePackagedProductMutation = {
+  __typename?: 'Mutation';
+} & {
+  commerceUpdatePackagedProduct: Maybe<
+    { __typename?: 'CommercePackagedProduct' } & Pick<
+      CommercePackagedProduct,
+      'id'
+    >
+  >;
+};
+
 export type CommerceUpdateProductMutationVariables = Exact<{
   id: Scalars['ID'];
   input: CommerceProductUpdate;
@@ -7578,6 +7951,20 @@ export type CommerceUpdateStoreMutation = { __typename?: 'Mutation' } & {
     { __typename?: 'CommerceStore' } & Pick<
       CommerceStore,
       'active' | 'id' | 'name'
+    >
+  >;
+};
+
+export type CommerceUpdateTagMutationVariables = Exact<{
+  commerceTagUpdate: CommerceTagUpdate;
+  id: Scalars['ID'];
+}>;
+
+export type CommerceUpdateTagMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateTag: Maybe<
+    { __typename?: 'CommerceTag' } & Pick<
+      CommerceTag,
+      'id' | 'code' | 'description'
     >
   >;
 };
@@ -7768,6 +8155,28 @@ export type UpdateCommerceOrderMutationVariables = Exact<{
 export type UpdateCommerceOrderMutation = { __typename?: 'Mutation' } & {
   commerceUpdateOrder: Maybe<
     { __typename?: 'CommerceOrder' } & Pick<CommerceOrder, 'status'>
+  >;
+};
+
+export type OrderInvoiceSendMutationVariables = Exact<{
+  input: OrderInvoiceSendInput;
+}>;
+
+export type OrderInvoiceSendMutation = { __typename?: 'Mutation' } & {
+  orderInvoiceSend: Maybe<
+    { __typename?: 'OrderInvoiceSendPayload' } & {
+      order: Maybe<
+        { __typename?: 'Order' } & Pick<Order, 'id'> & {
+            owner: { __typename?: 'AssignmentUser' } & Pick<
+              AssignmentUser,
+              'email'
+            >;
+          }
+      >;
+      userErrors: Array<
+        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
   >;
 };
 
@@ -8027,6 +8436,33 @@ export type AppConfigQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type CommerceGetCustomerQueryVariables = Exact<{
+  id: Scalars['ID'];
+  orderId: Scalars['ID'];
+}>;
+
+export type CommerceGetCustomerQuery = { __typename?: 'Query' } & {
+  commerceGetCustomer: Maybe<
+    { __typename?: 'CommerceCustomer' } & Pick<
+      CommerceCustomer,
+      'email' | 'firstName' | 'id' | 'lastName' | 'vatNumber'
+    > & {
+        address: Maybe<
+          { __typename?: 'CommerceAddress' } & Pick<
+            CommerceAddress,
+            | 'city'
+            | 'country'
+            | 'id'
+            | 'line1'
+            | 'line2'
+            | 'postalCode'
+            | 'state'
+          >
+        >;
+      }
+  >;
+};
+
 export type CommerceGetDealQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -8270,6 +8706,7 @@ export type CommerceGetProductQuery = { __typename?: 'Query' } & {
   commerceGetProduct: Maybe<
     { __typename?: 'CommerceProduct' } & Pick<
       CommerceProduct,
+      | 'type'
       | 'active'
       | 'createdAt'
       | 'defaultPrice'
@@ -8294,6 +8731,21 @@ export type CommerceGetProductQuery = { __typename?: 'Query' } & {
         >;
         lastUpdatedBy: Maybe<
           { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name' | 'email'>
+        >;
+        packagedProducts: Maybe<
+          Array<
+            { __typename?: 'CommercePackagedProduct' } & Pick<
+              CommercePackagedProduct,
+              'createdAt' | 'id' | 'lastUpdatedAt' | 'quantity'
+            > & {
+                packagedProduct: Maybe<
+                  { __typename?: 'CommerceProduct' } & Pick<
+                    CommerceProduct,
+                    'id' | 'name'
+                  >
+                >;
+              }
+          >
         >;
         tags: Maybe<
           Array<
@@ -8532,6 +8984,7 @@ export type CommerceListProductsQuery = { __typename?: 'Query' } & {
         Array<
           { __typename?: 'CommerceProduct' } & Pick<
             CommerceProduct,
+            | 'type'
             | 'active'
             | 'createdAt'
             | 'defaultPrice'
@@ -8701,6 +9154,18 @@ export type CommerceListTaxTypesQuery = { __typename?: 'Query' } & {
         >
       >;
     }
+  >;
+};
+
+export type CommerceUpdateCustomerMutationVariables = Exact<{
+  commerceCustomerUpdate: CommerceCustomerUpdate;
+  id: Scalars['ID'];
+  orderId: Scalars['ID'];
+}>;
+
+export type CommerceUpdateCustomerMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateCustomer: Maybe<
+    { __typename?: 'CommerceCustomer' } & Pick<CommerceCustomer, 'id'>
   >;
 };
 
@@ -9133,6 +9598,7 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
     { __typename?: 'Order' } & Pick<
       Order,
       | 'id'
+      | 'invoiceUrl'
       | 'amount'
       | 'currency'
       | 'reference'
@@ -9202,67 +9668,6 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
         };
       }
   >;
-};
-
-export type OrderTicketsQueryVariables = Exact<{
-  orderId: Scalars['ID'];
-  filter?: Maybe<TicketFilter>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-}>;
-
-export type OrderTicketsQuery = { __typename?: 'Query' } & {
-  tickets: { __typename?: 'TicketConnection' } & {
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      PageInfo,
-      'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'
-    >;
-    edges: Array<
-      { __typename?: 'TicketEdge' } & {
-        node: { __typename?: 'Ticket' } & Pick<
-          Ticket,
-          'id' | 'bookingRef' | 'state'
-        > & {
-            ticketType: Maybe<
-              { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
-            >;
-            assignment: Maybe<
-              { __typename?: 'Assignment' } & Pick<
-                Assignment,
-                'id' | 'state' | 'appLoginEmail'
-              > & {
-                  assignee: Maybe<
-                    { __typename?: 'AssignmentUser' } & Pick<
-                      AssignmentUser,
-                      | 'id'
-                      | 'me'
-                      | 'firstName'
-                      | 'lastName'
-                      | 'email'
-                      | 'phoneNumber'
-                      | 'city'
-                      | 'companyName'
-                      | 'companySizeId'
-                      | 'industryId'
-                      | 'jobTitle'
-                      | 'marketingConsent'
-                      | 'passportNumber'
-                      | 'personalisationConsent'
-                    >
-                  >;
-                }
-            >;
-            order: { __typename?: 'Order' } & Pick<Order, 'reference'>;
-            context: { __typename?: 'TicketContext' } & Pick<
-              TicketContext,
-              'assignable' | 'editable' | 'acceptable' | 'rejectable'
-            >;
-          };
-      }
-    >;
-  };
 };
 
 export type SaleCyclesQueryVariables = Exact<{
@@ -9549,6 +9954,73 @@ export type TicketTypeReleasePhasesQuery = { __typename?: 'Query' } & {
         };
       }
   >;
+};
+
+export type TicketsQueryVariables = Exact<{
+  orderId?: Maybe<Scalars['ID']>;
+  filter?: Maybe<TicketFilter>;
+  searchQuery?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+export type TicketsQuery = { __typename?: 'Query' } & {
+  tickets: { __typename?: 'TicketConnection' } & {
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      'hasNextPage' | 'hasPreviousPage' | 'endCursor' | 'startCursor'
+    >;
+    edges: Array<
+      { __typename?: 'TicketEdge' } & Pick<TicketEdge, 'cursor'> & {
+          node: { __typename?: 'Ticket' } & Pick<
+            Ticket,
+            'id' | 'bookingRef' | 'state'
+          > & {
+              ticketType: Maybe<
+                { __typename?: 'TicketType' } & Pick<TicketType, 'name'>
+              >;
+              order: { __typename?: 'Order' } & Pick<Order, 'reference'> & {
+                  owner: { __typename?: 'AssignmentUser' } & Pick<
+                    AssignmentUser,
+                    'firstName' | 'lastName' | 'email'
+                  >;
+                };
+              context: { __typename?: 'TicketContext' } & Pick<
+                TicketContext,
+                'assignable' | 'editable' | 'acceptable' | 'rejectable'
+              >;
+              assignment: Maybe<
+                { __typename?: 'Assignment' } & Pick<
+                  Assignment,
+                  'id' | 'state' | 'appLoginEmail'
+                > & {
+                    assignee: Maybe<
+                      { __typename?: 'AssignmentUser' } & Pick<
+                        AssignmentUser,
+                        | 'id'
+                        | 'me'
+                        | 'firstName'
+                        | 'lastName'
+                        | 'email'
+                        | 'phoneNumber'
+                        | 'city'
+                        | 'companyName'
+                        | 'companySizeId'
+                        | 'industryId'
+                        | 'jobTitle'
+                        | 'marketingConsent'
+                        | 'passportNumber'
+                        | 'personalisationConsent'
+                      >
+                    >;
+                  }
+              >;
+            };
+        }
+    >;
+  };
 };
 
 export type TimeZonesQueryVariables = Exact<{ [key: string]: never }>;
@@ -13924,6 +14396,121 @@ export type CommerceCreateOrderMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateOrderMutation,
   CommerceCreateOrderMutationVariables
 >;
+export const CommerceCreatePackagedProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreatePackagedProduct' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commercePackagedProductCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: {
+                    kind: 'Name',
+                    value: 'commercePackagedProductCreate',
+                  },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'productId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'productId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreatePackagedProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommercePackagedProductCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commercePackagedProductCreate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'productId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreatePackagedProductMutationFn = Apollo.MutationFunction<
+  CommerceCreatePackagedProductMutation,
+  CommerceCreatePackagedProductMutationVariables
+>;
+
+/**
+ * __useCommerceCreatePackagedProductMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreatePackagedProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreatePackagedProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreatePackagedProductMutation, { data, loading, error }] = useCommerceCreatePackagedProductMutation({
+ *   variables: {
+ *      commercePackagedProductCreate: // value for 'commercePackagedProductCreate'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useCommerceCreatePackagedProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreatePackagedProductMutation,
+    CommerceCreatePackagedProductMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreatePackagedProductMutation,
+    CommerceCreatePackagedProductMutationVariables
+  >(CommerceCreatePackagedProductDocument, baseOptions);
+}
+export type CommerceCreatePackagedProductMutationHookResult = ReturnType<
+  typeof useCommerceCreatePackagedProductMutation
+>;
+export type CommerceCreatePackagedProductMutationResult = Apollo.MutationResult<CommerceCreatePackagedProductMutation>;
+export type CommerceCreatePackagedProductMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreatePackagedProductMutation,
+  CommerceCreatePackagedProductMutationVariables
+>;
 export const CommerceCreateProductDocument: DocumentNode = {
   definitions: [
     {
@@ -14130,6 +14717,100 @@ export type CommerceSaleProductCreateMutationOptions = Apollo.BaseMutationOption
   CommerceSaleProductCreateMutation,
   CommerceSaleProductCreateMutationVariables
 >;
+export const CommerceCreateTagDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreateTag' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceTagCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceTagCreate' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateTag' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceTagCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceTagCreate' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreateTagMutationFn = Apollo.MutationFunction<
+  CommerceCreateTagMutation,
+  CommerceCreateTagMutationVariables
+>;
+
+/**
+ * __useCommerceCreateTagMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreateTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreateTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreateTagMutation, { data, loading, error }] = useCommerceCreateTagMutation({
+ *   variables: {
+ *      commerceTagCreate: // value for 'commerceTagCreate'
+ *   },
+ * });
+ */
+export function useCommerceCreateTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreateTagMutation,
+    CommerceCreateTagMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreateTagMutation,
+    CommerceCreateTagMutationVariables
+  >(CommerceCreateTagDocument, baseOptions);
+}
+export type CommerceCreateTagMutationHookResult = ReturnType<
+  typeof useCommerceCreateTagMutation
+>;
+export type CommerceCreateTagMutationResult = Apollo.MutationResult<CommerceCreateTagMutation>;
+export type CommerceCreateTagMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreateTagMutation,
+  CommerceCreateTagMutationVariables
+>;
 export const CommerceCreateTransactionDocument: DocumentNode = {
   definitions: [
     {
@@ -14241,6 +14922,112 @@ export type CommerceCreateTransactionMutationResult = Apollo.MutationResult<Comm
 export type CommerceCreateTransactionMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateTransactionMutation,
   CommerceCreateTransactionMutationVariables
+>;
+export const CommerceDeletePackagedProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceDeletePackagedProduct' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'productId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'productId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceDeletePackagedProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'productId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceDeletePackagedProductMutationFn = Apollo.MutationFunction<
+  CommerceDeletePackagedProductMutation,
+  CommerceDeletePackagedProductMutationVariables
+>;
+
+/**
+ * __useCommerceDeletePackagedProductMutation__
+ *
+ * To run a mutation, you first call `useCommerceDeletePackagedProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceDeletePackagedProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceDeletePackagedProductMutation, { data, loading, error }] = useCommerceDeletePackagedProductMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useCommerceDeletePackagedProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceDeletePackagedProductMutation,
+    CommerceDeletePackagedProductMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceDeletePackagedProductMutation,
+    CommerceDeletePackagedProductMutationVariables
+  >(CommerceDeletePackagedProductDocument, baseOptions);
+}
+export type CommerceDeletePackagedProductMutationHookResult = ReturnType<
+  typeof useCommerceDeletePackagedProductMutation
+>;
+export type CommerceDeletePackagedProductMutationResult = Apollo.MutationResult<CommerceDeletePackagedProductMutation>;
+export type CommerceDeletePackagedProductMutationOptions = Apollo.BaseMutationOptions<
+  CommerceDeletePackagedProductMutation,
+  CommerceDeletePackagedProductMutationVariables
 >;
 export const CommerceCreatePaymentMethodDocument: DocumentNode = {
   definitions: [
@@ -14558,6 +15345,138 @@ export type CommerceUpdateCategoryMutationResult = Apollo.MutationResult<Commerc
 export type CommerceUpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateCategoryMutation,
   CommerceUpdateCategoryMutationVariables
+>;
+export const CommerceUpdatePackagedProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdatePackagedProduct' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commercePackagedProductUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: {
+                    kind: 'Name',
+                    value: 'commercePackagedProductUpdate',
+                  },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'productId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'productId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdatePackagedProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommercePackagedProductUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commercePackagedProductUpdate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'productId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdatePackagedProductMutationFn = Apollo.MutationFunction<
+  CommerceUpdatePackagedProductMutation,
+  CommerceUpdatePackagedProductMutationVariables
+>;
+
+/**
+ * __useCommerceUpdatePackagedProductMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdatePackagedProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdatePackagedProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdatePackagedProductMutation, { data, loading, error }] = useCommerceUpdatePackagedProductMutation({
+ *   variables: {
+ *      commercePackagedProductUpdate: // value for 'commercePackagedProductUpdate'
+ *      id: // value for 'id'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useCommerceUpdatePackagedProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdatePackagedProductMutation,
+    CommerceUpdatePackagedProductMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdatePackagedProductMutation,
+    CommerceUpdatePackagedProductMutationVariables
+  >(CommerceUpdatePackagedProductDocument, baseOptions);
+}
+export type CommerceUpdatePackagedProductMutationHookResult = ReturnType<
+  typeof useCommerceUpdatePackagedProductMutation
+>;
+export type CommerceUpdatePackagedProductMutationResult = Apollo.MutationResult<CommerceUpdatePackagedProductMutation>;
+export type CommerceUpdatePackagedProductMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdatePackagedProductMutation,
+  CommerceUpdatePackagedProductMutationVariables
 >;
 export const CommerceUpdateProductDocument: DocumentNode = {
   definitions: [
@@ -14909,6 +15828,117 @@ export type CommerceUpdateStoreMutationResult = Apollo.MutationResult<CommerceUp
 export type CommerceUpdateStoreMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateStoreMutation,
   CommerceUpdateStoreMutationVariables
+>;
+export const CommerceUpdateTagDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdateTag' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceTagUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceTagUpdate' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateTag' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceTagUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceTagUpdate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateTagMutationFn = Apollo.MutationFunction<
+  CommerceUpdateTagMutation,
+  CommerceUpdateTagMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateTagMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateTagMutation, { data, loading, error }] = useCommerceUpdateTagMutation({
+ *   variables: {
+ *      commerceTagUpdate: // value for 'commerceTagUpdate'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCommerceUpdateTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateTagMutation,
+    CommerceUpdateTagMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateTagMutation,
+    CommerceUpdateTagMutationVariables
+  >(CommerceUpdateTagDocument, baseOptions);
+}
+export type CommerceUpdateTagMutationHookResult = ReturnType<
+  typeof useCommerceUpdateTagMutation
+>;
+export type CommerceUpdateTagMutationResult = Apollo.MutationResult<CommerceUpdateTagMutation>;
+export type CommerceUpdateTagMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateTagMutation,
+  CommerceUpdateTagMutationVariables
 >;
 export const CreateOrderDocument: DocumentNode = {
   definitions: [
@@ -15866,6 +16896,134 @@ export type UpdateCommerceOrderMutationResult = Apollo.MutationResult<UpdateComm
 export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<
   UpdateCommerceOrderMutation,
   UpdateCommerceOrderMutationVariables
+>;
+export const OrderInvoiceSendDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'OrderInvoiceSend' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'orderInvoiceSend' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'order' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'owner' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'OrderInvoiceSendInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type OrderInvoiceSendMutationFn = Apollo.MutationFunction<
+  OrderInvoiceSendMutation,
+  OrderInvoiceSendMutationVariables
+>;
+
+/**
+ * __useOrderInvoiceSendMutation__
+ *
+ * To run a mutation, you first call `useOrderInvoiceSendMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOrderInvoiceSendMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [orderInvoiceSendMutation, { data, loading, error }] = useOrderInvoiceSendMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useOrderInvoiceSendMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    OrderInvoiceSendMutation,
+    OrderInvoiceSendMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    OrderInvoiceSendMutation,
+    OrderInvoiceSendMutationVariables
+  >(OrderInvoiceSendDocument, baseOptions);
+}
+export type OrderInvoiceSendMutationHookResult = ReturnType<
+  typeof useOrderInvoiceSendMutation
+>;
+export type OrderInvoiceSendMutationResult = Apollo.MutationResult<OrderInvoiceSendMutation>;
+export type OrderInvoiceSendMutationOptions = Apollo.BaseMutationOptions<
+  OrderInvoiceSendMutation,
+  OrderInvoiceSendMutationVariables
 >;
 export const OrderTransferDocument: DocumentNode = {
   definitions: [
@@ -17493,6 +18651,146 @@ export type AppConfigQueryResult = Apollo.QueryResult<
   AppConfigQuery,
   AppConfigQueryVariables
 >;
+export const CommerceGetCustomerDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceGetCustomer' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'orderId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceGetCustomer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'postalCode' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'vatNumber' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'orderId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceGetCustomerQuery__
+ *
+ * To run a query within a React component, call `useCommerceGetCustomerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceGetCustomerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceGetCustomerQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useCommerceGetCustomerQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CommerceGetCustomerQuery,
+    CommerceGetCustomerQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceGetCustomerQuery,
+    CommerceGetCustomerQueryVariables
+  >(CommerceGetCustomerDocument, baseOptions);
+}
+export function useCommerceGetCustomerLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceGetCustomerQuery,
+    CommerceGetCustomerQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceGetCustomerQuery,
+    CommerceGetCustomerQueryVariables
+  >(CommerceGetCustomerDocument, baseOptions);
+}
+export type CommerceGetCustomerQueryHookResult = ReturnType<
+  typeof useCommerceGetCustomerQuery
+>;
+export type CommerceGetCustomerLazyQueryHookResult = ReturnType<
+  typeof useCommerceGetCustomerLazyQuery
+>;
+export type CommerceGetCustomerQueryResult = Apollo.QueryResult<
+  CommerceGetCustomerQuery,
+  CommerceGetCustomerQueryVariables
+>;
 export const CommerceGetDealDocument: DocumentNode = {
   definitions: [
     {
@@ -18285,6 +19583,7 @@ export const CommerceGetProductDocument: DocumentNode = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'active' } },
                 {
                   kind: 'Field',
@@ -18341,6 +19640,45 @@ export const CommerceGetProductDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'packagedProducts' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'packagedProduct' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quantity' },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'tags' },
@@ -19250,6 +20588,7 @@ export const CommerceListProductsDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'active' },
@@ -20042,6 +21381,135 @@ export type CommerceListTaxTypesLazyQueryHookResult = ReturnType<
 export type CommerceListTaxTypesQueryResult = Apollo.QueryResult<
   CommerceListTaxTypesQuery,
   CommerceListTaxTypesQueryVariables
+>;
+export const CommerceUpdateCustomerDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdateCustomer' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceCustomerUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceCustomerUpdate' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'orderId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateCustomer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceCustomerUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceCustomerUpdate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'orderId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateCustomerMutationFn = Apollo.MutationFunction<
+  CommerceUpdateCustomerMutation,
+  CommerceUpdateCustomerMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateCustomerMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateCustomerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateCustomerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateCustomerMutation, { data, loading, error }] = useCommerceUpdateCustomerMutation({
+ *   variables: {
+ *      commerceCustomerUpdate: // value for 'commerceCustomerUpdate'
+ *      id: // value for 'id'
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function useCommerceUpdateCustomerMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateCustomerMutation,
+    CommerceUpdateCustomerMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateCustomerMutation,
+    CommerceUpdateCustomerMutationVariables
+  >(CommerceUpdateCustomerDocument, baseOptions);
+}
+export type CommerceUpdateCustomerMutationHookResult = ReturnType<
+  typeof useCommerceUpdateCustomerMutation
+>;
+export type CommerceUpdateCustomerMutationResult = Apollo.MutationResult<CommerceUpdateCustomerMutation>;
+export type CommerceUpdateCustomerMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateCustomerMutation,
+  CommerceUpdateCustomerMutationVariables
 >;
 export const CountriesDocument: DocumentNode = {
   definitions: [
@@ -21956,6 +23424,7 @@ export const OrderByRefDocument: DocumentNode = {
                     ],
                   },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'invoiceUrl' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
@@ -22459,415 +23928,6 @@ export type OrderByRefLazyQueryHookResult = ReturnType<
 export type OrderByRefQueryResult = Apollo.QueryResult<
   OrderByRefQuery,
   OrderByRefQueryVariables
->;
-export const OrderTicketsDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'OrderTickets' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'orderId' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'filter' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'filter' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'after' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'after' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'before' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'before' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'first' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'first' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'last' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'last' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tickets' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageInfo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasNextPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasPreviousPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endCursor' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'startCursor' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'bookingRef' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'ticketType' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'assignment' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'state' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'appLoginEmail',
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignee' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'id' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'me' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'firstName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'lastName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'email',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'phoneNumber',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'city' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'companyName',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'companySizeId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'industryId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'jobTitle',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'marketingConsent',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'passportNumber',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'personalisationConsent',
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'order' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'reference' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'state' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'context' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'assignable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'editable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'acceptable' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'rejectable' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'orderId' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'TicketFilter' },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'filter' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'after' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'before' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'first' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-
-/**
- * __useOrderTicketsQuery__
- *
- * To run a query within a React component, call `useOrderTicketsQuery` and pass it any options that fit your needs.
- * When your component renders, `useOrderTicketsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useOrderTicketsQuery({
- *   variables: {
- *      orderId: // value for 'orderId'
- *      filter: // value for 'filter'
- *      after: // value for 'after'
- *      before: // value for 'before'
- *      first: // value for 'first'
- *      last: // value for 'last'
- *   },
- * });
- */
-export function useOrderTicketsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    OrderTicketsQuery,
-    OrderTicketsQueryVariables
-  >,
-) {
-  return Apollo.useQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(
-    OrderTicketsDocument,
-    baseOptions,
-  );
-}
-export function useOrderTicketsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    OrderTicketsQuery,
-    OrderTicketsQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<OrderTicketsQuery, OrderTicketsQueryVariables>(
-    OrderTicketsDocument,
-    baseOptions,
-  );
-}
-export type OrderTicketsQueryHookResult = ReturnType<
-  typeof useOrderTicketsQuery
->;
-export type OrderTicketsLazyQueryHookResult = ReturnType<
-  typeof useOrderTicketsLazyQuery
->;
-export type OrderTicketsQueryResult = Apollo.QueryResult<
-  OrderTicketsQuery,
-  OrderTicketsQueryVariables
 >;
 export const SaleCyclesDocument: DocumentNode = {
   definitions: [
@@ -24459,6 +25519,485 @@ export type TicketTypeReleasePhasesLazyQueryHookResult = ReturnType<
 export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<
   TicketTypeReleasePhasesQuery,
   TicketTypeReleasePhasesQueryVariables
+>;
+export const TicketsDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'Tickets' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'orderId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'before' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'last' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'searchQuery' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'searchQuery' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tickets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'bookingRef' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'state' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'ticketType' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'order' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'reference' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'owner' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firstName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lastName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'state' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'context' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'assignable' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'editable' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'acceptable' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rejectable' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'assignment' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'state' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'appLoginEmail',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'assignee' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'me' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firstName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lastName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'phoneNumber',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'city' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'companyName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'companySizeId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'industryId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'jobTitle',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'marketingConsent',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'passportNumber',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'personalisationConsent',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'orderId' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'TicketFilter' },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'searchQuery' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'before' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useTicketsQuery__
+ *
+ * To run a query within a React component, call `useTicketsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketsQuery({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *      filter: // value for 'filter'
+ *      searchQuery: // value for 'searchQuery'
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      last: // value for 'last'
+ *   },
+ * });
+ */
+export function useTicketsQuery(
+  baseOptions?: Apollo.QueryHookOptions<TicketsQuery, TicketsQueryVariables>,
+) {
+  return Apollo.useQuery<TicketsQuery, TicketsQueryVariables>(
+    TicketsDocument,
+    baseOptions,
+  );
+}
+export function useTicketsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketsQuery,
+    TicketsQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<TicketsQuery, TicketsQueryVariables>(
+    TicketsDocument,
+    baseOptions,
+  );
+}
+export type TicketsQueryHookResult = ReturnType<typeof useTicketsQuery>;
+export type TicketsLazyQueryHookResult = ReturnType<typeof useTicketsLazyQuery>;
+export type TicketsQueryResult = Apollo.QueryResult<
+  TicketsQuery,
+  TicketsQueryVariables
 >;
 export const TimeZonesDocument: DocumentNode = {
   definitions: [
