@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import AvatarList from '../avatarList/AvatarList';
 import { DetailsContext } from '../calendar/Context';
@@ -28,17 +28,37 @@ const EditEvent = ({
     onUpdateEvent,
   } = useContext(DetailsContext);
 
-  const [editedEntity, setEditedEntity] = useState({});
+  const [editedEvent, seteditedEvent] = useState({});
   const [deletedInvites, setDeletedInvites] = useState([]);
-  // // new invitations
-  // const [newInvites, setnewInvites] = useState({})
+  const [locationName, setLocationName] = useState(location.name);
+  const locationNames = locations.map((loc) => {
+    return loc.name;
+  });
 
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-    setEditedEntity((entity) => ({
+  useEffect(() => {
+    if (location.id) {
+      const { name } = locations.find((item) => item.id === location.id);
+      setLocationName(name);
+    }
+  }, [location, locations]);
+
+  const handleSetEditedEvent = (name, value) => {
+    seteditedEvent((entity) => ({
       ...entity,
-      [name]: value || '',
+      [name]: value,
     }));
+  };
+
+  const handleLocationChange = (e) => {
+    const { value } = e.target;
+    if (locationNames.includes(value)) {
+      setLocationName(value);
+      const { id } = locations.find((item) => item.name === value);
+      handleSetEditedEvent('location_id', id);
+    } else {
+      setLocationName(value);
+      handleSetEditedEvent('location_name', value);
+    }
   };
 
   const handleDeleteInvitation = (invitationId) => {
@@ -47,19 +67,13 @@ const EditEvent = ({
     });
   };
 
-  // const onNewInvitation = attendanceID => {
-  //     // add invitation edit to local invitees list
-  //     setnewInvites([...newInvites, attendanceID]);
-  // }
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (
-      Object.keys(editedEntity).length !== 0 &&
-      editedEntity.constructor === Object
+      Object.keys(editedEvent).length !== 0 &&
+      editedEvent.constructor === Object
     )
-      onUpdateEvent(eventId, editedEntity);
+      onUpdateEvent(eventId, editedEvent);
 
     if (deletedInvites && deletedInvites.length)
       deletedInvites.map((invite) => onDeleteEventInvitation(eventId, invite));
@@ -71,71 +85,51 @@ const EditEvent = ({
     <Form onSubmit={(e) => handleSubmit(e)}>
       <FormLabel>Title: </FormLabel>
       <FormInput
-        name="title"
         type="text"
-        value={editedEntity.title !== undefined ? editedEntity.title : title}
-        onChange={(e) => handleChange(e)}
+        value={editedEvent.title !== undefined ? editedEvent.title : title}
+        onChange={(e) => handleSetEditedEvent('title', e.target.value)}
       />
       <FormLabel>Starts At: </FormLabel>
       <FormInput
-        name="starts_at"
-        type="text"
+        type="datetime-local"
         value={
-          editedEntity.starts_at !== undefined
-            ? editedEntity.starts_at
+          editedEvent.starts_at !== undefined
+            ? editedEvent.starts_at
             : starts_at
         }
-        onChange={(e) => handleChange(e)}
+        onChange={(e) => handleSetEditedEvent('starts_at', e.target.value)}
       />
       <FormLabel>Ends At: </FormLabel>
       <FormInput
-        name="ends_at"
-        type="text"
+        type="datetime-local"
         value={
-          editedEntity.ends_at !== undefined ? editedEntity.ends_at : ends_at
+          editedEvent.ends_at !== undefined ? editedEvent.ends_at : ends_at
         }
-        onChange={(e) => handleChange(e)}
+        onChange={(e) => handleSetEditedEvent('ends_at', e.target.value)}
       />
-      <FormLabel>Location: </FormLabel>
+      <FormLabel htmlFor="location">Location: </FormLabel>
       <FormInput
-        name="location_name"
+        id="location"
+        list="locations"
         type="text"
-        value={
-          editedEntity.location_name !== undefined
-            ? editedEntity.location_name
-            : location.name
-        }
-        onChange={(e) => handleChange(e)}
+        value={locationName}
+        onChange={(e) => handleLocationChange(e)}
       />
-      {locations.length > 0 && (
-        <select
-          name="location_id"
-          value={
-            editedEntity.location_id !== undefined
-              ? editedEntity.location_id
-              : location.id
-          }
-          onChange={(e) => handleChange(e)}
-        >
-          <option key="emptySelect" disabled value="">
-            Select location
+      <datalist id="locations">
+        {locations?.map((loc, i) => (
+          <option key={i} value={loc.name}>
+            {loc.name}
           </option>
-          {locations.map((loc) => (
-            <option key={loc.id} value={loc.id}>
-              {loc && loc.name}
-            </option>
-          ))}
-        </select>
-      )}
+        ))}
+      </datalist>
       <FormLabel>Description: </FormLabel>
       <FormTextArea
-        name="description"
         value={
-          editedEntity.description !== undefined
-            ? editedEntity.description
+          editedEvent.description !== undefined
+            ? editedEvent.description
             : description
         }
-        onChange={(e) => handleChange(e)}
+        onChange={(e) => handleSetEditedEvent('description', e.target.value)}
       />
       <FormEditInvitee>
         <AvatarList
