@@ -26,6 +26,15 @@ export const FormInput = styled.input`
   height: 30px;
 `;
 
+export const FormSelect = styled.select`
+  margin-left: 50px;
+  margin-bottom: 40px;
+  display: inline-block;
+  float: left;
+  width: 200px;
+  height: 30px;
+`;
+
 export const FormTextArea = styled.textarea`
   margin-left: 50px;
   margin-bottom: 40px;

@@ -27,7 +27,7 @@ import {
 } from './ExistingEvent.styled';
 import ExistingEventItem from './ExistingEventItem';
 
-const ExistingEvent = ({ event, close_popup }) => {
+const ExistingEvent = ({ event, close_popup, formats }) => {
   const {
     id,
     title,
@@ -36,6 +36,7 @@ const ExistingEvent = ({ event, close_popup }) => {
     invitations,
     starts_at,
     ends_at,
+    event_format_id,
     can_modify,
     organizer,
   } = event;
@@ -173,7 +174,16 @@ const ExistingEvent = ({ event, close_popup }) => {
               eventId={id}
               organizerId={organizer ? organizer.id : undefined}
               setEditPopupActive={setEditPopupActive}
-              {...{ description, ends_at, location, rsvps, starts_at, title }}
+              {...{
+                description,
+                ends_at,
+                event_format_id,
+                location,
+                rsvps,
+                starts_at,
+                title,
+              }}
+              formats={formats}
             />
           </PopupContainer>
         </FormWrap>

@@ -7,6 +7,7 @@ import {
   FormEditInvitee,
   FormInput,
   FormLabel,
+  FormSelect,
   FormTextArea,
   StyledButton,
 } from './EditEvent.styled';
@@ -19,7 +20,9 @@ const EditEvent = ({
   description,
   starts_at,
   ends_at,
+  event_format_id,
   organizerId,
+  formats,
 }) => {
   const {
     locations,
@@ -31,16 +34,21 @@ const EditEvent = ({
   const [editedEvent, seteditedEvent] = useState({});
   const [deletedInvites, setDeletedInvites] = useState([]);
   const [locationName, setLocationName] = useState(location.name);
+  const [formatName, setFormatName] = useState();
   const locationNames = locations.map((loc) => {
     return loc.name;
   });
 
   useEffect(() => {
+    if (event_format_id) {
+      const { label } = formats.find((item) => item.id === event_format_id);
+      setFormatName(label);
+    }
     if (location.id) {
       const { name } = locations.find((item) => item.id === location.id);
       setLocationName(name);
     }
-  }, [location, locations]);
+  }, [location, locations, event_format_id, formats]);
 
   const handleSetEditedEvent = (name, value) => {
     seteditedEvent((entity) => ({
@@ -59,6 +67,13 @@ const EditEvent = ({
       setLocationName(value);
       handleSetEditedEvent('location_name', value);
     }
+  };
+
+  const handleFormatChange = (e) => {
+    const { value } = e.target;
+    setFormatName(value);
+    const { id } = formats.find((item) => item.label === value);
+    handleSetEditedEvent('event_format_id', id);
   };
 
   const handleDeleteInvitation = (invitationId) => {
@@ -122,6 +137,20 @@ const EditEvent = ({
           </option>
         ))}
       </datalist>
+      <FormLabel htmlFor="event_format_id">Format: </FormLabel>
+      <FormSelect
+        id="event_format_id"
+        type="text"
+        value={formatName}
+        onChange={(e) => handleFormatChange(e)}
+      >
+        <option defaultChecked>Please select a format</option>
+        {formats?.map((format, i) => (
+          <option key={i} value={format.label}>
+            {format.label}
+          </option>
+        ))}
+      </FormSelect>
       <FormLabel>Description: </FormLabel>
       <FormTextArea
         value={
