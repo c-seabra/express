@@ -14,6 +14,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+import BlockMessage from '../../../../ticket-support/src/lib/components/molecules/BlockMessage';
 import { useRequestContext } from '../app/AppContext';
 import PackageModalWrapper from '../modals/PackageModalWrapper';
 import PackagesList from '../organisms/PackagesList';
@@ -94,9 +95,6 @@ const PackagesPage = () => {
   const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
-  const onButtonClick = () => {
-    openModal();
-  };
   const redirectToPackage = (id: string) => {
     history.push(`/deal/${id}`);
   };
@@ -108,7 +106,10 @@ const PackagesPage = () => {
     context,
     onError: (error) => errorSnackbar(error.message),
   });
-  const { data: commerceCategories } = useCommerceListCategoriesQuery({
+  const {
+    data: commerceCategories,
+    loading: loadingCategories,
+  } = useCommerceListCategoriesQuery({
     context,
     onError: (e) => errorSnackbar(e.message),
   });
@@ -132,6 +133,9 @@ const PackagesPage = () => {
     ticketCategories,
   );
 
+  const isLoading = loading && loadingCategories;
+  const shouldRenderPackages = !isLoading && !!hasPackages;
+
   return (
     <Container>
       <PackageModalWrapper closeModal={closeModal} isOpen={isOpen} />
@@ -139,12 +143,27 @@ const PackagesPage = () => {
       <FlexCol>
         <FlexRow>
           <HeaderText>Deals</HeaderText>
-          <Button onClick={onButtonClick}>Create new deal</Button>
+          {shouldRenderPackages && (
+            <Button onClick={openModal}>Create new deal</Button>
+          )}
         </FlexRow>
 
         {loading && <Loader />}
 
-        {hasPackages &&
+        {!shouldRenderPackages && (
+          <ContainerCard>
+            <Spacing bottom="36px" left="24px" right="24px" top="36px">
+              <BlockMessage
+                buttonText="Create now"
+                header="Create new package"
+                message="Please create a new package to see grouped results"
+                onClickAction={openModal}
+              />
+            </Spacing>
+          </ContainerCard>
+        )}
+
+        {shouldRenderPackages &&
           Object.entries(groupedPackages).map(([key, value]) => (
             <Spacing key={key} top="1.5rem">
               <ContainerCard noPadding title={key}>
