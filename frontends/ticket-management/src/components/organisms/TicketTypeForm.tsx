@@ -202,7 +202,7 @@ const getTotalPrice = (rateAmount = 0, price: Total, currencySymbol = '') => {
   const taxPercentage = rateAmount / 100;
   const priceInCents = toCents(price);
   const totalPrice = +priceInCents + taxPercentage * priceInCents;
-  return `${currencySymbol}${fromCents(totalPrice)}`;
+  return `${currencySymbol}${fromCents(totalPrice).toFixed(2)}`;
 };
 
 type TicketTypeFormProps = {
@@ -299,7 +299,7 @@ const TicketTypeForm = ({
     return switchCase({
       [CommerceProductType.Simple]: false,
       [CommerceProductType.Package]: true,
-    })('N/A')(type);
+    })(false)(type);
   };
 
   return (
@@ -418,7 +418,7 @@ const TicketTypeForm = ({
                 label="Ticket description"
                 maxLength={100}
                 name="description"
-                placeholder="This ticket shall be given to GA"
+                placeholder="Specify ticket description"
               />
               <FieldRow>
                 <CheckboxField label="Package of tickets" name="type" />
