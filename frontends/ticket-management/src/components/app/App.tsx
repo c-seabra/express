@@ -71,10 +71,10 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/ticket-type/:id">
                   <TicketTypePage />
                 </Route>
-                <Route exact path="/packages">
+                <Route exact path="/deals">
                   <PackagesPage />
                 </Route>
-                <Route exact path="/package/:id">
+                <Route exact path="/deal/:id">
                   <PackagePage />
                 </Route>
                 <Route exact path="/tags">

@@ -139,6 +139,8 @@ export type Query = {
   commerceGetDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders/{id}* */
   commerceGetOrder: Maybe<CommerceOrder>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/product/{productId}/packagedProducts/{id}* */
+  commerceGetPackagedProduct: Maybe<CommercePackagedProduct>;
   /** *Equivalent to GET /commerce/paymentGateways/{id}* */
   commerceGetPaymentGateway: Maybe<CommercePaymentGateway>;
   /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods/{id}* */
@@ -169,6 +171,8 @@ export type Query = {
   commerceListDeals: Maybe<CommerceSearchResponseDeal>;
   /** *Equivalent to GET /commerce/stores/{storeId}/orders* */
   commerceListOrders: Maybe<CommerceSearchResponseOrder>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/product/{productId}/packagedProducts* */
+  commerceListPackagedProducts: Maybe<CommerceSearchResponsePackagedProduct>;
   /** *Equivalent to GET /commerce/paymentGateways* */
   commerceListPaymentGateways: Maybe<CommerceSearchResponsePaymentGateway>;
   /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods* */
@@ -512,6 +516,12 @@ export type QueryCommerceGetOrderArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type QueryCommerceGetPackagedProductArgs = {
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type QueryCommerceGetPaymentGatewayArgs = {
   id: Scalars['ID'];
 };
@@ -598,6 +608,15 @@ export type QueryCommerceListDealsArgs = {
 export type QueryCommerceListOrdersArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListPackagedProductsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  productId: Scalars['ID'];
   sort?: Maybe<Array<CommerceSortTerm>>;
   storeId?: Maybe<Scalars['ID']>;
   terms?: Maybe<Array<CommerceSearchTerm>>;
@@ -1841,6 +1860,7 @@ export type ComponentWebElementsCompanySearchSidebarFilters = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   apiKey: Scalars['String'];
+  conferenceId: Maybe<Scalars['String']>;
   indexName: Scalars['String'];
   refinements: Array<ComponentSearchAlgoliaRefinement>;
 };
@@ -3678,6 +3698,16 @@ export type CommerceSearchResponseOrder = {
   total: Maybe<Scalars['Int']>;
 };
 
+export type CommerceSearchResponsePackagedProduct = {
+  __typename?: 'CommerceSearchResponsePackagedProduct';
+  hits: Maybe<Array<CommercePackagedProduct>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
 export type CommerceSearchResponsePaymentGateway = {
   __typename?: 'CommerceSearchResponsePaymentGateway';
   hits: Maybe<Array<Maybe<CommercePaymentGateway>>>;
@@ -4130,6 +4160,8 @@ export type Mutation = {
    * order for an unidentified new user (the server generates a new UUID to set as the owner).
    */
   commerceCreateOrder: Maybe<CommerceOrder>;
+  /** *Equivalent to POST /commerce/stores/{storeId}/product/{productId}/packagedProducts* */
+  commerceCreatePackagedProduct: Maybe<CommercePackagedProduct>;
   /** *Equivalent to POST /commerce/stores/{storeId}/paymentMethods* */
   commerceCreatePaymentMethod: Maybe<CommercePaymentMethod>;
   /** *Equivalent to POST /commerce/stores/{storeId}/products* */
@@ -4158,6 +4190,8 @@ export type Mutation = {
   commerceDeleteDeal: Maybe<CommerceDeal>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
   commerceDeleteDealItem: Maybe<CommerceDealItem>;
+  /** *Equivalent to DELETE /commerce/stores/{storeId}/product/{productId}/packagedProducts/{id}* */
+  commerceDeletePackagedProduct: Maybe<CommercePackagedProduct>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/paymentMethods/{id}* */
   commerceDeletePaymentMethod: Maybe<CommercePaymentMethod>;
   /** *Equivalent to DELETE /commerce/stores/{storeId}/products/{id}* */
@@ -4186,6 +4220,8 @@ export type Mutation = {
   commerceUpdateDealItem: Maybe<CommerceDealItem>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/orders/{id}* */
   commerceUpdateOrder: Maybe<CommerceOrder>;
+  /** *Equivalent to PUT /commerce/stores/{storeId}/product/{productId}/packagedProducts/{id}* */
+  commerceUpdatePackagedProduct: Maybe<CommercePackagedProduct>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/paymentMethods/{id}* */
   commerceUpdatePaymentMethod: Maybe<CommercePaymentMethod>;
   /** *Equivalent to PUT /commerce/stores/{storeId}/products/{id}* */
@@ -4502,6 +4538,12 @@ export type MutationCommerceCreateOrderArgs = {
   storeId?: Maybe<Scalars['ID']>;
 };
 
+export type MutationCommerceCreatePackagedProductArgs = {
+  commercePackagedProductCreate: CommercePackagedProductCreate;
+  productId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
 export type MutationCommerceCreatePaymentMethodArgs = {
   commercePaymentMethodCreate: CommercePaymentMethodCreate;
   storeId?: Maybe<Scalars['ID']>;
@@ -4572,6 +4614,12 @@ export type MutationCommerceDeleteDealArgs = {
 export type MutationCommerceDeleteDealItemArgs = {
   dealId: Scalars['ID'];
   id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceDeletePackagedProductArgs = {
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
@@ -4649,6 +4697,13 @@ export type MutationCommerceUpdateDealItemArgs = {
 export type MutationCommerceUpdateOrderArgs = {
   commerceOrderUpdate: CommerceOrderUpdate;
   id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type MutationCommerceUpdatePackagedProductArgs = {
+  commercePackagedProductUpdate: CommercePackagedProductUpdate;
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
   storeId?: Maybe<Scalars['ID']>;
 };
 
@@ -6206,6 +6261,11 @@ export type CommerceVoucherCreateOrUpdate = {
   usages?: Maybe<Scalars['Int']>;
 };
 
+export type CommercePackagedProductCreate = {
+  packagedProduct: Scalars['ID'];
+  quantity: Scalars['Int'];
+};
+
 export type CommercePaymentMethodCreate = {
   active?: Maybe<Scalars['Boolean']>;
   configuration?: Maybe<Scalars['JSON']>;
@@ -6436,6 +6496,12 @@ export type CommerceOrderUpdate = {
   valueTotal?: Maybe<Scalars['Int']>;
   voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
   voucherDiscount?: Maybe<Scalars['Int']>;
+};
+
+export type CommercePackagedProductUpdate = {
+  id?: Maybe<Scalars['ID']>;
+  packagedProduct?: Maybe<Scalars['ID']>;
+  quantity?: Maybe<Scalars['Int']>;
 };
 
 export type CommercePaymentMethodUpdate = {
@@ -6724,6 +6790,7 @@ export type ComponentWebElementsAttendeeSearchSidebarFilterInput = {
 
 export type ComponentWebElementsCompanySearchSidebarFilterInput = {
   apiKey: Scalars['String'];
+  conferenceId?: Maybe<Scalars['String']>;
   indexName: Scalars['String'];
   refinements: Array<ComponentSearchAlgoliaRefinementInput>;
 };
@@ -7064,6 +7131,7 @@ export type EditComponentWebElementsAttendeeSearchSidebarFilterInput = {
 export type EditComponentWebElementsCompanySearchSidebarFilterInput = {
   id?: Maybe<Scalars['ID']>;
   apiKey?: Maybe<Scalars['String']>;
+  conferenceId?: Maybe<Scalars['String']>;
   indexName?: Maybe<Scalars['String']>;
   refinements: Array<EditComponentSearchAlgoliaRefinementInput>;
 };
@@ -7443,17 +7511,6 @@ export type CommerceOrderItemUpdate = {
   voucherDiscount?: Maybe<Scalars['Int']>;
 };
 
-export type CommercePackagedProductCreate = {
-  packagedProduct: Scalars['ID'];
-  quantity: Scalars['Int'];
-};
-
-export type CommercePackagedProductUpdate = {
-  id?: Maybe<Scalars['ID']>;
-  packagedProduct?: Maybe<Scalars['ID']>;
-  quantity?: Maybe<Scalars['Int']>;
-};
-
 export type CommerceStoreBillingCreate = {
   city: Scalars['String'];
   companyName: Scalars['String'];
@@ -7738,6 +7795,22 @@ export type CommerceCreateOrderMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceCreatePackagedProductMutationVariables = Exact<{
+  commercePackagedProductCreate: CommercePackagedProductCreate;
+  productId: Scalars['ID'];
+}>;
+
+export type CommerceCreatePackagedProductMutation = {
+  __typename?: 'Mutation';
+} & {
+  commerceCreatePackagedProduct: Maybe<
+    { __typename?: 'CommercePackagedProduct' } & Pick<
+      CommercePackagedProduct,
+      'id'
+    >
+  >;
+};
+
 export type CommerceCreateProductMutationVariables = Exact<{
   input: CommerceProductCreate;
 }>;
@@ -7786,6 +7859,22 @@ export type CommerceCreateTransactionMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceDeletePackagedProductMutationVariables = Exact<{
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
+}>;
+
+export type CommerceDeletePackagedProductMutation = {
+  __typename?: 'Mutation';
+} & {
+  commerceDeletePackagedProduct: Maybe<
+    { __typename?: 'CommercePackagedProduct' } & Pick<
+      CommercePackagedProduct,
+      'id'
+    >
+  >;
+};
+
 export type CommerceCreatePaymentMethodMutationVariables = Exact<{
   paymentMethod: CommercePaymentMethodCreate;
 }>;
@@ -7827,6 +7916,23 @@ export type CommerceUpdateCategoryMutation = { __typename?: 'Mutation' } & {
     { __typename?: 'CommerceCategory' } & Pick<
       CommerceCategory,
       'id' | 'active'
+    >
+  >;
+};
+
+export type CommerceUpdatePackagedProductMutationVariables = Exact<{
+  commercePackagedProductUpdate: CommercePackagedProductUpdate;
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
+}>;
+
+export type CommerceUpdatePackagedProductMutation = {
+  __typename?: 'Mutation';
+} & {
+  commerceUpdatePackagedProduct: Maybe<
+    { __typename?: 'CommercePackagedProduct' } & Pick<
+      CommercePackagedProduct,
+      'id'
     >
   >;
 };
@@ -8622,6 +8728,7 @@ export type CommerceGetProductQuery = { __typename?: 'Query' } & {
   commerceGetProduct: Maybe<
     { __typename?: 'CommerceProduct' } & Pick<
       CommerceProduct,
+      | 'type'
       | 'active'
       | 'createdAt'
       | 'defaultPrice'
@@ -8646,6 +8753,21 @@ export type CommerceGetProductQuery = { __typename?: 'Query' } & {
         >;
         lastUpdatedBy: Maybe<
           { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name' | 'email'>
+        >;
+        packagedProducts: Maybe<
+          Array<
+            { __typename?: 'CommercePackagedProduct' } & Pick<
+              CommercePackagedProduct,
+              'createdAt' | 'id' | 'lastUpdatedAt' | 'quantity'
+            > & {
+                packagedProduct: Maybe<
+                  { __typename?: 'CommerceProduct' } & Pick<
+                    CommerceProduct,
+                    'id' | 'name'
+                  >
+                >;
+              }
+          >
         >;
         tags: Maybe<
           Array<
@@ -8884,6 +9006,7 @@ export type CommerceListProductsQuery = { __typename?: 'Query' } & {
         Array<
           { __typename?: 'CommerceProduct' } & Pick<
             CommerceProduct,
+            | 'type'
             | 'active'
             | 'createdAt'
             | 'defaultPrice'
@@ -14503,6 +14626,121 @@ export type CommerceCreateOrderMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateOrderMutation,
   CommerceCreateOrderMutationVariables
 >;
+export const CommerceCreatePackagedProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreatePackagedProduct' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commercePackagedProductCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: {
+                    kind: 'Name',
+                    value: 'commercePackagedProductCreate',
+                  },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'productId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'productId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreatePackagedProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommercePackagedProductCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commercePackagedProductCreate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'productId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreatePackagedProductMutationFn = Apollo.MutationFunction<
+  CommerceCreatePackagedProductMutation,
+  CommerceCreatePackagedProductMutationVariables
+>;
+
+/**
+ * __useCommerceCreatePackagedProductMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreatePackagedProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreatePackagedProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreatePackagedProductMutation, { data, loading, error }] = useCommerceCreatePackagedProductMutation({
+ *   variables: {
+ *      commercePackagedProductCreate: // value for 'commercePackagedProductCreate'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useCommerceCreatePackagedProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreatePackagedProductMutation,
+    CommerceCreatePackagedProductMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreatePackagedProductMutation,
+    CommerceCreatePackagedProductMutationVariables
+  >(CommerceCreatePackagedProductDocument, baseOptions);
+}
+export type CommerceCreatePackagedProductMutationHookResult = ReturnType<
+  typeof useCommerceCreatePackagedProductMutation
+>;
+export type CommerceCreatePackagedProductMutationResult = Apollo.MutationResult<CommerceCreatePackagedProductMutation>;
+export type CommerceCreatePackagedProductMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreatePackagedProductMutation,
+  CommerceCreatePackagedProductMutationVariables
+>;
 export const CommerceCreateProductDocument: DocumentNode = {
   definitions: [
     {
@@ -14915,6 +15153,112 @@ export type CommerceCreateTransactionMutationOptions = Apollo.BaseMutationOption
   CommerceCreateTransactionMutation,
   CommerceCreateTransactionMutationVariables
 >;
+export const CommerceDeletePackagedProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceDeletePackagedProduct' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'productId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'productId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceDeletePackagedProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'productId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceDeletePackagedProductMutationFn = Apollo.MutationFunction<
+  CommerceDeletePackagedProductMutation,
+  CommerceDeletePackagedProductMutationVariables
+>;
+
+/**
+ * __useCommerceDeletePackagedProductMutation__
+ *
+ * To run a mutation, you first call `useCommerceDeletePackagedProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceDeletePackagedProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceDeletePackagedProductMutation, { data, loading, error }] = useCommerceDeletePackagedProductMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useCommerceDeletePackagedProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceDeletePackagedProductMutation,
+    CommerceDeletePackagedProductMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceDeletePackagedProductMutation,
+    CommerceDeletePackagedProductMutationVariables
+  >(CommerceDeletePackagedProductDocument, baseOptions);
+}
+export type CommerceDeletePackagedProductMutationHookResult = ReturnType<
+  typeof useCommerceDeletePackagedProductMutation
+>;
+export type CommerceDeletePackagedProductMutationResult = Apollo.MutationResult<CommerceDeletePackagedProductMutation>;
+export type CommerceDeletePackagedProductMutationOptions = Apollo.BaseMutationOptions<
+  CommerceDeletePackagedProductMutation,
+  CommerceDeletePackagedProductMutationVariables
+>;
 export const CommerceCreatePaymentMethodDocument: DocumentNode = {
   definitions: [
     {
@@ -15231,6 +15575,138 @@ export type CommerceUpdateCategoryMutationResult = Apollo.MutationResult<Commerc
 export type CommerceUpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateCategoryMutation,
   CommerceUpdateCategoryMutationVariables
+>;
+export const CommerceUpdatePackagedProductDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdatePackagedProduct' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commercePackagedProductUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: {
+                    kind: 'Name',
+                    value: 'commercePackagedProductUpdate',
+                  },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'productId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'productId' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdatePackagedProduct' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommercePackagedProductUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commercePackagedProductUpdate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'productId' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdatePackagedProductMutationFn = Apollo.MutationFunction<
+  CommerceUpdatePackagedProductMutation,
+  CommerceUpdatePackagedProductMutationVariables
+>;
+
+/**
+ * __useCommerceUpdatePackagedProductMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdatePackagedProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdatePackagedProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdatePackagedProductMutation, { data, loading, error }] = useCommerceUpdatePackagedProductMutation({
+ *   variables: {
+ *      commercePackagedProductUpdate: // value for 'commercePackagedProductUpdate'
+ *      id: // value for 'id'
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useCommerceUpdatePackagedProductMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdatePackagedProductMutation,
+    CommerceUpdatePackagedProductMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdatePackagedProductMutation,
+    CommerceUpdatePackagedProductMutationVariables
+  >(CommerceUpdatePackagedProductDocument, baseOptions);
+}
+export type CommerceUpdatePackagedProductMutationHookResult = ReturnType<
+  typeof useCommerceUpdatePackagedProductMutation
+>;
+export type CommerceUpdatePackagedProductMutationResult = Apollo.MutationResult<CommerceUpdatePackagedProductMutation>;
+export type CommerceUpdatePackagedProductMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdatePackagedProductMutation,
+  CommerceUpdatePackagedProductMutationVariables
 >;
 export const CommerceUpdateProductDocument: DocumentNode = {
   definitions: [
@@ -19337,6 +19813,7 @@ export const CommerceGetProductDocument: DocumentNode = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'active' } },
                 {
                   kind: 'Field',
@@ -19393,6 +19870,45 @@ export const CommerceGetProductDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'packagedProducts' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'packagedProduct' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quantity' },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'tags' },
@@ -20302,6 +20818,7 @@ export const CommerceListProductsDocument: DocumentNode = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'active' },
