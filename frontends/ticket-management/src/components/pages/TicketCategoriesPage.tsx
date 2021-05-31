@@ -16,8 +16,8 @@ import {
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import BlockMessage from '../../../../ticket-support/src/lib/components/molecules/BlockMessage';
 import PageContainer from '../../lib/components/templates/PageContainer';
-import NoTicketCategoriesPlaceholder from '../../lib/images/no-ticket-categories-placeholder.png';
 import { useAppContext } from '../app/AppContext';
 import TicketCategoryModal from '../ticketCategories/TicketCategoryModal';
 
@@ -35,10 +35,6 @@ const Title = styled.div`
 const SearchBar = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const Placeholder = styled.img`
-  max-width: 1440px;
 `;
 
 type TicketCategory = Pick<
@@ -104,19 +100,23 @@ const TicketCategoriesPage = () => {
 
   const areTicketCategoriesPresent = ticketCategories.length > 0;
 
+  const shouldRenderCategories = !loading && areTicketCategoriesPresent;
+
   return (
     <PageContainer>
       <HeaderContainer>
         <Title>Ticket categories</Title>
         <SearchBar>
-          <Button
-            onClick={() => {
-              setSelectedTicketCategory(undefined);
-              openTicketCategoryModal();
-            }}
-          >
-            Create new ticket category
-          </Button>
+          {shouldRenderCategories && (
+            <Button
+              onClick={() => {
+                setSelectedTicketCategory(undefined);
+                openTicketCategoryModal();
+              }}
+            >
+              Create new ticket category
+            </Button>
+          )}
           <TicketCategoryModal
             isOpen={isTicketCategoryModalOpen}
             ticketCategory={selectedTicketCategory}
@@ -131,11 +131,20 @@ const TicketCategoriesPage = () => {
         </Spacing>
       )}
 
-      {!loading && !areTicketCategoriesPresent && (
-        <Placeholder
-          alt="no ticket categories placeholder"
-          src={NoTicketCategoriesPlaceholder}
-        />
+      {!shouldRenderCategories && (
+        <ContainerCard>
+          <Spacing bottom="36px" left="24px" right="24px" top="36px">
+            <BlockMessage
+              buttonText="Create now"
+              header="Create new ticket category"
+              message="Please create a new ticket category to see results"
+              onClickAction={() => {
+                setSelectedTicketCategory(undefined);
+                openTicketCategoryModal();
+              }}
+            />
+          </Spacing>
+        </ContainerCard>
       )}
 
       {!loading && areTicketCategoriesPresent && (
