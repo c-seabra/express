@@ -24,6 +24,7 @@ import PageContainer from '../../lib/components/templates/PageContainer';
 import NoTicketTypesPlaceholder from '../../lib/images/no-ticket-types-placeholder.png';
 import { useAppContext } from '../app/AppContext';
 import TicketTypeModal from '../ticketTypes/TicketTypeModal';
+import BlockMessage from '../../../../ticket-support/src/lib/components/molecules/BlockMessage';
 
 export const Badge = styled.span`
   font-size: 14px;
@@ -155,12 +156,15 @@ const TicketTypesPage = () => {
     openModal: openTicketTypeModal,
   } = useModalState();
 
-  const { data, loading } = useCommerceListProductsQuery({
+  const { data, loading: productLoading } = useCommerceListProductsQuery({
     context,
     onError: (e) => error(e.message),
   });
 
-  const { data: commerceCategoriesData } = useCommerceListCategoriesQuery({
+  const {
+    data: commerceCategoriesData,
+    loading: categoriesLoading,
+  } = useCommerceListCategoriesQuery({
     context,
     onError: (e) => error(e.message),
   });
@@ -177,7 +181,7 @@ const TicketTypesPage = () => {
     ticketCategories,
   );
 
-  const { data: storeData } = useCommerceGetStoreQuery({
+  const { data: storeData, loading: storeLoading } = useCommerceGetStoreQuery({
     context,
   });
 
@@ -189,12 +193,21 @@ const TicketTypesPage = () => {
     history.push(`/ticket-type/${ticketType?.id || ''}`);
   };
 
+  const isLoading = storeLoading && productLoading && categoriesLoading;
+  const shouldRenderTypes = !isLoading && !!areCommerceProductsPresent ;
+
   return (
     <PageContainer>
       <HeaderContainer>
-        <Title>Ticket types</Title>
+        <Spacing bottom="1rem">
+          <Title>Ticket types</Title>
+        </Spacing>
         <TableActionsContainer>
-          <Button onClick={openTicketTypeModal}>Create new ticket type</Button>
+          {shouldRenderTypes && (
+            <Button onClick={openTicketTypeModal}>
+              Create new ticket type
+            </Button>
+          )}
           <TicketTypeModal
             country={store?.country}
             currencySymbol={store?.currencySymbol || ''}
@@ -206,13 +219,26 @@ const TicketTypesPage = () => {
         </TableActionsContainer>
       </HeaderContainer>
 
-      {loading && (
+      {isLoading && (
         <Spacing top="5rem">
           <Loader />
         </Spacing>
       )}
 
-      {areCommerceProductsPresent ? (
+      {!shouldRenderTypes && (
+        <ContainerCard>
+          <Spacing bottom="36px" left="24px" right="24px" top="36px">
+            <BlockMessage
+              buttonText="Create now"
+              header="Create new ticket type"
+              message="Please create a new ticket type to see grouped results"
+              onClickAction={openTicketTypeModal}
+            />
+          </Spacing>
+        </ContainerCard>
+      )}
+
+      {shouldRenderTypes &&
         Object.entries(ticketTypesByCategories).map(([key, value]) => (
           <Spacing key={key} top="1.5rem">
             <ContainerCard noPadding title={key}>
@@ -223,13 +249,7 @@ const TicketTypesPage = () => {
               />
             </ContainerCard>
           </Spacing>
-        ))
-      ) : (
-        <Placeholder
-          alt="no ticket types placeholder"
-          src={NoTicketTypesPlaceholder}
-        />
-      )}
+        ))}
     </PageContainer>
   );
 };
