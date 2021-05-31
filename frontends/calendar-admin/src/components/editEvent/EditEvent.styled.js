@@ -55,3 +55,37 @@ export const StyledButton = styled(Button)`
   bottom: 5%;
   position: static;
 `;
+
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+`;
+
+export const OverlayButtons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const OverlayButton = styled.div`
+  color: #3e3d44;
+  border: 1px solid #cecece;
+
+  &:hover {
+    background: #3e3d44;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+`;

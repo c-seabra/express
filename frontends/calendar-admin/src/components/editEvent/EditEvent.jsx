@@ -1,3 +1,4 @@
+import { DestructiveButton } from '@websummit/components/src/atoms/Button';
 import React, { useContext, useEffect, useState } from 'react';
 
 import AvatarList from '../avatarList/AvatarList';
@@ -9,6 +10,9 @@ import {
   FormLabel,
   FormSelect,
   FormTextArea,
+  Overlay,
+  OverlayButton,
+  OverlayButtons,
   StyledButton,
 } from './EditEvent.styled';
 
@@ -27,11 +31,13 @@ const EditEvent = ({
   const {
     locations,
     rsvps,
+    onDeleteEvent,
     onDeleteEventInvitation,
     onUpdateEvent,
   } = useContext(DetailsContext);
 
   const [editedEvent, seteditedEvent] = useState({});
+  const [deletePopupActive, setDeletePopupActive] = useState(false);
   const [deletedInvites, setDeletedInvites] = useState([]);
   const [locationName, setLocationName] = useState(location.name);
   const [formatName, setFormatName] = useState();
@@ -94,6 +100,11 @@ const EditEvent = ({
       deletedInvites.map((invite) => onDeleteEventInvitation(eventId, invite));
 
     setEditPopupActive(false);
+  };
+
+  const handleDeleteResponse = (deleteResponse) => {
+    if (deleteResponse) onDeleteEvent(eventId);
+    setDeletePopupActive(false);
   };
 
   return (
@@ -169,10 +180,31 @@ const EditEvent = ({
           organizerId={organizerId}
         />
       </FormEditInvitee>
+      <DestructiveButton
+        onClick={(e) => {
+          e.preventDefault();
+          setDeletePopupActive(true);
+        }}
+      >
+        Delete Event
+      </DestructiveButton>
       <StyledButton type="submit">Save</StyledButton>
       <StyledButton type="button" onClick={() => setEditPopupActive(false)}>
         Cancel
       </StyledButton>
+      {deletePopupActive && (
+        <Overlay>
+          <h3>Are you sure you want to delete this event?</h3>
+          <OverlayButtons>
+            <OverlayButton onClick={() => handleDeleteResponse(true)}>
+              Yes
+            </OverlayButton>
+            <OverlayButton onClick={() => handleDeleteResponse(false)}>
+              No
+            </OverlayButton>
+          </OverlayButtons>
+        </Overlay>
+      )}
     </Form>
   );
 };

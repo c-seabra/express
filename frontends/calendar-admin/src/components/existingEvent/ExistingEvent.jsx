@@ -165,11 +165,6 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
         <FormWrap>
           <PopupContainer>
             <PopupHeading>Edit Event</PopupHeading>
-            <TopButtons>
-              <Button className="topButton" onBtnClick={handleDelete}>
-                <BinIcon />
-              </Button>
-            </TopButtons>
             <EditEvent
               eventId={id}
               organizerId={organizer ? organizer.id : undefined}
