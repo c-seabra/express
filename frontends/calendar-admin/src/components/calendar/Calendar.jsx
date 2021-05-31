@@ -299,6 +299,17 @@ const Calendar = ({ token, env }) => {
       [eventToUpdateindex]: { $set: updatedExistingEvent },
     });
 
+    if (eventContent.ends_at) {
+      eventContent.ends_at = moment(eventContent.ends_at)
+        .tz(timezone, true)
+        .format();
+    }
+    if (eventContent.starts_at) {
+      eventContent.starts_at = moment(eventContent.starts_at)
+        .tz(timezone, true)
+        .format();
+    }
+    // check if event content has start or end - thn you need to format same way as create in this file - 391
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
     result.data ? setEvents(updatedEvents) : addError(result.error);
