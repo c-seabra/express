@@ -169,13 +169,13 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
               eventId={id}
               organizerId={organizer ? organizer.id : undefined}
               setEditPopupActive={setEditPopupActive}
+              endsAt={ends_at}
+              startsAt={starts_at}
+              eventFormatId={event_format_id}
               {...{
                 description,
-                ends_at,
-                event_format_id,
                 location,
                 rsvps,
-                starts_at,
                 title,
               }}
               formats={formats}

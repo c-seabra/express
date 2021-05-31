@@ -119,6 +119,8 @@ export const FormWrap = styled.div`
   top: 0;
   height: 100%;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   background: white;
   left: 0;
@@ -128,17 +130,13 @@ export const FormWrap = styled.div`
 export const PopupContainer = styled.div`
   height: 80%;
   width: 70%;
-  position: relative;
   background-color: white;
   color: #3e3d44;
   border-radius: 4px;
   overflow: auto;
   overflow-x: hidden;
   top: 10%;
-  align-self: center;
   z-index: 10;
-  -webkit-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 
