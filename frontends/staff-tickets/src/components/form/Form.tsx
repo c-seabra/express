@@ -44,6 +44,8 @@ const Form: React.FC = () => {
   const [volumeTicketsProductID, setVolumeTicketsProductID] = useState('');
   const [volumeTicketsQuantity, setVolumeTicketsQuantity] = useState(10);
 
+  const [notifyOrderOwner, setNotifyOrderOwner] = useState(false);
+
   const { loading, error, data } = useCommerceListProductsQuery({
     context,
   });
@@ -145,6 +147,21 @@ const Form: React.FC = () => {
     </>
   );
 
+  const notifyCheckbox = (
+    <>
+      <input
+        name="notify"
+        type="checkbox"
+        onChange={(event: any) => {
+          const value = event.target.checked as boolean;
+          setNotifyOrderOwner(value);
+        }}
+      />
+      Should we send an email to the order owner to notify them about their
+      tickets?
+    </>
+  );
+
   const metaOptions = (
     <>
       {singleTicket}
@@ -152,11 +169,19 @@ const Form: React.FC = () => {
       ----
       <br />
       {volumeTickets}
+      <br />
+      ----
+      <br />
+      {notifyCheckbox}
+      <br />
+      ----
+      <br />
     </>
   );
 
   const metaContext: WorkUnitContext = {
     guestProductId: volumeTicketsProductID,
+    notify: notifyOrderOwner,
     quantity: volumeTicketsQuantity,
     staffProductId: singleTicketProductID,
   };
@@ -196,9 +221,22 @@ const Form: React.FC = () => {
   return (
     <>
       {metaOptions}
-      {singleTicketProductID}
-      {volumeTicketsProductID}
-      {volumeTicketsQuantity}
+      notify: {JSON.stringify(notifyOrderOwner)}
+      <br />
+      ----
+      <br />
+      single: {singleTicketProductID}
+      <br />
+      ----
+      <br />
+      volume id: {volumeTicketsProductID}
+      <br />
+      ----
+      <br />
+      volume quantity: {volumeTicketsQuantity}
+      <br />
+      ----
+      <br />
       <form onSubmit={(e) => onSingleSubmit(e)}>
         {formError && <div>There seems to be an error with your input.</div>}
         <input name="firstName" type="text" />

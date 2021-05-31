@@ -55,6 +55,7 @@ export function defaultStatus(): StatusType {
 
 export type WorkUnitContext = {
   guestProductId?: string;
+  notify?: boolean;
   quantity?: number;
   staffProductId?: string;
 };
@@ -67,7 +68,7 @@ export function transformStaffIntoWorkUnit(
     email: staff.email,
     firstName: staff.firstName,
     lastName: staff.lastName,
-    notify: true,
+    notify: !!context.notify,
     status: defaultStatus(),
   };
   if (context.staffProductId) {
