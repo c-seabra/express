@@ -82,12 +82,6 @@ const EditEvent = ({
     handleSetEditedEvent('event_format_id', id);
   };
 
-  const handleDeleteInvitation = (invitationId) => {
-    setDeletedInvites((prevState) => {
-      return [...prevState, invitationId];
-    });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -95,9 +89,6 @@ const EditEvent = ({
       editedEvent.constructor === Object
     )
       onUpdateEvent(eventId, editedEvent);
-
-    if (deletedInvites && deletedInvites.length)
-      deletedInvites.map((invite) => onDeleteEventInvitation(eventId, invite));
 
     setEditPopupActive(false);
   };
@@ -175,7 +166,7 @@ const EditEvent = ({
         <AvatarList
           iconActive
           avatarList={rsvps}
-          iconClickCallback={handleDeleteInvitation}
+          iconClickCallback={(id) => onDeleteEventInvitation(eventId, id)}
           listType="delete"
           organizerId={organizerId}
         />

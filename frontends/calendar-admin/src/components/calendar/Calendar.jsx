@@ -240,19 +240,9 @@ const Calendar = ({ token, env }) => {
       (event) => event.id === eventId,
     );
     const eventToUpdate = events[eventToUpdateIndex];
-    const invitationToDeleteIndex = eventToUpdate.invitations.findIndex(
-      (invitation) => invitation.id === invitationId,
-    );
     const rsvpToDeleteIndex = rsvps.findIndex(
       (rsvp) => rsvp.invitation.id === invitationId,
     );
-
-    const updatedEvent = update(eventToUpdate, {
-      invitations: { $splice: [[invitationToDeleteIndex, 1]] },
-    });
-    const updatedEvents = update(events, {
-      [eventToUpdateIndex]: { $set: updatedEvent },
-    });
     const updatedRsvps = update(rsvps, {
       $splice: [[rsvpToDeleteIndex, 1]],
     });
@@ -262,13 +252,8 @@ const Calendar = ({ token, env }) => {
     setExistingEvent(eventToUpdate);
 
     // update response status in API
-    const result = await Api.deleteEventInvitation(
-      eventToUpdate.id,
-      invitationId,
-      token,
-      env,
-    );
-    result.data ? setEvents(updatedEvents) : addError(result.error);
+    await Api.deleteEventInvitation(eventToUpdate.id, invitationId, token, env);
+    await Api.getAdminEvents();
   };
 
   const onUpdateEvent = async (eventId, eventContent) => {
