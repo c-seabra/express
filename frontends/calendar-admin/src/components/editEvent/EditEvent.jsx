@@ -36,9 +36,8 @@ const EditEvent = ({
     onUpdateEvent,
   } = useContext(DetailsContext);
 
-  const [editedEvent, seteditedEvent] = useState({});
+  const [editedEvent, setEditedEvent] = useState({});
   const [deletePopupActive, setDeletePopupActive] = useState(false);
-  const [deletedInvites, setDeletedInvites] = useState([]);
   const [locationName, setLocationName] = useState(location.name);
   const [formatName, setFormatName] = useState();
   const locationNames = locations.map((loc) => {
@@ -57,7 +56,7 @@ const EditEvent = ({
   }, [location, locations, event_format_id, formats]);
 
   const handleSetEditedEvent = (name, value) => {
-    seteditedEvent((entity) => ({
+    setEditedEvent((entity) => ({
       ...entity,
       [name]: value,
     }));
@@ -91,11 +90,6 @@ const EditEvent = ({
       onUpdateEvent(eventId, editedEvent);
 
     setEditPopupActive(false);
-  };
-
-  const handleDeleteResponse = (deleteResponse) => {
-    if (deleteResponse) onDeleteEvent(eventId);
-    setDeletePopupActive(false);
   };
 
   return (
@@ -187,10 +181,15 @@ const EditEvent = ({
         <Overlay>
           <h3>Are you sure you want to delete this event?</h3>
           <OverlayButtons>
-            <OverlayButton onClick={() => handleDeleteResponse(true)}>
+            <OverlayButton
+              onClick={() => {
+                onDeleteEvent(eventId);
+                setDeletePopupActive(false);
+              }}
+            >
               Yes
             </OverlayButton>
-            <OverlayButton onClick={() => handleDeleteResponse(false)}>
+            <OverlayButton onClick={() => setDeletePopupActive(false)}>
               No
             </OverlayButton>
           </OverlayButtons>
