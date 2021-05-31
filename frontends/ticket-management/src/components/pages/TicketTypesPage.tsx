@@ -19,12 +19,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+import BlockMessage from '../../../../ticket-support/src/lib/components/molecules/BlockMessage';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import PageContainer from '../../lib/components/templates/PageContainer';
-import NoTicketTypesPlaceholder from '../../lib/images/no-ticket-types-placeholder.png';
 import { useAppContext } from '../app/AppContext';
 import TicketTypeModal from '../ticketTypes/TicketTypeModal';
-import BlockMessage from '../../../../ticket-support/src/lib/components/molecules/BlockMessage';
 
 export const Badge = styled.span`
   font-size: 14px;
@@ -61,10 +60,6 @@ const Title = styled.div`
 const TableActionsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const Placeholder = styled.img`
-  max-width: 1440px;
 `;
 
 const TicketTypeState = ({ state }: { state: boolean }) => {
@@ -194,7 +189,7 @@ const TicketTypesPage = () => {
   };
 
   const isLoading = storeLoading && productLoading && categoriesLoading;
-  const shouldRenderTypes = !isLoading && !!areCommerceProductsPresent ;
+  const shouldRenderTypes = !isLoading && !!areCommerceProductsPresent;
 
   return (
     <PageContainer>
