@@ -7572,6 +7572,28 @@ export type CommerceTaxSummaryUpdate = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type AppearanceUpdateMutationVariables = Exact<{
+  id: Scalars['UUID'];
+  isSponsor: Scalars['Boolean'];
+  privacyPolicyUrl?: Maybe<Scalars['String']>;
+}>;
+
+export type AppearanceUpdateMutation = { __typename?: 'Mutation' } & {
+  appearanceUpdate: Maybe<
+    { __typename?: 'AppearanceUpdatePayload' } & {
+      appearance: Maybe<
+        { __typename?: 'Appearance' } & Pick<Appearance, 'id'> & {
+            company: { __typename?: 'Company' } & Pick<
+              Company,
+              'name' | 'privacyPolicyUrl'
+            >;
+          }
+      >;
+      errors: Array<{ __typename?: 'Error' } & Pick<Error, 'message' | 'path'>>;
+    }
+  >;
+};
+
 export type AssignmentAuthenticateMutationVariables = Exact<{
   input: AssignmentAuthenticateInput;
 }>;
@@ -9263,6 +9285,14 @@ export type EventQuery = { __typename?: 'Query' } & {
             >;
           }
         >;
+        sponsor: Maybe<
+          { __typename?: 'Appearance' } & Pick<Appearance, 'id'> & {
+              company: { __typename?: 'Company' } & Pick<
+                Company,
+                'name' | 'privacyPolicyUrl'
+              >;
+            }
+        >;
       }
   >;
 };
@@ -9324,6 +9354,31 @@ export type EventListQueryQuery = { __typename?: 'Query' } & {
       'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
     >;
   };
+};
+
+export type EventPartnersQueryVariables = Exact<{
+  slug?: Maybe<Scalars['String']>;
+}>;
+
+export type EventPartnersQuery = { __typename?: 'Query' } & {
+  event: Maybe<
+    { __typename?: 'Event' } & {
+      partners: Maybe<
+        { __typename?: 'AppearanceConnection' } & {
+          edges: Array<
+            { __typename?: 'AppearanceEdge' } & {
+              node: { __typename?: 'Appearance' } & Pick<Appearance, 'id'> & {
+                  company: { __typename?: 'Company' } & Pick<
+                    Company,
+                    'name' | 'privacyPolicyUrl'
+                  >;
+                };
+            }
+          >;
+        }
+      >;
+    }
+  >;
 };
 
 export type EventTimeZoneQueryVariables = Exact<{
@@ -12975,6 +13030,181 @@ export const DynamicFormPayloadFragmentDoc: DocumentNode = {
   ],
   kind: 'Document',
 };
+export const AppearanceUpdateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'AppearanceUpdate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'isSponsor' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'isSponsor' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'privacyPolicyUrl' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'privacyPolicyUrl' },
+                      },
+                    },
+                  ],
+                  kind: 'ObjectValue',
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'appearanceUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'appearance' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'company' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'privacyPolicyUrl' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'errors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'Boolean' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'isSponsor' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'privacyPolicyUrl' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type AppearanceUpdateMutationFn = Apollo.MutationFunction<
+  AppearanceUpdateMutation,
+  AppearanceUpdateMutationVariables
+>;
+
+/**
+ * __useAppearanceUpdateMutation__
+ *
+ * To run a mutation, you first call `useAppearanceUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAppearanceUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [appearanceUpdateMutation, { data, loading, error }] = useAppearanceUpdateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      isSponsor: // value for 'isSponsor'
+ *      privacyPolicyUrl: // value for 'privacyPolicyUrl'
+ *   },
+ * });
+ */
+export function useAppearanceUpdateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AppearanceUpdateMutation,
+    AppearanceUpdateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    AppearanceUpdateMutation,
+    AppearanceUpdateMutationVariables
+  >(AppearanceUpdateDocument, baseOptions);
+}
+export type AppearanceUpdateMutationHookResult = ReturnType<
+  typeof useAppearanceUpdateMutation
+>;
+export type AppearanceUpdateMutationResult = Apollo.MutationResult<AppearanceUpdateMutation>;
+export type AppearanceUpdateMutationOptions = Apollo.BaseMutationOptions<
+  AppearanceUpdateMutation,
+  AppearanceUpdateMutationVariables
+>;
 export const AssignmentAuthenticateDocument: DocumentNode = {
   definitions: [
     {
@@ -21823,6 +22053,33 @@ export const EventDocument: DocumentNode = {
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'sponsor' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'company' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'privacyPolicyUrl' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -22167,6 +22424,147 @@ export type EventListQueryLazyQueryHookResult = ReturnType<
 export type EventListQueryQueryResult = Apollo.QueryResult<
   EventListQueryQuery,
   EventListQueryQueryVariables
+>;
+export const EventPartnersDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'EventPartners' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'slug' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'slug' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'event' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'partners' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'edges' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'company' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'privacyPolicyUrl',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useEventPartnersQuery__
+ *
+ * To run a query within a React component, call `useEventPartnersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventPartnersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventPartnersQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useEventPartnersQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    EventPartnersQuery,
+    EventPartnersQueryVariables
+  >,
+) {
+  return Apollo.useQuery<EventPartnersQuery, EventPartnersQueryVariables>(
+    EventPartnersDocument,
+    baseOptions,
+  );
+}
+export function useEventPartnersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EventPartnersQuery,
+    EventPartnersQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<EventPartnersQuery, EventPartnersQueryVariables>(
+    EventPartnersDocument,
+    baseOptions,
+  );
+}
+export type EventPartnersQueryHookResult = ReturnType<
+  typeof useEventPartnersQuery
+>;
+export type EventPartnersLazyQueryHookResult = ReturnType<
+  typeof useEventPartnersLazyQuery
+>;
+export type EventPartnersQueryResult = Apollo.QueryResult<
+  EventPartnersQuery,
+  EventPartnersQueryVariables
 >;
 export const EventTimeZoneDocument: DocumentNode = {
   definitions: [

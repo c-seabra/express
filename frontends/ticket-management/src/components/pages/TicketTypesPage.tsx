@@ -135,7 +135,7 @@ const tableShape: ColumnDescriptors<CommerceProductTableItem> = [
     },
   },
   {
-    header: 'On sale',
+    header: 'Public sale status',
     renderCell: (item) => <TicketTypeState state={item.active} />,
   },
 ];
