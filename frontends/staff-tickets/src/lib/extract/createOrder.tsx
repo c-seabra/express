@@ -147,12 +147,10 @@ export async function processCreateOrderWorkUnit(
     },
   };
 
-  if (!workUnit.notify) {
-    variables.commerceOrderCreate.metadata = {
-      disableEmailNotification: true,
-      disableOrderEmail: true,
-    };
-  }
+  variables.commerceOrderCreate.metadata = {
+    disableEmailNotification: !workUnit.notify,
+    disableOrderEmail: !workUnit.notify,
+  };
 
   const result:
     | FetchResult<CommerceCreateOrderMutation>
