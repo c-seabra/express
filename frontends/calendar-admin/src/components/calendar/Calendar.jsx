@@ -35,6 +35,7 @@ const Calendar = ({ token, env }) => {
   const [newEvent, setNewEvent] = useState();
   const [existingEvent, setExistingEvent] = useState();
   const [locations, setLocations] = useState();
+  const [formats, setFormats] = useState();
   const [rsvps, setRsvps] = useState([]);
   // const [payload, setPayload] = useState()
   const [confSlug, setConfSlug] = useState();
@@ -42,6 +43,7 @@ const Calendar = ({ token, env }) => {
   const [chosenDate, setChosenDate] = useState();
   const [currentUserId, setCurrentUserId] = useState();
   const [responseStatuses, setResponseStatuses] = useState();
+  const [timezone, setTimezone] = useState();
 
   const addError = (error) => {
     setErrors((errors) => errors.concat([error]));
@@ -64,47 +66,51 @@ const Calendar = ({ token, env }) => {
     }
   }, [attendances, token]);
 
+  const getAdminEvents = async () => {
+    const eventsResults = await Api.getAdminEvents(
+      attendancesArray,
+      token,
+      env,
+    );
+    if (eventsResults.data) {
+      let eventRes = [];
+      eventsResults.data.data.forEach((e) => {
+        e.calendar_events.forEach((i) => {
+          i.attendance_id = e.id;
+        });
+        eventRes.push(...e.calendar_events);
+      });
+
+      eventRes = eventRes.map((e) => {
+        const offsetString = moment(e.starts_at).tz(timezone, true).format();
+        e.starts_at = moment(e.starts_at)
+          .utcOffset(offsetString)
+          .format('YYYY-MM-DDTHH:mm');
+        e.ends_at = moment(e.ends_at)
+          .utcOffset(offsetString)
+          .format('YYYY-MM-DDTHH:mm');
+        return e;
+      });
+      setEvents(eventRes);
+    } else {
+      addError(eventsResults.error);
+    }
+  };
+
   const getRequiredData = async (payload) => {
     const confResult = await Api.getConferenceDetails(
       payload.conf_id,
       token,
       env,
     );
-    confResult.data
-      ? setChosenDate(new Date(confResult.data.data.start_date))
-      : addError(confResult.error);
-
+    if (confResult.data) {
+      setChosenDate(new Date(confResult.data.data.start_date));
+      setTimezone(confResult.data.data.timezone);
+    } else {
+      addError(confResult.error);
+    }
     if (attendancesArray.length > 0) {
-      const eventsResults = await Api.getAdminEvents(
-        attendancesArray,
-        token,
-        env,
-      );
-      if (eventsResults.data) {
-        let eventRes = [];
-        eventsResults.data.data.forEach((e) => {
-          e.calendar_events.forEach((i) => {
-            i.attendance_id = e.id;
-          });
-          eventRes.push(...e.calendar_events);
-        });
-
-        eventRes = eventRes.map((e) => {
-          const offsetString = moment(e.starts_at)
-            .tz(confResult.data.data.timezone, true)
-            .format();
-          e.starts_at = moment(e.starts_at)
-            .utcOffset(offsetString)
-            .format('YYYY-MM-DDTHH:mm');
-          e.ends_at = moment(e.ends_at)
-            .utcOffset(offsetString)
-            .format('YYYY-MM-DDTHH:mm');
-          return e;
-        });
-        setEvents(eventRes);
-      } else {
-        addError(eventsResults.error);
-      }
+      await getAdminEvents();
     } else {
       setEvents([]);
     }
@@ -118,6 +124,11 @@ const Calendar = ({ token, env }) => {
     responseStatusesResult.data
       ? setResponseStatuses(responseStatusesResult.data.data)
       : addError(responseStatusesResult.error);
+
+    const formatsResult = await Api.getEventFormats(token, env);
+    formatsResult.data
+      ? setFormats(formatsResult.data.data)
+      : addError(formatsResult.error);
   };
 
   const addRsvp = (rsvp) => {
@@ -370,19 +381,27 @@ const Calendar = ({ token, env }) => {
     setEvents(nextEvents);
   };
 
-  const createEvent = (event) => {
-    const newEvent = {
-      allDay: event.slots.length === 1,
-      ends_at: event.end,
-      event,
-      id: events.length + 1,
-      saved: false,
-      starts_at: event.start,
-      title: 'New Event',
-    };
-    const updatedEvents = events.concat([newEvent]);
-    setEvents(updatedEvents);
-    setNewEvent(newEvent);
+  const onCreateEvent = async (event) => {
+    const tokenPayload = jwt(token);
+    if (attendancesArray.length > 0) {
+      setNewEvent(event);
+      if (event.title) {
+        await Api.createEvent(
+          attendancesArray,
+          moment(event.end).tz(timezone, true).format(),
+          moment(event.start).tz(timezone, true).format(),
+          event.title,
+          event.description,
+          event.location,
+          event.location_id,
+          event.event_format_id,
+          token,
+          tokenPayload.conf_id,
+          env,
+        );
+        await getAdminEvents();
+      }
+    }
   };
 
   const cleanupData = (newEvents = events) => {
@@ -407,6 +426,7 @@ const Calendar = ({ token, env }) => {
           currentUserId,
           events,
           locations,
+          onCreateEvent,
           onDeleteEvent,
           onDeleteEventInvitation,
           onSelectEvent,
@@ -419,7 +439,9 @@ const Calendar = ({ token, env }) => {
         <Error errors={errors} />
         <Popup
           existingEvent={existingEvent}
+          formats={formats}
           handleOnClick={() => cleanupData()}
+          locations={locations}
           newEvent={newEvent}
         />
         <DragAndDropCalendar
@@ -432,14 +454,11 @@ const Calendar = ({ token, env }) => {
           eventPropGetter={eventPropGetter}
           events={events}
           getNow={() => moment().toDate()}
-          length={60}
           localizer={localizer}
           max={moment('2000-01-01T23:00:00.000Z').toDate()}
           min={moment('2000-01-01T01:00:00.000Z').toDate()}
           startAccessor={startAccessor}
-          step={60}
           style={{ fontSize: '14px', height: '100vh' }}
-          timeslots={1}
           titleAccessor={titleAccessor}
           tooltipAccessor={tooltipAccessor}
           view={currentView}
@@ -448,7 +467,7 @@ const Calendar = ({ token, env }) => {
           onEventResize={resizeEvent}
           onNavigate={onNavigate}
           onSelectEvent={onSelectEvent}
-          onSelectSlot={createEvent}
+          onSelectSlot={onCreateEvent}
           onView={onView}
         />
       </DetailsContext.Provider>

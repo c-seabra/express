@@ -3,24 +3,24 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
-import { useCommerceDeleteDealItemMutation } from '@websummit/graphql/src/@types/operations';
-import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
+import { useCommerceDeletePackagedProductMutation } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_GET_PRODUCT from '@websummit/graphql/src/operations/queries/CommerceGetProduct';
 import React from 'react';
 
 import { useRequestContext } from '../app/AppContext';
 
 type ModalProps = {
   closeModal: () => void;
-  dealId: string;
-  dealItemId: string;
+  id: string;
   isOpen: boolean;
+  itemId: string;
 };
 
-const PackageItemRemovalModal = ({
+const TicketPackageItemRemovalModal = ({
   isOpen,
   closeModal,
-  dealId,
-  dealItemId,
+  id,
+  itemId,
 }: ModalProps) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
@@ -28,15 +28,15 @@ const PackageItemRemovalModal = ({
   const refetchQueriesContext = [
     {
       context,
-      query: COMMERCE_DEAL_ITEMS_LIST,
-      variables: { dealId },
+      query: COMMERCE_GET_PRODUCT,
+      variables: { id },
     },
   ];
 
-  const [deletePackageItem] = useCommerceDeleteDealItemMutation({
+  const [deletePackageItem] = useCommerceDeletePackagedProductMutation({
     context,
     onCompleted: () => {
-      snackbar('Pricing for deal detail deleted');
+      snackbar('Ticket type deleted from package');
     },
     onError: (e) => errorSnackbar(e.message),
     refetchQueries: refetchQueriesContext,
@@ -45,15 +45,15 @@ const PackageItemRemovalModal = ({
   const setMutation = () => {
     return deletePackageItem({
       variables: {
-        dealId,
-        id: dealItemId,
+        id: itemId,
+        productId: id,
       },
     });
   };
 
   return (
     <FormikModal
-      alertHeader="Remove deal constraint?"
+      alertHeader="Remove ticket type from package?"
       closeModal={closeModal}
       initialValues={{}}
       isOpen={isOpen}
@@ -63,4 +63,4 @@ const PackageItemRemovalModal = ({
   );
 };
 
-export default PackageItemRemovalModal;
+export default TicketPackageItemRemovalModal;

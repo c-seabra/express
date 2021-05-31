@@ -98,7 +98,7 @@ const PackagesPage = () => {
     openModal();
   };
   const redirectToPackage = (id: string) => {
-    history.push(`/package/${id}`);
+    history.push(`/deal/${id}`);
   };
   const onRowClick = (event: any) => {
     redirectToPackage(event.id);
@@ -134,15 +134,15 @@ const PackagesPage = () => {
 
   return (
     <Container>
-      {loading && <Loader />}
-
       <PackageModalWrapper closeModal={closeModal} isOpen={isOpen} />
 
       <FlexCol>
         <FlexRow>
-          <HeaderText>Packages</HeaderText>
-          <Button onClick={onButtonClick}>Create new package</Button>
+          <HeaderText>Deals</HeaderText>
+          <Button onClick={onButtonClick}>Create new deal</Button>
         </FlexRow>
+
+        {loading && <Loader />}
 
         {hasPackages &&
           Object.entries(groupedPackages).map(([key, value]) => (
