@@ -75,7 +75,7 @@ const PackageForm = ({ prefillData }: Props) => {
   const [updateDeal] = useCommerceUpdateDealMutation({
     context,
     onCompleted: () => {
-      snackbar('Package updated');
+      snackbar('Deal updated');
     },
     onError: (error) => errorSnackbar(error.message),
     refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
@@ -119,7 +119,7 @@ const PackageForm = ({ prefillData }: Props) => {
         <Spacing top="2rem">
           <FieldWrapper>
             <Spacing bottom="8px">
-              <TextInputField required label="Package name" name="name" />
+              <TextInputField required label="Deal name" name="name" />
             </Spacing>
           </FieldWrapper>
 
@@ -145,7 +145,7 @@ const PackageForm = ({ prefillData }: Props) => {
             <Spacing bottom="8px">
               <TextAreaField
                 fieldHeight="80px"
-                label="Package description"
+                label="Deal description"
                 name="description"
               />
             </Spacing>
@@ -153,7 +153,7 @@ const PackageForm = ({ prefillData }: Props) => {
 
           <FieldWrapper>
             <Spacing bottom="8px">
-              <CheckboxField label="On sale" name="active" />
+              <CheckboxField label="Public sale status" name="active" />
             </Spacing>
           </FieldWrapper>
           <FlexEnd>

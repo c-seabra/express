@@ -11,8 +11,10 @@ const useOrdersQuery = ({
   searchQuery,
   status,
   ticketTypeIds = [],
+  onError,
 }: {
   initialPage: string;
+  onError?: any;
   perPage?: number;
   searchQuery?: string;
   status?: string;
@@ -39,6 +41,7 @@ const useOrdersQuery = ({
   return usePaginatedQuery<Order, 'orders', typeof variables, typeof context>({
     context,
     initialPage,
+    onError,
     query: ORDER_LIST,
     variables,
   });

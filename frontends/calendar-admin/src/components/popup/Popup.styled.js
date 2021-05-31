@@ -25,6 +25,31 @@ export const PopupContainer = styled.div`
   }
 `;
 
+export const CreatePopupContainer = styled.div`
+  top: 25%;
+  left: 25%;
+  height: 60%;
+  width: 40%;
+  background-color: white;
+  border-radius: 4px;
+  overflow: auto;
+  position: absolute;
+  z-index: 10;
+  -webkit-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+
+  &:hover {
+    cursor: default;
+  }
+
+  & * {
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+`;
+
 export const Button = styled.button`
   transition: all 0.4s ease;
   padding: 0.5rem 1.2rem;

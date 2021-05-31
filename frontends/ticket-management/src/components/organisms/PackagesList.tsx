@@ -41,7 +41,7 @@ const PackagesList = ({ packages, onRowClick }: PackagesListProps) => {
       renderCell: (deal) => deal.description || 'N/A',
     },
     {
-      header: 'On sale',
+      header: 'Public sale status',
       renderCell: (deal) => {
         const badge = {
           background: deal.active ? '#EAF9EA' : '#FDEBEB',

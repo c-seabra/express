@@ -14,6 +14,7 @@ import {
   CommerceCategory,
   CommerceProduct,
   CommerceProductTaxMode,
+  CommerceProductType,
   CommerceSearchTermOp,
   CommerceTax,
   CommerceTaxType,
@@ -29,6 +30,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useRequestContext } from '../app/AppContext';
 
 const FieldRow = styled.div`
@@ -200,7 +202,7 @@ const getTotalPrice = (rateAmount = 0, price: Total, currencySymbol = '') => {
   const taxPercentage = rateAmount / 100;
   const priceInCents = toCents(price);
   const totalPrice = +priceInCents + taxPercentage * priceInCents;
-  return `${currencySymbol}${fromCents(totalPrice)}`;
+  return `${currencySymbol}${fromCents(totalPrice).toFixed(2)}`;
 };
 
 type TicketTypeFormProps = {
@@ -230,6 +232,7 @@ type TicketTypeFormProps = {
     id: string;
     name?: string;
   };
+  type?: CommerceProductType;
 };
 
 // On ticket type (CommerceProduct) creation,
@@ -288,7 +291,16 @@ const TicketTypeForm = ({
     })),
   ];
 
+  const mappedType = (type: boolean | undefined): CommerceProductType =>
+    type ? CommerceProductType.Package : CommerceProductType.Simple;
+
   const suffix = getBookingRefSuffix(ticketType);
+  const mapInitialType = (type: CommerceProductType): boolean => {
+    return switchCase({
+      [CommerceProductType.Simple]: false,
+      [CommerceProductType.Package]: true,
+    })(false)(type);
+  };
 
   return (
     <Formik
@@ -304,10 +316,12 @@ const TicketTypeForm = ({
         taxMode: ticketType?.taxMode || '',
         taxType: ticketType?.taxType?.id || '',
         ticketPriceVariant: getPriceVariant(ticketType),
+        type: mapInitialType(ticketType?.type as CommerceProductType),
       }}
       validationSchema={validationSchema}
       onSubmit={async (values) => {
         const {
+          type,
           active,
           name,
           description,
@@ -338,6 +352,7 @@ const TicketTypeForm = ({
                 taxType: {
                   id: taxType || '',
                 },
+                type: mappedType(!!type),
               },
             },
           });
@@ -356,6 +371,7 @@ const TicketTypeForm = ({
                 // when adding multiple tags on creation
                 // we still need to include the default tag here
                 tags: [{ id: defaultTag?.id }],
+
                 taxMode:
                   taxMode === CommerceProductTaxMode.B2B
                     ? CommerceProductTaxMode.B2B
@@ -363,6 +379,7 @@ const TicketTypeForm = ({
                 taxType: {
                   id: taxType || '',
                 },
+                type: mappedType(!!type),
               },
             },
           });
@@ -401,8 +418,11 @@ const TicketTypeForm = ({
                 label="Ticket description"
                 maxLength={100}
                 name="description"
-                placeholder="This ticket shall be given to GA"
+                placeholder="Specify ticket description"
               />
+              <FieldRow>
+                <CheckboxField label="Package of tickets" name="type" />
+              </FieldRow>
               <FieldRow>
                 <StyledSelectField
                   label="Ticket category"

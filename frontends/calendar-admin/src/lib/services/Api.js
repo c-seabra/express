@@ -209,6 +209,30 @@ export function withConfig({ token: _token, env: _env } = {}) {
       );
     },
 
+    getEventFormats: async (token = String(_token), env = _env) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+      const requestData = {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+        method: 'GET',
+      };
+      return handleFetch(
+        new Request(
+          `${String(CONFIG[env].CALENDAR_URL)}/event_formats/`,
+          requestData,
+        ),
+      );
+    },
+
     getEvents: async (token = String(_token), env = _env) => {
       // console.log({ getEvents: env })
       if (env === 'mock') {
@@ -282,6 +306,49 @@ export function withConfig({ token: _token, env: _env } = {}) {
       }
       return handleFetch(
         `${String(CONFIG[env].CALENDAR_URL)}/response_statuses`,
+      );
+    },
+
+    createEvent: async (
+      attendancesArray,
+      end,
+      start,
+      title,
+      description,
+      location,
+      locationId,
+      eventFormatId,
+      token = String(_token),
+      confId,
+      env = _env,
+      invitee,
+    ) => {
+      const requestData = {
+        body: JSON.stringify({
+          attendances_array: attendancesArray,
+          ends_at: end,
+          starts_at: start,
+          title: title,
+          description: description,
+          location_name: location,
+          location_id: locationId,
+          event_format_id: eventFormatId,
+          token: token,
+          conference_id: confId,
+          env: env,
+        }),
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+      };
+      return handleFetch(
+        new Request(
+          `${String(CONFIG[env].CALENDAR_URL)}/admin_calendar_events/`,
+          requestData,
+        ),
       );
     },
 

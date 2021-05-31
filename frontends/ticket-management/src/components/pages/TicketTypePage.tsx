@@ -12,19 +12,24 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceGetProductQueryVariables,
   CommerceProduct,
+  CommerceProductType,
   CommerceStore,
   useCommerceGetProductQuery,
   useCommerceGetStoreQuery,
   useCommerceListCategoriesQuery,
   useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import useCopyToClipboard from '../../lib/hooks/useCopyToClipboard';
 import { useRequestContext } from '../app/AppContext';
 import InviteToPurhcaseModal from '../modals/InviteToPurchaseModal';
+import TicketPackageItemModalWrapper from '../modals/TicketPackageItemModalWrapper';
+import TicketPackageItemRemovalModal from '../modals/TicketPackageItemRemovalModal';
+import PackageProductsList from '../organisms/PackageProductsList';
 import TicketTypeForm from '../organisms/TicketTypeForm';
 
 const Separator = styled.div`
@@ -165,8 +170,78 @@ const TicketTypePage = () => {
 
   const isStoreConfigured = Boolean(!loadingStore && store);
 
+  const hasPackageProducts =
+    data?.commerceGetProduct?.packagedProducts &&
+    data?.commerceGetProduct?.packagedProducts?.length > 0;
+  const packagedProducts = data?.commerceGetProduct?.packagedProducts;
+  const mapInitialType = (type: CommerceProductType): boolean => {
+    return switchCase({
+      [CommerceProductType.Simple]: false,
+      [CommerceProductType.Package]: true,
+    })(false)(type);
+  };
+  const productId = data?.commerceGetProduct?.id as string;
+
+  const isPackage = mapInitialType(
+    data?.commerceGetProduct?.type as CommerceProductType,
+  );
+  const {
+    isOpen: isPackageItemRemovalModalOpen,
+    closeModal: packageItemRemovalModalClose,
+    openModal: packageItemRemovalOpenModal,
+  } = useModalState();
+  const [packageItemId, setPackageItemId] = useState<any>();
+  const openDeleteItemModal = (itemId: string) => {
+    setPackageItemId(itemId);
+    packageItemRemovalOpenModal();
+  };
+
+  const {
+    isOpen: packageIsOpen,
+    closeModal: packageCloseModal,
+    openModal: packageOpenModal,
+  } = useModalState();
+
+  const [prefillData, setPrefillData] = useState<any>({
+    product: '',
+    quantity: 1,
+  });
+  const onButtonClick = () => {
+    setPrefillData({
+      product: '',
+      quantity: 1,
+    });
+
+    packageOpenModal();
+  };
+  const onRowClick = (event: any) => {
+    setPrefillData({
+      id: event.id,
+      product: event.packagedProduct.id,
+      quantity: event.quantity,
+    });
+
+    packageOpenModal();
+  };
+
   return (
     <Container>
+      {productId && (
+        <TicketPackageItemModalWrapper
+          closeModal={packageCloseModal}
+          isOpen={packageIsOpen}
+          prefillData={prefillData}
+          productId={productId}
+        />
+      )}
+
+      <TicketPackageItemRemovalModal
+        closeModal={packageItemRemovalModalClose}
+        id={data?.commerceGetProduct?.id as string}
+        isOpen={isPackageItemRemovalModalOpen}
+        itemId={packageItemId}
+      />
+
       <FlexCol>
         <FlexRow>
           <Breadcrumbs routes={breadcrumbsRoutes} />
@@ -191,6 +266,40 @@ const TicketTypePage = () => {
             </>
           </ContainerCard>
         </FlexRow>
+
+        {isPackage && (
+          <FlexRow>
+            <ContainerCard>
+              <>
+                <Spacing bottom="2rem" top="1rem">
+                  <Spacing bottom="1.25rem">
+                    <Header>Specify package details</Header>
+                  </Spacing>
+                  <SubHeader>
+                    Add one or more ticket types to the package
+                  </SubHeader>
+                </Spacing>
+                <Spacing bottom="1rem">
+                  <Button onClick={onButtonClick}>
+                    Add tickets to package
+                  </Button>
+                </Spacing>
+
+                {loading && <Loader />}
+
+                {hasPackageProducts && (
+                  <Spacing bottom="2rem" top="2rem">
+                    <PackageProductsList
+                      packages={packagedProducts}
+                      onActionClick={openDeleteItemModal}
+                      onRowClick={onRowClick}
+                    />
+                  </Spacing>
+                )}
+              </>
+            </ContainerCard>
+          </FlexRow>
+        )}
 
         <FlexRow>
           <ContainerCard>
