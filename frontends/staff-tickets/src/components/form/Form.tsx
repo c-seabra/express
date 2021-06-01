@@ -129,7 +129,7 @@ const Form: React.FC = () => {
       type="number"
       value={volumeTicketsQuantity}
       onChange={(event: any) => {
-        const value = event.target.value as number;
+        const value = parseInt(event.target.value);
         setVolumeTicketsQuantity(value);
       }}
     />
@@ -173,9 +173,6 @@ const Form: React.FC = () => {
       ----
       <br />
       {notifyCheckbox}
-      <br />
-      ----
-      <br />
     </>
   );
 
@@ -220,7 +217,18 @@ const Form: React.FC = () => {
   };
   return (
     <>
+      <span>
+        Are you sure you know what you are doing?
+        Are you a financial admin authorized to make these changes?
+        If you get errors when using this tool and you do not have the permissions, that is to be expected
+      </span>
+      <br />
+      ----
+      <br />
       {metaOptions}
+      <br />
+      ----
+      <br />
       notify: {JSON.stringify(notifyOrderOwner)}
       <br />
       ----
