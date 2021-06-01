@@ -116,8 +116,9 @@ const PackagesPage = () => {
 
   const ticketCategories =
     commerceCategories?.commerceListCategories?.hits || [];
-  const hasPackages =
-    data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0;
+  const hasPackages = !!(
+    data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0
+  );
   const packages: any = data?.commerceListDeals?.hits;
   const mappedPackages = packages?.map((item: CommerceDeal) => {
     let category: CommerceCategory[] = [];
@@ -133,8 +134,9 @@ const PackagesPage = () => {
     ticketCategories,
   );
 
-  const isLoading = loading && loadingCategories;
-  const shouldRenderPackages = !isLoading && !!hasPackages;
+  const isLoading = loading || loadingCategories;
+  const shouldRenderPackages = !isLoading && hasPackages;
+  const shouldNotRenderPackages = !isLoading && !hasPackages;
 
   return (
     <Container>
@@ -153,7 +155,7 @@ const PackagesPage = () => {
 
         {loading && <Loader />}
 
-        {!shouldRenderPackages && (
+        {shouldNotRenderPackages && (
           <ContainerCard>
             <Spacing bottom="36px" left="24px" right="24px" top="36px">
               <BlockMessage

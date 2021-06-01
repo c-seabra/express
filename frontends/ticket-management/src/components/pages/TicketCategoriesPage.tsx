@@ -101,6 +101,7 @@ const TicketCategoriesPage = () => {
   const areTicketCategoriesPresent = ticketCategories.length > 0;
 
   const shouldRenderCategories = !loading && areTicketCategoriesPresent;
+  const shouldNotRenderCategories = !loading && !areTicketCategoriesPresent;
 
   return (
     <PageContainer>
@@ -134,7 +135,7 @@ const TicketCategoriesPage = () => {
         </Spacing>
       )}
 
-      {!shouldRenderCategories && (
+      {shouldNotRenderCategories && (
         <ContainerCard>
           <Spacing bottom="36px" left="24px" right="24px" top="36px">
             <BlockMessage

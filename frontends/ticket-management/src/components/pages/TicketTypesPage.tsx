@@ -165,8 +165,9 @@ const TicketTypesPage = () => {
   });
 
   const ticketTypes = data?.commerceListProducts?.hits || [];
-  const areCommerceProductsPresent =
-    ticketTypes?.length && ticketTypes?.length > 0;
+  const areCommerceProductsPresent = !!(
+    ticketTypes?.length && ticketTypes?.length > 0
+  );
 
   const ticketCategories =
     commerceCategoriesData?.commerceListCategories?.hits || [];
@@ -188,8 +189,9 @@ const TicketTypesPage = () => {
     history.push(`/ticket-type/${ticketType?.id || ''}`);
   };
 
-  const isLoading = storeLoading && productLoading && categoriesLoading;
-  const shouldRenderTypes = !isLoading && !!areCommerceProductsPresent;
+  const isLoading = storeLoading || productLoading || categoriesLoading;
+  const shouldRenderTypes = !isLoading && areCommerceProductsPresent;
+  const shouldNotRenderTypes = !isLoading && !areCommerceProductsPresent;
 
   return (
     <PageContainer>
@@ -221,7 +223,7 @@ const TicketTypesPage = () => {
         </Spacing>
       )}
 
-      {!shouldRenderTypes && (
+      {shouldNotRenderTypes && (
         <ContainerCard>
           <Spacing bottom="36px" left="24px" right="24px" top="36px">
             <BlockMessage
