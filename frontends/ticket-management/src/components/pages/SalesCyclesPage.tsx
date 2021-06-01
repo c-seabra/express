@@ -61,20 +61,19 @@ const SalesCyclesPage = () => {
     onError: (error) => errorSnackbar(error.message),
   });
 
-  const hasCycles =
-    data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length > 0;
+  const hasCycles = !!(
+    data?.commerceListSales?.hits && data?.commerceListSales?.hits?.length > 0
+  );
   const cycles: any = data?.commerceListSales?.hits;
   const sortedCycles: any = cycles?.slice()?.sort((a: any, b: any) => {
     return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
   });
 
-  const shouldRenderCycles = !loading && !!hasCycles;
-  const shouldNotRenderCycles = !!hasCycles;
+  const shouldRenderCycles = !loading && hasCycles;
+  const shouldNotRenderCycles = !loading && !hasCycles;
 
   return (
     <Container>
-      {loading && <Loader />}
-
       <SaleCycleModalWrapper closeModal={closeModal} isOpen={isOpen} />
 
       <FlexCol>
@@ -88,7 +87,9 @@ const SalesCyclesPage = () => {
           )}
         </FlexRow>
 
-        {!shouldNotRenderCycles && (
+        {loading && <Loader />}
+
+        {shouldNotRenderCycles && (
           <ContainerCard>
             <Spacing bottom="36px" left="24px" right="24px" top="36px">
               <BlockMessage
