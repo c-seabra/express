@@ -1,5 +1,6 @@
 ﻿import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
+import BlockMessage from '@websummit/components/src/molecules/BlockMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
@@ -8,7 +9,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import BlockMessage from '../../../../ticket-support/src/lib/components/molecules/BlockMessage';
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import { useRequestContext } from '../app/AppContext';
 import SaleCycleModalWrapper, {
@@ -69,6 +69,7 @@ const SalesCyclesPage = () => {
   });
 
   const shouldRenderCycles = !loading && !!hasCycles;
+  const shouldNotRenderCycles = !!hasCycles;
 
   return (
     <Container>
@@ -87,7 +88,7 @@ const SalesCyclesPage = () => {
           )}
         </FlexRow>
 
-        {!shouldRenderCycles && (
+        {!shouldNotRenderCycles && (
           <ContainerCard>
             <Spacing bottom="36px" left="24px" right="24px" top="36px">
               <BlockMessage

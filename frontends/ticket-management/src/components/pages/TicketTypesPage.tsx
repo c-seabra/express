@@ -1,5 +1,6 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
+import BlockMessage from '@websummit/components/src/molecules/BlockMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
@@ -19,7 +20,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import BlockMessage from '../../../../ticket-support/src/lib/components/molecules/BlockMessage';
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import { useAppContext } from '../app/AppContext';
