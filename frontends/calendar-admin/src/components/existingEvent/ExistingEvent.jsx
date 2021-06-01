@@ -166,12 +166,12 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
           <PopupContainer>
             <PopupHeading>Edit Event</PopupHeading>
             <EditEvent
+              endsAt={ends_at}
+              eventFormatId={event_format_id}
               eventId={id}
               organizerId={organizer ? organizer.id : undefined}
               setEditPopupActive={setEditPopupActive}
-              endsAt={ends_at}
               startsAt={starts_at}
-              eventFormatId={event_format_id}
               {...{
                 description,
                 location,

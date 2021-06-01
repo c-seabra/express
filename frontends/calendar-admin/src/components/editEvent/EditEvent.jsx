@@ -1,6 +1,7 @@
 import { DestructiveButton } from '@websummit/components/src/atoms/Button';
 import React, { useContext, useEffect, useState } from 'react';
 
+import AddAttendance from '../addAttendance/AddAttendance';
 import AvatarList from '../avatarList/AvatarList';
 import { DetailsContext } from '../calendar/Context';
 import {
@@ -168,6 +169,10 @@ const EditEvent = ({
           }
           onChange={(e) => handleSetEditedEvent('description', e.target.value)}
         />
+      </FormWrapper>
+      <FormWrapper>
+        <FormLabel>Add attendances: </FormLabel>
+        <AddAttendance eventId={eventId} />
       </FormWrapper>
       <FormWrapper>
         <FormEditInvitee>
