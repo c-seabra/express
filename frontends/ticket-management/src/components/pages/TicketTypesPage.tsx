@@ -197,6 +197,7 @@ const TicketTypesPage = () => {
         <Spacing bottom="1rem">
           <Title>Ticket types</Title>
         </Spacing>
+
         <TableActionsContainer>
           {shouldRenderTypes && (
             <Button onClick={openTicketTypeModal}>

@@ -142,7 +142,10 @@ const PackagesPage = () => {
 
       <FlexCol>
         <FlexRow>
-          <HeaderText>Deals</HeaderText>
+          <Spacing bottom="1rem">
+            <HeaderText>Deals</HeaderText>
+          </Spacing>
+
           {shouldRenderPackages && (
             <Button onClick={openModal}>Create new deal</Button>
           )}

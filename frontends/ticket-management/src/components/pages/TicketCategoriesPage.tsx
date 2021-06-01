@@ -105,7 +105,10 @@ const TicketCategoriesPage = () => {
   return (
     <PageContainer>
       <HeaderContainer>
-        <Title>Ticket categories</Title>
+        <Spacing bottom="1rem">
+          <Title>Ticket categories</Title>
+        </Spacing>
+
         <SearchBar>
           {shouldRenderCategories && (
             <Button

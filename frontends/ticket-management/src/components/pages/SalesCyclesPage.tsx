@@ -78,7 +78,10 @@ const SalesCyclesPage = () => {
 
       <FlexCol>
         <FlexRow>
-          <HeaderText>Sale cycles</HeaderText>
+          <Spacing bottom="1rem">
+            <HeaderText>Sale cycles</HeaderText>
+          </Spacing>
+
           {shouldRenderCycles && (
             <Button onClick={openModal}>Create new sale cycle</Button>
           )}
