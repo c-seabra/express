@@ -1,4 +1,3 @@
-import { style } from '@material-ui/system';
 import { Button } from '@websummit/components/src/atoms/Button';
 import styled from 'styled-components';
 
