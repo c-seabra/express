@@ -376,6 +376,27 @@ const Calendar = ({ token, env }) => {
     setEvents(nextEvents);
   };
 
+  const onCreateEventInvitation = async (event_id, invitee_id) => {
+    const invitation = {
+      calendar_event_id: event_id,
+      invitee: {
+        id: invitee_id,
+        type: 'attendance',
+      },
+    };
+    await Api.createEventInvitation(event_id, invitation, token, env);
+    const result = await Api.getAttendance(
+      invitee_id,
+      confSlug,
+      currentToken,
+      env,
+    );
+    console.log(result);
+    result.data
+      ? addRsvp({ attendance: result.data, invitation: {} })
+      : addError(result.error);
+  };
+
   const onCreateEvent = async (event) => {
     const tokenPayload = jwt(token);
     if (attendancesArray.length > 0) {
@@ -422,6 +443,7 @@ const Calendar = ({ token, env }) => {
           events,
           locations,
           onCreateEvent,
+          onCreateEventInvitation,
           onDeleteEvent,
           onDeleteEventInvitation,
           onSelectEvent,
