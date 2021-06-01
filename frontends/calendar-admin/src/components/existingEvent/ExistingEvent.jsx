@@ -19,13 +19,15 @@ import {
   Overlay,
   OverlayButton,
   OverlayButtons,
+  PopupContainer,
+  PopupHeading,
   Title,
   UserRsvp,
   Wrapper,
 } from './ExistingEvent.styled';
 import ExistingEventItem from './ExistingEventItem';
 
-const ExistingEvent = ({ event, close_popup }) => {
+const ExistingEvent = ({ event, close_popup, formats }) => {
   const {
     id,
     title,
@@ -34,6 +36,7 @@ const ExistingEvent = ({ event, close_popup }) => {
     invitations,
     starts_at,
     ends_at,
+    event_format_id,
     can_modify,
     organizer,
   } = event;
@@ -160,17 +163,24 @@ const ExistingEvent = ({ event, close_popup }) => {
 
       {editPopupActive && (
         <FormWrap>
-          <TopButtons>
-            <Button className="topButton" onBtnClick={handleDelete}>
-              <BinIcon />
-            </Button>
-          </TopButtons>
-          <EditEvent
-            eventId={id}
-            organizerId={organizer ? organizer.id : undefined}
-            setEditPopupActive={setEditPopupActive}
-            {...{ description, location, rsvps, title }}
-          />
+          <PopupContainer>
+            <PopupHeading>Edit Event</PopupHeading>
+            <EditEvent
+              eventId={id}
+              organizerId={organizer ? organizer.id : undefined}
+              setEditPopupActive={setEditPopupActive}
+              endsAt={ends_at}
+              startsAt={starts_at}
+              eventFormatId={event_format_id}
+              {...{
+                description,
+                location,
+                rsvps,
+                title,
+              }}
+              formats={formats}
+            />
+          </PopupContainer>
         </FormWrap>
       )}
 

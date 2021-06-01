@@ -110,7 +110,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       const requestData = {
         headers: new Headers({
           Accept: 'application/json',
-          Authorization: `BIXSCANearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         }),
         method: 'DELETE',

@@ -24,8 +24,9 @@ export const StyledSearchInput = styled(SearchInput)`
 `;
 
 export const ResultsContainer = styled.div`
+  background: #fff;
   position: absolute;
-  z-index: 999;
+  z-index: 5;
   max-width: 355px;
   width: 355px;
 
