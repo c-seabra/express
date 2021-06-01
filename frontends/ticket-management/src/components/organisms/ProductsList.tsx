@@ -41,8 +41,7 @@ const ProductsList = ({
     {
       header: 'Price for sale cycle',
       renderCell: (saleProduct) =>
-        `${currencySymbol || 'N/A'} ${formatDisplayPrice(saleProduct.price)}` ||
-        'N/A',
+        formatDisplayPrice(saleProduct.price, currencySymbol) || 'N/A',
     },
     {
       header: 'Status',

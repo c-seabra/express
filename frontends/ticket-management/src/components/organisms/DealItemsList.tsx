@@ -55,12 +55,14 @@ const DealItemsList = ({
   const formatAmount = (amount: number, source: string): string =>
     switchCase({
       [CommerceDealItemType.PercentageDiscount]: `${amount}%`,
-      [CommerceDealItemType.AbsoluteDiscount]: `${formatDisplayPrice(
+      [CommerceDealItemType.AbsoluteDiscount]: formatDisplayPrice(
         amount as TotalInCents,
-      )}${currencySymbol}`,
-      [CommerceDealItemType.AbsolutePrice]: `${formatDisplayPrice(
+        currencySymbol,
+      ),
+      [CommerceDealItemType.AbsolutePrice]: formatDisplayPrice(
         amount as TotalInCents,
-      )}${currencySymbol}`,
+        currencySymbol,
+      ),
     })('N/A')(source);
 
   const tableShape: ColumnDescriptors<CommerceDealItem> = [
