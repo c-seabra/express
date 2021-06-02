@@ -23,7 +23,7 @@ const StyledFileInput = styled.input`
 
 type FileUploadInputProps = {
   acceptedFileTypes: string;
-  elementId: any;
+  elementId: string;
   label: string;
   onUpload: any;
 };
