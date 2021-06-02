@@ -119,7 +119,7 @@ const FileInputModal = ({
   };
 
   return (
-    <Modal key={isOpen.toString()} isOpen={isOpen} onRequestClose={closeModal}>
+    <Modal isOpen={isOpen} onRequestClose={closeModal}>
       <form onSubmit={(event) => submit(event)}>
         <Wrapper>
           <ColumnWrapper>
