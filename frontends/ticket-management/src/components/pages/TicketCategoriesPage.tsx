@@ -1,6 +1,7 @@
 import Badge from '@websummit/components/src/atoms/Badge';
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
+import BlockMessage from '@websummit/components/src/molecules/BlockMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
@@ -17,7 +18,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
-import NoTicketCategoriesPlaceholder from '../../lib/images/no-ticket-categories-placeholder.png';
 import { useAppContext } from '../app/AppContext';
 import TicketCategoryModal from '../ticketCategories/TicketCategoryModal';
 
@@ -35,10 +35,6 @@ const Title = styled.div`
 const SearchBar = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const Placeholder = styled.img`
-  max-width: 1440px;
 `;
 
 type TicketCategory = Pick<
@@ -104,19 +100,27 @@ const TicketCategoriesPage = () => {
 
   const areTicketCategoriesPresent = ticketCategories.length > 0;
 
+  const shouldRenderCategories = !loading && areTicketCategoriesPresent;
+  const shouldNotRenderCategories = !loading && !areTicketCategoriesPresent;
+
   return (
     <PageContainer>
       <HeaderContainer>
-        <Title>Ticket categories</Title>
+        <Spacing bottom="1rem">
+          <Title>Ticket categories</Title>
+        </Spacing>
+
         <SearchBar>
-          <Button
-            onClick={() => {
-              setSelectedTicketCategory(undefined);
-              openTicketCategoryModal();
-            }}
-          >
-            Create new ticket category
-          </Button>
+          {shouldRenderCategories && (
+            <Button
+              onClick={() => {
+                setSelectedTicketCategory(undefined);
+                openTicketCategoryModal();
+              }}
+            >
+              Create new ticket category
+            </Button>
+          )}
           <TicketCategoryModal
             isOpen={isTicketCategoryModalOpen}
             ticketCategory={selectedTicketCategory}
@@ -131,11 +135,20 @@ const TicketCategoriesPage = () => {
         </Spacing>
       )}
 
-      {!loading && !areTicketCategoriesPresent && (
-        <Placeholder
-          alt="no ticket categories placeholder"
-          src={NoTicketCategoriesPlaceholder}
-        />
+      {shouldNotRenderCategories && (
+        <ContainerCard>
+          <Spacing bottom="36px" left="24px" right="24px" top="36px">
+            <BlockMessage
+              buttonText="Create now"
+              header="Create new ticket category"
+              message="Please create a new ticket category to see results"
+              onClickAction={() => {
+                setSelectedTicketCategory(undefined);
+                openTicketCategoryModal();
+              }}
+            />
+          </Spacing>
+        </ContainerCard>
       )}
 
       {!loading && areTicketCategoriesPresent && (
