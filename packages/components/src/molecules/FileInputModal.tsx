@@ -93,7 +93,7 @@ type ModalProps = {
   isFileError: boolean;
   isOpen: boolean;
   loadingProgress?: number;
-  onUpload: any;
+  onUpload: (e: any) => void;
   submitCallback: (values?: any) => void;
   submitText?: string;
 };

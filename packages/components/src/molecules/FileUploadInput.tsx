@@ -25,7 +25,7 @@ type FileUploadInputProps = {
   acceptedFileTypes: string;
   elementId: string;
   label: string;
-  onUpload: any;
+  onUpload: (e: any) => void;
 };
 
 const FileUploadInput = ({
