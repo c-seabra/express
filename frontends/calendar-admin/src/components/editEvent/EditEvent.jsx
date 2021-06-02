@@ -37,7 +37,8 @@ const EditEvent = ({
     onDeleteEventInvitation,
     onUpdateEvent,
   } = useContext(DetailsContext);
-
+  const { onCreateEventInvitation } = useContext(DetailsContext);
+  const [selections, setSelections] = useState([]);
   const [editedEvent, setEditedEvent] = useState({});
   const [deletePopupActive, setDeletePopupActive] = useState(false);
   const [locationName, setLocationName] = useState(location.name);
@@ -90,6 +91,9 @@ const EditEvent = ({
       editedEvent.constructor === Object
     )
       onUpdateEvent(eventId, editedEvent);
+    selections?.forEach((att) => {
+      onCreateEventInvitation(eventId, att.id);
+    });
 
     setEditPopupActive(false);
   };
@@ -172,7 +176,7 @@ const EditEvent = ({
       </FormWrapper>
       <FormWrapper>
         <FormLabel>Add attendances: </FormLabel>
-        <AddAttendance eventId={eventId} />
+        <AddAttendance selections={selections} setSelections={setSelections} />
       </FormWrapper>
       <FormWrapper>
         <FormEditInvitee>

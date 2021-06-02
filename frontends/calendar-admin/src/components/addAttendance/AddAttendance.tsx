@@ -10,8 +10,16 @@ import {
   StyledSearchInput,
 } from './AddAttendance.styled';
 
-const AddAttendance = ({ eventId }: { eventId: string }): ReactElement => {
-  const { onCreateEventInvitation } = useContext(DetailsContext);
+type AddAttendanceProps = {
+  selections: Attendance[];
+  setSelections: (arg: Attendance[]) => void;
+};
+
+const AddAttendance = ({
+  selections,
+  setSelections,
+}: AddAttendanceProps): ReactElement => {
+  const { getAttendance } = useContext(DetailsContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [display, setDisplay] = useState<boolean>(false);
 
@@ -25,7 +33,10 @@ const AddAttendance = ({ eventId }: { eventId: string }): ReactElement => {
   };
 
   const handleSelect = (att: Attendance) => {
-    onCreateEventInvitation(eventId, att.id);
+    if (!selections.find((e) => e.id === att.id)) {
+      setSelections([...selections, att]);
+    }
+    getAttendance(att.id);
   };
 
   useEffect(() => {

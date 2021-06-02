@@ -376,6 +376,18 @@ const Calendar = ({ token, env }) => {
     setEvents(nextEvents);
   };
 
+  const getAttendance = async (invitee_id) => {
+    const result = await Api.getAttendance(
+      invitee_id,
+      confSlug,
+      currentToken,
+      env,
+    );
+    result.data
+      ? addRsvp({ attendance: result.data, invitation: {} })
+      : addError(result.error);
+  };
+
   const onCreateEventInvitation = async (event_id, invitee_id) => {
     const invitation = {
       calendar_event_id: event_id,
@@ -385,16 +397,7 @@ const Calendar = ({ token, env }) => {
       },
     };
     await Api.createEventInvitation(event_id, invitation, token, env);
-    const result = await Api.getAttendance(
-      invitee_id,
-      confSlug,
-      currentToken,
-      env,
-    );
-    console.log(result);
-    result.data
-      ? addRsvp({ attendance: result.data, invitation: {} })
-      : addError(result.error);
+    await Api.getAdminEvents();
   };
 
   const onCreateEvent = async (event) => {
@@ -441,6 +444,7 @@ const Calendar = ({ token, env }) => {
           confSlug,
           currentUserId,
           events,
+          getAttendance,
           locations,
           onCreateEvent,
           onCreateEventInvitation,
