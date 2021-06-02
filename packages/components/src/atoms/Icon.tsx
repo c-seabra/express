@@ -14,7 +14,8 @@ export const IconWrapper = styled.div<Props>`
   }
 `;
 
-const StyledIcon = styled.span<Props>`  cursor: pointer;
+const StyledIcon = styled.span<Props>`
+  cursor: pointer;
 
   ${(props) =>
     props.color &&
