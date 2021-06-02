@@ -89,7 +89,6 @@ const Card = styled.div`
 type ModalProps = {
   closeModal: () => void;
   fileName: string;
-  // TODO change to data<T>
   fileUploadId: string;
   isFileError: boolean;
   isOpen: boolean;
