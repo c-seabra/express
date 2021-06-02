@@ -22,6 +22,7 @@ const StyledFileInput = styled.input`
 `;
 
 type FileUploadInputProps = {
+  acceptedFileTypes: string;
   elementId: any;
   label: string;
   onUpload: any;
@@ -31,12 +32,13 @@ const FileUploadInput = ({
   label,
   elementId,
   onUpload,
+  acceptedFileTypes,
 }: FileUploadInputProps) => {
   return (
     <FlexCol>
       <FileUploadButton as="label">
         <StyledFileInput
-          accept=".csv"
+          accept={acceptedFileTypes}
           id={elementId}
           type="file"
           onChange={onUpload}
