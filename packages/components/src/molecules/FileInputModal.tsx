@@ -87,6 +87,7 @@ const Card = styled.div`
 `;
 
 type ModalProps = {
+  acceptedFileTypes?: string;
   closeModal: () => void;
   fileName: string;
   fileUploadId: string;
@@ -108,6 +109,7 @@ const FileInputModal = ({
   fileUploadId,
   fileName,
   loadingProgress,
+  acceptedFileTypes,
 }: ModalProps) => {
   const submit = (values: any) => {
     if (values) {
@@ -132,6 +134,7 @@ const FileInputModal = ({
                     Select file to upload <br />
                   </Text>
                   <FileUploadInput
+                    acceptedFileTypes={acceptedFileTypes}
                     elementId={fileUploadId}
                     label="Browse"
                     onUpload={onUpload}
