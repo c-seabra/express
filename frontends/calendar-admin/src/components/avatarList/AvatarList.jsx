@@ -18,9 +18,7 @@ const AvatarList = ({
             <Avatar
               alt="Invitee avatar"
               invitationId={invitation.id}
-              organizer={
-                organizerId === (invitation.invitee && invitation.invitee.id)
-              }
+              organizer={organizerId}
               response={invitation?.response?.response_status}
               src={attendance.data.person.avatar_url}
               title={`${String(attendance.data.person.first_name)} ${String(

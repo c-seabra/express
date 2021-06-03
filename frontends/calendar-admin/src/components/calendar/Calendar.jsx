@@ -253,7 +253,7 @@ const Calendar = ({ token, env }) => {
 
     // update response status in API
     await Api.deleteEventInvitation(eventToUpdate.id, invitationId, token, env);
-    await Api.getAdminEvents();
+    await getAdminEvents();
   };
 
   const onUpdateEvent = async (eventId, eventContent) => {
@@ -397,7 +397,7 @@ const Calendar = ({ token, env }) => {
       },
     };
     await Api.createEventInvitation(event_id, invitation, token, env);
-    await Api.getAdminEvents();
+    await getAdminEvents();
   };
 
   const onCreateEvent = async (event) => {

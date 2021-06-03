@@ -2,19 +2,19 @@ import { DestructiveButton } from '@websummit/components/src/atoms/Button';
 import React, { useContext, useEffect, useState } from 'react';
 
 import AddAttendance from '../addAttendance/AddAttendance';
-import AvatarList from '../avatarList/AvatarList';
 import { DetailsContext } from '../calendar/Context';
 import {
   Form,
-  FormEditInvitee,
   FormInput,
   FormLabel,
   FormSelect,
   FormTextArea,
   FormWrapper,
+  InviteesListItem,
   Overlay,
   OverlayButton,
   OverlayButtons,
+  RemoveButton,
   StyledButton,
 } from './EditEvent.styled';
 
@@ -27,7 +27,6 @@ const EditEvent = ({
   startsAt,
   endsAt,
   eventFormatId,
-  organizerId,
   formats,
 }) => {
   const {
@@ -178,17 +177,22 @@ const EditEvent = ({
         <FormLabel>Add attendances: </FormLabel>
         <AddAttendance selections={selections} setSelections={setSelections} />
       </FormWrapper>
-      <FormWrapper>
-        <FormEditInvitee>
-          <AvatarList
-            iconActive
-            avatarList={rsvps}
-            iconClickCallback={(id) => onDeleteEventInvitation(eventId, id)}
-            listType="delete"
-            organizerId={organizerId}
-          />
-        </FormEditInvitee>
-      </FormWrapper>
+      <div>
+        {rsvps.map((rsvp) => (
+          <InviteesListItem key={rsvp.invitation.id}>
+            <span style={{ width: '90%' }}>
+              {`${String(rsvp.attendance.data.person.first_name)} ${String(
+                rsvp.attendance.data.person.last_name,
+              )}`}
+            </span>
+            <RemoveButton
+              onClick={() =>
+                onDeleteEventInvitation(eventId, rsvp.invitation.id)
+              }
+            />
+          </InviteesListItem>
+        ))}
+      </div>
       <FormWrapper>
         <DestructiveButton
           onClick={(e) => {
