@@ -109,15 +109,15 @@ const StyledDropbox = styled.div`
 `;
 
 const MainNavigation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const { data } = useEventQuery({
     context: {
       token,
     },
     onError: (e) => console.error(e.message),
-    skip: !conferenceSlug,
+    skip: !slug,
     variables: {
-      slug: conferenceSlug,
+      slug,
     },
   });
 
@@ -133,8 +133,7 @@ const MainNavigation = () => {
     if (route.children && route.children?.length > 0) {
       childRoutes = route.children?.map((childRoute: Route) => {
         const routeActive =
-          childRoute.isActive &&
-          (!childRoute.conferenceSpecific || !!conferenceSlug);
+          childRoute.isActive && (!childRoute.conferenceSpecific || !!slug);
         return (
           <li key={childRoute.path}>
             <a
@@ -147,8 +146,7 @@ const MainNavigation = () => {
         );
       });
     }
-    const routeActive =
-      route.isActive && (!route.conferenceSpecific || !!conferenceSlug);
+    const routeActive = route.isActive && (!route.conferenceSpecific || !!slug);
     return (
       <li key={route.path}>
         <a className={routeActive ? '' : 'disabled'} href={prefix + route.path}>

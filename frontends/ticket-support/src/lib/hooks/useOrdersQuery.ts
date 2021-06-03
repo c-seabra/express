@@ -20,10 +20,10 @@ const useOrdersQuery = ({
   status?: string;
   ticketTypeIds?: string[];
 }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
 

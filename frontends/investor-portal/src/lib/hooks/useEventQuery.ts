@@ -10,12 +10,12 @@ type EventData = {
 };
 
 const useEventQuery = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const { data, error, loading } = useQuery<EventData>(EVENT_QUERY, {
-    context: { slug: conferenceSlug, token },
+    context: { slug, token },
     variables: {
-      slug: conferenceSlug,
+      slug,
     },
   });
 

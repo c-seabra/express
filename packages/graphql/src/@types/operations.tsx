@@ -7778,13 +7778,27 @@ export type CommerceCreateOrderMutation = { __typename?: 'Mutation' } & {
   commerceCreateOrder: Maybe<
     { __typename?: 'CommerceOrder' } & Pick<
       CommerceOrder,
-      'billed' | 'currency' | 'id' | 'lastUpdatedAt' | 'status'
+      | 'id'
+      | 'billed'
+      | 'currency'
+      | 'reference'
+      | 'locked'
+      | 'metadata'
+      | 'lastUpdatedAt'
+      | 'status'
     > & {
         customer: Maybe<
           { __typename?: 'CommerceCustomer' } & Pick<
             CommerceCustomer,
             'firstName' | 'lastName' | 'email'
           >
+        >;
+        items: Array<
+          { __typename?: 'CommerceOrderItem' } & {
+            product: Maybe<
+              { __typename?: 'CommerceProduct' } & Pick<CommerceProduct, 'name'>
+            >;
+          }
         >;
         paymentMethod: Maybe<
           {
@@ -14505,6 +14519,7 @@ export const CommerceCreateOrderDocument: DocumentNode = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'billed' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 {
@@ -14525,8 +14540,31 @@ export const CommerceCreateOrderDocument: DocumentNode = {
                     ],
                   },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'locked' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'product' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'lastUpdatedAt' },

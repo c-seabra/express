@@ -23,7 +23,7 @@ type investorPortalRevokeAccesssArgs = {
 const useInvestorPortalRevokeAccessMutation = ({
   attendanceId,
 }: investorPortalRevokeAccesssArgs) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
@@ -45,7 +45,7 @@ const useInvestorPortalRevokeAccessMutation = ({
   );
 
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
 

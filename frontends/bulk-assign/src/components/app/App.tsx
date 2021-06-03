@@ -41,10 +41,10 @@ const App = ({ token, apiURL = '' }: BulkAssignContext) => {
     : { conf_slug: '', email: '' };
 
   const [assigneesList, setAssigneesList] = useState<AssigneesList>();
-  const [conferenceSlug, setConferenceSlug] = useState<string>();
+  const [slug, setSlug] = useState<string>();
 
   useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug);
+    setSlug(tokenPayload.conf_slug);
   }, [tokenPayload.conf_slug]);
 
   const apolloClient = initApollo({ apiURL });
@@ -55,8 +55,8 @@ const App = ({ token, apiURL = '' }: BulkAssignContext) => {
         value={{
           apiURL,
           assigneesList,
-          conferenceSlug,
           setAssigneesList,
+          slug,
           token,
         }}
       >

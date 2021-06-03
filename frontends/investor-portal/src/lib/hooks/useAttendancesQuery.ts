@@ -19,10 +19,10 @@ const useAttendancesQuery = ({
   searchQuery?: string;
   type?: string;
 }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
 

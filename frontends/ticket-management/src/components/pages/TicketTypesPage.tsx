@@ -137,11 +137,11 @@ const tableShape: ColumnDescriptors<CommerceProductTableItem> = [
 ];
 
 const TicketTypesPage = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const history = useHistory();
 
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
   const error = useErrorSnackbar();

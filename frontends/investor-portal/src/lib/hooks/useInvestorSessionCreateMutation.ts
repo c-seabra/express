@@ -31,7 +31,7 @@ const useInvestorSessionCreateMutation = ({
   eventTimezone,
   startsAt,
 }: InvestorSessionsCreatesArgs) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
@@ -62,7 +62,7 @@ const useInvestorSessionCreateMutation = ({
   const createSesionsMutation = async () => {
     await createSesions({
       context: {
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['EventQuery'],
