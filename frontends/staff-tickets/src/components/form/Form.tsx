@@ -77,8 +77,8 @@ const Form: React.FC = () => {
         onChange={(event: any) => {
           const value = event.target.checked as boolean;
           setSingleTicketEnabled(value);
-
-          setSingleTicketProductID(firstOption);
+          // we need to unset on disable
+          setSingleTicketProductID(value ? firstOption : '');
         }}
       />
       Should each order have a single ticket assigned to the order owner?
@@ -116,7 +116,8 @@ const Form: React.FC = () => {
         onChange={(event: any) => {
           const value = event.target.checked as boolean;
           setVolumeTicketsEnabled(value);
-          setVolumeTicketsProductID(firstOption);
+          // we need to unset on disable
+          setVolumeTicketsProductID(value ? firstOption : '');
         }}
       />
       Should each order have multiple unassigned tickets?
@@ -129,7 +130,7 @@ const Form: React.FC = () => {
       type="number"
       value={volumeTicketsQuantity}
       onChange={(event: any) => {
-        const value = parseInt(event.target.value);
+        const value = parseInt(event.target.value, 10);
         setVolumeTicketsQuantity(value);
       }}
     />
@@ -218,9 +219,9 @@ const Form: React.FC = () => {
   return (
     <>
       <span>
-        Are you sure you know what you are doing?
-        Are you a financial admin authorized to make these changes?
-        If you get errors when using this tool and you do not have the permissions, that is to be expected
+        Are you sure you know what you are doing? Are you a financial admin
+        authorized to make these changes? If you get errors when using this tool
+        and you do not have the permissions, that is to be expected
       </span>
       <br />
       ----
@@ -245,13 +246,27 @@ const Form: React.FC = () => {
       <br />
       ----
       <br />
+      <h2>Issue a single order:</h2>
       <form onSubmit={(e) => onSingleSubmit(e)}>
         {formError && <div>There seems to be an error with your input.</div>}
-        <input name="firstName" type="text" />
-        <input name="lastName" type="text" />
-        <input name="email" type="text" />
+        <label>
+          First name:
+          <input name="firstName" type="text" />
+        </label>
+        <label>
+          Last name:
+          <input name="lastName" type="text" />
+        </label>
+        <label>
+          Email:
+          <input name="email" type="text" />
+        </label>
         <SubmitButton type="submit">Submit</SubmitButton>
       </form>
+      <h2>
+        Upload a csv of orders, each line containing:
+        <pre>firstName,Lastname,email</pre>
+      </h2>
       <form onSubmit={(e) => onSubmit(e)}>
         {formError && <div>There seems to be an error with your input.</div>}
         <Upload setAssignees={setAssignees} />

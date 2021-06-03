@@ -98,6 +98,23 @@ module.exports = {
         specialLink: ['hrefLeft', 'hrefRight'],
       },
     ],
+    // we should require at least of of nesting and id, but not both same time
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
+    'jsx-a11y/label-has-for': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
 
     // we run prettier anyway extra
     'prettier/prettier': 'off',
