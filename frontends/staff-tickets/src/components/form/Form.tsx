@@ -16,11 +16,16 @@ import {
 import { AppContext, Staff } from '../app/App';
 import Loader from '../statusIcon/Loader';
 import Upload from '../upload/Upload';
+// import TextInput from "@websummit/components/src/molecules/TextInput";
 
 const Title = styled.div`
   font-size: 20px;
   font-weight: 500;
   color: #0c1439;
+`;
+
+const StyledPre = styled.pre`
+  display: inline;
 `;
 
 function capitalizeFirstLetter(input: string) {
@@ -229,41 +234,68 @@ const Form: React.FC = () => {
         </Spacing>
 
         <Spacing bottom="1rem">{metaOptions}</Spacing>
-        <Spacing bottom="1rem">
-          notify: {JSON.stringify(notifyOrderOwner)}
-        </Spacing>
-        <Spacing bottom="1rem">single: {singleTicketProductID}</Spacing>
-        <Spacing bottom="1rem">volume id: {volumeTicketsProductID}</Spacing>
-        <Spacing bottom="1rem">
-          volume quantity: {volumeTicketsQuantity}
+
+        <Spacing bottom="2rem">
+          <ContainerCard title="Settings summary">
+            <Spacing bottom="1rem">
+              notify: {JSON.stringify(notifyOrderOwner)}
+            </Spacing>
+            <Spacing bottom="1rem">single: {singleTicketProductID}</Spacing>
+            <Spacing bottom="1rem">volume id: {volumeTicketsProductID}</Spacing>
+            <Spacing bottom="1rem">
+              volume quantity: {volumeTicketsQuantity}
+            </Spacing>
+          </ContainerCard>
         </Spacing>
 
-        <Title>Issue a single order</Title>
-        <form onSubmit={(e) => onSingleSubmit(e)}>
-          {formError && <div>There seems to be an error with your input.</div>}
-          <label>
-            First name:
-            <input name="firstName" type="text" />
-          </label>
-          <label>
-            Last name:
-            <input name="lastName" type="text" />
-          </label>
-          <label>
-            Email:
-            <input name="email" type="text" />
-          </label>
-          <Button type="submit">Submit</Button>
-        </form>
-        <Title>
-          Upload a csv of orders, each line containing:
-          <pre>firstName,Lastname,email</pre>
-        </Title>
-        <form onSubmit={(e) => onSubmit(e)}>
-          {formError && <div>There seems to be an error with your input.</div>}
-          <Upload setAssignees={setAssignees} />
-          <Button type="submit">Submit</Button>
-        </form>
+        <Spacing bottom="2rem">
+          <ContainerCard title="Issue a single order">
+            <form onSubmit={(e) => onSingleSubmit(e)}>
+              {formError && (
+                <div>There seems to be an error with your input.</div>
+              )}
+              {/*<TextInput label="First name" value={} />*/}
+              <label>
+                First name:
+                <input name="firstName" type="text" />
+              </label>
+              <label>
+                Last name:
+                <input name="lastName" type="text" />
+              </label>
+              <label>
+                Email:
+                <input name="email" type="text" />
+              </label>
+              <Button type="submit">Submit</Button>
+            </form>
+          </ContainerCard>
+        </Spacing>
+
+        <Spacing bottom="2rem">
+          <ContainerCard title="CSV Upload">
+            <Spacing bottom="2rem">
+              <BoxMessage
+                backgroundColor="#333"
+                color="#fff"
+                dimension="sm"
+                type="info"
+              >
+                <>
+                  Upload a csv of orders, each line containing: <StyledPre>firstName,lastName,email</StyledPre>
+                </>
+              </BoxMessage>
+            </Spacing>
+
+            <form onSubmit={(e) => onSubmit(e)}>
+              {formError && (
+                <div>There seems to be an error with your input.</div>
+              )}
+              <Upload setAssignees={setAssignees} />
+              <Button type="submit">Submit</Button>
+            </form>
+          </ContainerCard>
+        </Spacing>
       </ContainerCard>
     </>
   );
