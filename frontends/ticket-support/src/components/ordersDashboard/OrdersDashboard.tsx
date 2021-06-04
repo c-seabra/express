@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import PopupButton from '@websummit/components/src/molecules/PopupButton';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
@@ -12,7 +13,6 @@ import TextHeading from '../../lib/components/atoms/Heading';
 import CategoryList, {
   CategoryItem,
 } from '../../lib/components/molecules/CategoryList';
-import PopupButton from '../../lib/components/molecules/PopupButton';
 import useOrdersQuery from '../../lib/hooks/useOrdersQuery';
 import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
 import Pagination from '../../lib/Pagination';

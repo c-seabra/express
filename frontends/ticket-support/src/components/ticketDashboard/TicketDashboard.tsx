@@ -1,4 +1,5 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import PopupButton from '@websummit/components/src/molecules/PopupButton';
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -8,7 +9,6 @@ import TextHeading from '../../lib/components/atoms/Heading';
 import CategoryList, {
   CategoryItem,
 } from '../../lib/components/molecules/CategoryList';
-import PopupButton from '../../lib/components/molecules/PopupButton';
 import useTicketsQuery from '../../lib/hooks/useTicketsQuery';
 import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
 import Pagination from '../../lib/Pagination';

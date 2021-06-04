@@ -2,7 +2,7 @@ import React, { ReactElement, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
-import useClickOutsideListenerRef from '../../hooks/useClickOutsideListenerRef';
+import useClickOutsideListenerRef from '../hooks/useClickOutsideListenerRef';
 
 const Popup = styled.div<{ top?: number }>`
   box-sizing: border-box;
