@@ -5,6 +5,7 @@ import { useCommerceListProductsQuery } from '@websummit/graphql/src/@types/oper
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
+import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import {
   transformStaffIntoWorkUnit,
   WorkUnitContext,
@@ -218,11 +219,19 @@ const Form: React.FC = () => {
   };
   return (
     <>
-      <span>
-        Are you sure you know what you are doing? Are you a financial admin
-        authorized to make these changes? If you get errors when using this tool
-        and you do not have the permissions, that is to be expected
-      </span>
+      <BoxMessage
+        backgroundColor="rgb(253, 235, 235)"
+        color="#E15554"
+        dimension="sm"
+        type="warning"
+      >
+        <>
+          Are you sure you know what you are doing? <br />
+          Are you a financial admin authorized to make these changes? <br />
+          If you get errors when using this tool and you do not have the
+          permissions, that is to be expected
+        </>
+      </BoxMessage>
       <br />
       ----
       <br />
