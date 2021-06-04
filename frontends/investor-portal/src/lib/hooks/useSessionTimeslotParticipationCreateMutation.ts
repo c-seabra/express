@@ -27,7 +27,7 @@ const useSessionTimeslotParticipationCreateMutation = ({
   attendanceId,
   sessionTimeslotId,
 }: SessionTimeslotParticipationCreatesArgs) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
@@ -53,7 +53,7 @@ const useSessionTimeslotParticipationCreateMutation = ({
   const createSessionTimeslotParticipationMutation = async () => {
     await createSessionTimeslotParticipation({
       context: {
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['AttendanceAppearanceSelectionQuery'],

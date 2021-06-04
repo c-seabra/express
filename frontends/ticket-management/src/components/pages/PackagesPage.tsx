@@ -1,5 +1,6 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import Loader from '@websummit/components/src/atoms/Loader';
+import BlockMessage from '@websummit/components/src/molecules/BlockMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
@@ -94,9 +95,6 @@ const PackagesPage = () => {
   const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
-  const onButtonClick = () => {
-    openModal();
-  };
   const redirectToPackage = (id: string) => {
     history.push(`/deal/${id}`);
   };
@@ -108,15 +106,19 @@ const PackagesPage = () => {
     context,
     onError: (error) => errorSnackbar(error.message),
   });
-  const { data: commerceCategories } = useCommerceListCategoriesQuery({
+  const {
+    data: commerceCategories,
+    loading: loadingCategories,
+  } = useCommerceListCategoriesQuery({
     context,
     onError: (e) => errorSnackbar(e.message),
   });
 
   const ticketCategories =
     commerceCategories?.commerceListCategories?.hits || [];
-  const hasPackages =
-    data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0;
+  const hasPackages = !!(
+    data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0
+  );
   const packages: any = data?.commerceListDeals?.hits;
   const mappedPackages = packages?.map((item: CommerceDeal) => {
     let category: CommerceCategory[] = [];
@@ -132,19 +134,41 @@ const PackagesPage = () => {
     ticketCategories,
   );
 
+  const isLoading = loading || loadingCategories;
+  const shouldRenderPackages = !isLoading && hasPackages;
+  const shouldNotRenderPackages = !isLoading && !hasPackages;
+
   return (
     <Container>
       <PackageModalWrapper closeModal={closeModal} isOpen={isOpen} />
 
       <FlexCol>
         <FlexRow>
-          <HeaderText>Deals</HeaderText>
-          <Button onClick={onButtonClick}>Create new deal</Button>
+          <Spacing bottom="1rem">
+            <HeaderText>Deals</HeaderText>
+          </Spacing>
+
+          {shouldRenderPackages && (
+            <Button onClick={openModal}>Create new deal</Button>
+          )}
         </FlexRow>
 
         {loading && <Loader />}
 
-        {hasPackages &&
+        {shouldNotRenderPackages && (
+          <ContainerCard>
+            <Spacing bottom="36px" left="24px" right="24px" top="36px">
+              <BlockMessage
+                buttonText="Create now"
+                header="Create new package"
+                message="Please create a new package to see grouped results"
+                onClickAction={openModal}
+              />
+            </Spacing>
+          </ContainerCard>
+        )}
+
+        {shouldRenderPackages &&
           Object.entries(groupedPackages).map(([key, value]) => (
             <Spacing key={key} top="1.5rem">
               <ContainerCard noPadding title={key}>

@@ -5,7 +5,7 @@ import TICKET from '../../operations/queries/Ticket';
 import { Ticket } from '../types';
 
 const useSingleTicketQuery = ({ reference }: { reference: string }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const {
     loading,
@@ -19,7 +19,7 @@ const useSingleTicketQuery = ({ reference }: { reference: string }) => {
     loading?: boolean;
   } = useQuery(TICKET, {
     context: {
-      slug: conferenceSlug,
+      slug,
       token,
     },
     variables: {

@@ -22,12 +22,12 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
   attendanceIds: string[];
   status: string;
 }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
 

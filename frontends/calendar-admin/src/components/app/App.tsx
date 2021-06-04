@@ -25,14 +25,12 @@ type AppProps = {
 
 const App = ({ token, apiURL }: AppProps) => {
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
-  const [conferenceSlug, setConferenceSlug] = useState<string>(
-    tokenPayload.conf_slug,
-  );
+  const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
   const [attendances, setAttendances] = useState<Array<Attendance>>([]);
   const [colors, setColors] = useState<Array<Color>>([]);
 
   useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug);
+    setSlug(tokenPayload.conf_slug);
   }, [tokenPayload.conf_slug]);
 
   if (!token) return null;
@@ -47,9 +45,9 @@ const App = ({ token, apiURL }: AppProps) => {
             value={{
               attendances,
               colors,
-              conferenceSlug,
               setAttendances,
               setColors,
+              slug,
               token,
             }}
           >

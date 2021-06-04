@@ -28,7 +28,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   email,
   autoClaim,
 }) => {
-  const { token, conferenceSlug } = useContext(AppContext);
+  const { token, slug } = useContext(AppContext);
   const [status, setStatus] = useState<StatusType>({
     message: 'Assignment is still processing.',
     type: 'PENDING',
@@ -64,7 +64,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   const claimTicket = (ticketId: string) => {
     ticketAccept({
       context: {
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {
@@ -81,7 +81,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
 
   const { data: newAssignmentUserData } = useQuery(ASSIGNMENT_USER, {
     context: {
-      slug: conferenceSlug,
+      slug,
       token,
     },
     onCompleted: (data: {
@@ -141,7 +141,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     loading?: boolean;
   } = useQuery(TICKET_ID_BY_REFERENCE, {
     context: {
-      slug: conferenceSlug,
+      slug,
       token,
     },
     onCompleted: (ticketData) => {
@@ -229,7 +229,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       ) {
         ticketAssign({
           context: {
-            slug: conferenceSlug,
+            slug,
             token,
           },
           variables: {
@@ -288,13 +288,13 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       } else if (newAssignmentUserEmail) {
         setStatus({
           message: `${newAssignmentUserEmail} already owns a ticket for ${
-            conferenceSlug as string
+            slug as string
           } event therefore reassignment will not be executed.`,
           type: 'ERROR',
         });
         setClaimStatus({
           message: `${newAssignmentUserEmail} already owns a ticket for ${
-            conferenceSlug as string
+            slug as string
           } event therefore auto claim will not be executed.`,
           type: 'ERROR',
         });

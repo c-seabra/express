@@ -15,6 +15,7 @@
   "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
+    "@websummit/components": "*",
     "@websummit/graphql": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",

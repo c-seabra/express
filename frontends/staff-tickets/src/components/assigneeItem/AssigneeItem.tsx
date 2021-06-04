@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { StatusType } from '../../lib/extract/createOrder';
 import UploadStatus from '../statusIcon/StatusIcon';
 
 const BookingRef = styled.div`
@@ -21,12 +22,6 @@ const Status = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const ClaimStatus = styled.div`
-  width: calc(15% - 1rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const StyledListItem = styled.li`
   font-size: 1.2em;
@@ -43,14 +38,8 @@ const StyledListItem = styled.li`
   }
 `;
 
-export type StatusType = {
-  message: string;
-  type: 'PENDING' | 'SUCCESS' | 'ERROR';
-};
-
 type AssigneItemType = {
   bookingRef?: string;
-  claimStatus?: StatusType;
   email?: string;
   firstName?: string;
   lastName?: string;
@@ -63,7 +52,6 @@ const AssigneeItem: React.FC<AssigneItemType> = ({
   lastName,
   email,
   status,
-  claimStatus,
 }) => {
   return (
     <StyledListItem>
@@ -73,9 +61,6 @@ const AssigneeItem: React.FC<AssigneItemType> = ({
       </Name>
       <Email>{email}</Email>
       <Status>{status && <UploadStatus status={status} />}</Status>
-      <ClaimStatus>
-        {claimStatus && <UploadStatus status={claimStatus} />}
-      </ClaimStatus>
     </StyledListItem>
   );
 };

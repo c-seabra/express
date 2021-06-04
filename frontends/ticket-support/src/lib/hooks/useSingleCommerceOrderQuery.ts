@@ -7,7 +7,7 @@ import {
 import { useAppContext } from '../../components/app/AppContext';
 
 const useSingleCommerceOrderQuery = ({ id = '' }: { id?: string }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const error = useErrorSnackbar();
 
   const {
@@ -17,7 +17,7 @@ const useSingleCommerceOrderQuery = ({ id = '' }: { id?: string }) => {
     refetch,
   } = useCommerceGetOrderQuery({
     context: {
-      slug: conferenceSlug,
+      slug,
       token,
     },
     onError: (e) =>
