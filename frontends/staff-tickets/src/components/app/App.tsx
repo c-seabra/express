@@ -86,7 +86,6 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
     slug,
     token,
   };
-  console.log('ticketsList', ticketsList);
 
   return (
     <ApolloProvider client={apolloClient}>

@@ -1,3 +1,4 @@
+import Badge from '@websummit/components/src/atoms/Badge';
 import { Button } from '@websummit/components/src/atoms/Button';
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
@@ -24,13 +25,6 @@ import {
 } from '../../lib/extract/createOrder';
 import { AppContext, Staff } from '../app/App';
 import Loader from '../statusIcon/Loader';
-import Badge from '@websummit/components/src/atoms/Badge';
-
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  color: #0c1439;
-`;
 
 const StyledPre = styled.pre`
   display: inline;
