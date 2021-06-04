@@ -48,7 +48,7 @@ const FlexEnd = styled(Flex)`
 const StyledTextInput = styled(TextInput)`
   width: 100%;
   padding-right: 1rem;
-  
+
   &:last-child {
     padding-right: 0;
   }
@@ -314,7 +314,6 @@ const Form: React.FC = () => {
     color: notifyOrderOwner ? '#3BB273' : '#E15554',
   };
 
-
   return (
     <>
       <Spacing bottom="2rem">
@@ -333,14 +332,10 @@ const Form: React.FC = () => {
         </BoxMessage>
       </Spacing>
 
-      <ContainerCard>
-        <Spacing bottom="2rem">
-          <Title>Settings</Title>
-        </Spacing>
+      <Spacing bottom="2rem">
+        <ContainerCard title="Settings">
+          <Spacing bottom="1rem">{metaOptions}</Spacing>
 
-        <Spacing bottom="1rem">{metaOptions}</Spacing>
-
-        <Spacing bottom="2rem">
           <ContainerCard title="Settings summary">
             <Spacing bottom="1rem">
               <span>Notify:&nbsp;</span>
@@ -348,64 +343,68 @@ const Form: React.FC = () => {
                 {notifyOrderOwner ? 'Yes' : 'No' || 'N/A'}
               </Badge>
             </Spacing>
-            <Spacing bottom="1rem">Single: {singleTicketProductID || 'Not set'}</Spacing>
-            <Spacing bottom="1rem">Volume id: {volumeTicketsProductID || 'Not set'}</Spacing>
+            <Spacing bottom="1rem">
+              Single: {singleTicketProductID || 'Not set'}
+            </Spacing>
+            <Spacing bottom="1rem">
+              Volume id: {volumeTicketsProductID || 'Not set'}
+            </Spacing>
             <Spacing bottom="1rem">
               Volume quantity: {volumeTicketsQuantity}
             </Spacing>
           </ContainerCard>
-        </Spacing>
+        </ContainerCard>
+      </Spacing>
 
-        <Spacing bottom="2rem">
-          <ContainerCard title="Issue a single order">
-            <form onSubmit={(e) => onSingleSubmit(e)}>
-              {formError && (
-                <div>There seems to be an error with your input.</div>
-              )}
-              <Flex>
-               <StyledTextInput label="First name" name="firstName" />
-               <StyledTextInput label="Last name" name="lastName" />
-               <StyledTextInput label="Email" name="email" />
-              </Flex>
-              <FlexEnd>
-                <Button type="submit">Submit</Button>
-              </FlexEnd>
-            </form>
-          </ContainerCard>
-        </Spacing>
+      <Spacing bottom="2rem">
+        <ContainerCard title="Issue a single order">
+          <form onSubmit={(e) => onSingleSubmit(e)}>
+            {formError && (
+              <div>There seems to be an error with your input.</div>
+            )}
+            <Flex>
+              <StyledTextInput label="First name" name="firstName" />
+              <StyledTextInput label="Last name" name="lastName" />
+              <StyledTextInput label="Email" name="email" />
+            </Flex>
+            <FlexEnd>
+              <Button type="submit">Submit</Button>
+            </FlexEnd>
+          </form>
+        </ContainerCard>
+      </Spacing>
 
-        <Spacing bottom="2rem">
-          <ContainerCard title="CSV Upload">
-            <Spacing bottom="2rem">
-              <BoxMessage
-                backgroundColor="#333"
-                color="#fff"
-                dimension="sm"
-                type="info"
-              >
-                <>
-                  Upload a csv of orders, each line containing:{' '}
-                  <StyledPre>firstName,lastName,email</StyledPre>
-                </>
-              </BoxMessage>
-            </Spacing>
+      <Spacing bottom="2rem">
+        <ContainerCard title="CSV Upload">
+          <Spacing bottom="2rem">
+            <BoxMessage
+              backgroundColor="#333"
+              color="#fff"
+              dimension="sm"
+              type="info"
+            >
+              <>
+                Upload a csv of orders, each line containing:{' '}
+                <StyledPre>firstName,lastName,email</StyledPre>
+              </>
+            </BoxMessage>
+          </Spacing>
 
-            <FileInputModal
-              acceptedFileTypes=".csv"
-              closeModal={closeModal}
-              fileName={fileName}
-              fileUploadId={fileUploadId}
-              isFileError={formError}
-              isOpen={isOpen}
-              loadingProgress={progressPercentage}
-              submitCallback={onSubmit}
-              onUpload={_onUpload}
-            />
+          <FileInputModal
+            acceptedFileTypes=".csv"
+            closeModal={closeModal}
+            fileName={fileName}
+            fileUploadId={fileUploadId}
+            isFileError={formError}
+            isOpen={isOpen}
+            loadingProgress={progressPercentage}
+            submitCallback={onSubmit}
+            onUpload={_onUpload}
+          />
 
-            <Button onClick={openModal}>Add .csv file</Button>
-          </ContainerCard>
-        </Spacing>
-      </ContainerCard>
+          <Button onClick={openModal}>Add .csv file</Button>
+        </ContainerCard>
+      </Spacing>
     </>
   );
 };
