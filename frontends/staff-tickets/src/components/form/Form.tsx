@@ -35,6 +35,24 @@ const StyledPre = styled.pre`
   display: inline;
 `;
 
+const Flex = styled.div`
+  display: flex;
+`;
+
+const FlexEnd = styled(Flex)`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const StyledTextInput = styled(TextInput)`
+  width: 100%;
+  padding-right: 1rem;
+  
+  &:last-child {
+    padding-right: 0;
+  }
+`;
+
 function capitalizeFirstLetter(input: string) {
   return input.charAt(0).toUpperCase() + input.slice(1);
 }
@@ -334,20 +352,14 @@ const Form: React.FC = () => {
               {formError && (
                 <div>There seems to be an error with your input.</div>
               )}
-              {/* <TextInput label="First name" value={} /> */}
-              <label>
-                First name:
-                <input name="firstName" type="text" />
-              </label>
-              <label>
-                Last name:
-                <input name="lastName" type="text" />
-              </label>
-              <label>
-                Email:
-                <input name="email" type="text" />
-              </label>
-              <Button type="submit">Submit</Button>
+              <Flex>
+               <StyledTextInput label="First name" name="firstName" />
+               <StyledTextInput label="Last name" name="lastName" />
+               <StyledTextInput label="Email" name="email" />
+              </Flex>
+              <FlexEnd>
+                <Button type="submit">Submit</Button>
+              </FlexEnd>
             </form>
           </ContainerCard>
         </Spacing>
@@ -381,18 +393,6 @@ const Form: React.FC = () => {
             />
 
             <Button onClick={openModal}>Add .csv file</Button>
-
-            {/* <div> */}
-            {/*  ---*/}
-            {/*  <br /> */}
-            {/* </div> */}
-            {/* <form onSubmit={(e) => onSubmit(e)}> */}
-            {/*  {formError && ( */}
-            {/*    <div>There seems to be an error with your input.</div> */}
-            {/*  )} */}
-            {/*  /!* <Upload setAssignees={setAssignees} /> *!/ */}
-            {/*  <Button type="submit">Submit</Button> */}
-            {/* </form> */}
           </ContainerCard>
         </Spacing>
       </ContainerCard>
