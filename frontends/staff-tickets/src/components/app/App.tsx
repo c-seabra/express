@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client';
+import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
@@ -85,41 +86,44 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
     slug,
     token,
   };
+  console.log('ticketsList', ticketsList);
 
   return (
     <ApolloProvider client={apolloClient}>
-      <AppContext.Provider
-        value={{
-          apiURL,
-          apolloClient,
-          setTicketsList: setTicketList,
-          slug,
-          ticketsList,
-          token,
-        }}
-      >
-        <StyledContainer>
-          <StyledSection>
-            <Spacing bottom="2rem">
-              <Title>
-                Ticket Assignment
-                <SlimTitle> - Staff ticket creation tool</SlimTitle>
-              </Title>
-            </Spacing>
-            <Form />
-          </StyledSection>
-          <StyledSection>
-            {ticketsList && ticketsList?.length > 0 && (
-              <BulkOperation
-                Display={AssigneeList}
-                context={bulkContext}
-                input={ticketsList}
-                process={processCreateOrderWorkUnit}
-              />
-            )}
-          </StyledSection>
-        </StyledContainer>
-      </AppContext.Provider>
+      <SnackbarProvider>
+        <AppContext.Provider
+          value={{
+            apiURL,
+            apolloClient,
+            setTicketsList: setTicketList,
+            slug,
+            ticketsList,
+            token,
+          }}
+        >
+          <StyledContainer>
+            <StyledSection>
+              <Spacing bottom="2rem">
+                <Title>
+                  Ticket Assignment
+                  <SlimTitle> - Staff ticket creation tool</SlimTitle>
+                </Title>
+              </Spacing>
+              <Form />
+            </StyledSection>
+            <StyledSection>
+              {ticketsList && ticketsList?.length > 0 && (
+                <BulkOperation
+                  Display={AssigneeList}
+                  context={bulkContext}
+                  input={ticketsList}
+                  process={processCreateOrderWorkUnit}
+                />
+              )}
+            </StyledSection>
+          </StyledContainer>
+        </AppContext.Provider>
+      </SnackbarProvider>
     </ApolloProvider>
   );
 };
