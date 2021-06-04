@@ -24,6 +24,7 @@ import {
 } from '../../lib/extract/createOrder';
 import { AppContext, Staff } from '../app/App';
 import Loader from '../statusIcon/Loader';
+import Badge from '@websummit/components/src/atoms/Badge';
 
 const Title = styled.div`
   font-size: 20px;
@@ -308,6 +309,12 @@ const Form: React.FC = () => {
     }
   };
 
+  const badge = {
+    background: notifyOrderOwner ? '#EAF9EA' : '#FDEBEB',
+    color: notifyOrderOwner ? '#3BB273' : '#E15554',
+  };
+
+
   return (
     <>
       <Spacing bottom="2rem">
@@ -336,12 +343,15 @@ const Form: React.FC = () => {
         <Spacing bottom="2rem">
           <ContainerCard title="Settings summary">
             <Spacing bottom="1rem">
-              notify: {JSON.stringify(notifyOrderOwner)}
+              <span>Notify:&nbsp;</span>
+              <Badge background={badge.background} color={badge.color}>
+                {notifyOrderOwner ? 'Yes' : 'No' || 'N/A'}
+              </Badge>
             </Spacing>
-            <Spacing bottom="1rem">single: {singleTicketProductID}</Spacing>
-            <Spacing bottom="1rem">volume id: {volumeTicketsProductID}</Spacing>
+            <Spacing bottom="1rem">Single: {singleTicketProductID || 'Not set'}</Spacing>
+            <Spacing bottom="1rem">Volume id: {volumeTicketsProductID || 'Not set'}</Spacing>
             <Spacing bottom="1rem">
-              volume quantity: {volumeTicketsQuantity}
+              Volume quantity: {volumeTicketsQuantity}
             </Spacing>
           </ContainerCard>
         </Spacing>
