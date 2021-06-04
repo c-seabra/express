@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
@@ -18,9 +19,17 @@ const StyledContainer = styled.section`
   width: 100%;
   margin: 0 auto;
   font-size: 16px;
+  background-color: #f2f3f6;
 `;
+
 const StyledSection = styled.section`
   padding: 1rem;
+`;
+
+const Title = styled.div`
+  font-size: 24px;
+  font-weight: 500;
+  color: #0c1439;
 `;
 
 export type StaffList = { [index: string]: Staff };
@@ -87,7 +96,9 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
       >
         <StyledContainer>
           <StyledSection>
-            <h2>Ticket Assignment - Staff ticket creation tool</h2>
+            <Spacing bottom="2rem">
+              <Title>Ticket Assignment - Staff ticket creation tool</Title>
+            </Spacing>
             <Form />
           </StyledSection>
           <StyledSection>
