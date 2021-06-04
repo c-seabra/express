@@ -329,24 +329,26 @@ const Form: React.FC = () => {
       <Spacing bottom="2rem">
         <ContainerCard title="Settings">
           <Spacing bottom="1rem">{metaOptions}</Spacing>
+        </ContainerCard>
+      </Spacing>
 
-          <ContainerCard title="Settings summary">
-            <Spacing bottom="1rem">
-              <span>Notify:&nbsp;</span>
-              <Badge background={badge.background} color={badge.color}>
-                {notifyOrderOwner ? 'Yes' : 'No' || 'N/A'}
-              </Badge>
-            </Spacing>
-            <Spacing bottom="1rem">
-              Single: {singleTicketProductID || 'Not set'}
-            </Spacing>
-            <Spacing bottom="1rem">
-              Volume id: {volumeTicketsProductID || 'Not set'}
-            </Spacing>
-            <Spacing bottom="1rem">
-              Volume quantity: {volumeTicketsQuantity}
-            </Spacing>
-          </ContainerCard>
+      <Spacing bottom="2rem">
+        <ContainerCard title="Settings summary">
+          <Spacing bottom="1rem">
+            <span>Notify:&nbsp;</span>
+            <Badge background={badge.background} color={badge.color}>
+              {notifyOrderOwner ? 'Yes' : 'No' || 'N/A'}
+            </Badge>
+          </Spacing>
+          <Spacing bottom="1rem">
+            Single: {singleTicketProductID || 'Not set'}
+          </Spacing>
+          <Spacing bottom="1rem">
+            Volume id: {volumeTicketsProductID || 'Not set'}
+          </Spacing>
+          <Spacing bottom="1rem">
+            Volume quantity: {volumeTicketsQuantity}
+          </Spacing>
         </ContainerCard>
       </Spacing>
 
