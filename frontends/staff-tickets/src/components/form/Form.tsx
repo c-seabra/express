@@ -1,11 +1,14 @@
+import { Button } from '@websummit/components/src/atoms/Button';
+import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Select, {
   SelectFieldOption,
 } from '@websummit/components/src/molecules/Select';
+import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useCommerceListProductsQuery } from '@websummit/graphql/src/@types/operations';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
-import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import {
   transformStaffIntoWorkUnit,
   WorkUnitContext,
@@ -14,19 +17,10 @@ import { AppContext, Staff } from '../app/App';
 import Loader from '../statusIcon/Loader';
 import Upload from '../upload/Upload';
 
-const SubmitButton = styled.button`
-  margin: 1rem 0;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: none;
-  border: 1px solid grey;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    background-color: grey;
-    color: white;
-  }
+const Title = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  color: #0c1439;
 `;
 
 function capitalizeFirstLetter(input: string) {
@@ -166,15 +160,9 @@ const Form: React.FC = () => {
 
   const metaOptions = (
     <>
-      {singleTicket}
-      <br />
-      ----
-      <br />
-      {volumeTickets}
-      <br />
-      ----
-      <br />
-      {notifyCheckbox}
+      <Spacing bottom="1rem">{singleTicket}</Spacing>
+      <Spacing bottom="1rem">{volumeTickets}</Spacing>
+      <Spacing bottom="1rem">{notifyCheckbox}</Spacing>
     </>
   );
 
@@ -219,68 +207,64 @@ const Form: React.FC = () => {
   };
   return (
     <>
-      <BoxMessage
-        backgroundColor="rgb(253, 235, 235)"
-        color="#E15554"
-        dimension="sm"
-        type="warning"
-      >
-        <>
-          Are you sure you know what you are doing? <br />
-          Are you a financial admin authorized to make these changes? <br />
-          If you get errors when using this tool and you do not have the
-          permissions, that is to be expected
-        </>
-      </BoxMessage>
-      <br />
-      ----
-      <br />
-      {metaOptions}
-      <br />
-      ----
-      <br />
-      notify: {JSON.stringify(notifyOrderOwner)}
-      <br />
-      ----
-      <br />
-      single: {singleTicketProductID}
-      <br />
-      ----
-      <br />
-      volume id: {volumeTicketsProductID}
-      <br />
-      ----
-      <br />
-      volume quantity: {volumeTicketsQuantity}
-      <br />
-      ----
-      <br />
-      <h2>Issue a single order:</h2>
-      <form onSubmit={(e) => onSingleSubmit(e)}>
-        {formError && <div>There seems to be an error with your input.</div>}
-        <label>
-          First name:
-          <input name="firstName" type="text" />
-        </label>
-        <label>
-          Last name:
-          <input name="lastName" type="text" />
-        </label>
-        <label>
-          Email:
-          <input name="email" type="text" />
-        </label>
-        <SubmitButton type="submit">Submit</SubmitButton>
-      </form>
-      <h2>
-        Upload a csv of orders, each line containing:
-        <pre>firstName,Lastname,email</pre>
-      </h2>
-      <form onSubmit={(e) => onSubmit(e)}>
-        {formError && <div>There seems to be an error with your input.</div>}
-        <Upload setAssignees={setAssignees} />
-        <SubmitButton type="submit">Submit</SubmitButton>
-      </form>
+      <Spacing bottom="2rem">
+        <BoxMessage
+          backgroundColor="rgb(253, 235, 235)"
+          color="#E15554"
+          dimension="sm"
+          type="warning"
+        >
+          <>
+            Are you sure you know what you are doing? <br />
+            Are you a financial admin authorized to make these changes? <br />
+            If you get errors when using this tool and you do not have the
+            permissions, that is to be expected
+          </>
+        </BoxMessage>
+      </Spacing>
+
+      <ContainerCard>
+        <Spacing bottom="2rem">
+          <Title>Settings</Title>
+        </Spacing>
+
+        <Spacing bottom="1rem">{metaOptions}</Spacing>
+        <Spacing bottom="1rem">
+          notify: {JSON.stringify(notifyOrderOwner)}
+        </Spacing>
+        <Spacing bottom="1rem">single: {singleTicketProductID}</Spacing>
+        <Spacing bottom="1rem">volume id: {volumeTicketsProductID}</Spacing>
+        <Spacing bottom="1rem">
+          volume quantity: {volumeTicketsQuantity}
+        </Spacing>
+
+        <Title>Issue a single order</Title>
+        <form onSubmit={(e) => onSingleSubmit(e)}>
+          {formError && <div>There seems to be an error with your input.</div>}
+          <label>
+            First name:
+            <input name="firstName" type="text" />
+          </label>
+          <label>
+            Last name:
+            <input name="lastName" type="text" />
+          </label>
+          <label>
+            Email:
+            <input name="email" type="text" />
+          </label>
+          <Button type="submit">Submit</Button>
+        </form>
+        <Title>
+          Upload a csv of orders, each line containing:
+          <pre>firstName,Lastname,email</pre>
+        </Title>
+        <form onSubmit={(e) => onSubmit(e)}>
+          {formError && <div>There seems to be an error with your input.</div>}
+          <Upload setAssignees={setAssignees} />
+          <Button type="submit">Submit</Button>
+        </form>
+      </ContainerCard>
     </>
   );
 };

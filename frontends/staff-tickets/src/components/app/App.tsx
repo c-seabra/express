@@ -15,7 +15,7 @@ import Form from '../form/Form';
 
 const StyledContainer = styled.section`
   padding: 1rem;
-  max-width: 1024px;
+  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
   font-size: 16px;
@@ -26,10 +26,14 @@ const StyledSection = styled.section`
   padding: 1rem;
 `;
 
-const Title = styled.div`
+const Title = styled.span`
   font-size: 24px;
   font-weight: 500;
   color: #0c1439;
+`;
+
+const SlimTitle = styled(Title)`
+  font-weight: 400;
 `;
 
 export type StaffList = { [index: string]: Staff };
@@ -97,7 +101,10 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
         <StyledContainer>
           <StyledSection>
             <Spacing bottom="2rem">
-              <Title>Ticket Assignment - Staff ticket creation tool</Title>
+              <Title>
+                Ticket Assignment
+                <SlimTitle> - Staff ticket creation tool</SlimTitle>
+              </Title>
             </Spacing>
             <Form />
           </StyledSection>
