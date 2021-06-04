@@ -1,10 +1,19 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+// import Upload from '../upload/Upload';
+import FileInputModal from '@websummit/components/src/molecules/FileInputModal';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import Select, {
   SelectFieldOption,
 } from '@websummit/components/src/molecules/Select';
+import {
+  useErrorSnackbar,
+  useSuccessSnackbar,
+} from '@websummit/components/src/molecules/Snackbar';
+import TextInput from '@websummit/components/src/molecules/TextInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { shortenString } from '@websummit/components/src/utils/text';
 import { useCommerceListProductsQuery } from '@websummit/graphql/src/@types/operations';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
@@ -15,8 +24,6 @@ import {
 } from '../../lib/extract/createOrder';
 import { AppContext, Staff } from '../app/App';
 import Loader from '../statusIcon/Loader';
-import Upload from '../upload/Upload';
-// import TextInput from "@websummit/components/src/molecules/TextInput";
 
 const Title = styled.div`
   font-size: 20px;
@@ -45,6 +52,77 @@ const Form: React.FC = () => {
   const [volumeTicketsQuantity, setVolumeTicketsQuantity] = useState(10);
 
   const [notifyOrderOwner, setNotifyOrderOwner] = useState(false);
+
+  const fileUploadId = 'custom-file-upload';
+  const errSnackbar = useErrorSnackbar();
+  const successSnackbar = useSuccessSnackbar();
+  const { isOpen, closeModal, openModal } = useModalState();
+  // const [formError, setFormError] = useState(false);
+  const [progressPercentage, setProgressPercentage] = useState(0);
+  const [fileName, setFileName] = useState('');
+
+  // const onUpload = (e: any, elementId: string) => {
+  const onUpload = (e: any, elementId: string) => {
+    const input = document.getElementById(elementId) as HTMLInputElement;
+    const { files } = input;
+
+    const selectedFileName = e.target.files[0].name;
+    setFileName(shortenString(selectedFileName));
+
+    const errorHandler = (evt: ProgressEvent<FileReader>) => {
+      if (evt?.target?.error?.name === 'NotReadableError') {
+        errSnackbar('Unable to read uploaded file');
+      }
+    };
+
+    const progressHandler = (evt: ProgressEvent<FileReader>) => {
+      if (evt?.lengthComputable) {
+        setProgressPercentage((evt.loaded / evt.total) * 100);
+      }
+    };
+
+    const process = (fileReader: ProgressEvent<FileReader>) => {
+      const csv = fileReader?.target?.result as string;
+      if (csv) {
+        const lines = csv.split('\n');
+        const result: Staff[] = [];
+
+        for (let i = 0; i <= lines.length - 1; i++) {
+          const line = lines[i].replace(/(\r\n|\n|\r|)/gm, '');
+          const [firstName, lastName, email] = line.split(',');
+
+          result.push({
+            email,
+            firstName,
+            lastName,
+          });
+        }
+
+        setAssignees(result);
+      } else {
+        errSnackbar(
+          'There has been an issue reading uploaded CSV try again or check your CSV has correct format.',
+        );
+      }
+    };
+
+    if (window.FileReader) {
+      const file = files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = process;
+        reader.onprogress = progressHandler;
+        reader.onerror = errorHandler;
+      } else {
+        errSnackbar('No file has been selected');
+      }
+    } else {
+      alert('FileReader is not supported in this browser.');
+    }
+  };
+
+  const _onUpload = (e: any) => onUpload(e, fileUploadId);
 
   const { loading, error, data } = useCommerceListProductsQuery({
     context,
@@ -181,6 +259,7 @@ const Form: React.FC = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (assignees && assignees.length > 0 && context.setTicketsList) {
+      setAssignees(assignees);
       context.setTicketsList(
         assignees.map((staff) =>
           transformStaffIntoWorkUnit(metaContext, staff),
@@ -210,6 +289,7 @@ const Form: React.FC = () => {
       setFormError(true);
     }
   };
+
   return (
     <>
       <Spacing bottom="2rem">
@@ -254,7 +334,7 @@ const Form: React.FC = () => {
               {formError && (
                 <div>There seems to be an error with your input.</div>
               )}
-              {/*<TextInput label="First name" value={} />*/}
+              {/* <TextInput label="First name" value={} /> */}
               <label>
                 First name:
                 <input name="firstName" type="text" />
@@ -282,18 +362,37 @@ const Form: React.FC = () => {
                 type="info"
               >
                 <>
-                  Upload a csv of orders, each line containing: <StyledPre>firstName,lastName,email</StyledPre>
+                  Upload a csv of orders, each line containing:{' '}
+                  <StyledPre>firstName,lastName,email</StyledPre>
                 </>
               </BoxMessage>
             </Spacing>
 
-            <form onSubmit={(e) => onSubmit(e)}>
-              {formError && (
-                <div>There seems to be an error with your input.</div>
-              )}
-              <Upload setAssignees={setAssignees} />
-              <Button type="submit">Submit</Button>
-            </form>
+            <FileInputModal
+              acceptedFileTypes=".csv"
+              closeModal={closeModal}
+              fileName={fileName}
+              fileUploadId={fileUploadId}
+              isFileError={formError}
+              isOpen={isOpen}
+              loadingProgress={progressPercentage}
+              submitCallback={onSubmit}
+              onUpload={_onUpload}
+            />
+
+            <Button onClick={openModal}>Add .csv file</Button>
+
+            {/* <div> */}
+            {/*  ---*/}
+            {/*  <br /> */}
+            {/* </div> */}
+            {/* <form onSubmit={(e) => onSubmit(e)}> */}
+            {/*  {formError && ( */}
+            {/*    <div>There seems to be an error with your input.</div> */}
+            {/*  )} */}
+            {/*  /!* <Upload setAssignees={setAssignees} /> *!/ */}
+            {/*  <Button type="submit">Submit</Button> */}
+            {/* </form> */}
           </ContainerCard>
         </Spacing>
       </ContainerCard>
