@@ -359,9 +359,21 @@ const Form: React.FC = () => {
               <div>There seems to be an error with your input.</div>
             )}
             <Flex>
-              <StyledTextInput label="First name" name="firstName" />
-              <StyledTextInput label="Last name" name="lastName" />
-              <StyledTextInput label="Email" name="email" />
+              <StyledTextInput
+                label="First name"
+                name="firstName"
+                placeholder="John"
+              />
+              <StyledTextInput
+                label="Last name"
+                name="lastName"
+                placeholder="Doe"
+              />
+              <StyledTextInput
+                label="Email"
+                name="email"
+                placeholder="john@example.com"
+              />
             </Flex>
             <FlexEnd>
               <Button type="submit">Submit</Button>
