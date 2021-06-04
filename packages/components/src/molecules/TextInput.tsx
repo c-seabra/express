@@ -57,7 +57,7 @@ const TextInput = ({
   disabled,
   errorMessage,
   onChange,
-  value,
+  name,
   list,
 }: TextInputProps) => {
   return (
@@ -66,9 +66,9 @@ const TextInput = ({
       <StyledInput
         disabled={disabled}
         list={list}
+        name={name}
         placeholder={placeholder}
         type={type}
-        value={value}
         onChange={onChange}
       />
       {errorMessage && <Error>{errorMessage}</Error>}
