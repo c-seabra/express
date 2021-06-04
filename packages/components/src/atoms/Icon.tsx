@@ -6,6 +6,14 @@ type Props = React.BaseHTMLAttributes<HTMLSpanElement> & {
   size?: string;
 };
 
+export const IconWrapper = styled.div<Props>`
+  height: ${(props) => (props.size ? props.size : '40px')};
+  > .material-icons {
+    font-size: ${(props) => (props.size ? props.size : '40px')};
+    color: ${(props) => (props.color ? props.color : '#0067e9')};
+  }
+`;
+
 const StyledIcon = styled.span<Props>`
   cursor: pointer;
 
