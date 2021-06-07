@@ -1,6 +1,9 @@
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import DownloadCSVButton from '@websummit/components/src/molecules/DownloadCSVButton';
+import Table, {
+  ColumnDescriptor,
+} from '@websummit/components/src/molecules/Table';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
@@ -9,6 +12,7 @@ import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { Status } from '../../lib/extract/bulkOperation';
 import { CreateOrderWorkUnit } from '../../lib/extract/createOrder';
 import AssigneeItem from '../assigneeItem/AssigneeItem';
+import UploadStatus from '../statusIcon/StatusIcon';
 import AssigneeListHeader from './AssigneeListHeader';
 
 const Flex = styled.div`
@@ -38,9 +42,9 @@ const createGroups = (enumMap: any) => {
 };
 
 type StatusStatGroup = {
-    count: number;
-    name: string
-}
+  count: number;
+  name: string;
+};
 
 const createGroupedResults = (list: CreateOrderWorkUnit[], groups: any) => {
   list.map((elem) => {
@@ -55,13 +59,39 @@ const createGroupedResults = (list: CreateOrderWorkUnit[], groups: any) => {
   return groups;
 };
 
+const tableShape: ColumnDescriptor<any>[] = [
+  {
+    header: 'Booking Ref',
+    renderCell: (order) =>
+      order.reference || order.singleTicket?.bookingRef || '⌛',
+    width: '20%',
+  },
+  {
+    header: 'First & last name',
+    renderCell: (order) => `${order.firstName} ${order.lastName} ` || 'N/A',
+      width: '30%',
+  },
+  {
+    header: 'Email',
+    renderCell: (order) => order.email || 'N/A',
+      width: '30%',
+
+  },
+  {
+    header: 'Status',
+    renderCell: (order) => {
+      return (order.status && <UploadStatus status={order.status} />) || 'N/A';
+    },
+  },
+];
+
 const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
   if (!list || list?.length < 0) return null;
 
   const groups = createGroups(Status);
   console.log(groups);
   const groupedResults = createGroupedResults(list, groups);
-    console.log(groupedResults);
+  console.log(groupedResults);
 
   return (
     <>
@@ -99,10 +129,11 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
       </Spacing>
 
       <Spacing bottom="2rem">
-        <ContainerCard title="Grouped results">Test</ContainerCard>
-        {groupedResults.map((elem: any) => {
-          return <Flex>elem</Flex>;
-        })}
+        <ContainerCard title="Results stats">
+          {groupedResults.map((elem: any) => {
+            return <Flex>elem</Flex>;
+          })}
+        </ContainerCard>
       </Spacing>
 
       <StyledList>
@@ -120,6 +151,12 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
           />
         ))}
       </StyledList>
+
+      <Spacing bottom="2rem">
+        <ContainerCard noPadding title="Results">
+          <Table<any> items={list} tableShape={tableShape} />
+        </ContainerCard>
+      </Spacing>
     </>
   );
 };
