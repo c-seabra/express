@@ -1,5 +1,6 @@
 import Badge from '@websummit/components/src/atoms/Badge';
 import { Button } from '@websummit/components/src/atoms/Button';
+import Loader from '@websummit/components/src/atoms/Loader';
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import FileInputModal from '@websummit/components/src/molecules/FileInputModal';
@@ -20,7 +21,6 @@ import {
   WorkUnitContext,
 } from '../../lib/extract/createOrder';
 import { AppContext, Staff } from '../app/App';
-import Loader from '../statusIcon/Loader';
 
 const StyledPre = styled.pre`
   display: inline;
