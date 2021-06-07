@@ -216,15 +216,18 @@ const Form: React.FC = () => {
   );
 
   const volumeTicketsQuantitySelect = (
-    <input
-      name="volumeTicketsQuantity"
-      type="number"
-      value={volumeTicketsQuantity}
-      onChange={(event: any) => {
-        const value = parseInt(event.target.value, 10);
-        setVolumeTicketsQuantity(value);
-      }}
-    />
+    <>
+      <span>Volume quantity: </span>
+      <input
+        name="volumeTicketsQuantity"
+        type="number"
+        value={volumeTicketsQuantity}
+        onChange={(event: any) => {
+          const value = parseInt(event.target.value, 10);
+          setVolumeTicketsQuantity(value);
+        }}
+      />
+    </>
   );
 
   const volumeTickets = (
