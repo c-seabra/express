@@ -59,22 +59,21 @@ const Form: React.FC = () => {
 
   const [singleTicketEnabled, setSingleTicketEnabled] = useState(false);
   const [singleTicketProductID, setSingleTicketProductID] = useState('');
+  const [singleTicketProductName, setSingleTicketProductName] = useState('');
 
   const [volumeTicketsEnabled, setVolumeTicketsEnabled] = useState(false);
   const [volumeTicketsProductID, setVolumeTicketsProductID] = useState('');
+  const [volumeTicketsProductName, setVolumeTicketsProductName] = useState('');
   const [volumeTicketsQuantity, setVolumeTicketsQuantity] = useState(10);
 
   const [notifyOrderOwner, setNotifyOrderOwner] = useState(false);
 
   const fileUploadId = 'custom-file-upload';
   const errSnackbar = useErrorSnackbar();
-  const successSnackbar = useSuccessSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
-  // const [formError, setFormError] = useState(false);
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [fileName, setFileName] = useState('');
 
-  // const onUpload = (e: any, elementId: string) => {
   const onUpload = (e: any, elementId: string) => {
     const input = document.getElementById(elementId) as HTMLInputElement;
     const { files } = input;
@@ -152,7 +151,9 @@ const Form: React.FC = () => {
 
   const products = data?.commerceListProducts?.hits;
 
-  const firstOption = products?.[0].id || 'no id';
+  const firstOption = products?.[0];
+  const firstOptionId = firstOption?.id || 'no id';
+  const firstOptionLabel = firstOption?.name || 'no label';
 
   const options: SelectFieldOption[] | undefined = products?.map((product) => ({
     disabled: !product.id,
@@ -169,7 +170,8 @@ const Form: React.FC = () => {
           const value = event.target.checked as boolean;
           setSingleTicketEnabled(value);
           // we need to unset on disable
-          setSingleTicketProductID(value ? firstOption : '');
+          setSingleTicketProductID(value ? firstOptionId : '');
+          setSingleTicketProductName(firstOptionLabel);
         }}
       />
       Should each order have a single ticket assigned to the order owner?
@@ -180,7 +182,13 @@ const Form: React.FC = () => {
     <Select
       options={options}
       value={singleTicketProductID}
-      onChange={(event) => setSingleTicketProductID(event.target.value)}
+      onChange={(event) => {
+        const id = event.target.value;
+        const name =
+          options?.filter((elem) => elem.value === id)[0]?.label || '';
+        setSingleTicketProductID(id);
+        setSingleTicketProductName(name as string);
+      }}
     />
   );
 
@@ -195,7 +203,13 @@ const Form: React.FC = () => {
     <Select
       options={options}
       value={volumeTicketsProductID}
-      onChange={(event) => setVolumeTicketsProductID(event.target.value)}
+      onChange={(event) => {
+        const id = event.target.value;
+        const name =
+          options?.filter((elem) => elem.value === id)[0]?.label || '';
+        setVolumeTicketsProductID(id);
+        setVolumeTicketsProductName(name as string);
+      }}
     />
   );
 
@@ -208,7 +222,8 @@ const Form: React.FC = () => {
           const value = event.target.checked as boolean;
           setVolumeTicketsEnabled(value);
           // we need to unset on disable
-          setVolumeTicketsProductID(value ? firstOption : '');
+          setVolumeTicketsProductID(value ? firstOptionId : '');
+          setSingleTicketProductName(firstOptionLabel);
         }}
       />
       Should each order have multiple unassigned tickets?
@@ -338,19 +353,40 @@ const Form: React.FC = () => {
       <Spacing bottom="2rem">
         <ContainerCard title="Settings summary">
           <Spacing bottom="1rem">
-            <span>Notify:&nbsp;</span>
-            <Badge background={badge.background} color={badge.color}>
-              {notifyOrderOwner ? 'Yes' : 'No' || 'N/A'}
+            <span>Single: </span>
+            <Badge>
+              {singleTicketProductID ? (
+                <span>
+                  {singleTicketProductName} ({singleTicketProductID})
+                </span>
+              ) : (
+                'Not set'
+              )}
             </Badge>
           </Spacing>
           <Spacing bottom="1rem">
-            Single: {singleTicketProductID || 'Not set'}
+            <span>Volume id: </span>
+            <Badge>
+              {volumeTicketsProductID ? (
+                <span>
+                  {volumeTicketsProductName} ({volumeTicketsProductID})
+                </span>
+              ) : (
+                'Not set'
+              )}
+            </Badge>
           </Spacing>
           <Spacing bottom="1rem">
-            Volume id: {volumeTicketsProductID || 'Not set'}
+            <span>Volume quantity: </span>
+            <Badge background="#CCC" color="#000">
+              {volumeTicketsQuantity}
+            </Badge>
           </Spacing>
           <Spacing bottom="1rem">
-            Volume quantity: {volumeTicketsQuantity}
+            <span>Notify via email:&nbsp;</span>
+            <Badge background={badge.background} color={badge.color}>
+              {notifyOrderOwner ? 'Yes' : 'No' || 'N/A'}
+            </Badge>
           </Spacing>
         </ContainerCard>
       </Spacing>
