@@ -219,7 +219,7 @@ const Form: React.FC = () => {
           setVolumeTicketsEnabled(value);
           // we need to unset on disable
           setVolumeTicketsProductID(value ? firstOptionId : '');
-          setSingleTicketProductName(firstOptionLabel);
+          setVolumeTicketsProductName(firstOptionLabel);
         }}
       />
       Should each order have multiple unassigned tickets?
