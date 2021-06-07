@@ -8,12 +8,10 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
 
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
+// import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { Status } from '../../lib/extract/bulkOperation';
 import { CreateOrderWorkUnit } from '../../lib/extract/createOrder';
-import AssigneeItem from '../assigneeItem/AssigneeItem';
 import UploadStatus from '../statusIcon/StatusIcon';
-import AssigneeListHeader from './AssigneeListHeader';
 
 const Flex = styled.div`
   display: flex;
@@ -23,41 +21,34 @@ const FlexEnd = styled(Flex)`
   justify-content: flex-end;
 `;
 
-const StyledList = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-`;
+// const createGroups = (enumMap: any) => {
+//   return Object.keys(enumMap)
+//     .filter((key) => Number.isNaN(Number(enumMap[key])))
+//     .map((key) => {
+//       return {
+//         count: 0,
+//         name: enumMap[key],
+//       };
+//     });
+// };
+//
+// type StatusStatGroup = {
+//   count: number;
+//   name: string;
+// };
 
-// Create
-const createGroups = (enumMap: any) => {
-  return Object.keys(enumMap)
-    .filter((key) => Number.isNaN(Number(enumMap[key])))
-    .map((key) => {
-      return {
-        count: 0,
-        name: enumMap[key],
-      };
-    });
-};
-
-type StatusStatGroup = {
-  count: number;
-  name: string;
-};
-
-const createGroupedResults = (list: CreateOrderWorkUnit[], groups: any) => {
-  list.map((elem) => {
-    return groups.map((group: StatusStatGroup) => {
-      return switchCase({
-        [Status.ERROR]: (group.count += 1),
-        [Status.SUCCESS]: (group.count += 1),
-      })(0)(elem.status.type);
-    });
-  });
-
-  return groups;
-};
+// const createGroupedResults = (list: CreateOrderWorkUnit[], groups: any) => {
+//   list.map((elem) => {
+//     return groups.map((group: StatusStatGroup) => {
+//       return switchCase({
+//         [Status.ERROR]: (group.count += 1),
+//         [Status.SUCCESS]: (group.count += 1),
+//       })(0)(elem.status.type);
+//     });
+//   });
+//
+//   return groups;
+// };
 
 const tableShape: ColumnDescriptor<any>[] = [
   {
@@ -88,10 +79,10 @@ const tableShape: ColumnDescriptor<any>[] = [
 const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
   if (!list || list?.length < 0) return null;
 
-  const groups = createGroups(Status);
-  console.log(groups);
-  const groupedResults = createGroupedResults(list, groups);
-  console.log(groupedResults);
+  // const groups = createGroups(Status);
+  // console.log(groups);
+  // const groupedResults = createGroupedResults(list, groups);
+  // console.log(groupedResults);
 
   return (
     <>
@@ -128,29 +119,13 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
         )}
       </Spacing>
 
-      <Spacing bottom="2rem">
-        <ContainerCard title="Results stats">
-          {groupedResults.map((elem: any) => {
-            return <Flex>elem</Flex>;
-          })}
-        </ContainerCard>
-      </Spacing>
-
-      <StyledList>
-        <AssigneeListHeader />
-        {list.map((order) => (
-          <AssigneeItem
-            key={order.email}
-            bookingRef={
-              order.reference || order.singleTicket?.bookingRef || '⌛'
-            }
-            email={order.email}
-            firstName={order.firstName}
-            lastName={order.lastName}
-            status={order.status}
-          />
-        ))}
-      </StyledList>
+      {/*<Spacing bottom="2rem">*/}
+      {/*  <ContainerCard title="Results stats">*/}
+      {/*    {groupedResults.map((elem: any) => {*/}
+      {/*      return <Flex>elem</Flex>;*/}
+      {/*    })}*/}
+      {/*  </ContainerCard>*/}
+      {/*</Spacing>*/}
 
       <Spacing bottom="2rem">
         <ContainerCard noPadding title="Results">
