@@ -60,13 +60,12 @@ const tableShape: ColumnDescriptor<any>[] = [
   {
     header: 'First & last name',
     renderCell: (order) => `${order.firstName} ${order.lastName} ` || 'N/A',
-      width: '30%',
+    width: '30%',
   },
   {
     header: 'Email',
     renderCell: (order) => order.email || 'N/A',
-      width: '30%',
-
+    width: '30%',
   },
   {
     header: 'Status',
@@ -119,13 +118,13 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
         )}
       </Spacing>
 
-      {/*<Spacing bottom="2rem">*/}
-      {/*  <ContainerCard title="Results stats">*/}
-      {/*    {groupedResults.map((elem: any) => {*/}
-      {/*      return <Flex>elem</Flex>;*/}
-      {/*    })}*/}
-      {/*  </ContainerCard>*/}
-      {/*</Spacing>*/}
+      {/* <Spacing bottom="2rem"> */}
+      {/*  <ContainerCard title="Results stats"> */}
+      {/*    {groupedResults.map((elem: any) => { */}
+      {/*      return <Flex>elem</Flex>; */}
+      {/*    })} */}
+      {/*  </ContainerCard> */}
+      {/* </Spacing> */}
 
       <Spacing bottom="2rem">
         <ContainerCard noPadding title="Results">
