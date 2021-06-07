@@ -270,9 +270,16 @@ const Form: React.FC = () => {
 
   const metaOptions = (
     <>
-      <Spacing bottom="1rem">{singleTicket}</Spacing>
-      <Spacing bottom="1rem">{volumeTickets}</Spacing>
-      <Spacing bottom="1rem">{notifyCheckbox}</Spacing>
+      <Spacing bottom="2rem">
+        <Flex>Please select one</Flex>
+        <Spacing bottom="1rem">{singleTicket}</Spacing>
+        <Spacing bottom="1rem">{volumeTickets}</Spacing>
+      </Spacing>
+
+      <Spacing bottom="2rem">
+        <Flex>Additional settings</Flex>
+        <Spacing bottom="1rem">{notifyCheckbox}</Spacing>
+      </Spacing>
     </>
   );
 
@@ -348,36 +355,45 @@ const Form: React.FC = () => {
 
       <Spacing bottom="2rem">
         <ContainerCard title="Settings summary">
-          <Spacing bottom="1rem">
-            <span>Single: </span>
-            <Badge>
-              {singleTicketProductID ? (
-                <span>
-                  {singleTicketProductName} ({singleTicketProductID})
-                </span>
-              ) : (
-                'Not set'
-              )}
-            </Badge>
-          </Spacing>
-          <Spacing bottom="1rem">
-            <span>Volume id: </span>
-            <Badge>
-              {volumeTicketsProductID ? (
-                <span>
-                  {volumeTicketsProductName} ({volumeTicketsProductID})
-                </span>
-              ) : (
-                'Not set'
-              )}
-            </Badge>
-          </Spacing>
-          <Spacing bottom="1rem">
-            <span>Volume quantity: </span>
-            <Badge background="#CCC" color="#000">
-              {volumeTicketsQuantity}
-            </Badge>
-          </Spacing>
+          {singleTicketEnabled && (
+            <Spacing bottom="1rem">
+              <span>Single: </span>
+              <Badge>
+                {singleTicketProductID ? (
+                  <span>
+                    {singleTicketProductName} ({singleTicketProductID})
+                  </span>
+                ) : (
+                  'Not set'
+                )}
+              </Badge>
+            </Spacing>
+          )}
+
+          {volumeTicketsEnabled && (
+            <>
+              {' '}
+              <Spacing bottom="1rem">
+                <span>Volume id: </span>
+                <Badge>
+                  {volumeTicketsProductID ? (
+                    <span>
+                      {volumeTicketsProductName} ({volumeTicketsProductID})
+                    </span>
+                  ) : (
+                    'Not set'
+                  )}
+                </Badge>
+              </Spacing>
+              <Spacing bottom="1rem">
+                <span>Volume quantity: </span>
+                <Badge background="#CCC" color="#000">
+                  {volumeTicketsQuantity}
+                </Badge>
+              </Spacing>
+            </>
+          )}
+
           <Spacing bottom="1rem">
             <span>Notify via email:&nbsp;</span>
             <Badge background={badge.background} color={badge.color}>
@@ -387,67 +403,72 @@ const Form: React.FC = () => {
         </ContainerCard>
       </Spacing>
 
-      <Spacing bottom="2rem">
-        <ContainerCard title="Issue a single order">
-          <form onSubmit={(e) => onSingleSubmit(e)}>
-            {formError && (
-              <div>There seems to be an error with your input.</div>
-            )}
-            <Flex>
-              <StyledTextInput
-                label="First name"
-                name="firstName"
-                placeholder="John"
-              />
-              <StyledTextInput
-                label="Last name"
-                name="lastName"
-                placeholder="Doe"
-              />
-              <StyledTextInput
-                label="Email"
-                name="email"
-                placeholder="john@example.com"
-              />
-            </Flex>
-            <FlexEnd>
-              <Button type="submit">Submit</Button>
-            </FlexEnd>
-          </form>
-        </ContainerCard>
-      </Spacing>
+      {singleTicketEnabled && (
+        <Spacing bottom="2rem">
+          <ContainerCard title="Issue a single order">
+            <form onSubmit={(e) => onSingleSubmit(e)}>
+              {formError && (
+                <div>There seems to be an error with your input.</div>
+              )}
+              <Flex>
+                <StyledTextInput
+                  label="First name"
+                  name="firstName"
+                  placeholder="John"
+                />
+                <StyledTextInput
+                  label="Last name"
+                  name="lastName"
+                  placeholder="Doe"
+                />
 
-      <Spacing bottom="2rem">
-        <ContainerCard title="CSV Upload">
-          <Spacing bottom="2rem">
-            <BoxMessage
-              backgroundColor="#333"
-              color="#fff"
-              dimension="sm"
-              type="info"
-            >
-              <>
-                Upload a csv of orders, each line containing:{' '}
-                <StyledPre>firstName,lastName,email</StyledPre>
-              </>
-            </BoxMessage>
-          </Spacing>
+                <StyledTextInput
+                  label="Email"
+                  name="email"
+                  placeholder="john@example.com"
+                />
+              </Flex>
+              <FlexEnd>
+                <Button type="submit">Submit</Button>
+              </FlexEnd>
+            </form>
+          </ContainerCard>
+        </Spacing>
+      )}
 
-          <FileInputModal
-            acceptedFileTypes=".csv"
-            closeModal={closeModal}
-            fileName={fileName}
-            fileUploadId={fileUploadId}
-            isFileError={formError}
-            isOpen={isOpen}
-            loadingProgress={progressPercentage}
-            submitCallback={onSubmit}
-            onUpload={_onUpload}
-          />
+      {volumeTicketsEnabled && (
+        <Spacing bottom="2rem">
+          <ContainerCard title="CSV Upload">
+            <Spacing bottom="2rem">
+              <BoxMessage
+                backgroundColor="#333"
+                color="#fff"
+                dimension="sm"
+                type="info"
+              >
+                <>
+                  Upload a csv of orders, each line containing:{' '}
+                  <StyledPre>firstName,lastName,email</StyledPre>
+                </>
+              </BoxMessage>
+            </Spacing>
 
-          <Button onClick={openModal}>Add .csv file</Button>
-        </ContainerCard>
-      </Spacing>
+            <FileInputModal
+              acceptedFileTypes=".csv"
+              closeModal={closeModal}
+              fileName={fileName}
+              fileUploadId={fileUploadId}
+              isFileError={formError}
+              isOpen={isOpen}
+              loadingProgress={progressPercentage}
+              submitCallback={onSubmit}
+              onUpload={_onUpload}
+            />
+
+            <Button onClick={openModal}>Add .csv file</Button>
+          </ContainerCard>
+        </Spacing>
+      )}
     </>
   );
 };
