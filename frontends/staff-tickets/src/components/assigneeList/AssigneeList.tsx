@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import { Status } from '../../lib/extract/bulkOperation';
+// import { Status } from '../../lib/extract/bulkOperation';
 import { CreateOrderWorkUnit } from '../../lib/extract/createOrder';
 import UploadStatus from '../statusIcon/StatusIcon';
 

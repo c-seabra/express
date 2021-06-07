@@ -1,8 +1,10 @@
 import Badge from '@websummit/components/src/atoms/Badge';
 import { Button } from '@websummit/components/src/atoms/Button';
+import Icon, { IconWrapper } from '@websummit/components/src/atoms/Icon';
 import Loader from '@websummit/components/src/atoms/Loader';
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import DownloadCSVButton from '@websummit/components/src/molecules/DownloadCSVButton';
 import FileInputModal from '@websummit/components/src/molecules/FileInputModal';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import Select, {
@@ -30,9 +32,18 @@ const Flex = styled.div`
   display: flex;
 `;
 
+const StyledDownload = styled(Flex)`
+  align-items: center;
+  color: #0067e9;
+`;
+
 const FlexEnd = styled(Flex)`
   display: flex;
   justify-content: flex-end;
+`;
+
+const SubHeader = styled(Flex)`
+  font-weight: 500;
 `;
 
 const StyledTextInput = styled(TextInput)`
@@ -271,13 +282,13 @@ const Form: React.FC = () => {
   const metaOptions = (
     <>
       <Spacing bottom="2rem">
-        <Flex>Please select one</Flex>
+        <SubHeader>Please select one</SubHeader>
         <Spacing bottom="1rem">{singleTicket}</Spacing>
         <Spacing bottom="1rem">{volumeTickets}</Spacing>
       </Spacing>
 
       <Spacing bottom="2rem">
-        <Flex>Additional settings</Flex>
+        <SubHeader>Additional settings</SubHeader>
         <Spacing bottom="1rem">{notifyCheckbox}</Spacing>
       </Spacing>
     </>
@@ -328,6 +339,15 @@ const Form: React.FC = () => {
     background: notifyOrderOwner ? '#EAF9EA' : '#FDEBEB',
     color: notifyOrderOwner ? '#3BB273' : '#E15554',
   };
+
+  const csvTemplateFile = [
+    {
+      'First name': 'John',
+      'Last name': 'Doe',
+      // eslint-disable-next-line
+      'Email used': 'john@example.com',
+    },
+  ];
 
   return (
     <>
@@ -458,6 +478,22 @@ const Form: React.FC = () => {
               closeModal={closeModal}
               fileName={fileName}
               fileUploadId={fileUploadId}
+              fileUploadTemplate={
+                <DownloadCSVButton
+                  buttonText="Download .csv template"
+                  customTemplate={
+                    <StyledDownload>
+                      <IconWrapper size="16px">
+                        <Icon>download</Icon>
+                      </IconWrapper>
+                      <span>Download template</span>
+                    </StyledDownload>
+                  }
+                  data={csvTemplateFile}
+                  filename="staff-tickets-template"
+                />
+              }
+              fileUploadText="Uploading requires a comma-separated values (CSV) file"
               isFileError={formError}
               isOpen={isOpen}
               loadingProgress={progressPercentage}
