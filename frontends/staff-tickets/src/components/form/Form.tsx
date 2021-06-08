@@ -24,10 +24,6 @@ import {
 } from '../../lib/extract/createOrder';
 import { AppContext, Staff } from '../app/App';
 
-const StyledPre = styled.pre`
-  display: inline;
-`;
-
 const Flex = styled.div`
   display: flex;
 `;
@@ -181,7 +177,7 @@ const Form: React.FC = () => {
           setSingleTicketProductName(firstOptionLabel);
         }}
       />
-      Should each order have a single ticket assigned to the order owner?
+      &nbsp;One ticket per order (ticket will be preassigned)
     </>
   );
 
@@ -233,13 +229,13 @@ const Form: React.FC = () => {
           setVolumeTicketsProductName(firstOptionLabel);
         }}
       />
-      Should each order have multiple unassigned tickets?
+      &nbsp;Multiple tickets per order (tickets are not preassigned)
     </>
   );
 
   const volumeTicketsQuantitySelect = (
     <>
-      <span>Volume quantity: </span>
+      <span>Quantity of tickets: </span>
       <input
         name="volumeTicketsQuantity"
         type="number"
@@ -274,23 +270,16 @@ const Form: React.FC = () => {
           setNotifyOrderOwner(value);
         }}
       />
-      Should we send an email to the order owner to notify them about their
-      tickets?
+      Notify order owner about their tickets?
     </>
   );
 
   const metaOptions = (
     <>
-      <Spacing bottom="2rem">
-        <SubHeader>Please select one</SubHeader>
-        <Spacing bottom="0.5rem">{singleTicket}</Spacing>
-        <Spacing bottom="1rem">{volumeTickets}</Spacing>
-      </Spacing>
-
-      <Spacing bottom="2rem">
-        <SubHeader>Additional settings</SubHeader>
-        <Spacing bottom="1rem">{notifyCheckbox}</Spacing>
-      </Spacing>
+      <SubHeader>Select options applicable to ticket order</SubHeader>
+      <Spacing bottom="0.5rem">{singleTicket}</Spacing>
+      <Spacing bottom="0.5rem">{volumeTickets}</Spacing>
+      <Spacing bottom="1rem">{notifyCheckbox}</Spacing>
     </>
   );
 
@@ -363,17 +352,17 @@ const Form: React.FC = () => {
       </Spacing>
 
       <Spacing bottom="2rem">
-        <ContainerCard title="Settings">
+        <ContainerCard title="Ticket Configuration">
           <Spacing bottom="1rem">{metaOptions}</Spacing>
         </ContainerCard>
       </Spacing>
 
       <Spacing bottom="2rem">
-        <ContainerCard title="Settings summary">
+        <ContainerCard title="Review ticket summary">
           {singleTicketEnabled && (
             <Spacing bottom="1rem">
-              <span>Single: </span>
-              <Badge>
+              <span>Ticket type (single): </span>
+              <Badge background="#CCC" color="#000">
                 {singleTicketProductID ? (
                   <span>
                     {singleTicketProductName} ({singleTicketProductID})
@@ -389,8 +378,8 @@ const Form: React.FC = () => {
             <>
               {' '}
               <Spacing bottom="1rem">
-                <span>Volume id: </span>
-                <Badge>
+                <span>Ticket type (multiple): </span>
+                <Badge background="#CCC" color="#000">
                   {volumeTicketsProductID ? (
                     <span>
                       {volumeTicketsProductName} ({volumeTicketsProductID})
@@ -401,7 +390,7 @@ const Form: React.FC = () => {
                 </Badge>
               </Spacing>
               <Spacing bottom="1rem">
-                <span>Volume quantity: </span>
+                <span>Quantity of tickets: </span>
                 <Badge background="#CCC" color="#000">
                   {volumeTicketsQuantity}
                 </Badge>
@@ -410,7 +399,7 @@ const Form: React.FC = () => {
           )}
 
           <Spacing bottom="1rem">
-            <span>Notify via email:&nbsp;</span>
+            <span>Notify order owner:&nbsp;</span>
             <Badge background={badge.background} color={badge.color}>
               {notifyOrderOwner ? 'Yes' : 'No' || 'N/A'}
             </Badge>
@@ -453,19 +442,10 @@ const Form: React.FC = () => {
 
       {volumeTicketsEnabled && (
         <Spacing bottom="2rem">
-          <ContainerCard title="CSV Upload">
+          <ContainerCard title="Upload file for bulk creation of tickets">
             <Spacing bottom="2rem">
-              <BoxMessage
-                backgroundColor="#333"
-                color="#fff"
-                dimension="sm"
-                type="info"
-              >
-                <>
-                  Upload a csv of orders, each line containing:{' '}
-                  <StyledPre>firstName,lastName,email</StyledPre>
-                </>
-              </BoxMessage>
+              <span>Upload a file in .csv format&nbsp;</span>
+              <Button onClick={openModal}>Upload file</Button>
             </Spacing>
 
             <FileInputModal
@@ -495,8 +475,6 @@ const Form: React.FC = () => {
               submitCallback={onSubmit}
               onUpload={_onUpload}
             />
-
-            <Button onClick={openModal}>Add .csv file</Button>
           </ContainerCard>
         </Spacing>
       )}

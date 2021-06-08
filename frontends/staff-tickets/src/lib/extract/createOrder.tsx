@@ -173,7 +173,7 @@ export async function processCreateOrderWorkUnit(
   }
 
   const order = result.data?.commerceCreateOrder;
-  if (!order || order.status != CommerceOrderStatus.Complete) {
+  if (!order || order.status !== CommerceOrderStatus.Complete) {
     workUnit.status = {
       message: `There were errors when creating the Order: 
       It seems like you do not have the permissions needed to perform this action.

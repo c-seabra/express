@@ -109,7 +109,7 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
                 <Title>Ticket creation</Title>
                 <SubHeader>
                   Allows fast and easy way to create one or more tickets in an
-                  Order. This feature is accelerates bulk creation of free
+                  order. This feature is accelerating bulk creation of free
                   tickets
                 </SubHeader>
               </Spacing>
