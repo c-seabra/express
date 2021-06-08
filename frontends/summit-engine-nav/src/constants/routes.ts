@@ -92,13 +92,13 @@ const ROUTES: Routes = [
       {
         conferenceSpecific: true,
         isActive: true,
-        meta: { description: 'Staff tickets' },
+        meta: { description: 'Ticket creation' },
         path: '~staff-tickets',
       },
       {
         conferenceSpecific: true,
         isActive: true,
-        meta: { description: 'Bulk assign' },
+        meta: { description: 'Ticket assignment' },
         path: '~bulk-assign',
       },
     ],
