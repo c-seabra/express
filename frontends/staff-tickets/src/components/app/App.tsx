@@ -33,8 +33,11 @@ const Title = styled.span`
   color: #0c1439;
 `;
 
-const SlimTitle = styled(Title)`
-  font-weight: 400;
+const SubHeader = styled.div`
+  color: #0c1439;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
 `;
 
 export type StaffList = { [index: string]: Staff };
@@ -103,10 +106,12 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
           <StyledContainer>
             <StyledSection>
               <Spacing bottom="2rem">
-                <Title>
-                  Ticket Assignment
-                  <SlimTitle> - Staff ticket creation tool</SlimTitle>
-                </Title>
+                <Title>Ticket creation</Title>
+                <SubHeader>
+                  Allows fast and easy way to create one or more tickets in an
+                  Order. This feature is accelerates bulk creation of free
+                  tickets
+                </SubHeader>
               </Spacing>
               <Form />
             </StyledSection>
