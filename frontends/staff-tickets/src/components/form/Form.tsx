@@ -283,7 +283,7 @@ const Form: React.FC = () => {
     <>
       <Spacing bottom="2rem">
         <SubHeader>Please select one</SubHeader>
-        <Spacing bottom="1rem">{singleTicket}</Spacing>
+        <Spacing bottom="0.5rem">{singleTicket}</Spacing>
         <Spacing bottom="1rem">{volumeTickets}</Spacing>
       </Spacing>
 
