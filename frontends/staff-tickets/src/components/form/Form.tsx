@@ -358,12 +358,7 @@ const Form: React.FC = () => {
           dimension="sm"
           type="warning"
         >
-          <>
-            Are you sure you know what you are doing? <br />
-            Are you a financial admin authorized to make these changes? <br />
-            If you get errors when using this tool and you do not have the
-            permissions, that is to be expected
-          </>
+          Feature accessible through authorised access.
         </BoxMessage>
       </Spacing>
 
