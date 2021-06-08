@@ -22,7 +22,7 @@ type UpdateUniqueIdentifierArgs = {
 };
 
 const useUpdateUniqueUserIdentifierMutation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const successSnackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
 
@@ -54,7 +54,7 @@ const useUpdateUniqueUserIdentifierMutation = () => {
         headers: {
           'x-admin-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {

@@ -39,7 +39,7 @@ const useInvestorMeetingConfigurationUpdateMutation = ({
   startupPortalOpeningAt,
   startupSelectionDeadline,
 }: InvestorMeetingsArgs) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
@@ -72,7 +72,7 @@ const useInvestorMeetingConfigurationUpdateMutation = ({
   const investorMeetingConfigurationUpdateMutation = async () => {
     await updateInvestorMeetingConfiguration({
       context: {
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['EventQuery'],

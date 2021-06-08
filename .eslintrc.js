@@ -98,9 +98,29 @@ module.exports = {
         specialLink: ['hrefLeft', 'hrefRight'],
       },
     ],
+    // we should require at least of of nesting and id, but not both same time
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
+    'jsx-a11y/label-has-for': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
 
     // we run prettier anyway extra
     'prettier/prettier': 'off',
+
+    // props should be true here
+    'no-param-reassign': ['error', { props: false }],
 
     // react specific rules
     'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.tsx'] }],
@@ -149,6 +169,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
 
     // results in false positives for single spa
     'react/display-name': 'off',

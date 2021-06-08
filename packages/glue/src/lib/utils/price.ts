@@ -1,12 +1,15 @@
 // Because backend returns all prices as cents,
 // we divide by 100 when displaying prices
-export const formatDisplayPrice = (priceInteger?: TotalInCents | null) =>
+const formatPrice = (priceInteger?: TotalInCents | null) =>
   priceInteger ? (priceInteger / 100).toFixed(2) : 0;
 
-export const formatDisplayPriceWithCurrency = (
+export const formatDisplayPrice = (
   priceInteger?: TotalInCents | null,
   currencySymbol?: string,
-) => `${currencySymbol || ''} ${formatDisplayPrice(priceInteger)}`;
+) =>
+  currencySymbol
+    ? `${currencySymbol} ${formatPrice(priceInteger)}`
+    : formatPrice(priceInteger);
 
 // These functions are here to help understand what is going on
 // when dealing with prices instead of having
