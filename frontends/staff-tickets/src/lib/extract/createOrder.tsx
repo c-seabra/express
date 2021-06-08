@@ -60,7 +60,7 @@ export function defaultStatus(): StatusType {
 export type WorkUnitContext = {
   guestProductId?: string;
   notify?: boolean;
-  paymentMethodID?: string;
+  paymentMethodId?: string;
   quantity?: number;
   staffProductId?: string;
 };
@@ -74,7 +74,7 @@ export function transformStaffIntoWorkUnit(
     firstName: staff.firstName,
     lastName: staff.lastName,
     notify: !!context.notify,
-    paymentMethodId: context.paymentMethodID,
+    paymentMethodId: context.paymentMethodId,
     status: defaultStatus(),
   };
   if (context.staffProductId) {
@@ -150,7 +150,7 @@ export async function processCreateOrderWorkUnit(
       },
       items: productsList,
       metadata: {},
-      paymentMethod: workUnit.paymentMethodID,
+      paymentMethod: workUnit.paymentMethodId,
       status: CommerceOrderStatus.Complete,
     },
   };
