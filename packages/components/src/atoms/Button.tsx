@@ -89,3 +89,14 @@ export const TextButton = styled(SecondaryButton)`
     border: none;
   }
 `;
+
+export const DestructiveButton = styled(Button)`
+  color: #cb1977;
+  background-color: #ffffff;
+  border: 1px solid #cb1977;
+
+  &:hover {
+    background-color: #cb1977;
+    color: #ffffff;
+  }
+`;

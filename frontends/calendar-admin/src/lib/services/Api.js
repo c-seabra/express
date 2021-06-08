@@ -92,6 +92,40 @@ export function withConfig({ token: _token, env: _env } = {}) {
       );
     },
 
+    createEventInvitation: async (
+      calendar_event_id,
+      invitation,
+      token = String(_token),
+      env = _env,
+    ) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+
+      const requestData = {
+        body: JSON.stringify({
+          invitation: invitation,
+          token: token,
+          env: env,
+        }),
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+      };
+      const requestUrl = `${String(
+        CONFIG[env].CALENDAR_URL,
+      )}/calendar_events/${String(calendar_event_id)}/invitations/`;
+      return handleFetch(new Request(requestUrl, requestData));
+    },
+
     deleteEventInvitation: async (
       calendar_event_id,
       invitation_id,
@@ -110,7 +144,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       const requestData = {
         headers: new Headers({
           Accept: 'application/json',
-          Authorization: `BIXSCANearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         }),
         method: 'DELETE',

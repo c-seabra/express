@@ -240,19 +240,9 @@ const Calendar = ({ token, env }) => {
       (event) => event.id === eventId,
     );
     const eventToUpdate = events[eventToUpdateIndex];
-    const invitationToDeleteIndex = eventToUpdate.invitations.findIndex(
-      (invitation) => invitation.id === invitationId,
-    );
     const rsvpToDeleteIndex = rsvps.findIndex(
       (rsvp) => rsvp.invitation.id === invitationId,
     );
-
-    const updatedEvent = update(eventToUpdate, {
-      invitations: { $splice: [[invitationToDeleteIndex, 1]] },
-    });
-    const updatedEvents = update(events, {
-      [eventToUpdateIndex]: { $set: updatedEvent },
-    });
     const updatedRsvps = update(rsvps, {
       $splice: [[rsvpToDeleteIndex, 1]],
     });
@@ -262,13 +252,8 @@ const Calendar = ({ token, env }) => {
     setExistingEvent(eventToUpdate);
 
     // update response status in API
-    const result = await Api.deleteEventInvitation(
-      eventToUpdate.id,
-      invitationId,
-      token,
-      env,
-    );
-    result.data ? setEvents(updatedEvents) : addError(result.error);
+    await Api.deleteEventInvitation(eventToUpdate.id, invitationId, token, env);
+    await getAdminEvents();
   };
 
   const onUpdateEvent = async (eventId, eventContent) => {
@@ -299,6 +284,16 @@ const Calendar = ({ token, env }) => {
       [eventToUpdateindex]: { $set: updatedExistingEvent },
     });
 
+    if (eventContent.ends_at) {
+      eventContent.ends_at = moment(eventContent.ends_at)
+        .tz(timezone, true)
+        .format();
+    }
+    if (eventContent.starts_at) {
+      eventContent.starts_at = moment(eventContent.starts_at)
+        .tz(timezone, true)
+        .format();
+    }
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
     result.data ? setEvents(updatedEvents) : addError(result.error);
@@ -381,6 +376,32 @@ const Calendar = ({ token, env }) => {
     setEvents(nextEvents);
   };
 
+  const getAttendance = async (invitee_id) => {
+    const result = await Api.getAttendance(
+      invitee_id,
+      confSlug,
+      currentToken,
+      env,
+    );
+    result.data
+      ? addRsvp({ attendance: result.data, invitation: {} })
+      : addError(result.error);
+  };
+
+  const onCreateEventInvitation = async (event_id, invitee_id) => {
+    const invitation = {
+      calendar_event_id: event_id,
+      invitee: {
+        id: invitee_id,
+        type: 'attendance',
+      },
+      response_status: 'accepted',
+    };
+
+    await Api.createEventInvitation(event_id, invitation, token, env);
+    await getAdminEvents();
+  };
+
   const onCreateEvent = async (event) => {
     const tokenPayload = jwt(token);
     if (attendancesArray.length > 0) {
@@ -425,8 +446,10 @@ const Calendar = ({ token, env }) => {
           confSlug,
           currentUserId,
           events,
+          getAttendance,
           locations,
           onCreateEvent,
+          onCreateEventInvitation,
           onDeleteEvent,
           onDeleteEventInvitation,
           onSelectEvent,

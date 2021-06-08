@@ -1,34 +1,41 @@
+import { Button } from '@websummit/components/src/atoms/Button';
 import styled from 'styled-components';
 
 export const Form = styled.form`
+  margin: 50px;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const FormLabel = styled.label`
+  font-size: 20px;
+  font-weight: bold;
+  width: 20%;
+`;
+
+export const FormInput = styled.input`
+  margin-left: 50px;
+  margin-bottom: 40px;
+  width: 60%;
+  height: 30px;
+`;
+
+export const FormSelect = styled.select`
+  margin-left: 50px;
+  margin-bottom: 40px;
+  width: 60%;
+  height: 30px;
+`;
+
+export const FormTextArea = styled.textarea`
+  margin-left: 50px;
+  margin-bottom: 40px;
+  width: 60%;
+`;
+
+export const FormWrapper = styled.div`
+  display: flex;
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-`;
-
-export const FormInput = styled.div`
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  & svg {
-    width: 20px;
-  }
-
-  & input {
-    width: calc(100% - 42px);
-    padding: 0.5rem 0.7rem;
-  }
-`;
-
-export const FormEditContent = styled.div`
-  width: 450px;
-  max-width: 100%;
-  margin-right: 3rem;
 `;
 
 export const FormEditInvitee = styled.div`
@@ -36,18 +43,67 @@ export const FormEditInvitee = styled.div`
   max-width: 100%;
 `;
 
-export const Button = styled.button`
+export const StyledButton = styled(Button)`
+  padding: 0.5rem 1.2rem;
+  margin-right: 1rem;
+  bottom: 5%;
+  position: static;
+`;
+
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+`;
+
+export const OverlayButtons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const OverlayButton = styled.div`
   color: #3e3d44;
   border: 1px solid #cecece;
-  transition: all 0.4s ease;
-  padding: 0.5rem 1.2rem;
-  background: white;
-  border-radius: 4px;
-  margin-left: 5px;
 
   &:hover {
-    background: #fa7e23;
-    color: #fff;
+    background: #3e3d44;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+`;
+
+export const RemoveButton = styled.button`
+  background: none;
+  border: none;
+  font-weight: bold;
+
+  &:hover {
     cursor: pointer;
   }
+
+  &::before {
+    content: 'X';
+  }
+`;
+
+export const InviteesListItem = styled.li`
+  display: flex;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  list-style: none;
+  padding: 0.5rem;
+  margin-bottom: 15px;
 `;

@@ -57,5 +57,5 @@ export const CreateButton = styled(Button)`
   margin-right: 40px;
   float: right;
   bottom: 5%;
-  position: sticky;
+  position: static;
 `;
