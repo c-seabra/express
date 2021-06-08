@@ -3178,12 +3178,13 @@ export type CommerceProduct = {
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   packagedProducts: Maybe<Array<CommercePackagedProduct>>;
+  packages: Maybe<Array<CommerceProduct>>;
   price: Scalars['Int'];
   tags: Maybe<Array<CommerceTag>>;
   taxMode: Maybe<CommerceProductTaxMode>;
   taxType: CommerceTaxType;
+  timesUsed: Maybe<Scalars['Int']>;
   type: Maybe<CommerceProductType>;
-  usages: Maybe<Scalars['Int']>;
 };
 
 export type CommercePackagedProduct = {
@@ -3303,6 +3304,7 @@ export type CommerceDeal = {
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   startDate: Scalars['Date'];
+  timesUsed: Maybe<Scalars['Int']>;
   usages: Maybe<Scalars['Int']>;
 };
 
@@ -3381,6 +3383,7 @@ export type CommerceOrderItem = {
   price: Maybe<Scalars['Int']>;
   product: Maybe<CommerceProduct>;
   productMetadata: Maybe<Scalars['JSON']>;
+  productType: Maybe<CommerceOrderItemProductType>;
   quantity: Scalars['Int'];
   subTotal: Maybe<Scalars['Int']>;
   tax: Maybe<CommerceTax>;
@@ -3389,6 +3392,11 @@ export type CommerceOrderItem = {
   valueTotal: Maybe<Scalars['Int']>;
   voucherDiscount: Maybe<Scalars['Int']>;
 };
+
+export enum CommerceOrderItemProductType {
+  Package = 'PACKAGE',
+  Simple = 'SIMPLE',
+}
 
 export type CommercePaymentMethod = {
   __typename?: 'CommercePaymentMethod';
@@ -3481,6 +3489,7 @@ export type CommerceVoucher = {
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
+  timesUsed: Maybe<Scalars['Int']>;
   type: CommerceVoucherType;
   usages: Maybe<Scalars['Int']>;
 };
@@ -6085,12 +6094,13 @@ export type CommerceProductCreateOrUpdate = {
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
   price?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+  timesUsed?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceProductType>;
-  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommercePackagedProductCreateOrUpdate = {
@@ -6281,12 +6291,13 @@ export type CommerceProductCreate = {
   metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
   price: Scalars['Int'];
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType: CommerceTaxTypeCreateOrUpdate;
+  timesUsed?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceProductType>;
-  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceSaleCreate = {
@@ -6521,12 +6532,13 @@ export type CommerceProductUpdate = {
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
   price?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+  timesUsed?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceProductType>;
-  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceSaleUpdate = {
@@ -9723,6 +9735,101 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
         };
       }
   >;
+};
+
+export type OrdersQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  filter?: Maybe<OrderFilter>;
+  searchQuery?: Maybe<Scalars['String']>;
+}>;
+
+export type OrdersQuery = { __typename?: 'Query' } & {
+  orders: { __typename?: 'OrderConnection' } & {
+    edges: Array<
+      { __typename?: 'OrderEdge' } & Pick<OrderEdge, 'cursor'> & {
+          node: { __typename?: 'Order' } & Pick<
+            Order,
+            'id' | 'amount' | 'completedAt' | 'currency' | 'state' | 'reference'
+          > & {
+              owner: { __typename?: 'AssignmentUser' } & Pick<
+                AssignmentUser,
+                'firstName' | 'lastName' | 'email'
+              >;
+              versions: Maybe<
+                Array<
+                  { __typename?: 'PaperTrailVersion' } & Pick<
+                    PaperTrailVersion,
+                    'createdAt'
+                  >
+                >
+              >;
+              ticketsSummary: { __typename?: 'TicketsSummary' } & {
+                all: { __typename?: 'All' } & Pick<All, 'count'> & {
+                    active: { __typename?: 'Active' } & Pick<
+                      Active,
+                      'count'
+                    > & {
+                        assigned: { __typename?: 'Assigned' } & Pick<
+                          Assigned,
+                          'count'
+                        > & {
+                            accepted: { __typename?: 'Accepted' } & Pick<
+                              Accepted,
+                              'count'
+                            >;
+                            checkedIn: { __typename?: 'CheckedIn' } & Pick<
+                              CheckedIn,
+                              'count'
+                            >;
+                            duplicate: { __typename?: 'Duplicate' } & Pick<
+                              Duplicate,
+                              'count'
+                            >;
+                            locked: { __typename?: 'Locked' } & Pick<
+                              Locked,
+                              'count'
+                            >;
+                            pending: { __typename?: 'Pending' } & Pick<
+                              Pending,
+                              'count'
+                            >;
+                          };
+                        unassigned: { __typename?: 'Unassigned' } & Pick<
+                          Unassigned,
+                          'count'
+                        > & {
+                            neverAssigned: {
+                              __typename?: 'NeverAssigned';
+                            } & Pick<NeverAssigned, 'count'>;
+                            rejected: { __typename?: 'Rejected' } & Pick<
+                              Rejected,
+                              'count'
+                            >;
+                          };
+                      };
+                    void: { __typename?: 'Void' } & Pick<Void, 'count'>;
+                  };
+              };
+              summary: { __typename?: 'OrderSummary' } & Pick<
+                OrderSummary,
+                'tickets'
+              > & {
+                  ticketType: Maybe<
+                    { __typename?: 'TicketType' } & Pick<
+                      TicketType,
+                      'name' | 'description'
+                    >
+                  >;
+                };
+            };
+        }
+    >;
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
+    >;
+  };
 };
 
 export type SaleCyclesQueryVariables = Exact<{
@@ -24326,6 +24433,512 @@ export type OrderByRefLazyQueryHookResult = ReturnType<
 export type OrderByRefQueryResult = Apollo.QueryResult<
   OrderByRefQuery,
   OrderByRefQueryVariables
+>;
+export const OrdersDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'Orders' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'searchQuery' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'searchQuery' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'orders' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'amount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'completedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'currency' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'owner' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firstName' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lastName' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'versions' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'state' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'reference' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'ticketsSummary' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'all' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'count',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'active',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'count',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'assigned',
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'count',
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'accepted',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'checkedIn',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'duplicate',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'locked',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'pending',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'unassigned',
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'count',
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'neverAssigned',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'rejected',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'void' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'count',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'summary' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'ticketType' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'description',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'tickets' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'OrderFilter' },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'searchQuery' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useOrdersQuery__
+ *
+ * To run a query within a React component, call `useOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrdersQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      filter: // value for 'filter'
+ *      searchQuery: // value for 'searchQuery'
+ *   },
+ * });
+ */
+export function useOrdersQuery(
+  baseOptions?: Apollo.QueryHookOptions<OrdersQuery, OrdersQueryVariables>,
+) {
+  return Apollo.useQuery<OrdersQuery, OrdersQueryVariables>(
+    OrdersDocument,
+    baseOptions,
+  );
+}
+export function useOrdersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<OrdersQuery, OrdersQueryVariables>,
+) {
+  return Apollo.useLazyQuery<OrdersQuery, OrdersQueryVariables>(
+    OrdersDocument,
+    baseOptions,
+  );
+}
+export type OrdersQueryHookResult = ReturnType<typeof useOrdersQuery>;
+export type OrdersLazyQueryHookResult = ReturnType<typeof useOrdersLazyQuery>;
+export type OrdersQueryResult = Apollo.QueryResult<
+  OrdersQuery,
+  OrdersQueryVariables
 >;
 export const SaleCyclesDocument: DocumentNode = {
   definitions: [
