@@ -15,6 +15,7 @@ import TextInput from '@websummit/components/src/molecules/TextInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { shortenString } from '@websummit/components/src/utils/text';
 import {
+  CommerceProductType,
   useCommerceListPaymentMethodsQuery,
   useCommerceListProductsQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -194,7 +195,19 @@ const Form: React.FC = () => {
     );
   }
 
-  const options: SelectFieldOption[] | undefined = products?.map((product) => ({
+  const productsWithoutPackages = products?.filter((element: any) => {
+    return element.type === CommerceProductType.Simple;
+  });
+
+  const sortedProductsWithoutPackages = productsWithoutPackages?.sort(
+    (a, b) => {
+      return a.name.localeCompare(b.name);
+    },
+  );
+
+  const options:
+    | SelectFieldOption[]
+    | undefined = sortedProductsWithoutPackages?.map((product) => ({
     disabled: !product.id,
     label: product.name,
     value: product.id || 'backend error!',
