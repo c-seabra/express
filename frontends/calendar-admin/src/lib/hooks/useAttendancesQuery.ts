@@ -13,10 +13,10 @@ const useAttendancesQuery = ({
   perPage?: number;
   searchQuery?: string;
 }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
 

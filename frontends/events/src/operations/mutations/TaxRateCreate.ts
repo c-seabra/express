@@ -15,7 +15,7 @@ export type TaxRateCreateRequest = {
 };
 
 export const useTaxRateCreateOperation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
@@ -34,7 +34,7 @@ export const useTaxRateCreateOperation = () => {
     await taxRateCreateMutation({
       awaitRefetchQueries: true,
       context: {
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['Event', 'EventListQuery'],

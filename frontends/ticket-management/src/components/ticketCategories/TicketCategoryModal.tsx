@@ -51,9 +51,9 @@ const FormWrapper = styled.div`
 `;
 
 const useTicketCategoryMutations = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
   const { success, error } = useSnackbars();

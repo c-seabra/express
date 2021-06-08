@@ -33,7 +33,7 @@ const useInvestorAccessGrantMutation = ({
   setUpdating,
   startupSelectionsCount,
 }: InvestorAccessArgs) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const warning = useWarningSnackbar();
   const errorMessage = useErrorSnackbar();
@@ -71,7 +71,7 @@ const useInvestorAccessGrantMutation = ({
   const grantInvestorAccessMutation = async () => {
     await grantInvestorAccess({
       context: {
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['EventQuery'],

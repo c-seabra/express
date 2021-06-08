@@ -14,7 +14,7 @@ export type TicketsUnvoidArgs = {
 };
 
 export const useTicketUnvoidOperation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const [error, setError] = useState('');
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
@@ -41,7 +41,7 @@ export const useTicketUnvoidOperation = () => {
         headers: {
           'x-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {

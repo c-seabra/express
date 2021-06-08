@@ -32,12 +32,10 @@ type AppProps = {
 
 const App = ({ token, apiURL }: AppProps) => {
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
-  const [conferenceSlug, setConferenceSlug] = useState<string>(
-    tokenPayload.conf_slug,
-  );
+  const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
 
   useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug);
+    setSlug(tokenPayload.conf_slug);
   }, [tokenPayload.conf_slug]);
 
   if (!token) return null;
@@ -50,7 +48,7 @@ const App = ({ token, apiURL }: AppProps) => {
         <Router>
           <AppContext.Provider
             value={{
-              conferenceSlug,
+              slug,
               token,
             }}
           >

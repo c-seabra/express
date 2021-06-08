@@ -10,9 +10,9 @@ export const useAppContext = () => {
 };
 
 export const useRequestContext = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   return {
-    slug: conferenceSlug,
+    slug,
     token,
   };
 };

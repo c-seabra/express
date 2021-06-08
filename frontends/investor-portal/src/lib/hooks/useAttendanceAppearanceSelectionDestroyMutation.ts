@@ -22,7 +22,7 @@ type AttendanceAppearanceSelectionDestroyArgs = {
 const useAttendanceAppearanceSelectionDestroyMutation = ({
   selectionId,
 }: AttendanceAppearanceSelectionDestroyArgs) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
@@ -48,7 +48,7 @@ const useAttendanceAppearanceSelectionDestroyMutation = ({
   const attendanceAppearanceSelectionDestroyMutation = async () => {
     await selectionDestroy({
       context: {
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['AttendanceDetailsQuery'],

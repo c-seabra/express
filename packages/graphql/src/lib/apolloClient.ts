@@ -33,7 +33,8 @@ const constructContextHeaders = (
 
 export type GraphQLParams = {
   apiURL?: string;
-  conferenceSlug?: string;
+  apolloClient?: ApolloClient<NormalizedCacheObject>;
+  slug?: string;
   token?: string;
 };
 

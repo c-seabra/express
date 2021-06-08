@@ -44,7 +44,7 @@ const Error = styled.div`
   margin-top: 4px;
 `;
 
-type SelectFieldOption = {
+export type SelectFieldOption = {
   disabled?: boolean;
   label?: string | number;
   value?: string | number;

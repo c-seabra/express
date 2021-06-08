@@ -5,13 +5,13 @@ import EVENT_DATA from '../../operations/queries/EventData';
 import { EventData } from '../types';
 
 const useEventDataQuery = () => {
-  const { conferenceSlug } = useAppContext();
+  const { slug } = useAppContext();
 
   const { data, error, loading } = useQuery<{ taEvent: EventData }>(
     EVENT_DATA,
     {
-      skip: !conferenceSlug,
-      variables: { slug: conferenceSlug },
+      skip: !slug,
+      variables: { slug },
     },
   );
 

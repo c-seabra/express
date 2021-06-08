@@ -63,7 +63,7 @@ const useCommerceCreateTransactionMutation = ({
 }: {
   orderId: string | null;
 }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const error = useErrorSnackbar();
   const [
@@ -99,7 +99,7 @@ const useCommerceCreateTransactionMutation = ({
         headers: {
           'x-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {

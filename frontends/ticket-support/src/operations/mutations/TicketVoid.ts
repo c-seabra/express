@@ -14,7 +14,7 @@ export type TicketsVoidArgs = {
 };
 
 export const useTicketVoidOperation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const [error, setError] = useState('');
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
@@ -41,7 +41,7 @@ export const useTicketVoidOperation = () => {
         headers: {
           'x-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {

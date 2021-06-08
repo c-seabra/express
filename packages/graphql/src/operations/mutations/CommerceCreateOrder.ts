@@ -10,6 +10,7 @@ const commercePaymentMethodFragment = gql`
 export default gql`
   mutation CommerceCreateOrder($commerceOrderCreate: CommerceOrderCreate!) {
     commerceCreateOrder(commerceOrderCreate: $commerceOrderCreate) {
+      id
       billed
       currency
       customer {
@@ -17,8 +18,14 @@ export default gql`
         lastName
         email
       }
-      currency
-      id
+      reference
+      locked
+      metadata
+      items {
+        product {
+          name
+        }
+      }
       lastUpdatedAt
       paymentMethod {
         ...CommercePaymentMethod

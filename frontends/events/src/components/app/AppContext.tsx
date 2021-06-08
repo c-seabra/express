@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-type AppContextType = { conferenceSlug?: string; token?: string };
+type AppContextType = { slug?: string; token?: string };
 
 const AppContext = createContext<AppContextType>({});
 
@@ -9,9 +9,9 @@ export const useAppContext = () => {
 };
 
 export const useRequestContext = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   return {
-    slug: conferenceSlug,
+    slug,
     token,
   };
 };

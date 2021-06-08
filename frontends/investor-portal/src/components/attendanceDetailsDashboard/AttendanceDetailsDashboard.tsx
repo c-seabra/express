@@ -25,7 +25,7 @@ import {
 const AttendanceDetailsDashboard = (): ReactElement => {
   const { isOpen, openModal, closeModal } = useModalState();
   const { attendanceId } = useParams<{ attendanceId: string }>();
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const history = useHistory();
 
   const {
@@ -40,7 +40,7 @@ const AttendanceDetailsDashboard = (): ReactElement => {
     loading?: boolean;
   } = useQuery(ATTENDANCE_DETAILS_QUERY, {
     context: {
-      slug: conferenceSlug,
+      slug,
       token,
     },
     variables: {
