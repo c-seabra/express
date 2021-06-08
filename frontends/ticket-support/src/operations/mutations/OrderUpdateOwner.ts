@@ -16,7 +16,7 @@ export type OrderUpdateOwnerRequest = {
 };
 
 export const useOrderUpdateOwnerOperation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
@@ -46,7 +46,7 @@ export const useOrderUpdateOwnerOperation = () => {
         headers: {
           'X-Reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {

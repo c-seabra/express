@@ -129,7 +129,7 @@ const AccountDetailsContainer = styled.div`
 
 const TicketDetails = (): ReactElement => {
   const { bookingRef } = useParams<{ bookingRef: string }>();
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const {
     openModal: openTicketAssignModal,
     isOpen: isTicketAssignModalOpen,
@@ -339,7 +339,7 @@ const TicketDetails = (): ReactElement => {
                 >
                   <AuditTrail
                     bookingRef={bookingRef}
-                    conferenceSlug={conferenceSlug as string}
+                    slug={slug as string}
                     token={token as string}
                   />
                 </Modal>

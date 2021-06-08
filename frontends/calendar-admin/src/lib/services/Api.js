@@ -157,7 +157,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
 
     getAttendance: async (
       attendanceId,
-      conferenceSlug,
+      slug,
       token = String(_token),
       env = _env,
     ) => {
@@ -181,9 +181,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
       const requestUrl = `${String(
         CONFIG[env].AVENGER_URL,
-      )}/conferences/${String(conferenceSlug)}/attendances/${String(
-        attendanceId,
-      )}`;
+      )}/conferences/${String(slug)}/attendances/${String(attendanceId)}`;
       return handleFetch(new Request(requestUrl, requestData));
     },
 
@@ -258,7 +256,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       );
     },
 
-    getLocation: async (locationId, conferenceSlug, env = _env) => {
+    getLocation: async (locationId, slug, env = _env) => {
       if (env === 'mock') {
         const location = stubLocationsResponse.data.find(
           (mockLocation) => mockLocation.id === locationId,
@@ -272,12 +270,12 @@ export function withConfig({ token: _token, env: _env } = {}) {
       }
       return handleFetch(
         `${String(CONFIG[env].AVENGER_URL)}/conferences/${String(
-          conferenceSlug,
+          slug,
         )}/locations/${String(locationId)}`,
       );
     },
 
-    getLocations: async (conferenceSlug, env = _env) => {
+    getLocations: async (slug, env = _env) => {
       if (env === 'mock') {
         const locations = stubLocationsResponse.data;
         return new Promise((resolve) => {
@@ -289,7 +287,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       }
       return handleFetch(
         `${String(CONFIG[env].AVENGER_URL)}/conferences/${String(
-          conferenceSlug,
+          slug,
         )}/locations/`,
       );
     },

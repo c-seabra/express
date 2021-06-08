@@ -81,14 +81,14 @@ type TicketTrailResponse = {
 
 type AuditTrailProps = {
   bookingRef: string;
-  conferenceSlug: string;
+  slug: string;
   token: string;
 };
 
-const AuditTrail = ({ bookingRef, conferenceSlug, token }: AuditTrailProps) => {
+const AuditTrail = ({ bookingRef, slug, token }: AuditTrailProps) => {
   const queryOptions = {
     context: {
-      slug: conferenceSlug,
+      slug,
       token,
     },
     variables: {

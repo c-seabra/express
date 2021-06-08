@@ -15,7 +15,7 @@ type SendLoginLinkMutationResult = {
 };
 
 const useSendLoginLinkMutation = ({ assignee }: { assignee: Account }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const error = useErrorSnackbar();
 
@@ -41,7 +41,7 @@ const useSendLoginLinkMutation = ({ assignee }: { assignee: Account }) => {
           headers: {
             'x-reason': reason,
           },
-          slug: conferenceSlug,
+          slug,
           token,
         },
         variables: {

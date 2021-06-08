@@ -88,9 +88,9 @@ const todayISO = new Date().toISOString();
 
 const EventPage = () => {
   const history = useHistory();
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const context = {
-    conferenceSlug,
+    slug,
     token,
   };
   const errSnackbar = useErrorSnackbar();

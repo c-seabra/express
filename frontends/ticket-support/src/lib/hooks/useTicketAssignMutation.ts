@@ -16,7 +16,7 @@ type AssignTicketsArgs = {
 };
 
 const useAssignTicketOperation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const error = useErrorSnackbar();
 
@@ -38,7 +38,7 @@ const useAssignTicketOperation = () => {
         headers: {
           'x-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables,

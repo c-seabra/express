@@ -5,7 +5,7 @@ import TICKET_TYPES from '../../operations/queries/TicketTypes';
 import { TicketType } from '../types';
 
 const useTicketTypesQuery = (): TicketType[] => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const {
     data: ticketTypesData,
@@ -23,7 +23,7 @@ const useTicketTypesQuery = (): TicketType[] => {
     loading?: boolean;
   } = useQuery(TICKET_TYPES, {
     context: {
-      slug: conferenceSlug,
+      slug,
       token,
     },
   });

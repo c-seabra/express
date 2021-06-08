@@ -75,9 +75,9 @@ const ticketCategoriesTableShape: ColumnDescriptors<TicketCategory> = [
 ];
 
 const TicketCategoriesPage = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
   const {
