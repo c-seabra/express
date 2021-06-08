@@ -172,11 +172,23 @@ export async function processCreateOrderWorkUnit(
     return workUnit;
   }
 
+  const order = result.data?.commerceCreateOrder;
+  if (!order || order.status != CommerceOrderStatus.Complete) {
+    workUnit.status = {
+      message: `There were errors when creating the Order: 
+      It seems like you do not have the permissions needed to perform this action.
+      If you think this is an error, contact the Ticket Machine Team!
+      Order status: ${order?.status}`,
+      type: 'ERROR',
+    };
+    return workUnit;
+  }
+
   workUnit.status = {
-    message: `Created an order with reference: ${result.data?.commerceCreateOrder?.reference}`,
+    message: `Created an order with reference: ${order.reference}`,
     type: 'SUCCESS',
   };
-  workUnit.reference = result.data?.commerceCreateOrder?.reference || '';
+  workUnit.reference = order.reference || '';
   if (workUnit.singleTicket?.bookingRef) {
     workUnit.reference = `${workUnit.reference} (${workUnit.singleTicket?.bookingRef})`;
   }
