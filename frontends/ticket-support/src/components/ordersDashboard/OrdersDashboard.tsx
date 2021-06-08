@@ -1,12 +1,16 @@
 import { ApolloError } from '@apollo/client';
+import { UnstyledButton } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import PopupButton from '@websummit/components/src/molecules/PopupButton';
+import { SimpleSelect } from '@websummit/components/src/molecules/Select';
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
+import { DateTime } from 'luxon';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 
 import FilterButton from '../../lib/components/atoms/FilterButton';
 import TextHeading from '../../lib/components/atoms/Heading';
@@ -26,8 +30,40 @@ import {
   StyledSearchInput,
 } from '../ticketDashboard/TicketDashboard.styled';
 import TicketTypesCategoryList from '../ticketTypesCategoryList/TicketTypesCategoryList';
+import DateRangeFilter from './DateRangeFilter';
+
+const StyledSimpleSelect = styled(SimpleSelect)<{ selected?: boolean }>`
+  min-height: 36px;
+  max-height: 36px;
+  width: 240px;
+  border-radius: 4px;
+
+  &:disabled {
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  ${(props) =>
+    props.selected
+      ? css`
+          &:disabled {
+            color: #0067e9;
+          }
+        `
+      : ''}
+`;
+
+const DEFAULT_DATE_FORMAT = 'dd.MM.yyyy';
+
+const dateToSearchState = (date?: DateTime | null) =>
+  date?.toFormat(DEFAULT_DATE_FORMAT) || '';
+
+const searchStateToDate = (dateText?: string) =>
+  dateText ? DateTime.fromFormat(dateText, DEFAULT_DATE_FORMAT) : null;
 
 type OrderSearchState = {
+  createdAtFrom?: string;
+  createdAtTo?: string;
   orderState?: string;
   page: string;
   searchQuery?: string;
@@ -38,9 +74,24 @@ const OrdersDashboard = (): ReactElement => {
   const history = useHistory();
   const errSnackbar = useErrorSnackbar();
   const [searchQuery, setSearchQuery] = useState('');
+  const [dates, setDates] = useState<{
+    end?: DateTime | null;
+    start?: DateTime | null;
+  }>({});
+
+  const selectedDateRangeText =
+    dates?.start || dates?.end
+      ? `${dates?.start?.toFormat(DEFAULT_DATE_FORMAT) || ''} - ${
+          dates?.end?.toFormat(DEFAULT_DATE_FORMAT) || ''
+        }`
+      : null;
 
   const processInitialSearchState = (state: OrderSearchState) => {
     if (state.searchQuery) setSearchQuery(state.searchQuery);
+    setDates({
+      end: searchStateToDate(state?.createdAtTo),
+      start: searchStateToDate(state?.createdAtFrom),
+    });
   };
 
   const { searchState, setSearchState } = useSearchState<OrderSearchState>({
@@ -58,6 +109,8 @@ const OrdersDashboard = (): ReactElement => {
     previousPage,
     resetPage,
   } = useOrdersQuery({
+    createdAtFrom: dates?.start?.toISODate(),
+    createdAtTo: dates?.end?.toISODate(),
     initialPage: searchState.page,
     onError: (e: ApolloError) => errSnackbar(e.message),
     searchQuery: searchState.searchQuery,
@@ -68,6 +121,24 @@ const OrdersDashboard = (): ReactElement => {
   const onFilter = () => {
     resetPage();
     setSearchState((prevState) => ({ ...prevState, page: '' }));
+  };
+
+  const onDateRangeChange = ({
+    end,
+    start,
+  }: {
+    end?: DateTime | null;
+    start?: DateTime | null;
+  }) => {
+    setDates({ end, start });
+
+    setSearchState((prevState) => ({
+      ...prevState,
+      createdAtFrom: dateToSearchState(start),
+      createdAtTo: dateToSearchState(end),
+    }));
+
+    onFilter();
   };
 
   useEffect(() => {
@@ -157,6 +228,34 @@ const OrdersDashboard = (): ReactElement => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKey}
+          />
+          <PopupButton
+            noPadding
+            renderButton={({ onClick }) => (
+              <UnstyledButton type="button" onClick={onClick}>
+                <StyledSimpleSelect
+                  disabled
+                  options={[
+                    {
+                      label: selectedDateRangeText || 'Select date',
+                      value: 'select-date',
+                    },
+                  ]}
+                  selected={!!(dates?.start || dates?.end)}
+                  value="select-date"
+                />
+              </UnstyledButton>
+            )}
+            renderContents={({ closePopup }) => (
+              <DateRangeFilter
+                selectedDates={dates}
+                onApply={({ start, end }) => {
+                  onDateRangeChange({ end, start });
+                  closePopup();
+                }}
+                onCancel={closePopup}
+              />
+            )}
           />
           <PopupButton renderButton={(props) => <FilterButton {...props} />}>
             <PopupFiltersContainer>
