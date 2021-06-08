@@ -14,7 +14,10 @@ import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import TextInput from '@websummit/components/src/molecules/TextInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { shortenString } from '@websummit/components/src/utils/text';
-import { useCommerceListProductsQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  useCommerceListPaymentMethodsQuery,
+  useCommerceListProductsQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
@@ -70,6 +73,9 @@ const Form: React.FC = () => {
   const context = useContext(AppContext);
   const [formError, setFormError] = useState(false);
   const [assignees, setAssignees] = useState<Staff[]>([]);
+
+  const [paymentMethodID, setPaymentMethodID] = useState('');
+  const [paymentMethodName, setPaymentMethodName] = useState('');
 
   const [singleTicketEnabled, setSingleTicketEnabled] = useState(false);
   const [singleTicketProductID, setSingleTicketProductID] = useState('');
@@ -154,26 +160,68 @@ const Form: React.FC = () => {
     context,
   });
 
-  if (loading) {
+  const {
+    loading: loading2,
+    error: error2,
+    data: data2,
+  } = useCommerceListPaymentMethodsQuery({
+    context,
+  });
+
+  if (loading || loading2) {
     return <Loader />;
   }
 
-  if (error) {
-    console.error(error);
-    return <span>{error}</span>;
+  if (error || error2) {
+    console.error(error, error2);
+    return <span>{error || error2}</span>;
   }
 
   const products = data?.commerceListProducts?.hits;
+  const paymentMethods = data2?.commerceListPaymentMethods?.hits;
 
   const firstOption = products?.[0];
   const firstOptionId = firstOption?.id || 'no id';
   const firstOptionLabel = firstOption?.name || 'no label';
+
+  if (!paymentMethodID || paymentMethodID === '') {
+    setPaymentMethodID(
+      paymentMethods?.[0]?.id ||
+        'No Payment Methods found, this will not work!',
+    );
+    setPaymentMethodName(
+      paymentMethods?.[0]?.name || 'Trust me it will break horribly!',
+    );
+  }
 
   const options: SelectFieldOption[] | undefined = products?.map((product) => ({
     disabled: !product.id,
     label: product.name,
     value: product.id || 'backend error!',
   }));
+
+  const paymentOptions: SelectFieldOption[] | undefined = paymentMethods?.map(
+    (paymentMethod) => ({
+      disabled: !paymentMethod.id,
+      label: paymentMethod.name,
+      value: paymentMethod.id || 'backend error!',
+    }),
+  );
+
+  const paymentOptionsSelect = (
+    <StyledSelect
+      label="Select payment option"
+      options={paymentOptions}
+      value={paymentMethodID}
+      onChange={(event) => {
+        const id = event.target.value;
+        const name =
+          paymentOptions?.filter((elem) => elem.value === id)[0]?.label || '';
+        setPaymentMethodID(id);
+        setPaymentMethodName(name as string);
+      }}
+    />
+  );
 
   const singleTicketCheckbox = (
     <>
@@ -297,6 +345,7 @@ const Form: React.FC = () => {
   const metaOptions = (
     <>
       <SubHeader>Select options applicable to ticket order</SubHeader>
+      <Spacing bottom="0.5rem">{paymentOptionsSelect}</Spacing>
       <Spacing bottom="0.5rem">{singleTicket}</Spacing>
       <Spacing bottom="0.5rem">{volumeTickets}</Spacing>
       <Spacing bottom="1rem">{notifyCheckbox}</Spacing>
@@ -306,6 +355,7 @@ const Form: React.FC = () => {
   const metaContext: WorkUnitContext = {
     guestProductId: volumeTicketsProductID,
     notify: notifyOrderOwner,
+    paymentMethodId: paymentMethodID,
     quantity: volumeTicketsQuantity,
     staffProductId: singleTicketProductID,
   };
@@ -379,6 +429,15 @@ const Form: React.FC = () => {
 
       <Spacing bottom="2rem">
         <ContainerCard title="Review ticket summary">
+          <Spacing bottom="1rem">
+            <span>Payment Method: </span>
+            <Badge background="#CCC" color="#000">
+              <span>
+                {paymentMethodName} ({paymentMethodID})
+              </span>
+            </Badge>
+          </Spacing>
+
           {singleTicketEnabled && (
             <Spacing bottom="1rem">
               <span>Ticket type (single): </span>
