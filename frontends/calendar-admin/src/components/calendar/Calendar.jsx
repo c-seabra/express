@@ -395,7 +395,9 @@ const Calendar = ({ token, env }) => {
         id: invitee_id,
         type: 'attendance',
       },
+      response_status: 'accepted',
     };
+
     await Api.createEventInvitation(event_id, invitation, token, env);
     await getAdminEvents();
   };
