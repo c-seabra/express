@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "react": "*",
+    "react-datepicker": "*",
     "react-router-dom": "*",
     "react-modal": "*",
     "styled-components": "*",
