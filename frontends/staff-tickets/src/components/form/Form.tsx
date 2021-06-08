@@ -34,12 +34,19 @@ const StyledDownload = styled(Flex)`
 `;
 
 const FlexEnd = styled(Flex)`
-  display: flex;
   justify-content: flex-end;
+`;
+
+const FlexCenteredVertically = styled(Flex)`
+  align-items: center;
 `;
 
 const SubHeader = styled(Flex)`
   font-weight: 500;
+`;
+
+const StyledSelect = styled(Select)`
+  width: 48%;
 `;
 
 const StyledTextInput = styled(TextInput)`
@@ -49,6 +56,10 @@ const StyledTextInput = styled(TextInput)`
   &:last-child {
     padding-right: 0;
   }
+`;
+
+const StyledNumberInput = styled(TextInput)`
+  width: 48%;
 `;
 
 function capitalizeFirstLetter(input: string) {
@@ -182,7 +193,8 @@ const Form: React.FC = () => {
   );
 
   const singleTicketSelect = (
-    <Select
+    <StyledSelect
+      label="Select ticket type"
       options={options}
       value={singleTicketProductID}
       onChange={(event) => {
@@ -198,12 +210,17 @@ const Form: React.FC = () => {
   const singleTicket = (
     <>
       {singleTicketCheckbox}
-      {singleTicketEnabled && singleTicketSelect}
+      {singleTicketEnabled && (
+        <Spacing left="2rem" top="1rem">
+          {singleTicketSelect}
+        </Spacing>
+      )}
     </>
   );
 
   const volumeTicketsSelect = (
-    <Select
+    <StyledSelect
+      label="Select ticket type"
       options={options}
       value={volumeTicketsProductID}
       onChange={(event) => {
@@ -235,9 +252,12 @@ const Form: React.FC = () => {
 
   const volumeTicketsQuantitySelect = (
     <>
-      <span>Quantity of tickets: </span>
-      <input
+      <StyledNumberInput
+        required
+        label="Quantity of tickets"
+        min="2"
         name="volumeTicketsQuantity"
+        placeholder="Write a number"
         type="number"
         value={volumeTicketsQuantity}
         onChange={(event: any) => {
@@ -252,10 +272,10 @@ const Form: React.FC = () => {
     <>
       {volumeTicketsCheckbox}
       {volumeTicketsEnabled && (
-        <>
+        <Spacing left="2rem" top="1rem">
           {volumeTicketsSelect}
           {volumeTicketsQuantitySelect}
-        </>
+        </Spacing>
       )}
     </>
   );
@@ -270,7 +290,7 @@ const Form: React.FC = () => {
           setNotifyOrderOwner(value);
         }}
       />
-      Notify order owner about their tickets?
+      &nbsp;Notify order owner about their tickets?
     </>
   );
 
@@ -441,12 +461,12 @@ const Form: React.FC = () => {
       )}
 
       {volumeTicketsEnabled && (
-        <Spacing bottom="2rem">
+        <>
           <ContainerCard title="Upload file for bulk creation of tickets">
-            <Spacing bottom="2rem">
+            <FlexCenteredVertically>
               <span>Upload a file in .csv format&nbsp;</span>
               <Button onClick={openModal}>Upload file</Button>
-            </Spacing>
+            </FlexCenteredVertically>
 
             <FileInputModal
               acceptedFileTypes=".csv"
@@ -465,7 +485,7 @@ const Form: React.FC = () => {
                     </StyledDownload>
                   }
                   data={csvTemplateFile}
-                  filename="staff-tickets-template"
+                  filename="ticket-creation-template"
                 />
               }
               fileUploadText="Uploading requires a comma-separated values (CSV) file"
@@ -476,7 +496,7 @@ const Form: React.FC = () => {
               onUpload={_onUpload}
             />
           </ContainerCard>
-        </Spacing>
+        </>
       )}
     </>
   );
