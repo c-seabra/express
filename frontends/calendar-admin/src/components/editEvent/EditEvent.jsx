@@ -1,19 +1,20 @@
 import { DestructiveButton } from '@websummit/components/src/atoms/Button';
 import React, { useContext, useEffect, useState } from 'react';
 
-import AvatarList from '../avatarList/AvatarList';
+import AddAttendance from '../addAttendance/AddAttendance';
 import { DetailsContext } from '../calendar/Context';
 import {
   Form,
-  FormEditInvitee,
   FormInput,
   FormLabel,
   FormSelect,
   FormTextArea,
   FormWrapper,
+  InviteesListItem,
   Overlay,
   OverlayButton,
   OverlayButtons,
+  RemoveButton,
   StyledButton,
 } from './EditEvent.styled';
 
@@ -26,7 +27,6 @@ const EditEvent = ({
   startsAt,
   endsAt,
   eventFormatId,
-  organizerId,
   formats,
 }) => {
   const {
@@ -36,7 +36,8 @@ const EditEvent = ({
     onDeleteEventInvitation,
     onUpdateEvent,
   } = useContext(DetailsContext);
-
+  const { onCreateEventInvitation } = useContext(DetailsContext);
+  const [selections, setSelections] = useState([]);
   const [editedEvent, setEditedEvent] = useState({});
   const [deletePopupActive, setDeletePopupActive] = useState(false);
   const [locationName, setLocationName] = useState(location.name);
@@ -89,6 +90,9 @@ const EditEvent = ({
       editedEvent.constructor === Object
     )
       onUpdateEvent(eventId, editedEvent);
+    selections?.forEach((att) => {
+      onCreateEventInvitation(eventId, att.id);
+    });
 
     setEditPopupActive(false);
   };
@@ -170,16 +174,25 @@ const EditEvent = ({
         />
       </FormWrapper>
       <FormWrapper>
-        <FormEditInvitee>
-          <AvatarList
-            iconActive
-            avatarList={rsvps}
-            iconClickCallback={(id) => onDeleteEventInvitation(eventId, id)}
-            listType="delete"
-            organizerId={organizerId}
-          />
-        </FormEditInvitee>
+        <FormLabel>Add attendances: </FormLabel>
+        <AddAttendance selections={selections} setSelections={setSelections} />
       </FormWrapper>
+      <div>
+        {rsvps.map((rsvp) => (
+          <InviteesListItem key={rsvp.invitation.id}>
+            <span style={{ width: '90%' }}>
+              {`${String(rsvp.attendance.data.person.first_name)} ${String(
+                rsvp.attendance.data.person.last_name,
+              )}`}
+            </span>
+            <RemoveButton
+              onClick={() =>
+                onDeleteEventInvitation(eventId, rsvp.invitation.id)
+              }
+            />
+          </InviteesListItem>
+        ))}
+      </div>
       <FormWrapper>
         <DestructiveButton
           onClick={(e) => {

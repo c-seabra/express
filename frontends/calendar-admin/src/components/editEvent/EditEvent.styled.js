@@ -83,3 +83,27 @@ export const OverlayButton = styled.div`
     margin-left: 0;
   }
 `;
+
+export const RemoveButton = styled.button`
+  background: none;
+  border: none;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &::before {
+    content: 'X';
+  }
+`;
+
+export const InviteesListItem = styled.li`
+  display: flex;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  list-style: none;
+  padding: 0.5rem;
+  margin-bottom: 15px;
+`;
