@@ -538,44 +538,40 @@ const Form: React.FC = () => {
         </Spacing>
       )}
 
-      {volumeTicketsEnabled && (
-        <>
-          <ContainerCard title="Upload file for bulk creation of tickets">
-            <FlexCenteredVertically>
-              <span>Upload a file in .csv format&nbsp;</span>
-              <Button onClick={openModal}>Upload file</Button>
-            </FlexCenteredVertically>
+      <ContainerCard title="Upload file for bulk creation of tickets">
+        <FlexCenteredVertically>
+          <span>Upload a file in .csv format&nbsp;</span>
+          <Button onClick={openModal}>Upload file</Button>
+        </FlexCenteredVertically>
 
-            <FileInputModal
-              acceptedFileTypes=".csv"
-              closeModal={closeModal}
-              fileName={fileName}
-              fileUploadId={fileUploadId}
-              fileUploadTemplate={
-                <DownloadCSVButton
-                  buttonText="Download .csv template"
-                  customTemplate={
-                    <StyledDownload>
-                      <IconWrapper size="16px">
-                        <Icon>download</Icon>
-                      </IconWrapper>
-                      <span>Download template</span>
-                    </StyledDownload>
-                  }
-                  data={csvTemplateFile}
-                  filename="ticket-creation-template"
-                />
+        <FileInputModal
+          acceptedFileTypes=".csv"
+          closeModal={closeModal}
+          fileName={fileName}
+          fileUploadId={fileUploadId}
+          fileUploadTemplate={
+            <DownloadCSVButton
+              buttonText="Download .csv template"
+              customTemplate={
+                <StyledDownload>
+                  <IconWrapper size="16px">
+                    <Icon>download</Icon>
+                  </IconWrapper>
+                  <span>Download template</span>
+                </StyledDownload>
               }
-              fileUploadText="Uploading requires a comma-separated values (CSV) file"
-              isFileError={formError}
-              isOpen={isOpen}
-              loadingProgress={progressPercentage}
-              submitCallback={onSubmit}
-              onUpload={_onUpload}
+              data={csvTemplateFile}
+              filename="ticket-creation-template"
             />
-          </ContainerCard>
-        </>
-      )}
+          }
+          fileUploadText="Uploading requires a comma-separated values (CSV) file"
+          isFileError={formError}
+          isOpen={isOpen}
+          loadingProgress={progressPercentage}
+          submitCallback={onSubmit}
+          onUpload={_onUpload}
+        />
+      </ContainerCard>
     </>
   );
 };
