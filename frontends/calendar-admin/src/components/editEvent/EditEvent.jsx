@@ -1,14 +1,21 @@
-import React, { useContext, useState } from 'react';
+import { DestructiveButton } from '@websummit/components/src/atoms/Button';
+import React, { useContext, useEffect, useState } from 'react';
 
-import AvatarList from '../avatarList/AvatarList';
+import AddAttendance from '../addAttendance/AddAttendance';
 import { DetailsContext } from '../calendar/Context';
-import OvalSquare from '../svgs/OvalSquare';
 import {
-  Button,
   Form,
-  FormEditContent,
-  FormEditInvitee,
   FormInput,
+  FormLabel,
+  FormSelect,
+  FormTextArea,
+  FormWrapper,
+  InviteesListItem,
+  Overlay,
+  OverlayButton,
+  OverlayButtons,
+  RemoveButton,
+  StyledButton,
 } from './EditEvent.styled';
 
 const EditEvent = ({
@@ -17,127 +24,211 @@ const EditEvent = ({
   title,
   location,
   description,
-  organizerId,
+  startsAt,
+  endsAt,
+  eventFormatId,
+  formats,
 }) => {
   const {
     locations,
     rsvps,
+    onDeleteEvent,
     onDeleteEventInvitation,
     onUpdateEvent,
   } = useContext(DetailsContext);
+  const { onCreateEventInvitation } = useContext(DetailsContext);
+  const [selections, setSelections] = useState([]);
+  const [editedEvent, setEditedEvent] = useState({});
+  const [deletePopupActive, setDeletePopupActive] = useState(false);
+  const [locationName, setLocationName] = useState(location.name);
+  const [formatName, setFormatName] = useState();
+  const locationNames = locations.map((loc) => {
+    return loc.name;
+  });
 
-  const [editedEntity, setEditedEntity] = useState({});
-  const [deletedInvites, setDeletedInvites] = useState([]);
-  // // new invitations
-  // const [newInvites, setnewInvites] = useState({})
+  useEffect(() => {
+    if (eventFormatId) {
+      const { label } = formats.find((item) => item.id === eventFormatId);
+      setFormatName(label);
+    }
+    if (location.id) {
+      const { name } = locations.find((item) => item.id === location.id);
+      setLocationName(name);
+    }
+  }, [location, locations, eventFormatId, formats]);
 
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-    setEditedEntity((entity) => ({
+  const handleSetEditedEvent = (name, value) => {
+    setEditedEvent((entity) => ({
       ...entity,
-      [name]: value || '',
+      [name]: value,
     }));
   };
 
-  const handleDeleteInvitation = (invitationId) => {
-    setDeletedInvites((prevState) => {
-      return [...prevState, invitationId];
-    });
+  const handleLocationChange = (e) => {
+    const { value } = e.target;
+    if (locationNames.includes(value)) {
+      setLocationName(value);
+      const { id } = locations.find((item) => item.name === value);
+      handleSetEditedEvent('location_id', id);
+    } else {
+      setLocationName(value);
+      handleSetEditedEvent('location_name', value);
+    }
   };
 
-  // const onNewInvitation = attendanceID => {
-  //     // add invitation edit to local invitees list
-  //     setnewInvites([...newInvites, attendanceID]);
-  // }
+  const handleFormatChange = (e) => {
+    const { value } = e.target;
+    setFormatName(value);
+    const { id } = formats.find((item) => item.label === value);
+    handleSetEditedEvent('event_format_id', id);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (
-      Object.keys(editedEntity).length !== 0 &&
-      editedEntity.constructor === Object
+      Object.keys(editedEvent).length !== 0 &&
+      editedEvent.constructor === Object
     )
-      onUpdateEvent(eventId, editedEntity);
-
-    if (deletedInvites && deletedInvites.length)
-      deletedInvites.map((invite) => onDeleteEventInvitation(eventId, invite));
+      onUpdateEvent(eventId, editedEvent);
+    selections?.forEach((att) => {
+      onCreateEventInvitation(eventId, att.id);
+    });
 
     setEditPopupActive(false);
   };
 
   return (
     <Form onSubmit={(e) => handleSubmit(e)}>
-      <FormEditContent>
-        <FormInput>
-          <OvalSquare />
-          <input
-            name="title"
-            type="text"
-            value={
-              editedEntity.title !== undefined ? editedEntity.title : title
-            }
-            onChange={(e) => handleChange(e)}
-          />
-        </FormInput>
-
-        <FormInput>
-          <input
-            name="location_name"
-            type="text"
-            value={
-              editedEntity.location_name !== undefined
-                ? editedEntity.location_name
-                : location.name
-            }
-            onChange={(e) => handleChange(e)}
-          />
-          {locations && (
-            <select
-              name="location_id"
-              value={
-                editedEntity.location_id !== undefined
-                  ? editedEntity.location_id
-                  : location.id
-              }
-              onChange={(e) => handleChange(e)}
-            >
-              <option key="emptySelect" disabled value="">
-                Select location
-              </option>
-              {locations.map((loc) => (
-                <option key={loc.id} value={loc.id}>
-                  {loc && loc.name}
-                </option>
-              ))}
-            </select>
-          )}
-        </FormInput>
-        <FormInput>
-          <textarea
-            name="description"
-            value={
-              editedEntity.description !== undefined
-                ? editedEntity.description
-                : description
-            }
-            onChange={(e) => handleChange(e)}
-          />
-        </FormInput>
-        <Button type="submit">Save</Button>
-        <Button type="button" onClick={() => setEditPopupActive(false)}>
-          Cancel
-        </Button>
-      </FormEditContent>
-
-      <FormEditInvitee>
-        <AvatarList
-          iconActive
-          avatarList={rsvps}
-          iconClickCallback={handleDeleteInvitation}
-          listType="delete"
-          organizerId={organizerId}
+      <FormWrapper>
+        <FormLabel>Title: </FormLabel>
+        <FormInput
+          type="text"
+          value={editedEvent.title !== undefined ? editedEvent.title : title}
+          onChange={(e) => handleSetEditedEvent('title', e.target.value)}
         />
-      </FormEditInvitee>
+      </FormWrapper>
+      <FormWrapper>
+        <FormLabel>Starts At: </FormLabel>
+        <FormInput
+          type="datetime-local"
+          value={
+            editedEvent.starts_at !== undefined
+              ? editedEvent.starts_at
+              : startsAt
+          }
+          onChange={(e) => handleSetEditedEvent('starts_at', e.target.value)}
+        />
+      </FormWrapper>
+      <FormWrapper>
+        <FormLabel>Ends At: </FormLabel>
+        <FormInput
+          type="datetime-local"
+          value={
+            editedEvent.ends_at !== undefined ? editedEvent.ends_at : endsAt
+          }
+          onChange={(e) => handleSetEditedEvent('ends_at', e.target.value)}
+        />
+      </FormWrapper>
+      <FormWrapper>
+        <FormLabel htmlFor="location">Location: </FormLabel>
+        <FormInput
+          id="location"
+          list="locations"
+          type="text"
+          value={locationName}
+          onChange={(e) => handleLocationChange(e)}
+        />
+        <datalist id="locations">
+          {locations?.map((loc, i) => (
+            <option key={i} value={loc.name}>
+              {loc.name}
+            </option>
+          ))}
+        </datalist>
+      </FormWrapper>
+      <FormWrapper>
+        <FormLabel htmlFor="event_format_id">Format: </FormLabel>
+        <FormSelect
+          id="event_format_id"
+          type="text"
+          value={formatName}
+          onChange={(e) => handleFormatChange(e)}
+        >
+          <option defaultChecked>Please select a format</option>
+          {formats?.map((format, i) => (
+            <option key={i} value={format.label}>
+              {format.label}
+            </option>
+          ))}
+        </FormSelect>
+      </FormWrapper>
+      <FormWrapper>
+        <FormLabel>Description: </FormLabel>
+        <FormTextArea
+          value={
+            editedEvent.description !== undefined
+              ? editedEvent.description
+              : description
+          }
+          onChange={(e) => handleSetEditedEvent('description', e.target.value)}
+        />
+      </FormWrapper>
+      <FormWrapper>
+        <FormLabel>Add attendances: </FormLabel>
+        <AddAttendance selections={selections} setSelections={setSelections} />
+      </FormWrapper>
+      <div>
+        {rsvps.map((rsvp) => (
+          <InviteesListItem key={rsvp.invitation.id}>
+            <span style={{ width: '90%' }}>
+              {`${String(rsvp.attendance.data.person.first_name)} ${String(
+                rsvp.attendance.data.person.last_name,
+              )}`}
+            </span>
+            <RemoveButton
+              onClick={() =>
+                onDeleteEventInvitation(eventId, rsvp.invitation.id)
+              }
+            />
+          </InviteesListItem>
+        ))}
+      </div>
+      <FormWrapper>
+        <DestructiveButton
+          onClick={(e) => {
+            e.preventDefault();
+            setDeletePopupActive(true);
+          }}
+        >
+          Delete Event
+        </DestructiveButton>
+        <StyledButton
+          style={{ marginLeft: `12rem` }}
+          type="button"
+          onClick={() => setEditPopupActive(false)}
+        >
+          Cancel
+        </StyledButton>
+        <StyledButton type="submit">Save</StyledButton>
+      </FormWrapper>
+      {deletePopupActive && (
+        <Overlay>
+          <h3>Are you sure you want to delete this event?</h3>
+          <OverlayButtons>
+            <OverlayButton
+              onClick={() => {
+                onDeleteEvent(eventId);
+                setDeletePopupActive(false);
+              }}
+            >
+              Yes
+            </OverlayButton>
+            <OverlayButton onClick={() => setDeletePopupActive(false)}>
+              No
+            </OverlayButton>
+          </OverlayButtons>
+        </Overlay>
+      )}
     </Form>
   );
 };
