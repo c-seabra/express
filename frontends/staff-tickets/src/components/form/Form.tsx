@@ -205,9 +205,15 @@ const Form: React.FC = () => {
     },
   );
 
-  const options:
+  const singleTicketTypesOptions:
     | SelectFieldOption[]
     | undefined = sortedProductsWithoutPackages?.map((product) => ({
+    disabled: !product.id,
+    label: product.name,
+    value: product.id || 'backend error!',
+  }));
+
+  const options: SelectFieldOption[] | undefined = products?.map((product) => ({
     disabled: !product.id,
     label: product.name,
     value: product.id || 'backend error!',
@@ -256,7 +262,7 @@ const Form: React.FC = () => {
   const singleTicketSelect = (
     <StyledSelect
       label="Select ticket type"
-      options={options}
+      options={singleTicketTypesOptions}
       value={singleTicketProductID}
       onChange={(event) => {
         const id = event.target.value;
