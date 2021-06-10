@@ -2,13 +2,9 @@ import SearchInput from '@websummit/components/src/molecules/SearchInput';
 import styled from 'styled-components';
 
 export const SearchContainer = styled.div`
-  align-items: flex-start;
-  display: flex;
-`;
-
-export const StyledSearch = styled.div`
-  flex: 0 1 auto;
-  width: 20%;
+  width: 62%;
+  margin-left: 50px;
+  margin-bottom: 40px;
 `;
 
 export const StyledSearchInput = styled(SearchInput)`
@@ -25,7 +21,6 @@ export const StyledSearchInput = styled(SearchInput)`
 
 export const ResultsContainer = styled.div`
   background: #fff;
-  position: absolute;
   z-index: 5;
   max-width: 355px;
   width: 355px;
@@ -38,16 +33,6 @@ export const ResultsContainer = styled.div`
       cursor: pointer;
     }
   }
-`;
-
-export const StyledDisplay = styled.div`
-  align-self: auto;
-  display: flex;
-  flex: 1 1 auto;
-  flex-wrap: wrap;
-  order: 0;
-  justify-content: flex-end;
-  width: 80%;
 `;
 
 export const ListItem = styled.li`
@@ -64,19 +49,5 @@ export const ListItem = styled.li`
   & span {
     font-size: 0.8rem;
     font-style: italic;
-  }
-`;
-
-export const RemoveButton = styled.button`
-  background: none;
-  border: none;
-  font-weight: bold;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &::before {
-    content: 'X';
   }
 `;

@@ -20,7 +20,11 @@ const Popup = ({
     return (
       <>
         <PopupContainer style={popupStyle}>
-          <ExistingEvent close_popup={handleOnClick} event={existingEvent} />
+          <ExistingEvent
+            close_popup={handleOnClick}
+            event={existingEvent}
+            formats={formats}
+          />
         </PopupContainer>
         <Overlay onClick={handleOnClick} />
       </>
