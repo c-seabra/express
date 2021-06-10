@@ -62,6 +62,12 @@ export type Query = {
   branding: Maybe<Branding>;
   brandings: Maybe<Array<Maybe<Branding>>>;
   brandingsConnection: Maybe<BrandingConnection>;
+  productBenefit: Maybe<ProductBenefits>;
+  productBenefits: Maybe<Array<Maybe<ProductBenefits>>>;
+  productBenefitsConnection: Maybe<ProductBenefitsConnection>;
+  product: Maybe<Products>;
+  products: Maybe<Array<Maybe<Products>>>;
+  productsConnection: Maybe<ProductsConnection>;
   site: Maybe<Site>;
   sites: Maybe<Array<Maybe<Site>>>;
   sitesConnection: Maybe<SiteConnection>;
@@ -232,6 +238,42 @@ export type QueryBrandingsArgs = {
 };
 
 export type QueryBrandingsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductBenefitArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryProductBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductBenefitsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryProductsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductsConnectionArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
   start?: Maybe<Scalars['Int']>;
@@ -973,6 +1015,212 @@ export type BrandingAggregator = {
   totalCount: Maybe<Scalars['Int']>;
 };
 
+export type ProductBenefits = {
+  __typename?: 'ProductBenefits';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+};
+
+export type ProductBenefitsConnection = {
+  __typename?: 'ProductBenefitsConnection';
+  values: Maybe<Array<Maybe<ProductBenefits>>>;
+  groupBy: Maybe<ProductBenefitsGroupBy>;
+  aggregate: Maybe<ProductBenefitsAggregator>;
+};
+
+export type ProductBenefitsGroupBy = {
+  __typename?: 'ProductBenefitsGroupBy';
+  id: Maybe<Array<Maybe<ProductBenefitsConnectionId>>>;
+  _id: Maybe<Array<Maybe<ProductBenefitsConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<ProductBenefitsConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<ProductBenefitsConnectionUpdatedAt>>>;
+  title: Maybe<Array<Maybe<ProductBenefitsConnectionTitle>>>;
+  description: Maybe<Array<Maybe<ProductBenefitsConnectionDescription>>>;
+  created_by: Maybe<Array<Maybe<ProductBenefitsConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<ProductBenefitsConnectionUpdated_By>>>;
+};
+
+export type ProductBenefitsConnectionId = {
+  __typename?: 'ProductBenefitsConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnection_Id = {
+  __typename?: 'ProductBenefitsConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionCreatedAt = {
+  __typename?: 'ProductBenefitsConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionUpdatedAt = {
+  __typename?: 'ProductBenefitsConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionTitle = {
+  __typename?: 'ProductBenefitsConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionDescription = {
+  __typename?: 'ProductBenefitsConnectionDescription';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionCreated_By = {
+  __typename?: 'ProductBenefitsConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionUpdated_By = {
+  __typename?: 'ProductBenefitsConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsAggregator = {
+  __typename?: 'ProductBenefitsAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
+};
+
+export type Products = {
+  __typename?: 'Products';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  sourceId: Maybe<Scalars['String']>;
+  sourceName: Maybe<Scalars['String']>;
+  type: Maybe<Enum_Products_Type>;
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+};
+
+export enum Enum_Products_Type {
+  Custom = 'custom',
+  Deal = 'deal',
+  Package = 'package',
+  Product = 'product',
+}
+
+export type ProductsConnection = {
+  __typename?: 'ProductsConnection';
+  values: Maybe<Array<Maybe<Products>>>;
+  groupBy: Maybe<ProductsGroupBy>;
+  aggregate: Maybe<ProductsAggregator>;
+};
+
+export type ProductsGroupBy = {
+  __typename?: 'ProductsGroupBy';
+  id: Maybe<Array<Maybe<ProductsConnectionId>>>;
+  _id: Maybe<Array<Maybe<ProductsConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<ProductsConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<ProductsConnectionUpdatedAt>>>;
+  sourceId: Maybe<Array<Maybe<ProductsConnectionSourceId>>>;
+  sourceName: Maybe<Array<Maybe<ProductsConnectionSourceName>>>;
+  type: Maybe<Array<Maybe<ProductsConnectionType>>>;
+  title: Maybe<Array<Maybe<ProductsConnectionTitle>>>;
+  description: Maybe<Array<Maybe<ProductsConnectionDescription>>>;
+  event: Maybe<Array<Maybe<ProductsConnectionEvent>>>;
+  created_by: Maybe<Array<Maybe<ProductsConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<ProductsConnectionUpdated_By>>>;
+};
+
+export type ProductsConnectionId = {
+  __typename?: 'ProductsConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnection_Id = {
+  __typename?: 'ProductsConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionCreatedAt = {
+  __typename?: 'ProductsConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionUpdatedAt = {
+  __typename?: 'ProductsConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionSourceId = {
+  __typename?: 'ProductsConnectionSourceId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionSourceName = {
+  __typename?: 'ProductsConnectionSourceName';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionType = {
+  __typename?: 'ProductsConnectionType';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionTitle = {
+  __typename?: 'ProductsConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionDescription = {
+  __typename?: 'ProductsConnectionDescription';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionEvent = {
+  __typename?: 'ProductsConnectionEvent';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionCreated_By = {
+  __typename?: 'ProductsConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionUpdated_By = {
+  __typename?: 'ProductsConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsAggregator = {
+  __typename?: 'ProductsAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
+};
+
 export type Site = {
   __typename?: 'Site';
   id: Scalars['ID'];
@@ -1316,6 +1564,7 @@ export type ComponentWebElementsPriceIncreaseCountdownTimer = {
   _id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
   ticketType: TicketType;
 };
 
@@ -1715,6 +1964,7 @@ export type ComponentWebElementsReleasePhaseStepper = {
   _id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
   ticketType: TicketType;
 };
 
@@ -1752,10 +2002,19 @@ export type ComponentWebElementsTicketTypeInformation = {
   _id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
   showBenefits: Scalars['Boolean'];
   displayPriceIncludingTax: Maybe<Scalars['Boolean']>;
   heading: Maybe<Scalars['String']>;
+  benefits: Array<ProductBenefits>;
   ticketType: TicketType;
+};
+
+export type ComponentWebElementsTicketTypeInformationBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
 };
 
 export type ComponentWebElementsTicketApplicationOverviewPanel = {
@@ -1924,13 +2183,56 @@ export type ComponentWebLayoutsStoresTicketSalesPage = {
   _id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
+  categoriesMenu: Maybe<Menu>;
+  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+  products: Array<ComponentWebElementsProducts>;
   productIds: Maybe<Scalars['JSON']>;
   ticketReleasesPanel: Maybe<ComponentWebElementsTicketReleasesPanel>;
-  categoriesMenu: Maybe<Menu>;
-  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
   promotions: Array<ComponentWebElementsTicketPromotion>;
-  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+  benefitsList: Array<ProductBenefits>;
 };
+
+export type ComponentWebLayoutsStoresTicketSalesPageBenefitsListArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type ComponentWebElementsProducts = {
+  __typename?: 'ComponentWebElementsProducts';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
+  type: Maybe<Enum_Componentwebelementsproducts_Type>;
+  buttonLabel: Maybe<Scalars['String']>;
+  link: Maybe<Scalars['String']>;
+  promotionType: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
+  promotionLabel: Maybe<Scalars['String']>;
+  promotionColor: Maybe<Scalars['String']>;
+  benefits: Array<ProductBenefits>;
+};
+
+export type ComponentWebElementsProductsBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export enum Enum_Componentwebelementsproducts_Type {
+  Link = 'link',
+  Sale = 'sale',
+  SoldOut = 'soldOut',
+}
+
+export enum Enum_Componentwebelementsproducts_Promotiontype {
+  Annotation = 'ANNOTATION',
+  Highlight = 'HIGHLIGHT',
+}
 
 export type ComponentWebLayoutsStoresTicketApplicationsPage = {
   __typename?: 'ComponentWebLayoutsStoresTicketApplicationsPage';
@@ -4079,6 +4381,12 @@ export type Mutation = {
   createBranding: Maybe<CreateBrandingPayload>;
   updateBranding: Maybe<UpdateBrandingPayload>;
   deleteBranding: Maybe<DeleteBrandingPayload>;
+  createProductBenefit: Maybe<CreateProductBenefitPayload>;
+  updateProductBenefit: Maybe<UpdateProductBenefitPayload>;
+  deleteProductBenefit: Maybe<DeleteProductBenefitPayload>;
+  createProduct: Maybe<CreateProductPayload>;
+  updateProduct: Maybe<UpdateProductPayload>;
+  deleteProduct: Maybe<DeleteProductPayload>;
   createSite: Maybe<CreateSitePayload>;
   updateSite: Maybe<UpdateSitePayload>;
   deleteSite: Maybe<DeleteSitePayload>;
@@ -4273,6 +4581,30 @@ export type MutationUpdateBrandingArgs = {
 
 export type MutationDeleteBrandingArgs = {
   input?: Maybe<DeleteBrandingInput>;
+};
+
+export type MutationCreateProductBenefitArgs = {
+  input?: Maybe<CreateProductBenefitInput>;
+};
+
+export type MutationUpdateProductBenefitArgs = {
+  input?: Maybe<UpdateProductBenefitInput>;
+};
+
+export type MutationDeleteProductBenefitArgs = {
+  input?: Maybe<DeleteProductBenefitInput>;
+};
+
+export type MutationCreateProductArgs = {
+  input?: Maybe<CreateProductInput>;
+};
+
+export type MutationUpdateProductArgs = {
+  input?: Maybe<UpdateProductInput>;
+};
+
+export type MutationDeleteProductArgs = {
+  input?: Maybe<DeleteProductInput>;
 };
 
 export type MutationCreateSiteArgs = {
@@ -4858,6 +5190,98 @@ export type DeleteBrandingInput = {
 export type DeleteBrandingPayload = {
   __typename?: 'deleteBrandingPayload';
   branding: Maybe<Branding>;
+};
+
+export type CreateProductBenefitInput = {
+  data?: Maybe<ProductBenefitInput>;
+};
+
+export type ProductBenefitInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type CreateProductBenefitPayload = {
+  __typename?: 'createProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type UpdateProductBenefitInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditProductBenefitInput>;
+};
+
+export type EditProductBenefitInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type UpdateProductBenefitPayload = {
+  __typename?: 'updateProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type DeleteProductBenefitInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteProductBenefitPayload = {
+  __typename?: 'deleteProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type CreateProductInput = {
+  data?: Maybe<ProductInput>;
+};
+
+export type ProductInput = {
+  sourceId?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  type?: Maybe<Enum_Products_Type>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  event?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type CreateProductPayload = {
+  __typename?: 'createProductPayload';
+  product: Maybe<Products>;
+};
+
+export type UpdateProductInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditProductInput>;
+};
+
+export type EditProductInput = {
+  sourceId?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  type?: Maybe<Enum_Products_Type>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  event?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type UpdateProductPayload = {
+  __typename?: 'updateProductPayload';
+  product: Maybe<Products>;
+};
+
+export type DeleteProductInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteProductPayload = {
+  __typename?: 'deleteProductPayload';
+  product: Maybe<Products>;
 };
 
 export type CreateSiteInput = {
@@ -6831,10 +7255,23 @@ export type ComponentWebElementsHeroSectionInput = {
 
 export type ComponentWebElementsPriceIncreaseCountdownTimerInput = {
   ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
+};
+
+export type ComponentWebElementsProductInput = {
+  product?: Maybe<Scalars['ID']>;
+  type?: Maybe<Enum_Componentwebelementsproducts_Type>;
+  buttonLabel?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  promotionType?: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
+  promotionLabel?: Maybe<Scalars['String']>;
+  promotionColor?: Maybe<Scalars['String']>;
+  benefits?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type ComponentWebElementsReleasePhaseStepperInput = {
   ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
 };
 
 export type ComponentWebElementsScheduleSearchSidebarFilterInput = {
@@ -6882,7 +7319,9 @@ export type ComponentWebElementsTicketReleasesPanelInput = {
 
 export type ComponentWebElementsTicketTypeInformationInput = {
   ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
   showBenefits: Scalars['Boolean'];
+  benefits?: Maybe<Array<Scalars['ID']>>;
   displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
   heading?: Maybe<Scalars['String']>;
 };
@@ -6899,12 +7338,14 @@ export type ComponentWebLayoutsStoresTicketApplicationsPageInput = {
 };
 
 export type ComponentWebLayoutsStoresTicketSalesPageInput = {
+  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+  products: Array<ComponentWebElementsProductInput>;
   productIds?: Maybe<Scalars['JSON']>;
   ticketReleasesPanel?: Maybe<ComponentWebElementsTicketReleasesPanelInput>;
-  categoriesMenu?: Maybe<Scalars['ID']>;
-  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
   promotions: Array<ComponentWebElementsTicketPromotionInput>;
-  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+  benefitsList?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type ComponentWebLayoutsTicketApplicationsPageInput = {
@@ -7176,11 +7617,25 @@ export type EditComponentWebElementsHeroSectionInput = {
 export type EditComponentWebElementsPriceIncreaseCountdownTimerInput = {
   id?: Maybe<Scalars['ID']>;
   ticketTypeId?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
+};
+
+export type EditComponentWebElementsProductInput = {
+  id?: Maybe<Scalars['ID']>;
+  product?: Maybe<Scalars['ID']>;
+  type?: Maybe<Enum_Componentwebelementsproducts_Type>;
+  buttonLabel?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  promotionType?: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
+  promotionLabel?: Maybe<Scalars['String']>;
+  promotionColor?: Maybe<Scalars['String']>;
+  benefits?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type EditComponentWebElementsReleasePhaseStepperInput = {
   id?: Maybe<Scalars['ID']>;
   ticketTypeId?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
 };
 
 export type EditComponentWebElementsScheduleSearchSidebarFilterInput = {
@@ -7235,7 +7690,9 @@ export type EditComponentWebElementsTicketReleasesPanelInput = {
 export type EditComponentWebElementsTicketTypeInformationInput = {
   id?: Maybe<Scalars['ID']>;
   ticketTypeId?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
   showBenefits?: Maybe<Scalars['Boolean']>;
+  benefits?: Maybe<Array<Scalars['ID']>>;
   displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
   heading?: Maybe<Scalars['String']>;
 };
@@ -7254,12 +7711,14 @@ export type EditComponentWebLayoutsStoresTicketApplicationsPageInput = {
 
 export type EditComponentWebLayoutsStoresTicketSalesPageInput = {
   id?: Maybe<Scalars['ID']>;
+  priceIncreaseCountdownTimer?: Maybe<EditComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  releasePhaseStepper?: Maybe<EditComponentWebElementsReleasePhaseStepperInput>;
+  products: Array<EditComponentWebElementsProductInput>;
   productIds?: Maybe<Scalars['JSON']>;
   ticketReleasesPanel?: Maybe<EditComponentWebElementsTicketReleasesPanelInput>;
-  categoriesMenu?: Maybe<Scalars['ID']>;
-  priceIncreaseCountdownTimer?: Maybe<EditComponentWebElementsPriceIncreaseCountdownTimerInput>;
   promotions: Array<EditComponentWebElementsTicketPromotionInput>;
-  releasePhaseStepper?: Maybe<EditComponentWebElementsReleasePhaseStepperInput>;
+  benefitsList?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type EditComponentWebLayoutsTicketApplicationsPageInput = {
@@ -10130,6 +10589,18 @@ export type TicketTypeReleasePhasesQuery = { __typename?: 'Query' } & {
         };
       }
   >;
+};
+
+export type TicketTypesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TicketTypesQuery = { __typename?: 'Query' } & {
+  ticketTypes: { __typename?: 'TicketTypeConnection' } & {
+    edges: Array<
+      { __typename?: 'TicketTypeEdge' } & Pick<TicketTypeEdge, 'cursor'> & {
+          node: { __typename?: 'TicketType' } & Pick<TicketType, 'id' | 'name'>;
+        }
+    >;
+  };
 };
 
 export type TicketsQueryVariables = Exact<{
@@ -26568,6 +27039,106 @@ export type TicketTypeReleasePhasesLazyQueryHookResult = ReturnType<
 export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<
   TicketTypeReleasePhasesQuery,
   TicketTypeReleasePhasesQueryVariables
+>;
+export const TicketTypesDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'TicketTypes' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketTypes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useTicketTypesQuery__
+ *
+ * To run a query within a React component, call `useTicketTypesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketTypesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketTypesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTicketTypesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    TicketTypesQuery,
+    TicketTypesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<TicketTypesQuery, TicketTypesQueryVariables>(
+    TicketTypesDocument,
+    baseOptions,
+  );
+}
+export function useTicketTypesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketTypesQuery,
+    TicketTypesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<TicketTypesQuery, TicketTypesQueryVariables>(
+    TicketTypesDocument,
+    baseOptions,
+  );
+}
+export type TicketTypesQueryHookResult = ReturnType<typeof useTicketTypesQuery>;
+export type TicketTypesLazyQueryHookResult = ReturnType<
+  typeof useTicketTypesLazyQuery
+>;
+export type TicketTypesQueryResult = Apollo.QueryResult<
+  TicketTypesQuery,
+  TicketTypesQueryVariables
 >;
 export const TicketsDocument: DocumentNode = {
   definitions: [

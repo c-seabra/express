@@ -10,7 +10,7 @@ import CategoryList, {
   CategoryItem,
 } from '../../lib/components/molecules/CategoryList';
 import useTicketsQuery from '../../lib/hooks/useTicketsQuery';
-import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
+import useTicketTypes from '../../lib/hooks/useTicketTypes';
 import Pagination from '../../lib/Pagination';
 import { TicketStatus } from '../../lib/types';
 import TicketList from '../ticketList/TicketList';
@@ -120,7 +120,7 @@ const TicketDashboard = (): ReactElement => {
     onFilter();
   };
 
-  const ticketTypes = useTicketTypesQuery();
+  const ticketTypes = useTicketTypes();
 
   return (
     <DashboardContainer>

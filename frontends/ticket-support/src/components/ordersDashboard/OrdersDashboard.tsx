@@ -18,7 +18,7 @@ import CategoryList, {
   CategoryItem,
 } from '../../lib/components/molecules/CategoryList';
 import useOrdersQuery from '../../lib/hooks/useOrdersQuery';
-import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
+import useTicketTypes from '../../lib/hooks/useTicketTypes';
 import Pagination from '../../lib/Pagination';
 import { OrderState } from '../../lib/types';
 import OrdersTable from '../orderList/OrdersTable';
@@ -97,6 +97,9 @@ const OrdersDashboard = (): ReactElement => {
   const { searchState, setSearchState } = useSearchState<OrderSearchState>({
     processInitialSearchState,
   });
+
+  const eventTimeZone = useGetEventTimeZone();
+  const { ianaName } = eventTimeZone || {};
 
   const {
     results,
@@ -201,10 +204,7 @@ const OrdersDashboard = (): ReactElement => {
     onFilter();
   };
 
-  const ticketTypes = useTicketTypesQuery();
-
-  const eventTimeZone = useGetEventTimeZone();
-  const { ianaName } = eventTimeZone || {};
+  const ticketTypes = useTicketTypes();
 
   const redirectToOrder = (id: string) => {
     history.push(`/order/${id}`);
