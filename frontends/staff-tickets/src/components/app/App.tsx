@@ -1,12 +1,12 @@
 import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import BulkOperation from '@websummit/glue/src/lib/operations/bulkOperation';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import BulkOperation from '../../lib/extract/bulkOperation';
 import {
   CreateOrderWorkUnit,
   processCreateOrderWorkUnit,
