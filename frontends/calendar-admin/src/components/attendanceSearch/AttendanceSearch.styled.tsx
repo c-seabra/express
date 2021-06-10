@@ -2,67 +2,81 @@ import SearchInput from '@websummit/components/src/molecules/SearchInput';
 import styled from 'styled-components';
 
 export const SearchContainer = styled.div`
+  align-items: flex-start;
+  display: flex;
+`;
+
+export const StyledSearch = styled.div`
+  flex: 0 1 auto;
+  width: 20%;
+`;
+
+export const StyledSearchInput = styled(SearchInput)`
   width: 100%;
+
+  & input {
+    width: auto;
+  }
+
+  & input[type="text" i] {
+    padding-left 2rem;
+  }
+`;
+
+export const ResultsContainer = styled.div`
+  background: #fff;
+  position: absolute;
+  z-index: 5;
+  max-width: 355px;
+  width: 355px;
+
+  & li {
+    cursor: pointer;
+    width: auto;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+`;
+
+export const StyledDisplay = styled.div`
+  align-self: auto;
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  order: 0;
+  justify-content: flex-end;
+  width: 80%;
+`;
+
+export const ListItem = styled.li`
+  background: #fff;
+  font-size: 0.9rem;
+  list-style: none;
+  overflow: hidden;
+  padding: 0.5rem;
+  margin: 1px;
+  text-overflow: ellipsis;
+  width: 17%;
+  white-space: nowrap;
+
+  & span {
+    font-size: 0.8rem;
+    font-style: italic;
+  }
 `;
 
 export const RemoveButton = styled.button`
-  border-radius: 50%;
-  padding: 0.5em;
-  width: 30px;
-  height: 30px;
-  color: #cb1977;
-  background-color: #ffffff;
-  border: 1px solid #cb1977;
+  background: none;
+  border: none;
+  font-weight: bold;
 
   &:hover {
-    background-color: #cb1977;
-    color: #ffffff;
+    cursor: pointer;
   }
 
   &::before {
     content: 'X';
   }
-`;
-
-export const ListItem = styled.li`
-  margin-right: calc(2rem + 20px);
-  width: 450px;
-  font-size: 0.85rem;
-  display: flex;
-  padding: 0.75rem;
-  background-color: #fff;
-  justify-content: space-between;
-  margin-left: 10px;
-  margin-right: 425px;
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  &:hover {
-    background-color: #dde0e5;
-    cursor: pointer;
-  }
-`;
-
-export const StyledSearch = styled.div`
-  width: 50%;
-  float: left;
-  padding-bottom: 1rem;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
-
-export const StyledSearchInput = styled(SearchInput)`
-  margin-right: calc(2rem + 20px);
-  width: 450px;
-`;
-
-export const StyledDisplay = styled.div`
-  width: 50%;
-  float: right;
-  padding-bottom: 2rem;
 `;

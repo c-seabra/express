@@ -61,7 +61,7 @@ const validationSchema = Yup.object().shape({
   active: Yup.boolean(),
   amount: Yup.number().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   description: Yup.string(),
-  name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  name: Yup.string(),
   product: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   type: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
 });

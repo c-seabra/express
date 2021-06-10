@@ -1,8 +1,14 @@
 import { ApolloProvider } from '@apollo/client';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
-import React, { createContext, useState } from 'react';
+import jwt from 'jwt-decode';
+import React, { createContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import BulkOperation from '../../lib/extract/bulkOperation';
+import {
+  CreateOrderWorkUnit,
+  processCreateOrderWorkUnit,
+} from '../../lib/extract/createOrder';
 import AssigneeList from '../assigneeList/AssigneeList';
 import Form from '../form/Form';
 
@@ -25,7 +31,7 @@ export type Staff = {
   lastName: string;
 };
 
-export type TicketList = Array<Staff>;
+export type TicketList = Array<CreateOrderWorkUnit>;
 export type SetTicketList = (tickets: TicketList) => void;
 export type Ticket = Staff;
 
@@ -37,36 +43,44 @@ export type Conference = {
 };
 
 export type StaffTicketContext = GraphQLParams & {
-  conference: Conference;
   setTicketsList?: SetTicketList;
-  staffList: StaffList;
   ticketsList?: TicketList;
 };
 
 export const AppContext = createContext<StaffTicketContext>({
   apiURL: '',
-  conference: {
-    slug: '',
-  },
-  staffList: {},
+  slug: '',
   token: '',
 });
 
-const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
+const App = ({ token, apiURL }: StaffTicketContext) => {
   const [ticketsList, setTicketList] = useState<TicketList>();
+
+  const tokenPayload: { conf_slug: string; email: string } = jwt(token || '');
+  const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
+
+  useEffect(() => {
+    setSlug(tokenPayload.conf_slug);
+  }, [tokenPayload.conf_slug]);
 
   if (!token) return null;
 
   const apolloClient = initApollo({ apiURL });
+
+  const bulkContext: GraphQLParams = {
+    apolloClient,
+    slug,
+    token,
+  };
 
   return (
     <ApolloProvider client={apolloClient}>
       <AppContext.Provider
         value={{
           apiURL,
-          conference,
+          apolloClient,
           setTicketsList: setTicketList,
-          staffList,
+          slug,
           ticketsList,
           token,
         }}
@@ -78,7 +92,12 @@ const App = ({ token, staffList, conference, apiURL }: StaffTicketContext) => {
           </StyledSection>
           <StyledSection>
             {ticketsList && ticketsList?.length > 0 && (
-              <AssigneeList list={ticketsList} />
+              <BulkOperation
+                Display={AssigneeList}
+                context={bulkContext}
+                input={ticketsList}
+                process={processCreateOrderWorkUnit}
+              />
             )}
           </StyledSection>
         </StyledContainer>

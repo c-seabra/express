@@ -56,7 +56,7 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
   const [createDeal] = useCommerceCreateDealMutation({
     context,
     onCompleted: () => {
-      snackbar('Package updated');
+      snackbar('Deal created');
     },
     onError: (error) => errorSnackbar(error.message),
     refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
@@ -92,7 +92,7 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
 
   return (
     <FormikModal
-      alertHeader="Create a package"
+      alertHeader="Create a deal"
       closeModal={closeModal}
       initialValues={initialValues()}
       isOpen={isOpen}
@@ -104,7 +104,7 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
         <Spacing top="2rem">
           <FieldWrapper>
             <Spacing bottom="8px">
-              <TextInputField required label="Package name" name="name" />
+              <TextInputField required label="Deal name" name="name" />
             </Spacing>
           </FieldWrapper>
 
@@ -130,7 +130,7 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
             <Spacing bottom="8px">
               <TextAreaField
                 fieldHeight="80px"
-                label="Package description"
+                label="Deal description"
                 name="description"
               />
             </Spacing>
@@ -138,7 +138,7 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
 
           <FieldWrapper>
             <Spacing bottom="8px">
-              <CheckboxField label="On sale" name="active" />
+              <CheckboxField label="Public sale status" name="active" />
             </Spacing>
           </FieldWrapper>
         </Spacing>

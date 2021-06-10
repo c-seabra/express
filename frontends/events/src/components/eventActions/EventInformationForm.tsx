@@ -107,7 +107,7 @@ const eventInformationSchema = Yup.object().shape({
   // }),
 });
 
-const emptyOption = {
+export const emptyOption = {
   label: 'Please select',
   value: undefined,
 };

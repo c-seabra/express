@@ -18,12 +18,6 @@ const Status = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const ClaimStatus = styled.div`
-  width: calc(15% - 1rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const StyledListItem = styled.li`
   font-size: 1.2em;
@@ -46,7 +40,6 @@ const AssigneeListHeader: React.FC = () => {
       <Name>First & last name</Name>
       <Email>Email</Email>
       <Status>Status</Status>
-      <ClaimStatus>Claim status</ClaimStatus>
     </StyledListItem>
   );
 };

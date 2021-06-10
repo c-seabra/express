@@ -35,6 +35,7 @@ const Calendar = ({ token, env }) => {
   const [newEvent, setNewEvent] = useState();
   const [existingEvent, setExistingEvent] = useState();
   const [locations, setLocations] = useState();
+  const [formats, setFormats] = useState();
   const [rsvps, setRsvps] = useState([]);
   // const [payload, setPayload] = useState()
   const [confSlug, setConfSlug] = useState();
@@ -42,6 +43,7 @@ const Calendar = ({ token, env }) => {
   const [chosenDate, setChosenDate] = useState();
   const [currentUserId, setCurrentUserId] = useState();
   const [responseStatuses, setResponseStatuses] = useState();
+  const [timezone, setTimezone] = useState();
 
   const addError = (error) => {
     setErrors((errors) => errors.concat([error]));
@@ -64,47 +66,51 @@ const Calendar = ({ token, env }) => {
     }
   }, [attendances, token]);
 
+  const getAdminEvents = async () => {
+    const eventsResults = await Api.getAdminEvents(
+      attendancesArray,
+      token,
+      env,
+    );
+    if (eventsResults.data) {
+      let eventRes = [];
+      eventsResults.data.data.forEach((e) => {
+        e.calendar_events.forEach((i) => {
+          i.attendance_id = e.id;
+        });
+        eventRes.push(...e.calendar_events);
+      });
+
+      eventRes = eventRes.map((e) => {
+        const offsetString = moment(e.starts_at).tz(timezone, true).format();
+        e.starts_at = moment(e.starts_at)
+          .utcOffset(offsetString)
+          .format('YYYY-MM-DDTHH:mm');
+        e.ends_at = moment(e.ends_at)
+          .utcOffset(offsetString)
+          .format('YYYY-MM-DDTHH:mm');
+        return e;
+      });
+      setEvents(eventRes);
+    } else {
+      addError(eventsResults.error);
+    }
+  };
+
   const getRequiredData = async (payload) => {
     const confResult = await Api.getConferenceDetails(
       payload.conf_id,
       token,
       env,
     );
-    confResult.data
-      ? setChosenDate(new Date(confResult.data.data.start_date))
-      : addError(confResult.error);
-
+    if (confResult.data) {
+      setChosenDate(new Date(confResult.data.data.start_date));
+      setTimezone(confResult.data.data.timezone);
+    } else {
+      addError(confResult.error);
+    }
     if (attendancesArray.length > 0) {
-      const eventsResults = await Api.getAdminEvents(
-        attendancesArray,
-        token,
-        env,
-      );
-      if (eventsResults.data) {
-        let eventRes = [];
-        eventsResults.data.data.forEach((e) => {
-          e.calendar_events.forEach((i) => {
-            i.attendance_id = e.id;
-          });
-          eventRes.push(...e.calendar_events);
-        });
-
-        eventRes = eventRes.map((e) => {
-          const offsetString = moment(e.starts_at)
-            .tz(confResult.data.data.timezone, true)
-            .format();
-          e.starts_at = moment(e.starts_at)
-            .utcOffset(offsetString)
-            .format('YYYY-MM-DDTHH:mm');
-          e.ends_at = moment(e.ends_at)
-            .utcOffset(offsetString)
-            .format('YYYY-MM-DDTHH:mm');
-          return e;
-        });
-        setEvents(eventRes);
-      } else {
-        addError(eventsResults.error);
-      }
+      await getAdminEvents();
     } else {
       setEvents([]);
     }
@@ -118,6 +124,11 @@ const Calendar = ({ token, env }) => {
     responseStatusesResult.data
       ? setResponseStatuses(responseStatusesResult.data.data)
       : addError(responseStatusesResult.error);
+
+    const formatsResult = await Api.getEventFormats(token, env);
+    formatsResult.data
+      ? setFormats(formatsResult.data.data)
+      : addError(formatsResult.error);
   };
 
   const addRsvp = (rsvp) => {
@@ -229,19 +240,9 @@ const Calendar = ({ token, env }) => {
       (event) => event.id === eventId,
     );
     const eventToUpdate = events[eventToUpdateIndex];
-    const invitationToDeleteIndex = eventToUpdate.invitations.findIndex(
-      (invitation) => invitation.id === invitationId,
-    );
     const rsvpToDeleteIndex = rsvps.findIndex(
       (rsvp) => rsvp.invitation.id === invitationId,
     );
-
-    const updatedEvent = update(eventToUpdate, {
-      invitations: { $splice: [[invitationToDeleteIndex, 1]] },
-    });
-    const updatedEvents = update(events, {
-      [eventToUpdateIndex]: { $set: updatedEvent },
-    });
     const updatedRsvps = update(rsvps, {
       $splice: [[rsvpToDeleteIndex, 1]],
     });
@@ -251,13 +252,8 @@ const Calendar = ({ token, env }) => {
     setExistingEvent(eventToUpdate);
 
     // update response status in API
-    const result = await Api.deleteEventInvitation(
-      eventToUpdate.id,
-      invitationId,
-      token,
-      env,
-    );
-    result.data ? setEvents(updatedEvents) : addError(result.error);
+    await Api.deleteEventInvitation(eventToUpdate.id, invitationId, token, env);
+    await getAdminEvents();
   };
 
   const onUpdateEvent = async (eventId, eventContent) => {
@@ -288,6 +284,16 @@ const Calendar = ({ token, env }) => {
       [eventToUpdateindex]: { $set: updatedExistingEvent },
     });
 
+    if (eventContent.ends_at) {
+      eventContent.ends_at = moment(eventContent.ends_at)
+        .tz(timezone, true)
+        .format();
+    }
+    if (eventContent.starts_at) {
+      eventContent.starts_at = moment(eventContent.starts_at)
+        .tz(timezone, true)
+        .format();
+    }
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
     result.data ? setEvents(updatedEvents) : addError(result.error);
@@ -370,19 +376,53 @@ const Calendar = ({ token, env }) => {
     setEvents(nextEvents);
   };
 
-  const createEvent = (event) => {
-    const newEvent = {
-      allDay: event.slots.length === 1,
-      ends_at: event.end,
-      event,
-      id: events.length + 1,
-      saved: false,
-      starts_at: event.start,
-      title: 'New Event',
+  const getAttendance = async (invitee_id) => {
+    const result = await Api.getAttendance(
+      invitee_id,
+      confSlug,
+      currentToken,
+      env,
+    );
+    result.data
+      ? addRsvp({ attendance: result.data, invitation: {} })
+      : addError(result.error);
+  };
+
+  const onCreateEventInvitation = async (event_id, invitee_id) => {
+    const invitation = {
+      calendar_event_id: event_id,
+      invitee: {
+        id: invitee_id,
+        type: 'attendance',
+      },
+      response_status: 'accepted',
     };
-    const updatedEvents = events.concat([newEvent]);
-    setEvents(updatedEvents);
-    setNewEvent(newEvent);
+
+    await Api.createEventInvitation(event_id, invitation, token, env);
+    await getAdminEvents();
+  };
+
+  const onCreateEvent = async (event) => {
+    const tokenPayload = jwt(token);
+    if (attendancesArray.length > 0) {
+      setNewEvent(event);
+      if (event.title) {
+        await Api.createEvent(
+          attendancesArray,
+          moment(event.end).tz(timezone, true).format(),
+          moment(event.start).tz(timezone, true).format(),
+          event.title,
+          event.description,
+          event.location,
+          event.location_id,
+          event.event_format_id,
+          token,
+          tokenPayload.conf_id,
+          env,
+        );
+        await getAdminEvents();
+      }
+    }
   };
 
   const cleanupData = (newEvents = events) => {
@@ -406,7 +446,10 @@ const Calendar = ({ token, env }) => {
           confSlug,
           currentUserId,
           events,
+          getAttendance,
           locations,
+          onCreateEvent,
+          onCreateEventInvitation,
           onDeleteEvent,
           onDeleteEventInvitation,
           onSelectEvent,
@@ -419,7 +462,9 @@ const Calendar = ({ token, env }) => {
         <Error errors={errors} />
         <Popup
           existingEvent={existingEvent}
+          formats={formats}
           handleOnClick={() => cleanupData()}
+          locations={locations}
           newEvent={newEvent}
         />
         <DragAndDropCalendar
@@ -432,14 +477,11 @@ const Calendar = ({ token, env }) => {
           eventPropGetter={eventPropGetter}
           events={events}
           getNow={() => moment().toDate()}
-          length={60}
           localizer={localizer}
           max={moment('2000-01-01T23:00:00.000Z').toDate()}
           min={moment('2000-01-01T01:00:00.000Z').toDate()}
           startAccessor={startAccessor}
-          step={60}
           style={{ fontSize: '14px', height: '100vh' }}
-          timeslots={1}
           titleAccessor={titleAccessor}
           tooltipAccessor={tooltipAccessor}
           view={currentView}
@@ -448,7 +490,7 @@ const Calendar = ({ token, env }) => {
           onEventResize={resizeEvent}
           onNavigate={onNavigate}
           onSelectEvent={onSelectEvent}
-          onSelectSlot={createEvent}
+          onSelectSlot={onCreateEvent}
           onView={onView}
         />
       </DetailsContext.Provider>

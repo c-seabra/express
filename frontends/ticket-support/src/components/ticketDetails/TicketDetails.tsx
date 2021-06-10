@@ -1,3 +1,4 @@
+import BlockMessage from '@websummit/components/src/molecules/BlockMessage';
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import Breadcrumbs, {
   Breadcrumb,
@@ -11,7 +12,6 @@ import styled from 'styled-components';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import TextHeading from '../../lib/components/atoms/Heading';
-import BlockMessage from '../../lib/components/molecules/BlockMessage';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
@@ -129,7 +129,7 @@ const AccountDetailsContainer = styled.div`
 
 const TicketDetails = (): ReactElement => {
   const { bookingRef } = useParams<{ bookingRef: string }>();
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const {
     openModal: openTicketAssignModal,
     isOpen: isTicketAssignModalOpen,
@@ -339,7 +339,7 @@ const TicketDetails = (): ReactElement => {
                 >
                   <AuditTrail
                     bookingRef={bookingRef}
-                    conferenceSlug={conferenceSlug as string}
+                    slug={slug as string}
                     token={token as string}
                   />
                 </Modal>

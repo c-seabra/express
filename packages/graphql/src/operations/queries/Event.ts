@@ -61,6 +61,13 @@ const EVENT = gql`
           }
         }
       }
+      sponsor {
+        id
+        company {
+          name
+          privacyPolicyUrl
+        }
+      }
     }
   }
 `;

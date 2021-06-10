@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client';
 
 export default gql`
-  query OrderTickets(
+  query Tickets(
     $orderId: ID
     $filter: TicketFilter
+    $searchQuery: String
+    $first: Int
     $after: String
     $before: String
-    $first: Int
     $last: Int
   ) {
     tickets(
@@ -16,6 +17,7 @@ export default gql`
       before: $before
       first: $first
       last: $last
+      searchQuery: $searchQuery
     ) {
       pageInfo {
         hasNextPage
@@ -24,11 +26,28 @@ export default gql`
         startCursor
       }
       edges {
+        cursor
         node {
           id
           bookingRef
+          state
           ticketType {
             name
+          }
+          order {
+            reference
+            owner {
+              firstName
+              lastName
+              email
+            }
+          }
+          state
+          context {
+            assignable
+            editable
+            acceptable
+            rejectable
           }
           assignment {
             id
@@ -51,22 +70,13 @@ export default gql`
               personalisationConsent
             }
           }
-          order {
-            reference
-            owner {
-              firstName
-              lastName
-              email
-            }
-          }
-          state
-          context {
-            assignable
-            editable
-            acceptable
-            rejectable
-          }
         }
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        endCursor
+        startCursor
       }
     }
   }

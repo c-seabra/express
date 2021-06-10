@@ -8,7 +8,7 @@ type ClaimTicketMutationArgs = {
 };
 
 const useClaimTicketMutation = ({ ticketId }: ClaimTicketMutationArgs) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const [claimTicketMutation] = useMutation(TICKET_ACCEPT_MUTATION);
 
@@ -18,7 +18,7 @@ const useClaimTicketMutation = ({ ticketId }: ClaimTicketMutationArgs) => {
         headers: {
           'x-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['TicketAuditTrail', 'Ticket'],

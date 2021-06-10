@@ -27,7 +27,7 @@ const useAttendanceInvestorSessionUpdateMutation = ({
   startsAt,
   unlockInvestor,
 }: AttendanceInvestorSessionUpdateArgs) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
@@ -51,7 +51,7 @@ const useAttendanceInvestorSessionUpdateMutation = ({
   const attendanceInvestorSessionUpdateMutation = async () => {
     await updateAttendanceInvestorSession({
       context: {
-        slug: conferenceSlug,
+        slug,
         token,
       },
       refetchQueries: ['EventQuery', 'AttendanceDetailsQuery'],

@@ -11,17 +11,19 @@ const useOrdersQuery = ({
   searchQuery,
   status,
   ticketTypeIds = [],
+  onError,
 }: {
   initialPage: string;
+  onError?: any;
   perPage?: number;
   searchQuery?: string;
   status?: string;
   ticketTypeIds?: string[];
 }) => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
 
   const context = {
-    slug: conferenceSlug,
+    slug,
     token,
   };
 
@@ -39,6 +41,7 @@ const useOrdersQuery = ({
   return usePaginatedQuery<Order, 'orders', typeof variables, typeof context>({
     context,
     initialPage,
+    onError,
     query: ORDER_LIST,
     variables,
   });

@@ -10,6 +10,7 @@ import PackagePage from '../pages/PackagePage';
 import PackagesPage from '../pages/PackagesPage';
 import SalesCyclePage from '../pages/SalesCyclePage';
 import SalesCyclesPage from '../pages/SalesCyclesPage';
+import TagsPage from '../pages/TagsPage';
 import TicketCategoriesPage from '../pages/TicketCategoriesPage';
 import TicketTypePage from '../pages/TicketTypePage';
 import TicketTypesPage from '../pages/TicketTypesPage';
@@ -28,12 +29,10 @@ type AppProps = {
 
 const App = ({ token, apiURL }: AppProps) => {
   const tokenPayload: { conf_slug: string; email: string } = jwt(token);
-  const [conferenceSlug, setConferenceSlug] = useState<string>(
-    tokenPayload.conf_slug,
-  );
+  const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
 
   useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug);
+    setSlug(tokenPayload.conf_slug);
   }, [tokenPayload.conf_slug]);
 
   if (!token) return null;
@@ -46,7 +45,7 @@ const App = ({ token, apiURL }: AppProps) => {
         <Router>
           <AppContext.Provider
             value={{
-              conferenceSlug,
+              slug,
               token,
             }}
           >
@@ -70,11 +69,14 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route exact path="/ticket-type/:id">
                   <TicketTypePage />
                 </Route>
-                <Route exact path="/packages">
+                <Route exact path="/deals">
                   <PackagesPage />
                 </Route>
-                <Route exact path="/package/:id">
+                <Route exact path="/deal/:id">
                   <PackagePage />
+                </Route>
+                <Route exact path="/tags">
+                  <TagsPage />
                 </Route>
               </Switch>
             </StyledContainer>

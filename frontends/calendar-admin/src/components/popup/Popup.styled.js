@@ -18,6 +18,27 @@ export const PopupContainer = styled.div`
   &:hover {
     cursor: default;
   }
+`;
+
+export const CreatePopupContainer = styled.div`
+  top: 25%;
+  left: 25%;
+  height: 60%;
+  width: 40%;
+  background-color: white;
+  border-radius: 4px;
+  overflow: auto;
+  overflow-x: hidden;
+  position: absolute;
+  z-index: 10;
+  -webkit-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px 30px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+
+  &:hover {
+    cursor: default;
+  }
 
   & * {
     font-size: 14px;

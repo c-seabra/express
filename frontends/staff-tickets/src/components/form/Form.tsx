@@ -1,7 +1,16 @@
+import Select, {
+  SelectFieldOption,
+} from '@websummit/components/src/molecules/Select';
+import { useCommerceListProductsQuery } from '@websummit/graphql/src/@types/operations';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
-import { AppContext, TicketList } from '../app/App';
+import {
+  transformStaffIntoWorkUnit,
+  WorkUnitContext,
+} from '../../lib/extract/createOrder';
+import { AppContext, Staff } from '../app/App';
+import Loader from '../statusIcon/Loader';
 import Upload from '../upload/Upload';
 
 const SubmitButton = styled.button`
@@ -24,13 +33,165 @@ function capitalizeFirstLetter(input: string) {
 }
 
 const Form: React.FC = () => {
-  const { setTicketsList, staffList } = useContext(AppContext);
+  const context = useContext(AppContext);
   const [formError, setFormError] = useState(false);
-  const [assignees, setAssignees] = useState<TicketList>([]);
+  const [assignees, setAssignees] = useState<Staff[]>([]);
+
+  const [singleTicketEnabled, setSingleTicketEnabled] = useState(false);
+  const [singleTicketProductID, setSingleTicketProductID] = useState('');
+
+  const [volumeTicketsEnabled, setVolumeTicketsEnabled] = useState(false);
+  const [volumeTicketsProductID, setVolumeTicketsProductID] = useState('');
+  const [volumeTicketsQuantity, setVolumeTicketsQuantity] = useState(10);
+
+  const [notifyOrderOwner, setNotifyOrderOwner] = useState(false);
+
+  const { loading, error, data } = useCommerceListProductsQuery({
+    context,
+  });
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    console.error(error);
+    return <span>{error}</span>;
+  }
+
+  const products = data?.commerceListProducts?.hits;
+
+  const firstOption = products?.[0].id || 'no id';
+
+  const options: SelectFieldOption[] | undefined = products?.map((product) => ({
+    disabled: !product.id,
+    label: product.name,
+    value: product.id || 'backend error!',
+  }));
+
+  const singleTicketCheckbox = (
+    <>
+      <input
+        name="singleTicket"
+        type="checkbox"
+        onChange={(event: any) => {
+          const value = event.target.checked as boolean;
+          setSingleTicketEnabled(value);
+          // we need to unset on disable
+          setSingleTicketProductID(value ? firstOption : '');
+        }}
+      />
+      Should each order have a single ticket assigned to the order owner?
+    </>
+  );
+
+  const singleTicketSelect = (
+    <Select
+      options={options}
+      value={singleTicketProductID}
+      onChange={(event) => setSingleTicketProductID(event.target.value)}
+    />
+  );
+
+  const singleTicket = (
+    <>
+      {singleTicketCheckbox}
+      {singleTicketEnabled && singleTicketSelect}
+    </>
+  );
+
+  const volumeTicketsSelect = (
+    <Select
+      options={options}
+      value={volumeTicketsProductID}
+      onChange={(event) => setVolumeTicketsProductID(event.target.value)}
+    />
+  );
+
+  const volumeTicketsCheckbox = (
+    <>
+      <input
+        name="volumeTickets"
+        type="checkbox"
+        onChange={(event: any) => {
+          const value = event.target.checked as boolean;
+          setVolumeTicketsEnabled(value);
+          // we need to unset on disable
+          setVolumeTicketsProductID(value ? firstOption : '');
+        }}
+      />
+      Should each order have multiple unassigned tickets?
+    </>
+  );
+
+  const volumeTicketsQuantitySelect = (
+    <input
+      name="volumeTicketsQuantity"
+      type="number"
+      value={volumeTicketsQuantity}
+      onChange={(event: any) => {
+        const value = parseInt(event.target.value, 10);
+        setVolumeTicketsQuantity(value);
+      }}
+    />
+  );
+
+  const volumeTickets = (
+    <>
+      {volumeTicketsCheckbox}
+      {volumeTicketsEnabled && (
+        <>
+          {volumeTicketsSelect}
+          {volumeTicketsQuantitySelect}
+        </>
+      )}
+    </>
+  );
+
+  const notifyCheckbox = (
+    <>
+      <input
+        name="notify"
+        type="checkbox"
+        onChange={(event: any) => {
+          const value = event.target.checked as boolean;
+          setNotifyOrderOwner(value);
+        }}
+      />
+      Should we send an email to the order owner to notify them about their
+      tickets?
+    </>
+  );
+
+  const metaOptions = (
+    <>
+      {singleTicket}
+      <br />
+      ----
+      <br />
+      {volumeTickets}
+      <br />
+      ----
+      <br />
+      {notifyCheckbox}
+    </>
+  );
+
+  const metaContext: WorkUnitContext = {
+    guestProductId: volumeTicketsProductID,
+    notify: notifyOrderOwner,
+    quantity: volumeTicketsQuantity,
+    staffProductId: singleTicketProductID,
+  };
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (assignees && assignees.length > 0 && setTicketsList) {
-      setTicketsList(assignees);
+    if (assignees && assignees.length > 0 && context.setTicketsList) {
+      context.setTicketsList(
+        assignees.map((staff) =>
+          transformStaffIntoWorkUnit(metaContext, staff),
+        ),
+      );
     } else {
       setFormError(true);
     }
@@ -38,33 +199,74 @@ const Form: React.FC = () => {
   const onSingleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // some hackery because ts is not smart enough for this type to work
+    const firstName = (e.target as any).firstName.value as string;
+    const lastName = (e.target as any).lastName.value as string;
     const emailField = (e.target as any).email.value as string;
     const email: string = emailField.toLowerCase().trim();
 
-    if (setTicketsList && staffList) {
-      let staff = staffList[email];
-      if (!staff) {
-        const name = email.split('@')[0];
-        const [firstName, lastName] = name.split('.');
-        staff = {
-          email,
-          firstName: capitalizeFirstLetter(firstName),
-          lastName: capitalizeFirstLetter(lastName),
-        };
-      }
-      console.log(email, JSON.stringify(staff));
-      setTicketsList([staff]);
+    if (context.setTicketsList) {
+      const staff = {
+        email,
+        firstName: capitalizeFirstLetter(firstName),
+        lastName: capitalizeFirstLetter(lastName),
+      };
+      const workUnit = transformStaffIntoWorkUnit(metaContext, staff);
+      context.setTicketsList([workUnit]);
     } else {
       setFormError(true);
     }
   };
   return (
     <>
+      <span>
+        Are you sure you know what you are doing? Are you a financial admin
+        authorized to make these changes? If you get errors when using this tool
+        and you do not have the permissions, that is to be expected
+      </span>
+      <br />
+      ----
+      <br />
+      {metaOptions}
+      <br />
+      ----
+      <br />
+      notify: {JSON.stringify(notifyOrderOwner)}
+      <br />
+      ----
+      <br />
+      single: {singleTicketProductID}
+      <br />
+      ----
+      <br />
+      volume id: {volumeTicketsProductID}
+      <br />
+      ----
+      <br />
+      volume quantity: {volumeTicketsQuantity}
+      <br />
+      ----
+      <br />
+      <h2>Issue a single order:</h2>
       <form onSubmit={(e) => onSingleSubmit(e)}>
         {formError && <div>There seems to be an error with your input.</div>}
-        <input name="email" type="text" />
+        <label>
+          First name:
+          <input name="firstName" type="text" />
+        </label>
+        <label>
+          Last name:
+          <input name="lastName" type="text" />
+        </label>
+        <label>
+          Email:
+          <input name="email" type="text" />
+        </label>
         <SubmitButton type="submit">Submit</SubmitButton>
       </form>
+      <h2>
+        Upload a csv of orders, each line containing:
+        <pre>firstName,Lastname,email</pre>
+      </h2>
       <form onSubmit={(e) => onSubmit(e)}>
         {formError && <div>There seems to be an error with your input.</div>}
         <Upload setAssignees={setAssignees} />

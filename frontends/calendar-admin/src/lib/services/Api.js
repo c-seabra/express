@@ -14,7 +14,7 @@ const CONFIG = {
   },
   production: {
     AVENGER_URL: 'https://api.cilabs.com',
-    CALENDAR_URL: 'http://calendar.calendar.svc.cluster.local:80',
+    CALENDAR_URL: 'https://calendar.calendar.svc.cluster.local:80',
   },
   staging: {
     AVENGER_URL: 'https://sapi.cilabs.com',
@@ -92,6 +92,40 @@ export function withConfig({ token: _token, env: _env } = {}) {
       );
     },
 
+    createEventInvitation: async (
+      calendar_event_id,
+      invitation,
+      token = String(_token),
+      env = _env,
+    ) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+
+      const requestData = {
+        body: JSON.stringify({
+          invitation: invitation,
+          token: token,
+          env: env,
+        }),
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+      };
+      const requestUrl = `${String(
+        CONFIG[env].CALENDAR_URL,
+      )}/calendar_events/${String(calendar_event_id)}/invitations/`;
+      return handleFetch(new Request(requestUrl, requestData));
+    },
+
     deleteEventInvitation: async (
       calendar_event_id,
       invitation_id,
@@ -110,7 +144,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       const requestData = {
         headers: new Headers({
           Accept: 'application/json',
-          Authorization: `BIXSCANearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         }),
         method: 'DELETE',
@@ -157,7 +191,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
 
     getAttendance: async (
       attendanceId,
-      conferenceSlug,
+      slug,
       token = String(_token),
       env = _env,
     ) => {
@@ -181,9 +215,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
       const requestUrl = `${String(
         CONFIG[env].AVENGER_URL,
-      )}/conferences/${String(conferenceSlug)}/attendances/${String(
-        attendanceId,
-      )}`;
+      )}/conferences/${String(slug)}/attendances/${String(attendanceId)}`;
       return handleFetch(new Request(requestUrl, requestData));
     },
 
@@ -204,6 +236,30 @@ export function withConfig({ token: _token, env: _env } = {}) {
           `${String(CONFIG[env].AVENGER_URL)}/conferences/${String(
             conferenceId,
           )}`,
+          requestData,
+        ),
+      );
+    },
+
+    getEventFormats: async (token = String(_token), env = _env) => {
+      if (env === 'mock') {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: stubEventsResponse });
+            // resolve({ error: `random error no: ${random()}` });
+          }, random());
+        });
+      }
+      const requestData = {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        }),
+        method: 'GET',
+      };
+      return handleFetch(
+        new Request(
+          `${String(CONFIG[env].CALENDAR_URL)}/event_formats/`,
           requestData,
         ),
       );
@@ -234,7 +290,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       );
     },
 
-    getLocation: async (locationId, conferenceSlug, env = _env) => {
+    getLocation: async (locationId, slug, env = _env) => {
       if (env === 'mock') {
         const location = stubLocationsResponse.data.find(
           (mockLocation) => mockLocation.id === locationId,
@@ -248,12 +304,12 @@ export function withConfig({ token: _token, env: _env } = {}) {
       }
       return handleFetch(
         `${String(CONFIG[env].AVENGER_URL)}/conferences/${String(
-          conferenceSlug,
+          slug,
         )}/locations/${String(locationId)}`,
       );
     },
 
-    getLocations: async (conferenceSlug, env = _env) => {
+    getLocations: async (slug, env = _env) => {
       if (env === 'mock') {
         const locations = stubLocationsResponse.data;
         return new Promise((resolve) => {
@@ -265,7 +321,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       }
       return handleFetch(
         `${String(CONFIG[env].AVENGER_URL)}/conferences/${String(
-          conferenceSlug,
+          slug,
         )}/locations/`,
       );
     },
@@ -282,6 +338,49 @@ export function withConfig({ token: _token, env: _env } = {}) {
       }
       return handleFetch(
         `${String(CONFIG[env].CALENDAR_URL)}/response_statuses`,
+      );
+    },
+
+    createEvent: async (
+      attendancesArray,
+      end,
+      start,
+      title,
+      description,
+      location,
+      locationId,
+      eventFormatId,
+      token = String(_token),
+      confId,
+      env = _env,
+      invitee,
+    ) => {
+      const requestData = {
+        body: JSON.stringify({
+          attendances_array: attendancesArray,
+          ends_at: end,
+          starts_at: start,
+          title: title,
+          description: description,
+          location_name: location,
+          location_id: locationId,
+          event_format_id: eventFormatId,
+          token: token,
+          conference_id: confId,
+          env: env,
+        }),
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+      };
+      return handleFetch(
+        new Request(
+          `${String(CONFIG[env].CALENDAR_URL)}/admin_calendar_events/`,
+          requestData,
+        ),
       );
     },
 

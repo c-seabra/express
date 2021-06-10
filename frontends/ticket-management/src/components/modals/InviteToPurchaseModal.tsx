@@ -7,7 +7,7 @@ import TextInput from '@websummit/components/src/molecules/TextInput';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
-  formatDisplayPriceWithCurrency,
+  formatDisplayPrice,
   TotalInCents,
 } from '@websummit/glue/src/lib/utils/price';
 import {
@@ -127,10 +127,10 @@ const getTotalWithTax = ({
     if (tax?.rateType === CommerceTaxRateType.Percentage) {
       const totalWithTax = (total +
         total * ((tax?.rateAmount || 0) / 100)) as TotalInCents;
-      return formatDisplayPriceWithCurrency(totalWithTax, currency);
+      return formatDisplayPrice(totalWithTax, currency);
     }
 
-    return formatDisplayPriceWithCurrency();
+    return formatDisplayPrice();
   }
 
   return '';
@@ -270,7 +270,7 @@ const InviteToPurhcaseModal = ({
                   <TicketPrice
                     disabled
                     label="Ticket price"
-                    value={formatDisplayPriceWithCurrency(
+                    value={formatDisplayPrice(
                       ticketPrice,
                       store?.currencySymbol || '',
                     )}
@@ -292,7 +292,7 @@ const InviteToPurhcaseModal = ({
                   <StyledTextInput
                     disabled
                     label="Net price"
-                    value={formatDisplayPriceWithCurrency(
+                    value={formatDisplayPrice(
                       (ticketPrice * values.quantity) as TotalInCents,
                       store?.currencySymbol || '',
                     )}

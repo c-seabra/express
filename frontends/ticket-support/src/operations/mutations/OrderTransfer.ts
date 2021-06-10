@@ -17,7 +17,7 @@ export type OrderTransferRequest = {
 };
 
 export const useOrderTransferOperation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
@@ -43,7 +43,7 @@ export const useOrderTransferOperation = () => {
         headers: {
           'X-Reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {

@@ -22,7 +22,7 @@ type UpdateLoginTicketsArgs = {
 };
 
 const useUpdateLoginMutation = () => {
-  const { conferenceSlug, token } = useAppContext();
+  const { slug, token } = useAppContext();
   const successSnackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
 
@@ -52,7 +52,7 @@ const useUpdateLoginMutation = () => {
         headers: {
           'x-reason': reason,
         },
-        slug: conferenceSlug,
+        slug,
         token,
       },
       variables: {
