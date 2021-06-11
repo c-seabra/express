@@ -2,8 +2,6 @@ import { cleanup, render } from '@testing-library/react';
 import { Button } from '@websummit/components/src/atoms/Button';
 import React from 'react';
 
-import BlockMessage from '../../../../../packages/components/src/molecules/BlockMessage';
-import BoxMessage from '../../../../../packages/components/src/molecules/BoxMessage';
 import OrdersDashboard from '../../../../ticket-support/src/components/ordersDashboard/OrdersDashboard';
 import IndexPage from './IndexPage';
 
@@ -25,7 +23,8 @@ describe('This will test IndexPage', () => {
 
     expect(output2).toHaveTextContent(text2);
   });
-  xtest('renders complex component', () => {
+  // eslint-disable-next-line
+  test.skip('renders complex component', () => {
     const { getByText } = render(<OrdersDashboard />);
 
     const text2 = 'block msg test';
