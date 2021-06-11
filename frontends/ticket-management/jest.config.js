@@ -1,12 +1,10 @@
 module.exports = {
-  moduleNameMapper: {
-    '\\.(css)$': 'identity-obj-proxy',
-  },
-  rootDir: 'src',
-  setupFilesAfterEnv: [
-    '../node_modules/@testing-library/jest-dom/dist/index.js',
-  ],
+  modulePathIgnorePatterns: ['/cache', '/dist'],
+  preset: 'ts-jest',
+  roots: ['<rootDir>/src', '../../packages'],
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+  testMatch: ['**/?(*.)+(spec|test).+(ts|tsx|js|jsx)'],
   transform: {
-    '^.+\\.(j|t)sx?$': 'babel-jest',
+    '^.+\\.(ts|tsx|jsx)$': 'ts-jest',
   },
 };
