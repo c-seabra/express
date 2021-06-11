@@ -63,9 +63,9 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
   const groupedResults = createGroupedResults(list);
   const stacks = [
     {
-      color: '#E15554',
-      label: 'Error',
-      value: groupedResults[Status[Status.ERROR]],
+      color: '#3BB273',
+      label: 'Success',
+      value: groupedResults[Status[Status.SUCCESS]],
     },
     {
       color: '#E9ECF0',
@@ -73,9 +73,9 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
       value: groupedResults[Status[Status.PENDING]],
     },
     {
-      color: '#3BB273',
-      label: 'Success',
-      value: groupedResults[Status[Status.SUCCESS]],
+      color: '#E15554',
+      label: 'Error',
+      value: groupedResults[Status[Status.ERROR]],
     },
   ];
 
