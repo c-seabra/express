@@ -5,22 +5,18 @@ import stubResponseStatuses from './stubs/responseStatuses';
 
 const CONFIG = {
   development: {
-    ADMIN_CALENDAR_URL: 'http://localhost:8000',
     AVENGER_URL: 'http://api.lvh.me:3000',
     CALENDAR_URL: 'http://localhost:8000',
   },
   mock: {
-    ADMIN_CALENDAR_URL: '',
     AVENGER_URL: '',
     CALENDAR_URL: '',
   },
   production: {
-    ADMIN_CALENDAR_URL: 'https://api.cilabs.com/calendar_events',
     AVENGER_URL: 'https://api.cilabs.com',
     CALENDAR_URL: 'https://api.cilabs.com',
   },
   staging: {
-    ADMIN_CALENDAR_URL: 'https://api.cilabs.net/calendar_events',
     AVENGER_URL: 'https://api.cilabs.net',
     CALENDAR_URL: 'https://api.cilabs.net',
   },
@@ -186,7 +182,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
 
       const requestUrl = `${String(
-        CONFIG[env].ADMIN_CALENDAR_URL,
+        CONFIG[env].CALENDAR_URL,
       )}/admin_calendar_events/?attendances[]=${attendancesArray.join(
         '&attendances[]=',
       )}`;
@@ -382,7 +378,7 @@ export function withConfig({ token: _token, env: _env } = {}) {
       };
       return handleFetch(
         new Request(
-          `${String(CONFIG[env].ADMIN_CALENDAR_URL)}/admin_calendar_events/`,
+          `${String(CONFIG[env].CALENDAR_URL)}/admin_calendar_events/`,
           requestData,
         ),
       );
