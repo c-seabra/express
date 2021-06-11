@@ -25,8 +25,7 @@ describe('This will test IndexPage', () => {
 
     expect(output2).toHaveTextContent(text2);
   });
-  test('renders complex component', () => {
-    // const { getByText } = render(<BoxMessage header="" message="block msg test" />);
+  xtest('renders complex component', () => {
     const { getByText } = render(<OrdersDashboard />);
 
     const text2 = 'block msg test';
