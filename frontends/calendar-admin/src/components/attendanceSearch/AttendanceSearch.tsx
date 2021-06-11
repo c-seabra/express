@@ -113,8 +113,8 @@ const AttendanceSearch = (): ReactElement => {
               border: `1px solid ${hex(selection?.id)}`,
             }}
           >
-            <Close style={{ height: '2rem' }} onClick={() => handleRemove(selection)} />
-            {selection.name} <span>({selection.bookingRef})</span>
+            <Close onClick={() => handleRemove(selection)} />
+            <span>{selection.name} <i>({selection.bookingRef})</i></span>
           </ListItem>
         ))}
       </StyledDisplay>
