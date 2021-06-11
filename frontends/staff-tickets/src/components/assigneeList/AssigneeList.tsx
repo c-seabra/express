@@ -10,6 +10,7 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 
+import Badge from '../../../../../packages/components/src/atoms/Badge';
 import { CreateOrderWorkUnit } from '../../lib/extract/createOrder';
 import UploadStatus from '../statusIcon/StatusIcon';
 
@@ -120,12 +121,21 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
 
       <Spacing bottom="2rem">
         <ContainerCard title="Grouped results">
+          <FlexEnd>
+            <Spacing bottom="0.5rem">
+              <span>Total: </span>
+              <Badge background="#CCC" color="#000">
+                <span>
+                  {groupedResults.SUCCESS || 0}/{list?.length}
+                </span>
+              </Badge>
+            </Spacing>
+          </FlexEnd>
           <Spacing bottom="1rem">
             <Flex>
               <GroupedProgressBar barStacks={stacks} />
             </Flex>
           </Spacing>
-          <Flex>Total: {groupedResults.SUCCESS || 0}/{list?.length}</Flex>
         </ContainerCard>
       </Spacing>
 
