@@ -10,7 +10,7 @@ const CONFIG = {
     CALENDAR_URL: 'http://localhost:8000',
   },
   mock: {
-    ADMIN_CALENDAR_URL: 'h',
+    ADMIN_CALENDAR_URL: '',
     AVENGER_URL: '',
     CALENDAR_URL: '',
   },
