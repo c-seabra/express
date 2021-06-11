@@ -6,7 +6,6 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { Status } from '@websummit/glue/src/lib/operations/bulkOperation';
 import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
@@ -65,17 +64,22 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
     {
       color: '#3BB273',
       label: 'Success',
-      value: groupedResults[Status[Status.SUCCESS]],
-    },
-    {
-      color: '#E9ECF0',
-      label: 'Processing',
-      value: groupedResults[Status[Status.PENDING]],
+      value: groupedResults.SUCCESS,
     },
     {
       color: '#E15554',
       label: 'Error',
-      value: groupedResults[Status[Status.ERROR]],
+      value: groupedResults.ERROR,
+    },
+    {
+      color: '#78abef',
+      label: 'Processing',
+      value: groupedResults.PENDING,
+    },
+    {
+      color: '#a8a8a8',
+      label: 'Processing',
+      value: groupedResults.QUEUED,
     },
   ];
 

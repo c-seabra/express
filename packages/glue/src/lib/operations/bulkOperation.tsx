@@ -1,13 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-export enum Status {
-  INVALID,
-  PENDING,
-  PARTIAL_SUCCESS,
-  SUCCESS,
-  ERROR,
-}
-
 export type BulkInput<Element> = Element[];
 
 export type BulkOperationConfig<Element, Context> = {
@@ -51,7 +43,7 @@ async function doSomeBulkOperationWork<Element, Context>(
   }
 
   let counter = 0;
-  const MAX_CONCURRENT_CONNECTIONS = 5;
+  const MAX_CONCURRENT_CONNECTIONS = 10;
 
   async function enqueueProcessing(element: Element, index: number) {
     // this seems weird but works because js is single threaded async
