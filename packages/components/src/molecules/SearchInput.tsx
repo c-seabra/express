@@ -7,8 +7,7 @@ export const StyledLabel = styled.label`
   display: flex;
   flex-direction: column;
 
-  select,
-  input {
+  select {
     height: 2rem;
     width: 100%;
   }
@@ -23,7 +22,7 @@ export const Search = styled(StyledLabel)`
     width: auto;
     height: 60%;
     position: absolute;
-    left: 1rem;
+    left: 0.5rem;
     top: 25%;
     opacity: 50%;
   }
@@ -33,11 +32,11 @@ export const Search = styled(StyledLabel)`
     border-radius: 4px;
     font-weight: 300;
     font-family: inherit;
-    font-size: 1.5rem;
+    font-size: 0.75rem;
     line-height: 1;
     height: auto;
     max-width: 100%;
-    padding: 0.75rem 0.375em 0.8rem 3.5rem;
+    padding: 0.5rem 1.5rem 0.5rem 1.75rem;
     margin: 0;
   }
 `;
