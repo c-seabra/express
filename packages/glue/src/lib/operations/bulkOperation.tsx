@@ -51,7 +51,7 @@ async function doSomeBulkOperationWork<Element, Context>(
   }
 
   let counter = 0;
-  const MAX_CONCURRENT_CONNECTIONS = 1;
+  const MAX_CONCURRENT_CONNECTIONS = 5;
 
   async function enqueueProcessing(element: Element, index: number) {
     // this seems weird but works because js is single threaded async
