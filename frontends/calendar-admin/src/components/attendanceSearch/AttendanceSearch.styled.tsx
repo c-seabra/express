@@ -1,26 +1,25 @@
 import SearchInput from '@websummit/components/src/molecules/SearchInput';
+import { device } from '@websummit/components/src/utils/mediaQueries';
 import styled from 'styled-components';
 
 export const SearchContainer = styled.div`
   align-items: flex-start;
   display: flex;
+  flex-direction: column;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
+
+  > * {
+    width: 100%;
+  }
 `;
 
-export const StyledSearch = styled.div`
-  flex: 0 1 auto;
-  width: 20%;
-`;
+export const StyledSearch = styled.div``;
 
 export const StyledSearchInput = styled(SearchInput)`
   width: 100%;
-
-  & input {
-    width: auto;
-  }
-
-  & input[type="text" i] {
-    padding-left 2rem;
-  }
 `;
 
 export const ResultsContainer = styled.div`
@@ -43,40 +42,40 @@ export const ResultsContainer = styled.div`
 export const StyledDisplay = styled.div`
   align-self: auto;
   display: flex;
-  flex: 1 1 auto;
-  flex-wrap: wrap;
   order: 0;
   justify-content: flex-end;
-  width: 80%;
 `;
 
 export const ListItem = styled.li`
   background: #fff;
-  font-size: 0.9rem;
+  font-size: 1rem;
   list-style: none;
   overflow: hidden;
-  padding: 0.5rem;
-  margin: 1px;
+  padding: 0.75rem;
+  margin: 1px 0.5rem 1px 0.5rem;
   text-overflow: ellipsis;
-  width: 17%;
+  width: 20%;
+  min-width: 100px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+
+  &:first-child {
+    margin-left: 1px;
+  }
+
+  &:last-child {
+    margin-right: 1px;
+  }
+
+  svg {
+    padding: 0 0.5rem;
+  }
 
   & span {
-    font-size: 0.8rem;
+    font-size: 1rem;
+    margin-left: 0.1rem;
     font-style: italic;
-  }
-`;
-
-export const RemoveButton = styled.button`
-  background: none;
-  border: none;
-  font-weight: bold;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &::before {
-    content: 'X';
   }
 `;
