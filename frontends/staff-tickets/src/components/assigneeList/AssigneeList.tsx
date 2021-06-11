@@ -6,11 +6,11 @@ import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { Status } from '@websummit/glue/src/lib/operations/bulkOperation';
+import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 
-// import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-// import { Status } from '../../lib/extract/bulkOperation';
 import { CreateOrderWorkUnit } from '../../lib/extract/createOrder';
 import UploadStatus from '../statusIcon/StatusIcon';
 
@@ -22,34 +22,15 @@ const FlexEnd = styled(Flex)`
   justify-content: flex-end;
 `;
 
-// const createGroups = (enumMap: any) => {
-//   return Object.keys(enumMap)
-//     .filter((key) => Number.isNaN(Number(enumMap[key])))
-//     .map((key) => {
-//       return {
-//         count: 0,
-//         name: enumMap[key],
-//       };
-//     });
-// };
-//
-// type StatusStatGroup = {
-//   count: number;
-//   name: string;
-// };
+const createGroupedResults = (list: CreateOrderWorkUnit[]) => {
+  const statuses = list.map((e: CreateOrderWorkUnit) => {
+    return {
+      status: e.status.type,
+    };
+  });
 
-// const createGroupedResults = (list: CreateOrderWorkUnit[], groups: any) => {
-//   list.map((elem) => {
-//     return groups.map((group: StatusStatGroup) => {
-//       return switchCase({
-//         [Status.ERROR]: (group.count += 1),
-//         [Status.SUCCESS]: (group.count += 1),
-//       })(0)(elem.status.type);
-//     });
-//   });
-//
-//   return groups;
-// };
+  return _.countBy(statuses, 'status');
+};
 
 const tableShape: ColumnDescriptor<any>[] = [
   {
@@ -79,25 +60,22 @@ const tableShape: ColumnDescriptor<any>[] = [
 const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
   if (!list || list?.length < 0) return null;
 
-  // const groups = createGroups(Status);
-  // console.log(groups);
-  // const groupedResults = createGroupedResults(list, groups);
-  // console.log(groupedResults);
+  const groupedResults = createGroupedResults(list);
   const stacks = [
     {
       color: '#E15554',
       label: 'Error',
-      value: 10,
+      value: groupedResults[Status[Status.ERROR]],
     },
     {
       color: '#E9ECF0',
       label: 'Processing',
-      value: 20,
+      value: groupedResults[Status[Status.PENDING]],
     },
     {
       color: '#3BB273',
       label: 'Success',
-      value: 5,
+      value: groupedResults[Status[Status.SUCCESS]],
     },
   ];
 
@@ -138,9 +116,12 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
 
       <Spacing bottom="2rem">
         <ContainerCard title="Grouped results">
-          <Flex>
-            <GroupedProgressBar barStacks={stacks} />
-          </Flex>
+          <Spacing bottom="1rem">
+            <Flex>
+              <GroupedProgressBar barStacks={stacks} />
+            </Flex>
+          </Spacing>
+          <Flex>Total: {list?.length}</Flex>
         </ContainerCard>
       </Spacing>
 
