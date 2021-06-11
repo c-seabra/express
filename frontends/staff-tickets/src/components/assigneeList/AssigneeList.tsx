@@ -1,6 +1,7 @@
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import DownloadCSVButton from '@websummit/components/src/molecules/DownloadCSVButton';
+import GroupedProgressBar from '@websummit/components/src/molecules/GroupedProgressBar';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
@@ -82,6 +83,23 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
   // console.log(groups);
   // const groupedResults = createGroupedResults(list, groups);
   // console.log(groupedResults);
+  const stacks = [
+    {
+      color: '#E15554',
+      label: 'Error',
+      value: 10,
+    },
+    {
+      color: '#E9ECF0',
+      label: 'Processing',
+      value: 20,
+    },
+    {
+      color: '#3BB273',
+      label: 'Success',
+      value: 5,
+    },
+  ];
 
   return (
     <>
@@ -118,13 +136,13 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
         )}
       </Spacing>
 
-      {/* <Spacing bottom="2rem"> */}
-      {/*  <ContainerCard title="Results stats"> */}
-      {/*    {groupedResults.map((elem: any) => { */}
-      {/*      return <Flex>elem</Flex>; */}
-      {/*    })} */}
-      {/*  </ContainerCard> */}
-      {/* </Spacing> */}
+      <Spacing bottom="2rem">
+        <ContainerCard title="Grouped results">
+          <Flex>
+            <GroupedProgressBar barStacks={stacks} />
+          </Flex>
+        </ContainerCard>
+      </Spacing>
 
       <Spacing bottom="2rem">
         <ContainerCard noPadding title="Results">
