@@ -12,6 +12,7 @@ import Calendar from '../calendar/Calendar';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
+  padding: 8px;
   display: grid;
   margin: 0 auto;
   font-size: 16px;
