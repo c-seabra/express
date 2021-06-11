@@ -125,7 +125,7 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
               <GroupedProgressBar barStacks={stacks} />
             </Flex>
           </Spacing>
-          <Flex>Total: {list?.length}</Flex>
+          <Flex>Total: {groupedResults.SUCCESS || 0}/{list?.length}</Flex>
         </ContainerCard>
       </Spacing>
 
