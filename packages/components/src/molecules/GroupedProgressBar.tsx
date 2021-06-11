@@ -67,7 +67,7 @@ const GroupedProgressBar = ({
           color={item.color || stringToColor(item.label)}
           value={item.value}
         >
-          <Tooltip content={item.label}>
+          <Tooltip content={`${item.label} - ${item.value}`}>
             <TooltipContainer />
           </Tooltip>
         </BarStack>
