@@ -86,8 +86,8 @@ const AttendanceSearch = (): ReactElement => {
       <StyledSearch>
         <StyledSearchInput
           defaultValue={searchQuery}
-          placeholder="Search by Attendance name."
-          type="text"
+          placeholder='Search by Attendance name.'
+          type='text'
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
