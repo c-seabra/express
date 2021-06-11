@@ -6,6 +6,7 @@ import SearchIcon from '../svgs/SearchIcon';
 export const StyledLabel = styled.label`
   display: flex;
   flex-direction: column;
+
   select,
   input {
     height: 2rem;
@@ -14,6 +15,7 @@ export const StyledLabel = styled.label`
 `;
 
 export const Search = styled(StyledLabel)`
+
   width: 30%;
   position: relative;
 
@@ -25,28 +27,33 @@ export const Search = styled(StyledLabel)`
     top: 0.5rem;
     opacity: 50%;
   }
+
   input {
-    padding-left: 2rem;
     border: 1px solid #dcdfe5;
     border-radius: 4px;
     font-weight: 300;
+    font-family: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+    height: auto;
+    max-width: 100%;
+    padding: 0.75rem 0.375em 0.8rem 3.5rem;
+    margin: 0;
   }
 `;
 
-type SearchInputProps = DetailedHTMLProps<
-  InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
-> & { className?: string };
+type SearchInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement> & { className?: string };
 
 const SearchInput = ({
-  className,
-  defaultValue,
-  placeholder,
-  value,
-  onChange,
-  onKeyDown,
-  ...props
-}: SearchInputProps) => {
+                       className,
+                       defaultValue,
+                       placeholder,
+                       value,
+                       onChange,
+                       onKeyDown,
+                       ...props
+                     }: SearchInputProps) => {
   return (
     <Search className={className}>
       <SearchIcon />
