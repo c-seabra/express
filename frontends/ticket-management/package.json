@@ -11,7 +11,7 @@
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
     "start": "webpack serve --port 9007",
     "start:standalone": "webpack serve --env standalone",
-    "test": "jest --no-cache",
+    "test": "jest --passWithNoTests --verbose",
     "test:watch": "jest --watch --verbose --no-cache"
   },
   "devDependencies": {},
