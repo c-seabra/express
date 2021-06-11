@@ -4,9 +4,9 @@ import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance, Color } from '../../lib/types/index';
 import AppContext from '../app/AppContext';
+import Close from '../svgs/Close';
 import {
   ListItem,
-  RemoveButton,
   ResultsContainer,
   SearchContainer,
   StyledDisplay,
@@ -113,7 +113,7 @@ const AttendanceSearch = (): ReactElement => {
               border: `1px solid ${hex(selection?.id)}`,
             }}
           >
-            <RemoveButton onClick={() => handleRemove(selection)} />
+            <Close style={{ height: '2rem' }} onClick={() => handleRemove(selection)} />
             {selection.name} <span>({selection.bookingRef})</span>
           </ListItem>
         ))}
