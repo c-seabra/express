@@ -20,11 +20,11 @@ export const Search = styled(StyledLabel)`
   position: relative;
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: auto;
+    height: 60%;
     position: absolute;
-    left: 0.5rem;
-    top: 0.5rem;
+    left: 1rem;
+    top: 25%;
     opacity: 50%;
   }
 
