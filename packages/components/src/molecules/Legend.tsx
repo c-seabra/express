@@ -1,7 +1,7 @@
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { nanoid } from 'nanoid';
 import React from 'react';
 import styled from 'styled-components';
-import { nanoid } from 'nanoid'
 
 type Position = 'Vertical' | 'Horizontal';
 type LegendProps = {
@@ -28,7 +28,6 @@ const BoxNode = styled.div<{ position?: Position }>`
   flex-direction: ${(props) =>
     props.position === 'Vertical' ? 'column' : 'row'};
   align-items: center;
-  // margin-right: ${(props) => (props.position === 'Vertical' ? '2rem' : '0')};
 `;
 
 const LabelBox = styled(Spacing)<{ color?: string }>`
@@ -50,7 +49,7 @@ const StyledMessage = styled.div`
 const Legend = ({ position = 'Horizontal', labels }: LegendProps) => {
   return (
     <BoxNode position={position}>
-      {labels.map((label, index) => (
+      {labels.map((label) => (
         <StyledList key={nanoid()}>
           <LabelBox color={label.color} />
           <StyledMessage>{label.label}</StyledMessage>
