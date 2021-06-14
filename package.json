@@ -124,6 +124,8 @@
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "7.2.0",
     "eslint-config-react-important-stuff": "2.0.0",
+    "eslint-config-standard": "14.1.0",
+    "eslint-config-standard-react": "9.2.0",
     "eslint-config-ts-important-stuff": "1.1.0",
     "eslint-config-ts-react-important-stuff": "3.0.0",
     "eslint-import-resolver-typescript": "2.4.0",
@@ -138,8 +140,6 @@
     "eslint-plugin-simple-import-sort": "5.0.3",
     "eslint-plugin-sort-keys-fix": "1.1.1",
     "eslint-plugin-typescript-sort-keys": "1.5.0",
-    "eslint-config-standard": "14.1.0",
-    "eslint-config-standard-react": "9.2.0",
     "global": "4.4.0",
     "graphql": "15.5.0",
     "graphql-tag": "2.11.0",
@@ -224,6 +224,7 @@
     "@types/lodash.get": "4.4.6",
     "lint-staged": "10.5.4",
     "lodash.get": "4.4.2",
+    "nanoid": "^3.1.23",
     "react-csv": "^2.0.3"
   }
 }

@@ -1,6 +1,7 @@
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
+import { nanoid } from 'nanoid'
 
 type Position = 'Vertical' | 'Horizontal';
 type LegendProps = {
@@ -49,8 +50,8 @@ const StyledMessage = styled.div`
 const Legend = ({ position = 'Horizontal', labels }: LegendProps) => {
   return (
     <BoxNode position={position}>
-      {labels.map((label) => (
-        <StyledList key={label.label}>
+      {labels.map((label, index) => (
+        <StyledList key={nanoid()}>
           <LabelBox color={label.color} />
           <StyledMessage>{label.label}</StyledMessage>
         </StyledList>

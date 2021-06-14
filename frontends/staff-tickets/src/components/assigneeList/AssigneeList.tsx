@@ -37,7 +37,7 @@ const createGroupedResults = (list: CreateOrderWorkUnit[]) => {
   return _.countBy(statuses, 'status');
 };
 
-const tableShape: ColumnDescriptor<any>[] = [
+const tableShape: ColumnDescriptor<CreateOrderWorkUnit>[] = [
   {
     header: 'Booking Ref',
     renderCell: (order) =>
@@ -84,7 +84,7 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
     },
     {
       color: '#a8a8a8',
-      label: 'Processing',
+      label: 'Queued',
       value: groupedResults.QUEUED,
     },
   ];
