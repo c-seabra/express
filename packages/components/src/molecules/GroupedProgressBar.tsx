@@ -28,6 +28,7 @@ const BarStack = styled.div<{ color?: string; value?: number }>`
 
   background-color: ${(props) => props.color};
   flex-grow: ${(props) => props.value || 0};
+  transition: all ease-in-out 5s;
 
   &:first-child {
     border-top-left-radius: 4px;
