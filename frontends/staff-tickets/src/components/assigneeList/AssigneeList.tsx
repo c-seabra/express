@@ -1,7 +1,9 @@
+import Badge from '@websummit/components/src/atoms/Badge';
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import DownloadCSVButton from '@websummit/components/src/molecules/DownloadCSVButton';
 import GroupedProgressBar from '@websummit/components/src/molecules/GroupedProgressBar';
+import Legend from '@websummit/components/src/molecules/Legend';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
@@ -10,12 +12,15 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 
-import Badge from '../../../../../packages/components/src/atoms/Badge';
 import { CreateOrderWorkUnit } from '../../lib/extract/createOrder';
 import UploadStatus from '../statusIcon/StatusIcon';
 
 const Flex = styled.div`
   display: flex;
+`;
+
+const FlexCentered = styled(Flex)`
+  justify-content: center;
 `;
 
 const FlexEnd = styled(Flex)`
@@ -84,6 +89,11 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
     },
   ];
 
+  const labels = stacks.map((elem) => ({
+    ...elem,
+    label: `${elem.label} (${elem.value || 0})`,
+  }));
+
   return (
     <>
       <Spacing bottom="2rem">
@@ -132,9 +142,15 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
             </Spacing>
           </FlexEnd>
           <Spacing bottom="1rem">
-            <Flex>
-              <GroupedProgressBar barStacks={stacks} />
-            </Flex>
+            <Spacing bottom="1rem">
+              <Flex>
+                <GroupedProgressBar barStacks={stacks} />
+              </Flex>
+            </Spacing>
+
+            <FlexCentered>
+              <Legend labels={labels} position="Horizontal" />
+            </FlexCentered>
           </Spacing>
         </ContainerCard>
       </Spacing>
