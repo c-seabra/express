@@ -3,7 +3,10 @@ import { GraphQLParams } from '@websummit/graphql';
 import {
   CommerceCreateOrderDocument,
   CommerceCreateOrderMutation,
+  CommerceCreateOrderMutationVariables,
   CommerceOrderStatus,
+  UpdateCommerceOrderDocument,
+  UpdateCommerceOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
 
 import { Staff } from '../../components/app/App';
@@ -19,6 +22,7 @@ export type CreateOrderWorkUnit = {
   firstName: string;
   lastName: string;
   notify: boolean;
+  paymentMethodId?: string;
   reference?: string;
   singleTicket?: {
     bookingRef?: string;
@@ -56,6 +60,7 @@ export function defaultStatus(): StatusType {
 export type WorkUnitContext = {
   guestProductId?: string;
   notify?: boolean;
+  paymentMethodId?: string;
   quantity?: number;
   staffProductId?: string;
 };
@@ -69,6 +74,7 @@ export function transformStaffIntoWorkUnit(
     firstName: staff.firstName,
     lastName: staff.lastName,
     notify: !!context.notify,
+    paymentMethodId: context.paymentMethodId,
     status: defaultStatus(),
   };
   if (context.staffProductId) {
@@ -135,7 +141,7 @@ export async function processCreateOrderWorkUnit(
     return workUnit;
   }
 
-  const variables = {
+  const variables: CommerceCreateOrderMutationVariables = {
     commerceOrderCreate: {
       customer: {
         email: workUnit.email,
@@ -144,6 +150,7 @@ export async function processCreateOrderWorkUnit(
       },
       items: productsList,
       metadata: {},
+      paymentMethod: workUnit.paymentMethodId,
       status: CommerceOrderStatus.Complete,
     },
   };
@@ -172,11 +179,61 @@ export async function processCreateOrderWorkUnit(
     return workUnit;
   }
 
+  const order = result.data?.commerceCreateOrder;
+  if (!order) {
+    workUnit.status = {
+      message: `There were errors when creating the Order: 
+      It seems like you do not have the permissions needed to perform this action.
+      If you think this is an error, contact the Ticket Machine Team!`,
+      type: 'ERROR',
+    };
+    return workUnit;
+  }
+  if (order.status !== CommerceOrderStatus.Complete) {
+    const updateResult:
+      | FetchResult<UpdateCommerceOrderMutation>
+      | undefined = await context.apolloClient?.mutate({
+      context: {
+        slug: context.slug,
+        token: context.token,
+      },
+      mutation: UpdateCommerceOrderDocument as TypedDocumentNode<UpdateCommerceOrderMutation>,
+      variables: {
+        commerceOrderUpdate: {
+          status: CommerceOrderStatus.Complete,
+        },
+        id: result?.data?.commerceCreateOrder?.id,
+      },
+    });
+
+    if (!updateResult || updateResult.errors) {
+      workUnit.status = {
+        message: `There were errors when creating the Order: ${updateResult?.errors}`,
+        type: 'ERROR',
+      };
+      return workUnit;
+    }
+
+    if (
+      updateResult.data?.commerceUpdateOrder?.status !==
+      CommerceOrderStatus.Complete
+    ) {
+      workUnit.status = {
+        message: `There were errors when creating the Order: 
+      It seems like you do not have the permissions needed to perform this action.
+      If you think this is an error, contact the Ticket Machine Team!
+      Status: ${updateResult.data?.commerceUpdateOrder?.status}`,
+        type: 'ERROR',
+      };
+      return workUnit;
+    }
+  }
+
   workUnit.status = {
-    message: `Created an order with reference: ${result.data?.commerceCreateOrder?.reference}`,
+    message: `Created an order with reference: ${order.reference}`,
     type: 'SUCCESS',
   };
-  workUnit.reference = result.data?.commerceCreateOrder?.reference || '';
+  workUnit.reference = order.reference || '';
   if (workUnit.singleTicket?.bookingRef) {
     workUnit.reference = `${workUnit.reference} (${workUnit.singleTicket?.bookingRef})`;
   }

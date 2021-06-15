@@ -37,7 +37,8 @@
     "start:omnia-container": "lerna run start --scope @websummit-micro/omnia-container",
     "start:omnia": "concurrently -n \"s3,webpack\" -k \"yarn run start:serve\" \"yarn run start:omnia-container\"",
     "start:serve": "yarn run build:standalone && yarn serve --cors -s builds -l 9337",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "test:watch": "lerna run test:watch --stream"
   },
   "husky": {
     "hooks": {
@@ -76,7 +77,8 @@
     "@nighttrax/eslint-config-tsx": "7.0.0",
     "@testing-library/jest-dom": "5.11.10",
     "@testing-library/react": "11.2.5",
-    "@types/jest": "26.0.22",
+    "@testing-library/react-hooks": "^5.0.3",
+    "@types/jest": "^26.0.23",
     "@types/jwt-decode": "2.2.1",
     "@types/luxon": "1.26.2",
     "@types/next": "9.0.0",
@@ -124,6 +126,8 @@
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "7.2.0",
     "eslint-config-react-important-stuff": "2.0.0",
+    "eslint-config-standard": "14.1.0",
+    "eslint-config-standard-react": "9.2.0",
     "eslint-config-ts-important-stuff": "1.1.0",
     "eslint-config-ts-react-important-stuff": "3.0.0",
     "eslint-import-resolver-typescript": "2.4.0",
@@ -138,8 +142,6 @@
     "eslint-plugin-simple-import-sort": "5.0.3",
     "eslint-plugin-sort-keys-fix": "1.1.1",
     "eslint-plugin-typescript-sort-keys": "1.5.0",
-    "eslint-config-standard": "14.1.0",
-    "eslint-config-standard-react": "9.2.0",
     "global": "4.4.0",
     "graphql": "15.5.0",
     "graphql-tag": "2.11.0",
@@ -180,6 +182,7 @@
     "styled-components": "5.2.2",
     "systemjs-webpack-interop": "2.3.6",
     "ts-config-single-spa": "2.0.1",
+    "ts-jest": "^26.0.0",
     "ts-loader": "8.1.0",
     "tsconfig-paths-webpack-plugin": "3.5.1",
     "typescript": "4.2.3",
@@ -224,6 +227,7 @@
     "@types/lodash.get": "4.4.6",
     "lint-staged": "10.5.4",
     "lodash.get": "4.4.2",
+    "nanoid": "^3.1.23",
     "react-csv": "^2.0.3"
   }
 }
