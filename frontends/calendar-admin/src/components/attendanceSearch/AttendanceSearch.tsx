@@ -1,8 +1,14 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
-import React, { ReactElement, useContext, useEffect, useState } from 'react';
+import React, {
+  ReactElement,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
-import { Attendance, Color } from '../../lib/types/index';
+import { Attendance, Color } from '../../lib/types';
 import AppContext from '../app/AppContext';
 import Close from '../svgs/Close';
 import {
@@ -38,14 +44,6 @@ const AttendanceSearch = (): ReactElement => {
     searchQuery,
   });
 
-  const handleSearch = (query: string) => {
-    setDisplay(query.length > 2);
-    setSearchState((prevState) => ({
-      ...prevState,
-      searchQuery: query,
-    }));
-  };
-
   const handleSelect = (att: Attendance) => {
     if (!selections.find((e) => e.id === att.id)) {
       const color = {
@@ -76,17 +74,32 @@ const AttendanceSearch = (): ReactElement => {
     return paints?.find((e) => e.id === id)?.colorHash as string;
   };
 
+  const isFirstRun = useRef(true);
+
   useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+
+    const handleSearch = (query: string) => {
+      setDisplay(query.length > 2);
+      setSearchState((prevState) => ({
+        ...prevState,
+        searchQuery: query,
+      }));
+    };
+
     handleSearch(searchQuery);
-  }, [searchQuery]);
+  }, [setSearchState, searchQuery]);
 
   return (
     <SearchContainer>
       <StyledSearch>
         <StyledSearchInput
           defaultValue={searchQuery}
-          placeholder='Search by Attendance name.'
-          type='text'
+          placeholder="Search by Attendance name."
+          type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -113,7 +126,9 @@ const AttendanceSearch = (): ReactElement => {
             }}
           >
             <Close onClick={() => handleRemove(selection)} />
-            <span>{selection.name} <i>({selection.bookingRef})</i></span>
+            <span>
+              {selection.name} <i>({selection.bookingRef})</i>
+            </span>
           </ListItem>
         ))}
       </StyledDisplay>
