@@ -127,6 +127,9 @@ function BulkOperation<Element, Context>({
     if (input.length === 0) {
       return;
     }
+
+    window.onbeforeunload = () => 'Are you sure you want to leave?';
+
     // kick off the work
     workingMemory.current.started = true;
     workingMemory.current.updated = true;
@@ -139,6 +142,7 @@ function BulkOperation<Element, Context>({
       // eslint-disable-next-line promise/always-return
       () => {
         console.log('All Operations completed!');
+        window.onbeforeunload = null;
       },
       (reason) => {
         console.error(
