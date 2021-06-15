@@ -91,6 +91,8 @@ type ModalProps = {
   closeModal: () => void;
   fileName: string;
   fileUploadId: string;
+  fileUploadTemplate?: React.ReactElement;
+  fileUploadText?: string;
   isFileError: boolean;
   isOpen: boolean;
   loadingProgress?: number;
@@ -107,6 +109,8 @@ const FileInputModal = ({
   isFileError,
   onUpload,
   fileUploadId,
+  fileUploadText,
+  fileUploadTemplate,
   fileName,
   loadingProgress,
   acceptedFileTypes,
@@ -143,22 +147,19 @@ const FileInputModal = ({
               </Spacing>
 
               <Spacing bottom="5rem">
-                <Flex>
-                  <SubText>
-                    Uploading requires a comma-separated values (CSV) file
-                  </SubText>
-                </Flex>
+                {fileUploadText && (
+                  <Flex>
+                    <SubText>{fileUploadText}</SubText>
+                  </Flex>
+                )}
 
-                <FlexCenter>
-                  <SubText>
-                    <FlexAlign>
-                      <IconWrapper size="16px">
-                        <Icon>download</Icon>
-                      </IconWrapper>
-                      <span>Download template</span>
-                    </FlexAlign>
-                  </SubText>
-                </FlexCenter>
+                {fileUploadTemplate && (
+                  <FlexCenter>
+                    <SubText>
+                      <FlexAlign>{fileUploadTemplate}</FlexAlign>
+                    </SubText>
+                  </FlexCenter>
+                )}
               </Spacing>
             </FlexColCentered>
           </ColumnWrapper>
