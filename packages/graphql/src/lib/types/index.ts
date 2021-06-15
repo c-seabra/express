@@ -15,3 +15,8 @@ export type CommerceListQueryHitsResult<
 > = NonNullable<extractTypeFromMaybe<Query[T]>> extends { hits: any }
   ? NonNullable<extractTypeFromMaybe<Query[T]>>['hits']
   : never;
+
+export type CommerceGetQueryResult<Query, T extends keyof Query> = NonNullable<
+  // Name of the query here e.g. commerceGetStore
+  extractTypeFromMaybe<Query[T]>
+>;
