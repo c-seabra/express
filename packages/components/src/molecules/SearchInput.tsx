@@ -14,7 +14,6 @@ export const StyledLabel = styled.label`
 `;
 
 export const Search = styled(StyledLabel)`
-
   width: 30%;
   position: relative;
 
@@ -41,18 +40,20 @@ export const Search = styled(StyledLabel)`
   }
 `;
 
-type SearchInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement> & { className?: string };
+type SearchInputProps = DetailedHTMLProps<
+  InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+> & { className?: string };
 
 const SearchInput = ({
-                       className,
-                       defaultValue,
-                       placeholder,
-                       value,
-                       onChange,
-                       onKeyDown,
-                       ...props
-                     }: SearchInputProps) => {
+  className,
+  defaultValue,
+  placeholder,
+  value,
+  onChange,
+  onKeyDown,
+  ...props
+}: SearchInputProps) => {
   return (
     <Search className={className}>
       <SearchIcon />
