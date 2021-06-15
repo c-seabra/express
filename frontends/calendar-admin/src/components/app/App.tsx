@@ -18,7 +18,7 @@ const StyledContainer = styled.section`
   display: grid;
   margin: 0 auto;
   background-color: #f2f3f6;
-  font: 300 16px 'Inter', 'Lato', Helvetica, Arial, sans-serif;;
+  font: 300 16px 'Inter', 'Lato', Helvetica, Arial, sans-serif;
 
   h1 {
     font-size: 2rem;
