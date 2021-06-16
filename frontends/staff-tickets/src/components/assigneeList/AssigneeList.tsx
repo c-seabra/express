@@ -114,10 +114,10 @@ const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
                 buttonText="Download .csv file"
                 data={list.map((elem: any) => {
                   return {
-                    'Booking ref':
-                      elem.reference || elem.singleTicket?.bookingRef || 'N/A',
                     'First name': elem.firstName || 'N/A',
                     'Last name': elem.lastName || 'N/A',
+                    Reference:
+                      elem.reference || elem.singleTicket?.bookingRef || 'N/A',
                     // eslint-disable-next-line
                     'Email used': elem.email || 'N/A',
                     'Ticket Status': elem.status?.message || 'N/A',
