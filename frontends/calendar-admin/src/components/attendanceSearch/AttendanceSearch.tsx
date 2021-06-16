@@ -1,11 +1,5 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
-import React, {
-  ReactElement,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { ReactElement, useContext, useEffect, useRef, useState } from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance, Color } from '../../lib/types';
@@ -16,7 +10,6 @@ import {
   ResultsContainer,
   SearchContainer,
   StyledDisplay,
-  StyledSearch,
   StyledSearchInput,
 } from './AttendanceSearch.styled';
 
@@ -95,7 +88,6 @@ const AttendanceSearch = (): ReactElement => {
 
   return (
     <SearchContainer>
-      <StyledSearch>
         <StyledSearchInput
           defaultValue={searchQuery}
           placeholder="Search by Attendance name."
@@ -116,7 +108,6 @@ const AttendanceSearch = (): ReactElement => {
             ))}
           </ResultsContainer>
         )}
-      </StyledSearch>
       <StyledDisplay>
         {selections.map((selection) => (
           <ListItem
