@@ -88,26 +88,26 @@ const AttendanceSearch = (): ReactElement => {
 
   return (
     <SearchContainer>
-        <StyledSearchInput
-          defaultValue={searchQuery}
-          placeholder="Search by Attendance name."
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        {display && !loading && !error && (
-          <ResultsContainer>
-            {results?.map((attendance, i) => (
-              <div key={i}>
-                {!selections.find((e) => e.id === attendance.id) && (
-                  <ListItem key={i} onClick={() => handleSelect(attendance)}>
-                    {attendance.name} - {attendance.bookingRef}
-                  </ListItem>
-                )}
-              </div>
-            ))}
-          </ResultsContainer>
-        )}
+      <StyledSearchInput
+        defaultValue={searchQuery}
+        placeholder="Search by Attendance name."
+        type="text"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      {display && !loading && !error && (
+        <ResultsContainer>
+          {results?.map((attendance, i) => (
+            <div key={i}>
+              {!selections.find((e) => e.id === attendance.id) && (
+                <ListItem key={i} onClick={() => handleSelect(attendance)}>
+                  {attendance.name} - {attendance.bookingRef}
+                </ListItem>
+              )}
+            </div>
+          ))}
+        </ResultsContainer>
+      )}
       <StyledDisplay>
         {selections.map((selection) => (
           <ListItem
