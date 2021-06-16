@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import UploadStatus from '../statusIcon/StatusIcon';
+import UploadStatus from '../organisms/StatusIcon';
 
 const BookingRef = styled.div`
   width: calc(15% - 1rem);
