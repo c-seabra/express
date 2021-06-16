@@ -6,8 +6,8 @@ import React, { createContext, useEffect, useState } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
 
-import TicketsBulkAssignPage from '../pages/TicketsBulkAssignPage';
 import { StatusType } from '../assigneeItem/AssigneeItem';
+import TicketsBulkAssignPage from '../pages/TicketsBulkAssignPage';
 
 const StyledContainer = styled.section`
   margin: 0 auto;
