@@ -1,4 +1,5 @@
 import { Button } from '@websummit/components/src/atoms/Button';
+import Icon, { IconWrapper } from '@websummit/components/src/atoms/Icon';
 import Breadcrumbs, {
   Breadcrumb,
 } from '@websummit/components/src/molecules/Breadcrumbs';
@@ -14,12 +15,10 @@ import { shortenString } from '@websummit/components/src/utils/text';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Icon, { IconWrapper } from '@websummit/components/src/atoms/Icon';
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import useEventDataQuery from '../../../../ticket-support/src/lib/hooks/useEventDataQuery';
-import { Assignee, AssigneesList } from '../app/App';
+import { AssigneesList } from '../app/App';
 import AssigneeList from '../assigneeList/AssigneeList';
-// import AssigneeItemsList from '../organisms/AssigneeItemsList';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -167,7 +166,7 @@ const TicketsBulkAssignPage = () => {
 
     if (window.FileReader) {
       const file = files?.[0];
-      console.log('file', file);
+
       if (file) {
         const reader = new FileReader();
         reader.readAsText(file);
@@ -242,52 +241,46 @@ const TicketsBulkAssignPage = () => {
           </Spacing>
         </Spacing>
 
-        <ContainerCard title="Upload file for bulk creation of tickets">
-          <FlexCenteredVertically>
-            <span>Upload a file in .csv format&nbsp;</span>
-            <Button onClick={openModal}>Upload file</Button>
-          </FlexCenteredVertically>
+        <Spacing bottom="2rem">
+          <ContainerCard title="Upload file for bulk assignment of tickets">
+            <FlexCenteredVertically>
+              <span>Upload a file in .csv format&nbsp;</span>
+              <Button onClick={openModal}>Upload file</Button>
+            </FlexCenteredVertically>
 
-          <FileInputModal
-            acceptedFileTypes=".csv"
-            closeModal={closeModal}
-            fileName={fileName}
-            fileUploadId={fileUploadId}
-            fileUploadTemplate={
-              <DownloadCSVButton
-                buttonText="Download .csv template"
-                customTemplate={
-                  <StyledDownload>
-                    <IconWrapper size="16px">
-                      <Icon>download</Icon>
-                    </IconWrapper>
-                    <span>Download template</span>
-                  </StyledDownload>
-                }
-                data={csvTemplateFile}
-                filename="ticket-assignment-template"
-              />
-            }
-            fileUploadText="Uploading requires a comma-separated values (CSV) file"
-            isFileError={formError}
-            isOpen={isOpen}
-            loadingProgress={progressPercentage}
-            submitCallback={onSubmit}
-            onUpload={_onUpload}
-          />
-        </ContainerCard>
+            <FileInputModal
+              acceptedFileTypes=".csv"
+              closeModal={closeModal}
+              fileName={fileName}
+              fileUploadId={fileUploadId}
+              fileUploadTemplate={
+                <DownloadCSVButton
+                  buttonText="Download .csv template"
+                  customTemplate={
+                    <StyledDownload>
+                      <IconWrapper size="16px">
+                        <Icon>download</Icon>
+                      </IconWrapper>
+                      <span>Download template</span>
+                    </StyledDownload>
+                  }
+                  data={csvTemplateFile}
+                  filename="ticket-assignment-template"
+                />
+              }
+              fileUploadText="Uploading requires a comma-separated values (CSV) file"
+              isFileError={formError}
+              isOpen={isOpen}
+              loadingProgress={progressPercentage}
+              submitCallback={onSubmit}
+              onUpload={_onUpload}
+            />
+          </ContainerCard>
+        </Spacing>
 
         {assigneesList && assigneesList?.length > 0 && (
           <ContainerCard title="Results">
-            {/* Assignee is triggered but more or less as a service to all data are displayed in new Table comp */}
-            <AssigneeList
-              list={assigneesList}
-              // setDisplayList={setDisplayList}
-            />
-
-            <Spacing bottom="2rem">
-              {/* <AssigneeItemsList items={displayList} /> */}
-            </Spacing>
+            <AssigneeList list={assigneesList} />
           </ContainerCard>
         )}
       </>

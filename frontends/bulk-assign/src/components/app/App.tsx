@@ -6,10 +6,8 @@ import React, { createContext, useEffect, useState } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
 
-import AssigneeList from '../assigneeList/AssigneeList';
-import Form from '../form/Form';
-import { StatusType } from '../organisms/StatusIcon';
 import TicketsBulkAssignPage from '../pages/TicketsBulkAssignPage';
+import { StatusType } from '../assigneeItem/AssigneeItem';
 
 const StyledContainer = styled.section`
   margin: 0 auto;
@@ -57,7 +55,7 @@ const App = ({ token, apiURL = '' }: BulkAssignContext) => {
           <AppContext.Provider
             value={{
               apiURL,
-              conferenceSlug,
+              slug: conferenceSlug,
               token,
             }}
           >
@@ -66,7 +64,7 @@ const App = ({ token, apiURL = '' }: BulkAssignContext) => {
             </StyledContainer>
           </AppContext.Provider>
         </Router>
-      </SnackbarProvider>{' '}
+      </SnackbarProvider>
     </ApolloProvider>
   );
 };
