@@ -1,5 +1,5 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
-import React, { ReactElement, useContext, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance, Color } from '../../lib/types';
@@ -69,22 +69,25 @@ const AttendanceSearch = (): ReactElement => {
 
   const isFirstRun = useRef(true);
 
+  const handleSearch = useCallback(
+    (query: string) => {
+      setDisplay(query.length > 2);
+      setSearchState((prevState) => ({
+        ...prevState,
+        searchQuery: query,
+      }));
+    },
+    [setSearchState],
+  );
+
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
       return;
     }
 
-    const handleSearch = (query: string) => {
-      setDisplay(query.length > 2);
-      setSearchState((prevState) => ({
-        ...prevState,
-        searchQuery: query,
-      }));
-    };
-
     handleSearch(searchQuery);
-  }, [setSearchState, searchQuery]);
+  }, [setSearchState, handleSearch, searchQuery]);
 
   return (
     <SearchContainer>
