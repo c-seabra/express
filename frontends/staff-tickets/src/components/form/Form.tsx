@@ -179,7 +179,10 @@ const Form: React.FC = () => {
   }
 
   const products = data?.commerceListProducts?.hits;
-  const paymentMethods = data2?.commerceListPaymentMethods?.hits;
+  const paymentMethods = data2?.commerceListPaymentMethods?.hits?.filter(
+    (paymentMethod) =>
+      paymentMethod.gateway === 'f163017a-cc4f-4619-9e72-26c5ac9ea5e7',
+  );
 
   const firstOption = products?.[0];
   const firstOptionId = firstOption?.id || 'no id';
