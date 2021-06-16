@@ -1,30 +1,32 @@
 import { ApolloProvider } from '@apollo/client';
+import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
+import { HashRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AssigneeList from '../assigneeList/AssigneeList';
 import Form from '../form/Form';
+import { StatusType } from '../organisms/StatusIcon';
+import TicketsBulkAssignPage from '../pages/TicketsBulkAssignPage';
 
-const StlyedContainer = styled.section`
-  padding: 1rem;
-  max-width: 1024px;
-  width: 100%;
+const StyledContainer = styled.section`
   margin: 0 auto;
   font-size: 16px;
+  background-color: #f2f3f6;
 `;
-const StyledSection = styled.section`
-  padding: 1rem;
-`;
+
 export type AssigneesList = Array<Assignee>;
 export type SetAssigneesList = (assignees: AssigneesList) => void;
 export type Assignee = {
   autoClaim?: string;
   bookingRef: string;
+  claimStatus?: StatusType;
   email: string;
   firstName: string;
   lastName: string;
+  status?: StatusType;
   ticketId: string;
 };
 
@@ -40,38 +42,31 @@ const App = ({ token, apiURL = '' }: BulkAssignContext) => {
     ? jwt(token)
     : { conf_slug: '', email: '' };
 
-  const [assigneesList, setAssigneesList] = useState<AssigneesList>();
-  const [slug, setSlug] = useState<string>();
+  const [conferenceSlug, setConferenceSlug] = useState<string>();
 
   useEffect(() => {
-    setSlug(tokenPayload.conf_slug);
+    setConferenceSlug(tokenPayload.conf_slug);
   }, [tokenPayload.conf_slug]);
 
   const apolloClient = initApollo({ apiURL });
 
   return (
     <ApolloProvider client={apolloClient}>
-      <AppContext.Provider
-        value={{
-          apiURL,
-          assigneesList,
-          setAssigneesList,
-          slug,
-          token,
-        }}
-      >
-        <StlyedContainer>
-          <StyledSection>
-            <h2>Ticket Assignment - Bulk upload ticket details</h2>
-            <Form />
-          </StyledSection>
-          <StyledSection>
-            {assigneesList && assigneesList?.length > 0 && (
-              <AssigneeList list={assigneesList} />
-            )}
-          </StyledSection>
-        </StlyedContainer>
-      </AppContext.Provider>
+      <SnackbarProvider>
+        <Router>
+          <AppContext.Provider
+            value={{
+              apiURL,
+              conferenceSlug,
+              token,
+            }}
+          >
+            <StyledContainer>
+              <TicketsBulkAssignPage />
+            </StyledContainer>
+          </AppContext.Provider>
+        </Router>
+      </SnackbarProvider>{' '}
     </ApolloProvider>
   );
 };
