@@ -14,6 +14,7 @@ import { shortenString } from '@websummit/components/src/utils/text';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import Icon, { IconWrapper } from '@websummit/components/src/atoms/Icon';
 import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import useEventDataQuery from '../../../../ticket-support/src/lib/hooks/useEventDataQuery';
 import { Assignee, AssigneesList } from '../app/App';
@@ -24,6 +25,23 @@ export const Container = styled.div`
   max-width: 1440px;
   margin: auto;
   padding: 1rem;
+`;
+
+const Flex = styled.div`
+  display: flex;
+`;
+
+const StyledDownload = styled(Flex)`
+  align-items: center;
+  color: #0067e9;
+`;
+
+const FlexEnd = styled(Flex)`
+  justify-content: flex-end;
+`;
+
+const FlexCenteredVertically = styled(Flex)`
+  align-items: center;
 `;
 
 const HeaderText = styled.h1`
@@ -47,7 +65,6 @@ const SubHeader = styled.div`
   letter-spacing: 0;
   line-height: 21px;
 `;
-
 
 const BreadcrumbsContainer = styled.div`
   display: flex;
@@ -167,6 +184,27 @@ const TicketsBulkAssignPage = () => {
 
   const _onUpload = (e: any) => onUpload(e, fileUploadId);
 
+  const csvTemplateFile = [
+    {
+      'Booking ref': 'ABCD-XY',
+      'First name': 'John',
+      'Last name': 'Doe',
+      // eslint-disable-next-line
+      'Email used': 'john@example.com',
+      // eslint-disable-next-line
+      'Auto claim': 'TRUE',
+    },
+    {
+      'Booking ref': 'ABCD-YZ',
+      'First name': 'Jane',
+      'Last name': 'Doe',
+      // eslint-disable-next-line
+      'Email used': 'jane@example.com',
+      // eslint-disable-next-line
+      'Auto claim': 'FALSE',
+    },
+  ];
+
   return (
     <Container>
       <BreadcrumbsContainer>
@@ -174,8 +212,6 @@ const TicketsBulkAssignPage = () => {
       </BreadcrumbsContainer>
 
       <Spacing bottom="2rem" top="2rem">
-        {/*<HeaderText>Bulk assignment</HeaderText>*/}
-
         {displayList && displayList.length > 0 && (
           <DownloadCSVButton
             buttonText="Download .CSV file"
@@ -195,45 +231,66 @@ const TicketsBulkAssignPage = () => {
         )}
       </Spacing>
 
-      <FileInputModal
-        closeModal={closeModal}
-        fileName={fileName}
-        fileUploadId={fileUploadId}
-        isFileError={formError}
-        isOpen={isOpen}
-        loadingProgress={progressPercentage}
-        submitCallback={onSubmit}
-        onUpload={_onUpload}
-      />
-
-        <>
+      <>
+        <Spacing bottom="2rem">
           <Spacing bottom="2rem">
-                  <Spacing bottom="2rem">
-                      <Title>Ticket creation</Title>
-                      <SubHeader>
-                          Allows fast and easy way to create one or more tickets in an
-                          order. This feature is accelerating bulk creation of free
-                          tickets
-                      </SubHeader>
-                  </Spacing>
+            <Title>Ticket assignment</Title>
+            <SubHeader>
+              Allows fast and easy way to assign one or more tickets. This
+              feature is accelerating bulk operations
+            </SubHeader>
           </Spacing>
+        </Spacing>
 
-          <Button onClick={openModal}>Upload file</Button>
+        <ContainerCard title="Upload file for bulk creation of tickets">
+          <FlexCenteredVertically>
+            <span>Upload a file in .csv format&nbsp;</span>
+            <Button onClick={openModal}>Upload file</Button>
+          </FlexCenteredVertically>
 
-          {assigneesList && assigneesList?.length > 0 && (
-            <>
-              {/* Assignee is triggered but more or less as a service to all data are displayed in new Table comp */}
-              <AssigneeList
-                list={assigneesList}
-                // setDisplayList={setDisplayList}
+          <FileInputModal
+            acceptedFileTypes=".csv"
+            closeModal={closeModal}
+            fileName={fileName}
+            fileUploadId={fileUploadId}
+            fileUploadTemplate={
+              <DownloadCSVButton
+                buttonText="Download .csv template"
+                customTemplate={
+                  <StyledDownload>
+                    <IconWrapper size="16px">
+                      <Icon>download</Icon>
+                    </IconWrapper>
+                    <span>Download template</span>
+                  </StyledDownload>
+                }
+                data={csvTemplateFile}
+                filename="ticket-assignment-template"
               />
+            }
+            fileUploadText="Uploading requires a comma-separated values (CSV) file"
+            isFileError={formError}
+            isOpen={isOpen}
+            loadingProgress={progressPercentage}
+            submitCallback={onSubmit}
+            onUpload={_onUpload}
+          />
+        </ContainerCard>
 
-              <Spacing bottom="2rem">
-                {/*<AssigneeItemsList items={displayList} />*/}
-              </Spacing>
-            </>
-          )}
-        </>
+        {assigneesList && assigneesList?.length > 0 && (
+          <ContainerCard title="Results">
+            {/* Assignee is triggered but more or less as a service to all data are displayed in new Table comp */}
+            <AssigneeList
+              list={assigneesList}
+              // setDisplayList={setDisplayList}
+            />
+
+            <Spacing bottom="2rem">
+              {/* <AssigneeItemsList items={displayList} /> */}
+            </Spacing>
+          </ContainerCard>
+        )}
+      </>
     </Container>
   );
 };
