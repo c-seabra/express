@@ -17,8 +17,6 @@ export const SearchContainer = styled.div`
   }
 `;
 
-export const StyledSearch = styled.div``;
-
 export const StyledSearchInput = styled(SearchInput)`
   width: 100%;
 
