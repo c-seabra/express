@@ -10,16 +10,15 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
-import TextInput from '@websummit/components/src/molecules/TextInput';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import TotalPriceInput from '@websummit/components/src/molecules/TotalPriceInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { fromCents, toCents, Total } from '@websummit/glue/src/lib/utils/price';
+import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
 import {
   CommerceGetStoreQuery,
   CommerceListProductsQuery,
   CommerceSaleProductType,
   CommerceTax,
-  CommerceTaxRateType,
   CommerceTaxType,
   Maybe,
   useCommerceSaleProductCreateMutation,
@@ -102,35 +101,6 @@ const getPriceOptions = (prices: any[] = []) => [
   emptyOption,
   ...prices.map((price) => ({ label: price?.name, value: price?.id })),
 ];
-
-const getTotalPrice = ({
-  taxRate,
-  price,
-  currencySymbol = '',
-}: {
-  currencySymbol: string;
-  price: Total;
-  taxRate?: Pick<
-    CommerceTax,
-    'id' | 'country' | 'name' | 'rateAmount' | 'rateType'
-  >;
-}) => {
-  const priceInCents = toCents(price);
-
-  if (taxRate?.rateType === CommerceTaxRateType.Percentage) {
-    const taxPercentage = taxRate?.rateAmount / 100;
-    const totalPrice = +priceInCents + taxPercentage * priceInCents;
-
-    return `${currencySymbol}${fromCents(totalPrice).toFixed(2)}`;
-  }
-
-  if (taxRate?.rateType === CommerceTaxRateType.Absolute) {
-    const totalPrice = +priceInCents + taxRate?.rateAmount;
-    return `${currencySymbol}${fromCents(totalPrice).toFixed(2)}`;
-  }
-
-  return `${currencySymbol}${price}`;
-};
 
 const getTaxRateByStoreCountry = (
   taxType?: { __typename?: 'CommerceTaxType' } & Pick<
@@ -341,14 +311,10 @@ const SaleProductModalWrapper = ({
                     label="Price excluding tax"
                     name="amount"
                   />
-                  <TextInput
-                    disabled
-                    label={`Total price (incl. ${taxRate?.name || 'tax'})`}
-                    value={getTotalPrice({
-                      currencySymbol,
-                      price: props.values.amount || 0,
-                      taxRate,
-                    })}
+                  <TotalPriceInput
+                    currencySymbol={currencySymbol}
+                    price={props.values.amount}
+                    taxRate={taxRate}
                   />
                   <CenteredVertically>
                     <CheckboxField label="Active" name="active" />

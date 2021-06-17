@@ -126,7 +126,7 @@ const SaleCyclesPage = () => {
   const hasProducts =
     data?.commerceListSaleProducts?.hits &&
     data?.commerceListSaleProducts?.hits?.length > 0;
-  const products: any = data?.commerceListSaleProducts?.hits;
+  const products = data?.commerceListSaleProducts?.hits;
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
       label: 'Sale cycles',
