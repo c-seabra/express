@@ -4,6 +4,7 @@ import FormikModal, {
 } from '@websummit/components/src/molecules/FormikModal';
 import Modal from '@websummit/components/src/molecules/Modal';
 import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
+import PricesWithTaxTable from '@websummit/components/src/molecules/PricesWithTaxTable';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
@@ -11,16 +12,12 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
-import TotalPriceInput from '@websummit/components/src/molecules/TotalPriceInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
 import {
   CommerceGetStoreQuery,
   CommerceListProductsQuery,
   CommerceSaleProductType,
-  CommerceTax,
-  CommerceTaxType,
-  Maybe,
   useCommerceSaleProductCreateMutation,
   useCommerceUpdateSaleProductMutation,
 } from '@websummit/graphql/src/@types/operations';
@@ -58,7 +55,6 @@ type ModalProps = {
     'commerceListProducts'
   >;
   saleId: string;
-  storeCountry?: string;
   taxTypes?: CommerceGetQueryResult<
     CommerceGetStoreQuery,
     'commerceGetStore'
@@ -102,25 +98,6 @@ const getPriceOptions = (prices: any[] = []) => [
   ...prices.map((price) => ({ label: price?.name, value: price?.id })),
 ];
 
-const getTaxRateByStoreCountry = (
-  taxType?: { __typename?: 'CommerceTaxType' } & Pick<
-    CommerceTaxType,
-    'id' | 'name' | 'description'
-  > & {
-      taxes: Maybe<
-        Array<
-          { __typename?: 'CommerceTax' } & Pick<
-            CommerceTax,
-            'id' | 'country' | 'name' | 'rateAmount' | 'rateType'
-          >
-        >
-      >;
-    },
-  country?: string,
-) => {
-  return taxType?.taxes?.find((tax) => tax?.country === country);
-};
-
 const SaleProductModalWrapper = ({
   closeModal,
   currencySymbol,
@@ -129,7 +106,6 @@ const SaleProductModalWrapper = ({
   prefillData,
   products,
   saleId,
-  storeCountry,
   taxTypes = [],
 }: ModalProps) => {
   const context = useRequestContext();
@@ -250,14 +226,9 @@ const SaleProductModalWrapper = ({
           (product) => product.id === props.values.product,
         );
 
-        const ticketTypeTaxRate = taxTypes?.find(
+        const ticketTypeTaxRates = taxTypes?.find(
           (type) => type.id === selectedTicketType?.taxType?.id,
-        );
-
-        const taxRate = getTaxRateByStoreCountry(
-          ticketTypeTaxRate,
-          storeCountry,
-        );
+        )?.taxes;
 
         return (
           <Form>
@@ -311,17 +282,19 @@ const SaleProductModalWrapper = ({
                     label="Price excluding tax"
                     name="amount"
                   />
-                  <TotalPriceInput
-                    currencySymbol={currencySymbol}
-                    price={props.values.amount}
-                    taxRate={taxRate}
-                  />
                   <CenteredVertically>
                     <CheckboxField label="Active" name="active" />
                   </CenteredVertically>
                 </InlineWrapper>
               </FieldWrapper>
 
+              {(ticketTypeTaxRates?.length || 0) > 0 ? (
+                <PricesWithTaxTable
+                  currencySymbol={currencySymbol}
+                  price={props.values.amount}
+                  taxRates={ticketTypeTaxRates}
+                />
+              ) : null}
               <Spacing top="48px">
                 <FieldWrapper>
                   <Modal.DefaultFooter

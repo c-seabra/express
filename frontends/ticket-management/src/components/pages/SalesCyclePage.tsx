@@ -156,7 +156,6 @@ const SaleCyclesPage = () => {
         prefillData={prefillData}
         products={commerceProducts}
         saleId={saleId}
-        storeCountry={store?.commerceGetStore?.country}
         taxTypes={taxTypes}
       />
 
