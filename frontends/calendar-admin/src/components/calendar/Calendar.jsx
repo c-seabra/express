@@ -126,7 +126,6 @@ const Calendar = ({ token, env }) => {
       : addError(responseStatusesResult.error);
 
     const formatsResult = await Api.getEventFormats(token, env);
-
     if (formatsResult.data) {
       const privateFormats = formatsResult.data.data.filter((f) =>
         f.category === 'private' ? f : null,
