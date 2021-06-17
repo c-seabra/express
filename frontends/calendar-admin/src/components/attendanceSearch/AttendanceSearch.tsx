@@ -1,5 +1,12 @@
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
-import React, { ReactElement, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import useAttendancesQuery from '../../lib/hooks/useAttendancesQuery';
 import { Attendance, Color } from '../../lib/types';
