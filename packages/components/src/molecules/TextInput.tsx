@@ -57,8 +57,10 @@ const TextInput = ({
   disabled,
   errorMessage,
   onChange,
-  value,
+  name,
   list,
+  value,
+  min,
 }: TextInputProps) => {
   return (
     <FieldContainer className={className}>
@@ -66,6 +68,8 @@ const TextInput = ({
       <StyledInput
         disabled={disabled}
         list={list}
+        min={min}
+        name={name}
         placeholder={placeholder}
         type={type}
         value={value}

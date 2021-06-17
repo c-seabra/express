@@ -350,19 +350,21 @@ const OrderDetails = (): ReactElement => {
                       </ButtonWithSpacing>
                     )}
                     {cancelReinstateModal}
-                    <Button
-                      disabled={
-                        !commerceOrder ||
-                        commerceOrder?.paymentStatus ===
-                          CommerceOrderPaymentStatus.Refunded
-                      }
-                      onClick={openRefundModal}
-                    >
-                      {commerceOrder?.paymentStatus ===
-                      CommerceOrderPaymentStatus.Refunded
-                        ? 'Order refunded'
-                        : 'Refund order'}
-                    </Button>
+                    {(commerceOrder?.total || 0) > 0 ? (
+                      <Button
+                        disabled={
+                          !commerceOrder ||
+                          commerceOrder?.paymentStatus ===
+                            CommerceOrderPaymentStatus.Refunded
+                        }
+                        onClick={openRefundModal}
+                      >
+                        {commerceOrder?.paymentStatus ===
+                        CommerceOrderPaymentStatus.Refunded
+                          ? 'Order refunded'
+                          : 'Refund order'}
+                      </Button>
+                    ) : null}
                     {commerceOrder && paymentMethodsData && (
                       <OrderRefundModal
                         commerceOrder={commerceOrder}

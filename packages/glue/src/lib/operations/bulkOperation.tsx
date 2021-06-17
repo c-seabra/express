@@ -1,13 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-export enum Status {
-  INVALID,
-  PENDING,
-  PARTIAL_SUCCESS,
-  SUCCESS,
-  ERROR,
-}
-
 export type BulkInput<Element> = Element[];
 
 export type BulkOperationConfig<Element, Context> = {
@@ -51,7 +43,7 @@ async function doSomeBulkOperationWork<Element, Context>(
   }
 
   let counter = 0;
-  const MAX_CONCURRENT_CONNECTIONS = 1;
+  const MAX_CONCURRENT_CONNECTIONS = 10;
 
   async function enqueueProcessing(element: Element, index: number) {
     // this seems weird but works because js is single threaded async
@@ -135,6 +127,9 @@ function BulkOperation<Element, Context>({
     if (input.length === 0) {
       return;
     }
+
+    window.onbeforeunload = () => 'Are you sure you want to leave?';
+
     // kick off the work
     workingMemory.current.started = true;
     workingMemory.current.updated = true;
@@ -147,6 +142,7 @@ function BulkOperation<Element, Context>({
       // eslint-disable-next-line promise/always-return
       () => {
         console.log('All Operations completed!');
+        window.onbeforeunload = null;
       },
       (reason) => {
         console.error(
