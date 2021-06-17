@@ -126,9 +126,15 @@ const Calendar = ({ token, env }) => {
       : addError(responseStatusesResult.error);
 
     const formatsResult = await Api.getEventFormats(token, env);
-    formatsResult.data
-      ? setFormats(formatsResult.data.data)
-      : addError(formatsResult.error);
+
+    if (formatsResult.data) {
+      const privateFormats = formatsResult.data.data.filter((f) =>
+        f.category === 'private' ? f : null,
+      );
+      setFormats(privateFormats);
+    } else {
+      addError(formatsResult.error);
+    }
   };
 
   const addRsvp = (rsvp) => {
