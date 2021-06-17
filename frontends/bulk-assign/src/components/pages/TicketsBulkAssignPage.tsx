@@ -30,26 +30,17 @@ const Flex = styled.div`
   display: flex;
 `;
 
+const FlexEnd = styled(Flex)`
+  justify-content: flex-end;
+`;
+
 const StyledDownload = styled(Flex)`
   align-items: center;
   color: #0067e9;
 `;
 
-const FlexEnd = styled(Flex)`
-  justify-content: flex-end;
-`;
-
 const FlexCenteredVertically = styled(Flex)`
   align-items: center;
-`;
-
-const HeaderText = styled.h1`
-  color: #0c1439;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 32px;
-  margin: 0;
 `;
 
 const Title = styled.span`
@@ -210,29 +201,9 @@ const TicketsBulkAssignPage = () => {
         <Breadcrumbs routes={breadcrumbsRoutes} />
       </BreadcrumbsContainer>
 
-      <Spacing bottom="2rem" top="2rem">
-        {displayList && displayList.length > 0 && (
-          <DownloadCSVButton
-            buttonText="Download .CSV file"
-            data={displayList.map((elem: any) => {
-              return {
-                'Booking ref': elem.bookingRef || 'N/A',
-                'First name': elem.firstName || 'N/A',
-                'Last name': elem.lastName || 'N/A',
-                // eslint-disable-next-line
-                'Email used': elem.email || 'N/A',
-                'Ticket Status': elem.status?.message || 'N/A',
-                // eslint-disable-next-line
-                'Claim status': elem.claimStatus?.message || 'N/A',
-              };
-            })}
-          />
-        )}
-      </Spacing>
-
       <>
         <Spacing bottom="2rem">
-          <Spacing bottom="2rem">
+          <Spacing bottom="2rem" top="2rem">
             <Title>Ticket assignment</Title>
             <SubHeader>
               Allows fast and easy way to assign one or more tickets. This
@@ -279,9 +250,31 @@ const TicketsBulkAssignPage = () => {
         </Spacing>
 
         {assigneesList && assigneesList?.length > 0 && (
-          <ContainerCard title="Results">
-            <AssigneeList list={assigneesList} />
-          </ContainerCard>
+          <>
+            <Spacing bottom="2rem" top="2rem">
+              <FlexEnd>
+                <DownloadCSVButton
+                  buttonText="Download .CSV file"
+                  data={assigneesList.map((elem: any) => {
+                    return {
+                      'Booking ref': elem.bookingRef || 'N/A',
+                      'First name': elem.firstName || 'N/A',
+                      'Last name': elem.lastName || 'N/A',
+                      // eslint-disable-next-line
+                      'Email used': elem.email || 'N/A',
+                      'Ticket Status': elem.status?.message || 'N/A',
+                      // eslint-disable-next-line
+                      'Claim status': elem.claimStatus?.message || 'N/A',
+                    };
+                  })}
+                />
+              </FlexEnd>
+            </Spacing>
+
+            <ContainerCard noPadding title="Results">
+              <AssigneeList list={assigneesList} />
+            </ContainerCard>
+          </>
         )}
       </>
     </Container>
