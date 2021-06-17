@@ -15,7 +15,7 @@ import { shortenString } from '@websummit/components/src/utils/text';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import useEventDataQuery from '../../../../ticket-support/src/lib/hooks/useEventDataQuery';
 import { AssigneesList } from '../app/App';
 import AssigneeList from '../assigneeList/AssigneeList';
@@ -255,7 +255,7 @@ const TicketsBulkAssignPage = () => {
               <FlexEnd>
                 <DownloadCSVButton
                   buttonText="Download .CSV file"
-                  data={assigneesList.map((elem: any) => {
+                  data={displayList.map((elem: any) => {
                     return {
                       'Booking ref': elem.bookingRef || 'N/A',
                       'First name': elem.firstName || 'N/A',
