@@ -13,6 +13,7 @@ const LinkWrapper = styled.div`
 
 type DownloadCSVButtonProps = {
   buttonText?: string;
+  customTemplate?: React.ReactElement;
   data?: Record<string, unknown>[];
   filename?: string;
 };
@@ -20,11 +21,12 @@ type DownloadCSVButtonProps = {
 const DownloadCSVButton = ({
   data = [],
   buttonText = 'Download CSV',
+  customTemplate,
   filename = `${DateTime.now().toLocaleString()}-results`,
 }: DownloadCSVButtonProps) => (
   <LinkWrapper>
     <CSVLink data={data} filename={filename}>
-      <Button>{buttonText}</Button>
+      {customTemplate ? <>{customTemplate}</> : <Button>{buttonText}</Button>}
     </CSVLink>
   </LinkWrapper>
 );

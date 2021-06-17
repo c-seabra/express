@@ -40,18 +40,6 @@ const ROUTES: Routes = [
         meta: { description: 'Manage orders' },
         path: '~ticket-support/#/orders',
       },
-      {
-        conferenceSpecific: true,
-        isActive: false,
-        meta: { description: 'Upgrade' },
-        path: '~ticket-support/#/upgrade',
-      },
-      {
-        conferenceSpecific: true,
-        isActive: false,
-        meta: { description: 'Cancellation and refunds' },
-        path: '~ticket-support/#/cancellation-and-refunds',
-      },
     ],
     conferenceSpecific: true,
     hasChildren: true,
@@ -98,6 +86,27 @@ const ROUTES: Routes = [
     isActive: true,
     meta: { description: 'Ticket configuration' },
     path: '~ticket-management#/',
+  },
+  {
+    children: [
+      {
+        conferenceSpecific: true,
+        isActive: true,
+        meta: { description: 'Ticket creation' },
+        path: '~staff-tickets',
+      },
+      {
+        conferenceSpecific: true,
+        isActive: true,
+        meta: { description: 'Ticket assignment' },
+        path: '~bulk-assign',
+      },
+    ],
+    conferenceSpecific: true,
+    hasChildren: true,
+    isActive: true,
+    meta: { description: 'Bulk operations' },
+    path: '~staff-tickets',
   },
   {
     conferenceSpecific: true,
