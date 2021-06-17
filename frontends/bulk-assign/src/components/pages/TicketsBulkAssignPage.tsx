@@ -6,6 +6,7 @@ import Breadcrumbs, {
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import DownloadCSVButton from '@websummit/components/src/molecules/DownloadCSVButton';
 import FileInputModal from '@websummit/components/src/molecules/FileInputModal';
+import { useModalState } from '@websummit/components/src/molecules/Modal';
 import {
   useErrorSnackbar,
   useSuccessSnackbar,
@@ -15,7 +16,6 @@ import { shortenString } from '@websummit/components/src/utils/text';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { useModalState } from '@websummit/components/src/molecules/Modal';
 import useEventDataQuery from '../../../../ticket-support/src/lib/hooks/useEventDataQuery';
 import { AssigneesList } from '../app/App';
 import AssigneeList from '../assigneeList/AssigneeList';
