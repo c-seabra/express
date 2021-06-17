@@ -4,38 +4,39 @@ import styled from 'styled-components';
 const BookingRef = styled.div`
   width: calc(15% - 1rem);
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
 `;
 const Name = styled.div`
   width: calc(35% - 1rem);
+  font-weight: 600;
 `;
 const Email = styled.div`
   width: calc(35% - 1rem);
+  font-weight: 600;
 `;
 const Status = styled.div`
   width: calc(10% - 1rem);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
 `;
 const ClaimStatus = styled.div`
   width: calc(15% - 1rem);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
 `;
 
 const StyledListItem = styled.li`
-  font-size: 1.2em;
+  font-size: 0.85rem;
   display: flex;
-  margin-bottom: 0.5rem;
-  padding: 0.75rem;
+  align-items: center;
+  padding: 1rem 1.5rem;
   background-color: gainsboro;
   &:nth-child(2n + 1) {
     background-color: white;
-  }
-  ${BookingRef}, ${Name}, ${Email} {
-    margin-right: 1rem;
   }
 `;
 
