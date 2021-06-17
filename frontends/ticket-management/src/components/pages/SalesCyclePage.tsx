@@ -11,6 +11,7 @@ import {
   CommerceSortTermDirection,
   SaleCyclesQueryVariables,
   useCommerceGetStoreQuery,
+  useCommerceListProductsQuery,
   useCommerceListSaleProductsQuery,
   useSaleCyclesQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -98,6 +99,7 @@ const SaleCyclesPage = () => {
     onError: (e) => console.error(e.message),
   });
   const storeCurrencySymbol = store?.commerceGetStore?.currencySymbol;
+  const taxTypes = store?.commerceGetStore?.taxTypes;
   const { id: saleId } = useParams<SaleCyclesQueryVariables>();
   const { loading: loadingCycles, data: saleCycles } = useSaleCyclesQuery({
     context,
@@ -135,6 +137,15 @@ const SaleCyclesPage = () => {
     },
   ];
 
+  const { data: commerceListProductsData } = useCommerceListProductsQuery({
+    context,
+    fetchPolicy: 'network-only',
+    onError: (e) => errorSnackbar(e.message),
+  });
+
+  const commerceProducts =
+    commerceListProductsData?.commerceListProducts?.hits || [];
+
   return (
     <Container>
       <SaleProductModalWrapper
@@ -143,7 +154,10 @@ const SaleCyclesPage = () => {
         existingProducts={products}
         isOpen={isOpen}
         prefillData={prefillData}
+        products={commerceProducts}
         saleId={saleId}
+        storeCountry={store?.commerceGetStore?.country}
+        taxTypes={taxTypes}
       />
 
       <FlexCol>

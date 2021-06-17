@@ -10,15 +10,25 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
+import TextInput from '@websummit/components/src/molecules/TextInput';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
+import { fromCents, toCents, Total } from '@websummit/glue/src/lib/utils/price';
 import {
+  CommerceGetStoreQuery,
+  CommerceListProductsQuery,
   CommerceSaleProductType,
-  useCommerceListProductsQuery,
+  CommerceTax,
+  CommerceTaxRateType,
+  CommerceTaxType,
+  Maybe,
   useCommerceSaleProductCreateMutation,
   useCommerceUpdateSaleProductMutation,
 } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceGetQueryResult,
+  CommerceListQueryHitsResult,
+} from '@websummit/graphql/src/lib/types';
 import COMMERCE_SALE_PRODUCTS_LIST from '@websummit/graphql/src/operations/queries/CommerceListSaleProducts';
 import { Form } from 'formik';
 import React from 'react';
@@ -44,7 +54,16 @@ type ModalProps = {
   existingProducts: any;
   isOpen: boolean;
   prefillData?: any;
+  products: CommerceListQueryHitsResult<
+    CommerceListProductsQuery,
+    'commerceListProducts'
+  >;
   saleId: string;
+  storeCountry?: string;
+  taxTypes?: CommerceGetQueryResult<
+    CommerceGetStoreQuery,
+    'commerceGetStore'
+  >['taxTypes'];
 };
 
 export type SaleProductFormData = {
@@ -84,13 +103,64 @@ const getPriceOptions = (prices: any[] = []) => [
   ...prices.map((price) => ({ label: price?.name, value: price?.id })),
 ];
 
+const getTotalPrice = ({
+  taxRate,
+  price,
+  currencySymbol = '',
+}: {
+  currencySymbol: string;
+  price: Total;
+  taxRate?: Pick<
+    CommerceTax,
+    'id' | 'country' | 'name' | 'rateAmount' | 'rateType'
+  >;
+}) => {
+  const priceInCents = toCents(price);
+
+  if (taxRate?.rateType === CommerceTaxRateType.Percentage) {
+    const taxPercentage = taxRate?.rateAmount / 100;
+    const totalPrice = +priceInCents + taxPercentage * priceInCents;
+
+    return `${currencySymbol}${fromCents(totalPrice).toFixed(2)}`;
+  }
+
+  if (taxRate?.rateType === CommerceTaxRateType.Absolute) {
+    const totalPrice = +priceInCents + taxRate?.rateAmount;
+    return `${currencySymbol}${fromCents(totalPrice).toFixed(2)}`;
+  }
+
+  return `${currencySymbol}${price}`;
+};
+
+const getTaxRateByStoreCountry = (
+  taxType?: { __typename?: 'CommerceTaxType' } & Pick<
+    CommerceTaxType,
+    'id' | 'name' | 'description'
+  > & {
+      taxes: Maybe<
+        Array<
+          { __typename?: 'CommerceTax' } & Pick<
+            CommerceTax,
+            'id' | 'country' | 'name' | 'rateAmount' | 'rateType'
+          >
+        >
+      >;
+    },
+  country?: string,
+) => {
+  return taxType?.taxes?.find((tax) => tax?.country === country);
+};
+
 const SaleProductModalWrapper = ({
-  isOpen,
   closeModal,
-  prefillData,
-  saleId,
   currencySymbol,
+  isOpen,
   existingProducts,
+  prefillData,
+  products,
+  saleId,
+  storeCountry,
+  taxTypes = [],
 }: ModalProps) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
@@ -102,14 +172,8 @@ const SaleProductModalWrapper = ({
       variables: { saleId },
     },
   ];
-  const { data } = useCommerceListProductsQuery({
-    context,
-    fetchPolicy: 'network-only',
-    onError: (e) => errorSnackbar(e.message),
-  });
 
   const editOn = prefillData && prefillData.id && prefillData.id !== '';
-  const products = data?.commerceListProducts?.hits;
   const filteredSaleProducts = editOn
     ? products
     : products?.filter((el) => {
@@ -211,75 +275,99 @@ const SaleProductModalWrapper = ({
         editOn ? 'Edit pricing for sale cycle' : 'Add pricing for sale cycle'
       }
       closeModal={closeModal}
-      customForm={(props: any) => (
-        <Form>
-          <Spacing top="8px">
-            <FieldWrapper>
-              <Spacing bottom="8px">
-                <SelectField
-                  required
-                  label="Select ticket type"
-                  name="product"
-                  options={ticketTypeOptions}
-                />
-              </Spacing>
-            </FieldWrapper>
+      customForm={(props: any) => {
+        const selectedTicketType = products?.find(
+          (product) => product.id === props.values.product,
+        );
 
-            <FieldWrapper>
-              <TextInputField
-                label="Display name of ticket type"
-                name="name"
-                placeholder={
-                  ticketTypeOptions?.find(
-                    (type) => type.value === props?.values?.product,
-                  )?.label
-                }
-              />
-            </FieldWrapper>
+        const ticketTypeTaxRate = taxTypes?.find(
+          (type) => type.id === selectedTicketType?.taxType?.id,
+        );
 
-            <FieldWrapper>
-              <Spacing bottom="8px">
-                <TextAreaField
-                  fieldHeight="80px"
-                  label="Description"
-                  name="description"
-                  placeholder="Type description here"
-                />
-              </Spacing>
-            </FieldWrapper>
+        const taxRate = getTaxRateByStoreCountry(
+          ticketTypeTaxRate,
+          storeCountry,
+        );
 
-            <FieldWrapper>
-              <InlineWrapper>
-                <SelectField
-                  required
-                  label="Price during sale cycle"
-                  name="type"
-                  options={priceTypeOptions}
-                />
-
-                <MoneyInputField
-                  required
-                  currencySymbol={currencySymbol}
-                  label="Price excluding tax"
-                  name="amount"
-                />
-                <CenteredVertically>
-                  <CheckboxField label="Active" name="active" />
-                </CenteredVertically>
-              </InlineWrapper>
-            </FieldWrapper>
-
-            <Spacing top="48px">
+        return (
+          <Form>
+            <Spacing top="8px">
               <FieldWrapper>
-                <Modal.DefaultFooter
-                  submitText={editOn ? 'Save' : 'Create'}
-                  onCancelClick={closeModal}
+                <Spacing bottom="8px">
+                  <SelectField
+                    required
+                    label="Select ticket type"
+                    name="product"
+                    options={ticketTypeOptions}
+                  />
+                </Spacing>
+              </FieldWrapper>
+
+              <FieldWrapper>
+                <TextInputField
+                  label="Display name of ticket type"
+                  name="name"
+                  placeholder={
+                    ticketTypeOptions?.find(
+                      (type) => type.value === props?.values?.product,
+                    )?.label
+                  }
                 />
               </FieldWrapper>
+
+              <FieldWrapper>
+                <Spacing bottom="8px">
+                  <TextAreaField
+                    fieldHeight="80px"
+                    label="Description"
+                    name="description"
+                    placeholder="Type description here"
+                  />
+                </Spacing>
+              </FieldWrapper>
+
+              <FieldWrapper>
+                <InlineWrapper>
+                  <SelectField
+                    required
+                    label="Price during sale cycle"
+                    name="type"
+                    options={priceTypeOptions}
+                  />
+
+                  <MoneyInputField
+                    required
+                    currencySymbol={currencySymbol}
+                    label="Price excluding tax"
+                    name="amount"
+                  />
+                  <TextInput
+                    disabled
+                    label={`Total price (incl. ${taxRate?.name || 'tax'})`}
+                    value={getTotalPrice({
+                      currencySymbol,
+                      price: props.values.amount || 0,
+                      taxRate,
+                    })}
+                  />
+                  <CenteredVertically>
+                    <CheckboxField label="Active" name="active" />
+                  </CenteredVertically>
+                </InlineWrapper>
+              </FieldWrapper>
+
+              <Spacing top="48px">
+                <FieldWrapper>
+                  <Modal.DefaultFooter
+                    submitText={editOn ? 'Save' : 'Create'}
+                    onCancelClick={closeModal}
+                  />
+                </FieldWrapper>
+              </Spacing>
             </Spacing>
-          </Spacing>
-        </Form>
-      )}
+          </Form>
+        );
+      }}
       initialValues={initialValues(editOn)}
       isOpen={isOpen}
       submitCallback={setMutation}
