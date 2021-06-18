@@ -62,6 +62,12 @@ export type Query = {
   branding: Maybe<Branding>;
   brandings: Maybe<Array<Maybe<Branding>>>;
   brandingsConnection: Maybe<BrandingConnection>;
+  productBenefit: Maybe<ProductBenefits>;
+  productBenefits: Maybe<Array<Maybe<ProductBenefits>>>;
+  productBenefitsConnection: Maybe<ProductBenefitsConnection>;
+  product: Maybe<Products>;
+  products: Maybe<Array<Maybe<Products>>>;
+  productsConnection: Maybe<ProductsConnection>;
   site: Maybe<Site>;
   sites: Maybe<Array<Maybe<Site>>>;
   sitesConnection: Maybe<SiteConnection>;
@@ -232,6 +238,42 @@ export type QueryBrandingsArgs = {
 };
 
 export type QueryBrandingsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductBenefitArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryProductBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductBenefitsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryProductsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductsConnectionArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
   start?: Maybe<Scalars['Int']>;
@@ -973,6 +1015,212 @@ export type BrandingAggregator = {
   totalCount: Maybe<Scalars['Int']>;
 };
 
+export type ProductBenefits = {
+  __typename?: 'ProductBenefits';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+};
+
+export type ProductBenefitsConnection = {
+  __typename?: 'ProductBenefitsConnection';
+  values: Maybe<Array<Maybe<ProductBenefits>>>;
+  groupBy: Maybe<ProductBenefitsGroupBy>;
+  aggregate: Maybe<ProductBenefitsAggregator>;
+};
+
+export type ProductBenefitsGroupBy = {
+  __typename?: 'ProductBenefitsGroupBy';
+  id: Maybe<Array<Maybe<ProductBenefitsConnectionId>>>;
+  _id: Maybe<Array<Maybe<ProductBenefitsConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<ProductBenefitsConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<ProductBenefitsConnectionUpdatedAt>>>;
+  title: Maybe<Array<Maybe<ProductBenefitsConnectionTitle>>>;
+  description: Maybe<Array<Maybe<ProductBenefitsConnectionDescription>>>;
+  created_by: Maybe<Array<Maybe<ProductBenefitsConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<ProductBenefitsConnectionUpdated_By>>>;
+};
+
+export type ProductBenefitsConnectionId = {
+  __typename?: 'ProductBenefitsConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnection_Id = {
+  __typename?: 'ProductBenefitsConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionCreatedAt = {
+  __typename?: 'ProductBenefitsConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionUpdatedAt = {
+  __typename?: 'ProductBenefitsConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionTitle = {
+  __typename?: 'ProductBenefitsConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionDescription = {
+  __typename?: 'ProductBenefitsConnectionDescription';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionCreated_By = {
+  __typename?: 'ProductBenefitsConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionUpdated_By = {
+  __typename?: 'ProductBenefitsConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsAggregator = {
+  __typename?: 'ProductBenefitsAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
+};
+
+export type Products = {
+  __typename?: 'Products';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  sourceId: Maybe<Scalars['String']>;
+  sourceName: Maybe<Scalars['String']>;
+  type: Maybe<Enum_Products_Type>;
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+};
+
+export enum Enum_Products_Type {
+  Custom = 'custom',
+  Deal = 'deal',
+  Package = 'package',
+  Product = 'product',
+}
+
+export type ProductsConnection = {
+  __typename?: 'ProductsConnection';
+  values: Maybe<Array<Maybe<Products>>>;
+  groupBy: Maybe<ProductsGroupBy>;
+  aggregate: Maybe<ProductsAggregator>;
+};
+
+export type ProductsGroupBy = {
+  __typename?: 'ProductsGroupBy';
+  id: Maybe<Array<Maybe<ProductsConnectionId>>>;
+  _id: Maybe<Array<Maybe<ProductsConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<ProductsConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<ProductsConnectionUpdatedAt>>>;
+  sourceId: Maybe<Array<Maybe<ProductsConnectionSourceId>>>;
+  sourceName: Maybe<Array<Maybe<ProductsConnectionSourceName>>>;
+  type: Maybe<Array<Maybe<ProductsConnectionType>>>;
+  title: Maybe<Array<Maybe<ProductsConnectionTitle>>>;
+  description: Maybe<Array<Maybe<ProductsConnectionDescription>>>;
+  event: Maybe<Array<Maybe<ProductsConnectionEvent>>>;
+  created_by: Maybe<Array<Maybe<ProductsConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<ProductsConnectionUpdated_By>>>;
+};
+
+export type ProductsConnectionId = {
+  __typename?: 'ProductsConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnection_Id = {
+  __typename?: 'ProductsConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionCreatedAt = {
+  __typename?: 'ProductsConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionUpdatedAt = {
+  __typename?: 'ProductsConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionSourceId = {
+  __typename?: 'ProductsConnectionSourceId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionSourceName = {
+  __typename?: 'ProductsConnectionSourceName';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionType = {
+  __typename?: 'ProductsConnectionType';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionTitle = {
+  __typename?: 'ProductsConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionDescription = {
+  __typename?: 'ProductsConnectionDescription';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionEvent = {
+  __typename?: 'ProductsConnectionEvent';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionCreated_By = {
+  __typename?: 'ProductsConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionUpdated_By = {
+  __typename?: 'ProductsConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsAggregator = {
+  __typename?: 'ProductsAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
+};
+
 export type Site = {
   __typename?: 'Site';
   id: Scalars['ID'];
@@ -1316,6 +1564,7 @@ export type ComponentWebElementsPriceIncreaseCountdownTimer = {
   _id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
   ticketType: TicketType;
 };
 
@@ -1715,6 +1964,7 @@ export type ComponentWebElementsReleasePhaseStepper = {
   _id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
   ticketType: TicketType;
 };
 
@@ -1752,10 +2002,19 @@ export type ComponentWebElementsTicketTypeInformation = {
   _id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
   showBenefits: Scalars['Boolean'];
   displayPriceIncludingTax: Maybe<Scalars['Boolean']>;
   heading: Maybe<Scalars['String']>;
+  benefits: Array<ProductBenefits>;
   ticketType: TicketType;
+};
+
+export type ComponentWebElementsTicketTypeInformationBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
 };
 
 export type ComponentWebElementsTicketApplicationOverviewPanel = {
@@ -1924,13 +2183,56 @@ export type ComponentWebLayoutsStoresTicketSalesPage = {
   _id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
+  categoriesMenu: Maybe<Menu>;
+  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+  products: Array<ComponentWebElementsProducts>;
   productIds: Maybe<Scalars['JSON']>;
   ticketReleasesPanel: Maybe<ComponentWebElementsTicketReleasesPanel>;
-  categoriesMenu: Maybe<Menu>;
-  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
   promotions: Array<ComponentWebElementsTicketPromotion>;
-  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+  benefitsList: Array<ProductBenefits>;
 };
+
+export type ComponentWebLayoutsStoresTicketSalesPageBenefitsListArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type ComponentWebElementsProducts = {
+  __typename?: 'ComponentWebElementsProducts';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
+  type: Maybe<Enum_Componentwebelementsproducts_Type>;
+  buttonLabel: Maybe<Scalars['String']>;
+  link: Maybe<Scalars['String']>;
+  promotionType: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
+  promotionLabel: Maybe<Scalars['String']>;
+  promotionColor: Maybe<Scalars['String']>;
+  benefits: Array<ProductBenefits>;
+};
+
+export type ComponentWebElementsProductsBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export enum Enum_Componentwebelementsproducts_Type {
+  Link = 'link',
+  Sale = 'sale',
+  SoldOut = 'soldOut',
+}
+
+export enum Enum_Componentwebelementsproducts_Promotiontype {
+  Annotation = 'ANNOTATION',
+  Highlight = 'HIGHLIGHT',
+}
 
 export type ComponentWebLayoutsStoresTicketApplicationsPage = {
   __typename?: 'ComponentWebLayoutsStoresTicketApplicationsPage';
@@ -3178,12 +3480,13 @@ export type CommerceProduct = {
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   packagedProducts: Maybe<Array<CommercePackagedProduct>>;
+  packages: Maybe<Array<CommerceProduct>>;
   price: Scalars['Int'];
   tags: Maybe<Array<CommerceTag>>;
   taxMode: Maybe<CommerceProductTaxMode>;
   taxType: CommerceTaxType;
+  timesUsed: Maybe<Scalars['Int']>;
   type: Maybe<CommerceProductType>;
-  usages: Maybe<Scalars['Int']>;
 };
 
 export type CommercePackagedProduct = {
@@ -3303,6 +3606,7 @@ export type CommerceDeal = {
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   startDate: Scalars['Date'];
+  timesUsed: Maybe<Scalars['Int']>;
   usages: Maybe<Scalars['Int']>;
 };
 
@@ -3381,6 +3685,7 @@ export type CommerceOrderItem = {
   price: Maybe<Scalars['Int']>;
   product: Maybe<CommerceProduct>;
   productMetadata: Maybe<Scalars['JSON']>;
+  productType: Maybe<CommerceOrderItemProductType>;
   quantity: Scalars['Int'];
   subTotal: Maybe<Scalars['Int']>;
   tax: Maybe<CommerceTax>;
@@ -3389,6 +3694,11 @@ export type CommerceOrderItem = {
   valueTotal: Maybe<Scalars['Int']>;
   voucherDiscount: Maybe<Scalars['Int']>;
 };
+
+export enum CommerceOrderItemProductType {
+  Package = 'PACKAGE',
+  Simple = 'SIMPLE',
+}
 
 export type CommercePaymentMethod = {
   __typename?: 'CommercePaymentMethod';
@@ -3481,6 +3791,7 @@ export type CommerceVoucher = {
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
+  timesUsed: Maybe<Scalars['Int']>;
   type: CommerceVoucherType;
   usages: Maybe<Scalars['Int']>;
 };
@@ -4070,6 +4381,12 @@ export type Mutation = {
   createBranding: Maybe<CreateBrandingPayload>;
   updateBranding: Maybe<UpdateBrandingPayload>;
   deleteBranding: Maybe<DeleteBrandingPayload>;
+  createProductBenefit: Maybe<CreateProductBenefitPayload>;
+  updateProductBenefit: Maybe<UpdateProductBenefitPayload>;
+  deleteProductBenefit: Maybe<DeleteProductBenefitPayload>;
+  createProduct: Maybe<CreateProductPayload>;
+  updateProduct: Maybe<UpdateProductPayload>;
+  deleteProduct: Maybe<DeleteProductPayload>;
   createSite: Maybe<CreateSitePayload>;
   updateSite: Maybe<UpdateSitePayload>;
   deleteSite: Maybe<DeleteSitePayload>;
@@ -4264,6 +4581,30 @@ export type MutationUpdateBrandingArgs = {
 
 export type MutationDeleteBrandingArgs = {
   input?: Maybe<DeleteBrandingInput>;
+};
+
+export type MutationCreateProductBenefitArgs = {
+  input?: Maybe<CreateProductBenefitInput>;
+};
+
+export type MutationUpdateProductBenefitArgs = {
+  input?: Maybe<UpdateProductBenefitInput>;
+};
+
+export type MutationDeleteProductBenefitArgs = {
+  input?: Maybe<DeleteProductBenefitInput>;
+};
+
+export type MutationCreateProductArgs = {
+  input?: Maybe<CreateProductInput>;
+};
+
+export type MutationUpdateProductArgs = {
+  input?: Maybe<UpdateProductInput>;
+};
+
+export type MutationDeleteProductArgs = {
+  input?: Maybe<DeleteProductInput>;
 };
 
 export type MutationCreateSiteArgs = {
@@ -4849,6 +5190,98 @@ export type DeleteBrandingInput = {
 export type DeleteBrandingPayload = {
   __typename?: 'deleteBrandingPayload';
   branding: Maybe<Branding>;
+};
+
+export type CreateProductBenefitInput = {
+  data?: Maybe<ProductBenefitInput>;
+};
+
+export type ProductBenefitInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type CreateProductBenefitPayload = {
+  __typename?: 'createProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type UpdateProductBenefitInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditProductBenefitInput>;
+};
+
+export type EditProductBenefitInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type UpdateProductBenefitPayload = {
+  __typename?: 'updateProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type DeleteProductBenefitInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteProductBenefitPayload = {
+  __typename?: 'deleteProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type CreateProductInput = {
+  data?: Maybe<ProductInput>;
+};
+
+export type ProductInput = {
+  sourceId?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  type?: Maybe<Enum_Products_Type>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  event?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type CreateProductPayload = {
+  __typename?: 'createProductPayload';
+  product: Maybe<Products>;
+};
+
+export type UpdateProductInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditProductInput>;
+};
+
+export type EditProductInput = {
+  sourceId?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  type?: Maybe<Enum_Products_Type>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  event?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type UpdateProductPayload = {
+  __typename?: 'updateProductPayload';
+  product: Maybe<Products>;
+};
+
+export type DeleteProductInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteProductPayload = {
+  __typename?: 'deleteProductPayload';
+  product: Maybe<Products>;
 };
 
 export type CreateSiteInput = {
@@ -6085,12 +6518,13 @@ export type CommerceProductCreateOrUpdate = {
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
   price?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+  timesUsed?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceProductType>;
-  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommercePackagedProductCreateOrUpdate = {
@@ -6281,12 +6715,13 @@ export type CommerceProductCreate = {
   metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
   price: Scalars['Int'];
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType: CommerceTaxTypeCreateOrUpdate;
+  timesUsed?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceProductType>;
-  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceSaleCreate = {
@@ -6521,12 +6956,13 @@ export type CommerceProductUpdate = {
   metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
   price?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
   taxMode?: Maybe<CommerceProductTaxMode>;
   taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+  timesUsed?: Maybe<Scalars['Int']>;
   type?: Maybe<CommerceProductType>;
-  usages?: Maybe<Scalars['Int']>;
 };
 
 export type CommerceSaleUpdate = {
@@ -6819,10 +7255,23 @@ export type ComponentWebElementsHeroSectionInput = {
 
 export type ComponentWebElementsPriceIncreaseCountdownTimerInput = {
   ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
+};
+
+export type ComponentWebElementsProductInput = {
+  product?: Maybe<Scalars['ID']>;
+  type?: Maybe<Enum_Componentwebelementsproducts_Type>;
+  buttonLabel?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  promotionType?: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
+  promotionLabel?: Maybe<Scalars['String']>;
+  promotionColor?: Maybe<Scalars['String']>;
+  benefits?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type ComponentWebElementsReleasePhaseStepperInput = {
   ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
 };
 
 export type ComponentWebElementsScheduleSearchSidebarFilterInput = {
@@ -6870,7 +7319,9 @@ export type ComponentWebElementsTicketReleasesPanelInput = {
 
 export type ComponentWebElementsTicketTypeInformationInput = {
   ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
   showBenefits: Scalars['Boolean'];
+  benefits?: Maybe<Array<Scalars['ID']>>;
   displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
   heading?: Maybe<Scalars['String']>;
 };
@@ -6887,12 +7338,14 @@ export type ComponentWebLayoutsStoresTicketApplicationsPageInput = {
 };
 
 export type ComponentWebLayoutsStoresTicketSalesPageInput = {
+  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+  products: Array<ComponentWebElementsProductInput>;
   productIds?: Maybe<Scalars['JSON']>;
   ticketReleasesPanel?: Maybe<ComponentWebElementsTicketReleasesPanelInput>;
-  categoriesMenu?: Maybe<Scalars['ID']>;
-  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
   promotions: Array<ComponentWebElementsTicketPromotionInput>;
-  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+  benefitsList?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type ComponentWebLayoutsTicketApplicationsPageInput = {
@@ -7164,11 +7617,25 @@ export type EditComponentWebElementsHeroSectionInput = {
 export type EditComponentWebElementsPriceIncreaseCountdownTimerInput = {
   id?: Maybe<Scalars['ID']>;
   ticketTypeId?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
+};
+
+export type EditComponentWebElementsProductInput = {
+  id?: Maybe<Scalars['ID']>;
+  product?: Maybe<Scalars['ID']>;
+  type?: Maybe<Enum_Componentwebelementsproducts_Type>;
+  buttonLabel?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  promotionType?: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
+  promotionLabel?: Maybe<Scalars['String']>;
+  promotionColor?: Maybe<Scalars['String']>;
+  benefits?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type EditComponentWebElementsReleasePhaseStepperInput = {
   id?: Maybe<Scalars['ID']>;
   ticketTypeId?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
 };
 
 export type EditComponentWebElementsScheduleSearchSidebarFilterInput = {
@@ -7223,7 +7690,9 @@ export type EditComponentWebElementsTicketReleasesPanelInput = {
 export type EditComponentWebElementsTicketTypeInformationInput = {
   id?: Maybe<Scalars['ID']>;
   ticketTypeId?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
   showBenefits?: Maybe<Scalars['Boolean']>;
+  benefits?: Maybe<Array<Scalars['ID']>>;
   displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
   heading?: Maybe<Scalars['String']>;
 };
@@ -7242,12 +7711,14 @@ export type EditComponentWebLayoutsStoresTicketApplicationsPageInput = {
 
 export type EditComponentWebLayoutsStoresTicketSalesPageInput = {
   id?: Maybe<Scalars['ID']>;
+  priceIncreaseCountdownTimer?: Maybe<EditComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  releasePhaseStepper?: Maybe<EditComponentWebElementsReleasePhaseStepperInput>;
+  products: Array<EditComponentWebElementsProductInput>;
   productIds?: Maybe<Scalars['JSON']>;
   ticketReleasesPanel?: Maybe<EditComponentWebElementsTicketReleasesPanelInput>;
-  categoriesMenu?: Maybe<Scalars['ID']>;
-  priceIncreaseCountdownTimer?: Maybe<EditComponentWebElementsPriceIncreaseCountdownTimerInput>;
   promotions: Array<EditComponentWebElementsTicketPromotionInput>;
-  releasePhaseStepper?: Maybe<EditComponentWebElementsReleasePhaseStepperInput>;
+  benefitsList?: Maybe<Array<Scalars['ID']>>;
 };
 
 export type EditComponentWebLayoutsTicketApplicationsPageInput = {
@@ -9739,6 +10210,101 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type OrdersQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  filter?: Maybe<OrderFilter>;
+  searchQuery?: Maybe<Scalars['String']>;
+}>;
+
+export type OrdersQuery = { __typename?: 'Query' } & {
+  orders: { __typename?: 'OrderConnection' } & {
+    edges: Array<
+      { __typename?: 'OrderEdge' } & Pick<OrderEdge, 'cursor'> & {
+          node: { __typename?: 'Order' } & Pick<
+            Order,
+            'id' | 'amount' | 'completedAt' | 'currency' | 'state' | 'reference'
+          > & {
+              owner: { __typename?: 'AssignmentUser' } & Pick<
+                AssignmentUser,
+                'firstName' | 'lastName' | 'email'
+              >;
+              versions: Maybe<
+                Array<
+                  { __typename?: 'PaperTrailVersion' } & Pick<
+                    PaperTrailVersion,
+                    'createdAt'
+                  >
+                >
+              >;
+              ticketsSummary: { __typename?: 'TicketsSummary' } & {
+                all: { __typename?: 'All' } & Pick<All, 'count'> & {
+                    active: { __typename?: 'Active' } & Pick<
+                      Active,
+                      'count'
+                    > & {
+                        assigned: { __typename?: 'Assigned' } & Pick<
+                          Assigned,
+                          'count'
+                        > & {
+                            accepted: { __typename?: 'Accepted' } & Pick<
+                              Accepted,
+                              'count'
+                            >;
+                            checkedIn: { __typename?: 'CheckedIn' } & Pick<
+                              CheckedIn,
+                              'count'
+                            >;
+                            duplicate: { __typename?: 'Duplicate' } & Pick<
+                              Duplicate,
+                              'count'
+                            >;
+                            locked: { __typename?: 'Locked' } & Pick<
+                              Locked,
+                              'count'
+                            >;
+                            pending: { __typename?: 'Pending' } & Pick<
+                              Pending,
+                              'count'
+                            >;
+                          };
+                        unassigned: { __typename?: 'Unassigned' } & Pick<
+                          Unassigned,
+                          'count'
+                        > & {
+                            neverAssigned: {
+                              __typename?: 'NeverAssigned';
+                            } & Pick<NeverAssigned, 'count'>;
+                            rejected: { __typename?: 'Rejected' } & Pick<
+                              Rejected,
+                              'count'
+                            >;
+                          };
+                      };
+                    void: { __typename?: 'Void' } & Pick<Void, 'count'>;
+                  };
+              };
+              summary: { __typename?: 'OrderSummary' } & Pick<
+                OrderSummary,
+                'tickets'
+              > & {
+                  ticketType: Maybe<
+                    { __typename?: 'TicketType' } & Pick<
+                      TicketType,
+                      'name' | 'description'
+                    >
+                  >;
+                };
+            };
+        }
+    >;
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      'hasPreviousPage' | 'hasNextPage' | 'endCursor' | 'startCursor'
+    >;
+  };
+};
+
 export type SaleCyclesQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -10023,6 +10589,18 @@ export type TicketTypeReleasePhasesQuery = { __typename?: 'Query' } & {
         };
       }
   >;
+};
+
+export type TicketTypesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TicketTypesQuery = { __typename?: 'Query' } & {
+  ticketTypes: { __typename?: 'TicketTypeConnection' } & {
+    edges: Array<
+      { __typename?: 'TicketTypeEdge' } & Pick<TicketTypeEdge, 'cursor'> & {
+          node: { __typename?: 'TicketType' } & Pick<TicketType, 'id' | 'name'>;
+        }
+    >;
+  };
 };
 
 export type TicketsQueryVariables = Exact<{
@@ -24365,6 +24943,512 @@ export type OrderByRefQueryResult = Apollo.QueryResult<
   OrderByRefQuery,
   OrderByRefQueryVariables
 >;
+export const OrdersDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'Orders' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'searchQuery' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'searchQuery' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'orders' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'amount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'completedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'currency' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'owner' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firstName' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lastName' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'versions' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'state' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'reference' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'ticketsSummary' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'all' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'count',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'active',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'count',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'assigned',
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'count',
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'accepted',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'checkedIn',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'duplicate',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'locked',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'pending',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'unassigned',
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'count',
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'neverAssigned',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'rejected',
+                                                      },
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'count',
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'void' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'count',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'summary' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'ticketType' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'description',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'tickets' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'OrderFilter' },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'searchQuery' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useOrdersQuery__
+ *
+ * To run a query within a React component, call `useOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrdersQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      filter: // value for 'filter'
+ *      searchQuery: // value for 'searchQuery'
+ *   },
+ * });
+ */
+export function useOrdersQuery(
+  baseOptions?: Apollo.QueryHookOptions<OrdersQuery, OrdersQueryVariables>,
+) {
+  return Apollo.useQuery<OrdersQuery, OrdersQueryVariables>(
+    OrdersDocument,
+    baseOptions,
+  );
+}
+export function useOrdersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<OrdersQuery, OrdersQueryVariables>,
+) {
+  return Apollo.useLazyQuery<OrdersQuery, OrdersQueryVariables>(
+    OrdersDocument,
+    baseOptions,
+  );
+}
+export type OrdersQueryHookResult = ReturnType<typeof useOrdersQuery>;
+export type OrdersLazyQueryHookResult = ReturnType<typeof useOrdersLazyQuery>;
+export type OrdersQueryResult = Apollo.QueryResult<
+  OrdersQuery,
+  OrdersQueryVariables
+>;
 export const SaleCyclesDocument: DocumentNode = {
   definitions: [
     {
@@ -25955,6 +27039,106 @@ export type TicketTypeReleasePhasesLazyQueryHookResult = ReturnType<
 export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<
   TicketTypeReleasePhasesQuery,
   TicketTypeReleasePhasesQueryVariables
+>;
+export const TicketTypesDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'TicketTypes' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketTypes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useTicketTypesQuery__
+ *
+ * To run a query within a React component, call `useTicketTypesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketTypesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketTypesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTicketTypesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    TicketTypesQuery,
+    TicketTypesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<TicketTypesQuery, TicketTypesQueryVariables>(
+    TicketTypesDocument,
+    baseOptions,
+  );
+}
+export function useTicketTypesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TicketTypesQuery,
+    TicketTypesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<TicketTypesQuery, TicketTypesQueryVariables>(
+    TicketTypesDocument,
+    baseOptions,
+  );
+}
+export type TicketTypesQueryHookResult = ReturnType<typeof useTicketTypesQuery>;
+export type TicketTypesLazyQueryHookResult = ReturnType<
+  typeof useTicketTypesLazyQuery
+>;
+export type TicketTypesQueryResult = Apollo.QueryResult<
+  TicketTypesQuery,
+  TicketTypesQueryVariables
 >;
 export const TicketsDocument: DocumentNode = {
   definitions: [

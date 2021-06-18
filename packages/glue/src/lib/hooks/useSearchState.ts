@@ -35,7 +35,12 @@ const useSearchState = <T = SearchState>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchState]);
 
+  const clearSearchState = () => {
+    setSearchState({} as T);
+  };
+
   return {
+    clearSearchState,
     searchState,
     setSearchState,
   };
