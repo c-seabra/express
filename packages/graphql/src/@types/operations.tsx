@@ -3196,6 +3196,7 @@ export type Order = {
   reference: Scalars['String'];
   source: Maybe<OrderSource>;
   sourceId: Maybe<Scalars['ID']>;
+  sourceUrl: Maybe<Scalars['String']>;
   state: OrderFilterStatus;
   summary: OrderSummary;
   tickets: TicketConnection;
@@ -3278,6 +3279,7 @@ export type Ticket = {
   order: Order;
   state: TicketState;
   ticketType: Maybe<TicketType>;
+  ticketTypeModified: Scalars['Boolean'];
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
@@ -3479,6 +3481,7 @@ export type CommerceProduct = {
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
+  onSale: Maybe<Scalars['Boolean']>;
   packagedProducts: Maybe<Array<CommercePackagedProduct>>;
   packages: Maybe<Array<CommerceProduct>>;
   price: Scalars['Int'];
@@ -3652,6 +3655,7 @@ export type CommerceOrder = {
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
   locked: Maybe<Scalars['Boolean']>;
+  marketingMetadata: Maybe<Scalars['JSON']>;
   metadata: Maybe<Scalars['JSON']>;
   owner: Maybe<CommerceUser>;
   paid: Maybe<Scalars['Int']>;
@@ -4154,6 +4158,8 @@ export type Event = {
   /** Main currency used for buying tickets */
   currency: Maybe<CurrencyCode>;
   description: Maybe<Scalars['String']>;
+  /** Enable/disable physical event registration */
+  enableRegistration: Scalars['Boolean'];
   /** Date at which the event ends */
   endDate: Maybe<Scalars['ISO8601Date']>;
   id: Scalars['ID'];
@@ -6622,6 +6628,7 @@ export type CommerceOrderCreate = {
   itemSubtotal?: Maybe<Scalars['Int']>;
   items: Array<CommerceOrderItemCreateOrUpdate>;
   locked?: Maybe<Scalars['Boolean']>;
+  marketingMetadata?: Maybe<Scalars['JSON']>;
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
@@ -6918,6 +6925,7 @@ export type CommerceOrderUpdate = {
   itemSubtotal?: Maybe<Scalars['Int']>;
   items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
   locked?: Maybe<Scalars['Boolean']>;
+  marketingMetadata?: Maybe<Scalars['JSON']>;
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
@@ -7053,6 +7061,7 @@ export type EventCreateInput = {
   countryId?: Maybe<Scalars['ID']>;
   currency?: Maybe<CurrencyCode>;
   description?: Maybe<Scalars['String']>;
+  enableRegistration?: Maybe<Scalars['Boolean']>;
   /** Must be equal to or greater than the start_date */
   endDate?: Maybe<Scalars['String']>;
   legalEntityId?: Maybe<Scalars['ID']>;
@@ -7080,6 +7089,7 @@ export type EventUpdateInput = {
   countryId?: Maybe<Scalars['ID']>;
   currency?: Maybe<CurrencyCode>;
   description?: Maybe<Scalars['String']>;
+  enableRegistration?: Maybe<Scalars['Boolean']>;
   /** Must be equal to or greater than the start_date */
   endDate?: Maybe<Scalars['String']>;
   legalEntityId?: Maybe<Scalars['ID']>;
