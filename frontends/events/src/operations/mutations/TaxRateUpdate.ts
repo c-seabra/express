@@ -3,14 +3,14 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import {
-  TaxRateUpdateInput,
-  useTaxRateUpdateMutation,
+  CommerceTaxUpdate,
+  useCommerceUpdateTaxMutation,
 } from '@websummit/graphql/src/@types/operations';
 
 import { useAppContext } from '../../components/app/AppContext';
 
 export type TaxRateUpdateRequest = {
-  input: TaxRateUpdateInput;
+  input: CommerceTaxUpdate;
   refetch?: any;
 };
 
@@ -19,13 +19,9 @@ export const useTaxRateUpdateOperation = () => {
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
-  const [taxRateUpdateMutation] = useTaxRateUpdateMutation({
-    onCompleted: ({ taxRateUpdate }) => {
-      if (taxRateUpdate?.userErrors && taxRateUpdate?.userErrors.length > 0) {
-        errSnackbar(taxRateUpdate?.userErrors[0].message);
-      } else {
-        snackbar('Tax rate updated');
-      }
+  const [taxRateUpdateMutation] = useCommerceUpdateTaxMutation({
+    onCompleted: () => {
+      snackbar('Tax rate updated');
     },
     onError: (e) => errSnackbar(e.message),
   });
@@ -39,7 +35,8 @@ export const useTaxRateUpdateOperation = () => {
       },
       refetchQueries: ['Event', 'EventListQuery'],
       variables: {
-        input,
+        commerceTaxUpdate: input,
+        id: input?.id || 'null'
       },
     });
 
