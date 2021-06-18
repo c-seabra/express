@@ -11,7 +11,7 @@ import Table, {
 import {
   EventQuery,
   useCommerceGetStoreQuery,
-  useCommerceListPaymentMethodsQuery,
+  useCommerceListPaymentMethodsQuery, useCommerceListTaxesQuery, useCommerceListTaxTypesQuery,
   useEventQuery,
   useLegalEntitiesQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -194,6 +194,11 @@ const EventSettings = () => {
     onError: (e) => error(e.message),
   });
 
+  const { data: taxesResponse } = useCommerceListTaxesQuery({
+    context: { token },
+    onError: (e) => error(e.message),
+  });
+
   const store = storeData?.commerceGetStore;
 
   const eventExists = !!data?.event;
@@ -203,7 +208,8 @@ const EventSettings = () => {
     (node) => node.node,
   );
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
-  const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
+  const taxes = taxesResponse?.commerceListTaxes?.hits;
+  console.log('taxes', taxes)
   const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
     context: { slug, token },
     skip: !slug,

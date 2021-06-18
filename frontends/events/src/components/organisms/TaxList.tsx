@@ -2,7 +2,7 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
-import { TaxRate } from '@websummit/graphql/src/@types/operations';
+import {CommerceTax, TaxRate} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -20,7 +20,8 @@ type TaxesListProps = {
 };
 
 const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
-  const tableShape: ColumnDescriptor<TaxRate>[] = [
+  console.log('taxes:tab' ,taxes)
+  const tableShape: ColumnDescriptor<CommerceTax>[] = [
     {
       header: 'Tax name',
       renderCell: (tax) => tax.name || 'N/A',
@@ -28,21 +29,22 @@ const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
     {
       header: 'Tax amount %',
       renderCell: (tax) => {
-        return <>{`${tax.value}%` || 'N/A'}</>;
+        return <>{`${tax.rateAmount}%` || 'N/A'}</>;
       },
       width: '14%',
     },
     {
       header: 'Country of tax',
       renderCell: (tax) => (
-        <>{`${tax.country?.code} - ${tax.country?.name}` || 'N/A'}</>
+        <>{`${tax.country}` || 'N/A'}</>
+        // <>{`${tax.country} - ${tax.country?.name}` || 'N/A'}</>
       ),
       width: '20%',
     },
     {
       header: 'Tax type',
       renderCell: (tax) =>
-        <CapitalizedValue>{tax.taxType}</CapitalizedValue> || 'N/A',
+        <CapitalizedValue>{tax.taxType.name}</CapitalizedValue> || 'N/A',
       width: '16%',
     },
   ];
@@ -50,7 +52,7 @@ const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
   return (
     <>
       <ContainerCard noPadding>
-        <Table<TaxRate>
+        <Table<CommerceTax>
           items={taxes}
           tableShape={tableShape}
           onRowClick={onTaxClick}

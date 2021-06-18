@@ -9698,7 +9698,83 @@ export type CommerceListTaxTypesQuery = { __typename?: 'Query' } & {
           { __typename?: 'CommerceTaxType' } & Pick<
             CommerceTaxType,
             'id' | 'description' | 'name'
-          >
+          > & {
+              taxes: Maybe<
+                Array<
+                  { __typename?: 'CommerceTax' } & Pick<
+                    CommerceTax,
+                    | 'country'
+                    | 'createdAt'
+                    | 'id'
+                    | 'lastUpdatedAt'
+                    | 'metadata'
+                    | 'name'
+                    | 'note'
+                    | 'rateAmount'
+                    | 'rateType'
+                  > & {
+                      createdBy: Maybe<
+                        { __typename?: 'CommerceUser' } & Pick<
+                          CommerceUser,
+                          'name'
+                        >
+                      >;
+                      lastUpdatedBy: Maybe<
+                        { __typename?: 'CommerceUser' } & Pick<
+                          CommerceUser,
+                          'name'
+                        >
+                      >;
+                      taxType: { __typename?: 'CommerceTaxType' } & Pick<
+                        CommerceTaxType,
+                        'name'
+                      >;
+                    }
+                >
+              >;
+            }
+        >
+      >;
+    }
+  >;
+};
+
+export type CommerceListTaxesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CommerceListTaxesQuery = { __typename?: 'Query' } & {
+  commerceListTaxes: Maybe<
+    { __typename?: 'CommerceSearchResponseTax' } & {
+      hits: Maybe<
+        Array<
+          { __typename?: 'CommerceTax' } & Pick<
+            CommerceTax,
+            | 'country'
+            | 'createdAt'
+            | 'id'
+            | 'lastUpdatedAt'
+            | 'metadata'
+            | 'name'
+            | 'note'
+            | 'rateAmount'
+            | 'rateType'
+          > & {
+              createdBy: Maybe<
+                { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name'>
+              >;
+              lastUpdatedBy: Maybe<
+                { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name'>
+              >;
+              taxType: { __typename?: 'CommerceTaxType' } & Pick<
+                CommerceTaxType,
+                'id' | 'name'
+              > & {
+                  taxes: Maybe<
+                    Array<
+                      { __typename?: 'CommerceTax' } & Pick<CommerceTax, 'name'>
+                    >
+                  >;
+                };
+            }
         >
       >;
     }
@@ -22237,6 +22313,90 @@ export const CommerceListTaxTypesDocument: DocumentNode = {
                         name: { kind: 'Name', value: 'description' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdBy' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lastUpdatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lastUpdatedBy' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'metadata' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'note' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rateAmount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rateType' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'taxType' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -22296,6 +22456,170 @@ export type CommerceListTaxTypesLazyQueryHookResult = ReturnType<
 export type CommerceListTaxTypesQueryResult = Apollo.QueryResult<
   CommerceListTaxTypesQuery,
   CommerceListTaxTypesQueryVariables
+>;
+export const CommerceListTaxesDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceListTaxes' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceListTaxes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hits' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastUpdatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadata' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'rateAmount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'rateType' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'taxType' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'taxes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useCommerceListTaxesQuery__
+ *
+ * To run a query within a React component, call `useCommerceListTaxesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommerceListTaxesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommerceListTaxesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCommerceListTaxesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CommerceListTaxesQuery,
+    CommerceListTaxesQueryVariables
+  >,
+) {
+  return Apollo.useQuery<
+    CommerceListTaxesQuery,
+    CommerceListTaxesQueryVariables
+  >(CommerceListTaxesDocument, baseOptions);
+}
+export function useCommerceListTaxesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommerceListTaxesQuery,
+    CommerceListTaxesQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<
+    CommerceListTaxesQuery,
+    CommerceListTaxesQueryVariables
+  >(CommerceListTaxesDocument, baseOptions);
+}
+export type CommerceListTaxesQueryHookResult = ReturnType<
+  typeof useCommerceListTaxesQuery
+>;
+export type CommerceListTaxesLazyQueryHookResult = ReturnType<
+  typeof useCommerceListTaxesLazyQuery
+>;
+export type CommerceListTaxesQueryResult = Apollo.QueryResult<
+  CommerceListTaxesQuery,
+  CommerceListTaxesQueryVariables
 >;
 export const CommerceUpdateCustomerDocument: DocumentNode = {
   definitions: [
