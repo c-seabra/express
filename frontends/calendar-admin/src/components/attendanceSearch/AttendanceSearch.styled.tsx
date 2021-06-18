@@ -57,12 +57,12 @@ export const ListItem = styled.li`
   font-size: 0.75rem;
   list-style: none;
   overflow: hidden;
-  padding: 0 1rem 1px;
+  padding: 0 0.75rem 1px;
   text-overflow: ellipsis;
   margin: 0 0.25rem;
   max-width: 25%;
   width: auto;
-  height: 1.75rem;
+  height: 2rem;
   min-width: 110px;
   white-space: nowrap;
   display: flex;
@@ -78,16 +78,20 @@ export const ListItem = styled.li`
     margin-right: 1px;
   }
 
+  div {
+    height: 50%;
+    margin-bottom: -1px;
+  }
+
   svg {
     min-width: 12px;
     padding: 0 0.25rem 0 0;
-    height: 50%;
     position: relative;
     left: 0;
-    margin-bottom: -2px;
+    height: 100%;
   }
 
-  span {
+  .span {
     margin-left: 0.1rem;
     flex: 1;
     white-space: nowrap;
