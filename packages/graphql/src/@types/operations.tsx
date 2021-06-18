@@ -3196,6 +3196,7 @@ export type Order = {
   reference: Scalars['String'];
   source: Maybe<OrderSource>;
   sourceId: Maybe<Scalars['ID']>;
+  sourceUrl: Maybe<Scalars['String']>;
   state: OrderFilterStatus;
   summary: OrderSummary;
   tickets: TicketConnection;
@@ -3278,6 +3279,7 @@ export type Ticket = {
   order: Order;
   state: TicketState;
   ticketType: Maybe<TicketType>;
+  ticketTypeModified: Scalars['Boolean'];
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
@@ -3479,6 +3481,7 @@ export type CommerceProduct = {
   lastUpdatedBy: Maybe<CommerceUser>;
   metadata: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
+  onSale: Maybe<Scalars['Boolean']>;
   packagedProducts: Maybe<Array<CommercePackagedProduct>>;
   packages: Maybe<Array<CommerceProduct>>;
   price: Scalars['Int'];
@@ -3652,6 +3655,7 @@ export type CommerceOrder = {
   lastUpdatedAt: Maybe<Scalars['Date']>;
   lastUpdatedBy: Maybe<CommerceUser>;
   locked: Maybe<Scalars['Boolean']>;
+  marketingMetadata: Maybe<Scalars['JSON']>;
   metadata: Maybe<Scalars['JSON']>;
   owner: Maybe<CommerceUser>;
   paid: Maybe<Scalars['Int']>;
@@ -4154,6 +4158,8 @@ export type Event = {
   /** Main currency used for buying tickets */
   currency: Maybe<CurrencyCode>;
   description: Maybe<Scalars['String']>;
+  /** Enable/disable physical event registration */
+  enableRegistration: Scalars['Boolean'];
   /** Date at which the event ends */
   endDate: Maybe<Scalars['ISO8601Date']>;
   id: Scalars['ID'];
@@ -6622,6 +6628,7 @@ export type CommerceOrderCreate = {
   itemSubtotal?: Maybe<Scalars['Int']>;
   items: Array<CommerceOrderItemCreateOrUpdate>;
   locked?: Maybe<Scalars['Boolean']>;
+  marketingMetadata?: Maybe<Scalars['JSON']>;
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
@@ -6918,6 +6925,7 @@ export type CommerceOrderUpdate = {
   itemSubtotal?: Maybe<Scalars['Int']>;
   items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
   locked?: Maybe<Scalars['Boolean']>;
+  marketingMetadata?: Maybe<Scalars['JSON']>;
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
@@ -7053,6 +7061,7 @@ export type EventCreateInput = {
   countryId?: Maybe<Scalars['ID']>;
   currency?: Maybe<CurrencyCode>;
   description?: Maybe<Scalars['String']>;
+  enableRegistration?: Maybe<Scalars['Boolean']>;
   /** Must be equal to or greater than the start_date */
   endDate?: Maybe<Scalars['String']>;
   legalEntityId?: Maybe<Scalars['ID']>;
@@ -7080,6 +7089,7 @@ export type EventUpdateInput = {
   countryId?: Maybe<Scalars['ID']>;
   currency?: Maybe<CurrencyCode>;
   description?: Maybe<Scalars['String']>;
+  enableRegistration?: Maybe<Scalars['Boolean']>;
   /** Must be equal to or greater than the start_date */
   endDate?: Maybe<Scalars['String']>;
   legalEntityId?: Maybe<Scalars['ID']>;
@@ -8333,6 +8343,38 @@ export type CommerceCreateTagMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type CommerceCreateTaxMutationVariables = Exact<{
+  commerceTaxCreate: CommerceTaxCreate;
+}>;
+
+export type CommerceCreateTaxMutation = { __typename?: 'Mutation' } & {
+  commerceCreateTax: Maybe<
+    { __typename?: 'CommerceTax' } & Pick<
+      CommerceTax,
+      | 'country'
+      | 'createdAt'
+      | 'id'
+      | 'lastUpdatedAt'
+      | 'metadata'
+      | 'name'
+      | 'note'
+      | 'rateAmount'
+      | 'rateType'
+    > & {
+        createdBy: Maybe<
+          { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name'>
+        >;
+        lastUpdatedBy: Maybe<
+          { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name'>
+        >;
+        taxType: { __typename?: 'CommerceTaxType' } & Pick<
+          CommerceTaxType,
+          'name'
+        >;
+      }
+  >;
+};
+
 export type CommerceCreateTransactionMutationVariables = Exact<{
   commerceTransactionCreate: CommerceTransactionCreate;
   orderId: Scalars['ID'];
@@ -8473,6 +8515,39 @@ export type CommerceUpdateTagMutation = { __typename?: 'Mutation' } & {
       CommerceTag,
       'id' | 'code' | 'description'
     >
+  >;
+};
+
+export type CommerceUpdateTaxMutationVariables = Exact<{
+  commerceTaxUpdate: CommerceTaxUpdate;
+  id: Scalars['ID'];
+}>;
+
+export type CommerceUpdateTaxMutation = { __typename?: 'Mutation' } & {
+  commerceUpdateTax: Maybe<
+    { __typename?: 'CommerceTax' } & Pick<
+      CommerceTax,
+      | 'country'
+      | 'createdAt'
+      | 'id'
+      | 'lastUpdatedAt'
+      | 'metadata'
+      | 'name'
+      | 'note'
+      | 'rateAmount'
+      | 'rateType'
+    > & {
+        createdBy: Maybe<
+          { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name'>
+        >;
+        lastUpdatedBy: Maybe<
+          { __typename?: 'CommerceUser' } & Pick<CommerceUser, 'name'>
+        >;
+        taxType: { __typename?: 'CommerceTaxType' } & Pick<
+          CommerceTaxType,
+          'name'
+        >;
+      }
   >;
 };
 
@@ -8721,40 +8796,6 @@ export type TicketMagicLoginLinkRequestMutation = {
 } & {
   assignmentMagicLinkLoginRequest: Maybe<
     { __typename?: 'AssignmentMagicLinkLoginRequestPayload' } & {
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
-
-export type TaxRateCreateMutationVariables = Exact<{
-  input: TaxRateCreateInput;
-}>;
-
-export type TaxRateCreateMutation = { __typename?: 'Mutation' } & {
-  taxRateCreate: Maybe<
-    { __typename?: 'TaxRateCreatePayload' } & {
-      taxRate: Maybe<
-        { __typename?: 'TaxRate' } & Pick<TaxRate, 'id' | 'name' | 'value'>
-      >;
-      userErrors: Array<
-        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
-      >;
-    }
-  >;
-};
-
-export type TaxRateUpdateMutationVariables = Exact<{
-  input: TaxRateUpdateInput;
-}>;
-
-export type TaxRateUpdateMutation = { __typename?: 'Mutation' } & {
-  taxRateUpdate: Maybe<
-    { __typename?: 'TaxRateUpdatePayload' } & {
-      taxRate: Maybe<
-        { __typename?: 'TaxRate' } & Pick<TaxRate, 'id' | 'name' | 'value'>
-      >;
       userErrors: Array<
         { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
       >;
@@ -10364,27 +10405,6 @@ export type SalesCyclesQuery = { __typename?: 'Query' } & {
         >;
       }
   >;
-};
-
-export type TaxRatesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type TaxRatesQuery = { __typename?: 'Query' } & {
-  taxRates: { __typename?: 'TaxRateConnection' } & {
-    edges: Array<
-      { __typename?: 'TaxRateEdge' } & {
-        node: { __typename?: 'TaxRate' } & Pick<
-          TaxRate,
-          'id' | 'name' | 'rateType' | 'taxType' | 'value'
-        > & {
-            country: { __typename?: 'EventConfigurationCountry' } & Pick<
-              EventConfigurationCountry,
-              'name'
-            >;
-            event: { __typename?: 'Event' } & Pick<Event, 'name' | 'brandName'>;
-          };
-      }
-    >;
-  };
 };
 
 export type TicketCategoriesQueryVariables = Exact<{ [key: string]: never }>;
@@ -15657,6 +15677,139 @@ export type CommerceCreateTagMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateTagMutation,
   CommerceCreateTagMutationVariables
 >;
+export const CommerceCreateTaxDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceCreateTax' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceTaxCreate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceTaxCreate' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceCreateTax' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedAt' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceTaxCreate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceTaxCreate' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceCreateTaxMutationFn = Apollo.MutationFunction<
+  CommerceCreateTaxMutation,
+  CommerceCreateTaxMutationVariables
+>;
+
+/**
+ * __useCommerceCreateTaxMutation__
+ *
+ * To run a mutation, you first call `useCommerceCreateTaxMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceCreateTaxMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceCreateTaxMutation, { data, loading, error }] = useCommerceCreateTaxMutation({
+ *   variables: {
+ *      commerceTaxCreate: // value for 'commerceTaxCreate'
+ *   },
+ * });
+ */
+export function useCommerceCreateTaxMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceCreateTaxMutation,
+    CommerceCreateTaxMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceCreateTaxMutation,
+    CommerceCreateTaxMutationVariables
+  >(CommerceCreateTaxDocument, baseOptions);
+}
+export type CommerceCreateTaxMutationHookResult = ReturnType<
+  typeof useCommerceCreateTaxMutation
+>;
+export type CommerceCreateTaxMutationResult = Apollo.MutationResult<CommerceCreateTaxMutation>;
+export type CommerceCreateTaxMutationOptions = Apollo.BaseMutationOptions<
+  CommerceCreateTaxMutation,
+  CommerceCreateTaxMutationVariables
+>;
 export const CommerceCreateTransactionDocument: DocumentNode = {
   definitions: [
     {
@@ -16785,6 +16938,156 @@ export type CommerceUpdateTagMutationResult = Apollo.MutationResult<CommerceUpda
 export type CommerceUpdateTagMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateTagMutation,
   CommerceUpdateTagMutationVariables
+>;
+export const CommerceUpdateTaxDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'CommerceUpdateTax' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'commerceTaxUpdate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'commerceTaxUpdate' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'commerceUpdateTax' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedAt' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'lastUpdatedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rateAmount' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rateType' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommerceTaxUpdate' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'commerceTaxUpdate' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type CommerceUpdateTaxMutationFn = Apollo.MutationFunction<
+  CommerceUpdateTaxMutation,
+  CommerceUpdateTaxMutationVariables
+>;
+
+/**
+ * __useCommerceUpdateTaxMutation__
+ *
+ * To run a mutation, you first call `useCommerceUpdateTaxMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommerceUpdateTaxMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commerceUpdateTaxMutation, { data, loading, error }] = useCommerceUpdateTaxMutation({
+ *   variables: {
+ *      commerceTaxUpdate: // value for 'commerceTaxUpdate'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCommerceUpdateTaxMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CommerceUpdateTaxMutation,
+    CommerceUpdateTaxMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    CommerceUpdateTaxMutation,
+    CommerceUpdateTaxMutationVariables
+  >(CommerceUpdateTaxDocument, baseOptions);
+}
+export type CommerceUpdateTaxMutationHookResult = ReturnType<
+  typeof useCommerceUpdateTaxMutation
+>;
+export type CommerceUpdateTaxMutationResult = Apollo.MutationResult<CommerceUpdateTaxMutation>;
+export type CommerceUpdateTaxMutationOptions = Apollo.BaseMutationOptions<
+  CommerceUpdateTaxMutation,
+  CommerceUpdateTaxMutationVariables
 >;
 export const CreateOrderDocument: DocumentNode = {
   definitions: [
@@ -18109,240 +18412,6 @@ export type TicketMagicLoginLinkRequestMutationResult = Apollo.MutationResult<Ti
 export type TicketMagicLoginLinkRequestMutationOptions = Apollo.BaseMutationOptions<
   TicketMagicLoginLinkRequestMutation,
   TicketMagicLoginLinkRequestMutationVariables
->;
-export const TaxRateCreateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'taxRateCreate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxRateCreate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'taxRate' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'TaxRateCreateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TaxRateCreateMutationFn = Apollo.MutationFunction<
-  TaxRateCreateMutation,
-  TaxRateCreateMutationVariables
->;
-
-/**
- * __useTaxRateCreateMutation__
- *
- * To run a mutation, you first call `useTaxRateCreateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTaxRateCreateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [taxRateCreateMutation, { data, loading, error }] = useTaxRateCreateMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useTaxRateCreateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TaxRateCreateMutation,
-    TaxRateCreateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TaxRateCreateMutation,
-    TaxRateCreateMutationVariables
-  >(TaxRateCreateDocument, baseOptions);
-}
-export type TaxRateCreateMutationHookResult = ReturnType<
-  typeof useTaxRateCreateMutation
->;
-export type TaxRateCreateMutationResult = Apollo.MutationResult<TaxRateCreateMutation>;
-export type TaxRateCreateMutationOptions = Apollo.BaseMutationOptions<
-  TaxRateCreateMutation,
-  TaxRateCreateMutationVariables
->;
-export const TaxRateUpdateDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TaxRateUpdate' },
-      operation: 'mutation',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxRateUpdate' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'taxRate' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'userErrors' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'message' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'TaxRateUpdateInput' },
-            },
-          },
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-        },
-      ],
-    },
-  ],
-  kind: 'Document',
-};
-export type TaxRateUpdateMutationFn = Apollo.MutationFunction<
-  TaxRateUpdateMutation,
-  TaxRateUpdateMutationVariables
->;
-
-/**
- * __useTaxRateUpdateMutation__
- *
- * To run a mutation, you first call `useTaxRateUpdateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTaxRateUpdateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [taxRateUpdateMutation, { data, loading, error }] = useTaxRateUpdateMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useTaxRateUpdateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TaxRateUpdateMutation,
-    TaxRateUpdateMutationVariables
-  >,
-) {
-  return Apollo.useMutation<
-    TaxRateUpdateMutation,
-    TaxRateUpdateMutationVariables
-  >(TaxRateUpdateDocument, baseOptions);
-}
-export type TaxRateUpdateMutationHookResult = ReturnType<
-  typeof useTaxRateUpdateMutation
->;
-export type TaxRateUpdateMutationResult = Apollo.MutationResult<TaxRateUpdateMutation>;
-export type TaxRateUpdateMutationOptions = Apollo.BaseMutationOptions<
-  TaxRateUpdateMutation,
-  TaxRateUpdateMutationVariables
 >;
 export const TicketAcceptDocument: DocumentNode = {
   definitions: [
@@ -25689,141 +25758,6 @@ export type SalesCyclesLazyQueryHookResult = ReturnType<
 export type SalesCyclesQueryResult = Apollo.QueryResult<
   SalesCyclesQuery,
   SalesCyclesQueryVariables
->;
-export const TaxRatesDocument: DocumentNode = {
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      name: { kind: 'Name', value: 'TaxRates' },
-      operation: 'query',
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'taxRates' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'country' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'event' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'brandName' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'rateType' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'taxType' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'value' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-  kind: 'Document',
-};
-
-/**
- * __useTaxRatesQuery__
- *
- * To run a query within a React component, call `useTaxRatesQuery` and pass it any options that fit your needs.
- * When your component renders, `useTaxRatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTaxRatesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useTaxRatesQuery(
-  baseOptions?: Apollo.QueryHookOptions<TaxRatesQuery, TaxRatesQueryVariables>,
-) {
-  return Apollo.useQuery<TaxRatesQuery, TaxRatesQueryVariables>(
-    TaxRatesDocument,
-    baseOptions,
-  );
-}
-export function useTaxRatesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TaxRatesQuery,
-    TaxRatesQueryVariables
-  >,
-) {
-  return Apollo.useLazyQuery<TaxRatesQuery, TaxRatesQueryVariables>(
-    TaxRatesDocument,
-    baseOptions,
-  );
-}
-export type TaxRatesQueryHookResult = ReturnType<typeof useTaxRatesQuery>;
-export type TaxRatesLazyQueryHookResult = ReturnType<
-  typeof useTaxRatesLazyQuery
->;
-export type TaxRatesQueryResult = Apollo.QueryResult<
-  TaxRatesQuery,
-  TaxRatesQueryVariables
 >;
 export const TicketCategoriesDocument: DocumentNode = {
   definitions: [
