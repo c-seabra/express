@@ -1,4 +1,4 @@
-import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
+import { useHistoryState } from '@websummit/glue/src/lib/hooks/useHistoryState';
 import React, {
   ReactElement,
   useCallback,
@@ -26,20 +26,13 @@ type AttendanceSearchState = {
 
 const AttendanceSearch = (): ReactElement => {
   const { setAttendances, setColors } = useContext(AppContext);
-
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useHistoryState(
+    'calendarAdminSearchInput',
+    '',
+  );
   const [paints, setPaints] = useState<Array<Color>>([]);
   const [selections, setSelections] = useState<Array<Attendance>>([]);
   const [display, setDisplay] = useState<boolean>(false);
-
-  const processInitialSearchState = (state: AttendanceSearchState) => {
-    if (state.searchQuery) setSearchQuery(state.searchQuery);
-  };
-
-  const { setSearchState } = useSearchState<AttendanceSearchState>({
-    processInitialSearchState,
-  });
-
   const { results, error, loading } = useAttendancesQuery({
     searchQuery,
   });
@@ -74,31 +67,18 @@ const AttendanceSearch = (): ReactElement => {
     return paints?.find((e) => e.id === id)?.colorHash as string;
   };
 
-  const isFirstRun = useRef(true);
-
-  const handleSearch = useCallback(
-    (query: string) => {
-      setDisplay(query.length > 2);
-      setSearchState((prevState) => ({
-        ...prevState,
-        searchQuery: query,
-      }));
-    },
-    [setSearchState],
-  );
+  const handleSearch = useCallback((query: string) => {
+    setDisplay(query.length > 2);
+  }, []);
 
   useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
-
     handleSearch(searchQuery);
-  }, [setSearchState, handleSearch, searchQuery]);
+  }, [handleSearch, searchQuery]);
 
   return (
     <SearchContainer>
       <StyledSearchInput
+        key="calendarAdminSearchInputEl"
         defaultValue={searchQuery}
         placeholder="Search by Attendance name."
         type="text"
@@ -126,8 +106,10 @@ const AttendanceSearch = (): ReactElement => {
               border: `1px solid ${hex(selection?.id)}`,
             }}
           >
-            <Close onClick={() => handleRemove(selection)} />
-            <span>
+            <div aria-hidden="true" onClick={() => handleRemove(selection)}>
+              <Close />
+            </div>
+            <span className="span">
               {selection.name} <i>({selection.bookingRef})</i>
             </span>
           </ListItem>
