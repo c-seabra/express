@@ -59,7 +59,7 @@ export default function loadContainer(props: RequiredProps) {
 
   // Active Single Spa Layout and start
   layoutEngine.activate();
-  start();
+  start({ urlRerouteOnly: true });
 
   // Add some styles for the micro conatiner into the doc head
   const microCss = '#micro { margin: 0 auto; }';
