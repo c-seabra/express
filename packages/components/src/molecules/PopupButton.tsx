@@ -12,6 +12,7 @@ const Container = styled.div`
 type PopupButtonProps = {
   buttonText?: string;
   children?: ReactElement | ReactElement[] | string;
+  noPadding?: boolean;
   renderButton?: ({
     isOpen,
     onClick,
@@ -19,17 +20,27 @@ type PopupButtonProps = {
     isOpen: boolean;
     onClick: () => void;
   }) => ReactElement;
+  renderContents?: ({
+    closePopup,
+    isOpen,
+  }: {
+    closePopup: () => void;
+    isOpen: boolean;
+  }) => ReactElement;
 };
 
 const PopupButton = ({
   buttonText,
   renderButton,
   children,
+  renderContents,
+  noPadding = false,
 }: PopupButtonProps) => {
   const [isOpen, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const togglePopup = () => setOpen((p) => !p);
+  const closePopup = () => setOpen(false);
 
   return (
     <Container ref={containerRef}>
@@ -39,11 +50,12 @@ const PopupButton = ({
         </Button>
       )}
       <PopupModal
-        closeModal={() => setOpen(false)}
+        closeModal={closePopup}
         domNode={containerRef?.current}
         isOpen={isOpen}
+        noPadding={noPadding}
       >
-        {children}
+        {renderContents ? renderContents({ closePopup, isOpen }) : children}
       </PopupModal>
     </Container>
   );
