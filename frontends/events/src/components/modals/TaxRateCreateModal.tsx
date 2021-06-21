@@ -162,11 +162,11 @@ const TaxRateCreateModal = ({
 
     if (_mode === 'EDIT') {
       values = {
-        country: prefilledTax.country.id,
+        country: prefilledTax.country,
         id: prefilledTax.id,
         name: prefilledTax.name,
-        type: prefilledTax.taxType.toUpperCase(),
-        value: prefilledTax.value,
+        type: prefilledTax.taxType.name.toUpperCase(),
+        value: prefilledTax.rateAmount,
       };
     }
 
