@@ -17,6 +17,8 @@ import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
 import {
   CommerceGetStoreQuery,
   CommerceListProductsQuery,
+  CommerceProduct,
+  CommerceProductTaxMode,
   CommerceSaleProductType,
   useCommerceSaleProductCreateMutation,
   useCommerceUpdateSaleProductMutation,
@@ -44,21 +46,26 @@ const CenteredVertically = styled.div`
   align-items: center;
 `;
 
+type TaxTypes = CommerceGetQueryResult<
+  CommerceGetStoreQuery,
+  'commerceGetStore'
+>['taxTypes'];
+
+type CommerceProducts = CommerceListQueryHitsResult<
+  CommerceListProductsQuery,
+  'commerceListProducts'
+>;
+
 type ModalProps = {
   closeModal: () => void;
   currencySymbol: string;
   existingProducts: any;
   isOpen: boolean;
   prefillData?: any;
-  products: CommerceListQueryHitsResult<
-    CommerceListProductsQuery,
-    'commerceListProducts'
-  >;
+  products: CommerceProducts;
   saleId: string;
-  taxTypes?: CommerceGetQueryResult<
-    CommerceGetStoreQuery,
-    'commerceGetStore'
-  >['taxTypes'];
+  storeCountry?: string;
+  taxTypes?: TaxTypes;
 };
 
 export type SaleProductFormData = {
@@ -98,6 +105,34 @@ const getPriceOptions = (prices: any[] = []) => [
   ...prices.map((price) => ({ label: price?.name, value: price?.id })),
 ];
 
+const getProductTaxOptions = ({
+  commerceProduct,
+  taxTypes,
+  storeCountry,
+}: {
+  commerceProduct?: Pick<CommerceProduct, 'taxMode'> & {
+    taxType?: { id?: string | null };
+  };
+  storeCountry?: string;
+  taxTypes: TaxTypes;
+}) => {
+  const productTaxType = taxTypes?.find(
+    (type) => type.id === commerceProduct?.taxType?.id,
+  );
+
+  // if product tax mode is B2C, we want to return only one tax rate
+  // which is the tax rate matching the product and the store country
+  if (commerceProduct?.taxMode === CommerceProductTaxMode.B2C) {
+    const productTaxByStoreCountry = productTaxType?.taxes?.find(
+      (tax) => tax.country === storeCountry,
+    );
+
+    return productTaxByStoreCountry ? [productTaxByStoreCountry] : [];
+  }
+
+  return productTaxType?.taxes;
+};
+
 const SaleProductModalWrapper = ({
   closeModal,
   currencySymbol,
@@ -106,6 +141,7 @@ const SaleProductModalWrapper = ({
   prefillData,
   products,
   saleId,
+  storeCountry,
   taxTypes = [],
 }: ModalProps) => {
   const context = useRequestContext();
@@ -226,9 +262,11 @@ const SaleProductModalWrapper = ({
           (product) => product.id === props.values.product,
         );
 
-        const ticketTypeTaxRates = taxTypes?.find(
-          (type) => type.id === selectedTicketType?.taxType?.id,
-        )?.taxes;
+        const ticketTypeTaxRates = getProductTaxOptions({
+          commerceProduct: selectedTicketType,
+          storeCountry,
+          taxTypes,
+        });
 
         return (
           <Form>
