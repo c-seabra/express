@@ -204,10 +204,11 @@ const TicketsBulkAssignPage = () => {
       <>
         <Spacing bottom="2rem">
           <Spacing bottom="2rem" top="2rem">
-            <Title>Ticket assignment</Title>
+            <Spacing bottom="1rem">
+              <Title>Bulk assignment of tickets</Title>
+            </Spacing>
             <SubHeader>
-              Allows fast and easy way to assign one or more tickets. This
-              feature is accelerating bulk operations
+              Allows fast and easy way to bulk assign one or more tickets.
             </SubHeader>
           </Spacing>
         </Spacing>
