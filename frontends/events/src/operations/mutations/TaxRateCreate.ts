@@ -6,9 +6,9 @@ import {
   CommerceTaxCreate,
   useCommerceCreateTaxMutation,
 } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_LIST_TAXES from '@websummit/graphql/src/operations/queries/CommerceListTaxes';
 
 import { useRequestContext } from '../../components/app/AppContext';
-import COMMERCE_LIST_TAXES from "@websummit/graphql/src/operations/queries/CommerceListTaxes";
 
 export type TaxRateCreateRequest = {
   input: CommerceTaxCreate;
