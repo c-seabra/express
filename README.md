@@ -1,58 +1,71 @@
 # Micro
 
-<!-- vscode-markdown-toc -->
+<!-- 
+This readme uses an extension to automatically generate a table of content, no configuration required:
+Name: Markdown All in One
+Id: yzhang.markdown-all-in-one
+Description: All you need to write Markdown (keyboard shortcuts, table of contents, auto preview and more)
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one
+-->
 
-- [Introduction](#Introduction)
-- [Quick start](#Quickstart)
-- [Concepts and architecture](#Conceptsandarchitecture)
-  - [Lerna](#Lerna)
-  - [References](#References)
-- [Creating a single-spa micro frontend](#Creatingasingle-spamicrofrontend)
-  - [1. Initialise with Single-spa CLI](#InitialisewithSingle-spaCLI)
-  - [2. Amend package.json start command](#Amendpackage.jsonstartcommand)
-  - [3. Add version value](#Addversionvalue)
-  - [4. Add reference to import map](#Addreferencetoimportmap)
-  - [5. Add namespace to babel config](#Addnamespacetobabelconfig)
-  - [6. Install dependencies and test](#Installdependenciesandtest)
-- [Creating Component and Library Packages](#CreatingComponentandLibraryPackages)
-  - [1. Create a new package within the package directory](#Createanewpackagewithinthepackagedirectory)
-  - [2. Copy build scripts, dependencies and npm commands](#Copybuildscriptsdependenciesandnpmcommands)
-  - [3. Add package path to TypeScript path configuration.](#AddpackagepathtoTypeScriptpathconfiguration.)
-  - [4. Add your package as a dependency and test](#Addyourpackageasadependencyandtest)
+- [Micro](#micro)
+  - [Introduction](#introduction)
+  - [Quick start](#quick-start)
+    - [One time credentials setup](#one-time-credentials-setup)
+    - [How to run things](#how-to-run-things)
+  - [Concepts and architecture](#concepts-and-architecture)
+    - [Lerna](#lerna)
+    - [References](#references)
+  - [Creating a single-spa micro frontend](#creating-a-single-spa-micro-frontend)
+    - [1. Initialise with Single-spa CLI](#1-initialise-with-single-spa-cli)
+    - [2. Amend package.json start command](#2-amend-packagejson-start-command)
+    - [3. Add version value](#3-add-version-value)
+    - [4. Add reference to import map](#4-add-reference-to-import-map)
+    - [5. Add namespace to babel config](#5-add-namespace-to-babel-config)
+    - [6. Install dependencies and test](#6-install-dependencies-and-test)
+  - [Creating Component and Library Packages](#creating-component-and-library-packages)
+    - [1. Create a new package within the package directory](#1-create-a-new-package-within-the-package-directory)
+    - [2. Copy build scripts, dependencies and npm commands](#2-copy-build-scripts-dependencies-and-npm-commands)
+    - [3. Add package path to TypeScript path configuration.](#3-add-package-path-to-typescript-path-configuration)
+    - [4. Add your package as a dependency and test](#4-add-your-package-as-a-dependency-and-test)
 
-<!-- vscode-markdown-toc-config
-	numbering=false
-	autoSave=true
-	/vscode-markdown-toc-config -->
-<!-- /vscode-markdown-toc -->
-
-## <a name='Introduction'></a>Introduction
+## Introduction
 
 `micro` is a micro frontend monorepo containing the complete set of component parts to construct a Websummit Front End.
 
-This project uses Lerna to manage the monorepo and handle package publishing and local dependency management.
+This project uses Lerna to manage the monorepo and handle deployment and local dependency management.
 
 It uses single-spa and related concepts to enable development and deployment of independent, framework agnostic micro frontends, within a host application.
 
 In addition, it also contains supporting packages, including UI components and libs, to allow developer to easily develop and share code across the micro frontends.
 
-## <a name='Quickstart'></a>Quick start
+## Quick start
 
-Install dependencies across all packages and micro frontends by running `yarn install`
+### One time credentials setup
 
-After installing the external dependencies, in order to make all the shared local packages available, it is necessary to build them using this command:
-`yarn build:packages`
+We have an `.env.example` file that you can copy as `.env` to set some environment variables.
 
-This will run the build command in each package in the packages folder.
+There variables are shared between all micro frontends. Currently we use:
+* `AUTH_TOKEN` this is your admin auth token you get from omnia, it determines the active conference, your user permissions and is valid for either staging or production. There are a few prefixed environment variables that you can use to save different tokens and cycle between them.
+* `API_URL` this is the url pointing to the catalyst that you want to use. There are prefixed examples for production and sandbox that you can copy, or you point it to your local setup as needed.
 
-To run the single-spa micro frontend host run:
-`yarn start:single-spa`
+### How to run things
 
-And browse to `”http://localhost:9000”`
+There are a few commands that are interesting depending on what you want to accomplish. Here is a summary of them:
+* `yarn start` this will get you a fully featured local development environment under http://localhost:9000/demo with hot reloading. It will first install yarn packages, then build shared packages, then start all microfrontends and a thin root container that hosts them all, supporting individual hot reloading, debugging etc. of each micro frontend.
+* `yarn start:omnia` this will build static assets of all micro frontends and then host them in a simulated S3 bucket and run a thin omnia optimized container on http://localhost:9337 that can be used as `PUBLIC_MICRO_URL` for a local `avenger` setup. This does not enable hot reloading of micro frontends, so you will have to rebuild on changes, but allows you to test everything in the context of omnia in a production like setup.
+* `yarn pretty` This runs our formatter to auto format your code before you commit it
+* `yarn fix` this runs eslint to fix code style issues and do things like auto sorting and simple transformations of code
+* `yarn ready` runs both formatter and linter in a neat package (this is also added as a pre-commit git-hook for your convenience)
+* `yarn check` runs our build/compile steps that check for typescript errors, then if they succeds runs formatter/linter. This is the all in one package if you want to be sure this passes ci
+* `yarn test` runs our test suite to ensure everything still works
+* `yarn test:watch` runs only the tests for code you changed and keeps rereunning them as you edit files
+* `yarn codegen` runs our graphql code generation pipeline that updates the types of the `graphql` package with any new queries/mutations you added and backend changes
+* `yarn clean` in case you need to start fresh, in practice rarely needed
 
-## <a name='Conceptsandarchitecture'></a>Concepts and architecture
+## Concepts and architecture
 
-### <a name='Lerna'></a>Lerna
+### Lerna
 
 **Lerna is a tool that optimizes the workflow around managing multi-package repositories with git and npm.**
 
@@ -66,7 +79,7 @@ Lerna provides a simple set of commands and filtering options to make this as si
 
 Which will add `@someco/somepackage` as a dev dependency to `@websummit-micro/targetpackage`
 
-### <a name='References'></a>References
+### References
 
 This repository relies heavily on the following resources:
 
@@ -78,12 +91,12 @@ And for some additional information on single-spa both within a lerna repo and s
 https://github.com/tsukhu/single-spa-portal-monorepo
 https://github.com/tsukhu?tab=repositories&q=single-spa&type=&language=
 
-## <a name='Creatingasingle-spamicrofrontend'></a>Creating a single-spa micro frontend
+## Creating a single-spa micro frontend
 
 Before beginning - ensure a basic understanding of the concepts and technologies used:
 [Single Spa Documentation](https://single-spa.js.org/docs/getting-started-overview)
 
-### <a name='InitialisewithSingle-spaCLI'></a>1. Initialise with Single-spa CLI
+### 1. Initialise with Single-spa CLI
 
 To create a new single-spa application, use the single-spa CLI. Because the CLI will run a `yarn` command as part of the setup, ensure that you run the CLI from the project root., in order that lerna and yarn can manage the dependencies at root level.
 
@@ -110,7 +123,7 @@ and when prompted for the app name, please maintain consistency with the folder 
 
 When the CLI is complete there are a couple of steps and amendments to be made to fully integrate the micro-frontend into the workflow.
 
-### <a name='Amendpackage.jsonstartcommand'></a>2. Amend package.json start command
+### 2. Amend package.json start command
 
 Firstly, when the single-spa CLI runs it initiates each micro-frontend in it’s own repository. This conflicts with the monorepo approach therefore you will need to delete the `.git` folder from inside the micro-frontend.
 
@@ -120,13 +133,13 @@ Next in order that the micro-frontend can be run alongside other micro-frontends
 
 Where `[x]` is the next incremented port number.
 
-### <a name='Addversionvalue'></a>3. Add version value
+### 3. Add version value
 
 In order for lerna and yarn workspaces to manage the shared dependencies, each package.json needs to include a version number. Otherwise it will be ignored when running root level lerna/yarn commands. The single-spa CLI does not add a version field to the package.json when initialising. Therefore it is necessary to manually add this value to the package.json file of the new micro-frontend e.g.
 
 `”version”: “1.0.0”`
 
-### <a name='Addreferencetoimportmap'></a>4. Add reference to import map
+### 4. Add reference to import map
 
 The next step is to add the reference for the micro-frontend to the import map in the single-spa host. To do this, open:
 
@@ -156,11 +169,11 @@ You can then render and view your micro-frontend by adding a further reference t
 <application name=“@websummit-micro/ticket-support”></application>
 ```
 
-### <a name='Addnamespacetobabelconfig'></a>5. Add namespace to babel config
+### 5. Add namespace to babel config
 
 NOTE: if you are using styled components within a react micro frontend, in order to avoid CSS selector clashes with duplicate classnames in other microfrontends, it is required to have a babel configuraiton with a namespace specified. This namespace will be used as a classname prefix for all styled components in the micro frontend. For more information check the [styled components plugin documentation](https://styled-components.com/docs/tooling#namespace)
 
-### <a name='Installdependenciesandtest'></a>6. Install dependencies and test
+### 6. Install dependencies and test
 
 When all the previous steps are completed, form the root of your application, run `yarn`
 
@@ -168,11 +181,11 @@ This should manage and bootstrap any dependencies
 
 You can now test your micro frontend by running `yarn start:single-spa` from the root.
 
-## <a name='CreatingComponentandLibraryPackages'></a>Creating Component and Library Packages
+## Creating Component and Library Packages
 
 Lerna and Yarn workspaces enable us to create packages which can be shared and used within the mono-repo as if they were npm packages when working locally.
 
-### <a name='Createanewpackagewithinthepackagedirectory'></a>1. Create a new package within the package directory
+### 1. Create a new package within the package directory
 
 First browse to the packages directory
 
@@ -189,7 +202,7 @@ When prompted, ensure that you name your package with the correct scope e.g.
 
 Ensure you add the version number and set ‘private’ to true when prompted. When promoted for an app entry point add `dist/index`
 
-### <a name='Copybuildscriptsdependenciesandnpmcommands'></a>2. Copy build scripts, dependencies and npm commands
+### 2. Copy build scripts, dependencies and npm commands
 
 There are two existing example packages in the packages directory, one contains a React component ui kit , one a simple vanilla JS lib-example which exports a number. In each case you can see that the package.json files contain the following build scripts, which are in turn called by the lerna commands in the root level package.json. Therefore, ensure that your new component includes the same commands and dependencies:
 
@@ -233,7 +246,7 @@ And a `tsconfig.build.json` file with the following contents:
 
 The examples above are for a vanilla javascript package. If using React or another framework you will need to add to the tsconfig files accordingly. These configs ensure that the packages are linked to the root configs for a consistent build.
 
-### <a name='AddpackagepathtoTypeScriptpathconfiguration.'></a>3. Add package path to TypeScript path configuration.
+### 3. Add package path to TypeScript path configuration.
 
 In the root `tsconfig.json` file, ensure that there is a mapping to your package in the paths configuration:
 
@@ -248,7 +261,7 @@ Note: these can be wild carded e.g.
 
 `”websummit/*”: [“packages/*/src”]`
 
-### <a name='Addyourpackageasadependencyandtest'></a>4. Add your package as a dependency and test
+### 4. Add your package as a dependency and test
 
 To use your package as a dependency elsewhere in the mono repo it is necessary to add it to the package.json of the consuming package. In order for Lerna and yarn to manage the symlinking necessary to consume local unpublished packages, this action should be initiated from the root using the lerna CLI and the scope filter. To test your packager in the example react app run the following.
 
