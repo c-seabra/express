@@ -254,25 +254,26 @@ const TicketsBulkAssignPage = () => {
 
         {assigneesList && assigneesList?.length > 0 && (
           <>
-            <Spacing bottom="2rem" top="2rem">
-              <FlexEnd>
-                <DownloadCSVButton
-                  buttonText="Download .CSV file"
-                  data={displayList.map((elem: any) => {
-                    return {
-                      'Booking ref': elem.bookingRef || 'N/A',
-                      'First name': elem.firstName || 'N/A',
-                      'Last name': elem.lastName || 'N/A',
-                      // eslint-disable-next-line
-                      'Email used': elem.email || 'N/A',
-                      'Ticket Status': elem.status?.message || 'N/A',
-                      // eslint-disable-next-line
-                      'Claim status': elem.claimStatus?.message || 'N/A',
-                    };
-                  })}
-                />
-              </FlexEnd>
-            </Spacing>
+            {/* DO NOT REMOVE: WILL BE USED IN NEXT ITERATION */}
+            {/* <Spacing bottom="2rem" top="2rem"> */}
+            {/*  <FlexEnd> */}
+            {/*    <DownloadCSVButton */}
+            {/*      buttonText="Download .CSV file" */}
+            {/*      data={displayList.map((elem: any) => { */}
+            {/*        return { */}
+            {/*          'Booking ref': elem.bookingRef || 'N/A', */}
+            {/*          'First name': elem.firstName || 'N/A', */}
+            {/*          'Last name': elem.lastName || 'N/A', */}
+            {/*          // eslint-disable-next-line */}
+            {/*          'Email used': elem.email || 'N/A', */}
+            {/*          'Ticket Status': elem.status?.message || 'N/A', */}
+            {/*          // eslint-disable-next-line */}
+            {/*          'Claim status': elem.claimStatus?.message || 'N/A', */}
+            {/*        }; */}
+            {/*      })} */}
+            {/*    /> */}
+            {/*  </FlexEnd> */}
+            {/* </Spacing> */}
 
             <ContainerCard noPadding title="Ticket assignment upload results">
               <AssigneeList list={assigneesList} />
