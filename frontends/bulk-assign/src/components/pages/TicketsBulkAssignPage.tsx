@@ -214,9 +214,11 @@ const TicketsBulkAssignPage = () => {
         </Spacing>
 
         <Spacing bottom="2rem">
-          <ContainerCard title="Upload file for bulk assignment of tickets">
+          <ContainerCard title="File upload">
             <FlexCenteredVertically>
-              <span>Upload a file in .csv format&nbsp;</span>
+              <Spacing right="2rem">
+                <span>Upload a file in .csv format</span>
+              </Spacing>
               <Button onClick={openModal}>Upload file</Button>
             </FlexCenteredVertically>
 
@@ -272,7 +274,7 @@ const TicketsBulkAssignPage = () => {
               </FlexEnd>
             </Spacing>
 
-            <ContainerCard noPadding title="Results">
+            <ContainerCard noPadding title="Ticket assignment upload results">
               <AssigneeList list={assigneesList} />
             </ContainerCard>
           </>
