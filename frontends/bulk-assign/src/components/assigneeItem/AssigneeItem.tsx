@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import UploadStatus from '../organisms/StatusIcon';
 
 const BookingRef = styled.div`
-  width: calc(15% - 1rem);
+  width: calc(10% + 2rem);
   text-align: center;
   text-transform: uppercase;
   color: #0067e9;

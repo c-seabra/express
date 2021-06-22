@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const BookingRef = styled.div`
-  width: calc(15% - 1rem);
+  width: calc(10% + 2rem);
   text-align: center;
   font-weight: 600;
 `;
