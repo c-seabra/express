@@ -1,4 +1,5 @@
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import PopupButton from '@websummit/components/src/molecules/PopupButton';
 import useSearchState from '@websummit/glue/src/lib/hooks/useSearchState';
 import React, { KeyboardEvent, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -8,9 +9,8 @@ import TextHeading from '../../lib/components/atoms/Heading';
 import CategoryList, {
   CategoryItem,
 } from '../../lib/components/molecules/CategoryList';
-import PopupButton from '../../lib/components/molecules/PopupButton';
 import useTicketsQuery from '../../lib/hooks/useTicketsQuery';
-import useTicketTypesQuery from '../../lib/hooks/useTicketTypesQuery';
+import useTicketTypes from '../../lib/hooks/useTicketTypes';
 import Pagination from '../../lib/Pagination';
 import { TicketStatus } from '../../lib/types';
 import TicketList from '../ticketList/TicketList';
@@ -120,7 +120,7 @@ const TicketDashboard = (): ReactElement => {
     onFilter();
   };
 
-  const ticketTypes = useTicketTypesQuery();
+  const ticketTypes = useTicketTypes();
 
   return (
     <DashboardContainer>
