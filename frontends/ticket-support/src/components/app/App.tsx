@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 import OrderDetails from '../order/OrderDetails';
 import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
-import OrderInvoicePage from '../pages/OrderInvoicePage';
+import CustomerBillingInfo from '../pages/CustomerBillingInfoPage';
 import TicketDashboard from '../ticketDashboard/TicketDashboard';
 import TicketDetails from '../ticketDetails/TicketDetails';
 import AppContext from './AppContext';
@@ -63,8 +63,8 @@ const App = ({ token, apiURL }: AppProps) => {
                 <Route path="/ticket/:bookingRef">
                   <TicketDetails />
                 </Route>
-                <Route path="/order/:orderRef/invoice/:orderId">
-                  <OrderInvoicePage />
+                <Route path="/order/:orderRef/customer-billing/:orderId">
+                  <CustomerBillingInfo />
                 </Route>
                 <Route path="/order/:orderRef">
                   <OrderDetails />

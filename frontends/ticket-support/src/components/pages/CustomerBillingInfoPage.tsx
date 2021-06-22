@@ -93,7 +93,7 @@ const OrderInvoicePage = () => {
       redirectUrl: `/order/${orderRef}`,
     },
     {
-      label: 'Invoice',
+      label: 'Customer billing information',
     },
   ];
 
@@ -109,9 +109,9 @@ const OrderInvoicePage = () => {
             <ContainerCard>
               <>
                 <Spacing bottom="1.25rem">
-                  <Header>Invoice information</Header>
+                  <Header>Customer billing information</Header>
                 </Spacing>
-                <SubHeader>Edit order invoice details</SubHeader>
+                <SubHeader>Edit customer billing details</SubHeader>
 
                 {loadingCommerceOrder && <Loader />}
                 {!loadingCommerceOrder && (

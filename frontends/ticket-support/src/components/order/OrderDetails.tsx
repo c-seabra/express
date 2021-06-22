@@ -270,8 +270,8 @@ const OrderDetails = (): ReactElement => {
       (transaction) => transaction?.type === CommerceTransactionType.Refund,
     ) as CommerceTransaction[];
 
-  const invoiceRedirect = () => {
-    history.push(`/order/${orderRef}/invoice/${sourceId}`);
+  const editCustomerBillingRedirect = () => {
+    history.push(`/order/${orderRef}/customer-billing/${sourceId}`);
   };
 
   const [sendEmail] = useOrderInvoiceSendMutation({
@@ -384,8 +384,8 @@ const OrderDetails = (): ReactElement => {
               <SpacingBottom>
                 <OrderDetailsSummary
                   commerceOrder={commerceOrder}
+                  editCustomerBillingRedirect={editCustomerBillingRedirect}
                   error={error}
-                  invoiceRedirect={invoiceRedirect}
                   invoiceSendEmail={invoiceSendEmail}
                   loading={loading}
                   loadingCommerceOrder={loadingCommerceOrder}
