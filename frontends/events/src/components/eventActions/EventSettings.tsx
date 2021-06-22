@@ -354,7 +354,6 @@ const EventSettings = () => {
               <SelectTax
                 eventId={data?.event?.id as string}
                 loading={loading}
-                refetch={refetch}
                 taxes={taxes}
               />
             )}

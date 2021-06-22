@@ -65,10 +65,9 @@ const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
 type SelectTaxProps = {
   eventId: string;
   loading: boolean;
-  refetch: any;
   taxes: any;
 };
-const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
+const SelectTax = ({ loading, eventId, taxes }: SelectTaxProps) => {
   const {
     openModal: openTaxRateModal,
     isOpen: isTaxRateModalOpen,
@@ -98,7 +97,6 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
         isOpen={isTaxRateModalOpen}
         mode={modalMode}
         prefilledTax={prefilledTax}
-        refetch={refetch}
       />
 
       {hasTaxes ? (

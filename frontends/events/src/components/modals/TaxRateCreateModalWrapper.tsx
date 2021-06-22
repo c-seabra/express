@@ -13,13 +13,11 @@ type TaxRateCreateModalProps = {
   isOpen: boolean;
   mode?: ModalInputMode;
   prefilledTax?: any;
-  refetch?: any;
 };
 
 const TaxRateCreateModalWrapper = ({
   isOpen,
   closeModal,
-  refetch,
   eventId,
   mode = 'ADD',
   prefilledTax,
@@ -47,7 +45,7 @@ const TaxRateCreateModalWrapper = ({
     console.log('eventData', eventData, eventId);
     const input = {
       country: eventData.country,
-      // id: eventData.id,
+      id: eventData.id,
       name: eventData.name.trim(),
       rateAmount: Number(eventData.value),
       rateType: CommerceTaxRateType.Percentage,
@@ -55,11 +53,11 @@ const TaxRateCreateModalWrapper = ({
     };
 
     if (_mode === 'ADD') {
-      mutation = taxRateCreate({ input, refetch });
+      mutation = taxRateCreate({ input });
     }
 
     if (_mode === 'EDIT') {
-      mutation = taxRateUpdate({ input, refetch });
+      mutation = taxRateUpdate({ input });
     }
 
     return mutation;

@@ -8,10 +8,10 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 
 import { useRequestContext } from '../../components/app/AppContext';
+import COMMERCE_LIST_TAXES from '@websummit/graphql/src/operations/queries/CommerceListTaxes';
 
 export type TaxRateUpdateRequest = {
   input: CommerceTaxUpdate;
-  refetch?: any;
 };
 
 export const useTaxRateUpdateOperation = () => {
@@ -26,21 +26,16 @@ export const useTaxRateUpdateOperation = () => {
     onError: (e) => errSnackbar(e.message),
   });
 
-  const taxRateUpdate = async ({ input, refetch }: TaxRateUpdateRequest) => {
+  const taxRateUpdate = async ({ input }: TaxRateUpdateRequest) => {
     await taxRateUpdateMutation({
       awaitRefetchQueries: true,
       context,
-      refetchQueries: ['Event', 'EventListQuery'],
+      refetchQueries: [{ context, query: COMMERCE_LIST_TAXES }],
       variables: {
         commerceTaxUpdate: input,
         id: input?.id || 'null',
       },
     });
-
-    // Hacky solution because refetchQueries is not working
-    setTimeout(() => {
-      return refetch();
-    }, 1000);
   };
 
   return {
