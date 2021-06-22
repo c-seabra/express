@@ -30,10 +30,6 @@ const Flex = styled.div`
   display: flex;
 `;
 
-const FlexEnd = styled(Flex)`
-  justify-content: flex-end;
-`;
-
 const StyledDownload = styled(Flex)`
   align-items: center;
   color: #0067e9;
@@ -70,7 +66,6 @@ const TicketsBulkAssignPage = () => {
   const [fileName, setFileName] = useState('');
   const [assignees, setAssignees] = useState<AssigneesList>([]);
   const [assigneesList, setAssigneesList] = useState<AssigneesList>();
-  const [displayList, setDisplayList] = useState(assignees);
   const { event } = useEventDataQuery();
   const breadcrumbsRoutes: Breadcrumb[] = [
     {
@@ -89,7 +84,6 @@ const TicketsBulkAssignPage = () => {
 
     if (assignees && assignees.length > 0 && setAssigneesList) {
       setAssigneesList(assignees);
-      setDisplayList(assignees);
       successSnackbar('File imported');
     } else {
       setFormError(true);
