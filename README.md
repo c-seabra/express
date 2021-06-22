@@ -1,6 +1,6 @@
 # Micro
 
-<!-- 
+<!--
 This readme uses an extension to automatically generate a table of content, no configuration required:
 Name: Markdown All in One
 Id: yzhang.markdown-all-in-one
@@ -17,7 +17,7 @@ VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=yzhang.
       - [Other interesting commands that are more situational](#other-interesting-commands-that-are-more-situational)
   - [Concepts and architecture](#concepts-and-architecture)
     - [Lerna](#lerna)
-  - [Adding a new dependency ot a micro frontend](#adding-a-new-dependency-ot-a-micro-frontend)
+  - [Adding a new dependency to a micro frontend](#adding-a-new-dependency-to-a-micro-frontend)
   - [Creating a single-spa micro frontend](#creating-a-single-spa-micro-frontend)
     - [1. Copy from an existing frontend](#1-copy-from-an-existing-frontend)
     - [2. Amend package.json start command](#2-amend-packagejson-start-command)
@@ -48,25 +48,29 @@ In addition, it also contains supporting packages, including UI components and l
 We have an `.env.example` file that you can copy as `.env` to set some environment variables.
 
 There variables are shared between all micro frontends. Currently we use:
-* `AUTH_TOKEN` this is your admin auth token you get from omnia, it determines the active conference, your user permissions and is valid for either staging or production. There are a few prefixed environment variables that you can use to save different tokens and cycle between them.
-* `API_URL` this is the url pointing to the catalyst that you want to use. There are prefixed examples for production and sandbox that you can copy, or you point it to your local setup as needed.
+
+- `AUTH_TOKEN` this is your admin auth token you get from omnia, it determines the active conference, your user permissions and is valid for either staging or production. There are a few prefixed environment variables that you can use to save different tokens and cycle between them.
+- `API_URL` this is the url pointing to the catalyst that you want to use. There are prefixed examples for production and sandbox that you can copy, or you point it to your local setup as needed.
 
 ### How to run things
 
 There are a few commands (run at the root level of `micro`) that are interesting depending on what you want to accomplish. Here is a summary of them:
+
 #### **The magic command to get it all running**
-* `yarn start` this will get you a fully featured local development environment under http://localhost:9000/demo with hot reloading. It will first install yarn packages, then build shared packages, then start all microfrontends and a thin root container that hosts them all, supporting individual hot reloading, debugging etc. of each micro frontend. **You need nothing else to start developing on existing micro frontends, you are now good to go!**
+
+- `yarn start` this will get you a fully featured local development environment under http://localhost:9000/demo with hot reloading. It will first install yarn packages, then build shared packages, then start all microfrontends and a thin root container that hosts them all, supporting individual hot reloading, debugging etc. of each micro frontend. **You need nothing else to start developing on existing micro frontends, you are now good to go!**
 
 #### Other interesting commands that are more situational
-* `yarn start:omnia` **_This is only interesting if you need to test the integration with omnia locally, which is rarely the case._** this will build static assets of all micro frontends and then host them in a simulated S3 bucket and run a thin omnia optimized container on http://localhost:9337 that can be used as `PUBLIC_MICRO_URL` for a local `avenger` setup. This does not enable hot reloading of micro frontends, so you will have to rebuild on changes, but allows you to test everything in the context of omnia in a production like setup.
-* `yarn pretty` This runs our formatter to auto format your code before you commit it
-* `yarn fix` this runs eslint to fix code style issues and do things like auto sorting and simple transformations of code
-* `yarn ready` runs both formatter and linter in a neat package (this is also added as a pre-commit git-hook for your convenience)
-* `yarn check` runs our build/compile steps that check for typescript errors, then if they succeds runs formatter/linter. This is the all in one package if you want to be sure this passes ci
-* `yarn test` runs our test suite to ensure everything still works
-* `yarn test:watch` runs only the tests for code you changed and keeps rereunning them as you edit files
-* `yarn codegen` runs our graphql code generation pipeline that updates the types of the `graphql` package with any new queries/mutations you added and backend changes
-* `yarn clean` in case you need to start fresh, in practice rarely needed
+
+- `yarn start:omnia` **_This is only interesting if you need to test the integration with omnia locally, which is rarely the case._** this will build static assets of all micro frontends and then host them in a simulated S3 bucket and run a thin omnia optimized container on http://localhost:9337 that can be used as `PUBLIC_MICRO_URL` for a local `avenger` setup. This does not enable hot reloading of micro frontends, so you will have to rebuild on changes, but allows you to test everything in the context of omnia in a production like setup.
+- `yarn pretty` This runs our formatter to auto format your code before you commit it
+- `yarn fix` this runs eslint to fix code style issues and do things like auto sorting and simple transformations of code
+- `yarn ready` runs both formatter and linter in a neat package (this is also added as a pre-commit git-hook for your convenience)
+- `yarn check` runs our build/compile steps that check for typescript errors, then if they succeds runs formatter/linter. This is the all in one package if you want to be sure this passes ci
+- `yarn test` runs our test suite to ensure everything still works
+- `yarn test:watch` runs only the tests for code you changed and keeps rereunning them as you edit files
+- `yarn codegen` runs our graphql code generation pipeline that updates the types of the `graphql` package with any new queries/mutations you added and backend changes
+- `yarn clean` in case you need to start fresh, in practice rarely needed
 
 ## Concepts and architecture
 
@@ -78,11 +82,11 @@ Use of this repository does not require understanding of how lerna works. But if
 
 It is important to understand the principal concept, that Lerna manages package installations and commands across the repo. Therefore to avoid unforeseen issues it is recommended to run commands via the Lerna CLI at the root level.
 
-## Adding a new dependency ot a micro frontend
+## Adding a new dependency to a micro frontend
 
 If you are adding a `devDependency` then you can just add it to the root `package.json` and it will automagically work. All micro frontends have `devDependencies: {}` and derive them from the global list, this allows us to update to new versions in one go and ensures parity between all the frontends. If you see dev dependencies in a micro frontend then please move them to the top level :)
 
-If you want to add a new `dependency` then you add the dependency with a pinned version (no `^` or `~` or similar) to the `resolutions` field, and then in your specific frontend `package.json` add the same dependency with a version of `*`. This again allows us to manage dependency versions in one place and reduce conflicts or bundle bloat. If you see micro frontend dependencies without the * then please add it :)
+If you want to add a new `dependency` then you add the dependency with a pinned version (no `^` or `~` or similar) to the `resolutions` field, and then in your specific frontend `package.json` add the same dependency with a version of `*`. This again allows us to manage dependency versions in one place and reduce conflicts or bundle bloat. If you see micro frontend dependencies without the \* then please add it :)
 
 The root `package.json` `dependencies` are only for things you need in commands run at root level, which usually is empty, if it contains packages then removing them might be a good idea :)
 
@@ -95,7 +99,7 @@ Before beginning it is suggested to get a basic understanding of the concepts an
 
 Since our frontends by now have grown to become very custom in what they need, the easiest way to get started is to copy a frontend that has the things you need as a starting point. The `frontend-demo` one is a bare bones frontend which can be useful, `ticket-support` in contrast is as full featured as it gets and can serve as a jumpstart point, from which you delete things you don't need.
 
-Once you decided on a source frontend, you need to pick a name. Our naming convention is `[a-z\-]+` as in words separated by hyphen. This is important to ensure that the name you pick complies with all the different url resolution systems and stays consistent. 
+Once you decided on a source frontend, you need to pick a name. Our naming convention is `[a-z\-]+` as in words separated by hyphen. This is important to ensure that the name you pick complies with all the different url resolution systems and stays consistent.
 
 Now copy the source frontend folder completely and name the target folder exactly the name you picked.
 
@@ -111,7 +115,7 @@ entry: {
 
 ### 2. Amend package.json start command
 
-Next in order that the micro-frontend can be run alongside other micro-frontends and is accessible to the host application in local development, we need to manually mange which port the micro-frontend is served from. The host app runs on port 9000 and each subsequent micro-frontend runs incrementally e.g `9001`, `9002` etc. 
+Next in order that the micro-frontend can be run alongside other micro-frontends and is accessible to the host application in local development, we need to manually manage which port the micro-frontend is served from. The host app runs on port 9000 and each subsequent micro-frontend runs incrementally e.g `9001`, `9002` etc.
 
 You can find a list of all used ports at `frontends/frontend-root/src/index.ejs` (you will touch this file again in [3. Add reference to local development import map](#3-add-reference-to-local-development-import-map) don't worry)
 
@@ -120,6 +124,7 @@ In the package.json start command for your micro-frontend please update:
 `”start”: “webpack serve —port 90[xx]”`
 
 Where `[xx]` is a port number that is not yet in use. For consistency sake we suggest to increment them starting from `9000` but you are free to pick anything in the range `9000 - 9100`.
+
 ### 3. Add reference to local development import map
 
 The next step is to add the reference for the micro-frontend to the import maps in the single-spa host. To do this, open:
@@ -176,6 +181,7 @@ Lerna and Yarn workspaces enable us to create packages which can be shared and u
 ### 1. Create a new package within the package directory
 
 Similarly to the new frontend, you create a new package by copy pasting form an existing one and find replace the name
+
 ### 2. Add package path to TypeScript path configuration.
 
 In the root `tsconfig.json` file, ensure that there is a mapping to your package in the paths configuration:
