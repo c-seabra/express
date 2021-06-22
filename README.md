@@ -13,6 +13,8 @@ VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=yzhang.
   - [Quick start](#quick-start)
     - [One time credentials setup](#one-time-credentials-setup)
     - [How to run things](#how-to-run-things)
+      - [**The magic command to get it all running**](#the-magic-command-to-get-it-all-running)
+      - [Other interesting commands that are more situational](#other-interesting-commands-that-are-more-situational)
   - [Concepts and architecture](#concepts-and-architecture)
     - [Lerna](#lerna)
     - [References](#references)
@@ -52,8 +54,11 @@ There variables are shared between all micro frontends. Currently we use:
 ### How to run things
 
 There are a few commands that are interesting depending on what you want to accomplish. Here is a summary of them:
-* `yarn start` this will get you a fully featured local development environment under http://localhost:9000/demo with hot reloading. It will first install yarn packages, then build shared packages, then start all microfrontends and a thin root container that hosts them all, supporting individual hot reloading, debugging etc. of each micro frontend.
-* `yarn start:omnia` this will build static assets of all micro frontends and then host them in a simulated S3 bucket and run a thin omnia optimized container on http://localhost:9337 that can be used as `PUBLIC_MICRO_URL` for a local `avenger` setup. This does not enable hot reloading of micro frontends, so you will have to rebuild on changes, but allows you to test everything in the context of omnia in a production like setup.
+#### **The magic command to get it all running**
+* `yarn start` this will get you a fully featured local development environment under http://localhost:9000/demo with hot reloading. It will first install yarn packages, then build shared packages, then start all microfrontends and a thin root container that hosts them all, supporting individual hot reloading, debugging etc. of each micro frontend. **You need nothing else to start developing on existing micro frontends, you are now good to go!**
+
+#### Other interesting commands that are more situational
+* `yarn start:omnia` **_This is only interesting if you need to test the integration with omnia locally, which is rarely the case._** this will build static assets of all micro frontends and then host them in a simulated S3 bucket and run a thin omnia optimized container on http://localhost:9337 that can be used as `PUBLIC_MICRO_URL` for a local `avenger` setup. This does not enable hot reloading of micro frontends, so you will have to rebuild on changes, but allows you to test everything in the context of omnia in a production like setup.
 * `yarn pretty` This runs our formatter to auto format your code before you commit it
 * `yarn fix` this runs eslint to fix code style issues and do things like auto sorting and simple transformations of code
 * `yarn ready` runs both formatter and linter in a neat package (this is also added as a pre-commit git-hook for your convenience)
