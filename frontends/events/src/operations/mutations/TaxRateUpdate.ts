@@ -7,7 +7,7 @@ import {
   useCommerceUpdateTaxMutation,
 } from '@websummit/graphql/src/@types/operations';
 
-import { useAppContext } from '../../components/app/AppContext';
+import { useRequestContext } from '../../components/app/AppContext';
 
 export type TaxRateUpdateRequest = {
   input: CommerceTaxUpdate;
@@ -15,7 +15,7 @@ export type TaxRateUpdateRequest = {
 };
 
 export const useTaxRateUpdateOperation = () => {
-  const { slug, token } = useAppContext();
+  const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
@@ -29,14 +29,11 @@ export const useTaxRateUpdateOperation = () => {
   const taxRateUpdate = async ({ input, refetch }: TaxRateUpdateRequest) => {
     await taxRateUpdateMutation({
       awaitRefetchQueries: true,
-      context: {
-        slug,
-        token,
-      },
+      context,
       refetchQueries: ['Event', 'EventListQuery'],
       variables: {
         commerceTaxUpdate: input,
-        id: input?.id || 'null'
+        id: input?.id || 'null',
       },
     });
 

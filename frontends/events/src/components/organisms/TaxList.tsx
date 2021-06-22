@@ -2,7 +2,7 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
-import {CommerceTax, TaxRate} from '@websummit/graphql/src/@types/operations';
+import { CommerceTax } from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -20,7 +20,6 @@ type TaxesListProps = {
 };
 
 const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
-  console.log('taxes:tab' ,taxes)
   const tableShape: ColumnDescriptor<CommerceTax>[] = [
     {
       header: 'Tax name',

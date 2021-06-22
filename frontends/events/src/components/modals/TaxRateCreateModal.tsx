@@ -10,7 +10,7 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { upperWord } from '@websummit/components/src/utils/text';
 import {
   EventConfigurationCountry,
-  TaxType,
+  useCommerceListTaxTypesQuery,
   useCountriesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
@@ -143,11 +143,15 @@ const TaxRateCreateModal = ({
   });
   const countryOptions = getCountryOptions(sortedCountries);
 
+  const { data: taxTypesResponse } = useCommerceListTaxTypesQuery();
+  // console.log('taxTypesResponse', taxTypesResponse);
+  const taxTypesHits = taxTypesResponse?.commerceListTaxTypes?.hits;
+
   const taxTypes = [
     blankOption,
-    ...(Object.values(TaxType).map((taxType) => ({
-      label: upperWord(taxType),
-      value: taxType,
+    ...(taxTypesHits?.map((taxType) => ({
+      label: upperWord(taxType.name),
+      value: taxType.id,
     })) || []),
   ];
 
@@ -156,7 +160,7 @@ const TaxRateCreateModal = ({
       country: '',
       id: undefined,
       name: '',
-      type: '',
+      type: {},
       value: '',
     };
 
@@ -165,7 +169,7 @@ const TaxRateCreateModal = ({
         country: prefilledTax.country,
         id: prefilledTax.id,
         name: prefilledTax.name,
-        type: prefilledTax.taxType.name.toUpperCase(),
+        type: prefilledTax.taxType.id,
         value: prefilledTax.rateAmount,
       };
     }
