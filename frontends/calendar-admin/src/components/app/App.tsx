@@ -1,3 +1,5 @@
+import './App.css';
+
 import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
@@ -12,10 +14,17 @@ import Calendar from '../calendar/Calendar';
 import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
+  padding: 8px;
   display: grid;
   margin: 0 auto;
-  font-size: 16px;
   background-color: #f2f3f6;
+  font: 300 16px 'Inter', 'Lato', Helvetica, Arial, sans-serif;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    font-family: 'Inter', 'Lato', Helvetica, Arial, sans-serif;
+  }
 `;
 
 type AppProps = {

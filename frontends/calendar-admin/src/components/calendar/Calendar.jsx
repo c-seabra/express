@@ -126,9 +126,14 @@ const Calendar = ({ token, env }) => {
       : addError(responseStatusesResult.error);
 
     const formatsResult = await Api.getEventFormats(token, env);
-    formatsResult.data
-      ? setFormats(formatsResult.data.data)
-      : addError(formatsResult.error);
+    if (formatsResult.data) {
+      const privateFormats = formatsResult.data.data.filter((f) =>
+        f.category === 'private' ? f : null,
+      );
+      setFormats(privateFormats);
+    } else {
+      addError(formatsResult.error);
+    }
   };
 
   const addRsvp = (rsvp) => {
@@ -294,6 +299,7 @@ const Calendar = ({ token, env }) => {
         .tz(timezone, true)
         .format();
     }
+    eventContent.reset_response_status = false;
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
     result.data ? setEvents(updatedEvents) : addError(result.error);
