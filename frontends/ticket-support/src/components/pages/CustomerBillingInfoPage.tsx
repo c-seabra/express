@@ -111,7 +111,7 @@ const OrderInvoicePage = () => {
                 <Spacing bottom="1.25rem">
                   <Header>Customer billing information</Header>
                 </Spacing>
-                <SubHeader>Edit customer billing details</SubHeader>
+                <SubHeader>Edit customer billing information</SubHeader>
 
                 {loadingCommerceOrder && <Loader />}
                 {!loadingCommerceOrder && (

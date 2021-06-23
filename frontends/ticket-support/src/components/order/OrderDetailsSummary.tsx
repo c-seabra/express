@@ -151,7 +151,6 @@ const OrderDetailsSummary = ({
     commerceOrder && (commerceOrder.billed > 0 || commerceOrder.refunded > 0)
       ? defaultTableShape
       : orderDetailsTableShape;
-  console.log(commerceOrder);
 
   return (
     <ContainerCard noPadding title="Order details">
