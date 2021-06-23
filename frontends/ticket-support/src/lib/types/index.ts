@@ -225,6 +225,8 @@ export type CommerceOrder = {
   paymentMethod: CommercePaymentMethod;
   paymentStatus: CommercePaymentStatus;
   reference: string;
+  refundReceiptUrl: string;
+  refunded: number;
   status: CommerceOrderStatus;
   subTotal: number;
   taxTotal: number;

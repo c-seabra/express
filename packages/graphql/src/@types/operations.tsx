@@ -3194,6 +3194,7 @@ export type Order = {
   lastUpdatedAt: Scalars['ISO8601DateTime'];
   owner: AssignmentUser;
   reference: Scalars['String'];
+  refundReceiptUrl: Maybe<Scalars['String']>;
   source: Maybe<OrderSource>;
   sourceId: Maybe<Scalars['ID']>;
   sourceUrl: Maybe<Scalars['String']>;
@@ -3663,6 +3664,7 @@ export type CommerceOrder = {
   paymentStatus: Maybe<CommerceOrderPaymentStatus>;
   reference: Maybe<Scalars['String']>;
   refundReceiptUrl: Maybe<Scalars['String']>;
+  refunded: Maybe<Scalars['Int']>;
   status: Maybe<CommerceOrderStatus>;
   subTotal: Maybe<Scalars['Int']>;
   taxTotal: Maybe<Scalars['Int']>;
@@ -9177,6 +9179,8 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
       | 'currencySymbol'
       | 'id'
       | 'invoiceUrl'
+      | 'refundReceiptUrl'
+      | 'refunded'
       | 'lastUpdatedAt'
       | 'locked'
       | 'paid'
@@ -10150,6 +10154,7 @@ export type OrderByRefQuery = { __typename?: 'Query' } & {
       | 'id'
       | 'invoiceUrl'
       | 'amount'
+      | 'refundReceiptUrl'
       | 'currency'
       | 'reference'
       | 'completedAt'
@@ -19930,6 +19935,11 @@ export const CommerceGetOrderDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'invoiceUrl' } },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'refundReceiptUrl' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'refunded' } },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'lastUpdatedAt' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'locked' } },
@@ -24450,6 +24460,10 @@ export const OrderByRefDocument: DocumentNode = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'invoiceUrl' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refundReceiptUrl' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'completedAt' } },
