@@ -194,6 +194,7 @@
     "webpack-config-single-spa-react-ts": "2.1.1",
     "webpack-config-single-spa-ts": "2.1.1",
     "webpack-dev-server": "4.0.0-beta.0",
+    "@types/lodash.get": "4.4.6",
     "webpack-merge": "5.7.3"
   },
   "resolutions": {
@@ -211,6 +212,7 @@
     "qs": "6.10.1",
     "react": "17.0.1",
     "react-big-calendar": "^0.33.2",
+    "react-datepicker": "^4.1.1",
     "react-dom": "17.0.1",
     "react-helmet": "6.1.0",
     "react-modal": "3.12.1",
@@ -218,18 +220,16 @@
     "react-simple-snackbar": "1.1.10",
     "single-spa": "5.9.2",
     "single-spa-layout": "1.5.0",
+    "lodash.get": "4.4.2",
+    "@bootstrap-styled/v4": "3.2.0",
+    "nanoid": "^3.1.23",
+    "react-csv": "^2.0.3",
     "single-spa-react": "3.2.0",
     "styled-components": "5.2.2",
     "systemjs": "6.8.3",
     "yup": "0.32.9"
   },
   "dependencies": {
-    "@bootstrap-styled/v4": "3.2.0",
-    "@types/lodash.get": "4.4.6",
-    "lint-staged": "10.5.4",
-    "lodash.get": "4.4.2",
-    "react-datepicker": "^4.1.1",
-    "nanoid": "^3.1.23",
-    "react-csv": "^2.0.3"
+    "lint-staged": "10.5.4"
   }
 }
