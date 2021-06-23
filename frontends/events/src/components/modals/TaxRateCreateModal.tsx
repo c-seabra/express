@@ -5,9 +5,9 @@ import {
 import Icon from '@websummit/components/src/atoms/Icon';
 import Modal from '@websummit/components/src/molecules/Modal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { upperWord } from '@websummit/components/src/utils/text';
 import {
   EventConfigurationCountry,
   useCommerceListTaxTypesQuery,
@@ -19,6 +19,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
+import { useRequestContext } from '../app/AppContext';
 import { ModalInputMode } from './TaxRateCreateModalWrapper';
 
 export const Wrapper = styled.div`
@@ -104,6 +105,9 @@ const TaxRateCreateModal = ({
   mode = 'ADD',
   prefilledTax,
 }: TaxRateCreateModalProps) => {
+  const context = useRequestContext();
+  const error = useErrorSnackbar();
+
   const { data } = useCountriesQuery();
   const [formControls, setFormControls] = useState<
     | {
@@ -143,14 +147,16 @@ const TaxRateCreateModal = ({
   });
   const countryOptions = getCountryOptions(sortedCountries);
 
-  const { data: taxTypesResponse } = useCommerceListTaxTypesQuery();
-  // console.log('taxTypesResponse', taxTypesResponse);
+  const { data: taxTypesResponse } = useCommerceListTaxTypesQuery({
+    context,
+    onError: (e) => error(e.message),
+  });
   const taxTypesHits = taxTypesResponse?.commerceListTaxTypes?.hits;
 
   const taxTypes = [
     blankOption,
     ...(taxTypesHits?.map((taxType) => ({
-      label: upperWord(taxType.name),
+      label: taxType.name,
       value: taxType.id,
     })) || []),
   ];
