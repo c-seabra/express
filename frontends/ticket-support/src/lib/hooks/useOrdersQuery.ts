@@ -1,33 +1,37 @@
-import { useAppContext } from '../../components/app/AppContext';
-import ORDER_LIST from '../../operations/queries/OrderList';
+import Orders from '@websummit/graphql/src/operations/queries/Orders';
+
+import { useRequestContext } from '../../components/app/AppContext';
 import { Order } from '../types';
 import usePaginatedQuery from './usePaginatedQuery';
 
 const ORDERS_PER_PAGE = 20;
 
-const useOrdersQuery = ({
-  initialPage,
-  perPage = ORDERS_PER_PAGE,
-  searchQuery,
-  status,
-  ticketTypeIds = [],
-  onError,
-}: {
+type UseOrdersQueryArgs = {
+  createdAtFrom?: string;
+  createdAtTo?: string;
   initialPage: string;
   onError?: any;
   perPage?: number;
   searchQuery?: string;
   status?: string;
   ticketTypeIds?: string[];
-}) => {
-  const { slug, token } = useAppContext();
+};
 
-  const context = {
-    slug,
-    token,
-  };
+const useOrdersQuery = ({
+  createdAtFrom,
+  createdAtTo,
+  initialPage,
+  perPage = ORDERS_PER_PAGE,
+  searchQuery,
+  status,
+  ticketTypeIds = [],
+  onError,
+}: UseOrdersQueryArgs) => {
+  const context = useRequestContext();
 
   const filter = {
+    createdAtFrom,
+    createdAtTo,
     status,
     ticketTypeIds: ticketTypeIds?.length > 0 ? ticketTypeIds : undefined,
   };
@@ -42,7 +46,7 @@ const useOrdersQuery = ({
     context,
     initialPage,
     onError,
-    query: ORDER_LIST,
+    query: Orders,
     variables,
   });
 };

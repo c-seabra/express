@@ -1,3 +1,4 @@
+import ButtonComponent from '@websummit/components/src/atoms/Button';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -188,12 +189,19 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
         <Overlay>
           <h3>Are you sure you want to delete this event?</h3>
           <OverlayButtons>
-            <OverlayButton onClick={() => handleDeleteResponse(true)}>
+            <ButtonComponent
+              type="primary"
+              onClick={() => handleDeleteResponse(true)}
+            >
               Yes
-            </OverlayButton>
-            <OverlayButton onClick={() => handleDeleteResponse(false)}>
+            </ButtonComponent>
+
+            <ButtonComponent
+              type="error"
+              onClick={() => handleDeleteResponse(false)}
+            >
               No
-            </OverlayButton>
+            </ButtonComponent>
           </OverlayButtons>
         </Overlay>
       )}
