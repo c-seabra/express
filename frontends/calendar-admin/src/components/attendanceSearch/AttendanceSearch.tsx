@@ -47,6 +47,7 @@ const AttendanceSearch = (): ReactElement => {
       setAttendances?.([...selections, att]);
       setPaints?.([...paints, color]);
       setColors?.([...paints, color]);
+      setDisplay(false);
     }
   };
 
@@ -84,17 +85,22 @@ const AttendanceSearch = (): ReactElement => {
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
+        onFocus={(e) => setDisplay(searchQuery.length > 2)}
       />
       {display && !loading && !error && (
         <ResultsContainer>
           {results?.map((attendance, i) => (
-            <div key={i}>
+            <span key={i}>
               {!selections.find((e) => e.id === attendance.id) && (
-                <ListItem key={i} onClick={() => handleSelect(attendance)}>
+                <ListItem
+                  key={i}
+                  className="full-width"
+                  onClick={() => handleSelect(attendance)}
+                >
                   {attendance.name} - {attendance.bookingRef}
                 </ListItem>
               )}
-            </div>
+            </span>
           ))}
         </ResultsContainer>
       )}
