@@ -191,12 +191,15 @@ const EventSettings = () => {
   });
 
   const { data: storeData } = useCommerceGetStoreQuery({
-    context: { token },
+    context: { slug: usedSlug, token },
     onError: (e) => error(e.message),
   });
 
   const { data: taxesResponse } = useCommerceListTaxesQuery({
-    context: { token },
+    context: {
+      slug: usedSlug,
+      token,
+    },
     onError: (e) => error(e.message),
   });
 
