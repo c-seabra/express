@@ -9,7 +9,6 @@ import TaxRateCreateModal from './TaxRateCreateModal';
 export type ModalInputMode = 'EDIT' | 'ADD';
 type TaxRateCreateModalProps = {
   closeModal: () => void;
-  eventId?: string;
   isOpen: boolean;
   mode?: ModalInputMode;
   prefilledTax?: any;
@@ -18,7 +17,6 @@ type TaxRateCreateModalProps = {
 const TaxRateCreateModalWrapper = ({
   isOpen,
   closeModal,
-  eventId,
   mode = 'ADD',
   prefilledTax,
 }: TaxRateCreateModalProps) => {
@@ -42,7 +40,7 @@ const TaxRateCreateModalWrapper = ({
   const { taxRateUpdate } = useTaxRateUpdateOperation();
   const pickMutation = (_mode: ModalInputMode, eventData: any) => {
     let mutation;
-    console.log('eventData', eventData, eventId);
+    console.log('eventData', eventData);
     const input = {
       country: eventData.country,
       id: eventData.id,
@@ -64,11 +62,9 @@ const TaxRateCreateModalWrapper = ({
   };
   const setMutation = (eventData: {
     country: string;
-    eventId: string;
     id: string;
     name: string;
     type: any;
-    // type: CommerceTaxType;
     value: number;
   }) => {
     return pickMutation(mode, eventData);

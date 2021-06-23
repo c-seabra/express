@@ -355,9 +355,9 @@ const EventSettings = () => {
             )}
             {currentTab.id === 'tax_info' && (
               <SelectTax
-                eventId={data?.event?.id as string}
                 loading={loading}
                 taxes={taxes}
+
               />
             )}
             {currentTab.id === 'billing_invoicing' && (

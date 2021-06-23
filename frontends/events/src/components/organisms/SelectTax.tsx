@@ -10,6 +10,11 @@ import TaxRateCreateModalWrapper, {
   ModalInputMode,
 } from '../modals/TaxRateCreateModalWrapper';
 import TaxList from './TaxList';
+import {
+  EventConfigurationCountry,
+  useCountriesQuery,
+} from '../../../../../packages/graphql/src/@types/operations';
+import { Country } from '../../lib/types';
 
 const FlexRow = styled.div`
   display: flex;
@@ -63,11 +68,12 @@ const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
 };
 
 type SelectTaxProps = {
-  eventId: string;
   loading: boolean;
   taxes: any;
+  // countries: Country[];
 };
-const SelectTax = ({ loading, eventId, taxes }: SelectTaxProps) => {
+// const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
+const SelectTax = ({ loading, taxes }: SelectTaxProps) => {
   const {
     openModal: openTaxRateModal,
     isOpen: isTaxRateModalOpen,
@@ -83,6 +89,13 @@ const SelectTax = ({ loading, eventId, taxes }: SelectTaxProps) => {
 
   const onTaxClick = (event: any) => {
     setModalMode('EDIT');
+    // const country = countriesResponse?.countries?.edges?.find(
+    //   (country: EventConfigurationCountry) => country.code === 'event.country',
+    // )[0];
+    // const mappedEvent = {
+    //   ...event,
+    //   country: country.name,
+    // };
     setPrefilledTax(event);
     openTaxRateModal();
   };
@@ -93,7 +106,6 @@ const SelectTax = ({ loading, eventId, taxes }: SelectTaxProps) => {
 
       <TaxRateCreateModalWrapper
         closeModal={closeTaxRateModal}
-        eventId={eventId}
         isOpen={isTaxRateModalOpen}
         mode={modalMode}
         prefilledTax={prefilledTax}
