@@ -3,17 +3,15 @@ import { device } from '@websummit/components/src/utils/mediaQueries';
 import styled from 'styled-components';
 
 export const SearchContainer = styled.div`
+  position: relative;
   align-items: flex-start;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   width: 100%;
 
   @media ${device.tablet} {
     flex-direction: row;
-  }
-
-  > * {
-    width: 100%;
   }
 `;
 
@@ -23,20 +21,35 @@ export const StyledSearchInput = styled(SearchInput)`
   margin: 0 0 0.25rem;
 
   @media ${device.tablet} {
-    margin: 0;
+    width: 50%;
+    padding-right: 8px;
   }
 `;
 
 export const ResultsContainer = styled.div`
-  background: #fff;
+  background: transparent;
   position: absolute;
+  left: 0;
+  top: 34px;
   z-index: 5;
-  max-width: 355px;
-  width: 355px;
+  width: 100%;
 
   & li {
     cursor: pointer;
     width: auto;
+    margin-bottom: 1px;
+
+    &.full-width {
+      width: calc(100% - 2px);
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+
+      @media ${device.tablet} {
+        width: calc(50% - 8px);
+        max-width: 50%;
+      }
+    }
 
     &:hover {
       cursor: pointer;
@@ -48,8 +61,8 @@ export const StyledDisplay = styled.div`
   align-self: auto;
   display: flex;
   order: 0;
-  justify-content: flex-end;
   color: #747474;
+  flex-wrap: wrap;
 `;
 
 export const ListItem = styled.li`
@@ -59,7 +72,7 @@ export const ListItem = styled.li`
   overflow: hidden;
   padding: 0 0.75rem 1px;
   text-overflow: ellipsis;
-  margin: 0 0.25rem;
+  margin: 0 0.25rem 0.25rem;
   max-width: 25%;
   width: auto;
   height: 2rem;
@@ -100,6 +113,5 @@ export const ListItem = styled.li`
   }
 
   @media ${device.tablet} {
-    margin: 0 0.25rem;
   }
 `;
