@@ -170,6 +170,8 @@ const COMMERCE_GET_ORDER = gql`
       currencySymbol
       id
       invoiceUrl
+      refundReceiptUrl
+      refunded
       lastUpdatedAt
       locked
       paid

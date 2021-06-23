@@ -37,7 +37,7 @@ const StyledContainer = styled.div`
 `;
 
 type OrderActions = {
-  invoiceRedirect: any;
+  editCustomerBillingRedirect: any;
 };
 type ExtendedOrder = Order & CommerceOrder & OrderActions;
 
@@ -63,9 +63,9 @@ const orderDetailsTableShape: ColumnDescriptor<ExtendedOrder>[] = [
     renderCell: (order) => <StatePlate state={order?.state} />,
   },
 ];
-const tableShapeWithInvoice: ColumnDescriptor<ExtendedOrder>[] = [
+const tableShapeWithOrderDocuments: ColumnDescriptor<ExtendedOrder>[] = [
   {
-    header: 'Invoice .pdf',
+    header: 'Invoice',
     renderCell: (order) => {
       return (
         <>
@@ -86,10 +86,31 @@ const tableShapeWithInvoice: ColumnDescriptor<ExtendedOrder>[] = [
     },
   },
   {
-    header: 'Invoice',
+    header: 'Refund receipt',
     renderCell: (order) => {
       return (
-        <ButtonLink onClick={order.invoiceRedirect}>
+        <>
+          {order?.refundReceiptUrl ? (
+            <StyledLink
+              download="refund-receipt.pdf"
+              href={order?.refundReceiptUrl || '#'}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <>Download</>
+            </StyledLink>
+          ) : (
+            <span>N/A</span>
+          )}
+        </>
+      );
+    },
+  },
+  {
+    header: 'Customer billing',
+    renderCell: (order) => {
+      return (
+        <ButtonLink onClick={order.editCustomerBillingRedirect}>
           <>View</>
         </ButtonLink>
       );
@@ -99,8 +120,8 @@ const tableShapeWithInvoice: ColumnDescriptor<ExtendedOrder>[] = [
 
 type Props = {
   commerceOrder?: any | null;
+  editCustomerBillingRedirect: any;
   error?: ApolloError;
-  invoiceRedirect: any;
   invoiceSendEmail: any;
   loading: boolean;
   loadingCommerceOrder: boolean;
@@ -111,7 +132,7 @@ const OrderDetailsSummary = ({
   loading,
   error,
   order,
-  invoiceRedirect,
+  editCustomerBillingRedirect,
   invoiceSendEmail,
   commerceOrder,
   loadingCommerceOrder,
@@ -119,15 +140,15 @@ const OrderDetailsSummary = ({
   const orderWithActions: any = {
     ...order,
     ...commerceOrder,
-    invoiceRedirect,
+    editCustomerBillingRedirect,
   };
   const { isOpen, closeModal, openModal } = useModalState();
   const defaultTableShape = orderDetailsTableShape.concat(
-    tableShapeWithInvoice,
+    tableShapeWithOrderDocuments,
   );
 
   const tableShape =
-    commerceOrder && commerceOrder.billed > 0
+    commerceOrder && (commerceOrder.billed > 0 || commerceOrder.refunded > 0)
       ? defaultTableShape
       : orderDetailsTableShape;
 
