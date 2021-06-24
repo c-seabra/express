@@ -28,7 +28,8 @@
     "luxon": "*",
     "react-simple-snackbar": "*",
     "react-currency-input-field": "*",
-    "react-csv": "*"
+    "react-csv": "*",
+    "react-json-pretty": "*"
   },
   "devDependencies": {
     "@types/react-csv": "*"
