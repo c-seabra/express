@@ -39,4 +39,4 @@ applications.forEach((app) => {
   registerApplication(app);
 });
 layoutEngine.activate();
-start();
+start({ urlRerouteOnly: true });
