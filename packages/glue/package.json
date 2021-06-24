@@ -1,13 +1,8 @@
 {
   "name": "@websummit/glue",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.0",
+  "private": true,
   "main": "src/index",
-  "types": "src/index",
-  "files": [
-    "src"
-  ],
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "build:standalone": "yarn run clean && yarn run compile",
@@ -18,11 +13,16 @@
   },
   "dependencies": {
     "@websummit/graphql": "*",
-    "single-spa": "*",
-    "single-spa-layout": "*",
-    "react": "*",
     "qs": "*",
-    "react-router-dom": "*"
+    "react": "*",
+    "react-router-dom": "*",
+    "single-spa": "*",
+    "single-spa-layout": "*"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "files": [
+    "src"
+  ],
+  "types": "src/index",
+  "license": "MIT"
 }

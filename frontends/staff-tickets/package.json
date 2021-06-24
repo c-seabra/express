@@ -1,8 +1,7 @@
 {
   "name": "@websummit-micro/staff-tickets",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -14,7 +13,6 @@
     "test": "jest --passWithNoTests --verbose",
     "test:watch": "jest --watch --verbose --no-cache"
   },
-  "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
     "@websummit/components": "*",
@@ -25,6 +23,8 @@
     "react": "*",
     "react-dom": "*"
   },
+  "devDependencies": {},
+  "license": "MIT",
   "browserslist": {
     "production": [
       ">0.2%",

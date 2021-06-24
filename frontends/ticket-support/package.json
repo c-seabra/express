@@ -1,8 +1,7 @@
 {
   "name": "@websummit-micro/ticket-support",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -33,6 +32,7 @@
     "yup": "*"
   },
   "devDependencies": {},
+  "license": "MIT",
   "browserslist": {
     "production": [
       ">0.2%",

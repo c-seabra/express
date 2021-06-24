@@ -1,8 +1,7 @@
 {
   "name": "@websummit-micro/events",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -12,22 +11,23 @@
     "start": "webpack serve --port 9006",
     "start:standalone": "webpack serve --env standalone"
   },
-  "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
     "@websummit/components": "*",
     "@websummit/graphql": "*",
     "file-loader": "*",
-    "lodash.get": "*",
+    "formik": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",
+    "lodash.get": "*",
     "react": "*",
     "react-dom": "*",
     "react-helmet": "*",
     "react-router-dom": "*",
     "styled-components": "*",
-    "formik": "*",
     "yup": "*"
-  }
+  },
+  "devDependencies": {},
+  "license": "MIT"
 }

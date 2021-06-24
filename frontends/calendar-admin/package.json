@@ -1,8 +1,7 @@
 {
   "name": "@websummit-micro/calendar-admin",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.1",
+  "private": true,
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -12,7 +11,6 @@
     "start": "webpack serve --port 9008",
     "start:standalone": "webpack serve --env standalone"
   },
-  "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
     "@bootstrap-styled/v4": "*",
@@ -29,11 +27,13 @@
     "prop-types": "*",
     "react": "*",
     "react-big-calendar": "*",
-    "react-dom": "*",
     "react-datetime": "*",
+    "react-dom": "*",
     "react-router-dom": "*",
     "styled-components": "*"
   },
+  "devDependencies": {},
+  "license": "MIT",
   "browserslist": {
     "production": [
       ">0.2%",

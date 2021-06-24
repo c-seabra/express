@@ -189,5 +189,6 @@ module.exports = {
     react: {
       version: 'detect',
     },
+    'json/json-with-comments-files': ['.vscode/**'],
   },
 };

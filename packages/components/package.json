@@ -1,15 +1,9 @@
 {
   "name": "@websummit/components",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.0",
   "description": "Websummit UI components library",
-  "author": "Chris Bowes",
+  "private": true,
   "main": "src/index",
-  "types": "src/index",
-  "files": [
-    "src"
-  ],
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "build:standalone": "yarn run clean && yarn run compile",
@@ -19,19 +13,25 @@
     "test": "yarn run build"
   },
   "dependencies": {
-    "react": "*",
-    "react-datepicker": "*",
-    "react-router-dom": "*",
-    "react-modal": "*",
-    "styled-components": "*",
     "formik": "*",
     "luxon": "*",
-    "react-simple-snackbar": "*",
-    "react-currency-input-field": "*",
+    "react": "*",
     "react-csv": "*",
-    "react-json-pretty": "*"
+    "react-currency-input-field": "*",
+    "react-datepicker": "*",
+    "react-json-pretty": "*",
+    "react-modal": "*",
+    "react-router-dom": "*",
+    "react-simple-snackbar": "*",
+    "styled-components": "*"
   },
   "devDependencies": {
     "@types/react-csv": "*"
-  }
+  },
+  "files": [
+    "src"
+  ],
+  "types": "src/index",
+  "license": "MIT",
+  "author": "Chris Bowes"
 }

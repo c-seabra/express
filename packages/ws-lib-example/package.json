@@ -1,13 +1,8 @@
 {
   "name": "@websummit/ws-lib-example",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.0",
+  "private": true,
   "main": "src/index",
-  "types": "src/index",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "build:standalone": "yarn run clean && yarn run compile",
@@ -16,5 +11,10 @@
     "prepublishOnly": "yarn run build",
     "test": "yarn run build"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "files": [
+    "dist"
+  ],
+  "types": "src/index",
+  "license": "MIT"
 }

@@ -1,8 +1,7 @@
 {
   "name": "@websummit-micro/investor-portal",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -36,6 +35,7 @@
     "styled-components": "*"
   },
   "devDependencies": {},
+  "license": "MIT",
   "browserslist": {
     "production": [
       ">0.2%",

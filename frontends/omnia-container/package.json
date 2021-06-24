@@ -2,20 +2,20 @@
   "name": "@websummit-micro/omnia-container",
   "version": "1.0.0",
   "private": true,
-  "license": "MIT",
   "scripts": {
-    "start": "webpack serve --port 9010 --env isLocal",
-    "lint": "eslint src --ext js,ts,tsx",
-    "format": "prettier --write \"./**\"",
     "build": "webpack --mode=production",
     "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
-    "clean": "rimraf -rf ./dist"
+    "clean": "rimraf -rf ./dist",
+    "format": "prettier --write \"./**\"",
+    "lint": "eslint src --ext js,ts,tsx",
+    "start": "webpack serve --port 9010 --env isLocal"
   },
-  "devDependencies": {},
   "dependencies": {
+    "@websummit/glue": "*",
     "single-spa": "*",
     "single-spa-layout": "*",
-    "systemjs": "*",
-    "@websummit/glue": "*"
-  }
+    "systemjs": "*"
+  },
+  "devDependencies": {},
+  "license": "MIT"
 }
