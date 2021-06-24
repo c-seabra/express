@@ -13,6 +13,7 @@ import {
 import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
+import { externalPaymentMethods } from '../../../../events/src/lib/constants/paymentGateways';
 import Loader from '../../lib/Loading';
 import { formatDisplayPrice } from '../../lib/utils/price';
 import Warning from '../ticketActions/Warning';
@@ -29,6 +30,17 @@ type Props = {
 };
 
 const missingDataAbbr = 'N/A';
+
+const isComplementary = (order?: CommerceOrder) => {
+  if (
+    (order?.paymentMethod?.configuration as { type?: string })?.type ===
+    externalPaymentMethods.complementary
+  ) {
+    return 'Yes';
+  }
+
+  return missingDataAbbr;
+};
 
 const commerceOrderTable = (
   commerceOrder?: CommerceOrder,
@@ -72,8 +84,8 @@ const commerceOrderTable = (
     renderCell: () => missingDataAbbr,
   },
   {
-    header: 'Complimentary sale',
-    renderCell: () => missingDataAbbr,
+    header: 'Complementary sale',
+    renderCell: () => isComplementary(commerceOrder),
   },
   {
     header: 'Payment method',

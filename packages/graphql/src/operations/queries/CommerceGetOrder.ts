@@ -91,6 +91,7 @@ export const commercePaymentMethodFragment = gql`
   fragment CommercePaymentMethod on CommercePaymentMethod {
     id
     name
+    configuration
   }
 `;
 

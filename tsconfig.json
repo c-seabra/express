@@ -1,13 +1,13 @@
 {
-  "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@websummit/components": ["packages/components/src"],
       "@websummit/glue": ["packages/glue/src"],
       "@websummit/graphql": ["packages/graphql/src"],
-      "@websummit/components": ["packages/components/src"],
       "@websummit/ws-lib-example": ["packages/ws-lib-example/src"]
     },
     "typeRoots": ["node_modules/@types", "packages/components/src/@types"]
-  }
+  },
+  "extends": "./tsconfig.build.json"
 }
