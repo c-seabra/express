@@ -147,8 +147,8 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
           {rsvps && rsvps.length ? (
             <AvatarList
               avatarList={rsvps}
-              organizerId={organizer ? organizer.id : undefined}
               listType="rsvps"
+              organizerId={organizer ? organizer.id : undefined}
             />
           ) : (
             'Loading...'
