@@ -43,8 +43,8 @@ const StyledListItem = styled.li`
 const AssigneeListHeader: React.FC = () => {
   return (
     <StyledListItem>
-      <BookingRef>Booking Ref</BookingRef>
-      <Name>First & last name</Name>
+      <BookingRef>Ticket reference</BookingRef>
+      <Name>Full name</Name>
       <Email>Email</Email>
       <Status>Status</Status>
       <ClaimStatus>Claim status</ClaimStatus>
