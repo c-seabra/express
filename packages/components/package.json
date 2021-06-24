@@ -1,9 +1,9 @@
 {
   "name": "@websummit/components",
-  "private": true,
-  "license": "MIT",
   "version": "1.0.0",
+  "private": true,
   "description": "Websummit UI components library",
+  "license": "MIT",
   "author": "Chris Bowes",
   "main": "src/index",
   "types": "src/index",
@@ -19,16 +19,17 @@
     "test": "yarn run build"
   },
   "dependencies": {
-    "react": "*",
-    "react-datepicker": "*",
-    "react-router-dom": "*",
-    "react-modal": "*",
-    "styled-components": "*",
     "formik": "*",
     "luxon": "*",
-    "react-simple-snackbar": "*",
+    "react": "*",
+    "react-csv": "*",
     "react-currency-input-field": "*",
-    "react-csv": "*"
+    "react-datepicker": "*",
+    "react-json-pretty": "*",
+    "react-modal": "*",
+    "react-router-dom": "*",
+    "react-simple-snackbar": "*",
+    "styled-components": "*"
   },
   "devDependencies": {
     "@types/react-csv": "*"
