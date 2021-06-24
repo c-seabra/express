@@ -66,8 +66,8 @@ const HTTP_RESPONSE = {
 
 const HTTP_ERROR_MESSAGES = {
   NETWORK_ERR: 'Failed to fetch',
-  NOT_FOUND: "Not found",
-  SERVER_ERR: "Internal server error"
+  NOT_FOUND: 'Not found',
+  SERVER_ERR: 'Internal server error',
 };
 
 export { HTTP_RESPONSE, HTTP_ERROR_MESSAGES };

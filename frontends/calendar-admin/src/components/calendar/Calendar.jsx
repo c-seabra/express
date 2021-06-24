@@ -52,7 +52,7 @@ const Calendar = ({ token, env }) => {
   const normalizeError = (error, status) => {
     let _error = error;
 
-    if (!_error || !_error.length ) {
+    if (!_error || !_error.length) {
       _error = HTTP_ERROR_MESSAGES.SERVER_ERR;
 
       if (status === HTTP_RESPONSE.NOT_FOUND) {
@@ -67,7 +67,7 @@ const Calendar = ({ token, env }) => {
     let _error = error;
 
     if (!Array.isArray(_error)) {
-      _error = normalizeError(_error, status)
+      _error = normalizeError(_error, status);
     }
 
     if (Array.isArray(error) && error.length) {

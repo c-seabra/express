@@ -42,7 +42,7 @@ const handleFetch = async (...args) => {
   const result = {};
   try {
     const response = await fetch(...args);
-    result.status = response?.status
+    result.status = response?.status;
 
     if (response.ok) {
       const text = await response.text();
