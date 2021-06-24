@@ -1,11 +1,5 @@
 import { gql } from '@apollo/client';
-
-const commercePaymentMethodFragment = gql`
-  fragment CommercePaymentMethod on CommercePaymentMethod {
-    id
-    name
-  }
-`;
+import { commercePaymentMethodFragment } from '@websummit/graphql/src/operations/queries/CommerceGetOrder';
 
 export default gql`
   mutation CommerceCreateOrder($commerceOrderCreate: CommerceOrderCreate!) {
