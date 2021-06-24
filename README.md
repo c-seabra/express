@@ -54,8 +54,7 @@ There variables are shared between all micro frontends. Currently we use:
 
 ### Requirements
 
-Node v14 (exact working v14.17.1) 
-
+Node v14 (exact working v14.17.1)
 
 ### How to run things
 
