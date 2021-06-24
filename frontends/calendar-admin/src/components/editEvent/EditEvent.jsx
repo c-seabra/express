@@ -247,7 +247,7 @@ const EditEvent = ({
               <ButtonComponent
                 type="error"
                 onClick={() => setDeletePopupActive(false)}
-                >
+              >
                 No
               </ButtonComponent>
             </OverlayButtons>
