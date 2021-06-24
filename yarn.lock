@@ -181,48 +181,10 @@
   dependencies:
     cross-fetch "3.0.6"
 
-<<<<<<< HEAD
-"@apollo/client@*", "@apollo/client@3.3.18", "@apollo/client@^3.2.5", "@apollo/client@latest":
-  version "3.3.18"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.3.18.tgz#dc722576a88fddb5c3ae0bb03d5675e0bb7ec07e"
-  integrity sha512-SaJSda4V36/pnv7jkCBROBPwd3w/3TnG/Bd8oLESuNqm6ruXDHt067ow00Y2zz1AOL8SuOI9LXjmkr+FcTqnIQ==
-=======
-"@analytics/cookie-utils@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@analytics/cookie-utils/-/cookie-utils-0.2.3.tgz#e6ab923f88d89f7b02da0cfab585ff193977052f"
-  integrity sha512-RiMAVpSluRbWb2hlT9wMJ0r2l+MUZzScYjY+w2iWRzjOr9Zzzs4tYzJT6Sd94PDz3LzCuf4aGOwS6pkKXTEBLw==
-
-"@analytics/core@^0.10.5":
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/@analytics/core/-/core-0.10.5.tgz#655f62a77e2290750439cfcd76a840e13ca3c480"
-  integrity sha512-R2W8ybinHXVnWeVLsvI/+ukHzgCWSRT7EoIi6afbWcAsotneFE6vwLwGAKbWIdnGITl1ZaYU6i6wquF6nfF9sQ==
-  dependencies:
-    analytics-utils "^0.4.4"
-
-"@analytics/google-analytics@0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@analytics/google-analytics/-/google-analytics-0.5.2.tgz#e94501ae23284ebdccb3453cf9158984b7443388"
-  integrity sha512-6jviLzo6s7MLvsfPLCSppGgoHb9piShCk/n66s75yR8XN+Pz8ADk1Rh28jRErbLSJToJcCMOwDXikCF7U4exMQ==
-  dependencies:
-    universal-analytics "^0.4.20"
-
-"@analytics/google-tag-manager@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@analytics/google-tag-manager/-/google-tag-manager-0.5.0.tgz#172c90c0ef6a25f2dc1d06fd60d724dfd99afc3c"
-  integrity sha512-Md1qeNlEGViEEaljoYvKtGgRyi41v9VaKqoxCDXbcvssQCio/Ha0qcOiObtFZDPKfYFke8Fm+nzE6AjUcm2vuA==
-
-"@analytics/storage-utils@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@analytics/storage-utils/-/storage-utils-0.2.5.tgz#bc82a1b5dea8e47ae18718aae687c3408ae7c504"
-  integrity sha512-RJdKjR4O86eB5fIfApFfhN8Be/Q709DQiRA7UyS0Ymo6w+usnPPxpm6GaKHVop5CIn3vtlMuUxRA4qZhhBrfMw==
-  dependencies:
-    "@analytics/cookie-utils" "^0.2.3"
-
 "@apollo/client@*", "@apollo/client@3.3.20", "@apollo/client@^3.2.5", "@apollo/client@latest":
   version "3.3.20"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.3.20.tgz#8f0935fa991857e9cf2e73c9bd378ad7ec97caf8"
   integrity sha512-hS7UmBwJweudw/J3M0RAcusMHNiRuGqkRH6g91PM2ev8cXScIMdXr/++9jo7wD1nAITMCMF4HQQ3LFaw/Or0Bw==
->>>>>>> master
   dependencies:
     "@graphql-typed-document-node/core" "^3.0.0"
     "@types/zen-observable" "^0.8.0"
@@ -267,7 +229,7 @@
   dependencies:
     "@apollo/client" latest
 
-"@apollo/react-ssr@4.0.0", "@apollo/react-ssr@^4.0.0-beta.1":
+"@apollo/react-ssr@^4.0.0-beta.1":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@apollo/react-ssr/-/react-ssr-4.0.0.tgz#4965baece13c00caa0a9d9480190e5e0047bb4f8"
   integrity sha512-IW+x5M6eTTMbKwCfgox+BwfnZVhKTNiAjAHVdeOIc5jHIuG4oyB/gWcEonHRK6RKb+zLV1rOqpdwnJc6wchxLA==

@@ -46,7 +46,6 @@
     }
   },
   "devDependencies": {
-    "@apollo/react-ssr": "4.0.0",
     "@babel/core": "7.14.6",
     "@babel/helper-call-delegate": "7.12.13",
     "@babel/helper-create-regexp-features-plugin": "7.14.5",
