@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import UploadStatus from '../statusIcon/StatusIcon';
+import UploadStatus from '../organisms/StatusIcon';
 
 const BookingRef = styled.div`
-  width: calc(15% - 1rem);
+  width: calc(10% + 2rem);
   text-align: center;
-  font-weight: bold;
   text-transform: uppercase;
+  color: #0067e9;
 `;
 const Name = styled.div`
   width: calc(35% - 1rem);
@@ -29,16 +29,14 @@ const ClaimStatus = styled.div`
 `;
 
 const StyledListItem = styled.li`
-  font-size: 1.2em;
   display: flex;
-  margin-bottom: 0.5rem;
-  padding: 0.75rem;
-  background-color: gainsboro;
-  &:nth-child(2n + 1) {
-    background-color: white;
-  }
-  ${BookingRef}, ${Name}, ${Email} {
-    margin-right: 1rem;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #dde0e5;
+
+  &:hover {
+    background-color: #dde0e5;
   }
 `;
 

@@ -59,7 +59,12 @@ export default function loadContainer(props: RequiredProps) {
 
   // Active Single Spa Layout and start
   layoutEngine.activate();
-  start();
+  /*
+  Core-295 | Calendar Admin Issue (Input losing focus when typing)
+  Problem: When we use React-Router-Dom => history.push or history.replace, document active/element is reset to the body.
+  Solution: Usage of urlRerouteOnly: true + native window.history.replaceState instead of method above.
+  */
+  start({ urlRerouteOnly: true });
 
   // Add some styles for the micro conatiner into the doc head
   const microCss = '#micro { margin: 0 auto; }';
