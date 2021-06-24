@@ -2,7 +2,10 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import './Calendar.css';
 
-import { HTTP_RESPONSE} from '@websummit/glue/src/lib/httpResponseStatic';
+import {
+  HTTP_ERROR_MESSAGES,
+  HTTP_RESPONSE,
+} from '@websummit/glue/src/lib/httpResponseStatic';
 import update from 'immutability-helper';
 import jwt from 'jwt-decode';
 import moment from 'moment-timezone';
@@ -46,18 +49,36 @@ const Calendar = ({ token, env }) => {
   const [responseStatuses, setResponseStatuses] = useState();
   const [timezone, setTimezone] = useState();
 
- const addError = (error, status) => {
-    let _error = typeof (error === 'string') ? error : null
+  const normalizeError = (error, status) => {
+    let _error = error;
 
-    if (!error && !status || status >= 500) {
-      _error = "Internal Server Error"
+    if (!_error || !_error.length ) {
+      _error = HTTP_ERROR_MESSAGES.SERVER_ERR;
+
+      if (status === HTTP_RESPONSE.NOT_FOUND) {
+        _error = HTTP_ERROR_MESSAGES.NOT_FOUND;
+      }
     }
 
-    if (!_error && status === HTTP_RESPONSE.NOT_FOUND) {
-      _error = "Resource not found"
+    return _error;
+  };
+
+  const addError = (error, status) => {
+    let _error = error;
+
+    if (!Array.isArray(_error)) {
+      _error = normalizeError(_error, status)
     }
 
-    setErrors((prevState) => prevState.concat([_error]));
+    if (Array.isArray(error) && error.length) {
+      _error = error
+        .map((item) => normalizeError(error, status))
+        .filter((val) => val);
+    }
+
+    if (_error && _error.length) {
+      setErrors((prevState) => prevState.concat([_error]));
+    }
   };
 
   useEffect(() => {
@@ -313,7 +334,9 @@ const Calendar = ({ token, env }) => {
     eventContent.reset_response_status = false;
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
-    result.data ? setEvents(updatedEvents) : addError(result.error, result.status);
+    result.data
+      ? setEvents(updatedEvents)
+      : addError(result.error, result.status);
   };
 
   const onDeleteEvent = (eventId) => {
