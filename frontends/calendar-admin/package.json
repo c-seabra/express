@@ -18,6 +18,7 @@
     "@bootstrap-styled/v4": "*",
     "@material-ui/core": "*",
     "@material-ui/icons": "*",
+    "@websummit/components": "*",
     "@websummit/graphql": "*",
     "graphql": "*",
     "immutability-helper": "*",

@@ -1,3 +1,4 @@
+import { Button } from '@websummit/components/src/atoms/Button';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -89,6 +90,10 @@ export const OverlayButtons = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  ${Button} {
+    margin-right: 1rem;
+  }
 `;
 
 export const OverlayButton = styled.div`
