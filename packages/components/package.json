@@ -1,9 +1,15 @@
 {
   "name": "@websummit/components",
   "version": "1.0.0",
-  "description": "Websummit UI components library",
   "private": true,
+  "description": "Websummit UI components library",
+  "license": "MIT",
+  "author": "Chris Bowes",
   "main": "src/index",
+  "types": "src/index",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "build:standalone": "yarn run clean && yarn run compile",
@@ -27,11 +33,5 @@
   },
   "devDependencies": {
     "@types/react-csv": "*"
-  },
-  "files": [
-    "src"
-  ],
-  "types": "src/index",
-  "license": "MIT",
-  "author": "Chris Bowes"
+  }
 }

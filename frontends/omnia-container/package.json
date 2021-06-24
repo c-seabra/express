@@ -2,6 +2,7 @@
   "name": "@websummit-micro/omnia-container",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "build": "webpack --mode=production",
     "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
@@ -16,6 +17,5 @@
     "single-spa-layout": "*",
     "systemjs": "*"
   },
-  "devDependencies": {},
-  "license": "MIT"
+  "devDependencies": {}
 }

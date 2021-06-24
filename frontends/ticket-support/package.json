@@ -2,6 +2,7 @@
   "name": "@websummit-micro/ticket-support",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -12,6 +13,18 @@
     "start:standalone": "webpack serve --env standalone",
     "test": "jest --passWithNoTests --verbose",
     "test:watch": "jest --watch --verbose"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "dependencies": {
     "@apollo/client": "*",
@@ -31,18 +44,5 @@
     "styled-components": "*",
     "yup": "*"
   },
-  "devDependencies": {},
-  "license": "MIT",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "devDependencies": {}
 }

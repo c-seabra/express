@@ -2,6 +2,7 @@
   "name": "@websummit-micro/frontend-demo",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -17,6 +18,5 @@
     "react": "*",
     "react-dom": "*"
   },
-  "devDependencies": {},
-  "license": "MIT"
+  "devDependencies": {}
 }

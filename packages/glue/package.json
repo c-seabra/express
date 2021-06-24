@@ -2,7 +2,12 @@
   "name": "@websummit/glue",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "main": "src/index",
+  "types": "src/index",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "build:standalone": "yarn run clean && yarn run compile",
@@ -19,10 +24,5 @@
     "single-spa": "*",
     "single-spa-layout": "*"
   },
-  "devDependencies": {},
-  "files": [
-    "src"
-  ],
-  "types": "src/index",
-  "license": "MIT"
+  "devDependencies": {}
 }

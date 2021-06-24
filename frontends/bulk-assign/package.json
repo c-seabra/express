@@ -2,6 +2,7 @@
   "name": "@websummit-micro/bulk-assign",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -13,17 +14,6 @@
     "test": "jest --passWithNoTests --verbose",
     "test:watch": "jest --watch --verbose"
   },
-  "dependencies": {
-    "@apollo/client": "*",
-    "@websummit/graphql": "*",
-    "graphql": "*",
-    "isomorphic-unfetch": "*",
-    "jwt-decode": "*",
-    "react": "*",
-    "react-dom": "*"
-  },
-  "devDependencies": {},
-  "license": "MIT",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -35,5 +25,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "dependencies": {
+    "@apollo/client": "*",
+    "@websummit/graphql": "*",
+    "graphql": "*",
+    "isomorphic-unfetch": "*",
+    "jwt-decode": "*",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {}
 }

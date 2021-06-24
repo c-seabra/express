@@ -2,6 +2,7 @@
   "name": "@websummit-micro/frontend-root-config",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "build": "webpack --mode=production",
     "clean": "rimraf -rf ./dist",
@@ -14,6 +15,5 @@
     "single-spa": "*",
     "single-spa-layout": "*"
   },
-  "devDependencies": {},
-  "license": "MIT"
+  "devDependencies": {}
 }
