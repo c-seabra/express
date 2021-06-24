@@ -132,7 +132,6 @@
     "lerna": "3.22.1",
     "prettier": "2.2.1",
     "serve": "11.3.2",
-    "styled-components": "5.2.2",
     "systemjs-webpack-interop": "2.3.6",
     "ts-config-single-spa": "2.0.1",
     "ts-jest": "26.5.6",
