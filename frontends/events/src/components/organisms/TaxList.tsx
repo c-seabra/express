@@ -19,8 +19,10 @@ type TaxesListProps = {
   taxes: any;
 };
 
+type ExtendedCommerceTax = CommerceTax & { countryName: string };
+
 const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
-  const tableShape: ColumnDescriptor<CommerceTax>[] = [
+  const tableShape: ColumnDescriptor<ExtendedCommerceTax>[] = [
     {
       header: 'Tax name',
       renderCell: (tax) => tax.name || 'N/A',
@@ -35,8 +37,7 @@ const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
     {
       header: 'Country of tax',
       renderCell: (tax) => (
-        <>{`${tax.country}` || 'N/A'}</>
-        // <>{`${tax.country} - ${tax.country?.name}` || 'N/A'}</>
+        <>{`${tax.country} - ${tax.countryName}` || 'N/A'}</>
       ),
       width: '20%',
     },
@@ -51,7 +52,7 @@ const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
   return (
     <>
       <ContainerCard noPadding>
-        <Table<CommerceTax>
+        <Table<ExtendedCommerceTax>
           items={taxes}
           tableShape={tableShape}
           onRowClick={onTaxClick}

@@ -233,7 +233,7 @@ const TaxRateCreateModal = ({
                       <SelectField
                         label="Tax type"
                         name="type"
-                        options={taxTypes}
+                        options={taxTypes as any}
                       />
                     </Spacing>
                   </FieldWrapper>

@@ -97,6 +97,13 @@ const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
     openTaxRateModal();
   };
 
+  const mappedTaxes = taxes.map((tax: any) => {
+    return {
+      ...tax,
+      countryName: 'trst'
+    }
+  })
+
   return (
     <>
       {loading && <Loader />}
@@ -122,7 +129,7 @@ const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
             </Spacing>
 
             <Spacing bottom="50px">
-              <TaxList taxes={taxes} onTaxClick={onTaxClick} />
+              <TaxList taxes={mappedTaxes} onTaxClick={onTaxClick} />
             </Spacing>
           </Spacing>
         </>
