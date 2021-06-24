@@ -6,8 +6,8 @@ import SearchIcon from '../svgs/SearchIcon';
 export const StyledLabel = styled.label`
   display: flex;
   flex-direction: column;
-  select,
-  input {
+
+  select {
     height: 2rem;
     width: 100%;
   }
@@ -18,18 +18,25 @@ export const Search = styled(StyledLabel)`
   position: relative;
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: auto;
+    height: 60%;
     position: absolute;
     left: 0.5rem;
-    top: 0.5rem;
+    top: 25%;
     opacity: 50%;
   }
+
   input {
-    padding-left: 2rem;
     border: 1px solid #dcdfe5;
     border-radius: 4px;
     font-weight: 300;
+    font-family: inherit;
+    font-size: 0.75rem;
+    line-height: 1;
+    height: auto;
+    max-width: 100%;
+    padding: 0.5rem 1.5rem 0.5rem 1.75rem;
+    margin: 0;
   }
 `;
 
