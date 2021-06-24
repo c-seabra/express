@@ -21,5 +21,6 @@
   "branchConcurrentLimit": 2,
   "bumpVersion": "patch",
   "dependencyDashboard": true,
-  "rangeStrategy": "pin"
+  "rangeStrategy": "pin",
+  "reviewers": ["reggaemuffin"]
 }

@@ -2,7 +2,7 @@
   "name": "@websummit-micro/calendar-admin",
   "private": true,
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -12,11 +12,7 @@
     "start": "webpack serve --port 9008",
     "start:standalone": "webpack serve --env standalone"
   },
-  "devDependencies": {
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-standard": "^4.0.1",
-    "react-test-renderer": "^16.12.0"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
     "@bootstrap-styled/v4": "*",
@@ -24,18 +20,17 @@
     "@material-ui/icons": "*",
     "@websummit/graphql": "*",
     "graphql": "*",
-    "immutability-helper": "^3.0.1",
+    "immutability-helper": "*",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",
-    "material-table": "^1.54.1",
+    "material-table": "*",
     "moment": "*",
     "moment-timezone": "*",
-    "node-sass": "^4.13.0",
-    "prop-types": "^15.7.2",
+    "prop-types": "*",
     "react": "*",
     "react-big-calendar": "*",
     "react-dom": "*",
-    "react-datetime": "^2.16.3",
+    "react-datetime": "*",
     "react-router-dom": "*",
     "styled-components": "*"
   },
