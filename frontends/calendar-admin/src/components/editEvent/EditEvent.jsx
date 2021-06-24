@@ -101,6 +101,19 @@ const EditEvent = ({
   };
 
   return (
+    <>
+    <DestructiveButton
+      style={{
+        marginTop: '1em',
+        marginLeft: '75%',
+      }}
+      onClick={(e) => {
+        e.preventDefault();
+        setDeletePopupActive(true);
+      }}
+    >
+      Delete Event
+    </DestructiveButton>
     <Form onSubmit={(e) => handleSubmit(e)}>
       <FormWrapper>
         <FormLabel>Title: </FormLabel>
@@ -200,16 +213,12 @@ const EditEvent = ({
         )}
       </div>
       <FormWrapper>
-        <DestructiveButton
-          onClick={(e) => {
-            e.preventDefault();
-            setDeletePopupActive(true);
-          }}
-        >
-          Delete Event
-        </DestructiveButton>
         <StyledButton
-          style={{ marginLeft: `12rem` }}
+          style={{
+            backgroundColor: '#fff',
+            color: '#0067e9',
+            marginLeft: '65%',
+          }}
           type="button"
           onClick={() => setEditPopupActive(false)}
         >
@@ -236,6 +245,7 @@ const EditEvent = ({
         </Overlay>
       )}
     </Form>
+    </>
   );
 };
 
