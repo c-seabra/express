@@ -7,17 +7,11 @@ import {
   CommerceTaxDetailCreateOrUpdate,
   CommerceTransactionType,
 } from '@websummit/graphql/src/@types/operations';
+import { commercePaymentMethodFragment } from '@websummit/graphql/src/operations/queries/CommerceGetOrder';
 
 import { useAppContext } from '../../components/app/AppContext';
 import { CommerceTransaction } from '../../lib/types';
 import { TotalInCents } from '../../lib/utils/price';
-
-const commercePaymentMethodFragment = gql`
-  fragment CommercePaymentMethod on CommercePaymentMethod {
-    id
-    name
-  }
-`;
 
 const CREATE_TRANSACTION_MUTATION = gql`
   mutation commerceCreateTransaction(

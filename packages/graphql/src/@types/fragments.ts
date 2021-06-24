@@ -11,6 +11,17 @@ const result: PossibleTypesResultData = {
       'ComponentWebLinksUrlLink',
       'ComponentWebLinksSubMenu',
     ],
+    RoomChatConfig: ['RoomChatConfigPubnub'],
+    RoomModerationConfig: ['RoomModerationConfigPubnub'],
+    RoomPubnubConfig: [
+      'RoomModerationConfigPubnub',
+      'RoomQuestionsConfigPubnub',
+      'RoomChatConfigPubnub',
+      'RoomReactionsConfigPubnub',
+    ],
+    RoomQuestionsConfig: ['RoomQuestionsConfigPubnub'],
+    RoomReactionsConfig: ['RoomReactionsConfigPubnub'],
+    RoomVideoCallConfig: ['RoomVideoCallConfigVonage'],
     SourceTicketReleaseUnion: ['TitoTicketRelease'],
     TicketReleaseAction: [
       'TicketReleaseActionsExpiredTicketAction',
