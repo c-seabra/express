@@ -310,6 +310,7 @@ const Calendar = ({ token, env }) => {
         .tz(timezone, true)
         .format();
     }
+    eventContent.reset_response_status = false;
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
     result.data ? setEvents(updatedEvents) : addError(result.error, result.status);

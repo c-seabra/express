@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-const ORDER_LIST = gql`
-  query(
+export default gql`
+  query Orders(
     $first: Int
     $after: String
     $filter: OrderFilter
@@ -86,5 +86,3 @@ const ORDER_LIST = gql`
     }
   }
 `;
-
-export default ORDER_LIST;

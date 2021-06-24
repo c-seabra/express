@@ -91,6 +91,7 @@ export const commercePaymentMethodFragment = gql`
   fragment CommercePaymentMethod on CommercePaymentMethod {
     id
     name
+    configuration
   }
 `;
 
@@ -170,6 +171,8 @@ const COMMERCE_GET_ORDER = gql`
       currencySymbol
       id
       invoiceUrl
+      refundReceiptUrl
+      refunded
       lastUpdatedAt
       locked
       paid

@@ -62,6 +62,43 @@ type SelectFieldProps = {
   value?: string | number;
 };
 
+type SimpleSelectFieldProps = Pick<
+  SelectFieldProps,
+  'disabled' | 'error' | 'placeholder' | 'value' | 'onChange' | 'options'
+> & { className?: string };
+
+// This is Select without the label and error fields
+export const SimpleSelect = ({
+  className,
+  disabled,
+  error,
+  placeholder,
+  value,
+  onChange,
+  options = [],
+}: SimpleSelectFieldProps) => {
+  return (
+    <StyledSelect
+      className={className}
+      disabled={disabled}
+      isError={!!error}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    >
+      {options.map((option) => (
+        <option
+          key={option.value}
+          disabled={option.disabled}
+          value={option.value}
+        >
+          {option.label}
+        </option>
+      ))}
+    </StyledSelect>
+  );
+};
+
 const Select = ({
   className,
   label,
@@ -76,24 +113,14 @@ const Select = ({
   return (
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
-      <StyledSelect
+      <SimpleSelect
         disabled={disabled}
-        isError={!!error}
+        error={error}
+        options={options}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-      >
-        {options.map((option) => (
-          <option
-            key={option.value}
-            disabled={option.disabled}
-            value={option.value}
-          >
-            {option.label}
-          </option>
-        ))}
-      </StyledSelect>
-
+      />
       {error && <Error>{error}</Error>}
     </FieldContainer>
   );
