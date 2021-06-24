@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from 'react';
 
@@ -85,7 +84,7 @@ const AttendanceSearch = (): ReactElement => {
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        onFocus={(e) => setDisplay(searchQuery.length > 2)}
+        onFocus={() => setDisplay(searchQuery.length > 2)}
       />
       {display && !loading && !error && (
         <ResultsContainer>

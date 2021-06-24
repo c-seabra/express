@@ -1,8 +1,8 @@
 {
   "name": "@websummit-micro/ticket-management",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "version": "1.0.0",
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -14,22 +14,22 @@
     "test": "jest --passWithNoTests --verbose",
     "test:watch": "jest --watch --verbose --no-cache"
   },
-  "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
     "@websummit/components": "*",
     "@websummit/graphql": "*",
     "file-loader": "*",
-    "lodash.get": "*",
+    "formik": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",
+    "lodash.get": "*",
     "react": "*",
     "react-dom": "*",
     "react-helmet": "*",
     "react-router-dom": "*",
     "styled-components": "*",
-    "formik": "*",
     "yup": "*"
-  }
+  },
+  "devDependencies": {}
 }

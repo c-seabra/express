@@ -63,7 +63,6 @@ module.exports = {
   },
   plugins: [
     'jest',
-    'json-format',
     'react',
     'react-hooks',
     '@typescript-eslint',
@@ -185,7 +184,6 @@ module.exports = {
     'import/resolver': {
       typescript: {},
     },
-    'json/sort-package-json': 'pro',
     react: {
       version: 'detect',
     },
