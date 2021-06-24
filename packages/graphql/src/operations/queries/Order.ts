@@ -50,6 +50,7 @@ export default gql`
       }
       invoiceUrl
       amount
+      refundReceiptUrl
       currency
       reference
       completedAt

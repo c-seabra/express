@@ -3,8 +3,12 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
-import { formatDisplayPrice } from '@websummit/glue/src/lib/utils/price';
-import { CommerceSale } from '@websummit/graphql/src/@types/operations';
+import {
+  formatDisplayPrice,
+  TotalInCents,
+} from '@websummit/glue/src/lib/utils/price';
+import { CommerceListSaleProductsQuery } from '@websummit/graphql/src/@types/operations';
+import { CommerceListQueryHitsResult } from '@websummit/graphql/src/lib/types';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -12,17 +16,24 @@ const StyledName = styled.span`
   color: #0067e9;
 `;
 
+type SaleProducts = CommerceListQueryHitsResult<
+  CommerceListSaleProductsQuery,
+  'commerceListSaleProducts'
+>;
+
+type SaleProduct = NonNullable<SaleProducts>[0];
+
 type ProductsListProps = {
   currencySymbol?: string | undefined;
   onRowClick?: any;
-  products: any[];
+  products?: SaleProducts;
 };
 const ProductsList = ({
-  products,
+  products = [],
   onRowClick,
   currencySymbol,
 }: ProductsListProps) => {
-  const tableShape: ColumnDescriptor<any>[] = [
+  const tableShape: ColumnDescriptor<SaleProduct>[] = [
     {
       header: 'Ticket type',
       renderCell: (saleProduct) => (
@@ -41,7 +52,10 @@ const ProductsList = ({
     {
       header: 'Price for sale cycle',
       renderCell: (saleProduct) =>
-        formatDisplayPrice(saleProduct.price, currencySymbol) || 'N/A',
+        formatDisplayPrice(
+          saleProduct?.price as TotalInCents,
+          currencySymbol,
+        ) || 'N/A',
     },
     {
       header: 'Status',
@@ -63,8 +77,8 @@ const ProductsList = ({
   return (
     <>
       <ContainerCard noPadding>
-        <Table<CommerceSale>
-          items={products}
+        <Table<SaleProduct>
+          items={products || []}
           tableShape={tableShape}
           onRowClick={onRowClick}
         />
