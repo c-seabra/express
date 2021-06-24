@@ -13445,11 +13445,6 @@ indefinite-observable@^2.0.1:
   dependencies:
     symbol-observable "1.2.0"
 
-indefinite@2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/indefinite/-/indefinite-2.4.1.tgz#6970cfdd373dde4e394dd5f783e59a7c0fb13637"
-  integrity sha512-4C1k983crWkOu4tfmx8by1jQ0xBLBo0EhNV1WsRem2y+IbzLmPkYycjrQe399heo3bZ5OYpImQo2o85vQ0HkSQ==
-
 indent-string@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/indent-string/-/indent-string-2.1.0.tgz#8e2d48348742121b4a8218b7a137e9a52049dc80"
@@ -14674,11 +14669,6 @@ js-base64@^2.1.8:
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.6.4.tgz#f4e686c5de1ea1f867dbcad3d46d969428df98c4"
   integrity sha512-pZe//GGmwJndub7ZghVHz7vjb2LgC1m8B07Au3eYqeqv9emhESByMXxaEgkUkEqJe87oBbSniGYoQNIBklc7IQ==
 
-js-cookie@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
-  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
-
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -14787,11 +14777,6 @@ json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
   integrity sha1-tIDIkuWaLwWVTOcnvT8qTogvnhM=
-
-json-schema@0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.3.0.tgz#90a9c5054bd065422c00241851ce8d59475b701b"
-  integrity sha512-TYfxx36xfl52Rf1LU9HyWSLGPdYLL+SQ8/E/0yVyKG8wCCDaSrhPap0vEdlsZWRaS6tnKKLPGiEJGiREVC8kxQ==
 
 json-schema@^0.2.5:
   version "0.2.5"
@@ -15142,11 +15127,6 @@ levn@^0.4.1:
   dependencies:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
-
-libphonenumber-js@1.9.15:
-  version "1.9.15"
-  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.9.15.tgz#d08c533009216c993382c833eaf1639217bd4350"
-  integrity sha512-gKgvXJmYX00mS+dsy7VUWAsnfKeAyEqGFmDBDor2mtHo08RkceNLQ6PUKS+6h7Tq1SK/4MP2Re8rJ3J0gHmfTA==
 
 line-column@^1.0.2:
   version "1.0.2"
