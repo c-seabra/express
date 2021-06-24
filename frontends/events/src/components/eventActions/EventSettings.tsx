@@ -13,6 +13,7 @@ import {
   useCommerceGetStoreQuery,
   useCommerceListPaymentMethodsQuery,
   useCommerceListTaxesQuery,
+  useCountriesQuery,
   useEventQuery,
   useLegalEntitiesQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -203,6 +204,11 @@ const EventSettings = () => {
     onError: (e) => error(e.message),
   });
 
+  const { data: countriesResponse } = useCountriesQuery();
+  const countries = countriesResponse?.countries?.edges.map(
+    (node) => node.node,
+  );
+
   const store = storeData?.commerceGetStore;
 
   const eventExists = !!data?.event;
@@ -355,9 +361,9 @@ const EventSettings = () => {
             )}
             {currentTab.id === 'tax_info' && (
               <SelectTax
+                countries={countries as any}
                 loading={loading}
                 taxes={taxes}
-
               />
             )}
             {currentTab.id === 'billing_invoicing' && (

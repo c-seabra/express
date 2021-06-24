@@ -2,6 +2,7 @@ import { Icon } from '@material-ui/core';
 import { Button } from '@websummit/components/src/atoms/Button';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { EventConfigurationCountry } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -10,11 +11,6 @@ import TaxRateCreateModalWrapper, {
   ModalInputMode,
 } from '../modals/TaxRateCreateModalWrapper';
 import TaxList from './TaxList';
-import {
-  EventConfigurationCountry,
-  useCountriesQuery,
-} from '../../../../../packages/graphql/src/@types/operations';
-import { Country } from '../../lib/types';
 
 const FlexRow = styled.div`
   display: flex;
@@ -68,12 +64,11 @@ const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
 };
 
 type SelectTaxProps = {
+  countries: EventConfigurationCountry[];
   loading: boolean;
   taxes: any;
-  // countries: Country[];
 };
-// const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
-const SelectTax = ({ loading, taxes }: SelectTaxProps) => {
+const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
   const {
     openModal: openTaxRateModal,
     isOpen: isTaxRateModalOpen,
@@ -88,15 +83,17 @@ const SelectTax = ({ loading, taxes }: SelectTaxProps) => {
   };
 
   const onTaxClick = (event: any) => {
+    const foundCountry: any = countries.find(
+      (country) =>
+        country.code === event.country || country.name === event.country,
+    );
+    const mappedEvent = {
+      ...event,
+      country: foundCountry.id,
+    };
+
     setModalMode('EDIT');
-    // const country = countriesResponse?.countries?.edges?.find(
-    //   (country: EventConfigurationCountry) => country.code === 'event.country',
-    // )[0];
-    // const mappedEvent = {
-    //   ...event,
-    //   country: country.name,
-    // };
-    setPrefilledTax(event);
+    setPrefilledTax(mappedEvent);
     openTaxRateModal();
   };
 
@@ -106,6 +103,7 @@ const SelectTax = ({ loading, taxes }: SelectTaxProps) => {
 
       <TaxRateCreateModalWrapper
         closeModal={closeTaxRateModal}
+        countries={countries}
         isOpen={isTaxRateModalOpen}
         mode={modalMode}
         prefilledTax={prefilledTax}

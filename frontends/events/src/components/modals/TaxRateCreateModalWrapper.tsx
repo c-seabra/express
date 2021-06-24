@@ -1,4 +1,7 @@
-import { CommerceTaxRateType } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceTaxRateType,
+  EventConfigurationCountry,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
@@ -9,6 +12,7 @@ import TaxRateCreateModal from './TaxRateCreateModal';
 export type ModalInputMode = 'EDIT' | 'ADD';
 type TaxRateCreateModalProps = {
   closeModal: () => void;
+  countries: EventConfigurationCountry[];
   isOpen: boolean;
   mode?: ModalInputMode;
   prefilledTax?: any;
@@ -19,6 +23,7 @@ const TaxRateCreateModalWrapper = ({
   closeModal,
   mode = 'ADD',
   prefilledTax,
+  countries,
 }: TaxRateCreateModalProps) => {
   const alertHeaderText = (_mode: string): string => {
     const prefilledTaxName: string = prefilledTax?.name || 'N/A';
@@ -49,13 +54,20 @@ const TaxRateCreateModalWrapper = ({
       rateType: CommerceTaxRateType.Percentage,
       taxType: { id: eventData.type },
     };
+    const foundCountry: any = countries.find(
+      (country) => country.id === eventData.country, // need to remap from id
+    );
+    const mappedInput = {
+      ...input,
+      country: foundCountry.code,
+    };
 
     if (_mode === 'ADD') {
-      mutation = taxRateCreate({ input });
+      mutation = taxRateCreate({ input: mappedInput });
     }
 
     if (_mode === 'EDIT') {
-      mutation = taxRateUpdate({ input });
+      mutation = taxRateUpdate({ input: mappedInput });
     }
 
     return mutation;
