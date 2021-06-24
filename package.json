@@ -33,7 +33,7 @@
     "pretty-json": "sort-package-json ./package.json packages/**/package.json frontends/**/package.json",
     "pub": "lerna publish",
     "ready": "yarn fix && yarn format",
-    "commit-hook": "yarn pretty && lint-staged",
+    "commit-hook": "yarn format && lint-staged",
     "start": "yarn install && yarn build:packages && yarn start:single-spa --stream",
     "start:omnia": "concurrently -n \"s3,webpack\" -k \"yarn run start:serve\" \"yarn run start:omnia-container\"",
     "start:omnia-container": "lerna run start --scope @websummit-micro/omnia-container",
@@ -42,15 +42,15 @@
     "test": "lerna run test",
     "test:watch": "lerna run test:watch --stream"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint . --fix --cache"
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn commit-hook || true"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint . --fix --cache"
+    ]
   },
   "resolutions": {
     "@apollo/client": "3.3.20",
