@@ -17,5 +17,10 @@
     "prepublishOnly": "yarn run build",
     "test": "yarn run build"
   },
+  "dependencies": {
+    "apollo-client": "*",
+    "apollo-cache-inmemory": "*",
+    "isomorphic-unfetch": "*"
+  },
   "devDependencies": {}
 }
