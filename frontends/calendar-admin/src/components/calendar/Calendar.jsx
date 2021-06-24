@@ -5,7 +5,7 @@ import './Calendar.css';
 import {
   HTTP_ERROR_MESSAGES,
   HTTP_RESPONSE,
-} from '@websummit/glue/src/lib/httpResponseStatic';
+} from '../../lib/services/httpResponseStatic';
 import update from 'immutability-helper';
 import jwt from 'jwt-decode';
 import moment from 'moment-timezone';
