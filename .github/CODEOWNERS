@@ -1,0 +1,6 @@
+# This file establishes code owners for files owned by a team or shared across all teams
+
+# Packages contains shared code and should be reviewed by all teams
+/packages @websummit/ticket-machine
+# todo: add @websummit/admin-tooling once created
+
