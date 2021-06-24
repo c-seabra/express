@@ -2,6 +2,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import './Calendar.css';
 
+import { HTTP_RESPONSE} from '@websummit/glue/src/lib/httpResponseStatic';
 import update from 'immutability-helper';
 import jwt from 'jwt-decode';
 import moment from 'moment-timezone';
@@ -45,8 +46,18 @@ const Calendar = ({ token, env }) => {
   const [responseStatuses, setResponseStatuses] = useState();
   const [timezone, setTimezone] = useState();
 
-  const addError = (error) => {
-    setErrors((errors) => errors.concat([error]));
+ const addError = (error, status) => {
+    let _error = typeof (error === 'string') ? error : null
+
+    if (!error && !status || status >= 500) {
+      _error = "Internal Server Error"
+    }
+
+    if (!_error && status === HTTP_RESPONSE.NOT_FOUND) {
+      _error = "Resource not found"
+    }
+
+    setErrors((prevState) => prevState.concat([_error]));
   };
 
   useEffect(() => {
@@ -93,7 +104,7 @@ const Calendar = ({ token, env }) => {
       });
       setEvents(eventRes);
     } else {
-      addError(eventsResults.error);
+      addError(eventsResults.error, eventsResults.status);
     }
   };
 
@@ -107,7 +118,7 @@ const Calendar = ({ token, env }) => {
       setChosenDate(new Date(confResult.data.data.start_date));
       setTimezone(confResult.data.data.timezone);
     } else {
-      addError(confResult.error);
+      addError(confResult.error, confResult.status);
     }
     if (attendancesArray.length > 0) {
       await getAdminEvents();
@@ -118,12 +129,12 @@ const Calendar = ({ token, env }) => {
     const locationsResult = await Api.getLocations(payload.conf_slug, env);
     locationsResult.data
       ? setLocations(locationsResult.data.data)
-      : addError(locationsResult.error);
+      : addError(locationsResult.error, locationsResult.status);
 
     const responseStatusesResult = await Api.getResponseStatuses(env);
     responseStatusesResult.data
       ? setResponseStatuses(responseStatusesResult.data.data)
-      : addError(responseStatusesResult.error);
+      : addError(responseStatusesResult.error, responseStatusesResult.status);
 
     const formatsResult = await Api.getEventFormats(token, env);
     if (formatsResult.data) {
@@ -132,7 +143,7 @@ const Calendar = ({ token, env }) => {
       );
       setFormats(privateFormats);
     } else {
-      addError(formatsResult.error);
+      addError(formatsResult.error, formatsResult.status);
     }
   };
 
@@ -165,7 +176,7 @@ const Calendar = ({ token, env }) => {
       );
       result.data
         ? addRsvp({ attendance: result.data, invitation })
-        : addError(result.error);
+        : addError(result.error, result.status);
     });
   };
 
@@ -236,7 +247,7 @@ const Calendar = ({ token, env }) => {
       token,
       env,
     );
-    !result.data && addError(result.error);
+    !result.data && addError(result.error, result.status);
   };
 
   const onDeleteEventInvitation = async (eventId, invitationId) => {
@@ -301,7 +312,7 @@ const Calendar = ({ token, env }) => {
     }
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
-    result.data ? setEvents(updatedEvents) : addError(result.error);
+    result.data ? setEvents(updatedEvents) : addError(result.error, result.status);
   };
 
   const onDeleteEvent = (eventId) => {
@@ -390,7 +401,7 @@ const Calendar = ({ token, env }) => {
     );
     result.data
       ? addRsvp({ attendance: result.data, invitation: {} })
-      : addError(result.error);
+      : addError(result.error, result.status);
   };
 
   const onCreateEventInvitation = async (event_id, invitee_id) => {
