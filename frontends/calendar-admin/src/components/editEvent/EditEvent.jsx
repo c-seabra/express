@@ -194,6 +194,7 @@ const EditEvent = ({
         <FormWrapper>
           <FormLabel>Add attendances: </FormLabel>
           <AddAttendance
+            ids={rsvps.map((r) => r.attendance.data.id)}
             selections={selections}
             setSelections={setSelections}
           />

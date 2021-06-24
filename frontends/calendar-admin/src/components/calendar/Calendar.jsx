@@ -405,8 +405,13 @@ const Calendar = ({ token, env }) => {
       response_status: 'accepted',
     };
 
-    const inv = await Api.createEventInvitation(event_id, invitation, token, env);
-    const rsvp = rsvps.find(i => i.attendance.data.id === invitee_id);
+    const inv = await Api.createEventInvitation(
+      event_id,
+      invitation,
+      token,
+      env,
+    );
+    const rsvp = rsvps.find((i) => i.attendance.data.id === invitee_id);
     const position = rsvps.indexOf(rsvp);
     rsvps.splice(position, 1);
     rsvp.invitation = inv.data.data;
