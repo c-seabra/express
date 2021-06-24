@@ -1,12 +1,13 @@
 {
-  "singleQuote": true,
-  "trailingComma": "all",
-  "endOfLine": "lf",
-  "tabWidth": 2,
-  "useTabs": false,
-  "printWidth": 80,
-  "semi": true,
-  "quoteProps": "as-needed",
+  "arrowParens": "always",
   "bracketSpacing": true,
-  "arrowParens": "always"
+  "endOfLine": "lf",
+  "jsonRecursiveSort": true,
+  "printWidth": 80,
+  "quoteProps": "as-needed",
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false
 }

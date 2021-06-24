@@ -337,6 +337,7 @@ const Calendar = ({ token, env }) => {
     result.data
       ? setEvents(updatedEvents)
       : addError(result.error, result.status);
+    await getAdminEvents();
   };
 
   const onDeleteEvent = (eventId) => {
@@ -385,35 +386,32 @@ const Calendar = ({ token, env }) => {
 
   const moveEvent = ({ event, start, end, isAllDay: droppedOnAllDaySlot }) => {
     // don't do anything if already doing
-    if (newEvent || existingEvent) return;
-
-    const idx = events.indexOf(event);
-    let { allDay } = event;
-
-    if (!event.allDay && droppedOnAllDaySlot) {
-      allDay = true;
-    } else if (event.allDay && !droppedOnAllDaySlot) {
-      allDay = false;
-    }
-
-    const updatedEvent = { ...event, allDay };
-    updatedEvent.starts_at = start;
-    updatedEvent.ends_at = end;
-    const nextEvents = [...events];
-    nextEvents.splice(idx, 1, updatedEvent);
-    setEvents(nextEvents);
+    // if (newEvent || existingEvent) return;
+    // const idx = events.indexOf(event);
+    // let { allDay } = event;
+    // if (!event.allDay && droppedOnAllDaySlot) {
+    //   allDay = true;
+    // } else if (event.allDay && !droppedOnAllDaySlot) {
+    //   allDay = false;
+    // }
+    // const updatedEvent = { ...event, allDay };
+    // updatedEvent.starts_at = start;
+    // updatedEvent.ends_at = end;
+    // const nextEvents = [...events];
+    // nextEvents.splice(idx, 1, updatedEvent);
+    // setEvents(nextEvents);
     // console.log(`${updatedEvent.id} was dropped onto ${updatedEvent.starts_at}`)
   };
 
   const resizeEvent = ({ event, start, end }) => {
-    const starts_at = start;
-    const ends_at = end;
-    const nextEvents = events.map((existingEvent) =>
-      existingEvent.id === event.id
-        ? { ...existingEvent, ends_at, starts_at }
-        : existingEvent,
-    );
-    setEvents(nextEvents);
+    // const starts_at = start;
+    // const ends_at = end;
+    // const nextEvents = events.map((existingEvent) =>
+    //   existingEvent.id === event.id
+    //     ? { ...existingEvent, ends_at, starts_at }
+    //     : existingEvent,
+    // );
+    // setEvents(nextEvents);
   };
 
   const getAttendance = async (invitee_id) => {
@@ -438,7 +436,18 @@ const Calendar = ({ token, env }) => {
       response_status: 'accepted',
     };
 
-    await Api.createEventInvitation(event_id, invitation, token, env);
+    const inv = await Api.createEventInvitation(
+      event_id,
+      invitation,
+      token,
+      env,
+    );
+    const rsvp = rsvps.find((i) => i.attendance.data.id === invitee_id);
+    const position = rsvps.indexOf(rsvp);
+    rsvps.splice(position, 1);
+    rsvp.invitation = inv.data.data;
+    setRsvps([...rsvps]);
+    setRsvps?.([...rsvps, rsvp]);
     await getAdminEvents();
   };
 
