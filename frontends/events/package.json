@@ -12,9 +12,7 @@
     "start": "webpack serve --port 9006",
     "start:standalone": "webpack serve --env standalone"
   },
-  "devDependencies": {
-    "@types/lodash.get": "*"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@apollo/client": "*",
     "@websummit/components": "*",
