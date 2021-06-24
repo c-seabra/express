@@ -303,6 +303,7 @@ const Calendar = ({ token, env }) => {
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
     result.data ? setEvents(updatedEvents) : addError(result.error);
+    await getAdminEvents();
   };
 
   const onDeleteEvent = (eventId) => {
