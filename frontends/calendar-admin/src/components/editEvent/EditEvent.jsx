@@ -38,6 +38,7 @@ const EditEvent = ({
   } = useContext(DetailsContext);
   const { onCreateEventInvitation } = useContext(DetailsContext);
   const [selections, setSelections] = useState([]);
+  const [deletions, setDeletions] = useState([]);
   const [editedEvent, setEditedEvent] = useState({});
   const [deletePopupActive, setDeletePopupActive] = useState(false);
   const [locationName, setLocationName] = useState(location.name);
@@ -93,7 +94,9 @@ const EditEvent = ({
     selections?.forEach((att) => {
       onCreateEventInvitation(eventId, att.id);
     });
-
+    deletions?.forEach((att) => {
+      onDeleteEventInvitation(eventId, att);
+    });
     setEditPopupActive(false);
   };
 
@@ -178,20 +181,23 @@ const EditEvent = ({
         <AddAttendance selections={selections} setSelections={setSelections} />
       </FormWrapper>
       <div>
-        {rsvps.map((rsvp) => (
-          <InviteesListItem key={rsvp.invitation.id}>
-            <span style={{ width: '90%' }}>
-              {`${String(rsvp.attendance.data.person.first_name)} ${String(
-                rsvp.attendance.data.person.last_name,
-              )}`}
-            </span>
-            <RemoveButton
-              onClick={() =>
-                onDeleteEventInvitation(eventId, rsvp.invitation.id)
-              }
-            />
-          </InviteesListItem>
-        ))}
+        {rsvps.map(
+          (rsvp) =>
+            !deletions.includes(rsvp.invitation.id) && (
+              <InviteesListItem key={rsvp.invitation.id}>
+                <span style={{ width: '90%' }}>
+                  {`${String(rsvp.attendance.data.person.first_name)} ${String(
+                    rsvp.attendance.data.person.last_name,
+                  )}`}
+                </span>
+                <RemoveButton
+                  onClick={() => {
+                    setDeletions([...deletions, rsvp.invitation.id]);
+                  }}
+                />
+              </InviteesListItem>
+            ),
+        )}
       </div>
       <FormWrapper>
         <DestructiveButton
