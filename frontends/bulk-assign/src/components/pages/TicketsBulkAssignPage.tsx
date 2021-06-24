@@ -170,7 +170,8 @@ const TicketsBulkAssignPage = () => {
 
   const csvTemplateFile = [
     {
-      'Booking ref': 'ABCD-XY',
+      'Ticket reference': 'ABCD-XY',
+      // eslint-disable-next-line
       'First name': 'John',
       'Last name': 'Doe',
       // eslint-disable-next-line
@@ -179,7 +180,8 @@ const TicketsBulkAssignPage = () => {
       'Auto claim': 'TRUE',
     },
     {
-      'Booking ref': 'ABCD-YZ',
+      'Ticket reference': 'ABCD-YZ',
+      // eslint-disable-next-line
       'First name': 'Jane',
       'Last name': 'Doe',
       // eslint-disable-next-line
@@ -255,7 +257,7 @@ const TicketsBulkAssignPage = () => {
             {/*      buttonText="Download .CSV file" */}
             {/*      data={displayList.map((elem: any) => { */}
             {/*        return { */}
-            {/*          'Booking ref': elem.bookingRef || 'N/A', */}
+            {/*          'Ticket reference': elem.bookingRef || 'N/A', */}
             {/*          'First name': elem.firstName || 'N/A', */}
             {/*          'Last name': elem.lastName || 'N/A', */}
             {/*          // eslint-disable-next-line */}
