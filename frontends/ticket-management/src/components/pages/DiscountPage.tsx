@@ -36,6 +36,7 @@ import PackageItemRemovalModal from '../modals/PackageItemRemovalModal';
 import DealItemsList from '../organisms/DealItemsList';
 import DiscountTemplatesList from '../organisms/DiscountTemplatesList';
 import PackageForm from '../organisms/PackageForm';
+import DiscountList from '../organisms/DiscountsList';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -75,9 +76,7 @@ const FlexCol = styled.div`
   flex-direction: column;
 `;
 
-const StyledContainerCard = styled(ContainerCard)`
-  width: 75%;
-`;
+const StyledContainerCard = styled(ContainerCard)``;
 
 const Separator = styled.div`
   width: 100%;
@@ -390,7 +389,7 @@ const DiscountPage = () => {
               <Separator />
             </Spacing>
             <>
-              <DiscountTemplatesList
+              <DiscountList
                 discounts={data?.commerceListDeals?.hits as CommerceDeal[]}
               />
             </>
