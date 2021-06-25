@@ -45,6 +45,7 @@ export type DiscountFormData = {
   name: string;
   reason: string;
   startDate: any;
+  usages: number;
 };
 
 const validationSchema = Yup.object().shape({
@@ -52,7 +53,7 @@ const validationSchema = Yup.object().shape({
   code: Yup.string()
     .max(6)
     .matches(
-      /^D[A-Z0-9\-]{1,5}$/,
+      /^D[A-Z0-9-]{1,5}$/,
       'Only upper case letters, hyphens and digits up to 6 chars starting with the letter D. DGA123',
     )
     .required('Code Prefix is required'),
@@ -60,6 +61,7 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   reason: Yup.string().min(1).required(),
   startDate: Yup.date().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  usages: Yup.number().integer().strict().min(1).required(),
 });
 
 const DiscountModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
@@ -89,6 +91,7 @@ const DiscountModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
       name: '',
       reason: '',
       startDate: '',
+      usages: 1,
     };
   };
 
@@ -108,6 +111,7 @@ const DiscountModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
       },
       name: formData.name.trim(),
       startDate: new Date(formData.startDate).toISOString(),
+      usages: formData.usages,
     };
 
     return createDeal({
@@ -179,6 +183,19 @@ const DiscountModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
                 type="datetime-local"
               />
             </InlineWrapper>
+          </FieldWrapper>
+
+          <FieldWrapper>
+            <Spacing bottom="8px">
+              <TextInputField
+                required
+                label="Number of uses per discount"
+                min="1"
+                name="usages"
+                step="1"
+                type="number"
+              />
+            </Spacing>
           </FieldWrapper>
 
           <FieldWrapper>

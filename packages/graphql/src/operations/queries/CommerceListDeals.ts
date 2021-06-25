@@ -15,6 +15,8 @@ export default gql`
         lastUpdatedAt
         metadata
         name
+        code
+        usages
         startDate
         dealItems {
           amount

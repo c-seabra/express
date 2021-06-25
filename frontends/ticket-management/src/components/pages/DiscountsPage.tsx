@@ -18,7 +18,7 @@ import styled from 'styled-components';
 
 import { useRequestContext } from '../app/AppContext';
 import DiscountModalWrapper from '../modals/DiscountModalWrapper';
-import PackagesList from '../organisms/PackagesList';
+import DiscountsList from '../organisms/DiscountsList';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -57,39 +57,39 @@ type CommerceDealWithCategories = CommerceDeal & {
   categories: CommerceCategory[];
 };
 
-const groupPackagesByCategories = (
-  packages: Partial<CommerceDealWithCategories>[] = [],
+const groupDiscountsByCategories = (
+  discounts: Partial<CommerceDealWithCategories>[] = [],
   ticketCategories: Pick<CommerceCategory, 'name' | 'id'>[] = [],
 ) => {
-  let packagesByCategories: GroupedPackages = {};
+  let discountsByCategories: GroupedPackages = {};
 
   ticketCategories.forEach((category) => {
-    const packagesByCategory = packages.filter((type) =>
+    const discountsByCategory = discounts.filter((type) =>
       type?.categories?.some(
         (typeCategory: any) => typeCategory.id === category.id,
       ),
     );
 
-    if (packagesByCategory.length > 0) {
-      packagesByCategories = {
-        ...packagesByCategories,
-        [category.name]: packagesByCategory,
+    if (discountsByCategory.length > 0) {
+      discountsByCategories = {
+        ...discountsByCategories,
+        [category.name]: discountsByCategory,
       };
     }
   });
 
-  const ticketsWithoutCategory = packages.filter(
+  const ticketsWithoutCategory = discounts.filter(
     (type) => !type.categories || type?.categories?.length === 0,
   );
 
   if (ticketsWithoutCategory.length > 0) {
     return {
-      ...packagesByCategories,
+      ...discountsByCategories,
       [ungroupedCategoryName]: ticketsWithoutCategory,
     };
   }
 
-  return packagesByCategories;
+  return discountsByCategories;
 };
 
 const DiscountsPage = () => {
@@ -125,8 +125,8 @@ const DiscountsPage = () => {
   const hasPackages = !!(
     data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0
   );
-  const packages: any = data?.commerceListDeals?.hits;
-  const mappedPackages = packages?.map((item: CommerceDeal) => {
+  const discounts: any = data?.commerceListDeals?.hits;
+  const mappedDiscounts = discounts?.map((item: CommerceDeal) => {
     let category: CommerceCategory[] = [];
     item.dealItems?.map((elem: any) => {
       category = elem.product.categories;
@@ -135,8 +135,8 @@ const DiscountsPage = () => {
     return { ...item, categories: category };
   });
 
-  const groupedPackages = groupPackagesByCategories(
-    mappedPackages,
+  const groupedDiscounts = groupDiscountsByCategories(
+    mappedDiscounts,
     ticketCategories,
   );
 
@@ -175,11 +175,11 @@ const DiscountsPage = () => {
         )}
 
         {shouldRenderPackages &&
-          Object.entries(groupedPackages).map(([key, value]) => (
+          Object.entries(groupedDiscounts).map(([key, value]) => (
             <Spacing key={key} top="1.5rem">
               <ContainerCard noPadding title={key}>
-                <PackagesList
-                  packages={value as CommerceDeal[]}
+                <DiscountsList
+                  discounts={value as CommerceDeal[]}
                   onRowClick={onRowClick}
                 />
               </ContainerCard>
