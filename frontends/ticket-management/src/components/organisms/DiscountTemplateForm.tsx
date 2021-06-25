@@ -14,12 +14,12 @@ import {
 } from '@websummit/components/src/utils/time';
 import { useCommerceUpdateDealMutation } from '@websummit/graphql/src/@types/operations';
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
+import { discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { discountTemplateFilter } from '../../../../../packages/graphql/src/lib/presets/dealSearchTerms';
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
@@ -107,7 +107,7 @@ const DiscountTemplateForm = ({ prefillData }: Props) => {
 
   const pickMutation = (formData: DiscountFormData) => {
     const input = {
-      code: formData.code,
+      code: formData.code.trim(),
       description: formData.description ? formData.description.trim() : null,
       endDate: toIsoDateTime(formData.endDate, ianaName),
       name: formData.name.trim(),

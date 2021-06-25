@@ -101,8 +101,8 @@ const DiscountModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
       : 'no extra information given';
     const input = {
       active: false,
-      code: formData.code,
-      description: `${reason} — ${additional}`,
+      code: formData.code.trim(),
+      description: `${reason} — ${additional}`.trim(),
       endDate: new Date(formData.endDate).toISOString(),
       metadata: {
         discount: true,
