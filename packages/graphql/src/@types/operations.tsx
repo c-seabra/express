@@ -9198,6 +9198,8 @@ export type CommerceGetDealQuery = { __typename?: 'Query' } & {
       | 'lastUpdatedAt'
       | 'metadata'
       | 'name'
+      | 'code'
+      | 'usages'
       | 'startDate'
     > & {
         dealItems: Maybe<
@@ -19898,6 +19900,8 @@ export const CommerceGetDealDocument: DocumentNode = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'metadata' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'usages' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
                 {
                   kind: 'Field',
