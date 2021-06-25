@@ -170,21 +170,20 @@ const TicketTypePage = () => {
 
   const isStoreConfigured = Boolean(!loadingStore && store);
 
+  const isTicketTypeFree = ticketType?.price === 0;
+
   const hasPackageProducts =
-    data?.commerceGetProduct?.packagedProducts &&
-    data?.commerceGetProduct?.packagedProducts?.length > 0;
-  const packagedProducts = data?.commerceGetProduct?.packagedProducts;
+    ticketType?.packagedProducts && ticketType?.packagedProducts?.length > 0;
+  const packagedProducts = ticketType?.packagedProducts;
   const mapInitialType = (type: CommerceProductType): boolean => {
     return switchCase({
       [CommerceProductType.Simple]: false,
       [CommerceProductType.Package]: true,
     })(false)(type);
   };
-  const productId = data?.commerceGetProduct?.id as string;
+  const productId = ticketType?.id as string;
 
-  const isPackage = mapInitialType(
-    data?.commerceGetProduct?.type as CommerceProductType,
-  );
+  const isPackage = mapInitialType(ticketType?.type as CommerceProductType);
   const {
     isOpen: isPackageItemRemovalModalOpen,
     closeModal: packageItemRemovalModalClose,
@@ -237,7 +236,7 @@ const TicketTypePage = () => {
 
       <TicketPackageItemRemovalModal
         closeModal={packageItemRemovalModalClose}
-        id={data?.commerceGetProduct?.id as string}
+        id={ticketType?.id as string}
         isOpen={isPackageItemRemovalModalOpen}
         itemId={packageItemId}
       />
@@ -327,11 +326,12 @@ const TicketTypePage = () => {
               ticketType={ticketType}
               onRequestClose={closeModal}
             />
-            <Spacing bottom="2rem" top="2rem">
-              <Separator />
-            </Spacing>
-            <>
-              {isStoreConfigured && (
+
+            {isStoreConfigured && !isTicketTypeFree && (
+              <>
+                <Spacing bottom="2rem" top="2rem">
+                  <Separator />
+                </Spacing>
                 <GenericLinkContainer>
                   <StyledTextInput
                     label="Generic invite link for mass distribution"
@@ -341,8 +341,8 @@ const TicketTypePage = () => {
                     Copy
                   </StyledButton>
                 </GenericLinkContainer>
-              )}
-            </>
+              </>
+            )}
           </ContainerCard>
         </FlexRow>
       </FlexCol>

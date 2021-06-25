@@ -1,24 +1,4 @@
 {
-  "presets": [
-    "@babel/preset-env",
-    "@babel/preset-react",
-    "@babel/preset-typescript"
-  ],
-  "plugins": [
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        "useESModules": true,
-        "regenerator": false
-      }
-    ],
-    [
-      "babel-plugin-styled-components",
-      {
-        "namespace": "ticket-management"
-      }
-    ]
-  ],
   "env": {
     "test": {
       "presets": [
@@ -30,5 +10,25 @@
         ]
       ]
     }
-  }
+  },
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": false,
+        "useESModules": true
+      }
+    ],
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "ticket-management"
+      }
+    ]
+  ],
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript"
+  ]
 }

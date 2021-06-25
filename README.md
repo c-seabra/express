@@ -52,6 +52,10 @@ There variables are shared between all micro frontends. Currently we use:
 - `AUTH_TOKEN` this is your admin auth token you get from omnia, it determines the active conference, your user permissions and is valid for either staging or production. There are a few prefixed environment variables that you can use to save different tokens and cycle between them.
 - `API_URL` this is the url pointing to the catalyst that you want to use. There are prefixed examples for production and sandbox that you can copy, or you point it to your local setup as needed.
 
+### Requirements
+
+Node v14 (exact working v14.17.1)
+
 ### How to run things
 
 There are a few commands (run at the root level of `micro`) that are interesting depending on what you want to accomplish. Here is a summary of them:

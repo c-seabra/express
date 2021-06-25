@@ -1,26 +1,26 @@
 {
-  "extends": ["config:base"],
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": true
-    },
-    {
-      "matchPackagePatterns": ["eslint"],
-      "groupName": "eslint"
-    },
-    {
-      "matchPackagePatterns": ["react"],
-      "groupName": "react"
-    },
-    {
-      "matchPackagePatterns": ["webpack"],
-      "groupName": "webpack"
-    }
-  ],
   "branchConcurrentLimit": 2,
   "bumpVersion": "patch",
   "dependencyDashboard": true,
+  "extends": ["config:base"],
+  "packageRules": [
+    {
+      "automerge": true,
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
+    },
+    {
+      "groupName": "eslint",
+      "matchPackagePatterns": ["eslint"]
+    },
+    {
+      "groupName": "react",
+      "matchPackagePatterns": ["react"]
+    },
+    {
+      "groupName": "webpack",
+      "matchPackagePatterns": ["webpack"]
+    }
+  ],
   "rangeStrategy": "pin",
   "reviewers": ["reggaemuffin"]
 }
