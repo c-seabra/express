@@ -276,13 +276,15 @@ const DiscountPage = () => {
   };
 
   // todo: Pawels part
-  const { loading, data } = useCommerceListDealsQuery({
+  const { loading, data: dealsResponse } = useCommerceListDealsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
       terms: discountTemplateFilter,
     },
   });
+  const discounts = dealsResponse?.commerceListDeals?.hits as CommerceDeal[];
+  const shouldRenderDiscounts = !loading && discounts && discounts.length > 0;
 
   return (
     <Container>
@@ -388,11 +390,9 @@ const DiscountPage = () => {
             <Spacing bottom="2rem" top="2rem">
               <Separator />
             </Spacing>
-            <>
-              <DiscountList
-                discounts={data?.commerceListDeals?.hits as CommerceDeal[]}
-              />
-            </>
+
+            {!shouldRenderDiscounts && <Loader />}
+            {shouldRenderDiscounts && <DiscountList discounts={discounts} />}
           </StyledContainerCard>
         </FlexRow>
       </FlexCol>

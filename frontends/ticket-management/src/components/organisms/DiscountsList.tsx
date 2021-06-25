@@ -1,3 +1,4 @@
+import Badge from '@websummit/components/src/atoms/Badge';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptors,
@@ -7,7 +8,6 @@ import { CommerceDeal } from '@websummit/graphql/src/@types/operations';
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import React from 'react';
 import styled from 'styled-components';
-import Badge from '../../../../../packages/components/src/atoms/Badge';
 
 const StyledName = styled.span`
   color: #0067e9;
