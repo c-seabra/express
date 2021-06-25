@@ -7,7 +7,9 @@ import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceCategory,
-  CommerceDeal, CommerceSearchTerm, CommerceSearchTermOp,
+  CommerceDeal,
+  CommerceSearchTerm,
+  CommerceSearchTermOp,
   useCommerceListCategoriesQuery,
   useCommerceListDealsQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -16,9 +18,9 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useRequestContext } from '../app/AppContext';
+import DiscountModalWrapper from '../modals/DiscountModalWrapper';
 import PackageModalWrapper from '../modals/PackageModalWrapper';
 import PackagesList from '../organisms/PackagesList';
-import DiscountModalWrapper from '../modals/DiscountModalWrapper';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -107,23 +109,21 @@ const DiscountsPage = () => {
   const templateFilter: CommerceSearchTerm = {
     field: 'metadata.template',
     op: CommerceSearchTermOp.Eq,
-    value: 'true'
+    value: true,
   };
   const discountsFilter: CommerceSearchTerm = {
     field: 'metadata.discount',
     op: CommerceSearchTermOp.Eq,
-    value: 'true'
+    value: true,
   };
 
   const { loading, data } = useCommerceListDealsQuery({
     context,
-    variables: {
-      terms: [templateFilter, discountsFilter]
-    },
     onError: (error) => errorSnackbar(error.message),
+    variables: {
+      terms: [templateFilter, discountsFilter],
+    },
   });
-
-
 
   const {
     data: commerceCategories,

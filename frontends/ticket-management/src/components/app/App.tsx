@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
+import DiscountsPage from '../pages/DiscountsPage';
 import PackagePage from '../pages/PackagePage';
 import PackagesPage from '../pages/PackagesPage';
 import SalesCyclePage from '../pages/SalesCyclePage';
@@ -15,7 +16,6 @@ import TicketCategoriesPage from '../pages/TicketCategoriesPage';
 import TicketTypePage from '../pages/TicketTypePage';
 import TicketTypesPage from '../pages/TicketTypesPage';
 import AppContext from './AppContext';
-import DiscountsPage from '../pages/DiscountsPage';
 
 const StyledContainer = styled.section`
   margin: 0 auto;

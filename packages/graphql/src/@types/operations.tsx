@@ -6652,6 +6652,7 @@ export type CommerceDealCreate = {
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
+  metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   startDate: Scalars['Date'];
   usages?: Maybe<Scalars['Int']>;
@@ -6714,6 +6715,7 @@ export type CommerceDealCreateOrUpdate = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
   usages?: Maybe<Scalars['Int']>;
@@ -6958,6 +6960,7 @@ export type CommerceDealUpdate = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
   usages?: Maybe<Scalars['Int']>;

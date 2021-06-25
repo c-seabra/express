@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 
 export default gql`
   query CommerceListDeals(
-      $sort: [CommerceSortTerm!], 
-      $terms: [CommerceSearchTerm!]
+    $sort: [CommerceSortTerm!]
+    $terms: [CommerceSearchTerm!]
   ) {
     commerceListDeals(sort: $sort, terms: $terms) {
       hits {
