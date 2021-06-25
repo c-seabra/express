@@ -16111,21 +16111,22 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-single-spa-layout@*, single-spa-layout@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/single-spa-layout/-/single-spa-layout-1.5.0.tgz#ba45f76aeee85b873797fe793d0a5aebd3b82c15"
-  integrity sha512-zPfcmeWDrTF01NMCKEJmEaiWzNCYDft3BWhV68gfwQy9W9dowOpgwENPgO4KDFH2686Plyk2qXDaGuMFHjCT9Q==
+single-spa-layout@*, single-spa-layout@1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/single-spa-layout/-/single-spa-layout-1.5.4.tgz#b49a177e52019d38c8de8c45c6b80f32d00aaa2c"
+  integrity sha512-Zx6h3UnDQQyP05unnWtTZi6rsoud3hLqtIKYNkaqbEx3oSZ9yRBMehqdNE0CcW04o1Iiimicf+lmAGYQ21CGEg==
   dependencies:
     "@types/parse5" "^5.0.3"
     merge2 "^1.4.1"
     parse5 "^6.0.1"
+    single-spa ">=5"
 
 single-spa-react@*, single-spa-react@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/single-spa-react/-/single-spa-react-3.2.0.tgz#97bfcb03e418f7daa2b1bd05eab1c62632351d91"
   integrity sha512-s8K7AuS26WvN9n81z1NBlnZIe/Hin423P8jYLuG/DCNTYo5JbJMS5+Cb/wQd4ikG6YqoedpV4cb7nAcxvlLyhg==
 
-single-spa@*, single-spa@5.9.2:
+single-spa@*, single-spa@5.9.2, single-spa@>=5:
   version "5.9.2"
   resolved "https://registry.yarnpkg.com/single-spa/-/single-spa-5.9.2.tgz#4bb9a6eb6c90e3198b1549d8cdeb03241401b15b"
   integrity sha512-XYl0rWAuTsdz8juLVMk7jjFZPIpv0TVECUh3+SNzReFJ8OfjndnUNvCSF6e5jAd7/8CNnKItpPgIsAvKvDvpHw==
