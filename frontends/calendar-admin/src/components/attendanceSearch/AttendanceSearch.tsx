@@ -84,7 +84,7 @@ const AttendanceSearch = (): ReactElement => {
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        onFocus={() => setDisplay(searchQuery.length > 2)}
+        onFocus={(e) => setDisplay(e.target.value.length > 2)}
       />
       {display && !loading && !error && (
         <ResultsContainer>

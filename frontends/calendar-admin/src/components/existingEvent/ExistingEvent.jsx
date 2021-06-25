@@ -18,12 +18,10 @@ import {
   Date,
   FormWrap,
   Overlay,
-  OverlayButton,
   OverlayButtons,
   PopupContainer,
   PopupHeading,
   Title,
-  UserRsvp,
   Wrapper,
 } from './ExistingEvent.styled';
 import ExistingEventItem from './ExistingEventItem';
@@ -42,19 +40,11 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
     organizer,
   } = event;
 
-  const {
-    currentUserId,
-    locations,
-    rsvps,
-    responseStatuses,
-    onUpdateEventInvitationResponse,
-    onDeleteEvent,
-  } = useContext(DetailsContext);
+  const { locations, rsvps, onDeleteEvent } = useContext(DetailsContext);
 
   const [deletePopupActive, setDeletePopupActive] = useState(false);
   const [editPopupActive, setEditPopupActive] = useState(false);
   const [locationName, setLocationName] = useState();
-  const [currentUserInvitation, setCurrentUserInvitation] = useState();
   const [eventTime, setEventTime] = useState();
 
   const formatDate = (startsAt, endsAt) => {
@@ -68,13 +58,6 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
   useEffect(() => {
     // get location name
     location && setLocationName(getLocationName(location));
-
-    // get current user response
-    // so we can set RSVP buttons
-    const invitation =
-      invitations &&
-      invitations.find((invite) => invite.invitee.id === currentUserId);
-    setCurrentUserInvitation(invitation);
 
     // Format the date to desired layout
     formatDate(starts_at.toString(), ends_at.toString());
@@ -205,37 +188,6 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
           </OverlayButtons>
         </Overlay>
       )}
-
-      <UserRsvp>
-        <div>Going?</div>
-        <div>
-          {currentUserInvitation &&
-            currentUserInvitation.valid_response_status_ids.map((response) => {
-              const currentResponse =
-                responseStatuses &&
-                responseStatuses.find(
-                  (responseStatus) => responseStatus.id === response,
-                );
-              return (
-                <Button
-                  key={response}
-                  className={`userRsvp_button ${
-                    currentUserInvitation.response.response_status === response
-                      ? 'button_active'
-                      : ''
-                  }`}
-                  onBtnClick={() =>
-                    currentUserInvitation.response.response_status !== response
-                      ? onUpdateEventInvitationResponse(id, response)
-                      : ''
-                  }
-                >
-                  {currentResponse && currentResponse.label}
-                </Button>
-              );
-            })}
-        </div>
-      </UserRsvp>
     </div>
   );
 };
