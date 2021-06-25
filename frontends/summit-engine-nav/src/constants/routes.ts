@@ -73,6 +73,12 @@ const ROUTES: Routes = [
         meta: { description: 'Deals' },
         path: '~ticket-management/#/deals',
       },
+      {
+        conferenceSpecific: true,
+        isActive: true,
+        meta: { description: 'Discounts' },
+        path: '~ticket-management/#/discounts',
+      },
       // DO NOT REMOVE: Will be used when tags can be updated in ticket type
       // {
       //   conferenceSpecific: true,

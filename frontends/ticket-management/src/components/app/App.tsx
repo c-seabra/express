@@ -15,6 +15,7 @@ import TicketCategoriesPage from '../pages/TicketCategoriesPage';
 import TicketTypePage from '../pages/TicketTypePage';
 import TicketTypesPage from '../pages/TicketTypesPage';
 import AppContext from './AppContext';
+import DiscountsPage from '../pages/DiscountsPage';
 
 const StyledContainer = styled.section`
   margin: 0 auto;
@@ -73,6 +74,12 @@ const App = ({ token, apiURL }: AppProps) => {
                   <PackagesPage />
                 </Route>
                 <Route exact path="/deal/:id">
+                  <PackagePage />
+                </Route>
+                <Route exact path="/discounts">
+                  <DiscountsPage />
+                </Route>
+                <Route exact path="/discount/:id">
                   <PackagePage />
                 </Route>
                 <Route exact path="/tags">
