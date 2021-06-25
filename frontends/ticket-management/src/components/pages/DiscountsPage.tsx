@@ -18,7 +18,7 @@ import styled from 'styled-components';
 
 import { useRequestContext } from '../app/AppContext';
 import DiscountModalWrapper from '../modals/DiscountModalWrapper';
-import DiscountsList from '../organisms/DiscountsList';
+import DiscountTemplatesList from '../organisms/DiscountTemplatesList';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -151,7 +151,7 @@ const DiscountsPage = () => {
       <FlexCol>
         <FlexRow>
           <Spacing bottom="1rem">
-            <HeaderText>Discounts</HeaderText>
+            <HeaderText>Discount Templates</HeaderText>
           </Spacing>
 
           {shouldRenderPackages && (
@@ -178,7 +178,7 @@ const DiscountsPage = () => {
           Object.entries(groupedDiscounts).map(([key, value]) => (
             <Spacing key={key} top="1.5rem">
               <ContainerCard noPadding title={key}>
-                <DiscountsList
+                <DiscountTemplatesList
                   discounts={value as CommerceDeal[]}
                   onRowClick={onRowClick}
                 />

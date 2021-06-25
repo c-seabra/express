@@ -15,6 +15,12 @@ export const discountsFilter: CommerceSearchTerm = {
   value: true,
 };
 
+export const generatedFilter: CommerceSearchTerm = {
+  field: 'metadata.generated',
+  op: CommerceSearchTermOp.Eq,
+  value: true,
+};
+
 export const noTemplateFilter: CommerceSearchTerm = {
   field: 'metadata.template',
   op: CommerceSearchTermOp.Eq,
@@ -35,6 +41,7 @@ export const discountTemplateFilter: CommerceSearchTerm[] = [
 export const discountFilter: CommerceSearchTerm[] = [
   noTemplateFilter,
   discountsFilter,
+  generatedFilter,
 ];
 
 export const dealsFilter: CommerceSearchTerm[] = [

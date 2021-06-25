@@ -16,7 +16,10 @@ type PackagesListProps = {
   discounts: CommerceDeal[];
   onRowClick?: any;
 };
-const DiscountsList = ({ discounts, onRowClick }: PackagesListProps) => {
+const DiscountTemplatesList = ({
+  discounts,
+  onRowClick,
+}: PackagesListProps) => {
   const eventTimeZone = useGetEventTimeZone();
   const { ianaName } = eventTimeZone || {};
 
@@ -47,7 +50,6 @@ const DiscountsList = ({ discounts, onRowClick }: PackagesListProps) => {
       header: 'Reason for usage',
       renderCell: (deal) => deal.description || 'N/A',
     },
-
   ];
 
   return (
@@ -63,4 +65,4 @@ const DiscountsList = ({ discounts, onRowClick }: PackagesListProps) => {
   );
 };
 
-export default DiscountsList;
+export default DiscountTemplatesList;
