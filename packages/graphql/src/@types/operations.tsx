@@ -9631,6 +9631,7 @@ export type CommerceListDealsQuery = { __typename?: 'Query' } & {
               | 'code'
               | 'usages'
               | 'startDate'
+              | 'timesUsed'
             > & {
                 dealItems: Maybe<
                   Array<
@@ -21374,6 +21375,10 @@ export const CommerceListDealsDocument: DocumentNode = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'startDate' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'timesUsed' },
                       },
                       {
                         kind: 'Field',
