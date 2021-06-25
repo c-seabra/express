@@ -11,6 +11,7 @@ import {
   useCommerceListCategoriesQuery,
   useCommerceListDealsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { dealsFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -105,6 +106,7 @@ const PackagesPage = () => {
   const { loading, data } = useCommerceListDealsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
+    variables: { terms: dealsFilter },
   });
   const {
     data: commerceCategories,

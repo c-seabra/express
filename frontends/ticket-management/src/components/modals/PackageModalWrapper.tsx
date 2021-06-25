@@ -10,6 +10,7 @@ import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useCommerceCreateDealMutation } from '@websummit/graphql/src/@types/operations';
+import { dealsFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
 import React from 'react';
 import styled from 'styled-components';
@@ -59,7 +60,13 @@ const PackageModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
       snackbar('Deal created');
     },
     onError: (error) => errorSnackbar(error.message),
-    refetchQueries: [{ context, query: COMMERCE_LIST_DEALS }],
+    refetchQueries: [
+      {
+        context,
+        query: COMMERCE_LIST_DEALS,
+        variables: { terms: dealsFilter },
+      },
+    ],
   });
 
   const initialValues = () => {

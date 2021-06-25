@@ -72,7 +72,13 @@ const DiscountModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
       snackbar('Discount Template created');
     },
     onError: (error) => errorSnackbar(error.message),
-    refetchQueries: [{ context, query: COMMERCE_LIST_DEALS, variables: {terms: discountTemplateFilter} }],
+    refetchQueries: [
+      {
+        context,
+        query: COMMERCE_LIST_DEALS,
+        variables: { terms: discountTemplateFilter },
+      },
+    ],
   });
 
   const initialValues = () => {
@@ -87,9 +93,10 @@ const DiscountModalWrapper = ({ isOpen, closeModal }: ModalProps) => {
   };
 
   const pickMutation = (formData: DiscountFormData) => {
-
     const reason = formData.reason.trim();
-    const additional = formData.additional ? formData.additional.trim() : 'no extra information given';
+    const additional = formData.additional
+      ? formData.additional.trim()
+      : 'no extra information given';
     const input = {
       active: false,
       code: formData.code,

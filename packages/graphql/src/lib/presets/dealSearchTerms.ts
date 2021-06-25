@@ -1,4 +1,7 @@
-import { CommerceSearchTerm, CommerceSearchTermOp } from '../../@types/operations';
+import {
+  CommerceSearchTerm,
+  CommerceSearchTermOp,
+} from '../../@types/operations';
 
 export const templateFilter: CommerceSearchTerm = {
   field: 'metadata.template',
@@ -26,15 +29,15 @@ export const noDiscountsFilter: CommerceSearchTerm = {
 
 export const discountTemplateFilter: CommerceSearchTerm[] = [
   templateFilter,
-  discountsFilter
+  discountsFilter,
 ];
 
 export const discountFilter: CommerceSearchTerm[] = [
   noTemplateFilter,
-  discountsFilter
+  discountsFilter,
 ];
 
 export const dealsFilter: CommerceSearchTerm[] = [
   noTemplateFilter,
-  noDiscountsFilter
+  noDiscountsFilter,
 ];

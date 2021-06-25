@@ -8,18 +8,16 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   CommerceCategory,
   CommerceDeal,
-  CommerceSearchTerm,
-  CommerceSearchTermOp,
   useCommerceListCategoriesQuery,
   useCommerceListDealsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useRequestContext } from '../app/AppContext';
 import DiscountModalWrapper from '../modals/DiscountModalWrapper';
-import PackageModalWrapper from '../modals/PackageModalWrapper';
 import PackagesList from '../organisms/PackagesList';
 
 export const Container = styled.div`
@@ -106,22 +104,11 @@ const DiscountsPage = () => {
   };
   const context = useRequestContext();
 
-  const templateFilter: CommerceSearchTerm = {
-    field: 'metadata.template',
-    op: CommerceSearchTermOp.Eq,
-    value: true,
-  };
-  const discountsFilter: CommerceSearchTerm = {
-    field: 'metadata.discount',
-    op: CommerceSearchTermOp.Eq,
-    value: true,
-  };
-
   const { loading, data } = useCommerceListDealsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
-      terms: [templateFilter, discountsFilter],
+      terms: discountTemplateFilter,
     },
   });
 
