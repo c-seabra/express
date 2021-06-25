@@ -1,4 +1,3 @@
-import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import FormikModal, {
   FieldWrapper,
 } from '@websummit/components/src/molecules/FormikModal';
