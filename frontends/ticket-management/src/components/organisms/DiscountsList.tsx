@@ -20,12 +20,6 @@ type PackagesListProps = {
 const DiscountList = ({ discounts, onRowClick }: PackagesListProps) => {
   const eventTimeZone = useGetEventTimeZone();
   const { ianaName } = eventTimeZone || {};
-
-  // Is Active : Green for Active, Red for Inactive
-  //
-  //   Total Usage : Display count of configured  usage number
-  //
-  // Times Used, Display count of actual usage
   const tableShape: ColumnDescriptors<CommerceDeal> = [
     {
       header: 'Discount code',
@@ -43,11 +37,11 @@ const DiscountList = ({ discounts, onRowClick }: PackagesListProps) => {
     },
     {
       header: 'Total usage',
-      renderCell: (deal) => deal.usages || 'N/A',
+      renderCell: (deal) => `${deal.usages}` || 'N/A',
     },
     {
       header: 'Times used',
-      renderCell: (deal) => deal.timesUsed || 'N/A',
+      renderCell: (deal) => `${deal.timesUsed}` || 'N/A',
     },
     {
       header: 'Status',
