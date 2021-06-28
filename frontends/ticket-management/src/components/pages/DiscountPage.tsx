@@ -26,8 +26,8 @@ import DiscountTemplateItemModalWrapper from '../modals/DiscountTemplateItemModa
 import DiscountTemplateItemRemovalModal from '../modals/DiscountTemplateItemRemovalModal';
 import InviteToPurchasePackageModal from '../modals/InviteToPurchasePackageModal';
 import DealItemsList from '../organisms/DealItemsList';
+import DiscountList from '../organisms/DiscountsList';
 import DiscountTemplateForm from '../organisms/DiscountTemplateForm';
-import DiscountTemplatesList from '../organisms/DiscountTemplatesList';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -67,9 +67,7 @@ const FlexCol = styled.div`
   flex-direction: column;
 `;
 
-const StyledContainerCard = styled(ContainerCard)`
-  width: 75%;
-`;
+const StyledContainerCard = styled(ContainerCard)``;
 
 const Separator = styled.div`
   width: 100%;
@@ -169,14 +167,16 @@ const DiscountPage = () => {
     packageItemOpenModal();
   };
 
-  // todo: Pawels part
-  const { loading, data } = useCommerceListDealsQuery({
+  const { loading, data: dealsResponse } = useCommerceListDealsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
       terms: discountTemplateFilter,
     },
   });
+  const discounts = dealsResponse?.commerceListDeals?.hits as CommerceDeal[];
+  const shouldRenderDiscounts = !loading && discounts?.length > 0;
+  const shouldNotRenderDiscounts = loading && !discounts?.length;
 
   return (
     <Container>
@@ -287,11 +287,9 @@ const DiscountPage = () => {
             <Spacing bottom="2rem" top="2rem">
               <Separator />
             </Spacing>
-            <>
-              <DiscountTemplatesList
-                discounts={data?.commerceListDeals?.hits as CommerceDeal[]}
-              />
-            </>
+
+            {shouldNotRenderDiscounts && <Loader />}
+            {shouldRenderDiscounts && <DiscountList discounts={discounts} />}
           </StyledContainerCard>
         </FlexRow>
       </FlexCol>

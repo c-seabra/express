@@ -18,6 +18,7 @@ export default gql`
         code
         usages
         startDate
+        timesUsed
         dealItems {
           amount
           createdAt
