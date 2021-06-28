@@ -22,12 +22,12 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useRequestContext } from '../app/AppContext';
+import DiscountTemplateItemModalWrapper from '../modals/DiscountTemplateItemModalWrapper';
+import DiscountTemplateItemRemovalModal from '../modals/DiscountTemplateItemRemovalModal';
 import InviteToPurchasePackageModal from '../modals/InviteToPurchasePackageModal';
-import PackageItemModalWrapper from '../modals/PackageItemModalWrapper';
-import PackageItemRemovalModal from '../modals/PackageItemRemovalModal';
 import DealItemsList from '../organisms/DealItemsList';
 import DiscountList from '../organisms/DiscountsList';
-import PackageForm from '../organisms/PackageForm';
+import DiscountTemplateForm from '../organisms/DiscountTemplateForm';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -180,7 +180,7 @@ const DiscountPage = () => {
 
   return (
     <Container>
-      <PackageItemModalWrapper
+      <DiscountTemplateItemModalWrapper
         closeModal={packageCloseModal}
         currencySymbol={storeCurrencySymbol as string}
         dealId={dealId}
@@ -188,7 +188,7 @@ const DiscountPage = () => {
         prefillData={prefillData}
       />
 
-      <PackageItemRemovalModal
+      <DiscountTemplateItemRemovalModal
         closeModal={packageItemModalClose}
         dealId={dealId}
         dealItemId={dealItemId as string}
@@ -205,12 +205,12 @@ const DiscountPage = () => {
             <ContainerCard>
               <>
                 <Spacing bottom="1.25rem">
-                  <Header>Deal</Header>
+                  <Header>Discount Template</Header>
                 </Spacing>
-                <SubHeader>Edit deal details</SubHeader>
+                <SubHeader>Edit discount template details</SubHeader>
 
                 {dealLoading && <Loader />}
-                {deal && <PackageForm prefillData={deal} />}
+                {deal && <DiscountTemplateForm prefillData={deal} />}
               </>
             </ContainerCard>
           </InnerWrapper>
@@ -229,12 +229,17 @@ const DiscountPage = () => {
             <>
               <Spacing bottom="2rem" top="1rem">
                 <Spacing bottom="1.25rem">
-                  <Header>Specify deal details</Header>
+                  <Header>Specify Discount Template constraints</Header>
                 </Spacing>
-                <SubHeader>Add one or more ticket types to the deal</SubHeader>
+                <SubHeader>
+                  Add one or more ticket types as constraints to the discount
+                  template
+                </SubHeader>
               </Spacing>
               <Spacing bottom="1rem">
-                <Button onClick={onButtonClick}>Add tickets to deal</Button>
+                <Button onClick={onButtonClick}>
+                  Add ticket constraints to discount template
+                </Button>
               </Spacing>
 
               {dealItemsLoading && <Loader />}
