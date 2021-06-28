@@ -14,12 +14,11 @@ const CapitalizedValue = styled.span`
   }
 `;
 
+type ExtendedCommerceTax = CommerceTax & { countryName: string };
 type TaxesListProps = {
   onTaxClick?: (event: any) => void;
-  taxes: any;
+  taxes: ExtendedCommerceTax[];
 };
-
-type ExtendedCommerceTax = CommerceTax & { countryName: string };
 
 const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
   const tableShape: ColumnDescriptor<ExtendedCommerceTax>[] = [

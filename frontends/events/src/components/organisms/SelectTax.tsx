@@ -100,9 +100,9 @@ const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
   const mappedTaxes = taxes.map((tax: any) => {
     return {
       ...tax,
-      countryName: 'trst'
-    }
-  })
+      countryName: 'trst',
+    };
+  });
 
   return (
     <>
