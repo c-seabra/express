@@ -5,9 +5,7 @@ import Breadcrumbs, {
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {
-  useTicketQuery,
-} from '@websummit/graphql/src/@types/operations';
+import { useTicketQuery } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
