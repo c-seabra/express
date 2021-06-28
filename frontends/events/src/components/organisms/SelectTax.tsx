@@ -82,11 +82,13 @@ const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
     openTaxRateModal();
   };
 
-  const onTaxClick = (event: any) => {
-    const foundCountry: any = countries.find(
-      (country) =>
-        country.code === event.country || country.name === event.country,
+  const getCountryByCode = (tax: any) =>
+    countries.find(
+      (country) => country.code === tax.country || country.name === tax.country,
     );
+
+  const onTaxClick = (event: any) => {
+    const foundCountry: any = getCountryByCode(event);
     const mappedEvent = {
       ...event,
       country: foundCountry.id,
@@ -98,9 +100,10 @@ const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
   };
 
   const mappedTaxes = taxes.map((tax: any) => {
+    const foundCountry: any = getCountryByCode(tax);
     return {
       ...tax,
-      countryName: 'trst',
+      countryName: foundCountry.name,
     };
   });
 
