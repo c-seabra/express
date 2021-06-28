@@ -2,6 +2,7 @@
   "imports": {
     "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
     "@websummit-micro/bulk-assign": "/bulk-assign/frontends.bulkAssign.bundle.js",
+    "@websummit-micro/bulk-discounts": "/bulk-assign/frontends.bulkDiscounts.bundle.js",
     "@websummit-micro/calendar-admin": "/calendar-admin/frontends.calendarAdmin.bundle.js",
     "@websummit-micro/events": "/conferences/frontends.conferences.bundle.js",
     "@websummit-micro/frontend-demo": "/demo/frontends.demo.bundle.js",

@@ -117,6 +117,8 @@ entry: {
 },
 ```
 
+There is also a file `src/websummit-micro-[name].tsx` that needs to be renamed to your new micro frontends name.
+
 ### 2. Amend package.json start command
 
 Next in order that the micro-frontend can be run alongside other micro-frontends and is accessible to the host application in local development, we need to manually manage which port the micro-frontend is served from. The host app runs on port 9000 and each subsequent micro-frontend runs incrementally e.g `9001`, `9002` etc.
