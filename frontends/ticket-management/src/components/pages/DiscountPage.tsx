@@ -167,7 +167,6 @@ const DiscountPage = () => {
     packageItemOpenModal();
   };
 
-  // todo: Pawels part
   const { loading, data: dealsResponse } = useCommerceListDealsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
@@ -176,7 +175,8 @@ const DiscountPage = () => {
     },
   });
   const discounts = dealsResponse?.commerceListDeals?.hits as CommerceDeal[];
-  const shouldRenderDiscounts = !loading && discounts && discounts.length > 0;
+  const shouldRenderDiscounts = !loading && discounts?.length > 0;
+  const shouldNotRenderDiscounts = loading && !discounts?.length;
 
   return (
     <Container>
@@ -288,7 +288,7 @@ const DiscountPage = () => {
               <Separator />
             </Spacing>
 
-            {!shouldRenderDiscounts && <Loader />}
+            {shouldNotRenderDiscounts && <Loader />}
             {shouldRenderDiscounts && <DiscountList discounts={discounts} />}
           </StyledContainerCard>
         </FlexRow>
