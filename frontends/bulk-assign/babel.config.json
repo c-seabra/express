@@ -1,24 +1,4 @@
 {
-  "presets": [
-    "@babel/preset-env",
-    "@babel/preset-react",
-    "@babel/preset-typescript"
-  ],
-  "plugins": [
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        "useESModules": true,
-        "regenerator": true
-      }
-    ],
-    [
-      "babel-plugin-styled-components",
-      {
-        "namespace": "bulk-assign"
-      }
-    ]
-  ],
   "env": {
     "test": {
       "presets": [
@@ -30,5 +10,25 @@
         ]
       ]
     }
-  }
+  },
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true,
+        "useESModules": true
+      }
+    ],
+    [
+      "babel-plugin-styled-components",
+      {
+        "namespace": "bulk-assign"
+      }
+    ]
+  ],
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript"
+  ]
 }

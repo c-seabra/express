@@ -1,18 +1,18 @@
 {
   "imports": {
-    "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
+    "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
+    "@websummit-micro/bulk-assign": "/bulk-assign/frontends.bulkAssign.bundle.js",
+    "@websummit-micro/calendar-admin": "/calendar-admin/frontends.calendarAdmin.bundle.js",
+    "@websummit-micro/events": "/conferences/frontends.conferences.bundle.js",
+    "@websummit-micro/frontend-demo": "/demo/frontends.demo.bundle.js",
+    "@websummit-micro/investor-portal": "/investor-portal/frontends.investorPortal.bundle.js",
+    "@websummit-micro/omnia-container": "/omnia-container/frontends.omnia-container.bundle.js",
+    "@websummit-micro/staff-tickets": "/staff-tickets/frontends.staffTickets.bundle.js",
+    "@websummit-micro/summit-engine-nav": "/summit-engine-nav/frontends.summitEngineNav.bundle.js",
+    "@websummit-micro/ticket-management": "/ticket-management/frontends.ticketManagement.bundle.js",
+    "@websummit-micro/ticket-support": "/ticket-support/frontends.ticketSupport.bundle.js",
     "react": "https://cdn.jsdelivr.net/npm/react@17.0.1/umd/react.production.min.js",
     "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@17.0.1/umd/react-dom.production.min.js",
-    "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
-    "@websummit-micro/summit-engine-nav": "/summit-engine-nav/frontends.summitEngineNav.bundle.js",
-    "@websummit-micro/omnia-container": "/omnia-container/frontends.omnia-container.bundle.js",
-    "@websummit-micro/frontend-demo": "/demo/frontends.demo.bundle.js",
-    "@websummit-micro/ticket-support": "/ticket-support/frontends.ticketSupport.bundle.js",
-    "@websummit-micro/staff-tickets": "/staff-tickets/frontends.staffTickets.bundle.js",
-    "@websummit-micro/bulk-assign": "/bulk-assign/frontends.bulkAssign.bundle.js",
-    "@websummit-micro/investor-portal": "/investor-portal/frontends.investorPortal.bundle.js",
-    "@websummit-micro/events": "/conferences/frontends.conferences.bundle.js",
-    "@websummit-micro/calendar-admin": "/calendar-admin/frontends.calendarAdmin.bundle.js",
-    "@websummit-micro/ticket-management": "/ticket-management/frontends.ticketManagement.bundle.js"
+    "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js"
   }
 }

@@ -1,8 +1,8 @@
 {
   "name": "@websummit-micro/frontend-demo",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "version": "1.0.0",
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -12,11 +12,11 @@
     "start": "webpack serve --port 9001",
     "start:standalone": "webpack serve --env standalone"
   },
-  "devDependencies": {},
   "dependencies": {
     "@websummit/components": "*",
     "@websummit/ws-lib-example": "*",
     "react": "*",
     "react-dom": "*"
-  }
+  },
+  "devDependencies": {}
 }
