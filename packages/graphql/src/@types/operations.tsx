@@ -335,7 +335,6 @@ export type QueryWebPageByHostPathArgs = {
 export type QueryWebPagesByHostMenuLabelArgs = {
   host: Scalars['String'];
   menuLabel: Scalars['String'];
-  slug?: Maybe<Scalars['String']>;
 };
 
 export type QueryWebPageConfigByPathHostArgs = {
@@ -809,6 +808,9 @@ export type AppConfig = {
   googleTagManagerId: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
   googleFontsUrl: Maybe<Scalars['String']>;
+  matomoUrl: Maybe<Scalars['String']>;
+  matomoSiteId: Maybe<Scalars['String']>;
+  segmentId: Maybe<Scalars['String']>;
   theme: Maybe<Scalars['JSON']>;
   metaData: ComponentSiteConfigMetaData;
   created_by: Maybe<AdminUser>;
@@ -1335,6 +1337,9 @@ export type WebPageConfig = {
   baseGoogleAnalyticsTrackingId: Maybe<Scalars['String']>;
   googleOptimizeId: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
+  matomoUrl: Maybe<Scalars['String']>;
+  matomoSiteId: Maybe<Scalars['String']>;
+  segmentId: Maybe<Scalars['String']>;
   metaData: Maybe<ComponentSiteConfigMetaData>;
   created_by: Maybe<AdminUser>;
   updated_by: Maybe<AdminUser>;
@@ -1375,6 +1380,9 @@ export type WebPageConfigGroupBy = {
   googleOptimizeId: Maybe<
     Array<Maybe<WebPageConfigConnectionGoogleOptimizeId>>
   >;
+  matomoUrl: Maybe<Array<Maybe<WebPageConfigConnectionMatomoUrl>>>;
+  matomoSiteId: Maybe<Array<Maybe<WebPageConfigConnectionMatomoSiteId>>>;
+  segmentId: Maybe<Array<Maybe<WebPageConfigConnectionSegmentId>>>;
   metaData: Maybe<Array<Maybe<WebPageConfigConnectionMetaData>>>;
   created_by: Maybe<Array<Maybe<WebPageConfigConnectionCreated_By>>>;
   updated_by: Maybe<Array<Maybe<WebPageConfigConnectionUpdated_By>>>;
@@ -1430,6 +1438,24 @@ export type WebPageConfigConnectionBaseGoogleAnalyticsTrackingId = {
 
 export type WebPageConfigConnectionGoogleOptimizeId = {
   __typename?: 'WebPageConfigConnectionGoogleOptimizeId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionMatomoUrl = {
+  __typename?: 'WebPageConfigConnectionMatomoUrl';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionMatomoSiteId = {
+  __typename?: 'WebPageConfigConnectionMatomoSiteId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionSegmentId = {
+  __typename?: 'WebPageConfigConnectionSegmentId';
   key: Maybe<Scalars['String']>;
   connection: Maybe<WebPageConfigConnection>;
 };
@@ -1513,6 +1539,7 @@ export type Menu = {
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
   label: Maybe<Scalars['String']>;
+  site: Maybe<Site>;
   created_by: Maybe<AdminUser>;
   updated_by: Maybe<AdminUser>;
   menuItems: Array<MenuItem>;
@@ -5379,6 +5406,9 @@ export type WebPageConfigInput = {
   baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
   googleOptimizeId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
   metaData?: Maybe<ComponentSiteConfigMetaDatumInput>;
   events?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
@@ -5416,6 +5446,9 @@ export type EditWebPageConfigInput = {
   baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
   googleOptimizeId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
   metaData?: Maybe<EditComponentSiteConfigMetaDatumInput>;
   events?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
@@ -6619,6 +6652,7 @@ export type CommerceDealCreate = {
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
+  metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   startDate: Scalars['Date'];
   usages?: Maybe<Scalars['Int']>;
@@ -6681,6 +6715,7 @@ export type CommerceDealCreateOrUpdate = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
   usages?: Maybe<Scalars['Int']>;
@@ -6925,6 +6960,7 @@ export type CommerceDealUpdate = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
   usages?: Maybe<Scalars['Int']>;
@@ -7254,6 +7290,7 @@ export type RoomGrant = {
   role: RoomRole;
   room: Room;
   config: RoomConfig;
+  permissions: RoomPermissions;
 };
 
 export enum RoomRole {
@@ -7337,11 +7374,27 @@ export type RoomStreamConfig = {
   hlsUrl: Maybe<Scalars['String']>;
 };
 
+export type RoomPermissions = {
+  __typename?: 'RoomPermissions';
+  publishVideo: Scalars['Boolean'];
+  viewBackstage: Scalars['Boolean'];
+  readQuestions: Scalars['Boolean'];
+  kickUser: Scalars['Boolean'];
+  changeMode: Scalars['Boolean'];
+  pinChatMessage: Scalars['Boolean'];
+  deleteChatMessage: Scalars['Boolean'];
+  toggleParticipantAudio: Scalars['Boolean'];
+  toggleParticipantVideo: Scalars['Boolean'];
+};
+
 export type AppConfigInput = {
   googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
   googleTagManagerId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
   googleFontsUrl?: Maybe<Scalars['String']>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
   theme?: Maybe<Scalars['JSON']>;
   metaData: ComponentSiteConfigMetaDatumInput;
   created_by?: Maybe<Scalars['ID']>;
@@ -7580,8 +7633,7 @@ export type MenuInput = {
   name: Scalars['String'];
   label?: Maybe<Scalars['String']>;
   menuItems?: Maybe<Array<Scalars['ID']>>;
-  event?: Maybe<Array<Scalars['ID']>>;
-  site?: Maybe<Array<Scalars['ID']>>;
+  site?: Maybe<Scalars['ID']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -7699,6 +7751,9 @@ export type EditAppConfigInput = {
   googleTagManagerId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
   googleFontsUrl?: Maybe<Scalars['String']>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
   theme?: Maybe<Scalars['JSON']>;
   metaData?: Maybe<EditComponentSiteConfigMetaDatumInput>;
   created_by?: Maybe<Scalars['ID']>;
@@ -7949,8 +8004,7 @@ export type EditMenuInput = {
   name?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   menuItems?: Maybe<Array<Scalars['ID']>>;
-  event?: Maybe<Array<Scalars['ID']>>;
-  site?: Maybe<Array<Scalars['ID']>>;
+  site?: Maybe<Scalars['ID']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -10025,22 +10079,6 @@ export type EventQuery = { __typename?: 'Query' } & {
               >;
             }
         >;
-        taxRates: Maybe<
-          { __typename?: 'TaxRateConnection' } & {
-            edges: Array<
-              { __typename?: 'TaxRateEdge' } & {
-                node: { __typename?: 'TaxRate' } & Pick<
-                  TaxRate,
-                  'id' | 'rateType' | 'name' | 'taxType' | 'value'
-                > & {
-                    country: {
-                      __typename?: 'EventConfigurationCountry';
-                    } & Pick<EventConfigurationCountry, 'name' | 'id' | 'code'>;
-                  };
-              }
-            >;
-          }
-        >;
         sponsor: Maybe<
           { __typename?: 'Appearance' } & Pick<Appearance, 'id'> & {
               company: { __typename?: 'Company' } & Pick<
@@ -10085,22 +10123,6 @@ export type EventListQueryQuery = { __typename?: 'Query' } & {
                     'event' | 'createdAt' | 'whodunnit'
                   >
                 >
-              >;
-              taxRates: Maybe<
-                { __typename?: 'TaxRateConnection' } & {
-                  edges: Array<
-                    { __typename?: 'TaxRateEdge' } & {
-                      node: { __typename?: 'TaxRate' } & Pick<
-                        TaxRate,
-                        'id' | 'rateType' | 'name' | 'taxType' | 'value'
-                      > & {
-                          country: {
-                            __typename?: 'EventConfigurationCountry';
-                          } & Pick<EventConfigurationCountry, 'name'>;
-                        };
-                    }
-                  >;
-                }
               >;
             };
         }
@@ -23160,74 +23182,6 @@ export const EventDocument: DocumentNode = {
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'taxRates' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'edges' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'node' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'rateType' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'country' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'name' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'id' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'code' },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'taxType' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'value' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
                   name: { kind: 'Name', value: 'sponsor' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -23411,87 +23365,6 @@ export const EventListQueryDocument: DocumentNode = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'whodunnit' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'taxRates' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'edges' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'node' },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'rateType',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'country',
-                                                },
-                                                selectionSet: {
-                                                  kind: 'SelectionSet',
-                                                  selections: [
-                                                    {
-                                                      kind: 'Field',
-                                                      name: {
-                                                        kind: 'Name',
-                                                        value: 'name',
-                                                      },
-                                                    },
-                                                  ],
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'name',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'taxType',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'value',
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
                                   },
                                 ],
                               },

@@ -45,7 +45,6 @@ const TaxRateCreateModalWrapper = ({
   const { taxRateUpdate } = useTaxRateUpdateOperation();
   const pickMutation = (_mode: ModalInputMode, eventData: any) => {
     let mutation;
-    console.log('eventData', eventData);
     const input = {
       country: eventData.country,
       id: eventData.id,
