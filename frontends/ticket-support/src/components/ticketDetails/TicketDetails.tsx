@@ -5,6 +5,9 @@ import Breadcrumbs, {
 } from '@websummit/components/src/molecules/Breadcrumbs';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import {
+  useTicketQuery,
+} from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
@@ -15,11 +18,12 @@ import TextHeading from '../../lib/components/atoms/Heading';
 import ErrorInfoModal from '../../lib/components/molecules/ErrorInfoModal';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
-import useSingleTicketQuery from '../../lib/hooks/useSingleTicketQuery';
+import useTicketTypes from '../../lib/hooks/useTicketTypes';
 import Loader from '../../lib/Loading';
 import { switchCase } from '../../lib/utils/logic';
-import { useAppContext } from '../app/AppContext';
+import { useRequestContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
+import ChangeTicketTypeModal from '../ticketActions/ChangeTicketTypeModal';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';
 import TicketAssignModal from '../ticketActions/TicketAssignModal';
 import TicketUnvoidModal from '../ticketActions/TicketUnvoidModal';
@@ -128,8 +132,6 @@ const AccountDetailsContainer = styled.div`
 `;
 
 const TicketDetails = (): ReactElement => {
-  const { bookingRef } = useParams<{ bookingRef: string }>();
-  const { slug, token } = useAppContext();
   const {
     openModal: openTicketAssignModal,
     isOpen: isTicketAssignModalOpen,
@@ -165,9 +167,23 @@ const TicketDetails = (): ReactElement => {
     closeModal: closeTitoWarningModal,
   } = useModalState();
 
-  const { loading, error, ticket } = useSingleTicketQuery({
-    reference: bookingRef,
+  const {
+    openModal: openChangeTicketTypeModal,
+    isOpen: isChangeTicketTypeModalOpen,
+    closeModal: closeChangeTicketTypeModal,
+  } = useModalState();
+
+  const context = useRequestContext();
+  const { bookingRef } = useParams<{ bookingRef: string }>();
+  const { loading, error, data } = useTicketQuery({
+    context,
+    variables: {
+      reference: bookingRef,
+    },
   });
+
+  const ticket = data?.ticket;
+
   const assignment = ticket?.assignment;
   const orderRef = ticket?.order?.reference || '';
   const assignee = assignment?.assignee;
@@ -198,6 +214,8 @@ const TicketDetails = (): ReactElement => {
       label: `Ticket ${bookingRef}`,
     },
   ];
+
+  const ticketTypes = useTicketTypes();
 
   let voidUnVoidModal: JSX.Element;
   if (isTitoTicket) {
@@ -305,27 +323,44 @@ const TicketDetails = (): ReactElement => {
                   </>
                 )}
 
-                {isTicketVoided ? (
-                  <Button
-                    onClick={
-                      isTitoTicket
-                        ? openTitoWarningModal
-                        : openTicketUnvoidModal
-                    }
-                  >
-                    Unvoid
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={
-                      isTitoTicket ? openTitoWarningModal : openTicketVoidModal
-                    }
-                  >
-                    Void
-                  </Button>
-                )}
-
+                <SpacingBottomSm>
+                  {isTicketVoided ? (
+                    <PrimaryButton
+                      onClick={
+                        isTitoTicket
+                          ? openTitoWarningModal
+                          : openTicketUnvoidModal
+                      }
+                    >
+                      Unvoid
+                    </PrimaryButton>
+                  ) : (
+                    <PrimaryButton
+                      onClick={
+                        isTitoTicket
+                          ? openTitoWarningModal
+                          : openTicketVoidModal
+                      }
+                    >
+                      Void
+                    </PrimaryButton>
+                  )}
+                </SpacingBottomSm>
                 {voidUnVoidModal}
+
+                {ticketTypes?.length > 0 ? (
+                  <>
+                    <Button onClick={openChangeTicketTypeModal}>
+                      Change ticket type
+                    </Button>
+                    <ChangeTicketTypeModal
+                      isOpen={isChangeTicketTypeModalOpen}
+                      ticket={ticket}
+                      ticketTypes={ticketTypes}
+                      onRequestClose={closeChangeTicketTypeModal}
+                    />
+                  </>
+                ) : null}
               </StyledInnerContainerCard>
 
               <StyledHistoryChanges>
@@ -337,11 +372,7 @@ const TicketDetails = (): ReactElement => {
                   isOpen={isHistoryModalOpen}
                   onRequestClose={closeHistoryModal}
                 >
-                  <AuditTrail
-                    bookingRef={bookingRef}
-                    slug={slug as string}
-                    token={token as string}
-                  />
+                  <AuditTrail bookingRef={bookingRef} {...context} />
                 </Modal>
               </StyledHistoryChanges>
             </TicketActionsContainerCard>

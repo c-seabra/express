@@ -1,4 +1,9 @@
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
@@ -8,7 +13,6 @@ import { WarningMessage } from '../../lib/components/atoms/Messages';
 import Modal from '../../lib/components/molecules/Modal';
 import STATIC_MESSAGES from '../../lib/constants/messages';
 import useUnlockTicketMutation from '../../lib/hooks/useTicketUnlockMutation';
-import { Ticket } from '../../lib/types';
 
 const ContentContainer = styled.div`
   padding: 2rem 0;
@@ -44,7 +48,7 @@ const StyledWarningMessage = styled(WarningMessage)`
 type TicketUnlockModalProps = {
   closeModal: () => void;
   isOpen: boolean;
-  ticket: Ticket;
+  ticket: extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>>;
 };
 
 const confirmSchema = Yup.object().shape({

@@ -1,6 +1,11 @@
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -18,7 +23,6 @@ import {
   Wrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
 import useAssignTicketOperation from '../../lib/hooks/useTicketAssignMutation';
-import { Ticket } from '../../lib/types';
 
 const ContentContainer = styled.div`
   font-size: 0.85rem;
@@ -44,7 +48,7 @@ const StyledInput = styled(TextInputField)`
 type TicketAssignModalProps = {
   closeModal: () => void;
   isOpen: boolean;
-  ticket: Ticket;
+  ticket: extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>>;
 };
 
 const assignSchema = Yup.object().shape({

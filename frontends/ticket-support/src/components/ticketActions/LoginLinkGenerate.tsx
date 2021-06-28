@@ -1,15 +1,21 @@
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 import React from 'react';
 
 import { Tooltip } from '../../lib/components';
 import { SecondaryButton } from '../../lib/components/atoms/Button';
 import { useModalState } from '../../lib/components/molecules/Modal';
 import useMagicLinkMutation from '../../lib/hooks/useMagicLinkMutation';
-import { Account } from '../../lib/types';
 import { TextHighlight } from '../order/OrderDetails';
 import GenerateLoginLinkModal from './GenerateLoginLinkModal';
 
 type LoginLinkGenerateProps = {
-  assignee: Account;
+  assignee: NonNullable<
+    extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>['assignment']>
+  >['assignee'];
   isDisabled: boolean;
 };
 

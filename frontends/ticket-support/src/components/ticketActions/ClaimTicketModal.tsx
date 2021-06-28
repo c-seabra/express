@@ -1,4 +1,9 @@
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -6,7 +11,6 @@ import * as Yup from 'yup';
 
 import Modal, { ModalProps } from '../../lib/components/molecules/Modal';
 import useClaimTicketMutation from '../../lib/hooks/useClaimTicketMutation';
-import { Ticket } from '../../lib/types';
 
 const StyledForm = styled(Form)`
   width: 450px;
@@ -26,7 +30,7 @@ const ConfirmationText = styled.div`
 `;
 
 type ClaimTicketModalProps = Pick<ModalProps, 'isOpen' | 'onRequestClose'> & {
-  ticket: Ticket;
+  ticket: extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>>;
 };
 
 const claimTicketSchema = Yup.object().shape({

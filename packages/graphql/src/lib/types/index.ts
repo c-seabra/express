@@ -7,7 +7,9 @@ export type PageInfo = {
   startCursor: string;
 };
 
-type extractTypeFromMaybe<Type> = Type extends Maybe<infer X> ? X : never;
+export type extractTypeFromMaybe<Type> = Type extends Maybe<infer X>
+  ? X
+  : never;
 
 export type CommerceListQueryHitsResult<
   Query,
@@ -18,5 +20,9 @@ export type CommerceListQueryHitsResult<
 
 export type CommerceGetQueryResult<Query, T extends keyof Query> = NonNullable<
   // Name of the query here e.g. commerceGetStore
+  extractTypeFromMaybe<Query[T]>
+>;
+
+export type GetQueryResult<Query, T extends keyof Query> = NonNullable<
   extractTypeFromMaybe<Query[T]>
 >;
