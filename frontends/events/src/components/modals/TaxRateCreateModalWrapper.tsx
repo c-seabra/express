@@ -1,4 +1,7 @@
-import { RateType, TaxType } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceTaxRateType,
+  EventConfigurationCountry,
+} from '@websummit/graphql/src/@types/operations';
 import React from 'react';
 
 import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
@@ -9,20 +12,20 @@ import TaxRateCreateModal from './TaxRateCreateModal';
 export type ModalInputMode = 'EDIT' | 'ADD';
 type TaxRateCreateModalProps = {
   closeModal: () => void;
-  eventId: string;
+  countries: EventConfigurationCountry[];
   isOpen: boolean;
   mode?: ModalInputMode;
   prefilledTax?: any;
-  refetch?: any;
+  slugParam: string;
 };
 
 const TaxRateCreateModalWrapper = ({
   isOpen,
   closeModal,
-  refetch,
-  eventId,
   mode = 'ADD',
   prefilledTax,
+  countries,
+  slugParam,
 }: TaxRateCreateModalProps) => {
   const alertHeaderText = (_mode: string): string => {
     const prefilledTaxName: string = prefilledTax?.name || 'N/A';
@@ -45,31 +48,36 @@ const TaxRateCreateModalWrapper = ({
   const pickMutation = (_mode: ModalInputMode, eventData: any) => {
     let mutation;
     const input = {
-      countryId: eventData.country,
-      eventId,
+      country: eventData.country,
       id: eventData.id,
       name: eventData.name.trim(),
-      rateType: RateType.Percentage,
-      taxType: eventData.type,
-      value: Number(eventData.value),
+      rateAmount: Number(eventData.value),
+      rateType: CommerceTaxRateType.Percentage,
+      taxType: { id: eventData.type },
+    };
+    const foundCountry: any = countries.find(
+      (country) => country.id === eventData.country, // need to remap from id
+    );
+    const mappedInput = {
+      ...input,
+      country: foundCountry.code,
     };
 
     if (_mode === 'ADD') {
-      mutation = taxRateCreate({ input, refetch });
+      mutation = taxRateCreate({ input: mappedInput, slugParam });
     }
 
     if (_mode === 'EDIT') {
-      mutation = taxRateUpdate({ input, refetch });
+      mutation = taxRateUpdate({ input: mappedInput, slugParam });
     }
 
     return mutation;
   };
   const setMutation = (eventData: {
     country: string;
-    eventId: string;
     id: string;
     name: string;
-    type: TaxType;
+    type: any;
     value: number;
   }) => {
     return pickMutation(mode, eventData);
@@ -84,6 +92,7 @@ const TaxRateCreateModalWrapper = ({
       mode={mode}
       mutationCallback={setMutation}
       prefilledTax={prefilledTax}
+      slugParam={slugParam}
       submitText={submitText(mode)}
     />
   );

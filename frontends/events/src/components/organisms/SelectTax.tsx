@@ -2,6 +2,7 @@ import { Icon } from '@material-ui/core';
 import { Button } from '@websummit/components/src/atoms/Button';
 import { useModalState } from '@websummit/components/src/molecules/Modal';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { EventConfigurationCountry } from '@websummit/graphql/src/@types/operations';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -63,12 +64,17 @@ const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
 };
 
 type SelectTaxProps = {
-  eventId: string;
+  countries: EventConfigurationCountry[];
   loading: boolean;
-  refetch: any;
+  slugParam: string;
   taxes: any;
 };
-const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
+const SelectTax = ({
+  loading,
+  taxes,
+  countries,
+  slugParam,
+}: SelectTaxProps) => {
   const {
     openModal: openTaxRateModal,
     isOpen: isTaxRateModalOpen,
@@ -82,11 +88,30 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
     openTaxRateModal();
   };
 
+  const getCountryByCode = (tax: any) =>
+    countries.find(
+      (country) => country.code === tax.country || country.name === tax.country,
+    );
+
   const onTaxClick = (event: any) => {
+    const foundCountry: any = getCountryByCode(event);
+    const mappedEvent = {
+      ...event,
+      country: foundCountry.id,
+    };
+
     setModalMode('EDIT');
-    setPrefilledTax(event);
+    setPrefilledTax(mappedEvent);
     openTaxRateModal();
   };
+
+  const mappedTaxes = taxes?.map((tax: any) => {
+    const foundCountry: any = getCountryByCode(tax);
+    return {
+      ...tax,
+      countryName: foundCountry.name,
+    };
+  });
 
   return (
     <>
@@ -94,11 +119,11 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
 
       <TaxRateCreateModalWrapper
         closeModal={closeTaxRateModal}
-        eventId={eventId}
+        countries={countries}
         isOpen={isTaxRateModalOpen}
         mode={modalMode}
         prefilledTax={prefilledTax}
-        refetch={refetch}
+        slugParam={slugParam}
       />
 
       {hasTaxes ? (
@@ -114,7 +139,7 @@ const SelectTax = ({ loading, eventId, taxes, refetch }: SelectTaxProps) => {
             </Spacing>
 
             <Spacing bottom="50px">
-              <TaxList taxes={taxes} onTaxClick={onTaxClick} />
+              <TaxList taxes={mappedTaxes} onTaxClick={onTaxClick} />
             </Spacing>
           </Spacing>
         </>
