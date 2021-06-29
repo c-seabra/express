@@ -182,6 +182,7 @@
     "jest-cli": "26.6.3",
     "jest-styled-components": "7.0.3",
     "lerna": "3.22.1",
+    "msw": "^0.29.0",
     "node-sass": "4.14.1",
     "prettier": "2.2.1",
     "prettier-plugin-sort-json": "0.0.2",
