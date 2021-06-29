@@ -45,10 +45,14 @@ const StyledInput = styled(TextInputField)`
   }
 `;
 
+type ExtractedTicketQueryResult = extractTypeFromMaybe<
+  GetQueryResult<TicketQuery, 'ticket'>
+>;
+
 type TicketAssignModalProps = {
   closeModal: () => void;
   isOpen: boolean;
-  ticket: extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>>;
+  ticket: ExtractedTicketQueryResult;
 };
 
 const assignSchema = Yup.object().shape({

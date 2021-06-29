@@ -19,12 +19,14 @@ type SendLoginLinkMutationResult = {
   };
 };
 
+type ExtractedTicketQueryAssigneeResult = NonNullable<
+  extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>['assignment']>
+>['assignee'];
+
 const useSendLoginLinkMutation = ({
   assignee,
 }: {
-  assignee: NonNullable<
-    extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>['assignment']>
-  >['assignee'];
+  assignee: ExtractedTicketQueryAssigneeResult;
 }) => {
   const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
