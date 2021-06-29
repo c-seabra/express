@@ -105,7 +105,7 @@ const SelectTax = ({
     openTaxRateModal();
   };
 
-  const mappedTaxes = taxes.map((tax: any) => {
+  const mappedTaxes = taxes?.map((tax: any) => {
     const foundCountry: any = getCountryByCode(tax);
     return {
       ...tax,
