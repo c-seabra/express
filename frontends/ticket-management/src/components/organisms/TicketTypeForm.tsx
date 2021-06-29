@@ -310,7 +310,7 @@ const TicketTypeForm = ({
         bookingRefSuffix: suffix,
         category:
           (ticketType?.categories && ticketType?.categories[0]?.id) || '',
-        description: ticketType?.description,
+        description: ticketType?.description || '',
         name: ticketType?.name || '',
         price: fromCents(ticketType?.price),
         taxMode: ticketType?.taxMode || '',
@@ -469,13 +469,14 @@ const TicketTypeForm = ({
               <FieldRow>
                 <StyledTextInput
                   disabled
+                  defaultValue={
+                    taxRate?.rateAmount ? `${taxRate?.rateAmount}%` : ''
+                  }
                   label="Tax percentage"
-                  value={taxRate?.rateAmount ? `${taxRate?.rateAmount}%` : ''}
                 />
                 <StyledTextInput
                   disabled
-                  label={`Total price (incl. ${taxRate?.name || 'tax'})`}
-                  value={
+                  defaultValue={
                     values?.ticketPriceVariant === ticketPriceVariants.paid
                       ? getTotalPrice(
                           taxRate?.rateAmount,
@@ -484,6 +485,7 @@ const TicketTypeForm = ({
                         )
                       : ''
                   }
+                  label={`Total price (incl. ${taxRate?.name || 'tax'})`}
                 />
               </FieldRow>
             </FormWrapper>
