@@ -1,8 +1,8 @@
 {
   "name": "@websummit-micro/investor-portal",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "version": "1.0.0",
   "scripts": {
     "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
     "build": "webpack --mode=production",
@@ -11,6 +11,18 @@
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
     "start": "webpack serve --port 9005",
     "start:standalone": "webpack serve --env standalone"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "dependencies": {
     "@apollo/client": "*",
@@ -35,17 +47,5 @@
     "single-spa-react": "*",
     "styled-components": "*"
   },
-  "devDependencies": {},
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "devDependencies": {}
 }

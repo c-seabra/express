@@ -133,7 +133,6 @@ export const FormWrap = styled.div`
 `;
 
 export const PopupContainer = styled.div`
-  height: 80%;
   width: 70%;
   background-color: white;
   color: #3e3d44;

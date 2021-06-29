@@ -4,6 +4,7 @@ import FormikModal, {
 } from '@websummit/components/src/molecules/FormikModal';
 import Modal from '@websummit/components/src/molecules/Modal';
 import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
+import PricesWithTaxTable from '@websummit/components/src/molecules/PricesWithTaxTable';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
@@ -14,11 +15,18 @@ import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
 import {
+  CommerceGetStoreQuery,
+  CommerceListProductsQuery,
+  CommerceProduct,
+  CommerceProductTaxMode,
   CommerceSaleProductType,
-  useCommerceListProductsQuery,
   useCommerceSaleProductCreateMutation,
   useCommerceUpdateSaleProductMutation,
 } from '@websummit/graphql/src/@types/operations';
+import {
+  CommerceGetQueryResult,
+  CommerceListQueryHitsResult,
+} from '@websummit/graphql/src/lib/types';
 import COMMERCE_SALE_PRODUCTS_LIST from '@websummit/graphql/src/operations/queries/CommerceListSaleProducts';
 import { Form } from 'formik';
 import React from 'react';
@@ -38,13 +46,26 @@ const CenteredVertically = styled.div`
   align-items: center;
 `;
 
+type TaxTypes = CommerceGetQueryResult<
+  CommerceGetStoreQuery,
+  'commerceGetStore'
+>['taxTypes'];
+
+type CommerceProducts = CommerceListQueryHitsResult<
+  CommerceListProductsQuery,
+  'commerceListProducts'
+>;
+
 type ModalProps = {
   closeModal: () => void;
   currencySymbol: string;
   existingProducts: any;
   isOpen: boolean;
   prefillData?: any;
+  products: CommerceProducts;
   saleId: string;
+  storeCountry?: string;
+  taxTypes?: TaxTypes;
 };
 
 export type SaleProductFormData = {
@@ -84,13 +105,44 @@ const getPriceOptions = (prices: any[] = []) => [
   ...prices.map((price) => ({ label: price?.name, value: price?.id })),
 ];
 
+const getProductTaxOptions = ({
+  commerceProduct,
+  taxTypes,
+  storeCountry,
+}: {
+  commerceProduct?: Pick<CommerceProduct, 'taxMode'> & {
+    taxType?: { id?: string | null };
+  };
+  storeCountry?: string;
+  taxTypes: TaxTypes;
+}) => {
+  const productTaxType = taxTypes?.find(
+    (type) => type.id === commerceProduct?.taxType?.id,
+  );
+
+  // if product tax mode is B2C, we want to return only one tax rate
+  // which is the tax rate matching the product and the store country
+  if (commerceProduct?.taxMode === CommerceProductTaxMode.B2C) {
+    const productTaxByStoreCountry = productTaxType?.taxes?.find(
+      (tax) => tax.country === storeCountry,
+    );
+
+    return productTaxByStoreCountry ? [productTaxByStoreCountry] : [];
+  }
+
+  return productTaxType?.taxes;
+};
+
 const SaleProductModalWrapper = ({
-  isOpen,
   closeModal,
-  prefillData,
-  saleId,
   currencySymbol,
+  isOpen,
   existingProducts,
+  prefillData,
+  products,
+  saleId,
+  storeCountry,
+  taxTypes = [],
 }: ModalProps) => {
   const context = useRequestContext();
   const snackbar = useSuccessSnackbar();
@@ -102,14 +154,8 @@ const SaleProductModalWrapper = ({
       variables: { saleId },
     },
   ];
-  const { data } = useCommerceListProductsQuery({
-    context,
-    fetchPolicy: 'network-only',
-    onError: (e) => errorSnackbar(e.message),
-  });
 
   const editOn = prefillData && prefillData.id && prefillData.id !== '';
-  const products = data?.commerceListProducts?.hits;
   const filteredSaleProducts = editOn
     ? products
     : products?.filter((el) => {
@@ -211,75 +257,94 @@ const SaleProductModalWrapper = ({
         editOn ? 'Edit pricing for sale cycle' : 'Add pricing for sale cycle'
       }
       closeModal={closeModal}
-      customForm={(props: any) => (
-        <Form>
-          <Spacing top="8px">
-            <FieldWrapper>
-              <Spacing bottom="8px">
-                <SelectField
-                  required
-                  label="Select ticket type"
-                  name="product"
-                  options={ticketTypeOptions}
-                />
-              </Spacing>
-            </FieldWrapper>
+      customForm={(props: any) => {
+        const selectedTicketType = products?.find(
+          (product) => product.id === props.values.product,
+        );
 
-            <FieldWrapper>
-              <TextInputField
-                label="Display name of ticket type"
-                name="name"
-                placeholder={
-                  ticketTypeOptions?.find(
-                    (type) => type.value === props?.values?.product,
-                  )?.label
-                }
-              />
-            </FieldWrapper>
+        const ticketTypeTaxRates = getProductTaxOptions({
+          commerceProduct: selectedTicketType,
+          storeCountry,
+          taxTypes,
+        });
 
-            <FieldWrapper>
-              <Spacing bottom="8px">
-                <TextAreaField
-                  fieldHeight="80px"
-                  label="Description"
-                  name="description"
-                  placeholder="Type description here"
-                />
-              </Spacing>
-            </FieldWrapper>
-
-            <FieldWrapper>
-              <InlineWrapper>
-                <SelectField
-                  required
-                  label="Price during sale cycle"
-                  name="type"
-                  options={priceTypeOptions}
-                />
-
-                <MoneyInputField
-                  required
-                  currencySymbol={currencySymbol}
-                  label="Price excluding tax"
-                  name="amount"
-                />
-                <CenteredVertically>
-                  <CheckboxField label="Active" name="active" />
-                </CenteredVertically>
-              </InlineWrapper>
-            </FieldWrapper>
-
-            <Spacing top="48px">
+        return (
+          <Form>
+            <Spacing top="8px">
               <FieldWrapper>
-                <Modal.DefaultFooter
-                  submitText={editOn ? 'Save' : 'Create'}
-                  onCancelClick={closeModal}
+                <Spacing bottom="8px">
+                  <SelectField
+                    required
+                    label="Select ticket type"
+                    name="product"
+                    options={ticketTypeOptions}
+                  />
+                </Spacing>
+              </FieldWrapper>
+
+              <FieldWrapper>
+                <TextInputField
+                  label="Display name of ticket type"
+                  name="name"
+                  placeholder={
+                    ticketTypeOptions?.find(
+                      (type) => type.value === props?.values?.product,
+                    )?.label
+                  }
                 />
               </FieldWrapper>
+
+              <FieldWrapper>
+                <Spacing bottom="8px">
+                  <TextAreaField
+                    fieldHeight="80px"
+                    label="Description"
+                    name="description"
+                    placeholder="Type description here"
+                  />
+                </Spacing>
+              </FieldWrapper>
+
+              <FieldWrapper>
+                <InlineWrapper>
+                  <SelectField
+                    required
+                    label="Price during sale cycle"
+                    name="type"
+                    options={priceTypeOptions}
+                  />
+
+                  <MoneyInputField
+                    required
+                    currencySymbol={currencySymbol}
+                    label="Price excluding tax"
+                    name="amount"
+                  />
+                  <CenteredVertically>
+                    <CheckboxField label="Active" name="active" />
+                  </CenteredVertically>
+                </InlineWrapper>
+              </FieldWrapper>
+
+              {(ticketTypeTaxRates?.length || 0) > 0 ? (
+                <PricesWithTaxTable
+                  currencySymbol={currencySymbol}
+                  price={props.values.amount}
+                  taxRates={ticketTypeTaxRates}
+                />
+              ) : null}
+              <Spacing top="48px">
+                <FieldWrapper>
+                  <Modal.DefaultFooter
+                    submitText={editOn ? 'Save' : 'Create'}
+                    onCancelClick={closeModal}
+                  />
+                </FieldWrapper>
+              </Spacing>
             </Spacing>
-          </Spacing>
-        </Form>
-      )}
+          </Form>
+        );
+      }}
       initialValues={initialValues(editOn)}
       isOpen={isOpen}
       submitCallback={setMutation}

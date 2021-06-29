@@ -1,8 +1,8 @@
 {
   "name": "@websummit/graphql",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "version": "1.0.0",
   "main": "src/index",
   "types": "src/index",
   "files": [
@@ -16,6 +16,11 @@
     "compile": "tsc -p tsconfig.build.json --noEmit",
     "prepublishOnly": "yarn run build",
     "test": "yarn run build"
+  },
+  "dependencies": {
+    "apollo-cache-inmemory": "*",
+    "apollo-client": "*",
+    "isomorphic-unfetch": "*"
   },
   "devDependencies": {}
 }

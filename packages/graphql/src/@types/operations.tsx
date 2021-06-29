@@ -77,6 +77,7 @@ export type Query = {
   brandingBySlug: Maybe<Branding>;
   webPageByPath: Maybe<WebPage>;
   webPageByHostPath: Maybe<WebPage>;
+  webPagesByHostMenuLabel: Maybe<Array<Maybe<WebPage>>>;
   webPageConfigByPathHost: Maybe<WebPageConfig>;
   accessPermissions: AccessPermissionConnection;
   ticketCategories: TicketCategoryConnection;
@@ -224,6 +225,7 @@ export type Query = {
   taxRates: TaxRateConnection;
   /** Retrieves all time zones */
   timeZones: TimeZoneConnection;
+  room: Maybe<Room>;
 };
 
 export type QueryBrandingArgs = {
@@ -327,6 +329,12 @@ export type QueryWebPageByPathArgs = {
 export type QueryWebPageByHostPathArgs = {
   host: Scalars['String'];
   path: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+};
+
+export type QueryWebPagesByHostMenuLabelArgs = {
+  host: Scalars['String'];
+  menuLabel: Scalars['String'];
   slug?: Maybe<Scalars['String']>;
 };
 
@@ -785,6 +793,10 @@ export type QueryTimeZonesArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryRoomArgs = {
+  roomId: Scalars['ID'];
 };
 
 export type AppConfig = {
@@ -4169,6 +4181,8 @@ export type Event = {
   legalEntity: Maybe<LegalEntity>;
   /** Name of the event */
   name: Scalars['String'];
+  /** Number of security zones at an event */
+  securityZonesCount: Scalars['Int'];
   /** Unique identifier of the event */
   slug: Scalars['String'];
   /** Date at which the event starts */
@@ -4384,6 +4398,13 @@ export type TimeZoneEdge = {
   node: TimeZone;
 };
 
+export type Room = {
+  __typename?: 'Room';
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  timeslot: Maybe<ScheduleTimeslot>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createBranding: Maybe<CreateBrandingPayload>;
@@ -4577,6 +4598,7 @@ export type Mutation = {
   taxRateCreate: Maybe<TaxRateCreatePayload>;
   /** Updates an existing tax rate */
   taxRateUpdate: Maybe<TaxRateUpdatePayload>;
+  roomJoin: Maybe<RoomGrant>;
 };
 
 export type MutationCreateBrandingArgs = {
@@ -5134,6 +5156,10 @@ export type MutationTaxRateUpdateArgs = {
   input: TaxRateUpdateInput;
 };
 
+export type MutationRoomJoinArgs = {
+  input?: Maybe<RoomJoinInput>;
+};
+
 export type CreateBrandingInput = {
   data?: Maybe<BrandingInput>;
 };
@@ -5302,6 +5328,7 @@ export type SiteInput = {
   events?: Maybe<Array<Scalars['ID']>>;
   webPages?: Maybe<Array<Scalars['ID']>>;
   activeEvent?: Maybe<Scalars['ID']>;
+  menus?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -5322,6 +5349,7 @@ export type EditSiteInput = {
   events?: Maybe<Array<Scalars['ID']>>;
   webPages?: Maybe<Array<Scalars['ID']>>;
   activeEvent?: Maybe<Scalars['ID']>;
+  menus?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -7068,6 +7096,7 @@ export type EventCreateInput = {
   endDate?: Maybe<Scalars['String']>;
   legalEntityId?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
+  securityZonesCount?: Maybe<Scalars['Int']>;
   slug: Scalars['String'];
   startDate?: Maybe<Scalars['String']>;
   taxNumber?: Maybe<Scalars['String']>;
@@ -7096,6 +7125,7 @@ export type EventUpdateInput = {
   endDate?: Maybe<Scalars['String']>;
   legalEntityId?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
+  securityZonesCount?: Maybe<Scalars['Int']>;
   slug: Scalars['String'];
   startDate?: Maybe<Scalars['String']>;
   taxNumber?: Maybe<Scalars['String']>;
@@ -7209,6 +7239,102 @@ export type TaxRateUpdatePayload = {
   clientMutationId: Maybe<Scalars['String']>;
   taxRate: Maybe<TaxRate>;
   userErrors: Array<UserError>;
+};
+
+export type RoomJoinInput = {
+  roomId?: Maybe<Scalars['ID']>;
+  locationId?: Maybe<Scalars['ID']>;
+  timeslotId?: Maybe<Scalars['ID']>;
+  calendarEventId?: Maybe<Scalars['ID']>;
+};
+
+export type RoomGrant = {
+  __typename?: 'RoomGrant';
+  id: Scalars['ID'];
+  role: RoomRole;
+  room: Room;
+  config: RoomConfig;
+};
+
+export enum RoomRole {
+  Moderator = 'MODERATOR',
+  Participant = 'PARTICIPANT',
+  Spectator = 'SPECTATOR',
+}
+
+export type RoomConfig = {
+  __typename?: 'RoomConfig';
+  backstageEnabled: Scalars['Boolean'];
+  heartbeatInterval: Scalars['Int'];
+  moderation: RoomModerationConfig;
+  chat: Maybe<RoomChatConfig>;
+  reactions: Maybe<RoomReactionsConfig>;
+  questions: Maybe<RoomQuestionsConfig>;
+  videoCall: Maybe<RoomVideoCallConfig>;
+  videoCallLiveStream: Maybe<RoomStreamConfig>;
+  contentLiveStream: Maybe<RoomStreamConfig>;
+};
+
+export type RoomModerationConfig = RoomModerationConfigPubnub;
+
+export type RoomModerationConfigPubnub = RoomPubnubConfig & {
+  __typename?: 'RoomModerationConfigPubnub';
+  channel: Scalars['String'];
+  authKey: Scalars['String'];
+  publishKey: Scalars['String'];
+  subscribeKey: Scalars['String'];
+};
+
+export type RoomPubnubConfig = {
+  channel: Scalars['String'];
+  authKey: Scalars['String'];
+  publishKey: Scalars['String'];
+  subscribeKey: Scalars['String'];
+};
+
+export type RoomChatConfig = {
+  allowedDomains: Array<Scalars['String']>;
+};
+
+export type RoomReactionsConfig = {
+  enabled: Array<RoomReaction>;
+};
+
+export enum RoomReaction {
+  Canada = 'CANADA',
+  Clap = 'CLAP',
+  Fire = 'FIRE',
+  Heart = 'HEART',
+  Laugh = 'LAUGH',
+  NotOk = 'NOT_OK',
+  Ok = 'OK',
+  Portugal = 'PORTUGAL',
+  Tomato = 'TOMATO',
+}
+
+export type RoomQuestionsConfig = RoomQuestionsConfigPubnub;
+
+export type RoomQuestionsConfigPubnub = RoomPubnubConfig & {
+  __typename?: 'RoomQuestionsConfigPubnub';
+  channel: Scalars['String'];
+  authKey: Scalars['String'];
+  publishKey: Scalars['String'];
+  subscribeKey: Scalars['String'];
+};
+
+export type RoomVideoCallConfig = RoomVideoCallConfigVonage;
+
+export type RoomVideoCallConfigVonage = {
+  __typename?: 'RoomVideoCallConfigVonage';
+  apiKey: Scalars['String'];
+  sessionId: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type RoomStreamConfig = {
+  __typename?: 'RoomStreamConfig';
+  iframeUrl: Maybe<Scalars['String']>;
+  hlsUrl: Maybe<Scalars['String']>;
 };
 
 export type AppConfigInput = {
@@ -7454,6 +7580,8 @@ export type MenuInput = {
   name: Scalars['String'];
   label?: Maybe<Scalars['String']>;
   menuItems?: Maybe<Array<Scalars['ID']>>;
+  event?: Maybe<Array<Scalars['ID']>>;
+  site?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -7821,6 +7949,8 @@ export type EditMenuInput = {
   name?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   menuItems?: Maybe<Array<Scalars['ID']>>;
+  event?: Maybe<Array<Scalars['ID']>>;
+  site?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -8055,6 +8185,26 @@ export type CommerceTaxSummaryUpdate = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type RoomChatConfigPubnub = RoomChatConfig &
+  RoomPubnubConfig & {
+    __typename?: 'RoomChatConfigPubnub';
+    allowedDomains: Array<Scalars['String']>;
+    channel: Scalars['String'];
+    authKey: Scalars['String'];
+    publishKey: Scalars['String'];
+    subscribeKey: Scalars['String'];
+  };
+
+export type RoomReactionsConfigPubnub = RoomReactionsConfig &
+  RoomPubnubConfig & {
+    __typename?: 'RoomReactionsConfigPubnub';
+    enabled: Array<RoomReaction>;
+    channel: Scalars['String'];
+    authKey: Scalars['String'];
+    publishKey: Scalars['String'];
+    subscribeKey: Scalars['String'];
+  };
+
 export type AppearanceUpdateMutationVariables = Exact<{
   id: Scalars['UUID'];
   isSponsor: Scalars['Boolean'];
@@ -8248,10 +8398,6 @@ export type CommerceCreateCategoryMutation = { __typename?: 'Mutation' } & {
     >
   >;
 };
-
-export type CommercePaymentMethodFragment = {
-  __typename?: 'CommercePaymentMethod';
-} & Pick<CommercePaymentMethod, 'id' | 'name'>;
 
 export type CommerceCreateOrderMutationVariables = Exact<{
   commerceOrderCreate: CommerceOrderCreate;
@@ -9106,6 +9252,10 @@ export type CommerceOrderItemFragment = {
     >;
     tax: Maybe<{ __typename?: 'CommerceTax' } & CommerceTaxFragment>;
   };
+
+export type CommercePaymentMethodFragment = {
+  __typename?: 'CommercePaymentMethod';
+} & Pick<CommercePaymentMethod, 'id' | 'name' | 'configuration'>;
 
 export type CommerceAddressFragment = { __typename?: 'CommerceAddress' } & Pick<
   CommerceAddress,
@@ -11693,6 +11843,7 @@ export const CommercePaymentMethodFragmentDoc: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'configuration' } },
         ],
       },
       typeCondition: {
@@ -11759,21 +11910,6 @@ export const CommerceTransactionFragmentDoc: DocumentNode = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'CommerceUser' },
       selectionSet: {
         kind: 'SelectionSet',
@@ -11786,6 +11922,22 @@ export const CommerceTransactionFragmentDoc: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceUser' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'configuration' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
       },
     },
   ],
@@ -15206,6 +15358,7 @@ export const CommerceCreateOrderDocument: DocumentNode = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'configuration' } },
         ],
       },
       typeCondition: {
@@ -20032,21 +20185,6 @@ export const CommerceGetOrderDocument: DocumentNode = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-        ],
-      },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'CommercePaymentMethod' },
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'CommerceUser' },
       selectionSet: {
         kind: 'SelectionSet',
@@ -20233,6 +20371,22 @@ export const CommerceGetOrderDocument: DocumentNode = {
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'CommerceOrderItem' },
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommercePaymentMethod' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'configuration' } },
+        ],
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CommercePaymentMethod' },
       },
     },
     {
