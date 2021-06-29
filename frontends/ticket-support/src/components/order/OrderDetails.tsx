@@ -37,6 +37,7 @@ import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQ
 import useTicketsQuery from '../../lib/hooks/useTicketsQuery';
 import Loader from '../../lib/Loading';
 import Pagination from '../../lib/Pagination';
+import { Error } from '../../lib/types';
 import { switchCase } from '../../lib/utils/logic';
 import { useRequestContext } from '../app/AppContext';
 import OrderRefundModal from '../orderActions/OrderRefundModal';
@@ -280,14 +281,14 @@ const OrderDetails = (): ReactElement => {
     onCompleted: () => {
       snackbar('Email with refund receipt sent');
     },
-    onError: (e: { message: string }) => errSnackbar(e.message),
+    onError: (e: Error) => errSnackbar(e.message),
   });
   const [sendInvoiceEmail] = useOrderInvoiceSendMutation({
     context,
     onCompleted: () => {
       snackbar(`Email with invoice sent`);
     },
-    onError: (e: { message: string }) => errSnackbar(e.message),
+    onError: (e: Error) => errSnackbar(e.message),
   });
   const sendOrderDocumentInput = {
     variables: {

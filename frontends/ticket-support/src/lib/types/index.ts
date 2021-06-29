@@ -255,3 +255,7 @@ export type CommerceTransaction = {
   timestamp: string;
   type: CommerceTransactionType;
 };
+
+export type Error = {
+  message: string;
+};
