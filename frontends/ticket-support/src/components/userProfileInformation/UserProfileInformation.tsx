@@ -57,12 +57,14 @@ const userProfileSchema = Yup.object().shape({
   phoneNumber: Yup.string().nullable(),
 });
 
-// This function gets rid of unwanted fields like graphql's `__typename`
-const getInitialValues = (
-  account: NonNullable<
+type Account = NonNullable<
+  NonNullable<
     extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>['assignment']>
-  >['assignee'],
-) => {
+  >['assignee']
+>;
+
+// This function gets rid of unwanted fields like graphql's `__typename`
+const getInitialValues = (account: Account) => {
   const {
     bio,
     city,
@@ -77,16 +79,16 @@ const getInitialValues = (
   } = account;
 
   return {
-    bio,
-    city,
-    companyName,
-    companySizeId,
-    firstName,
-    gender,
-    industryId,
-    jobTitle,
-    lastName,
-    phoneNumber,
+    bio: bio || '',
+    city: city || '',
+    companyName: companyName || '',
+    companySizeId: companySizeId || '',
+    firstName: firstName || '',
+    gender: gender || '',
+    industryId: industryId || '',
+    jobTitle: jobTitle || '',
+    lastName: lastName || '',
+    phoneNumber: phoneNumber || '',
   };
 };
 
