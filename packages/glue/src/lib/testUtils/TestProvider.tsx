@@ -56,17 +56,17 @@ const TestProvider: FC<MockProviderProps> = ({
   const providers: ProviderType = [
     {
       component: MockSnackbarProvider,
-      props: props?.snackbar,
+      props: props?.snackbar || {},
       shouldApply: snackbar,
     },
     {
       component: MockApolloProvider,
-      props: props?.apollo,
+      props: props?.apollo || {},
       shouldApply: apollo,
     },
     {
       component: MockRouter,
-      props: props?.router,
+      props: props?.router || {},
       shouldApply: router,
     },
     {
