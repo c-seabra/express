@@ -8870,6 +8870,28 @@ export type OrderInvoiceSendMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type OrderRefundReceiptSendMutationVariables = Exact<{
+  input: RefundReceiptSendInput;
+}>;
+
+export type OrderRefundReceiptSendMutation = { __typename?: 'Mutation' } & {
+  orderRefundReceiptSend: Maybe<
+    { __typename?: 'RefundReceiptSendPayload' } & {
+      order: Maybe<
+        { __typename?: 'Order' } & Pick<Order, 'id'> & {
+            owner: { __typename?: 'AssignmentUser' } & Pick<
+              AssignmentUser,
+              'email'
+            >;
+          }
+      >;
+      userErrors: Array<
+        { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
+  >;
+};
+
 export type OrderTransferMutationVariables = Exact<{
   input: OrderUpdateInput;
 }>;
@@ -18405,6 +18427,134 @@ export type OrderInvoiceSendMutationResult = Apollo.MutationResult<OrderInvoiceS
 export type OrderInvoiceSendMutationOptions = Apollo.BaseMutationOptions<
   OrderInvoiceSendMutation,
   OrderInvoiceSendMutationVariables
+>;
+export const OrderRefundReceiptSendDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'OrderRefundReceiptSend' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'orderRefundReceiptSend' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'order' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'owner' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userErrors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'path' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'RefundReceiptSendInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type OrderRefundReceiptSendMutationFn = Apollo.MutationFunction<
+  OrderRefundReceiptSendMutation,
+  OrderRefundReceiptSendMutationVariables
+>;
+
+/**
+ * __useOrderRefundReceiptSendMutation__
+ *
+ * To run a mutation, you first call `useOrderRefundReceiptSendMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOrderRefundReceiptSendMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [orderRefundReceiptSendMutation, { data, loading, error }] = useOrderRefundReceiptSendMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useOrderRefundReceiptSendMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    OrderRefundReceiptSendMutation,
+    OrderRefundReceiptSendMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    OrderRefundReceiptSendMutation,
+    OrderRefundReceiptSendMutationVariables
+  >(OrderRefundReceiptSendDocument, baseOptions);
+}
+export type OrderRefundReceiptSendMutationHookResult = ReturnType<
+  typeof useOrderRefundReceiptSendMutation
+>;
+export type OrderRefundReceiptSendMutationResult = Apollo.MutationResult<OrderRefundReceiptSendMutation>;
+export type OrderRefundReceiptSendMutationOptions = Apollo.BaseMutationOptions<
+  OrderRefundReceiptSendMutation,
+  OrderRefundReceiptSendMutationVariables
 >;
 export const OrderTransferDocument: DocumentNode = {
   definitions: [
