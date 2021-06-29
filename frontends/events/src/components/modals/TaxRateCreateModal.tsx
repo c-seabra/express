@@ -5,12 +5,12 @@ import {
 import Icon from '@websummit/components/src/atoms/Icon';
 import Modal from '@websummit/components/src/molecules/Modal';
 import SelectField from '@websummit/components/src/molecules/SelectField';
+import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { upperWord } from '@websummit/components/src/utils/text';
 import {
   EventConfigurationCountry,
-  TaxType,
+  useCommerceListTaxTypesQuery,
   useCountriesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import { Form, Formik } from 'formik';
@@ -19,6 +19,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
+import { useRequestContext } from '../app/AppContext';
 import { ModalInputMode } from './TaxRateCreateModalWrapper';
 
 export const Wrapper = styled.div`
@@ -81,6 +82,7 @@ type TaxRateCreateModalProps = {
   mode?: ModalInputMode;
   mutationCallback: (values?: any) => void;
   prefilledTax?: any;
+  slugParam: string;
   submitText: string;
 };
 
@@ -103,7 +105,11 @@ const TaxRateCreateModal = ({
   submitText = 'Submit',
   mode = 'ADD',
   prefilledTax,
+  slugParam,
 }: TaxRateCreateModalProps) => {
+  const defaultContext = useRequestContext();
+  const error = useErrorSnackbar();
+
   const { data } = useCountriesQuery();
   const [formControls, setFormControls] = useState<
     | {
@@ -142,12 +148,22 @@ const TaxRateCreateModal = ({
     return a.name.localeCompare(b.name);
   });
   const countryOptions = getCountryOptions(sortedCountries);
+  const context = {
+    slug: slugParam,
+    token: defaultContext.token,
+  };
+
+  const { data: taxTypesResponse } = useCommerceListTaxTypesQuery({
+    context,
+    onError: (e) => error(e.message),
+  });
+  const taxTypesHits = taxTypesResponse?.commerceListTaxTypes?.hits;
 
   const taxTypes = [
     blankOption,
-    ...(Object.values(TaxType).map((taxType) => ({
-      label: upperWord(taxType),
-      value: taxType,
+    ...(taxTypesHits?.map((taxType) => ({
+      label: taxType.name,
+      value: taxType.id,
     })) || []),
   ];
 
@@ -156,17 +172,17 @@ const TaxRateCreateModal = ({
       country: '',
       id: undefined,
       name: '',
-      type: '',
+      type: {},
       value: '',
     };
 
     if (_mode === 'EDIT') {
       values = {
-        country: prefilledTax.country.id,
+        country: prefilledTax.country,
         id: prefilledTax.id,
         name: prefilledTax.name,
-        type: prefilledTax.taxType.toUpperCase(),
-        value: prefilledTax.value,
+        type: prefilledTax.taxType.id,
+        value: prefilledTax.rateAmount,
       };
     }
 
@@ -223,7 +239,7 @@ const TaxRateCreateModal = ({
                       <SelectField
                         label="Tax type"
                         name="type"
-                        options={taxTypes}
+                        options={taxTypes as any}
                       />
                     </Spacing>
                   </FieldWrapper>
