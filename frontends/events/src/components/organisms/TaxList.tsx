@@ -25,26 +25,27 @@ const TaxList = ({ taxes, onTaxClick }: TaxesListProps) => {
     {
       header: 'Tax name',
       renderCell: (tax) => tax.name || 'N/A',
+      width: '25%',
     },
     {
       header: 'Tax amount %',
       renderCell: (tax) => {
         return <>{`${tax.rateAmount}%` || 'N/A'}</>;
       },
-      width: '14%',
+      width: '25%',
     },
     {
       header: 'Country of tax',
       renderCell: (tax) => (
         <>{`${tax.country} - ${tax.countryName}` || 'N/A'}</>
       ),
-      width: '20%',
+      width: '25%',
     },
     {
       header: 'Tax type',
       renderCell: (tax) =>
         <CapitalizedValue>{tax.taxType.name}</CapitalizedValue> || 'N/A',
-      width: '16%',
+      width: '25%',
     },
   ];
 
