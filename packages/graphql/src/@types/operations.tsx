@@ -335,7 +335,6 @@ export type QueryWebPageByHostPathArgs = {
 export type QueryWebPagesByHostMenuLabelArgs = {
   host: Scalars['String'];
   menuLabel: Scalars['String'];
-  slug?: Maybe<Scalars['String']>;
 };
 
 export type QueryWebPageConfigByPathHostArgs = {
@@ -809,6 +808,9 @@ export type AppConfig = {
   googleTagManagerId: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
   googleFontsUrl: Maybe<Scalars['String']>;
+  matomoUrl: Maybe<Scalars['String']>;
+  matomoSiteId: Maybe<Scalars['String']>;
+  segmentId: Maybe<Scalars['String']>;
   theme: Maybe<Scalars['JSON']>;
   metaData: ComponentSiteConfigMetaData;
   created_by: Maybe<AdminUser>;
@@ -1335,6 +1337,9 @@ export type WebPageConfig = {
   baseGoogleAnalyticsTrackingId: Maybe<Scalars['String']>;
   googleOptimizeId: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
+  matomoUrl: Maybe<Scalars['String']>;
+  matomoSiteId: Maybe<Scalars['String']>;
+  segmentId: Maybe<Scalars['String']>;
   metaData: Maybe<ComponentSiteConfigMetaData>;
   created_by: Maybe<AdminUser>;
   updated_by: Maybe<AdminUser>;
@@ -1375,6 +1380,9 @@ export type WebPageConfigGroupBy = {
   googleOptimizeId: Maybe<
     Array<Maybe<WebPageConfigConnectionGoogleOptimizeId>>
   >;
+  matomoUrl: Maybe<Array<Maybe<WebPageConfigConnectionMatomoUrl>>>;
+  matomoSiteId: Maybe<Array<Maybe<WebPageConfigConnectionMatomoSiteId>>>;
+  segmentId: Maybe<Array<Maybe<WebPageConfigConnectionSegmentId>>>;
   metaData: Maybe<Array<Maybe<WebPageConfigConnectionMetaData>>>;
   created_by: Maybe<Array<Maybe<WebPageConfigConnectionCreated_By>>>;
   updated_by: Maybe<Array<Maybe<WebPageConfigConnectionUpdated_By>>>;
@@ -1430,6 +1438,24 @@ export type WebPageConfigConnectionBaseGoogleAnalyticsTrackingId = {
 
 export type WebPageConfigConnectionGoogleOptimizeId = {
   __typename?: 'WebPageConfigConnectionGoogleOptimizeId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionMatomoUrl = {
+  __typename?: 'WebPageConfigConnectionMatomoUrl';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionMatomoSiteId = {
+  __typename?: 'WebPageConfigConnectionMatomoSiteId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionSegmentId = {
+  __typename?: 'WebPageConfigConnectionSegmentId';
   key: Maybe<Scalars['String']>;
   connection: Maybe<WebPageConfigConnection>;
 };
@@ -1513,6 +1539,7 @@ export type Menu = {
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
   label: Maybe<Scalars['String']>;
+  site: Maybe<Site>;
   created_by: Maybe<AdminUser>;
   updated_by: Maybe<AdminUser>;
   menuItems: Array<MenuItem>;
@@ -5379,6 +5406,9 @@ export type WebPageConfigInput = {
   baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
   googleOptimizeId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
   metaData?: Maybe<ComponentSiteConfigMetaDatumInput>;
   events?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
@@ -5416,6 +5446,9 @@ export type EditWebPageConfigInput = {
   baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
   googleOptimizeId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
   metaData?: Maybe<EditComponentSiteConfigMetaDatumInput>;
   events?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
@@ -6619,6 +6652,7 @@ export type CommerceDealCreate = {
   dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
   description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
+  metadata?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   startDate: Scalars['Date'];
   usages?: Maybe<Scalars['Int']>;
@@ -6681,6 +6715,7 @@ export type CommerceDealCreateOrUpdate = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
   usages?: Maybe<Scalars['Int']>;
@@ -6925,6 +6960,7 @@ export type CommerceDealUpdate = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
   name?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['Date']>;
   usages?: Maybe<Scalars['Int']>;
@@ -7254,6 +7290,7 @@ export type RoomGrant = {
   role: RoomRole;
   room: Room;
   config: RoomConfig;
+  permissions: RoomPermissions;
 };
 
 export enum RoomRole {
@@ -7337,11 +7374,27 @@ export type RoomStreamConfig = {
   hlsUrl: Maybe<Scalars['String']>;
 };
 
+export type RoomPermissions = {
+  __typename?: 'RoomPermissions';
+  publishVideo: Scalars['Boolean'];
+  viewBackstage: Scalars['Boolean'];
+  readQuestions: Scalars['Boolean'];
+  kickUser: Scalars['Boolean'];
+  changeMode: Scalars['Boolean'];
+  pinChatMessage: Scalars['Boolean'];
+  deleteChatMessage: Scalars['Boolean'];
+  toggleParticipantAudio: Scalars['Boolean'];
+  toggleParticipantVideo: Scalars['Boolean'];
+};
+
 export type AppConfigInput = {
   googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
   googleTagManagerId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
   googleFontsUrl?: Maybe<Scalars['String']>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
   theme?: Maybe<Scalars['JSON']>;
   metaData: ComponentSiteConfigMetaDatumInput;
   created_by?: Maybe<Scalars['ID']>;
@@ -7580,8 +7633,7 @@ export type MenuInput = {
   name: Scalars['String'];
   label?: Maybe<Scalars['String']>;
   menuItems?: Maybe<Array<Scalars['ID']>>;
-  event?: Maybe<Array<Scalars['ID']>>;
-  site?: Maybe<Array<Scalars['ID']>>;
+  site?: Maybe<Scalars['ID']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -7699,6 +7751,9 @@ export type EditAppConfigInput = {
   googleTagManagerId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
   googleFontsUrl?: Maybe<Scalars['String']>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
   theme?: Maybe<Scalars['JSON']>;
   metaData?: Maybe<EditComponentSiteConfigMetaDatumInput>;
   created_by?: Maybe<Scalars['ID']>;
@@ -7949,8 +8004,7 @@ export type EditMenuInput = {
   name?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   menuItems?: Maybe<Array<Scalars['ID']>>;
-  event?: Maybe<Array<Scalars['ID']>>;
-  site?: Maybe<Array<Scalars['ID']>>;
+  site?: Maybe<Scalars['ID']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -9021,6 +9075,20 @@ export type TicketUnvoidMutation = { __typename?: 'Mutation' } & {
       >;
       userErrors: Array<
         { __typename?: 'UserError' } & Pick<UserError, 'message' | 'path'>
+      >;
+    }
+  >;
+};
+
+export type TicketUpdateMutationVariables = Exact<{
+  input: TicketUpdateInput;
+}>;
+
+export type TicketUpdateMutation = { __typename?: 'Mutation' } & {
+  ticketUpdate: Maybe<
+    { __typename?: 'TicketUpdatePayload' } & {
+      ticket: Maybe<
+        { __typename?: 'Ticket' } & Pick<Ticket, 'id' | 'bookingRef'>
       >;
     }
   >;
@@ -10550,6 +10618,62 @@ export type TaxRatesQuery = { __typename?: 'Query' } & {
       }
     >;
   };
+};
+
+export type TicketQueryVariables = Exact<{
+  reference: Scalars['String'];
+}>;
+
+export type TicketQuery = { __typename?: 'Query' } & {
+  ticket: Maybe<
+    { __typename?: 'Ticket' } & Pick<Ticket, 'id' | 'bookingRef' | 'state'> & {
+        ticketType: Maybe<
+          { __typename?: 'TicketType' } & Pick<TicketType, 'id' | 'name'>
+        >;
+        order: { __typename?: 'Order' } & Pick<
+          Order,
+          'reference' | 'source'
+        > & {
+            owner: { __typename?: 'AssignmentUser' } & Pick<
+              AssignmentUser,
+              'firstName' | 'lastName' | 'email'
+            >;
+          };
+        assignment: Maybe<
+          { __typename?: 'Assignment' } & Pick<
+            Assignment,
+            'id' | 'appLoginEmail' | 'state'
+          > & {
+              assigner: Maybe<
+                { __typename?: 'AssignmentUser' } & Pick<
+                  AssignmentUser,
+                  'id' | 'email' | 'firstName' | 'lastName'
+                >
+              >;
+              assignee: Maybe<
+                { __typename?: 'AssignmentUser' } & Pick<
+                  AssignmentUser,
+                  | 'id'
+                  | 'email'
+                  | 'firstName'
+                  | 'lastName'
+                  | 'bio'
+                  | 'city'
+                  | 'companyName'
+                  | 'companySizeId'
+                  | 'gender'
+                  | 'industryId'
+                  | 'jobTitle'
+                  | 'phoneNumber'
+                  | 'marketingConsent'
+                  | 'personalisationConsent'
+                  | 'lastLoginTokenCreatedAt'
+                >
+              >;
+            }
+        >;
+      }
+  >;
 };
 
 export type TicketCategoriesQueryVariables = Exact<{ [key: string]: never }>;
@@ -19226,6 +19350,111 @@ export type TicketUnvoidMutationOptions = Apollo.BaseMutationOptions<
   TicketUnvoidMutation,
   TicketUnvoidMutationVariables
 >;
+export const TicketUpdateDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'TicketUpdate' },
+      operation: 'mutation',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticketUpdate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticket' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingRef' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'TicketUpdateInput' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+export type TicketUpdateMutationFn = Apollo.MutationFunction<
+  TicketUpdateMutation,
+  TicketUpdateMutationVariables
+>;
+
+/**
+ * __useTicketUpdateMutation__
+ *
+ * To run a mutation, you first call `useTicketUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTicketUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [ticketUpdateMutation, { data, loading, error }] = useTicketUpdateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTicketUpdateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TicketUpdateMutation,
+    TicketUpdateMutationVariables
+  >,
+) {
+  return Apollo.useMutation<
+    TicketUpdateMutation,
+    TicketUpdateMutationVariables
+  >(TicketUpdateDocument, baseOptions);
+}
+export type TicketUpdateMutationHookResult = ReturnType<
+  typeof useTicketUpdateMutation
+>;
+export type TicketUpdateMutationResult = Apollo.MutationResult<TicketUpdateMutation>;
+export type TicketUpdateMutationOptions = Apollo.BaseMutationOptions<
+  TicketUpdateMutation,
+  TicketUpdateMutationVariables
+>;
 export const VoidTicketDocument: DocumentNode = {
   definitions: [
     {
@@ -26002,6 +26231,266 @@ export type TaxRatesLazyQueryHookResult = ReturnType<
 export type TaxRatesQueryResult = Apollo.QueryResult<
   TaxRatesQuery,
   TaxRatesQueryVariables
+>;
+export const TicketDocument: DocumentNode = {
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      name: { kind: 'Name', value: 'Ticket' },
+      operation: 'query',
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'reference' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'reference' },
+                },
+              },
+            ],
+            kind: 'Field',
+            name: { kind: 'Name', value: 'ticket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingRef' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'ticketType' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'order' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'reference' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'source' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'owner' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firstName' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lastName' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignment' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'appLoginEmail' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'assigner' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firstName' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lastName' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'assignee' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firstName' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lastName' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'bio' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'companyName' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'companySizeId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'gender' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'industryId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'jobTitle' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'phoneNumber' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'marketingConsent' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'personalisationConsent',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'lastLoginTokenCreatedAt',
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'reference' },
+          },
+        },
+      ],
+    },
+  ],
+  kind: 'Document',
+};
+
+/**
+ * __useTicketQuery__
+ *
+ * To run a query within a React component, call `useTicketQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTicketQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTicketQuery({
+ *   variables: {
+ *      reference: // value for 'reference'
+ *   },
+ * });
+ */
+export function useTicketQuery(
+  baseOptions: Apollo.QueryHookOptions<TicketQuery, TicketQueryVariables>,
+) {
+  return Apollo.useQuery<TicketQuery, TicketQueryVariables>(
+    TicketDocument,
+    baseOptions,
+  );
+}
+export function useTicketLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<TicketQuery, TicketQueryVariables>,
+) {
+  return Apollo.useLazyQuery<TicketQuery, TicketQueryVariables>(
+    TicketDocument,
+    baseOptions,
+  );
+}
+export type TicketQueryHookResult = ReturnType<typeof useTicketQuery>;
+export type TicketLazyQueryHookResult = ReturnType<typeof useTicketLazyQuery>;
+export type TicketQueryResult = Apollo.QueryResult<
+  TicketQuery,
+  TicketQueryVariables
 >;
 export const TicketCategoriesDocument: DocumentNode = {
   definitions: [

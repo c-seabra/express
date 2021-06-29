@@ -1,10 +1,14 @@
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 import React, { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 
 import { SecondaryButton } from '../../lib/components/atoms/Button';
 import { useModalState } from '../../lib/components/molecules/Modal';
 import useSendLoginLinkMutation from '../../lib/hooks/useSendLoginLinkMutation';
-import { Account } from '../../lib/types';
 import { formatDateTime } from '../../lib/utils/time';
 import LoginLinkGenerate from './LoginLinkGenerate';
 import SendLoginLinkModal from './SendLoginLinkModal';
@@ -38,11 +42,15 @@ const LoginLinkGeneratorContainer = styled.div`
   }
 `;
 
+type Assignee = NonNullable<
+  extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>['assignment']>
+>['assignee'];
+
 const LoginLinkActions = ({
   assignee,
   isTicketVoided,
 }: {
-  assignee: Account;
+  assignee: Assignee;
   isTicketVoided: boolean;
 }): ReactElement => {
   const [
@@ -72,7 +80,9 @@ const LoginLinkActions = ({
       )}
       <Text>
         <a
-          href={`https://metabase.cilabs.com/question/1184?email=${assignee.email}`}
+          href={`https://metabase.cilabs.com/question/1184?email=${
+            assignee?.email || ''
+          }`}
           rel="noreferrer"
           target="_blank"
         >
