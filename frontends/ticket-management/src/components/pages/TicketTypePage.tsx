@@ -334,8 +334,8 @@ const TicketTypePage = () => {
                 </Spacing>
                 <GenericLinkContainer>
                   <StyledTextInput
-                    defaultValue={genericLink}
                     label="Generic invite link for mass distribution"
+                    value={genericLink}
                   />
                   <StyledButton onClick={() => copyToClipboard(genericLink)}>
                     Copy

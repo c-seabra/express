@@ -469,14 +469,13 @@ const TicketTypeForm = ({
               <FieldRow>
                 <StyledTextInput
                   disabled
-                  defaultValue={
-                    taxRate?.rateAmount ? `${taxRate?.rateAmount}%` : ''
-                  }
                   label="Tax percentage"
+                  value={taxRate?.rateAmount ? `${taxRate?.rateAmount}%` : ''}
                 />
                 <StyledTextInput
                   disabled
-                  defaultValue={
+                  label={`Total price (incl. ${taxRate?.name || 'tax'})`}
+                  value={
                     values?.ticketPriceVariant === ticketPriceVariants.paid
                       ? getTotalPrice(
                           taxRate?.rateAmount,
@@ -485,7 +484,6 @@ const TicketTypeForm = ({
                         )
                       : ''
                   }
-                  label={`Total price (incl. ${taxRate?.name || 'tax'})`}
                 />
               </FieldRow>
             </FormWrapper>
