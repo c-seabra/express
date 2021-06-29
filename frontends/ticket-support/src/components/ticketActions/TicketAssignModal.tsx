@@ -76,6 +76,9 @@ const TicketAssignModal = ({
 }: TicketAssignModalProps) => {
   const isAssigned = ticket.assignment !== null;
   const assignPhrase = isAssigned ? 'reassign' : 'assign';
+  const notifyPhrase = isAssigned
+    ? 'Send email notification to new and old assignee'
+    : 'Send email notification to assignee';
   const { assignTicket } = useAssignTicketOperation();
   const handleClose = () => {
     closeModal();
@@ -140,8 +143,8 @@ const TicketAssignModal = ({
                   />
                 </StyledRow>
 
-                {isAssigned && (
-                  <>
+                <>
+                  {isAssigned && (
                     <Spacing top="8px">
                       <FieldWrapper
                         required
@@ -150,15 +153,15 @@ const TicketAssignModal = ({
                         name="reason"
                       />
                     </Spacing>
-                    <StyledRow>
-                      <CheckboxField
-                        color="#E15554"
-                        label="Send email notification to new and old assignee"
-                        name="notify"
-                      />
-                    </StyledRow>
-                  </>
-                )}
+                  )}
+                  <StyledRow>
+                    <CheckboxField
+                      color="#E15554"
+                      label={notifyPhrase}
+                      name="notify"
+                    />
+                  </StyledRow>
+                </>
 
                 <Spacing bottom="53px" top="24px">
                   <StyledActionRow>
