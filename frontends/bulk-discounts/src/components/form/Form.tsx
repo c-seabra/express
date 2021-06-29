@@ -23,9 +23,9 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import {
-  transformStaffIntoWorkUnit,
+  transformTemplateIntoWorkUnit,
   WorkUnitContext,
-} from '../../lib/extract/createOrder';
+} from '../../lib/extract/createDiscount';
 import { AppContext, Staff } from '../app/App';
 
 const Flex = styled.div`
@@ -384,11 +384,11 @@ const Form: React.FC = () => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (assignees && assignees.length > 0 && context.setTicketsList) {
+    if (assignees && assignees.length > 0 && context.setDiscountsList) {
       setAssignees(assignees);
-      context.setTicketsList(
+      context.setDiscountsList(
         assignees.map((staff) =>
-          transformStaffIntoWorkUnit(metaContext, staff),
+          transformTemplateIntoWorkUnit(metaContext, staff),
         ),
       );
     } else {
@@ -403,14 +403,14 @@ const Form: React.FC = () => {
     const emailField = (e.target as any).email.value as string;
     const email: string = emailField.toLowerCase().trim();
 
-    if (context.setTicketsList) {
+    if (context.setDiscountsList) {
       const staff = {
         email,
         firstName: capitalizeFirstLetter(firstName),
         lastName: capitalizeFirstLetter(lastName),
       };
-      const workUnit = transformStaffIntoWorkUnit(metaContext, staff);
-      context.setTicketsList([workUnit]);
+      const workUnit = transformTemplateIntoWorkUnit(metaContext, staff);
+      context.setDiscountsList([workUnit]);
     } else {
       setFormError(true);
     }

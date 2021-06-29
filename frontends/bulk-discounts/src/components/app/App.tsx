@@ -8,9 +8,9 @@ import React, { createContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import {
-  CreateOrderWorkUnit,
-  processCreateOrderWorkUnit,
-} from '../../lib/extract/createOrder';
+  CreateDiscountWorkUnit,
+  processCreateDiscountWorkUnit,
+} from '../../lib/extract/createDiscount';
 import AssigneeList from '../assigneeList/AssigneeList';
 import Form from '../form/Form';
 
@@ -48,8 +48,8 @@ export type Staff = {
   lastName: string;
 };
 
-export type TicketList = Array<CreateOrderWorkUnit>;
-export type SetTicketList = (tickets: TicketList) => void;
+export type DiscountList = Array<CreateDiscountWorkUnit>;
+export type SetTicketList = (tickets: DiscountList) => void;
 export type Ticket = Staff;
 
 export type Conference = {
@@ -60,8 +60,8 @@ export type Conference = {
 };
 
 export type StaffTicketContext = GraphQLParams & {
-  setTicketsList?: SetTicketList;
-  ticketsList?: TicketList;
+  discountsList?: DiscountList;
+  setDiscountsList?: SetTicketList;
 };
 
 export const AppContext = createContext<StaffTicketContext>({
@@ -71,7 +71,7 @@ export const AppContext = createContext<StaffTicketContext>({
 });
 
 const App = ({ token, apiURL }: StaffTicketContext) => {
-  const [ticketsList, setTicketList] = useState<TicketList>();
+  const [discountsList, setDiscountsList] = useState<DiscountList>();
 
   const tokenPayload: { conf_slug: string; email: string } = jwt(token || '');
   const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
@@ -97,31 +97,31 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
           value={{
             apiURL,
             apolloClient,
-            setTicketsList: setTicketList,
+            discountsList,
+            setDiscountsList,
             slug,
-            ticketsList,
             token,
           }}
         >
           <StyledContainer>
             <StyledSection>
               <Spacing bottom="2rem">
-                <Title>Ticket creation</Title>
+                <Title>Discount creation</Title>
                 <SubHeader>
-                  Allows fast and easy way to create one or more tickets in an
-                  order. This feature is accelerating bulk creation of free
-                  tickets
+                  Allows fast and easy way to create one or more discounts from
+                  a template. This feature is accelerating bulk creation of
+                  discount codes
                 </SubHeader>
               </Spacing>
               <Form />
             </StyledSection>
             <StyledSection>
-              {ticketsList && ticketsList?.length > 0 && (
+              {discountsList && discountsList?.length > 0 && (
                 <BulkOperation
                   Display={AssigneeList}
                   context={bulkContext}
-                  input={ticketsList}
-                  process={processCreateOrderWorkUnit}
+                  input={discountsList}
+                  process={processCreateDiscountWorkUnit}
                 />
               )}
             </StyledSection>

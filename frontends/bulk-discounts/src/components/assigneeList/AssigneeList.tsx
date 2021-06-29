@@ -12,7 +12,7 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 
-import { CreateOrderWorkUnit } from '../../lib/extract/createOrder';
+import { CreateDiscountWorkUnit } from '../../lib/extract/createDiscount';
 import UploadStatus from '../statusIcon/StatusIcon';
 
 const Flex = styled.div`
@@ -27,8 +27,8 @@ const FlexEnd = styled(Flex)`
   justify-content: flex-end;
 `;
 
-const createGroupedResults = (list: CreateOrderWorkUnit[]) => {
-  const statuses = list.map((e: CreateOrderWorkUnit) => {
+const createGroupedResults = (list: CreateDiscountWorkUnit[]) => {
+  const statuses = list.map((e: CreateDiscountWorkUnit) => {
     return {
       status: e.status.type,
     };
@@ -37,7 +37,7 @@ const createGroupedResults = (list: CreateOrderWorkUnit[]) => {
   return _.countBy(statuses, 'status');
 };
 
-const tableShape: ColumnDescriptor<CreateOrderWorkUnit>[] = [
+const tableShape: ColumnDescriptor<CreateDiscountWorkUnit>[] = [
   {
     header: 'Booking Ref',
     renderCell: (order) =>
@@ -62,7 +62,9 @@ const tableShape: ColumnDescriptor<CreateOrderWorkUnit>[] = [
   },
 ];
 
-const AssigneeList: React.FC<{ list: CreateOrderWorkUnit[] }> = ({ list }) => {
+const AssigneeList: React.FC<{ list: CreateDiscountWorkUnit[] }> = ({
+  list,
+}) => {
   if (!list || list?.length < 0) return null;
 
   const groupedResults = createGroupedResults(list);

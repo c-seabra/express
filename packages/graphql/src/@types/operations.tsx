@@ -8370,7 +8370,7 @@ export type CommerceCreateDealMutationVariables = Exact<{
 
 export type CommerceCreateDealMutation = { __typename?: 'Mutation' } & {
   commerceCreateDeal: Maybe<
-    { __typename?: 'CommerceDeal' } & Pick<CommerceDeal, 'id' | 'name'>
+    { __typename?: 'CommerceDeal' } & Pick<CommerceDeal, 'id' | 'name' | 'code'>
   >;
 };
 
@@ -14479,6 +14479,7 @@ export const CommerceCreateDealDocument: DocumentNode = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
               ],
             },
           },

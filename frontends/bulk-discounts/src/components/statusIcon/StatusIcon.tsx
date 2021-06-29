@@ -1,7 +1,7 @@
 import Loader from '@websummit/components/src/atoms/Loader';
 import React from 'react';
 
-import { StatusType } from '../../lib/extract/createOrder';
+import { StatusType } from '../../lib/extract/createDiscount';
 import Alert from '../../lib/svgs/Alert';
 import CheckMark from '../../lib/svgs/CheckMark';
 import Tooltip from '../tooltip/Tooltip';
