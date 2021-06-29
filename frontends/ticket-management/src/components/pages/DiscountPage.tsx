@@ -262,28 +262,20 @@ const DiscountPage = () => {
           <StyledContainerCard>
             <Spacing bottom="2rem" top="1rem">
               <Spacing bottom="1rem">
-                <Header>Invite to purchase</Header>
+                <Header>Bulk Create Discount Codes</Header>
               </Spacing>
               <SubHeader>
-                Create a custom invite for an individual or copy a generic link
-                for mass distribution
+                Create a bulk of discount codes for distribution
               </SubHeader>
             </Spacing>
             {isStoreConfigured ? (
-              <Button onClick={openModal}>Generate an invite</Button>
+              <Button>Bulk Create Discount Codes</Button>
             ) : (
               <BoxMessage backgroundColor="#333333" color="#fff" dimension="sm">
                 The store for this event has not been configured properly. Some
                 functionality may be limited.
               </BoxMessage>
             )}
-            <InviteToPurchasePackageModal
-              activePaymentMethods={activePaymentMethods}
-              deal={deal}
-              isOpen={isOpen}
-              store={store}
-              onRequestClose={closeModal}
-            />
             <Spacing bottom="2rem" top="2rem">
               <Separator />
             </Spacing>
