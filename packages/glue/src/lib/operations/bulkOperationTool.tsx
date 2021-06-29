@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 
+import BulkOperation from './bulkOperation';
 
 export type BulkOperationToolConfiguration<WorkUnit, SharedContext> = {
   RenderContextForm: FunctionComponent<{
@@ -16,15 +17,15 @@ export type BulkOperationToolConfiguration<WorkUnit, SharedContext> = {
   RenderPrepareSummary: FunctionComponent<{ list: WorkUnit[] }>;
   RenderProcessSummary: FunctionComponent<{ list: WorkUnit[] }>;
   prepare: (
-    element: Element,
+    element: WorkUnit,
     context: SharedContext,
     forceUpdate: () => void,
-  ) => Promise<Element>;
+  ) => Promise<WorkUnit>;
   process: (
-    element: Element,
+    element: WorkUnit,
     context: SharedContext,
     forceUpdate: () => void,
-  ) => Promise<Element>;
+  ) => Promise<WorkUnit>;
 };
 
 enum BulkOperationToolState {
@@ -54,6 +55,8 @@ function BulkOperationTool<WorkUnit, SharedContext>({
   const [workUnitList, setWorkUnitList] = useState<WorkUnit[] | undefined>(
     undefined,
   );
+
+  const [prepared, setPrepared] = useState<boolean>(false);
 
   if (
     toolState === BulkOperationToolState.DEFINE_CONTEXT ||
@@ -89,6 +92,34 @@ function BulkOperationTool<WorkUnit, SharedContext>({
         <RenderContextSummary context={sharedContext} />
         <button onClick={backToContext}>Edit Context</button>
         <RenderListForm setList={setList} />
+      </>
+    );
+  }
+
+  if (toolState === BulkOperationToolState.PREPARE_WORK_UNITS) {
+    function RenderPrepareDisplay(list: WorkUnit[]): FunctionComponent<{ list: WorkUnit[] }> {
+      return (
+        <>
+          <RenderPrepareSummary list={list} />
+          <RenderList list={list} />
+        </>
+      );
+    }
+    const donePreparing = () => setPrepared(true);
+    const proceedWithProcessing = () =>
+      setToolState(BulkOperationToolState.PROCESS_WORK_UNITS);
+
+    return (
+      <>
+        <button disabled={prepared} onClick={proceedWithProcessing}>
+          Confirm pre-check and start operations
+        </button>
+        <BulkOperation
+          Display={RenderPrepareDisplay}
+          context={sharedContext}
+          input={workUnitList}
+          process={prepare}
+        />
       </>
     );
   }
