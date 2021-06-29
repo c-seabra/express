@@ -183,32 +183,32 @@ const OrderDetailsSummary = ({
               tableShape={tableShape}
             />
             <Container>
-            {commerceOrder.billed > 0 && (
-              <>
-                <OrderSendDocumentModal
-                  alertText="Send email with invoice?"
-                  closeModal={invoiceCloseModal}
-                  isOpen={invoiceModalOpen}
-                  sendEmail={invoiceSendEmail}
-                />
-                <Button onClick={invoiceOpenModal}>
-                  Send email with invoice
-                </Button>
-            </>
-            )}
-            {commerceOrder.refundReceiptUrl && (
-              <>
-                <OrderSendDocumentModal
-                  alertText="Send email with refund receipt?"
-                  closeModal={refundReceiptCloseModal}
-                  isOpen={refundReceiptModalOpen}
-                  sendEmail={refundReceiptSendEmail}
-                />
-                <Button onClick={refundReceiptOpenModal}>
-                  Send email with refund receipt
-                </Button>
-              </>
-            )}
+              {commerceOrder.billed > 0 && (
+                <>
+                  <OrderSendDocumentModal
+                    alertText="Send email with invoice?"
+                    closeModal={invoiceCloseModal}
+                    isOpen={invoiceModalOpen}
+                    sendEmail={invoiceSendEmail}
+                  />
+                  <Button onClick={invoiceOpenModal}>
+                    Send email with invoice
+                  </Button>
+                </>
+              )}
+              {commerceOrder.refundReceiptUrl && (
+                <>
+                  <OrderSendDocumentModal
+                    alertText="Send email with refund receipt?"
+                    closeModal={refundReceiptCloseModal}
+                    isOpen={refundReceiptModalOpen}
+                    sendEmail={refundReceiptSendEmail}
+                  />
+                  <Button onClick={refundReceiptOpenModal}>
+                    Send email with refund receipt
+                  </Button>
+                </>
+              )}
             </Container>
           </StyledContainer>
         )}
