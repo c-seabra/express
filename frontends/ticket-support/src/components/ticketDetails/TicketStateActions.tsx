@@ -1,11 +1,15 @@
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 import React from 'react';
 import styled from 'styled-components';
 
 import { TextButton } from '../../lib/components/atoms/Button';
 import Icon from '../../lib/components/atoms/Icon';
 import { useModalState } from '../../lib/components/molecules/Modal';
-import { Ticket } from '../../lib/types';
 import ClaimTicketModal from '../ticketActions/ClaimTicketModal';
 import TicketUnlockModal from '../ticketActions/TicketUnlockModal';
 import StatePlate from '../ticketItem/StatePlate';
@@ -38,10 +42,10 @@ const StyledWrapper = styled.span`
 `;
 
 type TicketStateActionsProps = {
-  ticket: Ticket;
+  ticket: extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>>;
 };
 
-const TicketAction = ({ ticket }: { ticket: Ticket }) => {
+const TicketAction = ({ ticket }: Pick<TicketStateActionsProps, 'ticket'>) => {
   const { isOpen, openModal, closeModal } = useModalState();
   const {
     openModal: openTicketUnlockModal,
