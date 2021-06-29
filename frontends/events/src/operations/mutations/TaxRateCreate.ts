@@ -3,50 +3,44 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import {
-  TaxRateCreateInput,
-  useTaxRateCreateMutation,
+  CommerceTaxCreate,
+  useCommerceCreateTaxMutation,
 } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_LIST_TAXES from '@websummit/graphql/src/operations/queries/CommerceListTaxes';
 
-import { useAppContext } from '../../components/app/AppContext';
+import { useRequestContext } from '../../components/app/AppContext';
 
 export type TaxRateCreateRequest = {
-  input: TaxRateCreateInput;
-  refetch?: any;
+  input: CommerceTaxCreate;
+  slugParam: string;
 };
 
 export const useTaxRateCreateOperation = () => {
-  const { slug, token } = useAppContext();
+  const defaultContext = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
-  const [taxRateCreateMutation] = useTaxRateCreateMutation({
-    onCompleted: ({ taxRateCreate }) => {
-      if (taxRateCreate?.userErrors && taxRateCreate?.userErrors.length > 0) {
-        errSnackbar(taxRateCreate?.userErrors[0].message);
-      } else {
-        snackbar('Tax rate added');
-      }
+  const [taxRateCreateMutation] = useCommerceCreateTaxMutation({
+    onCompleted: () => {
+      snackbar('Tax rate added');
     },
     onError: (e) => errSnackbar(e.message),
   });
 
-  const taxRateCreate = async ({ input, refetch }: TaxRateCreateRequest) => {
+  const taxRateCreate = async ({ input, slugParam }: TaxRateCreateRequest) => {
+    const context = {
+      slug: slugParam,
+      token: defaultContext.token,
+    };
+
     await taxRateCreateMutation({
       awaitRefetchQueries: true,
-      context: {
-        slug,
-        token,
-      },
-      refetchQueries: ['Event', 'EventListQuery'],
+      context,
+      refetchQueries: [{ context, query: COMMERCE_LIST_TAXES }],
       variables: {
-        input,
+        commerceTaxCreate: input,
       },
     });
-
-    // Hacky solution because refetchQueries is not working
-    setTimeout(() => {
-      return refetch();
-    }, 1000);
   };
 
   return {
