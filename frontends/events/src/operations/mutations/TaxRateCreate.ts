@@ -8,10 +8,7 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_TAXES from '@websummit/graphql/src/operations/queries/CommerceListTaxes';
 
-import {
-  useAppContext,
-  useRequestContext,
-} from '../../components/app/AppContext';
+import { useRequestContext } from '../../components/app/AppContext';
 
 export type TaxRateCreateRequest = {
   input: CommerceTaxCreate;

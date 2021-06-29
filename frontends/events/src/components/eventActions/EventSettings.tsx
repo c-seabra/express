@@ -197,11 +197,11 @@ const EventSettings = () => {
   });
 
   const { data: taxesResponse } = useCommerceListTaxesQuery({
-    fetchPolicy: "network-only",
     context: {
       slug: usedSlug,
       token,
     },
+    fetchPolicy: 'network-only',
     onError: (e) => error(e.message),
   });
 
