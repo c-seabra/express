@@ -16,6 +16,7 @@ type TaxRateCreateModalProps = {
   isOpen: boolean;
   mode?: ModalInputMode;
   prefilledTax?: any;
+  slugParam: string;
 };
 
 const TaxRateCreateModalWrapper = ({
@@ -24,6 +25,7 @@ const TaxRateCreateModalWrapper = ({
   mode = 'ADD',
   prefilledTax,
   countries,
+  slugParam,
 }: TaxRateCreateModalProps) => {
   const alertHeaderText = (_mode: string): string => {
     const prefilledTaxName: string = prefilledTax?.name || 'N/A';
@@ -62,11 +64,11 @@ const TaxRateCreateModalWrapper = ({
     };
 
     if (_mode === 'ADD') {
-      mutation = taxRateCreate({ input: mappedInput });
+      mutation = taxRateCreate({ input: mappedInput, slugParam });
     }
 
     if (_mode === 'EDIT') {
-      mutation = taxRateUpdate({ input: mappedInput });
+      mutation = taxRateUpdate({ input: mappedInput, slugParam });
     }
 
     return mutation;
@@ -90,6 +92,7 @@ const TaxRateCreateModalWrapper = ({
       mode={mode}
       mutationCallback={setMutation}
       prefilledTax={prefilledTax}
+      slugParam={slugParam}
       submitText={submitText(mode)}
     />
   );

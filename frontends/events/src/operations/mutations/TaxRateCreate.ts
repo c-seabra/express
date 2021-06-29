@@ -8,14 +8,18 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_TAXES from '@websummit/graphql/src/operations/queries/CommerceListTaxes';
 
-import { useRequestContext } from '../../components/app/AppContext';
+import {
+  useAppContext,
+  useRequestContext,
+} from '../../components/app/AppContext';
 
 export type TaxRateCreateRequest = {
   input: CommerceTaxCreate;
+  slugParam: string;
 };
 
 export const useTaxRateCreateOperation = () => {
-  const context = useRequestContext();
+  const defaultContext = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
@@ -26,7 +30,12 @@ export const useTaxRateCreateOperation = () => {
     onError: (e) => errSnackbar(e.message),
   });
 
-  const taxRateCreate = async ({ input }: TaxRateCreateRequest) => {
+  const taxRateCreate = async ({ input, slugParam }: TaxRateCreateRequest) => {
+    const context = {
+      slug: slugParam,
+      token: defaultContext.token,
+    };
+
     await taxRateCreateMutation({
       awaitRefetchQueries: true,
       context,

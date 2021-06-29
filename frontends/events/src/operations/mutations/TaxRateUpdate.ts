@@ -12,10 +12,11 @@ import { useRequestContext } from '../../components/app/AppContext';
 
 export type TaxRateUpdateRequest = {
   input: CommerceTaxUpdate;
+  slugParam: string;
 };
 
 export const useTaxRateUpdateOperation = () => {
-  const context = useRequestContext();
+  const defaultContext = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
@@ -26,7 +27,12 @@ export const useTaxRateUpdateOperation = () => {
     onError: (e) => errSnackbar(e.message),
   });
 
-  const taxRateUpdate = async ({ input }: TaxRateUpdateRequest) => {
+  const taxRateUpdate = async ({ input, slugParam }: TaxRateUpdateRequest) => {
+    const context = {
+      slug: slugParam,
+      token: defaultContext.token,
+    };
+
     await taxRateUpdateMutation({
       awaitRefetchQueries: true,
       context,

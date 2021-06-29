@@ -82,6 +82,7 @@ type TaxRateCreateModalProps = {
   mode?: ModalInputMode;
   mutationCallback: (values?: any) => void;
   prefilledTax?: any;
+  slugParam: string;
   submitText: string;
 };
 
@@ -104,8 +105,9 @@ const TaxRateCreateModal = ({
   submitText = 'Submit',
   mode = 'ADD',
   prefilledTax,
+  slugParam,
 }: TaxRateCreateModalProps) => {
-  const context = useRequestContext();
+  const defaultContext = useRequestContext();
   const error = useErrorSnackbar();
 
   const { data } = useCountriesQuery();
@@ -146,6 +148,10 @@ const TaxRateCreateModal = ({
     return a.name.localeCompare(b.name);
   });
   const countryOptions = getCountryOptions(sortedCountries);
+  const context = {
+    slug: slugParam,
+    token: defaultContext.token,
+  };
 
   const { data: taxTypesResponse } = useCommerceListTaxTypesQuery({
     context,

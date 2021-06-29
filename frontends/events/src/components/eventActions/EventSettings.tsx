@@ -363,6 +363,7 @@ const EventSettings = () => {
               <SelectTax
                 countries={countries as any}
                 loading={loading}
+                slugParam={slug}
                 taxes={taxes}
               />
             )}

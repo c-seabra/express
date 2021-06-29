@@ -66,9 +66,15 @@ const NoTaxPlaceholder = ({ action }: NoTaxPlaceholderProps) => {
 type SelectTaxProps = {
   countries: EventConfigurationCountry[];
   loading: boolean;
+  slugParam: string;
   taxes: any;
 };
-const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
+const SelectTax = ({
+  loading,
+  taxes,
+  countries,
+  slugParam,
+}: SelectTaxProps) => {
   const {
     openModal: openTaxRateModal,
     isOpen: isTaxRateModalOpen,
@@ -117,6 +123,7 @@ const SelectTax = ({ loading, taxes, countries }: SelectTaxProps) => {
         isOpen={isTaxRateModalOpen}
         mode={modalMode}
         prefilledTax={prefilledTax}
+        slugParam={slugParam}
       />
 
       {hasTaxes ? (
