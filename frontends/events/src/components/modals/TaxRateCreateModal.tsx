@@ -155,6 +155,7 @@ const TaxRateCreateModal = ({
 
   const { data: taxTypesResponse } = useCommerceListTaxTypesQuery({
     context,
+    fetchPolicy: "network-only",
     onError: (e) => error(e.message),
   });
   const taxTypesHits = taxTypesResponse?.commerceListTaxTypes?.hits;
