@@ -269,7 +269,7 @@ const DiscountPage = () => {
               </SubHeader>
             </Spacing>
             {isStoreConfigured ? (
-              <Button>Bulk Create Discount Codes</Button>
+              <Button disabled>Bulk Create Discount Codes</Button>
             ) : (
               <BoxMessage backgroundColor="#333333" color="#fff" dimension="sm">
                 The store for this event has not been configured properly. Some
