@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "concurrently": "6.0.2",
-    "lint-staged": "10.5.4",
+    "lint-staged": "11.0.0",
     "sort-package-json": "1.50.0"
   },
   "devDependencies": {
