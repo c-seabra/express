@@ -59,19 +59,15 @@ export type Conference = {
   storeId?: string;
 };
 
-export type StaffTicketContext = GraphQLParams & {
-  discountsList?: DiscountList;
-  setDiscountsList?: SetTicketList;
-};
 
-export const AppContext = createContext<StaffTicketContext>({
+
+export const AppContext = createContext<GraphQLParams>({
   apiURL: '',
   slug: '',
   token: '',
 });
 
-const App = ({ token, apiURL }: StaffTicketContext) => {
-  const [discountsList, setDiscountsList] = useState<DiscountList>();
+const App = ({ token, apiURL }: GraphQLParams) => {
 
   const tokenPayload: { conf_slug: string; email: string } = jwt(token || '');
   const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
@@ -97,8 +93,6 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
           value={{
             apiURL,
             apolloClient,
-            discountsList,
-            setDiscountsList,
             slug,
             token,
           }}
@@ -113,7 +107,6 @@ const App = ({ token, apiURL }: StaffTicketContext) => {
                   discount codes
                 </SubHeader>
               </Spacing>
-              <Form />
             </StyledSection>
             <StyledSection>
               {discountsList && discountsList?.length > 0 && (
