@@ -5,8 +5,7 @@
   "extends": ["config:base"],
   "packageRules": [
     {
-      "automerge": true,
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
+      "automerge": true
     },
     {
       "groupName": "eslint",
