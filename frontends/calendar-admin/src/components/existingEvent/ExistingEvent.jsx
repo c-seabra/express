@@ -67,6 +67,7 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
 
   useEffect(() => {
     // get location name
+    // eslint-disable-next-line no-unused-expressions,no-use-before-define
     location && setLocationName(getLocationName(location));
 
     // get current user response
