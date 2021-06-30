@@ -16,6 +16,10 @@
     {
       "groupName": "webpack",
       "matchPackagePatterns": ["webpack"]
+    },
+    {
+      "groupName": "jest",
+      "matchPackagePatterns": ["jest"]
     }
   ],
   "rangeStrategy": "pin",
