@@ -190,7 +190,7 @@
     "lerna": "3.22.1",
     "msw": "0.29.0",
     "node-sass": "6.0.1",
-    "prettier": "2.2.1",
+    "prettier": "2.3.2",
     "prettier-plugin-sort-json": "0.0.2",
     "react-test-renderer": "16.14.0",
     "serve": "11.3.2",
