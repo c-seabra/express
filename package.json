@@ -91,7 +91,7 @@
     "single-spa": "5.9.3",
     "single-spa-layout": "1.5.4",
     "single-spa-react": "3.2.0",
-    "styled-components": "5.2.2",
+    "styled-components": "5.3.0",
     "systemjs": "6.8.3",
     "yup": "0.32.9"
   },
@@ -139,7 +139,7 @@
     "@types/react-modal": "3.12.0",
     "@types/react-router-dom": "5.1.7",
     "@types/single-spa-react": "2.12.0",
-    "@types/styled-components": "5.1.9",
+    "@types/styled-components": "5.1.10",
     "@types/systemjs": "6.1.0",
     "@types/webpack-env": "1.16.0",
     "@types/yup": "0.29.11",
