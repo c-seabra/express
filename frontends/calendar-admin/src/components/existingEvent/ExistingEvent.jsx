@@ -56,6 +56,7 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
 
   useEffect(() => {
     // get location name
+    // eslint-disable-next-line no-unused-expressions,no-use-before-define
     location && setLocationName(getLocationName(location));
 
     // Format the date to desired layout
@@ -129,8 +130,8 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
           {rsvps && rsvps.length ? (
             <AvatarList
               avatarList={rsvps}
-              organizerId={organizer ? organizer.id : undefined}
               listType="rsvps"
+              organizerId={organizer ? organizer.id : undefined}
             />
           ) : (
             'Loading...'

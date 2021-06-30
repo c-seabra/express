@@ -1,5 +1,6 @@
-import ButtonComponent from '@websummit/components/src/atoms/Button';
-import { DestructiveButton } from '@websummit/components/src/atoms/Button';
+import ButtonComponent, {
+  DestructiveButton,
+} from '@websummit/components/src/atoms/Button';
 import React, { useContext, useEffect, useState } from 'react';
 
 import AddAttendance from '../addAttendance/AddAttendance';
@@ -104,8 +105,8 @@ const EditEvent = ({
     <>
       <DestructiveButton
         style={{
-          marginTop: '1em',
           marginLeft: '75%',
+          marginTop: '1em',
         }}
         onClick={(e) => {
           e.preventDefault();

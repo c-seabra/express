@@ -2,10 +2,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import './Calendar.css';
 
-import {
-  HTTP_ERROR_MESSAGES,
-  HTTP_RESPONSE,
-} from '../../lib/services/httpResponseStatic';
 import update from 'immutability-helper';
 import jwt from 'jwt-decode';
 import moment from 'moment-timezone';
@@ -14,6 +10,10 @@ import * as BigCalendar from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 
 import Api from '../../lib/services/Api';
+import {
+  HTTP_ERROR_MESSAGES,
+  HTTP_RESPONSE,
+} from '../../lib/services/httpResponseStatic';
 import AgendaEvent from '../agendaEvent/AgendaEvent';
 import AppContext from '../app/AppContext';
 import Error from '../error/Error';
@@ -32,6 +32,7 @@ const Calendar = ({ token, env }) => {
   if (!token) return null;
   // console.log({ token, env });
   // const [ENV, setENV] = useState();
+  /* eslint-disable react-hooks/rules-of-hooks */
   const [currentToken, setCurrentToken] = useState();
   const [currentView, setCurrentView] = useState(BigCalendar.Views.WEEK);
   const [events, setEvents] = useState([]);
@@ -48,6 +49,7 @@ const Calendar = ({ token, env }) => {
   const [currentUserId, setCurrentUserId] = useState();
   const [responseStatuses, setResponseStatuses] = useState();
   const [timezone, setTimezone] = useState();
+  /* eslint-enable react-hooks/rules-of-hooks */
 
   const normalizeError = (error, status) => {
     let _error = error;
@@ -81,12 +83,14 @@ const Calendar = ({ token, env }) => {
     }
   };
 
+  /* eslint-disable react-hooks/rules-of-hooks */
   useEffect(() => {
     const tokenPayload = jwt(token);
     try {
       setCurrentToken(token); // use token or currentToken, not both (below)
       // setPayload(tokenPayload)
-      getRequiredData(tokenPayload);
+      // eslint-disable-next-line no-use-before-define,no-void
+      void getRequiredData(tokenPayload);
 
       setCurrentUserId(tokenPayload.sub);
       // setENV(env)
@@ -97,6 +101,7 @@ const Calendar = ({ token, env }) => {
       addError(e);
     }
   }, [attendances, token]);
+  /* eslint-enable react-hooks/rules-of-hooks */
 
   const getAdminEvents = async () => {
     const eventsResults = await Api.getAdminEvents(
@@ -148,11 +153,13 @@ const Calendar = ({ token, env }) => {
     }
 
     const locationsResult = await Api.getLocations(payload.conf_slug, env);
+    // eslint-disable-next-line no-unused-expressions
     locationsResult.data
       ? setLocations(locationsResult.data.data)
       : addError(locationsResult.error, locationsResult.status);
 
     const responseStatusesResult = await Api.getResponseStatuses(env);
+    // eslint-disable-next-line no-unused-expressions
     responseStatusesResult.data
       ? setResponseStatuses(responseStatusesResult.data.data)
       : addError(responseStatusesResult.error, responseStatusesResult.status);
@@ -169,7 +176,7 @@ const Calendar = ({ token, env }) => {
   };
 
   const addRsvp = (rsvp) => {
-    setRsvps((rsvps) => rsvps.concat([rsvp]));
+    setRsvps((prevRsvps) => prevRsvps.concat([rsvp]));
   };
 
   // const getAllCalendarEvents = async (token) => {
@@ -187,6 +194,7 @@ const Calendar = ({ token, env }) => {
   //   result.data ? setLocations(result.data.data) : addError(result.error)
   // }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   const getRSVPSDetails = async (invitations) => {
     invitations.forEach(async (invitation) => {
       const result = await Api.getAttendance(
@@ -195,6 +203,7 @@ const Calendar = ({ token, env }) => {
         currentToken,
         env,
       );
+      // eslint-disable-next-line no-unused-expressions
       result.data
         ? addRsvp({ attendance: result.data, invitation })
         : addError(result.error, result.status);
@@ -209,13 +218,15 @@ const Calendar = ({ token, env }) => {
       syntheticEvent.persist();
       e.syntheticEvent = syntheticEvent;
 
-      getRSVPSDetails(e.invitations);
+      // eslint-disable-next-line no-void
+      void getRSVPSDetails(e.invitations);
 
       // meanwhile render
       setExistingEvent(e);
     }
   };
 
+  // eslint-disable-next-line consistent-return
   const onUpdateEventInvitationResponse = async (eventId, response) => {
     // find current user invitation ID
     const currentEventIndex = events.findIndex((event) => event.id === eventId);
@@ -268,7 +279,8 @@ const Calendar = ({ token, env }) => {
       token,
       env,
     );
-    !result.data && addError(result.error, result.status);
+    // eslint-disable-next-line no-unused-expressions
+    !result.data && addError(result.error);
   };
 
   const onDeleteEventInvitation = async (eventId, invitationId) => {
@@ -334,6 +346,7 @@ const Calendar = ({ token, env }) => {
     eventContent.reset_response_status = false;
     // update it in the API
     const result = await Api.updateEvent(eventId, eventContent, token, env);
+    // eslint-disable-next-line no-unused-expressions
     result.data
       ? setEvents(updatedEvents)
       : addError(result.error, result.status);
@@ -348,11 +361,14 @@ const Calendar = ({ token, env }) => {
       },
     });
 
-    Api.deleteEvent(eventId, token, env);
+    // eslint-disable-next-line no-void
+    void Api.deleteEvent(eventId, token, env);
+    // eslint-disable-next-line no-use-before-define
     cleanupData(updatedEvents);
   };
 
   const onView = (v) => {
+    // eslint-disable-next-line no-use-before-define
     cleanupData();
     setCurrentView(v);
   };
@@ -421,6 +437,7 @@ const Calendar = ({ token, env }) => {
       currentToken,
       env,
     );
+    // eslint-disable-next-line no-unused-expressions
     result.data
       ? addRsvp({ attendance: result.data, invitation: {} })
       : addError(result.error, result.status);
