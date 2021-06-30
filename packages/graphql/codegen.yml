@@ -29,8 +29,11 @@ generates:
       documentMode: documentNode
       documentNodeImport: '@graphql-typed-document-node/core#TypedDocumentNode'
     plugins:
-      - add: "import { JsonObject, AnyJson } from './json'"
-      - add: "import { OperationVariables as QueryVariables } from 'apollo-client'"
+      - add:
+          placement: 'prepend'
+          content:
+            - "import { JsonObject, AnyJson } from './json'"
+            - "import { OperationVariables as QueryVariables } from 'apollo-client'"
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-react-apollo'
