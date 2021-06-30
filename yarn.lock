@@ -1847,7 +1847,7 @@
     "@babel/runtime" "^7.0.0"
     color "^3.1.0"
 
-"@bootstrap-styled/css-mixins@^2.0.7", "@bootstrap-styled/css-mixins@^2.1.2":
+"@bootstrap-styled/css-mixins@^2.1.2":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@bootstrap-styled/css-mixins/-/css-mixins-2.1.3.tgz#e2a3cecf45ed2e1c65fcf194211ab74333fa9ddf"
   integrity sha512-/t8Eg5eWUaGu85oqZ+whdEBUMCceB5tCamW4ZBH1UJzwiRoBPN/wF1eiTb8FEelwwSbBNckENK03b1BVTnFQ3A==
@@ -1855,7 +1855,7 @@
     "@bootstrap-styled/color" "^1.0.9"
     "@bootstrap-styled/utils" "^1.8.1"
 
-"@bootstrap-styled/css-utils@^1.3.2", "@bootstrap-styled/css-utils@^1.4.0":
+"@bootstrap-styled/css-utils@^1.4.0":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@bootstrap-styled/css-utils/-/css-utils-1.4.1.tgz#ae2a5085aaa73ed23c12b1cc19ad408e8df0262a"
   integrity sha512-tPeGMKE40fNeqwEd46axnz3fFqR+gMqMRf2zNf5jU51VVojRir5m1+yTjgCC6zn3dfa6gh4jQuPCrMR7LLOs7w==
@@ -1863,29 +1863,29 @@
     "@bootstrap-styled/css-mixins" "^2.1.2"
     "@bootstrap-styled/utils" "^1.8.1"
 
-"@bootstrap-styled/utils@^1.8.0", "@bootstrap-styled/utils@^1.8.1":
+"@bootstrap-styled/utils@^1.8.1":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@bootstrap-styled/utils/-/utils-1.8.1.tgz#f1686af5860c4330017442912239342d7181de25"
   integrity sha512-XQd8sasrPNCV3tYH0eQB0X3FsgCe1FaI1vCJPyfXs/9s91w+Cj2SHjxTkllleDnP53ywr+uMAqDmsDyEqjbFuw==
 
-"@bootstrap-styled/v4@*", "@bootstrap-styled/v4@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@bootstrap-styled/v4/-/v4-3.2.0.tgz#dbeb969b52def0bf527c8bc29ef9d07c2ba82cd5"
-  integrity sha512-cEsuK8aBT+NPSrftmGEsPlfTD1gIi5aF9mDSL4r7f7rv+mHLxcJAkMmof56XS/r4t133EIPIRhqs/QdbdBp1Bg==
+"@bootstrap-styled/v4@*", "@bootstrap-styled/v4@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@bootstrap-styled/v4/-/v4-3.4.0.tgz#0bdb9b1b7f1842e3fcf2345fa65ebb3e02a27ded"
+  integrity sha512-eQ10Zx7wMcF7T8ofWEvi4RIBv1K7kMNbQExWd/lfs7+Ck0JINd7I/uUD5cytJV6P2gL9gQZC9t3GQ3H/1O6VTw==
   dependencies:
     "@bootstrap-styled/color" "^1.0.9"
-    "@bootstrap-styled/css-mixins" "^2.0.7"
-    "@bootstrap-styled/css-utils" "^1.3.2"
-    "@bootstrap-styled/utils" "^1.8.0"
+    "@bootstrap-styled/css-mixins" "^2.1.2"
+    "@bootstrap-styled/css-utils" "^1.4.0"
+    "@bootstrap-styled/utils" "^1.8.1"
     "@rollup-umd/documentation-cli" "^1.1.3"
     basic-math-utils "^0.3.4"
-    bootstrap-styled "^2.5.2"
+    bootstrap-styled "^2.7.2"
     classnames "^2.2.6"
     lodash.isfunction "^3.0.9"
     lodash.omit "^4.5.0"
     map-to-css-modules "^1.0.6"
     prop-types "^15.7.2"
-    react-portal "^4.2.0"
+    react-portal "^4.2.1"
     react-transition-group "^2.6.0"
     tether-fix "^1.4.0-fix-es"
 
@@ -6335,7 +6335,7 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap-styled@^2.5.2:
+bootstrap-styled@^2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/bootstrap-styled/-/bootstrap-styled-2.7.2.tgz#4c85a97c79a09062315e94656c3f00ba7736c4e5"
   integrity sha512-4hZHh4mc7iB8Ewj8Bu6FeiGC8U2VH4tKoSwX1Xd3uy4sICP2RzGsqSMbScwrmRmoBFdX+3IjDJ3Je1/BP+1IZA==
@@ -15280,7 +15280,7 @@ react-popper@^2.2.5:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
 
-react-portal@^4.2.0:
+react-portal@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.2.1.tgz#12c1599238c06fb08a9800f3070bea2a3f78b1a6"
   integrity sha512-fE9kOBagwmTXZ3YGRYb4gcMy+kSA+yLO0xnPankjRlfBv4uCpFXqKPfkpsGQQR15wkZ9EssnvTOl1yMzbkxhPQ==
