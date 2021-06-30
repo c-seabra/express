@@ -14,9 +14,9 @@ const result: PossibleTypesResultData = {
     RoomChatConfig: ['RoomChatConfigPubnub'],
     RoomModerationConfig: ['RoomModerationConfigPubnub'],
     RoomPubnubConfig: [
+      'RoomChatConfigPubnub',
       'RoomModerationConfigPubnub',
       'RoomQuestionsConfigPubnub',
-      'RoomChatConfigPubnub',
       'RoomReactionsConfigPubnub',
     ],
     RoomQuestionsConfig: ['RoomQuestionsConfigPubnub'],
