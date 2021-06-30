@@ -8,7 +8,6 @@
  *  disabled, hovered
  */
 
-import React, { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
 export const Button = styled.button`
@@ -46,10 +45,6 @@ export const Button = styled.button`
     border-color: #c1c5c9;
     cursor: not-allowed;
     pointer-events: none;
-  }
-
-  + button {
-    margin-left: 1rem;
   }
 `;
 
@@ -115,84 +110,3 @@ export const DestructiveButton = styled(Button)`
     color: #ffffff;
   }
 `;
-
-type ButtonProps = {
-  children: ReactNode;
-  classNames: Array<string>;
-  disabled: boolean;
-  onClick: () => void;
-  type: string;
-};
-
-const ButtonComponent = ({
-  type,
-  children,
-  onClick,
-  classNames,
-  ...props
-}: ButtonProps): ReactElement => {
-  classNames.push('ws-btn');
-
-  if (props.disabled) {
-    classNames.push('disabled');
-  }
-
-  const classes: string = classNames.join(' ');
-
-  let element = (
-    <Button className={classes} onClick={onClick} {...props}>
-      {children}
-    </Button>
-  );
-
-  if (type === 'secondary') {
-    element = (
-      <SecondaryButton className={classes} onClick={onClick} {...props}>
-        {children}
-      </SecondaryButton>
-    );
-  }
-
-  if (type === 'error') {
-    element = (
-      <ErrorButton className={classes} onClick={onClick} {...props}>
-        {children}
-      </ErrorButton>
-    );
-  }
-
-  if (type === 'destructive') {
-    element = (
-      <DestructiveButton className={classes} onClick={onClick} {...props}>
-        {children}
-      </DestructiveButton>
-    );
-  }
-
-  if (type === 'text') {
-    element = (
-      <TextButton className={classes} onClick={onClick} {...props}>
-        {children}
-      </TextButton>
-    );
-  }
-
-  if (type === 'disabled') {
-    element = (
-      <DisabledButton className={classes} onClick={onClick} {...props}>
-        {children}
-      </DisabledButton>
-    );
-  }
-
-  return element;
-};
-
-ButtonComponent.defaultProps = {
-  classNames: [],
-  disabled: false,
-  onClick: () => null,
-  type: 'primary',
-};
-
-export default ButtonComponent;
