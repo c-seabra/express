@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 
 import BulkOperation from './bulkOperation';
+import { BulkOperationContainer } from './bulkOperationContainer';
 
 export type BulkOperationToolConfiguration<WorkUnit, SharedContext> = {
   RenderContextForm: FunctionComponent<{
@@ -57,6 +58,15 @@ function BulkOperationTool<WorkUnit, SharedContext>({
   );
 
   const [prepared, setPrepared] = useState<boolean>(false);
+  const [processed, setProcessed] = useState<boolean>(false);
+
+  const resetEverything = () => {
+    setSharedContext(undefined);
+    setWorkUnitList(undefined);
+    setPrepared(false);
+    setProcessed(false);
+    setToolState(BulkOperationToolState.DEFINE_CONTEXT);
+  };
 
   if (
     toolState === BulkOperationToolState.DEFINE_CONTEXT ||
@@ -68,12 +78,12 @@ function BulkOperationTool<WorkUnit, SharedContext>({
     };
     // todo: render some surrounding stuff for context
     return (
-      <>
+      <BulkOperationContainer resetEverything={resetEverything}>
         <RenderContextForm
           initialContext={sharedContext}
           setContext={setContext}
         />
-      </>
+      </BulkOperationContainer>
     );
   }
 
@@ -88,39 +98,76 @@ function BulkOperationTool<WorkUnit, SharedContext>({
     const backToContext = () =>
       setToolState(BulkOperationToolState.DEFINE_CONTEXT);
     return (
-      <>
+      <BulkOperationContainer resetEverything={resetEverything}>
         <RenderContextSummary context={sharedContext} />
-        <button onClick={backToContext}>Edit Context</button>
+        <button type="button" onClick={backToContext}>
+          Edit Context
+        </button>
         <RenderListForm setList={setList} />
-      </>
+      </BulkOperationContainer>
     );
   }
 
   if (toolState === BulkOperationToolState.PREPARE_WORK_UNITS) {
-    function RenderPrepareDisplay(list: WorkUnit[]): FunctionComponent<{ list: WorkUnit[] }> {
-      return (
-        <>
-          <RenderPrepareSummary list={list} />
-          <RenderList list={list} />
-        </>
-      );
-    }
+    const RenderPrepareDisplay: FunctionComponent<{ list: WorkUnit[] }> = ({
+      list,
+    }) => (
+      <BulkOperationContainer resetEverything={resetEverything}>
+        <RenderPrepareSummary list={list} />
+        <RenderList list={list} />
+      </BulkOperationContainer>
+    );
+
     const donePreparing = () => setPrepared(true);
     const proceedWithProcessing = () =>
       setToolState(BulkOperationToolState.PROCESS_WORK_UNITS);
 
     return (
-      <>
-        <button disabled={prepared} onClick={proceedWithProcessing}>
+      <BulkOperationContainer resetEverything={resetEverything}>
+        <button
+          disabled={!prepared}
+          type="button"
+          onClick={proceedWithProcessing}
+        >
           Confirm pre-check and start operations
         </button>
         <BulkOperation
           Display={RenderPrepareDisplay}
+          callback={donePreparing}
           context={sharedContext}
           input={workUnitList}
           process={prepare}
         />
-      </>
+      </BulkOperationContainer>
+    );
+  }
+
+  if (toolState === BulkOperationToolState.PROCESS_WORK_UNITS) {
+    const RenderProcessDisplay: FunctionComponent<{ list: WorkUnit[] }> = ({
+      list,
+    }) => (
+      <BulkOperationContainer resetEverything={resetEverything}>
+        <RenderProcessSummary list={list} />
+        <RenderList list={list} />
+      </BulkOperationContainer>
+    );
+
+    const doneProcessing = () => setProcessed(true);
+
+    return (
+      <BulkOperationContainer resetEverything={resetEverything}>
+        <button disabled={!processed} type="button" onClick={resetEverything}>
+          I have downloaded my results csv and want to do another batch, reset
+          everything please
+        </button>
+        <BulkOperation
+          Display={RenderProcessDisplay}
+          callback={doneProcessing}
+          context={sharedContext}
+          input={workUnitList}
+          process={process}
+        />
+      </BulkOperationContainer>
     );
   }
 }

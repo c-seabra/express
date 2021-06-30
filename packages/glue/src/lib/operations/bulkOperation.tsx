@@ -148,6 +148,7 @@ function BulkOperation<Element, Context>({
         console.log('All Operations completed!');
         if (callback) callback(list);
         window.onbeforeunload = null;
+        return list;
       },
       (reason) => {
         console.error(

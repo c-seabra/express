@@ -27,7 +27,9 @@ export function defaultStatus(): StatusType {
   };
 }
 
-export type WorkUnitContext = {};
+export type WorkUnitContext = {
+  template: CommerceDeal;
+};
 
 export function transformTemplateIntoWorkUnit(
   template: CommerceDeal,
