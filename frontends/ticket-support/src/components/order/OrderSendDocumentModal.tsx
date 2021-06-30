@@ -2,19 +2,25 @@ import FormikModal from '@websummit/components/src/molecules/FormikModal';
 import React from 'react';
 
 type Props = {
+  alertText: string;
   closeModal: () => void;
   isOpen: boolean;
   sendEmail: () => void;
 };
 
-const OrderSendInvoiceModal = ({ isOpen, closeModal, sendEmail }: Props) => {
+const OrderSendDocumentModal = ({
+  isOpen,
+  alertText,
+  closeModal,
+  sendEmail,
+}: Props) => {
   const setMutation = () => {
     sendEmail();
   };
 
   return (
     <FormikModal
-      alertHeader="Send email with invoice?"
+      alertHeader={alertText}
       closeModal={closeModal}
       initialValues={{}}
       isOpen={isOpen}
@@ -25,4 +31,4 @@ const OrderSendInvoiceModal = ({ isOpen, closeModal, sendEmail }: Props) => {
   );
 };
 
-export default OrderSendInvoiceModal;
+export default OrderSendDocumentModal;
