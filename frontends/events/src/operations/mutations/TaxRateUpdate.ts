@@ -3,50 +3,45 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import {
-  TaxRateUpdateInput,
-  useTaxRateUpdateMutation,
+  CommerceTaxUpdate,
+  useCommerceUpdateTaxMutation,
 } from '@websummit/graphql/src/@types/operations';
+import COMMERCE_LIST_TAXES from '@websummit/graphql/src/operations/queries/CommerceListTaxes';
 
-import { useAppContext } from '../../components/app/AppContext';
+import { useRequestContext } from '../../components/app/AppContext';
 
 export type TaxRateUpdateRequest = {
-  input: TaxRateUpdateInput;
-  refetch?: any;
+  input: CommerceTaxUpdate;
+  slugParam: string;
 };
 
 export const useTaxRateUpdateOperation = () => {
-  const { slug, token } = useAppContext();
+  const defaultContext = useRequestContext();
   const snackbar = useSuccessSnackbar();
   const errSnackbar = useErrorSnackbar();
 
-  const [taxRateUpdateMutation] = useTaxRateUpdateMutation({
-    onCompleted: ({ taxRateUpdate }) => {
-      if (taxRateUpdate?.userErrors && taxRateUpdate?.userErrors.length > 0) {
-        errSnackbar(taxRateUpdate?.userErrors[0].message);
-      } else {
-        snackbar('Tax rate updated');
-      }
+  const [taxRateUpdateMutation] = useCommerceUpdateTaxMutation({
+    onCompleted: () => {
+      snackbar('Tax rate updated');
     },
     onError: (e) => errSnackbar(e.message),
   });
 
-  const taxRateUpdate = async ({ input, refetch }: TaxRateUpdateRequest) => {
+  const taxRateUpdate = async ({ input, slugParam }: TaxRateUpdateRequest) => {
+    const context = {
+      slug: slugParam,
+      token: defaultContext.token,
+    };
+
     await taxRateUpdateMutation({
       awaitRefetchQueries: true,
-      context: {
-        slug,
-        token,
-      },
-      refetchQueries: ['Event', 'EventListQuery'],
+      context,
+      refetchQueries: [{ context, query: COMMERCE_LIST_TAXES }],
       variables: {
-        input,
+        commerceTaxUpdate: input,
+        id: input?.id || 'null',
       },
     });
-
-    // Hacky solution because refetchQueries is not working
-    setTimeout(() => {
-      return refetch();
-    }, 1000);
   };
 
   return {

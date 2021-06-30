@@ -11,15 +11,18 @@ import {
 } from './AddAttendance.styled';
 
 type AddAttendanceProps = {
+  ids: string[];
   selections: Attendance[];
   setSelections: (arg: Attendance[]) => void;
 };
 
 const AddAttendance = ({
+  ids,
   selections,
   setSelections,
 }: AddAttendanceProps): ReactElement => {
   const { getAttendance } = useContext(DetailsContext);
+  const [selected, setSelected] = useState([...ids]);
   const [searchQuery, setSearchQuery] = useState('');
   const [display, setDisplay] = useState<boolean>(false);
 
@@ -34,6 +37,7 @@ const AddAttendance = ({
 
   const handleSelect = (att: Attendance) => {
     if (!selections.find((e) => e.id === att.id)) {
+      setSelected([...selected, att.id]);
       setSelections([...selections, att]);
     }
     getAttendance(att.id);
@@ -55,9 +59,11 @@ const AddAttendance = ({
         <ResultsContainer>
           {results?.map((attendance, i) => (
             <div key={i}>
-              <ListItem key={i} onClick={() => handleSelect(attendance)}>
-                {attendance.name} - {attendance.bookingRef}
-              </ListItem>
+              {!selected.find((e) => e === attendance.id) && (
+                <ListItem key={i} onClick={() => handleSelect(attendance)}>
+                  {attendance.name} - {attendance.bookingRef}
+                </ListItem>
+              )}
             </div>
           ))}
         </ResultsContainer>

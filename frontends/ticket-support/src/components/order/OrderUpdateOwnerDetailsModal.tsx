@@ -33,17 +33,14 @@ const OrderUpdateOwnerDetailsModal = ({
       lastName,
       reason: e.reason,
       refetch,
-      sendEmailNotification: e.sendEmailNotification,
     });
   };
 
   return (
     <ReasonAlertModal
-      isNotificationOptionVisible
       alertHeader={orderRef}
       alertText="Are you sure you want to update owner details of this order?"
       cancelText="No, keep details"
-      checkboxLabel="Notify order owner by email?"
       closeModal={closeModal}
       headerText="Update order owner’s details"
       isOpen={isOpen}

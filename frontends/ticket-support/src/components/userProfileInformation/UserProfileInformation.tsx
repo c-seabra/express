@@ -2,6 +2,11 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -10,7 +15,6 @@ import * as Yup from 'yup';
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useProfileAdminUpdateMutation from '../../lib/hooks/useProfileAdminUpdateMutation';
-import { Account } from '../../lib/types';
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -53,6 +57,12 @@ const userProfileSchema = Yup.object().shape({
   phoneNumber: Yup.string().nullable(),
 });
 
+type Account = NonNullable<
+  NonNullable<
+    extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>['assignment']>
+  >['assignee']
+>;
+
 // This function gets rid of unwanted fields like graphql's `__typename`
 const getInitialValues = (account: Account) => {
   const {
@@ -69,16 +79,16 @@ const getInitialValues = (account: Account) => {
   } = account;
 
   return {
-    bio,
-    city,
-    companyName,
-    companySizeId,
-    firstName,
-    gender,
-    industryId,
-    jobTitle,
-    lastName,
-    phoneNumber,
+    bio: bio || '',
+    city: city || '',
+    companyName: companyName || '',
+    companySizeId: companySizeId || '',
+    firstName: firstName || '',
+    gender: gender || '',
+    industryId: industryId || '',
+    jobTitle: jobTitle || '',
+    lastName: lastName || '',
+    phoneNumber: phoneNumber || '',
   };
 };
 
@@ -94,7 +104,9 @@ const genderOptions = [
 ];
 
 type UserProfileInformationProps = {
-  account?: Account;
+  account?: NonNullable<
+    extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>['assignment']>
+  >['assignee'];
   isDisabled?: boolean;
 };
 
