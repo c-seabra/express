@@ -19,1646 +19,46 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: string;
   /**
    * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
    * `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
    * 8601 standard for representation of dates and times using the Gregorian calendar.
    */
   DateTime: string;
-  JSON: AnyJson;
-  /** An ISO 8601-encoded date */
-  ISO8601Date: any;
-  /** A valid JSON schema for building HTML forms, see: https://react-jsonschema-form.readthedocs.io/en/latest */
-  JSONSchemaForm: JsonObject;
-  /** A valid email address */
-  EmailAddress: string;
   /** A valid decimal */
   Decimal: number;
+  /** A valid email address */
+  EmailAddress: string;
+  /** An ISO 8601-encoded date */
+  ISO8601Date: any;
   /** An ISO 8601-encoded datetime */
   ISO8601DateTime: string;
-  /** A valid URL, transported as a string */
-  URL: string;
-  /** Valid markdown, ready for translation to HTML, JSX, etc. */
-  Markdown: string;
-  /** A valid UUID */
-  UUID: any;
-  Date: string;
-  Object: any;
-  /** Input type for dynamic zone link of MenuItem */
-  MenuItemLinkDynamicZoneInput: JsonObject;
-  /** Input type for dynamic zone content of WebPage */
-  WebPageContentDynamicZoneInput: JsonObject;
+  JSON: AnyJson;
+  /** A valid JSON schema for building HTML forms, see: https://react-jsonschema-form.readthedocs.io/en/latest */
+  JSONSchemaForm: JsonObject;
   /** The `Long` scalar type represents 52-bit integers */
   Long: number;
+  /** Valid markdown, ready for translation to HTML, JSX, etc. */
+  Markdown: string;
+  /** Input type for dynamic zone link of MenuItem */
+  MenuItemLinkDynamicZoneInput: JsonObject;
+  Object: any;
   /** A time string with format: HH:mm:ss.SSS */
   Time: string;
+  /** A valid URL, transported as a string */
+  URL: string;
+  /** A valid UUID */
+  UUID: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: JsonObject;
+  /** Input type for dynamic zone content of WebPage */
+  WebPageContentDynamicZoneInput: JsonObject;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  appConfig: Maybe<AppConfig>;
-  branding: Maybe<Branding>;
-  brandings: Maybe<Array<Maybe<Branding>>>;
-  brandingsConnection: Maybe<BrandingConnection>;
-  productBenefit: Maybe<ProductBenefits>;
-  productBenefits: Maybe<Array<Maybe<ProductBenefits>>>;
-  productBenefitsConnection: Maybe<ProductBenefitsConnection>;
-  product: Maybe<Products>;
-  products: Maybe<Array<Maybe<Products>>>;
-  productsConnection: Maybe<ProductsConnection>;
-  site: Maybe<Site>;
-  sites: Maybe<Array<Maybe<Site>>>;
-  sitesConnection: Maybe<SiteConnection>;
-  webPageConfig: Maybe<WebPageConfig>;
-  webPageConfigs: Maybe<Array<Maybe<WebPageConfig>>>;
-  webPageConfigsConnection: Maybe<WebPageConfigConnection>;
-  brandingBySlug: Maybe<Branding>;
-  webPageByPath: Maybe<WebPage>;
-  webPageByHostPath: Maybe<WebPage>;
-  webPagesByHostMenuLabel: Maybe<Array<Maybe<WebPage>>>;
-  webPageConfigByPathHost: Maybe<WebPageConfig>;
-  accessPermissions: AccessPermissionConnection;
-  ticketCategories: TicketCategoryConnection;
-  ticketRelease: Maybe<TicketRelease>;
-  ticketReleasePhase: Maybe<TicketReleasePhase>;
-  ticketReleasePhases: TicketReleasePhaseConnection;
-  ticketReleases: TicketReleaseConnection;
-  adminAttendeeProfile: Maybe<Attendee>;
-  admins: AdminConnection;
-  appearance: Maybe<Appearance>;
-  appearances: AppearanceConnection;
-  attendance: Maybe<Attendee>;
-  attendanceAppearanceSelection: AttendanceAppearanceSelection;
-  attendances: AttendeeConnection;
-  chatChannel: Maybe<ChatChannel>;
-  chatChannels: Maybe<ChatChannelConnection>;
-  /** @deprecated As we consider more to develop more generic APIs, the term "event" is preferrable to "conference". */
-  conference: Maybe<Conference>;
-  formAttendeeProfileUpdate: Maybe<DynamicForm>;
-  investorSession: Maybe<InvestorSession>;
-  investorSessions: Maybe<InvestorSessionConnection>;
-  me: Maybe<User>;
-  scheduleTimeslot: Maybe<ScheduleTimeslot>;
-  topics: TopicConnection;
-  userRoles: UserRoleConnection;
-  /** Returns the attendee's profile */
-  assignmentProfile: Maybe<AssignmentUser>;
-  /** Retrieves the current users details */
-  assignmentUser: Maybe<AssignmentUser>;
-  /** Retrieves an order by the booking reference. ex: "xdbaWXXtqN" */
-  order: Maybe<Order>;
-  /**
-   * Retrieves all orders.
-   * Can be filtered by:
-   *   - `filter`
-   *   - `search_query`
-   */
-  orders: OrderConnection;
-  /** Retrieves an event */
-  taEvent: Maybe<TaEvent>;
-  /** Retrieves a ticket by the booking reference. ex: "MVSD-1" */
-  ticket: Maybe<Ticket>;
-  ticketType: Maybe<TicketType>;
-  ticketTypes: TicketTypeConnection;
-  /**
-   * Retrieves all the tickets.
-   * Can be filtered by:
-   *   - `order_id`
-   *   - `filter`
-   *   - `search_query`
-   */
-  tickets: TicketConnection;
-  /** *Equivalent to GET /commerce/audit/{entity}/{id}* */
-  commerceGetAuditForTypeAndTargetAuditEntry: Maybe<
-    Array<Maybe<CommerceAuditEntry>>
-  >;
-  /** *Equivalent to GET /commerce/audit/{entity}* */
-  commerceGetAuditForTypeAuditEntry: Maybe<Array<Maybe<CommerceAuditEntry>>>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/categories/{id}* */
-  commerceGetCategory: Maybe<CommerceCategory>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
-  commerceGetCustomer: Maybe<CommerceCustomer>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{id}* */
-  commerceGetDeal: Maybe<CommerceDeal>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
-  commerceGetDealItem: Maybe<CommerceDealItem>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/orders/{id}* */
-  commerceGetOrder: Maybe<CommerceOrder>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/product/{productId}/packagedProducts/{id}* */
-  commerceGetPackagedProduct: Maybe<CommercePackagedProduct>;
-  /** *Equivalent to GET /commerce/paymentGateways/{id}* */
-  commerceGetPaymentGateway: Maybe<CommercePaymentGateway>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods/{id}* */
-  commerceGetPaymentMethod: Maybe<CommercePaymentMethod>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/products/{id}* */
-  commerceGetProduct: Maybe<CommerceProduct>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/sales/{id}* */
-  commerceGetSale: Maybe<CommerceSale>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/sales/{saleId}/saleProducts/{id}* */
-  commerceGetSaleProduct: Maybe<CommerceSaleProduct>;
-  /** *Equivalent to GET /commerce/stores/{id}* */
-  commerceGetStore: Maybe<CommerceStore>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/tags/{id}* */
-  commerceGetTag: Maybe<CommerceTag>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/taxes/{id}* */
-  commerceGetTax: Maybe<CommerceTax>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/taxTypes/{id}* */
-  commerceGetTaxType: Maybe<CommerceTaxType>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/vouchers/{id}* */
-  commerceGetVoucher: Maybe<CommerceVoucher>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/categories* */
-  commerceListCategories: Maybe<CommerceSearchResponseCategory>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers* */
-  commerceListCustomers: Maybe<CommerceSearchResponseCustomer>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems* */
-  commerceListDealItems: Maybe<CommerceSearchResponseDealItem>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/deals* */
-  commerceListDeals: Maybe<CommerceSearchResponseDeal>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/orders* */
-  commerceListOrders: Maybe<CommerceSearchResponseOrder>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/product/{productId}/packagedProducts* */
-  commerceListPackagedProducts: Maybe<CommerceSearchResponsePackagedProduct>;
-  /** *Equivalent to GET /commerce/paymentGateways* */
-  commerceListPaymentGateways: Maybe<CommerceSearchResponsePaymentGateway>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods* */
-  commerceListPaymentMethods: Maybe<CommerceSearchResponsePaymentMethod>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/products* */
-  commerceListProducts: Maybe<CommerceSearchResponseProduct>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/sales/{saleId}/saleProducts* */
-  commerceListSaleProducts: Maybe<CommerceSearchResponseSaleProduct>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/sales* */
-  commerceListSales: Maybe<CommerceSearchResponseSale>;
-  /**
-   * *Equivalent to GET /commerce/stores*
-   * # List Stores
-   *
-   * ...
-   */
-  commerceListStores: Maybe<CommerceSearchResponseStore>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/tags* */
-  commerceListTags: Maybe<CommerceSearchResponseTag>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/taxTypes* */
-  commerceListTaxTypes: Maybe<CommerceSearchResponseTaxType>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/taxes* */
-  commerceListTaxes: Maybe<CommerceSearchResponseTax>;
-  /** *Equivalent to GET /commerce/stores/{storeId}/vouchers* */
-  commerceListVouchers: Maybe<CommerceSearchResponseVoucher>;
-  /** Retrieves all countries. */
-  countries: EventConfigurationCountryConnection;
-  /**
-   * Returns an event by slug.
-   * X-EVENT-ID http header is used when the slug argument is not provided on the query.
-   */
-  event: Maybe<Event>;
-  /**
-   * Retrieves events sorted by start_date in descending order.
-   * All events are returned unless the filter is applied.
-   */
-  events: EventConnection;
-  /** Retrieves all legal_entities. */
-  legalEntities: LegalEntityConnection;
-  /** Returns a legal_entity by id. */
-  legalEntity: LegalEntity;
-  /** Retrieves all time zones */
-  timeZones: TimeZoneConnection;
-  room: Maybe<Room>;
-};
-
-export type QueryBrandingArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryBrandingsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QueryBrandingsConnectionArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QueryProductBenefitArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryProductBenefitsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QueryProductBenefitsConnectionArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QueryProductArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryProductsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QueryProductsConnectionArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QuerySiteArgs = {
-  id: Scalars['ID'];
-};
-
-export type QuerySitesArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QuerySitesConnectionArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QueryWebPageConfigArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryWebPageConfigsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QueryWebPageConfigsConnectionArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type QueryBrandingBySlugArgs = {
-  slug: Scalars['String'];
-};
-
-export type QueryWebPageByPathArgs = {
-  path: Scalars['String'];
-};
-
-export type QueryWebPageByHostPathArgs = {
-  host: Scalars['String'];
-  path: Scalars['String'];
-  slug?: Maybe<Scalars['String']>;
-};
-
-export type QueryWebPagesByHostMenuLabelArgs = {
-  host: Scalars['String'];
-  menuLabel: Scalars['String'];
-};
-
-export type QueryWebPageConfigByPathHostArgs = {
-  path: Scalars['String'];
-  host: Scalars['String'];
-  slug?: Maybe<Scalars['String']>;
-};
-
-export type QueryAccessPermissionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
-};
-
-export type QueryTicketCategoriesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryTicketReleaseArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryTicketReleasePhaseArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type QueryTicketReleasePhasesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryTicketReleasesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  releasePhaseIds?: Maybe<Array<Scalars['ID']>>;
-  showBenefits?: Maybe<Scalars['Boolean']>;
-  ticketCategoryIds?: Maybe<Array<Scalars['ID']>>;
-  ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
-};
-
-export type QueryAdminAttendeeProfileArgs = {
-  email: Scalars['String'];
-};
-
-export type QueryAdminsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryAppearanceArgs = {
-  id: Scalars['UUID'];
-};
-
-export type QueryAppearancesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  ids?: Maybe<Array<Scalars['ID']>>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryAttendanceArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryAttendanceAppearanceSelectionArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryAttendancesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  filter?: Maybe<AttendanceFilter>;
-  first?: Maybe<Scalars['Int']>;
-  ids?: Maybe<Array<Scalars['ID']>>;
-  last?: Maybe<Scalars['Int']>;
-  searchQuery?: Maybe<Scalars['String']>;
-};
-
-export type QueryChatChannelArgs = {
-  id?: Maybe<Scalars['ID']>;
-  providerId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryChatChannelsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  ids?: Maybe<Array<Scalars['ID']>>;
-  includeEmpty?: Maybe<Scalars['Boolean']>;
-  last?: Maybe<Scalars['Int']>;
-  provider: ChatProvider;
-  providerIds?: Maybe<Array<Scalars['ID']>>;
-};
-
-export type QueryConferenceArgs = {
-  id?: Maybe<Scalars['ID']>;
-  slug?: Maybe<Scalars['ID']>;
-};
-
-export type QueryInvestorSessionArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryInvestorSessionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryScheduleTimeslotArgs = {
-  id?: Maybe<Scalars['ID']>;
-  slug?: Maybe<Scalars['String']>;
-};
-
-export type QueryTopicsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryUserRolesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryAssignmentProfileArgs = {
-  ticketId: Scalars['ID'];
-};
-
-export type QueryAssignmentUserArgs = {
-  email?: Maybe<Scalars['String']>;
-};
-
-export type QueryOrderArgs = {
-  reference: Scalars['String'];
-};
-
-export type QueryOrdersArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  filter?: Maybe<OrderFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  searchQuery?: Maybe<Scalars['String']>;
-};
-
-export type QueryTaEventArgs = {
-  slug: Scalars['String'];
-};
-
-export type QueryTicketArgs = {
-  reference: Scalars['String'];
-};
-
-export type QueryTicketTypeArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryTicketTypesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  ids?: Maybe<Array<Scalars['ID']>>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryTicketsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  filter?: Maybe<TicketFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  orderId?: Maybe<Scalars['ID']>;
-  searchQuery?: Maybe<Scalars['String']>;
-};
-
-export type QueryCommerceGetAuditForTypeAndTargetAuditEntryArgs = {
-  entity: Scalars['String'];
-  id: Scalars['ID'];
-  storeId: Scalars['ID'];
-};
-
-export type QueryCommerceGetAuditForTypeAuditEntryArgs = {
-  entity: Scalars['String'];
-  storeId: Scalars['ID'];
-};
-
-export type QueryCommerceGetCategoryArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetCustomerArgs = {
-  id: Scalars['ID'];
-  orderId: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetDealArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetDealItemArgs = {
-  dealId: Scalars['ID'];
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetOrderArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetPackagedProductArgs = {
-  id: Scalars['ID'];
-  productId: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetPaymentGatewayArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryCommerceGetPaymentMethodArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetProductArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetSaleArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetSaleProductArgs = {
-  id: Scalars['ID'];
-  saleId: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetStoreArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetTagArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetTaxArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetTaxTypeArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceGetVoucherArgs = {
-  id: Scalars['ID'];
-  storeId?: Maybe<Scalars['ID']>;
-};
-
-export type QueryCommerceListCategoriesArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListCustomersArgs = {
-  orderId: Scalars['ID'];
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListDealItemsArgs = {
-  dealId: Scalars['ID'];
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListDealsArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListOrdersArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListPackagedProductsArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  productId: Scalars['ID'];
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListPaymentGatewaysArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListPaymentMethodsArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListProductsArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListSaleProductsArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  saleId: Scalars['ID'];
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListSalesArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListStoresArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListTagsArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListTaxTypesArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListTaxesArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCommerceListVouchersArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  sort?: Maybe<Array<CommerceSortTerm>>;
-  storeId?: Maybe<Scalars['ID']>;
-  terms?: Maybe<Array<CommerceSearchTerm>>;
-};
-
-export type QueryCountriesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryEventArgs = {
-  slug?: Maybe<Scalars['String']>;
-};
-
-export type QueryEventsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  filter?: Maybe<EventFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryLegalEntitiesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryLegalEntityArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryTimeZonesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type QueryRoomArgs = {
-  roomId: Scalars['ID'];
-};
-
-export type AppConfig = {
-  __typename?: 'AppConfig';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  googleAnalyticsTrackingId: Maybe<Scalars['String']>;
-  googleTagManagerId: Maybe<Scalars['String']>;
-  googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
-  googleFontsUrl: Maybe<Scalars['String']>;
-  matomoUrl: Maybe<Scalars['String']>;
-  matomoSiteId: Maybe<Scalars['String']>;
-  segmentId: Maybe<Scalars['String']>;
-  theme: Maybe<Scalars['JSON']>;
-  metaData: ComponentSiteConfigMetaData;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-};
-
-export type ComponentSiteConfigGoogleAnalyticsLinkerDomainList = {
-  __typename?: 'ComponentSiteConfigGoogleAnalyticsLinkerDomainList';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  domain: Maybe<Scalars['String']>;
-};
-
-export type ComponentSiteConfigMetaData = {
-  __typename?: 'ComponentSiteConfigMetaData';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  image: Maybe<UploadFile>;
-  siteTitle: Scalars['String'];
-  siteDescription: Scalars['String'];
-  facebookId: Maybe<Scalars['String']>;
-  facebookPublisher: Maybe<Scalars['String']>;
-  twitterId: Maybe<Scalars['String']>;
-  twitterCreator: Maybe<Scalars['String']>;
-};
-
-export type UploadFile = {
-  __typename?: 'UploadFile';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  alternativeText: Maybe<Scalars['String']>;
-  caption: Maybe<Scalars['String']>;
-  width: Maybe<Scalars['Int']>;
-  height: Maybe<Scalars['Int']>;
-  formats: Maybe<Scalars['JSON']>;
-  hash: Scalars['String'];
-  ext: Maybe<Scalars['String']>;
-  mime: Scalars['String'];
-  size: Scalars['Float'];
-  url: Scalars['String'];
-  previewUrl: Maybe<Scalars['String']>;
-  provider: Scalars['String'];
-  provider_metadata: Maybe<Scalars['JSON']>;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-  absoluteUrl: Scalars['String'];
-};
-
-export type AdminUser = {
-  __typename?: 'AdminUser';
-  id: Scalars['ID'];
-  username: Maybe<Scalars['String']>;
-};
-
-export type Branding = {
-  __typename?: 'Branding';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Maybe<Scalars['String']>;
-  googleFontsUrl: Maybe<Scalars['String']>;
-  typekitFontsUrl: Maybe<Scalars['String']>;
-  theme: Maybe<Scalars['JSON']>;
-  logo: Maybe<UploadFile>;
-  headerBranding: Maybe<UploadFile>;
-  favicon: Maybe<UploadFile>;
-  ticketLogo: Maybe<UploadFile>;
-  invoiceHeader: Maybe<UploadFile>;
-  invoiceFooter: Maybe<UploadFile>;
-  invoiceStamp: Maybe<UploadFile>;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-};
-
-export type BrandingConnection = {
-  __typename?: 'BrandingConnection';
-  values: Maybe<Array<Maybe<Branding>>>;
-  groupBy: Maybe<BrandingGroupBy>;
-  aggregate: Maybe<BrandingAggregator>;
-};
-
-export type BrandingGroupBy = {
-  __typename?: 'BrandingGroupBy';
-  id: Maybe<Array<Maybe<BrandingConnectionId>>>;
-  _id: Maybe<Array<Maybe<BrandingConnection_Id>>>;
-  createdAt: Maybe<Array<Maybe<BrandingConnectionCreatedAt>>>;
-  updatedAt: Maybe<Array<Maybe<BrandingConnectionUpdatedAt>>>;
-  title: Maybe<Array<Maybe<BrandingConnectionTitle>>>;
-  googleFontsUrl: Maybe<Array<Maybe<BrandingConnectionGoogleFontsUrl>>>;
-  typekitFontsUrl: Maybe<Array<Maybe<BrandingConnectionTypekitFontsUrl>>>;
-  theme: Maybe<Array<Maybe<BrandingConnectionTheme>>>;
-  logo: Maybe<Array<Maybe<BrandingConnectionLogo>>>;
-  headerBranding: Maybe<Array<Maybe<BrandingConnectionHeaderBranding>>>;
-  favicon: Maybe<Array<Maybe<BrandingConnectionFavicon>>>;
-  ticketLogo: Maybe<Array<Maybe<BrandingConnectionTicketLogo>>>;
-  invoiceHeader: Maybe<Array<Maybe<BrandingConnectionInvoiceHeader>>>;
-  invoiceFooter: Maybe<Array<Maybe<BrandingConnectionInvoiceFooter>>>;
-  invoiceStamp: Maybe<Array<Maybe<BrandingConnectionInvoiceStamp>>>;
-  created_by: Maybe<Array<Maybe<BrandingConnectionCreated_By>>>;
-  updated_by: Maybe<Array<Maybe<BrandingConnectionUpdated_By>>>;
-};
-
-export type BrandingConnectionId = {
-  __typename?: 'BrandingConnectionId';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnection_Id = {
-  __typename?: 'BrandingConnection_id';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionCreatedAt = {
-  __typename?: 'BrandingConnectionCreatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionUpdatedAt = {
-  __typename?: 'BrandingConnectionUpdatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionTitle = {
-  __typename?: 'BrandingConnectionTitle';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionGoogleFontsUrl = {
-  __typename?: 'BrandingConnectionGoogleFontsUrl';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionTypekitFontsUrl = {
-  __typename?: 'BrandingConnectionTypekitFontsUrl';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionTheme = {
-  __typename?: 'BrandingConnectionTheme';
-  key: Maybe<Scalars['JSON']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionLogo = {
-  __typename?: 'BrandingConnectionLogo';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionHeaderBranding = {
-  __typename?: 'BrandingConnectionHeaderBranding';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionFavicon = {
-  __typename?: 'BrandingConnectionFavicon';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionTicketLogo = {
-  __typename?: 'BrandingConnectionTicketLogo';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionInvoiceHeader = {
-  __typename?: 'BrandingConnectionInvoiceHeader';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionInvoiceFooter = {
-  __typename?: 'BrandingConnectionInvoiceFooter';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionInvoiceStamp = {
-  __typename?: 'BrandingConnectionInvoiceStamp';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionCreated_By = {
-  __typename?: 'BrandingConnectionCreated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingConnectionUpdated_By = {
-  __typename?: 'BrandingConnectionUpdated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<BrandingConnection>;
-};
-
-export type BrandingAggregator = {
-  __typename?: 'BrandingAggregator';
-  count: Maybe<Scalars['Int']>;
-  totalCount: Maybe<Scalars['Int']>;
-};
-
-export type ProductBenefits = {
-  __typename?: 'ProductBenefits';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-};
-
-export type ProductBenefitsConnection = {
-  __typename?: 'ProductBenefitsConnection';
-  values: Maybe<Array<Maybe<ProductBenefits>>>;
-  groupBy: Maybe<ProductBenefitsGroupBy>;
-  aggregate: Maybe<ProductBenefitsAggregator>;
-};
-
-export type ProductBenefitsGroupBy = {
-  __typename?: 'ProductBenefitsGroupBy';
-  id: Maybe<Array<Maybe<ProductBenefitsConnectionId>>>;
-  _id: Maybe<Array<Maybe<ProductBenefitsConnection_Id>>>;
-  createdAt: Maybe<Array<Maybe<ProductBenefitsConnectionCreatedAt>>>;
-  updatedAt: Maybe<Array<Maybe<ProductBenefitsConnectionUpdatedAt>>>;
-  title: Maybe<Array<Maybe<ProductBenefitsConnectionTitle>>>;
-  description: Maybe<Array<Maybe<ProductBenefitsConnectionDescription>>>;
-  created_by: Maybe<Array<Maybe<ProductBenefitsConnectionCreated_By>>>;
-  updated_by: Maybe<Array<Maybe<ProductBenefitsConnectionUpdated_By>>>;
-};
-
-export type ProductBenefitsConnectionId = {
-  __typename?: 'ProductBenefitsConnectionId';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductBenefitsConnection>;
-};
-
-export type ProductBenefitsConnection_Id = {
-  __typename?: 'ProductBenefitsConnection_id';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductBenefitsConnection>;
-};
-
-export type ProductBenefitsConnectionCreatedAt = {
-  __typename?: 'ProductBenefitsConnectionCreatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<ProductBenefitsConnection>;
-};
-
-export type ProductBenefitsConnectionUpdatedAt = {
-  __typename?: 'ProductBenefitsConnectionUpdatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<ProductBenefitsConnection>;
-};
-
-export type ProductBenefitsConnectionTitle = {
-  __typename?: 'ProductBenefitsConnectionTitle';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<ProductBenefitsConnection>;
-};
-
-export type ProductBenefitsConnectionDescription = {
-  __typename?: 'ProductBenefitsConnectionDescription';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<ProductBenefitsConnection>;
-};
-
-export type ProductBenefitsConnectionCreated_By = {
-  __typename?: 'ProductBenefitsConnectionCreated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductBenefitsConnection>;
-};
-
-export type ProductBenefitsConnectionUpdated_By = {
-  __typename?: 'ProductBenefitsConnectionUpdated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductBenefitsConnection>;
-};
-
-export type ProductBenefitsAggregator = {
-  __typename?: 'ProductBenefitsAggregator';
-  count: Maybe<Scalars['Int']>;
-  totalCount: Maybe<Scalars['Int']>;
-};
-
-export type Products = {
-  __typename?: 'Products';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  sourceId: Maybe<Scalars['String']>;
-  sourceName: Maybe<Scalars['String']>;
-  type: Maybe<Enum_Products_Type>;
-  title: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-};
-
-export enum Enum_Products_Type {
-  Custom = 'custom',
-  Deal = 'deal',
-  Package = 'package',
-  Product = 'product',
-}
-
-export type ProductsConnection = {
-  __typename?: 'ProductsConnection';
-  values: Maybe<Array<Maybe<Products>>>;
-  groupBy: Maybe<ProductsGroupBy>;
-  aggregate: Maybe<ProductsAggregator>;
-};
-
-export type ProductsGroupBy = {
-  __typename?: 'ProductsGroupBy';
-  id: Maybe<Array<Maybe<ProductsConnectionId>>>;
-  _id: Maybe<Array<Maybe<ProductsConnection_Id>>>;
-  createdAt: Maybe<Array<Maybe<ProductsConnectionCreatedAt>>>;
-  updatedAt: Maybe<Array<Maybe<ProductsConnectionUpdatedAt>>>;
-  sourceId: Maybe<Array<Maybe<ProductsConnectionSourceId>>>;
-  sourceName: Maybe<Array<Maybe<ProductsConnectionSourceName>>>;
-  type: Maybe<Array<Maybe<ProductsConnectionType>>>;
-  title: Maybe<Array<Maybe<ProductsConnectionTitle>>>;
-  description: Maybe<Array<Maybe<ProductsConnectionDescription>>>;
-  event: Maybe<Array<Maybe<ProductsConnectionEvent>>>;
-  created_by: Maybe<Array<Maybe<ProductsConnectionCreated_By>>>;
-  updated_by: Maybe<Array<Maybe<ProductsConnectionUpdated_By>>>;
-};
-
-export type ProductsConnectionId = {
-  __typename?: 'ProductsConnectionId';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnection_Id = {
-  __typename?: 'ProductsConnection_id';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionCreatedAt = {
-  __typename?: 'ProductsConnectionCreatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionUpdatedAt = {
-  __typename?: 'ProductsConnectionUpdatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionSourceId = {
-  __typename?: 'ProductsConnectionSourceId';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionSourceName = {
-  __typename?: 'ProductsConnectionSourceName';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionType = {
-  __typename?: 'ProductsConnectionType';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionTitle = {
-  __typename?: 'ProductsConnectionTitle';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionDescription = {
-  __typename?: 'ProductsConnectionDescription';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionEvent = {
-  __typename?: 'ProductsConnectionEvent';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionCreated_By = {
-  __typename?: 'ProductsConnectionCreated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsConnectionUpdated_By = {
-  __typename?: 'ProductsConnectionUpdated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<ProductsConnection>;
-};
-
-export type ProductsAggregator = {
-  __typename?: 'ProductsAggregator';
-  count: Maybe<Scalars['Int']>;
-  totalCount: Maybe<Scalars['Int']>;
-};
-
-export type Site = {
-  __typename?: 'Site';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Maybe<Scalars['String']>;
-  host: Scalars['String'];
-};
-
-export type SiteConnection = {
-  __typename?: 'SiteConnection';
-  values: Maybe<Array<Maybe<Site>>>;
-  groupBy: Maybe<SiteGroupBy>;
-  aggregate: Maybe<SiteAggregator>;
-};
-
-export type SiteGroupBy = {
-  __typename?: 'SiteGroupBy';
-  id: Maybe<Array<Maybe<SiteConnectionId>>>;
-  _id: Maybe<Array<Maybe<SiteConnection_Id>>>;
-  createdAt: Maybe<Array<Maybe<SiteConnectionCreatedAt>>>;
-  updatedAt: Maybe<Array<Maybe<SiteConnectionUpdatedAt>>>;
-  title: Maybe<Array<Maybe<SiteConnectionTitle>>>;
-  host: Maybe<Array<Maybe<SiteConnectionHost>>>;
-  activeEvent: Maybe<Array<Maybe<SiteConnectionActiveEvent>>>;
-  created_by: Maybe<Array<Maybe<SiteConnectionCreated_By>>>;
-  updated_by: Maybe<Array<Maybe<SiteConnectionUpdated_By>>>;
-};
-
-export type SiteConnectionId = {
-  __typename?: 'SiteConnectionId';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteConnection_Id = {
-  __typename?: 'SiteConnection_id';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteConnectionCreatedAt = {
-  __typename?: 'SiteConnectionCreatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteConnectionUpdatedAt = {
-  __typename?: 'SiteConnectionUpdatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteConnectionTitle = {
-  __typename?: 'SiteConnectionTitle';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteConnectionHost = {
-  __typename?: 'SiteConnectionHost';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteConnectionActiveEvent = {
-  __typename?: 'SiteConnectionActiveEvent';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteConnectionCreated_By = {
-  __typename?: 'SiteConnectionCreated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteConnectionUpdated_By = {
-  __typename?: 'SiteConnectionUpdated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<SiteConnection>;
-};
-
-export type SiteAggregator = {
-  __typename?: 'SiteAggregator';
-  count: Maybe<Scalars['Int']>;
-  totalCount: Maybe<Scalars['Int']>;
-};
-
-export type WebPageConfig = {
-  __typename?: 'WebPageConfig';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Maybe<Scalars['String']>;
-  googleTagManagerId: Maybe<Scalars['String']>;
-  googleAnalyticsTrackingId: Maybe<Scalars['String']>;
-  baseGoogleAnalyticsTrackingId: Maybe<Scalars['String']>;
-  googleOptimizeId: Maybe<Scalars['String']>;
-  googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
-  matomoUrl: Maybe<Scalars['String']>;
-  matomoSiteId: Maybe<Scalars['String']>;
-  segmentId: Maybe<Scalars['String']>;
-  metaData: Maybe<ComponentSiteConfigMetaData>;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-  site: Maybe<Site>;
-  branding: Maybe<Branding>;
-  config: Maybe<WebPageConfig>;
-  event: Maybe<WebPageEvent>;
-};
-
-export type WebPageEvent = {
-  __typename?: 'WebPageEvent';
-  slug: Maybe<Scalars['String']>;
-};
-
-export type WebPageConfigConnection = {
-  __typename?: 'WebPageConfigConnection';
-  values: Maybe<Array<Maybe<WebPageConfig>>>;
-  groupBy: Maybe<WebPageConfigGroupBy>;
-  aggregate: Maybe<WebPageConfigAggregator>;
-};
-
-export type WebPageConfigGroupBy = {
-  __typename?: 'WebPageConfigGroupBy';
-  id: Maybe<Array<Maybe<WebPageConfigConnectionId>>>;
-  _id: Maybe<Array<Maybe<WebPageConfigConnection_Id>>>;
-  createdAt: Maybe<Array<Maybe<WebPageConfigConnectionCreatedAt>>>;
-  updatedAt: Maybe<Array<Maybe<WebPageConfigConnectionUpdatedAt>>>;
-  title: Maybe<Array<Maybe<WebPageConfigConnectionTitle>>>;
-  googleTagManagerId: Maybe<
-    Array<Maybe<WebPageConfigConnectionGoogleTagManagerId>>
-  >;
-  googleAnalyticsTrackingId: Maybe<
-    Array<Maybe<WebPageConfigConnectionGoogleAnalyticsTrackingId>>
-  >;
-  baseGoogleAnalyticsTrackingId: Maybe<
-    Array<Maybe<WebPageConfigConnectionBaseGoogleAnalyticsTrackingId>>
-  >;
-  googleOptimizeId: Maybe<
-    Array<Maybe<WebPageConfigConnectionGoogleOptimizeId>>
-  >;
-  matomoUrl: Maybe<Array<Maybe<WebPageConfigConnectionMatomoUrl>>>;
-  matomoSiteId: Maybe<Array<Maybe<WebPageConfigConnectionMatomoSiteId>>>;
-  segmentId: Maybe<Array<Maybe<WebPageConfigConnectionSegmentId>>>;
-  metaData: Maybe<Array<Maybe<WebPageConfigConnectionMetaData>>>;
-  created_by: Maybe<Array<Maybe<WebPageConfigConnectionCreated_By>>>;
-  updated_by: Maybe<Array<Maybe<WebPageConfigConnectionUpdated_By>>>;
-};
-
-export type WebPageConfigConnectionId = {
-  __typename?: 'WebPageConfigConnectionId';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnection_Id = {
-  __typename?: 'WebPageConfigConnection_id';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionCreatedAt = {
-  __typename?: 'WebPageConfigConnectionCreatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionUpdatedAt = {
-  __typename?: 'WebPageConfigConnectionUpdatedAt';
-  key: Maybe<Scalars['DateTime']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionTitle = {
-  __typename?: 'WebPageConfigConnectionTitle';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionGoogleTagManagerId = {
-  __typename?: 'WebPageConfigConnectionGoogleTagManagerId';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionGoogleAnalyticsTrackingId = {
-  __typename?: 'WebPageConfigConnectionGoogleAnalyticsTrackingId';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionBaseGoogleAnalyticsTrackingId = {
-  __typename?: 'WebPageConfigConnectionBaseGoogleAnalyticsTrackingId';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionGoogleOptimizeId = {
-  __typename?: 'WebPageConfigConnectionGoogleOptimizeId';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionMatomoUrl = {
-  __typename?: 'WebPageConfigConnectionMatomoUrl';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionMatomoSiteId = {
-  __typename?: 'WebPageConfigConnectionMatomoSiteId';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionSegmentId = {
-  __typename?: 'WebPageConfigConnectionSegmentId';
-  key: Maybe<Scalars['String']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionMetaData = {
-  __typename?: 'WebPageConfigConnectionMetaData';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionCreated_By = {
-  __typename?: 'WebPageConfigConnectionCreated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigConnectionUpdated_By = {
-  __typename?: 'WebPageConfigConnectionUpdated_by';
-  key: Maybe<Scalars['ID']>;
-  connection: Maybe<WebPageConfigConnection>;
-};
-
-export type WebPageConfigAggregator = {
-  __typename?: 'WebPageConfigAggregator';
-  count: Maybe<Scalars['Int']>;
-  totalCount: Maybe<Scalars['Int']>;
-};
-
-export type WebPage = {
-  __typename?: 'WebPage';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Scalars['String'];
-  path: Maybe<Scalars['String']>;
-  content: Array<WebPageContentDynamicZone>;
-  seoTags: Maybe<ComponentWebElementsSeoMetaData>;
-};
-
-export type WebPageContentDynamicZone =
-  | ComponentWebLayoutsTicketSalesPage
-  | ComponentWebLayoutsTicketApplicationsPage
-  | ComponentWebElementsShowcaseGrid
-  | ComponentWebElementsScheduleSearchSidebarFilters
-  | ComponentWebElementsCompanySearchSidebarFilters
-  | ComponentWebElementsAttendeeSearchSidebarFilters
-  | ComponentWebElementsHeroSection
-  | ComponentWebElementsFreshchat
-  | ComponentWebLayoutsStoresTicketSalesPage
-  | ComponentWebLayoutsStoresTicketApplicationsPage;
-
-export type ComponentWebLayoutsTicketSalesPage = {
-  __typename?: 'ComponentWebLayoutsTicketSalesPage';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  ticketReleasesPanel: Maybe<ComponentWebElementsTicketReleasesPanel>;
-  categoriesMenu: Maybe<Menu>;
-  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
-  promotions: Array<ComponentWebElementsTicketPromotion>;
-  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
-  ticketCategory: Maybe<TicketCategory>;
-};
-
-export type ComponentWebElementsTicketReleasesPanel = {
-  __typename?: 'ComponentWebElementsTicketReleasesPanel';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  displayPriceIncludingTax: Maybe<Scalars['Boolean']>;
-};
-
-export type Menu = {
-  __typename?: 'Menu';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  label: Maybe<Scalars['String']>;
-  site: Maybe<Site>;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-  menuItems: Array<MenuItem>;
-};
-
-export type MenuMenuItemsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type MenuItem = {
-  __typename?: 'MenuItem';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  label: Scalars['String'];
-  link: MenuItemLinkDynamicZone;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-};
-
-export type MenuItemLinkDynamicZone =
-  | ComponentWebLinksPageLink
-  | ComponentWebLinksUrlLink
-  | ComponentWebLinksSubMenu;
-
-export type ComponentWebLinksPageLink = {
-  __typename?: 'ComponentWebLinksPageLink';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  page: Maybe<WebPage>;
-};
-
-export type ComponentWebLinksUrlLink = {
-  __typename?: 'ComponentWebLinksUrlLink';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  url: Scalars['String'];
-  target: Maybe<Scalars['String']>;
-};
-
-export type ComponentWebLinksSubMenu = {
-  __typename?: 'ComponentWebLinksSubMenu';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  menu: Maybe<Menu>;
-};
-
-export type ComponentWebElementsPriceIncreaseCountdownTimer = {
-  __typename?: 'ComponentWebElementsPriceIncreaseCountdownTimer';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  product: Maybe<Products>;
-  ticketType: TicketType;
-};
-
-export type TicketType = {
-  __typename?: 'TicketType';
-  accessPermissions: AccessPermissionConnection;
-  category: Maybe<TicketCategory>;
-  id: Scalars['ID'];
-  /** If no arguments given, it returns current release */
-  release: Maybe<TicketRelease>;
-  releasePhases: TicketReleasePhaseConnection;
-  /**
-   * The same ticket type may be released over several release phases at incrementally increasing prices.
-   * The combination of ticket type and release phase is captured in the concept of a "TicketRelease".
-   */
-  releases: TicketReleaseConnection;
-  assignmentProperties: Maybe<AssignmentProperties>;
-  description: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  versions: Maybe<Array<PaperTrailVersion>>;
-};
-
-export type TicketTypeAccessPermissionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type TicketTypeReleaseArgs = {
-  id?: Maybe<Scalars['ID']>;
-  releasePhaseId?: Maybe<Scalars['ID']>;
-};
-
-export type TicketTypeReleasePhasesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export type TicketTypeReleasesArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-/** The connection type for AccessPermission. */
-export type AccessPermissionConnection = {
-  __typename?: 'AccessPermissionConnection';
-  /** A list of edges. */
-  edges: Array<AccessPermissionEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type AccessPermissionEdge = {
-  __typename?: 'AccessPermissionEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: AccessPermission;
+export type Accepted = {
+  __typename?: 'Accepted';
+  count: Scalars['Int'];
 };
 
 /** An access permission denotes what ticket types receive a certain benefit */
@@ -1683,283 +83,414 @@ export type AccessPermissionTicketTypesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-/** The connection type for TicketType. */
-export type TicketTypeConnection = {
-  __typename?: 'TicketTypeConnection';
+/** The connection type for AccessPermission. */
+export type AccessPermissionConnection = {
+  __typename?: 'AccessPermissionConnection';
   /** A list of edges. */
-  edges: Array<TicketTypeEdge>;
+  edges: Array<AccessPermissionEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
 };
 
 /** An edge in a connection. */
-export type TicketTypeEdge = {
-  __typename?: 'TicketTypeEdge';
+export type AccessPermissionEdge = {
+  __typename?: 'AccessPermissionEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
-  node: TicketType;
+  node: AccessPermission;
 };
 
-/** Information about pagination in a connection. */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']>;
+export type AccountAttributes = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName?: Maybe<Scalars['String']>;
 };
 
-/** A ticket category groups ticket types by their common denominator */
-export type TicketCategory = {
-  __typename?: 'TicketCategory';
-  description: Maybe<Scalars['String']>;
+export type Active = {
+  __typename?: 'Active';
+  assigned: Assigned;
+  count: Scalars['Int'];
+  unassigned: Unassigned;
+};
+
+export type Address = {
+  __typename?: 'Address';
+  city: Maybe<Scalars['String']>;
+  country: Maybe<EventConfigurationCountry>;
   id: Scalars['ID'];
-  /** Must be unique in the scope of the event */
-  name: Scalars['String'];
-  ticketTypes: TicketTypeConnection;
-  versions: Maybe<Array<PaperTrailVersion>>;
+  lineOne: Maybe<Scalars['String']>;
+  lineTwo: Maybe<Scalars['String']>;
+  postalCode: Maybe<Scalars['String']>;
+  region: Maybe<Scalars['String']>;
 };
 
-/** A ticket category groups ticket types by their common denominator */
-export type TicketCategoryTicketTypesArgs = {
+export type AddressInput = {
+  city: Scalars['String'];
+  countryId: Scalars['ID'];
+  lineOne: Scalars['String'];
+  lineTwo?: Maybe<Scalars['String']>;
+  postalCode: Scalars['String'];
+  region: Scalars['String'];
+};
+
+export type Admin = {
+  __typename?: 'Admin';
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  permissions: Array<Scalars['String']>;
+  userRoles: Array<UserRole>;
+};
+
+/** Autogenerated input type of AdminAssignRole */
+export type AdminAssignRoleInput = {
+  adminId: Scalars['ID'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  userRoleId: Scalars['ID'];
+};
+
+/** Autogenerated return type of AdminAssignRole */
+export type AdminAssignRolePayload = {
+  __typename?: 'AdminAssignRolePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  role: Maybe<Role>;
+  userErrors: Array<UserError>;
+};
+
+/** The connection type for Admin. */
+export type AdminConnection = {
+  __typename?: 'AdminConnection';
+  /** A list of edges. */
+  edges: Array<AdminEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** Autogenerated input type of AdminCreate */
+export type AdminCreateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  name: Scalars['String'];
+  permissions: Array<Scalars['String']>;
+};
+
+/** Autogenerated return type of AdminCreate */
+export type AdminCreatePayload = {
+  __typename?: 'AdminCreatePayload';
+  admin: Maybe<Admin>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+/** An edge in a connection. */
+export type AdminEdge = {
+  __typename?: 'AdminEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Admin;
+};
+
+/** Autogenerated input type of AdminUnassignRole */
+export type AdminUnassignRoleInput = {
+  adminId: Scalars['ID'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  userRoleId: Scalars['ID'];
+};
+
+/** Autogenerated return type of AdminUnassignRole */
+export type AdminUnassignRolePayload = {
+  __typename?: 'AdminUnassignRolePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  role: Maybe<Role>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of AdminUpdate */
+export type AdminUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  permissions?: Maybe<Array<Scalars['String']>>;
+};
+
+/** Autogenerated return type of AdminUpdate */
+export type AdminUpdatePayload = {
+  __typename?: 'AdminUpdatePayload';
+  admin: Maybe<Admin>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+export type AdminUser = {
+  __typename?: 'AdminUser';
+  id: Scalars['ID'];
+  username: Maybe<Scalars['String']>;
+};
+
+export type All = {
+  __typename?: 'All';
+  active: Active;
+  count: Scalars['Int'];
+  void: Void;
+};
+
+export type AppConfig = {
+  __typename?: 'AppConfig';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  googleAnalyticsTrackingId: Maybe<Scalars['String']>;
+  googleTagManagerId: Maybe<Scalars['String']>;
+  googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
+  googleFontsUrl: Maybe<Scalars['String']>;
+  matomoUrl: Maybe<Scalars['String']>;
+  matomoSiteId: Maybe<Scalars['String']>;
+  segmentId: Maybe<Scalars['String']>;
+  theme: Maybe<Scalars['JSON']>;
+  metaData: ComponentSiteConfigMetaData;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+};
+
+export type AppConfigInput = {
+  googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
+  googleTagManagerId?: Maybe<Scalars['String']>;
+  googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
+  googleFontsUrl?: Maybe<Scalars['String']>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
+  theme?: Maybe<Scalars['JSON']>;
+  metaData: ComponentSiteConfigMetaDatumInput;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type Appearance = {
+  __typename?: 'Appearance';
+  attendanceConnections: AttendanceAppearanceConnectionLinkConnection;
+  company: Company;
+  id: Scalars['ID'];
+};
+
+export type AppearanceAttendanceConnectionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
 
-export type PaperTrailVersion = {
-  __typename?: 'PaperTrailVersion';
-  command: Maybe<Scalars['String']>;
-  context: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['ISO8601Date']>;
-  event: Scalars['String'];
-  id: Scalars['Int'];
-  itemId: Scalars['ID'];
-  itemType: Scalars['String'];
-  object: Maybe<Scalars['String']>;
-  objectChanges: Maybe<Scalars['String']>;
-  reason: Maybe<Scalars['String']>;
-  sourceLocation: Maybe<Scalars['String']>;
-  whodunnit: Maybe<Scalars['String']>;
+/** The connection type for Appearance. */
+export type AppearanceConnection = {
+  __typename?: 'AppearanceConnection';
+  /** A list of edges. */
+  edges: Array<AppearanceEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
-/** A ticket release combines a ticket type and a release phase, e.g. Early-Bird General Attendee */
-export type TicketRelease = {
-  __typename?: 'TicketRelease';
-  /** The action available to the user, inferred from a combination of factors */
-  action: Maybe<TicketReleaseAction>;
-  /** Returns true when the release phase is active */
-  active: Scalars['Boolean'];
-  description: Maybe<Scalars['String']>;
+/** An edge in a connection. */
+export type AppearanceEdge = {
+  __typename?: 'AppearanceEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Appearance;
+};
+
+/** Autogenerated input type of AppearanceUpdate */
+export type AppearanceUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
+  isSponsor: Scalars['Boolean'];
+  privacyPolicyUrl?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of AppearanceUpdate */
+export type AppearanceUpdatePayload = {
+  __typename?: 'AppearanceUpdatePayload';
+  appearance: Maybe<Appearance>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  errors: Array<Error>;
+};
+
+export type Assigned = {
+  __typename?: 'Assigned';
+  accepted: Accepted;
+  checkedIn: CheckedIn;
+  count: Scalars['Int'];
+  duplicate: Duplicate;
+  locked: Locked;
+  pending: Pending;
+};
+
+export type Assignment = {
+  __typename?: 'Assignment';
+  appLoginEmail: Maybe<Scalars['String']>;
+  assignee: Maybe<AssignmentUser>;
+  assigner: Maybe<AssignmentUser>;
   id: Scalars['ID'];
-  name: Scalars['String'];
-  /** The next release, after this release phase has elapsed */
-  nextRelease: Maybe<TicketRelease>;
-  /** The previous release, before this one began */
-  previousRelease: Maybe<TicketRelease>;
-  price: Maybe<Price>;
-  releasePhase: TicketReleasePhase;
-  soldOut: Scalars['Boolean'];
-  /** The corresponding source entity from third-party provider, e.g. from Tito */
-  source: Maybe<SourceTicketReleaseUnion>;
-  ticketType: TicketType;
+  state: AssignmentState;
   versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-export type TicketReleaseAction =
-  | TicketReleaseActionsExpiredTicketAction
-  | TicketReleaseActionsPriceAlertAction
-  | TicketReleaseActionsPriceEnquiryAction
-  | TicketReleaseActionsTitoCheckoutAction;
-
-export type TicketReleaseActionsExpiredTicketAction = {
-  __typename?: 'TicketReleaseActionsExpiredTicketAction';
-  message: Scalars['String'];
-  suggestedRelease: Maybe<TicketRelease>;
+/** Autogenerated input type of AssignmentAccountUpdate */
+export type AssignmentAccountUpdateInput = {
+  accountId: Scalars['ID'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
 };
 
-export type TicketReleaseActionsPriceAlertAction = {
-  __typename?: 'TicketReleaseActionsPriceAlertAction';
-  dynamicForm: DynamicForm;
+/** Autogenerated return type of AssignmentAccountUpdate */
+export type AssignmentAccountUpdatePayload = {
+  __typename?: 'AssignmentAccountUpdatePayload';
+  account: Maybe<AssignmentUser>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
-export type DynamicForm = {
-  __typename?: 'DynamicForm';
-  id: Scalars['ID'];
-  data: Scalars['JSON'];
-  schema: Scalars['JSONSchemaForm'];
-  mutation: Scalars['String'];
-  uiSchema: Scalars['JSONSchemaForm'];
+/** Autogenerated input type of AssignmentAuthenticate */
+export type AssignmentAuthenticateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  token: Scalars['String'];
 };
 
-export type TicketReleaseActionsPriceEnquiryAction = {
-  __typename?: 'TicketReleaseActionsPriceEnquiryAction';
-  emailAddress: Maybe<Scalars['EmailAddress']>;
+/** Autogenerated return type of AssignmentAuthenticate */
+export type AssignmentAuthenticatePayload = {
+  __typename?: 'AssignmentAuthenticatePayload';
+  accessToken: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  conferenceSlug: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
-export type TicketReleaseActionsTitoCheckoutAction = {
-  __typename?: 'TicketReleaseActionsTitoCheckoutAction';
-  quantity: Scalars['Int'];
+/** The connection type for Assignment. */
+export type AssignmentConnection = {
+  __typename?: 'AssignmentConnection';
+  /** A list of edges. */
+  edges: Array<AssignmentEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
-export type Price = {
-  __typename?: 'Price';
-  /** Price without a tax */
-  exTax: Money;
-  /** @deprecated This field is only here for compatibility reasons.You should not use it because we no longer support tax lines, the returned value is hardcoded to an empty array. */
-  taxLines: Array<TaxLine>;
-  /** Total price including taxes */
-  total: Money;
-  /** Total tax value */
-  totalTax: Money;
+/** An edge in a connection. */
+export type AssignmentEdge = {
+  __typename?: 'AssignmentEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Assignment;
 };
 
-export type Money = {
-  __typename?: 'Money';
-  amount: Scalars['Decimal'];
-  currency: Currency;
-  format: Scalars['String'];
-};
-
-export type MoneyFormatArgs = {
-  includeUnit?: Maybe<Scalars['Boolean']>;
-  locale?: Maybe<Scalars['String']>;
-  precision?: Maybe<Scalars['Int']>;
-};
-
-export type Currency = {
-  __typename?: 'Currency';
-  code: CurrencyCode;
-  name: Scalars['String'];
-  symbol: Scalars['String'];
-};
-
-export enum CurrencyCode {
-  Aed = 'AED',
-  Aud = 'AUD',
-  Brl = 'BRL',
-  Cad = 'CAD',
-  Chf = 'CHF',
-  Clp = 'CLP',
-  Cny = 'CNY',
-  Cop = 'COP',
-  Czk = 'CZK',
-  Dkk = 'DKK',
-  Eur = 'EUR',
-  Gbp = 'GBP',
-  Hkd = 'HKD',
-  Huf = 'HUF',
-  Idr = 'IDR',
-  Ils = 'ILS',
-  Inr = 'INR',
-  Jpy = 'JPY',
-  Krw = 'KRW',
-  Mxn = 'MXN',
-  Myr = 'MYR',
-  Nok = 'NOK',
-  Nzd = 'NZD',
-  Php = 'PHP',
-  Pln = 'PLN',
-  Ron = 'RON',
-  Rub = 'RUB',
-  Sar = 'SAR',
-  Sek = 'SEK',
-  Sgd = 'SGD',
-  Thb = 'THB',
-  Try = 'TRY',
-  Twd = 'TWD',
-  Usd = 'USD',
-  Zar = 'ZAR',
-}
-
-export type TaxLine = {
-  __typename?: 'TaxLine';
-  amount: Money;
-  name: Scalars['String'];
-  rate: Scalars['Decimal'];
-};
-
-/** Tickets are often released in phased batches, e.g. Early-Bird or Late-Late Booker */
-export type TicketReleasePhase = {
-  __typename?: 'TicketReleasePhase';
-  active: Scalars['Boolean'];
-  description: Maybe<Scalars['String']>;
-  endsAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  /** A link to the phase that follows this phase, if there is one */
-  nextPhase: Maybe<TicketReleasePhase>;
-  /** A link to the phase that predated this phase, if there is one */
-  previousPhase: Maybe<TicketReleasePhase>;
-  startsAt: Scalars['ISO8601DateTime'];
-  status: TicketReleasePhaseStatus;
-  versions: Maybe<Array<PaperTrailVersion>>;
-};
-
-/** Possible release phase states */
-export enum TicketReleasePhaseStatus {
-  Active = 'ACTIVE',
-  InTheFuture = 'IN_THE_FUTURE',
-  InThePast = 'IN_THE_PAST',
-}
-
-/**
- * A union abstraction over source ticket types.
- *
- * Currently only contains Tito releases but is open for extension once we have other types.
- */
-export type SourceTicketReleaseUnion = TitoTicketRelease;
-
-/** Tito linked ticket release */
-export type TitoTicketRelease = {
-  __typename?: 'TitoTicketRelease';
-  /** The unique event slug of the event this release is for */
+/** Autogenerated input type of AssignmentMagicLinkGenerate */
+export type AssignmentMagicLinkGenerateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Email address of the account. */
+  email: Scalars['String'];
   eventSlug: Scalars['String'];
-  slug: Scalars['String'];
-  /** The ti.to url that links to this release */
-  url: Maybe<Scalars['URL']>;
+  /** Specifies the time in minutes the generated login link will be valid for. Defaults to 30 minutes. */
+  ttl?: Maybe<Scalars['Int']>;
 };
 
-/** The connection type for TicketReleasePhase. */
-export type TicketReleasePhaseConnection = {
-  __typename?: 'TicketReleasePhaseConnection';
-  /** A list of edges. */
-  edges: Array<TicketReleasePhaseEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
+/** Autogenerated return type of AssignmentMagicLinkGenerate */
+export type AssignmentMagicLinkGeneratePayload = {
+  __typename?: 'AssignmentMagicLinkGeneratePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']>;
+  loginLink: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
-/** An edge in a connection. */
-export type TicketReleasePhaseEdge = {
-  __typename?: 'TicketReleasePhaseEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: TicketReleasePhase;
+/** Autogenerated input type of AssignmentMagicLinkLoginRequest */
+export type AssignmentMagicLinkLoginRequestInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
 };
 
-/** The connection type for TicketRelease. */
-export type TicketReleaseConnection = {
-  __typename?: 'TicketReleaseConnection';
-  /** A list of edges. */
-  edges: Array<TicketReleaseEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
+/** Autogenerated return type of AssignmentMagicLinkLoginRequest */
+export type AssignmentMagicLinkLoginRequestPayload = {
+  __typename?: 'AssignmentMagicLinkLoginRequestPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
-/** An edge in a connection. */
-export type TicketReleaseEdge = {
-  __typename?: 'TicketReleaseEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: TicketRelease;
+/** Autogenerated input type of AssignmentProfileAdminUpdate */
+export type AssignmentProfileAdminUpdateInput = {
+  accountId: Scalars['ID'];
+  bio?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
+  companySizeId?: Maybe<Scalars['ID']>;
+  firstName?: Maybe<Scalars['String']>;
+  gender?: Maybe<Scalars['String']>;
+  industryId?: Maybe<Scalars['ID']>;
+  jobTitle?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of AssignmentProfileAdminUpdate */
+export type AssignmentProfileAdminUpdatePayload = {
+  __typename?: 'AssignmentProfileAdminUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  profile: Maybe<AssignmentUser>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of AssignmentProfileUpdate */
+export type AssignmentProfileUpdateInput = {
+  city?: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
+  companySizeId: Scalars['ID'];
+  firstName: Scalars['String'];
+  industryId: Scalars['ID'];
+  jobTitle: Scalars['String'];
+  lastName?: Maybe<Scalars['String']>;
+  marketingConsent: Scalars['String'];
+  partnerSharingConsent?: Maybe<Scalars['String']>;
+  passportNumber?: Maybe<Scalars['String']>;
+  personalisationConsent: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  ticketId: Scalars['ID'];
+};
+
+/** Autogenerated return type of AssignmentProfileUpdate */
+export type AssignmentProfileUpdatePayload = {
+  __typename?: 'AssignmentProfileUpdatePayload';
+  assignee: Maybe<AssignmentUser>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
 export type AssignmentProperties = {
@@ -1971,349 +502,270 @@ export type AssignmentProperties = {
   rejectable: Scalars['Boolean'];
 };
 
-export type ComponentWebElementsTicketPromotion = {
-  __typename?: 'ComponentWebElementsTicketPromotion';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  type: TicketPromotionType;
-  label: Maybe<Scalars['String']>;
-  color: Maybe<Scalars['String']>;
-  ticketType: TicketType;
+/** Autogenerated input type of AssignmentSalesforceAccountUpdate */
+export type AssignmentSalesforceAccountUpdateInput = {
+  announcementStatus?: Maybe<Scalars['String']>;
+  appLoginEmail?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
+  countryName?: Maybe<Scalars['String']>;
+  gender?: Maybe<Scalars['String']>;
+  industry?: Maybe<Scalars['String']>;
+  jobTitle?: Maybe<Scalars['String']>;
+  passportNumber?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  salesforceAttendanceUid: Scalars['String'];
 };
 
-export enum TicketPromotionType {
-  Annotation = 'ANNOTATION',
-  Highlight = 'HIGHLIGHT',
+/** Autogenerated return type of AssignmentSalesforceAccountUpdate */
+export type AssignmentSalesforceAccountUpdatePayload = {
+  __typename?: 'AssignmentSalesforceAccountUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+export enum AssignmentState {
+  Accepted = 'ACCEPTED',
+  Duplicate = 'DUPLICATE',
+  Pending = 'PENDING',
 }
 
-export type ComponentWebElementsReleasePhaseStepper = {
-  __typename?: 'ComponentWebElementsReleasePhaseStepper';
+/** Autogenerated input type of AssignmentTicketLoginUpdate */
+export type AssignmentTicketLoginUpdateInput = {
+  appLoginEmail: Scalars['String'];
+  bookingRef: Scalars['String'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of AssignmentTicketLoginUpdate */
+export type AssignmentTicketLoginUpdatePayload = {
+  __typename?: 'AssignmentTicketLoginUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  ticket: Maybe<Ticket>;
+  userErrors: Array<UserError>;
+};
+
+export type AssignmentUser = {
+  __typename?: 'AssignmentUser';
+  assigneeAssignments: Maybe<AssignmentConnection>;
+  bio: Maybe<Scalars['String']>;
+  city: Maybe<Scalars['String']>;
+  companyName: Maybe<Scalars['String']>;
+  companySizeId: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  gender: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  product: Maybe<Products>;
-  ticketType: TicketType;
+  industryId: Maybe<Scalars['String']>;
+  jobTitle: Maybe<Scalars['String']>;
+  lastLoginTokenCreatedAt: Maybe<Scalars['ISO8601Date']>;
+  lastName: Maybe<Scalars['String']>;
+  marketingConsent: Maybe<Scalars['String']>;
+  me: Scalars['Boolean'];
+  partnerSharingConsent: Maybe<Scalars['String']>;
+  passportNumber: Maybe<Scalars['String']>;
+  personalisationConsent: Maybe<Scalars['String']>;
+  phoneNumber: Maybe<Scalars['String']>;
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-export type ComponentWebLayoutsTicketApplicationsPage = {
-  __typename?: 'ComponentWebLayoutsTicketApplicationsPage';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['Markdown']>;
-  categoriesMenu: Maybe<Menu>;
-  applicationForm: Maybe<Form>;
-  ticketInfoPanel: Maybe<ComponentWebElementsTicketTypeInformation>;
-  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
-  applicationOverviewPanel: Maybe<ComponentWebElementsTicketApplicationOverviewPanel>;
-  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+export type AssignmentUserAssigneeAssignmentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
-export type Form = {
-  __typename?: 'Form';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  contentBefore: Maybe<Scalars['Markdown']>;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-  dynamicForm: DynamicForm;
-};
-
-export type ComponentWebElementsTicketTypeInformation = {
-  __typename?: 'ComponentWebElementsTicketTypeInformation';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  product: Maybe<Products>;
-  showBenefits: Scalars['Boolean'];
-  displayPriceIncludingTax: Maybe<Scalars['Boolean']>;
-  heading: Maybe<Scalars['String']>;
-  benefits: Array<ProductBenefits>;
-  ticketType: TicketType;
-};
-
-export type ComponentWebElementsTicketTypeInformationBenefitsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type ComponentWebElementsTicketApplicationOverviewPanel = {
-  __typename?: 'ComponentWebElementsTicketApplicationOverviewPanel';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  imageUrl: Maybe<Scalars['String']>;
-  altImageText: Maybe<Scalars['String']>;
-};
-
-export type ComponentWebElementsShowcaseGrid = {
-  __typename?: 'ComponentWebElementsShowcaseGrid';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  contentBefore: Maybe<Scalars['Markdown']>;
-  backgroundColor: Maybe<Scalars['String']>;
-  collection: ContentCollection;
-};
-
-export type ContentCollection = {
-  __typename?: 'ContentCollection';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-  elements: Array<ContentElement>;
-};
-
-export type ContentCollectionElementsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type ContentElement = {
-  __typename?: 'ContentElement';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Maybe<Scalars['String']>;
-  image: Maybe<UploadFile>;
-  link: Maybe<ComponentWebLinksUrlLink>;
-  created_by: Maybe<AdminUser>;
-  updated_by: Maybe<AdminUser>;
-  collections: Array<ContentCollection>;
-};
-
-export type ContentElementCollectionsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type ComponentWebElementsScheduleSearchSidebarFilters = {
-  __typename?: 'ComponentWebElementsScheduleSearchSidebarFilters';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  apiKey: Scalars['String'];
-  indexName: Scalars['String'];
-  refinements: Array<ComponentSearchAlgoliaRefinement>;
-};
-
-export type ComponentSearchAlgoliaRefinement = {
-  __typename?: 'ComponentSearchAlgoliaRefinement';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Scalars['String'];
-  attribute: Scalars['String'];
-  defaults: Maybe<Scalars['JSON']>;
-  variant: SearchRefinementWidgetType;
-  refinementItemsLimit: Maybe<Scalars['Int']>;
-};
-
-export enum SearchRefinementWidgetType {
-  DropdownMulti = 'DROPDOWN_MULTI',
-  DropdownSingle = 'DROPDOWN_SINGLE',
-  Hidden = 'HIDDEN',
-  LiveTalksOnly = 'LIVE_TALKS_ONLY',
-  NumericSlider = 'NUMERIC_SLIDER',
-  TagsMulti = 'TAGS_MULTI',
+export enum Attendance {
+  /** Investor */
+  Investor = 'INVESTOR',
+  /** Speaker */
+  Speaker = 'SPEAKER',
 }
 
-export type ComponentWebElementsCompanySearchSidebarFilters = {
-  __typename?: 'ComponentWebElementsCompanySearchSidebarFilters';
+export type AttendanceAppearanceConnectionLink = {
+  __typename?: 'AttendanceAppearanceConnectionLink';
+  createdAt: Scalars['ISO8601DateTime'];
+  entity: Attendee;
   id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  apiKey: Scalars['String'];
-  conferenceId: Maybe<Scalars['String']>;
-  indexName: Scalars['String'];
-  refinements: Array<ComponentSearchAlgoliaRefinement>;
+  source: Maybe<Scalars['String']>;
+  updatedAt: Scalars['ISO8601DateTime'];
 };
 
-export type ComponentWebElementsAttendeeSearchSidebarFilters = {
-  __typename?: 'ComponentWebElementsAttendeeSearchSidebarFilters';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  apiKey: Scalars['String'];
-  indexName: Scalars['String'];
-  refinements: Array<ComponentSearchAlgoliaRefinement>;
-};
-
-export type ComponentWebElementsHeroSection = {
-  __typename?: 'ComponentWebElementsHeroSection';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  backgroundImage: Maybe<UploadFile>;
-  backgroundImageAlt: Maybe<Scalars['String']>;
-  backgroundImageDescription: Maybe<Scalars['String']>;
-  title: Maybe<Scalars['String']>;
-  subtitle: Maybe<Scalars['Markdown']>;
-  brandImage: Maybe<UploadFile>;
-  variant: Enum_Componentwebelementsherosection_Variant;
-  ctaLink: Maybe<ComponentWebElementsCtaLink>;
-};
-
-export enum Enum_Componentwebelementsherosection_Variant {
-  Compact = 'COMPACT',
-  Regular = 'REGULAR',
-}
-
-export type ComponentWebElementsCtaLink = {
-  __typename?: 'ComponentWebElementsCtaLink';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  text: Scalars['String'];
-  url: Scalars['String'];
-  openInNewTab: Scalars['Boolean'];
-};
-
-export type ComponentWebElementsFreshchat = {
-  __typename?: 'ComponentWebElementsFreshchat';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  OnMobile: Maybe<Scalars['Boolean']>;
-  OnDesktop: Maybe<Scalars['Boolean']>;
-};
-
-export type ComponentWebLayoutsStoresTicketSalesPage = {
-  __typename?: 'ComponentWebLayoutsStoresTicketSalesPage';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
-  categoriesMenu: Maybe<Menu>;
-  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
-  products: Array<ComponentWebElementsProducts>;
-  productIds: Maybe<Scalars['JSON']>;
-  ticketReleasesPanel: Maybe<ComponentWebElementsTicketReleasesPanel>;
-  promotions: Array<ComponentWebElementsTicketPromotion>;
-  benefitsList: Array<ProductBenefits>;
-};
-
-export type ComponentWebLayoutsStoresTicketSalesPageBenefitsListArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export type ComponentWebElementsProducts = {
-  __typename?: 'ComponentWebElementsProducts';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  product: Maybe<Products>;
-  type: Maybe<Enum_Componentwebelementsproducts_Type>;
-  buttonLabel: Maybe<Scalars['String']>;
-  link: Maybe<Scalars['String']>;
-  promotionType: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
-  promotionLabel: Maybe<Scalars['String']>;
-  promotionColor: Maybe<Scalars['String']>;
-  benefits: Array<ProductBenefits>;
-};
-
-export type ComponentWebElementsProductsBenefitsArgs = {
-  sort?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  start?: Maybe<Scalars['Int']>;
-  where?: Maybe<Scalars['JSON']>;
-};
-
-export enum Enum_Componentwebelementsproducts_Type {
-  Link = 'link',
-  Sale = 'sale',
-  SoldOut = 'soldOut',
-}
-
-export enum Enum_Componentwebelementsproducts_Promotiontype {
-  Annotation = 'ANNOTATION',
-  Highlight = 'HIGHLIGHT',
-}
-
-export type ComponentWebLayoutsStoresTicketApplicationsPage = {
-  __typename?: 'ComponentWebLayoutsStoresTicketApplicationsPage';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  title: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['Markdown']>;
-  categoriesMenu: Maybe<Menu>;
-  applicationForm: Maybe<Form>;
-  ticketInfoPanel: Maybe<ComponentWebElementsTicketTypeInformation>;
-  applicationOverviewPanel: Maybe<ComponentWebElementsTicketApplicationOverviewPanel>;
-  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
-  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
-};
-
-export type ComponentWebElementsSeoMetaData = {
-  __typename?: 'ComponentWebElementsSeoMetaData';
-  id: Scalars['ID'];
-  _id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  defaultImage: Maybe<UploadFile>;
-  description: Maybe<Scalars['String']>;
-  title: Maybe<Scalars['String']>;
-  slug: Maybe<Scalars['String']>;
-  twitterImage: Maybe<UploadFile>;
-  facebookImage: Maybe<UploadFile>;
-  twitterTitle: Maybe<Scalars['String']>;
-  facebookTitle: Maybe<Scalars['String']>;
-  twitterDescription: Maybe<Scalars['String']>;
-  facebookDescription: Maybe<Scalars['String']>;
-};
-
-/** The connection type for TicketCategory. */
-export type TicketCategoryConnection = {
-  __typename?: 'TicketCategoryConnection';
+/** The connection type for AttendanceAppearanceConnectionLink. */
+export type AttendanceAppearanceConnectionLinkConnection = {
+  __typename?: 'AttendanceAppearanceConnectionLinkConnection';
   /** A list of edges. */
-  edges: Array<TicketCategoryEdge>;
+  edges: Array<AttendanceAppearanceConnectionLinkEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
 };
 
 /** An edge in a connection. */
-export type TicketCategoryEdge = {
-  __typename?: 'TicketCategoryEdge';
+export type AttendanceAppearanceConnectionLinkEdge = {
+  __typename?: 'AttendanceAppearanceConnectionLinkEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
-  node: TicketCategory;
+  node: AttendanceAppearanceConnectionLink;
+};
+
+export type AttendanceAppearanceSelection = {
+  __typename?: 'AttendanceAppearanceSelection';
+  appearance: Appearance;
+  attendance: Attendee;
+  createdAt: Scalars['String'];
+  endsAt: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  participations: Maybe<Array<Attendee>>;
+  priority: Maybe<Scalars['Int']>;
+  sessionTimeslotId: Maybe<Scalars['ID']>;
+  startsAt: Maybe<Scalars['String']>;
+  status: Scalars['String'];
+  submittedAt: Maybe<Scalars['String']>;
+  updatedAt: Scalars['String'];
+};
+
+export type AttendanceAppearanceSelectionCreatedAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type AttendanceAppearanceSelectionEndsAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type AttendanceAppearanceSelectionStartsAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type AttendanceAppearanceSelectionSubmittedAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type AttendanceAppearanceSelectionUpdatedAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+/** The connection type for AttendanceAppearanceSelection. */
+export type AttendanceAppearanceSelectionConnection = {
+  __typename?: 'AttendanceAppearanceSelectionConnection';
+  /** A list of edges. */
+  edges: Array<AttendanceAppearanceSelectionEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** Autogenerated input type of AttendanceAppearanceSelectionDestroy */
+export type AttendanceAppearanceSelectionDestroyInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+/** Autogenerated return type of AttendanceAppearanceSelectionDestroy */
+export type AttendanceAppearanceSelectionDestroyPayload = {
+  __typename?: 'AttendanceAppearanceSelectionDestroyPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+/** An edge in a connection. */
+export type AttendanceAppearanceSelectionEdge = {
+  __typename?: 'AttendanceAppearanceSelectionEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: AttendanceAppearanceSelection;
+};
+
+export type AttendanceAppearanceSelectionsDetails = {
+  __typename?: 'AttendanceAppearanceSelectionsDetails';
+  acceptedSelectionCount: Scalars['Int'];
+  attendanceAppearanceSelections: Maybe<AttendanceAppearanceSelectionConnection>;
+  pendingSelectionCount: Scalars['Int'];
+  rejectedSelectionCount: Scalars['Int'];
+  submittedSelectionCount: Scalars['Int'];
+};
+
+export type AttendanceAppearanceSelectionsDetailsAttendanceAppearanceSelectionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export enum AttendanceAppearanceSelectionsStatus {
+  /** Accepted */
+  Accepted = 'ACCEPTED',
+  /** Pending */
+  Pending = 'PENDING',
+  /** Rejected */
+  Rejected = 'REJECTED',
+  /** Submitted */
+  Submitted = 'SUBMITTED',
+}
+
+/** Autogenerated input type of AttendanceAppearanceSelectionsUpdate */
+export type AttendanceAppearanceSelectionsUpdateInput = {
+  attendanceIds: Array<Scalars['ID']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  status: Scalars['String'];
+};
+
+/** Autogenerated return type of AttendanceAppearanceSelectionsUpdate */
+export type AttendanceAppearanceSelectionsUpdatePayload = {
+  __typename?: 'AttendanceAppearanceSelectionsUpdatePayload';
+  attendances: Maybe<AttendeeConnection>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated return type of AttendanceAppearanceSelectionsUpdate */
+export type AttendanceAppearanceSelectionsUpdatePayloadAttendancesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type AttendanceFilter = {
+  attendanceAppearanceSelectionsStatus?: Maybe<
+    Array<AttendanceAppearanceSelectionsStatus>
+  >;
+  type?: Maybe<Attendance>;
+};
+
+/** Autogenerated input type of AttendanceInvestorSessionUpdate */
+export type AttendanceInvestorSessionUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  investorSessionConfiguration?: Maybe<InvestorSessionConfiguration>;
+};
+
+/** Autogenerated return type of AttendanceInvestorSessionUpdate */
+export type AttendanceInvestorSessionUpdatePayload = {
+  __typename?: 'AttendanceInvestorSessionUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
 export type Attendee = {
@@ -2377,182 +829,6 @@ export type AttendeeTalksArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type AttendanceAppearanceSelectionsDetails = {
-  __typename?: 'AttendanceAppearanceSelectionsDetails';
-  acceptedSelectionCount: Scalars['Int'];
-  attendanceAppearanceSelections: Maybe<AttendanceAppearanceSelectionConnection>;
-  pendingSelectionCount: Scalars['Int'];
-  rejectedSelectionCount: Scalars['Int'];
-  submittedSelectionCount: Scalars['Int'];
-};
-
-export type AttendanceAppearanceSelectionsDetailsAttendanceAppearanceSelectionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-/** The connection type for AttendanceAppearanceSelection. */
-export type AttendanceAppearanceSelectionConnection = {
-  __typename?: 'AttendanceAppearanceSelectionConnection';
-  /** A list of edges. */
-  edges: Array<AttendanceAppearanceSelectionEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type AttendanceAppearanceSelectionEdge = {
-  __typename?: 'AttendanceAppearanceSelectionEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: AttendanceAppearanceSelection;
-};
-
-export type AttendanceAppearanceSelection = {
-  __typename?: 'AttendanceAppearanceSelection';
-  appearance: Appearance;
-  attendance: Attendee;
-  createdAt: Scalars['String'];
-  endsAt: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  participations: Maybe<Array<Attendee>>;
-  priority: Maybe<Scalars['Int']>;
-  sessionTimeslotId: Maybe<Scalars['ID']>;
-  startsAt: Maybe<Scalars['String']>;
-  status: Scalars['String'];
-  submittedAt: Maybe<Scalars['String']>;
-  updatedAt: Scalars['String'];
-};
-
-export type AttendanceAppearanceSelectionCreatedAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type AttendanceAppearanceSelectionEndsAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type AttendanceAppearanceSelectionStartsAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type AttendanceAppearanceSelectionSubmittedAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type AttendanceAppearanceSelectionUpdatedAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type Appearance = {
-  __typename?: 'Appearance';
-  attendanceConnections: AttendanceAppearanceConnectionLinkConnection;
-  company: Company;
-  id: Scalars['ID'];
-};
-
-export type AppearanceAttendanceConnectionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-/** The connection type for AttendanceAppearanceConnectionLink. */
-export type AttendanceAppearanceConnectionLinkConnection = {
-  __typename?: 'AttendanceAppearanceConnectionLinkConnection';
-  /** A list of edges. */
-  edges: Array<AttendanceAppearanceConnectionLinkEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type AttendanceAppearanceConnectionLinkEdge = {
-  __typename?: 'AttendanceAppearanceConnectionLinkEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: AttendanceAppearanceConnectionLink;
-};
-
-export type AttendanceAppearanceConnectionLink = {
-  __typename?: 'AttendanceAppearanceConnectionLink';
-  createdAt: Scalars['ISO8601DateTime'];
-  entity: Attendee;
-  id: Scalars['ID'];
-  source: Maybe<Scalars['String']>;
-  updatedAt: Scalars['ISO8601DateTime'];
-};
-
-export type Company = {
-  __typename?: 'Company';
-  id: Scalars['ID'];
-  logoUrl: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  privacyPolicyUrl: Maybe<Scalars['String']>;
-};
-
-export type CompanySize = {
-  __typename?: 'CompanySize';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-export type Country = {
-  __typename?: 'Country';
-  callingCode: Scalars['Int'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-export type Industry = {
-  __typename?: 'Industry';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-export type InvestorSession = {
-  __typename?: 'InvestorSession';
-  attendanceId: Maybe<Scalars['ID']>;
-  endsAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  startsAt: Scalars['ISO8601DateTime'];
-  tableNumber: Scalars['Int'];
-};
-
-/** The connection type for Topic. */
-export type TopicConnection = {
-  __typename?: 'TopicConnection';
-  /** A list of edges. */
-  edges: Array<TopicEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type TopicEdge = {
-  __typename?: 'TopicEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Topic;
-};
-
-export type Topic = {
-  __typename?: 'Topic';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
 /** The connection type for Attendee. */
 export type AttendeeConnection = {
   __typename?: 'AttendeeConnection';
@@ -2571,129 +847,228 @@ export type AttendeeEdge = {
   node: Attendee;
 };
 
-/** The connection type for ScheduleTimeslot. */
-export type ScheduleTimeslotConnection = {
-  __typename?: 'ScheduleTimeslotConnection';
-  /** A list of edges. */
-  edges: Array<ScheduleTimeslotEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
+/** Autogenerated input type of AttendeeProfileUpdate */
+export type AttendeeProfileUpdateInput = {
+  bio?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
+  companySizeId?: Maybe<Scalars['ID']>;
+  countryId?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  industryId?: Maybe<Scalars['ID']>;
+  jobTitle?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  marketingConsent?: Maybe<Scalars['String']>;
+  offeringTopicIds?: Maybe<Array<Scalars['ID']>>;
+  passportNumber?: Maybe<Scalars['String']>;
+  personalisationConsent?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  seekingTopicIds?: Maybe<Array<Scalars['ID']>>;
 };
 
-/** An edge in a connection. */
-export type ScheduleTimeslotEdge = {
-  __typename?: 'ScheduleTimeslotEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: ScheduleTimeslot;
+/** Autogenerated return type of AttendeeProfileUpdate */
+export type AttendeeProfileUpdatePayload = {
+  __typename?: 'AttendeeProfileUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  dynamicForm: Maybe<DynamicForm>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
 };
 
-export type ScheduleTimeslot = {
-  __typename?: 'ScheduleTimeslot';
-  calendarEventId: Maybe<Scalars['String']>;
-  channelUrl: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  endsAt: Maybe<Scalars['ISO8601DateTime']>;
+/** Autogenerated input type of AuthenticateByToken */
+export type AuthenticateByTokenInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  token: Scalars['String'];
+};
+
+/** Autogenerated return type of AuthenticateByToken */
+export type AuthenticateByTokenPayload = {
+  __typename?: 'AuthenticateByTokenPayload';
+  accessToken: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  user: User;
+  userErrors: Array<UserError>;
+};
+
+export type Branding = {
+  __typename?: 'Branding';
   id: Scalars['ID'];
-  location: Maybe<Location>;
-  participants: AttendeeConnection;
-  slug: Maybe<Scalars['String']>;
-  startsAt: Maybe<Scalars['ISO8601DateTime']>;
-  title: Scalars['String'];
-  topics: Array<Topic>;
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  googleFontsUrl: Maybe<Scalars['String']>;
+  typekitFontsUrl: Maybe<Scalars['String']>;
+  theme: Maybe<Scalars['JSON']>;
+  logo: Maybe<UploadFile>;
+  headerBranding: Maybe<UploadFile>;
+  favicon: Maybe<UploadFile>;
+  ticketLogo: Maybe<UploadFile>;
+  invoiceHeader: Maybe<UploadFile>;
+  invoiceFooter: Maybe<UploadFile>;
+  invoiceStamp: Maybe<UploadFile>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
 };
 
-export type ScheduleTimeslotParticipantsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+export type BrandingAggregator = {
+  __typename?: 'BrandingAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
 };
 
-export type Location = {
-  __typename?: 'Location';
-  id: Scalars['ID'];
-  livestreamUrl: Maybe<Scalars['String']>;
-  name: Scalars['String'];
+export type BrandingConnection = {
+  __typename?: 'BrandingConnection';
+  values: Maybe<Array<Maybe<Branding>>>;
+  groupBy: Maybe<BrandingGroupBy>;
+  aggregate: Maybe<BrandingAggregator>;
 };
 
-/** The connection type for Admin. */
-export type AdminConnection = {
-  __typename?: 'AdminConnection';
-  /** A list of edges. */
-  edges: Array<AdminEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
+export type BrandingConnectionCreatedAt = {
+  __typename?: 'BrandingConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<BrandingConnection>;
 };
 
-/** An edge in a connection. */
-export type AdminEdge = {
-  __typename?: 'AdminEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Admin;
+export type BrandingConnectionCreated_By = {
+  __typename?: 'BrandingConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
 };
 
-export type Admin = {
-  __typename?: 'Admin';
-  email: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  permissions: Array<Scalars['String']>;
-  userRoles: Array<UserRole>;
+export type BrandingConnectionFavicon = {
+  __typename?: 'BrandingConnectionFavicon';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
 };
 
-export type UserRole = {
-  __typename?: 'UserRole';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  permissions: Array<Scalars['String']>;
+export type BrandingConnectionGoogleFontsUrl = {
+  __typename?: 'BrandingConnectionGoogleFontsUrl';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<BrandingConnection>;
 };
 
-/** The connection type for Appearance. */
-export type AppearanceConnection = {
-  __typename?: 'AppearanceConnection';
-  /** A list of edges. */
-  edges: Array<AppearanceEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
+export type BrandingConnectionHeaderBranding = {
+  __typename?: 'BrandingConnectionHeaderBranding';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
 };
 
-/** An edge in a connection. */
-export type AppearanceEdge = {
-  __typename?: 'AppearanceEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Appearance;
+export type BrandingConnectionId = {
+  __typename?: 'BrandingConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
 };
 
-export type AttendanceFilter = {
-  attendanceAppearanceSelectionsStatus?: Maybe<
-    Array<AttendanceAppearanceSelectionsStatus>
-  >;
-  type?: Maybe<Attendance>;
+export type BrandingConnectionInvoiceFooter = {
+  __typename?: 'BrandingConnectionInvoiceFooter';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
 };
 
-export enum AttendanceAppearanceSelectionsStatus {
-  /** Accepted */
-  Accepted = 'ACCEPTED',
-  /** Pending */
-  Pending = 'PENDING',
-  /** Rejected */
-  Rejected = 'REJECTED',
-  /** Submitted */
-  Submitted = 'SUBMITTED',
-}
+export type BrandingConnectionInvoiceHeader = {
+  __typename?: 'BrandingConnectionInvoiceHeader';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
+};
 
-export enum Attendance {
-  /** Investor */
-  Investor = 'INVESTOR',
-  /** Speaker */
-  Speaker = 'SPEAKER',
-}
+export type BrandingConnectionInvoiceStamp = {
+  __typename?: 'BrandingConnectionInvoiceStamp';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnectionLogo = {
+  __typename?: 'BrandingConnectionLogo';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnectionTheme = {
+  __typename?: 'BrandingConnectionTheme';
+  key: Maybe<Scalars['JSON']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnectionTicketLogo = {
+  __typename?: 'BrandingConnectionTicketLogo';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnectionTitle = {
+  __typename?: 'BrandingConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnectionTypekitFontsUrl = {
+  __typename?: 'BrandingConnectionTypekitFontsUrl';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnectionUpdatedAt = {
+  __typename?: 'BrandingConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnectionUpdated_By = {
+  __typename?: 'BrandingConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingConnection_Id = {
+  __typename?: 'BrandingConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<BrandingConnection>;
+};
+
+export type BrandingGroupBy = {
+  __typename?: 'BrandingGroupBy';
+  id: Maybe<Array<Maybe<BrandingConnectionId>>>;
+  _id: Maybe<Array<Maybe<BrandingConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<BrandingConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<BrandingConnectionUpdatedAt>>>;
+  title: Maybe<Array<Maybe<BrandingConnectionTitle>>>;
+  googleFontsUrl: Maybe<Array<Maybe<BrandingConnectionGoogleFontsUrl>>>;
+  typekitFontsUrl: Maybe<Array<Maybe<BrandingConnectionTypekitFontsUrl>>>;
+  theme: Maybe<Array<Maybe<BrandingConnectionTheme>>>;
+  logo: Maybe<Array<Maybe<BrandingConnectionLogo>>>;
+  headerBranding: Maybe<Array<Maybe<BrandingConnectionHeaderBranding>>>;
+  favicon: Maybe<Array<Maybe<BrandingConnectionFavicon>>>;
+  ticketLogo: Maybe<Array<Maybe<BrandingConnectionTicketLogo>>>;
+  invoiceHeader: Maybe<Array<Maybe<BrandingConnectionInvoiceHeader>>>;
+  invoiceFooter: Maybe<Array<Maybe<BrandingConnectionInvoiceFooter>>>;
+  invoiceStamp: Maybe<Array<Maybe<BrandingConnectionInvoiceStamp>>>;
+  created_by: Maybe<Array<Maybe<BrandingConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<BrandingConnectionUpdated_By>>>;
+};
+
+export type BrandingInput = {
+  title?: Maybe<Scalars['String']>;
+  googleFontsUrl?: Maybe<Scalars['String']>;
+  typekitFontsUrl?: Maybe<Scalars['String']>;
+  theme?: Maybe<Scalars['JSON']>;
+  events?: Maybe<Array<Scalars['ID']>>;
+  logo?: Maybe<Scalars['ID']>;
+  headerBranding?: Maybe<Scalars['ID']>;
+  favicon?: Maybe<Scalars['ID']>;
+  ticketLogo?: Maybe<Scalars['ID']>;
+  invoiceHeader?: Maybe<Scalars['ID']>;
+  invoiceFooter?: Maybe<Scalars['ID']>;
+  invoiceStamp?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
 
 export type ChatChannel = {
   __typename?: 'ChatChannel';
@@ -2712,6 +1087,24 @@ export type ChatChannelMembersArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+/** The connection type for ChatChannel. */
+export type ChatChannelConnection = {
+  __typename?: 'ChatChannelConnection';
+  /** A list of edges. */
+  edges: Array<ChatChannelEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type ChatChannelEdge = {
+  __typename?: 'ChatChannelEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: ChatChannel;
+};
+
 export type ChatMessage = {
   __typename?: 'ChatMessage';
   body: Maybe<Scalars['String']>;
@@ -2720,6 +1113,11 @@ export type ChatMessage = {
   sender: ChatUser;
   sentAt: Scalars['ISO8601DateTime'];
 };
+
+export enum ChatProvider {
+  Pubnub = 'PUBNUB',
+  Twilio = 'TWILIO',
+}
 
 export type ChatUser = {
   __typename?: 'ChatUser';
@@ -2748,27 +1146,1910 @@ export type ChatUserEdge = {
   node: ChatUser;
 };
 
-export enum ChatProvider {
-  Pubnub = 'PUBNUB',
-  Twilio = 'TWILIO',
-}
-
-/** The connection type for ChatChannel. */
-export type ChatChannelConnection = {
-  __typename?: 'ChatChannelConnection';
-  /** A list of edges. */
-  edges: Array<ChatChannelEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
+export type CheckedIn = {
+  __typename?: 'CheckedIn';
+  count: Scalars['Int'];
 };
 
-/** An edge in a connection. */
-export type ChatChannelEdge = {
-  __typename?: 'ChatChannelEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: ChatChannel;
+export type CommerceAddress = {
+  __typename?: 'CommerceAddress';
+  city: Scalars['String'];
+  country: Scalars['String'];
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  line1: Scalars['String'];
+  line2: Maybe<Scalars['String']>;
+  owner: Maybe<CommerceUser>;
+  postalCode: Scalars['String'];
+  state: Maybe<Scalars['String']>;
+};
+
+export type CommerceAddressCreate = {
+  city: Scalars['String'];
+  country: Scalars['String'];
+  line1: Scalars['String'];
+  line2?: Maybe<Scalars['String']>;
+  postalCode: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
+};
+
+export type CommerceAddressCreateOrUpdate = {
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  line1?: Maybe<Scalars['String']>;
+  line2?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+};
+
+export type CommerceAddressUpdate = {
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  line1?: Maybe<Scalars['String']>;
+  line2?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+};
+
+export type CommerceAuditEntry = {
+  __typename?: 'CommerceAuditEntry';
+  action: Maybe<CommerceAuditEntryAction>;
+  payload: Maybe<Scalars['JSON']>;
+  reason: Maybe<Scalars['String']>;
+  scopeId: Maybe<Scalars['ID']>;
+  scopeType: Maybe<Scalars['String']>;
+  target: Maybe<Scalars['ID']>;
+  timestamp: Maybe<Scalars['Date']>;
+  transactionId: Maybe<Scalars['ID']>;
+  type: Maybe<Scalars['String']>;
+  userData: Maybe<Scalars['JSON']>;
+};
+
+export enum CommerceAuditEntryAction {
+  Create = 'CREATE',
+  Delete = 'DELETE',
+  Get = 'GET',
+  List = 'LIST',
+  NoOp = 'NO_OP',
+  Update = 'UPDATE',
+}
+
+export type CommerceCategory = {
+  __typename?: 'CommerceCategory';
+  active: Maybe<Scalars['Boolean']>;
+  children: Maybe<Array<CommerceCategory>>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  parent: Maybe<CommerceCategory>;
+  products: Maybe<Array<CommerceProduct>>;
+};
+
+export type CommerceCategoryCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  parent?: Maybe<Scalars['ID']>;
+  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+};
+
+export type CommerceCategoryCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  parent?: Maybe<Scalars['ID']>;
+  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+};
+
+export type CommerceCategoryUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  parent?: Maybe<Scalars['ID']>;
+  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+};
+
+export type CommerceCustomer = {
+  __typename?: 'CommerceCustomer';
+  address: Maybe<CommerceAddress>;
+  companyName: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Maybe<Scalars['ID']>;
+  lastName: Scalars['String'];
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  owner: Maybe<CommerceUser>;
+  phoneNumber: Maybe<Scalars['String']>;
+  vatNumber: Maybe<Scalars['String']>;
+  vatVerified: Maybe<Scalars['Boolean']>;
+};
+
+export type CommerceCustomerCreate = {
+  address?: Maybe<CommerceAddressCreateOrUpdate>;
+  companyName?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  vatNumber?: Maybe<Scalars['String']>;
+};
+
+export type CommerceCustomerCreateOrUpdate = {
+  address?: Maybe<CommerceAddressCreateOrUpdate>;
+  companyName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  vatNumber?: Maybe<Scalars['String']>;
+};
+
+export type CommerceCustomerUpdate = {
+  address?: Maybe<CommerceAddressCreateOrUpdate>;
+  companyName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  vatNumber?: Maybe<Scalars['String']>;
+};
+
+export type CommerceDeal = {
+  __typename?: 'CommerceDeal';
+  active: Maybe<Scalars['Boolean']>;
+  code: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  dealItems: Maybe<Array<CommerceDealItem>>;
+  description: Maybe<Scalars['String']>;
+  endDate: Scalars['Date'];
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  startDate: Scalars['Date'];
+  timesUsed: Maybe<Scalars['Int']>;
+  usages: Maybe<Scalars['Int']>;
+};
+
+export type CommerceDealCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  endDate: Scalars['Date'];
+  metadata?: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  startDate: Scalars['Date'];
+  usages?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceDealCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['Date']>;
+  usages?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceDealItem = {
+  __typename?: 'CommerceDealItem';
+  amount: Scalars['Int'];
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  max: Scalars['Int'];
+  metadata: Maybe<Scalars['JSON']>;
+  min: Scalars['Int'];
+  name: Maybe<Scalars['String']>;
+  product: Maybe<CommerceProduct>;
+  step: Scalars['Int'];
+  type: CommerceDealItemType;
+};
+
+export type CommerceDealItemCreate = {
+  amount: Scalars['Int'];
+  max: Scalars['Int'];
+  min: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  product: Scalars['ID'];
+  step: Scalars['Int'];
+  type: CommerceDealItemType;
+};
+
+export type CommerceDealItemCreateOrUpdate = {
+  amount?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
+  step?: Maybe<Scalars['Int']>;
+  type?: Maybe<CommerceDealItemType>;
+};
+
+export enum CommerceDealItemType {
+  AbsoluteDiscount = 'ABSOLUTE_DISCOUNT',
+  AbsolutePrice = 'ABSOLUTE_PRICE',
+  PercentageDiscount = 'PERCENTAGE_DISCOUNT',
+}
+
+export type CommerceDealItemUpdate = {
+  amount?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
+  step?: Maybe<Scalars['Int']>;
+  type?: Maybe<CommerceDealItemType>;
+};
+
+export type CommerceDealUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  code?: Maybe<Scalars['String']>;
+  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
+  description?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['Date']>;
+  usages?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceOrder = {
+  __typename?: 'CommerceOrder';
+  applicableDeals: Maybe<Array<CommerceDeal>>;
+  billed: Maybe<Scalars['Int']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  currency: Maybe<Scalars['String']>;
+  currencySymbol: Maybe<Scalars['String']>;
+  customer: Maybe<CommerceCustomer>;
+  deal: Maybe<CommerceDeal>;
+  dealDiscount: Maybe<Scalars['Int']>;
+  discountTotal: Maybe<Scalars['Int']>;
+  id: Maybe<Scalars['ID']>;
+  invoiceUrl: Maybe<Scalars['String']>;
+  itemSubtotal: Maybe<Scalars['Int']>;
+  items: Array<CommerceOrderItem>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  locked: Maybe<Scalars['Boolean']>;
+  marketingMetadata: Maybe<Scalars['JSON']>;
+  metadata: Maybe<Scalars['JSON']>;
+  owner: Maybe<CommerceUser>;
+  paid: Maybe<Scalars['Int']>;
+  paymentMethod: Maybe<CommercePaymentMethod>;
+  paymentStatus: Maybe<CommerceOrderPaymentStatus>;
+  reference: Maybe<Scalars['String']>;
+  refundReceiptUrl: Maybe<Scalars['String']>;
+  refunded: Maybe<Scalars['Int']>;
+  status: Maybe<CommerceOrderStatus>;
+  subTotal: Maybe<Scalars['Int']>;
+  taxTotal: Maybe<Scalars['Int']>;
+  taxes: Maybe<Array<CommerceTaxSummary>>;
+  total: Maybe<Scalars['Int']>;
+  transactions: Maybe<Array<Maybe<CommerceTransaction>>>;
+  url: Maybe<Scalars['String']>;
+  valueTotal: Maybe<Scalars['Int']>;
+  voucher: Maybe<CommerceVoucher>;
+  voucherDiscount: Maybe<Scalars['Int']>;
+};
+
+export type CommerceOrderCreate = {
+  applicableDeals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
+  billed?: Maybe<Scalars['Int']>;
+  currency?: Maybe<Scalars['String']>;
+  currencySymbol?: Maybe<Scalars['String']>;
+  customer?: Maybe<CommerceCustomerCreateOrUpdate>;
+  deal?: Maybe<Scalars['ID']>;
+  dealDiscount?: Maybe<Scalars['Int']>;
+  discountTotal?: Maybe<Scalars['Int']>;
+  invoiceUrl?: Maybe<Scalars['String']>;
+  itemSubtotal?: Maybe<Scalars['Int']>;
+  items: Array<CommerceOrderItemCreateOrUpdate>;
+  locked?: Maybe<Scalars['Boolean']>;
+  marketingMetadata?: Maybe<Scalars['JSON']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  paid?: Maybe<Scalars['Int']>;
+  paymentMethod?: Maybe<Scalars['ID']>;
+  refundReceiptUrl?: Maybe<Scalars['String']>;
+  status?: Maybe<CommerceOrderStatus>;
+  subTotal?: Maybe<Scalars['Int']>;
+  taxTotal?: Maybe<Scalars['Int']>;
+  taxes?: Maybe<Array<CommerceTaxSummaryCreateOrUpdate>>;
+  total?: Maybe<Scalars['Int']>;
+  url?: Maybe<Scalars['String']>;
+  valueTotal?: Maybe<Scalars['Int']>;
+  voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceOrderItem = {
+  __typename?: 'CommerceOrderItem';
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  dealDiscount: Maybe<Scalars['Int']>;
+  discountTotal: Maybe<Scalars['Int']>;
+  id: Maybe<Scalars['ID']>;
+  itemName: Maybe<Scalars['String']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  price: Maybe<Scalars['Int']>;
+  product: Maybe<CommerceProduct>;
+  productMetadata: Maybe<Scalars['JSON']>;
+  productType: Maybe<CommerceOrderItemProductType>;
+  quantity: Scalars['Int'];
+  subTotal: Maybe<Scalars['Int']>;
+  tax: Maybe<CommerceTax>;
+  taxTotal: Maybe<Scalars['Int']>;
+  total: Maybe<Scalars['Int']>;
+  valueTotal: Maybe<Scalars['Int']>;
+  voucherDiscount: Maybe<Scalars['Int']>;
+};
+
+export type CommerceOrderItemCreate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
+  itemName?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
+  product: Scalars['ID'];
+  productMetadata?: Maybe<Scalars['JSON']>;
+  quantity: Scalars['Int'];
+  subTotal?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['Int']>;
+  valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceOrderItemCreateOrUpdate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  itemName?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
+  product?: Maybe<Scalars['ID']>;
+  productMetadata?: Maybe<Scalars['JSON']>;
+  quantity?: Maybe<Scalars['Int']>;
+  subTotal?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['Int']>;
+  valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
+};
+
+export enum CommerceOrderItemProductType {
+  Package = 'PACKAGE',
+  Simple = 'SIMPLE',
+}
+
+export type CommerceOrderItemUpdate = {
+  dealDiscount?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  itemName?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Int']>;
+  product?: Maybe<Scalars['ID']>;
+  productMetadata?: Maybe<Scalars['JSON']>;
+  quantity?: Maybe<Scalars['Int']>;
+  subTotal?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['Int']>;
+  valueTotal?: Maybe<Scalars['Int']>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
+};
+
+export enum CommerceOrderPaymentStatus {
+  Overpaid = 'OVERPAID',
+  Paid = 'PAID',
+  PartiallyRefunded = 'PARTIALLY_REFUNDED',
+  Pending = 'PENDING',
+  Refunded = 'REFUNDED',
+}
+
+export enum CommerceOrderStatus {
+  Cancelled = 'CANCELLED',
+  Complete = 'COMPLETE',
+  Pending = 'PENDING',
+  Reinstated = 'REINSTATED',
+}
+
+export type CommerceOrderUpdate = {
+  applicableDeals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
+  billed?: Maybe<Scalars['Int']>;
+  currency?: Maybe<Scalars['String']>;
+  currencySymbol?: Maybe<Scalars['String']>;
+  customer?: Maybe<CommerceCustomerCreateOrUpdate>;
+  deal?: Maybe<Scalars['ID']>;
+  dealDiscount?: Maybe<Scalars['Int']>;
+  discountTotal?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  invoiceUrl?: Maybe<Scalars['String']>;
+  itemSubtotal?: Maybe<Scalars['Int']>;
+  items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
+  locked?: Maybe<Scalars['Boolean']>;
+  marketingMetadata?: Maybe<Scalars['JSON']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  paid?: Maybe<Scalars['Int']>;
+  paymentMethod?: Maybe<Scalars['ID']>;
+  refundReceiptUrl?: Maybe<Scalars['String']>;
+  status?: Maybe<CommerceOrderStatus>;
+  subTotal?: Maybe<Scalars['Int']>;
+  taxTotal?: Maybe<Scalars['Int']>;
+  taxes?: Maybe<Array<CommerceTaxSummaryCreateOrUpdate>>;
+  total?: Maybe<Scalars['Int']>;
+  url?: Maybe<Scalars['String']>;
+  valueTotal?: Maybe<Scalars['Int']>;
+  voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
+  voucherDiscount?: Maybe<Scalars['Int']>;
+};
+
+export type CommercePackagedProduct = {
+  __typename?: 'CommercePackagedProduct';
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  packagedProduct: Maybe<CommerceProduct>;
+  quantity: Scalars['Int'];
+};
+
+export type CommercePackagedProductCreate = {
+  packagedProduct: Scalars['ID'];
+  quantity: Scalars['Int'];
+};
+
+export type CommercePackagedProductCreateOrUpdate = {
+  id?: Maybe<Scalars['ID']>;
+  packagedProduct?: Maybe<Scalars['ID']>;
+  quantity?: Maybe<Scalars['Int']>;
+};
+
+export type CommercePackagedProductUpdate = {
+  id?: Maybe<Scalars['ID']>;
+  packagedProduct?: Maybe<Scalars['ID']>;
+  quantity?: Maybe<Scalars['Int']>;
+};
+
+export type CommercePaymentGateway = {
+  __typename?: 'CommercePaymentGateway';
+  configKeys: Maybe<Array<Maybe<Scalars['String']>>>;
+  id: Maybe<Scalars['ID']>;
+  name: Maybe<Scalars['String']>;
+  sensitiveKeys: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type CommercePaymentMethod = {
+  __typename?: 'CommercePaymentMethod';
+  active: Maybe<Scalars['Boolean']>;
+  configuration: Maybe<Scalars['JSON']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  gateway: Scalars['ID'];
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  name: Scalars['String'];
+};
+
+export type CommercePaymentMethodCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  configuration?: Maybe<Scalars['JSON']>;
+  gateway: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type CommercePaymentMethodCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  configuration?: Maybe<Scalars['JSON']>;
+  gateway?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CommercePaymentMethodUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  configuration?: Maybe<Scalars['JSON']>;
+  gateway?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CommerceProduct = {
+  __typename?: 'CommerceProduct';
+  active: Maybe<Scalars['Boolean']>;
+  categories: Maybe<Array<CommerceCategory>>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  defaultPrice: Maybe<Scalars['Int']>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  onSale: Maybe<Scalars['Boolean']>;
+  packagedProducts: Maybe<Array<CommercePackagedProduct>>;
+  packages: Maybe<Array<CommerceProduct>>;
+  price: Scalars['Int'];
+  tags: Maybe<Array<CommerceTag>>;
+  taxMode: Maybe<CommerceProductTaxMode>;
+  taxType: CommerceTaxType;
+  timesUsed: Maybe<Scalars['Int']>;
+  type: Maybe<CommerceProductType>;
+};
+
+export type CommerceProductCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
+  defaultPrice?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+  price: Scalars['Int'];
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
+  taxMode?: Maybe<CommerceProductTaxMode>;
+  taxType: CommerceTaxTypeCreateOrUpdate;
+  timesUsed?: Maybe<Scalars['Int']>;
+  type?: Maybe<CommerceProductType>;
+};
+
+export type CommerceProductCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
+  defaultPrice?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+  price?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
+  taxMode?: Maybe<CommerceProductTaxMode>;
+  taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+  timesUsed?: Maybe<Scalars['Int']>;
+  type?: Maybe<CommerceProductType>;
+};
+
+export enum CommerceProductTaxMode {
+  B2B = 'B2B',
+  B2C = 'B2C',
+}
+
+export enum CommerceProductType {
+  Package = 'PACKAGE',
+  Simple = 'SIMPLE',
+}
+
+export type CommerceProductUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
+  defaultPrice?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
+  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+  price?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
+  taxMode?: Maybe<CommerceProductTaxMode>;
+  taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+  timesUsed?: Maybe<Scalars['Int']>;
+  type?: Maybe<CommerceProductType>;
+};
+
+export type CommerceSale = {
+  __typename?: 'CommerceSale';
+  active: Maybe<Scalars['Boolean']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  endDate: Scalars['Date'];
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  saleProducts: Maybe<Array<CommerceSaleProduct>>;
+  startDate: Scalars['Date'];
+};
+
+export type CommerceSaleCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  description?: Maybe<Scalars['String']>;
+  endDate: Scalars['Date'];
+  metadata?: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
+  startDate: Scalars['Date'];
+};
+
+export type CommerceSaleCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  description?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
+  startDate?: Maybe<Scalars['Date']>;
+};
+
+export type CommerceSaleProduct = {
+  __typename?: 'CommerceSaleProduct';
+  active: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Maybe<Scalars['String']>;
+  price: Maybe<Scalars['Int']>;
+  product: Maybe<CommerceProduct>;
+  type: CommerceSaleProductType;
+};
+
+export type CommerceSaleProductCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  product: Scalars['ID'];
+  type: CommerceSaleProductType;
+};
+
+export type CommerceSaleProductCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceSaleProductType>;
+};
+
+export enum CommerceSaleProductType {
+  AbsoluteDiscount = 'ABSOLUTE_DISCOUNT',
+  AbsolutePrice = 'ABSOLUTE_PRICE',
+  PercentageDiscount = 'PERCENTAGE_DISCOUNT',
+}
+
+export type CommerceSaleProductUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceSaleProductType>;
+};
+
+export type CommerceSaleUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  description?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
+  startDate?: Maybe<Scalars['Date']>;
+};
+
+export type CommerceSearchResponseCategory = {
+  __typename?: 'CommerceSearchResponseCategory';
+  hits: Maybe<Array<CommerceCategory>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseCustomer = {
+  __typename?: 'CommerceSearchResponseCustomer';
+  hits: Maybe<Array<CommerceCustomer>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseDeal = {
+  __typename?: 'CommerceSearchResponseDeal';
+  hits: Maybe<Array<CommerceDeal>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseDealItem = {
+  __typename?: 'CommerceSearchResponseDealItem';
+  hits: Maybe<Array<CommerceDealItem>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseOrder = {
+  __typename?: 'CommerceSearchResponseOrder';
+  hits: Maybe<Array<CommerceOrder>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponsePackagedProduct = {
+  __typename?: 'CommerceSearchResponsePackagedProduct';
+  hits: Maybe<Array<CommercePackagedProduct>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponsePaymentGateway = {
+  __typename?: 'CommerceSearchResponsePaymentGateway';
+  hits: Maybe<Array<Maybe<CommercePaymentGateway>>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponsePaymentMethod = {
+  __typename?: 'CommerceSearchResponsePaymentMethod';
+  hits: Maybe<Array<CommercePaymentMethod>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseProduct = {
+  __typename?: 'CommerceSearchResponseProduct';
+  hits: Maybe<Array<CommerceProduct>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseSale = {
+  __typename?: 'CommerceSearchResponseSale';
+  hits: Maybe<Array<CommerceSale>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseSaleProduct = {
+  __typename?: 'CommerceSearchResponseSaleProduct';
+  hits: Maybe<Array<CommerceSaleProduct>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseStore = {
+  __typename?: 'CommerceSearchResponseStore';
+  hits: Maybe<Array<CommerceStore>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseTag = {
+  __typename?: 'CommerceSearchResponseTag';
+  hits: Maybe<Array<CommerceTag>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseTax = {
+  __typename?: 'CommerceSearchResponseTax';
+  hits: Maybe<Array<CommerceTax>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseTaxType = {
+  __typename?: 'CommerceSearchResponseTaxType';
+  hits: Maybe<Array<CommerceTaxType>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchResponseVoucher = {
+  __typename?: 'CommerceSearchResponseVoucher';
+  hits: Maybe<Array<CommerceVoucher>>;
+  page: Maybe<Scalars['Int']>;
+  pageSize: Maybe<Scalars['Int']>;
+  sort: Maybe<Array<CommerceSortTermOutput>>;
+  terms: Maybe<Array<CommerceSearchTermOutput>>;
+  total: Maybe<Scalars['Int']>;
+};
+
+export type CommerceSearchTerm = {
+  field?: Maybe<Scalars['String']>;
+  op?: Maybe<CommerceSearchTermOp>;
+  value?: Maybe<Scalars['Object']>;
+};
+
+export enum CommerceSearchTermOp {
+  Eq = 'eq',
+  Gt = 'gt',
+  Gte = 'gte',
+  Like = 'like',
+  Lt = 'lt',
+  Lte = 'lte',
+  Ne = 'ne',
+}
+
+export type CommerceSearchTermOutput = {
+  __typename?: 'CommerceSearchTermOutput';
+  field: Scalars['String'];
+  op: CommerceSearchTermOutputOp;
+  value: Scalars['Object'];
+};
+
+export enum CommerceSearchTermOutputOp {
+  Eq = 'eq',
+  Gt = 'gt',
+  Gte = 'gte',
+  Like = 'like',
+  Lt = 'lt',
+  Lte = 'lte',
+  Ne = 'ne',
+}
+
+export type CommerceSortTerm = {
+  direction?: Maybe<CommerceSortTermDirection>;
+  field?: Maybe<Scalars['String']>;
+};
+
+export enum CommerceSortTermDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+export type CommerceSortTermOutput = {
+  __typename?: 'CommerceSortTermOutput';
+  direction: CommerceSortTermOutputDirection;
+  field: Scalars['String'];
+};
+
+export enum CommerceSortTermOutputDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+export type CommerceStore = {
+  __typename?: 'CommerceStore';
+  active: Maybe<Scalars['Boolean']>;
+  baseUrl: Scalars['String'];
+  categories: Maybe<Array<CommerceCategory>>;
+  country: Scalars['String'];
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  currency: Scalars['String'];
+  currencySymbol: Maybe<Scalars['String']>;
+  currentSales: Maybe<Array<CommerceSale>>;
+  deals: Maybe<Array<CommerceDeal>>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  paymentMethods: Maybe<Array<CommercePaymentMethod>>;
+  products: Maybe<Array<CommerceProduct>>;
+  sales: Maybe<Array<CommerceSale>>;
+  slug: Scalars['String'];
+  stockMode: CommerceStoreStockMode;
+  storeBilling: CommerceStoreBilling;
+  tags: Maybe<Array<CommerceTag>>;
+  taxErrors: Maybe<Array<Maybe<Scalars['String']>>>;
+  taxTypes: Maybe<Array<CommerceTaxType>>;
+  taxes: Maybe<Array<CommerceTax>>;
+  vatNumber: Scalars['String'];
+  vouchers: Maybe<Array<CommerceVoucher>>;
+};
+
+export type CommerceStoreBilling = {
+  __typename?: 'CommerceStoreBilling';
+  city: Scalars['String'];
+  companyName: Scalars['String'];
+  companyRegNumber: Maybe<Scalars['String']>;
+  country: Scalars['String'];
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  email: Scalars['String'];
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  line1: Scalars['String'];
+  line2: Maybe<Scalars['String']>;
+  note: Maybe<Scalars['String']>;
+  phone: Scalars['String'];
+  postalCode: Scalars['String'];
+  state: Maybe<Scalars['String']>;
+  vatNumber: Scalars['String'];
+};
+
+export type CommerceStoreBillingCreate = {
+  city: Scalars['String'];
+  companyName: Scalars['String'];
+  companyRegNumber?: Maybe<Scalars['String']>;
+  country: Scalars['String'];
+  email: Scalars['String'];
+  line1: Scalars['String'];
+  line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+  phone: Scalars['String'];
+  postalCode: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
+  vatNumber: Scalars['String'];
+};
+
+export type CommerceStoreBillingCreateOrUpdate = {
+  city?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
+  companyRegNumber?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  line1?: Maybe<Scalars['String']>;
+  line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  vatNumber?: Maybe<Scalars['String']>;
+};
+
+export type CommerceStoreBillingUpdate = {
+  city?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
+  companyRegNumber?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  line1?: Maybe<Scalars['String']>;
+  line2?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  vatNumber?: Maybe<Scalars['String']>;
+};
+
+export type CommerceStoreCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  baseUrl: Scalars['String'];
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
+  country: Scalars['String'];
+  currency: Scalars['String'];
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  paymentMethods?: Maybe<Array<CommercePaymentMethodCreateOrUpdate>>;
+  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+  sales?: Maybe<Array<CommerceSaleCreateOrUpdate>>;
+  slug: Scalars['String'];
+  stockMode: CommerceStoreStockMode;
+  storeBilling: CommerceStoreBillingCreateOrUpdate;
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
+  taxErrors?: Maybe<Array<Maybe<Scalars['String']>>>;
+  taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
+  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
+  vatNumber: Scalars['String'];
+  vouchers?: Maybe<Array<CommerceVoucherCreateOrUpdate>>;
+};
+
+export enum CommerceStoreStockMode {
+  None = 'NONE',
+  Sale = 'SALE',
+}
+
+export type CommerceStoreUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  baseUrl?: Maybe<Scalars['String']>;
+  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
+  country?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
+  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
+  id?: Maybe<Scalars['ID']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  name?: Maybe<Scalars['String']>;
+  paymentMethods?: Maybe<Array<CommercePaymentMethodCreateOrUpdate>>;
+  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+  sales?: Maybe<Array<CommerceSaleCreateOrUpdate>>;
+  slug?: Maybe<Scalars['String']>;
+  stockMode?: Maybe<CommerceStoreStockMode>;
+  storeBilling?: Maybe<CommerceStoreBillingCreateOrUpdate>;
+  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
+  taxErrors?: Maybe<Array<Maybe<Scalars['String']>>>;
+  taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
+  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
+  vatNumber?: Maybe<Scalars['String']>;
+  vouchers?: Maybe<Array<CommerceVoucherCreateOrUpdate>>;
+};
+
+export type CommerceTag = {
+  __typename?: 'CommerceTag';
+  code: Scalars['String'];
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+};
+
+export type CommerceTagCreate = {
+  code: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type CommerceTagCreateOrUpdate = {
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CommerceTagUpdate = {
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CommerceTax = {
+  __typename?: 'CommerceTax';
+  country: Scalars['String'];
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  name: Scalars['String'];
+  note: Maybe<Scalars['String']>;
+  rateAmount: Scalars['Int'];
+  rateType: CommerceTaxRateType;
+  taxType: CommerceTaxType;
+};
+
+export type CommerceTaxCreate = {
+  country: Scalars['String'];
+  name: Scalars['String'];
+  note?: Maybe<Scalars['String']>;
+  rateAmount: Scalars['Int'];
+  rateType: CommerceTaxRateType;
+  taxType: CommerceTaxTypeCreateOrUpdate;
+};
+
+export type CommerceTaxCreateOrUpdate = {
+  country?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceTaxRateType>;
+  taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+};
+
+export type CommerceTaxDetail = {
+  __typename?: 'CommerceTaxDetail';
+  taxId: Scalars['ID'];
+  total: Scalars['Int'];
+};
+
+export type CommerceTaxDetailCreate = {
+  taxId: Scalars['ID'];
+  total: Scalars['Int'];
+};
+
+export type CommerceTaxDetailCreateOrUpdate = {
+  taxId?: Maybe<Scalars['ID']>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceTaxDetailUpdate = {
+  taxId?: Maybe<Scalars['ID']>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export enum CommerceTaxRateType {
+  Absolute = 'ABSOLUTE',
+  Percentage = 'PERCENTAGE',
+}
+
+export type CommerceTaxSummary = {
+  __typename?: 'CommerceTaxSummary';
+  name: Maybe<Scalars['String']>;
+  netTotal: Maybe<Scalars['Int']>;
+  rateAmount: Maybe<Scalars['Int']>;
+  rateType: Maybe<CommerceTaxSummaryRateType>;
+  taxId: Scalars['ID'];
+  taxType: Maybe<Scalars['String']>;
+  total: Scalars['Int'];
+};
+
+export type CommerceTaxSummaryCreate = {
+  name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceTaxSummaryRateType>;
+  taxId: Scalars['ID'];
+  taxType?: Maybe<Scalars['String']>;
+  total: Scalars['Int'];
+};
+
+export type CommerceTaxSummaryCreateOrUpdate = {
+  name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceTaxSummaryRateType>;
+  taxId?: Maybe<Scalars['ID']>;
+  taxType?: Maybe<Scalars['String']>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export enum CommerceTaxSummaryRateType {
+  Absolute = 'ABSOLUTE',
+  Percentage = 'PERCENTAGE',
+}
+
+export type CommerceTaxSummaryUpdate = {
+  name?: Maybe<Scalars['String']>;
+  netTotal?: Maybe<Scalars['Int']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceTaxSummaryRateType>;
+  taxId?: Maybe<Scalars['ID']>;
+  taxType?: Maybe<Scalars['String']>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceTaxType = {
+  __typename?: 'CommerceTaxType';
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  name: Scalars['String'];
+  taxes: Maybe<Array<CommerceTax>>;
+};
+
+export type CommerceTaxTypeCreate = {
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
+};
+
+export type CommerceTaxTypeCreateOrUpdate = {
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
+};
+
+export type CommerceTaxTypeUpdate = {
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
+};
+
+export type CommerceTaxUpdate = {
+  country?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+  rateAmount?: Maybe<Scalars['Int']>;
+  rateType?: Maybe<CommerceTaxRateType>;
+  taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
+};
+
+export type CommerceTransaction = {
+  __typename?: 'CommerceTransaction';
+  amount: Maybe<Scalars['Int']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  currency: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  paymentMethod: Maybe<CommercePaymentMethod>;
+  refundedTransaction: Maybe<Scalars['ID']>;
+  status: Maybe<CommerceTransactionStatus>;
+  taxDetails: Maybe<Array<CommerceTaxDetail>>;
+  timestamp: Maybe<Scalars['Date']>;
+  type: Maybe<CommerceTransactionType>;
+};
+
+export type CommerceTransactionCreate = {
+  amount?: Maybe<Scalars['Int']>;
+  currency?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  paymentMethod?: Maybe<CommercePaymentMethodCreateOrUpdate>;
+  refundedTransaction?: Maybe<Scalars['ID']>;
+  status?: Maybe<CommerceTransactionStatus>;
+  taxDetails?: Maybe<Array<CommerceTaxDetailCreateOrUpdate>>;
+  timestamp?: Maybe<Scalars['Date']>;
+  type?: Maybe<CommerceTransactionType>;
+};
+
+export enum CommerceTransactionStatus {
+  Cancelled = 'CANCELLED',
+  Complete = 'COMPLETE',
+  Pending = 'PENDING',
+}
+
+export enum CommerceTransactionType {
+  Payment = 'PAYMENT',
+  Refund = 'REFUND',
+}
+
+export type CommerceUser = {
+  __typename?: 'CommerceUser';
+  email: Scalars['String'];
+  id: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+};
+
+export type CommerceVoucher = {
+  __typename?: 'CommerceVoucher';
+  active: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
+  code: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['Date']>;
+  createdBy: Maybe<CommerceUser>;
+  description: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>;
+  lastUpdatedAt: Maybe<Scalars['Date']>;
+  lastUpdatedBy: Maybe<CommerceUser>;
+  metadata: Maybe<Scalars['JSON']>;
+  timesUsed: Maybe<Scalars['Int']>;
+  type: CommerceVoucherType;
+  usages: Maybe<Scalars['Int']>;
+};
+
+export type CommerceVoucherCreate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount: Scalars['Int'];
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  type: CommerceVoucherType;
+  usages?: Maybe<Scalars['Int']>;
+};
+
+export type CommerceVoucherCreateOrUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceVoucherType>;
+  usages?: Maybe<Scalars['Int']>;
+};
+
+export enum CommerceVoucherType {
+  Absolute = 'ABSOLUTE',
+  Percentage = 'PERCENTAGE',
+}
+
+export type CommerceVoucherUpdate = {
+  active?: Maybe<Scalars['Boolean']>;
+  amount?: Maybe<Scalars['Int']>;
+  code?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  type?: Maybe<CommerceVoucherType>;
+  usages?: Maybe<Scalars['Int']>;
+};
+
+export type Company = {
+  __typename?: 'Company';
+  id: Scalars['ID'];
+  logoUrl: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  privacyPolicyUrl: Maybe<Scalars['String']>;
+};
+
+export type CompanySize = {
+  __typename?: 'CompanySize';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type ComponentSearchAlgoliaRefinement = {
+  __typename?: 'ComponentSearchAlgoliaRefinement';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Scalars['String'];
+  attribute: Scalars['String'];
+  defaults: Maybe<Scalars['JSON']>;
+  variant: SearchRefinementWidgetType;
+  refinementItemsLimit: Maybe<Scalars['Int']>;
+};
+
+export type ComponentSearchAlgoliaRefinementInput = {
+  title: Scalars['String'];
+  attribute: Scalars['String'];
+  defaults?: Maybe<Scalars['JSON']>;
+  variant: SearchRefinementWidgetType;
+  refinementItemsLimit?: Maybe<Scalars['Int']>;
+};
+
+export type ComponentSiteConfigGoogleAnalyticsLinkerDomainList = {
+  __typename?: 'ComponentSiteConfigGoogleAnalyticsLinkerDomainList';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  domain: Maybe<Scalars['String']>;
+};
+
+export type ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput = {
+  domain?: Maybe<Scalars['String']>;
+};
+
+export type ComponentSiteConfigMetaData = {
+  __typename?: 'ComponentSiteConfigMetaData';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  image: Maybe<UploadFile>;
+  siteTitle: Scalars['String'];
+  siteDescription: Scalars['String'];
+  facebookId: Maybe<Scalars['String']>;
+  facebookPublisher: Maybe<Scalars['String']>;
+  twitterId: Maybe<Scalars['String']>;
+  twitterCreator: Maybe<Scalars['String']>;
+};
+
+export type ComponentSiteConfigMetaDatumInput = {
+  image?: Maybe<Scalars['ID']>;
+  siteTitle: Scalars['String'];
+  siteDescription: Scalars['String'];
+  facebookId?: Maybe<Scalars['String']>;
+  facebookPublisher?: Maybe<Scalars['String']>;
+  twitterId?: Maybe<Scalars['String']>;
+  twitterCreator?: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebElementsAttendeeSearchSidebarFilterInput = {
+  apiKey: Scalars['String'];
+  indexName: Scalars['String'];
+  refinements: Array<ComponentSearchAlgoliaRefinementInput>;
+};
+
+export type ComponentWebElementsAttendeeSearchSidebarFilters = {
+  __typename?: 'ComponentWebElementsAttendeeSearchSidebarFilters';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  apiKey: Scalars['String'];
+  indexName: Scalars['String'];
+  refinements: Array<ComponentSearchAlgoliaRefinement>;
+};
+
+export type ComponentWebElementsCompanySearchSidebarFilterInput = {
+  apiKey: Scalars['String'];
+  conferenceId?: Maybe<Scalars['String']>;
+  indexName: Scalars['String'];
+  refinements: Array<ComponentSearchAlgoliaRefinementInput>;
+};
+
+export type ComponentWebElementsCompanySearchSidebarFilters = {
+  __typename?: 'ComponentWebElementsCompanySearchSidebarFilters';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  apiKey: Scalars['String'];
+  conferenceId: Maybe<Scalars['String']>;
+  indexName: Scalars['String'];
+  refinements: Array<ComponentSearchAlgoliaRefinement>;
+};
+
+export type ComponentWebElementsCtaLink = {
+  __typename?: 'ComponentWebElementsCtaLink';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  text: Scalars['String'];
+  url: Scalars['String'];
+  openInNewTab: Scalars['Boolean'];
+};
+
+export type ComponentWebElementsCtaLinkInput = {
+  text: Scalars['String'];
+  url: Scalars['String'];
+  openInNewTab: Scalars['Boolean'];
+};
+
+export type ComponentWebElementsFreshchat = {
+  __typename?: 'ComponentWebElementsFreshchat';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  OnMobile: Maybe<Scalars['Boolean']>;
+  OnDesktop: Maybe<Scalars['Boolean']>;
+};
+
+export type ComponentWebElementsFreshchatInput = {
+  OnMobile?: Maybe<Scalars['Boolean']>;
+  OnDesktop?: Maybe<Scalars['Boolean']>;
+};
+
+export type ComponentWebElementsHeroSection = {
+  __typename?: 'ComponentWebElementsHeroSection';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  backgroundImage: Maybe<UploadFile>;
+  backgroundImageAlt: Maybe<Scalars['String']>;
+  backgroundImageDescription: Maybe<Scalars['String']>;
+  title: Maybe<Scalars['String']>;
+  subtitle: Maybe<Scalars['Markdown']>;
+  brandImage: Maybe<UploadFile>;
+  variant: Enum_Componentwebelementsherosection_Variant;
+  ctaLink: Maybe<ComponentWebElementsCtaLink>;
+};
+
+export type ComponentWebElementsHeroSectionInput = {
+  backgroundImage?: Maybe<Scalars['ID']>;
+  backgroundImageAlt?: Maybe<Scalars['String']>;
+  backgroundImageDescription?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  subtitle?: Maybe<Scalars['Markdown']>;
+  brandImage?: Maybe<Scalars['ID']>;
+  variant: Enum_Componentwebelementsherosection_Variant;
+  ctaLink?: Maybe<ComponentWebElementsCtaLinkInput>;
+};
+
+export type ComponentWebElementsPriceIncreaseCountdownTimer = {
+  __typename?: 'ComponentWebElementsPriceIncreaseCountdownTimer';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
+  ticketType: TicketType;
+};
+
+export type ComponentWebElementsPriceIncreaseCountdownTimerInput = {
+  ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
+};
+
+export type ComponentWebElementsProductInput = {
+  product?: Maybe<Scalars['ID']>;
+  type?: Maybe<Enum_Componentwebelementsproducts_Type>;
+  buttonLabel?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  promotionType?: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
+  promotionLabel?: Maybe<Scalars['String']>;
+  promotionColor?: Maybe<Scalars['String']>;
+  benefits?: Maybe<Array<Scalars['ID']>>;
+};
+
+export type ComponentWebElementsProducts = {
+  __typename?: 'ComponentWebElementsProducts';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
+  type: Maybe<Enum_Componentwebelementsproducts_Type>;
+  buttonLabel: Maybe<Scalars['String']>;
+  link: Maybe<Scalars['String']>;
+  promotionType: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
+  promotionLabel: Maybe<Scalars['String']>;
+  promotionColor: Maybe<Scalars['String']>;
+  benefits: Array<ProductBenefits>;
+};
+
+export type ComponentWebElementsProductsBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type ComponentWebElementsReleasePhaseStepper = {
+  __typename?: 'ComponentWebElementsReleasePhaseStepper';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
+  ticketType: TicketType;
+};
+
+export type ComponentWebElementsReleasePhaseStepperInput = {
+  ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
+};
+
+export type ComponentWebElementsScheduleSearchSidebarFilterInput = {
+  apiKey: Scalars['String'];
+  indexName: Scalars['String'];
+  refinements: Array<ComponentSearchAlgoliaRefinementInput>;
+};
+
+export type ComponentWebElementsScheduleSearchSidebarFilters = {
+  __typename?: 'ComponentWebElementsScheduleSearchSidebarFilters';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  apiKey: Scalars['String'];
+  indexName: Scalars['String'];
+  refinements: Array<ComponentSearchAlgoliaRefinement>;
+};
+
+export type ComponentWebElementsSeoMetaData = {
+  __typename?: 'ComponentWebElementsSeoMetaData';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  defaultImage: Maybe<UploadFile>;
+  description: Maybe<Scalars['String']>;
+  title: Maybe<Scalars['String']>;
+  slug: Maybe<Scalars['String']>;
+  twitterImage: Maybe<UploadFile>;
+  facebookImage: Maybe<UploadFile>;
+  twitterTitle: Maybe<Scalars['String']>;
+  facebookTitle: Maybe<Scalars['String']>;
+  twitterDescription: Maybe<Scalars['String']>;
+  facebookDescription: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebElementsSeoMetaDatumInput = {
+  defaultImage?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  twitterImage?: Maybe<Scalars['ID']>;
+  facebookImage?: Maybe<Scalars['ID']>;
+  twitterTitle?: Maybe<Scalars['String']>;
+  facebookTitle?: Maybe<Scalars['String']>;
+  twitterDescription?: Maybe<Scalars['String']>;
+  facebookDescription?: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebElementsShowcaseGrid = {
+  __typename?: 'ComponentWebElementsShowcaseGrid';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  contentBefore: Maybe<Scalars['Markdown']>;
+  backgroundColor: Maybe<Scalars['String']>;
+  collection: ContentCollection;
+};
+
+export type ComponentWebElementsShowcaseGridInput = {
+  contentBefore?: Maybe<Scalars['Markdown']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  contentCollection?: Maybe<Scalars['ID']>;
+};
+
+export type ComponentWebElementsTicketApplicationOverviewPanel = {
+  __typename?: 'ComponentWebElementsTicketApplicationOverviewPanel';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+  imageUrl: Maybe<Scalars['String']>;
+  altImageText: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebElementsTicketApplicationOverviewPanelInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  altImageText?: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebElementsTicketPromotion = {
+  __typename?: 'ComponentWebElementsTicketPromotion';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  type: TicketPromotionType;
+  label: Maybe<Scalars['String']>;
+  color: Maybe<Scalars['String']>;
+  ticketType: TicketType;
+};
+
+export type ComponentWebElementsTicketPromotionInput = {
+  ticketTypeId: Scalars['String'];
+  type: TicketPromotionType;
+  label?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebElementsTicketReleasesPanel = {
+  __typename?: 'ComponentWebElementsTicketReleasesPanel';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  displayPriceIncludingTax: Maybe<Scalars['Boolean']>;
+};
+
+export type ComponentWebElementsTicketReleasesPanelInput = {
+  displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
+};
+
+export type ComponentWebElementsTicketTypeInformation = {
+  __typename?: 'ComponentWebElementsTicketTypeInformation';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  product: Maybe<Products>;
+  showBenefits: Scalars['Boolean'];
+  displayPriceIncludingTax: Maybe<Scalars['Boolean']>;
+  heading: Maybe<Scalars['String']>;
+  benefits: Array<ProductBenefits>;
+  ticketType: TicketType;
+};
+
+export type ComponentWebElementsTicketTypeInformationBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type ComponentWebElementsTicketTypeInformationInput = {
+  ticketTypeId: Scalars['String'];
+  product?: Maybe<Scalars['ID']>;
+  showBenefits: Scalars['Boolean'];
+  benefits?: Maybe<Array<Scalars['ID']>>;
+  displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
+  heading?: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebLayoutsStoresTicketApplicationsPage = {
+  __typename?: 'ComponentWebLayoutsStoresTicketApplicationsPage';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['Markdown']>;
+  categoriesMenu: Maybe<Menu>;
+  applicationForm: Maybe<Form>;
+  ticketInfoPanel: Maybe<ComponentWebElementsTicketTypeInformation>;
+  applicationOverviewPanel: Maybe<ComponentWebElementsTicketApplicationOverviewPanel>;
+  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
+};
+
+export type ComponentWebLayoutsStoresTicketApplicationsPageInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['Markdown']>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  applicationForm?: Maybe<Scalars['ID']>;
+  ticketInfoPanel?: Maybe<ComponentWebElementsTicketTypeInformationInput>;
+  applicationOverviewPanel?: Maybe<ComponentWebElementsTicketApplicationOverviewPanelInput>;
+  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
+};
+
+export type ComponentWebLayoutsStoresTicketSalesPage = {
+  __typename?: 'ComponentWebLayoutsStoresTicketSalesPage';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
+  categoriesMenu: Maybe<Menu>;
+  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+  products: Array<ComponentWebElementsProducts>;
+  productIds: Maybe<Scalars['JSON']>;
+  ticketReleasesPanel: Maybe<ComponentWebElementsTicketReleasesPanel>;
+  promotions: Array<ComponentWebElementsTicketPromotion>;
+  benefitsList: Array<ProductBenefits>;
+};
+
+export type ComponentWebLayoutsStoresTicketSalesPageBenefitsListArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type ComponentWebLayoutsStoresTicketSalesPageInput = {
+  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+  products: Array<ComponentWebElementsProductInput>;
+  productIds?: Maybe<Scalars['JSON']>;
+  ticketReleasesPanel?: Maybe<ComponentWebElementsTicketReleasesPanelInput>;
+  promotions: Array<ComponentWebElementsTicketPromotionInput>;
+  benefitsList?: Maybe<Array<Scalars['ID']>>;
+};
+
+export type ComponentWebLayoutsTicketApplicationsPage = {
+  __typename?: 'ComponentWebLayoutsTicketApplicationsPage';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['Markdown']>;
+  categoriesMenu: Maybe<Menu>;
+  applicationForm: Maybe<Form>;
+  ticketInfoPanel: Maybe<ComponentWebElementsTicketTypeInformation>;
+  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
+  applicationOverviewPanel: Maybe<ComponentWebElementsTicketApplicationOverviewPanel>;
+  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+};
+
+export type ComponentWebLayoutsTicketApplicationsPageInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['Markdown']>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  applicationForm?: Maybe<Scalars['ID']>;
+  ticketInfoPanel?: Maybe<ComponentWebElementsTicketTypeInformationInput>;
+  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  applicationOverviewPanel?: Maybe<ComponentWebElementsTicketApplicationOverviewPanelInput>;
+  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+};
+
+export type ComponentWebLayoutsTicketSalesPage = {
+  __typename?: 'ComponentWebLayoutsTicketSalesPage';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  ticketReleasesPanel: Maybe<ComponentWebElementsTicketReleasesPanel>;
+  categoriesMenu: Maybe<Menu>;
+  priceIncreaseCountdownTimer: Maybe<ComponentWebElementsPriceIncreaseCountdownTimer>;
+  promotions: Array<ComponentWebElementsTicketPromotion>;
+  releasePhaseStepper: Maybe<ComponentWebElementsReleasePhaseStepper>;
+  ticketCategory: Maybe<TicketCategory>;
+};
+
+export type ComponentWebLayoutsTicketSalesPageInput = {
+  ticketCategoryId: Scalars['String'];
+  ticketReleasesPanel?: Maybe<ComponentWebElementsTicketReleasesPanelInput>;
+  categoriesMenu?: Maybe<Scalars['ID']>;
+  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
+  promotions: Array<ComponentWebElementsTicketPromotionInput>;
+  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
+};
+
+export type ComponentWebLinksPageLink = {
+  __typename?: 'ComponentWebLinksPageLink';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  page: Maybe<WebPage>;
+};
+
+export type ComponentWebLinksPageLinkInput = {
+  page?: Maybe<Scalars['ID']>;
+};
+
+export type ComponentWebLinksSubMenu = {
+  __typename?: 'ComponentWebLinksSubMenu';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  menu: Maybe<Menu>;
+};
+
+export type ComponentWebLinksSubMenuInput = {
+  menu?: Maybe<Scalars['ID']>;
+};
+
+export type ComponentWebLinksUrlLink = {
+  __typename?: 'ComponentWebLinksUrlLink';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  url: Scalars['String'];
+  target: Maybe<Scalars['String']>;
+};
+
+export type ComponentWebLinksUrlLinkInput = {
+  url: Scalars['String'];
+  target?: Maybe<Scalars['String']>;
 };
 
 export type Conference = {
@@ -2791,6 +3072,42 @@ export type ConferenceEndDateArgs = {
 
 export type ConferenceStartDateArgs = {
   format?: Maybe<Scalars['String']>;
+};
+
+export type ConferenceConfiguration = {
+  __typename?: 'ConferenceConfiguration';
+  algoliaKey: Maybe<Scalars['String']>;
+  investorMeetingConfiguration: Maybe<ConferenceInvestorMeetingConfiguration>;
+  pubnubPublishKey: Maybe<Scalars['String']>;
+  pubnubSecretKey: Maybe<Scalars['String']>;
+  pubnubSubscribeKey: Maybe<Scalars['String']>;
+};
+
+export type ConferenceInvestorMeetingConfiguration = {
+  __typename?: 'ConferenceInvestorMeetingConfiguration';
+  defaultStartupSelections: Maybe<Scalars['Int']>;
+  meetingsPerSession: Maybe<Scalars['Int']>;
+  notifyOfficeHoursInvitees: Maybe<Scalars['Boolean']>;
+  sessionDuration: Maybe<Scalars['Int']>;
+  sponsorLogoUrl: Maybe<Scalars['String']>;
+  startupPortalClosingAt: Maybe<Scalars['String']>;
+  startupPortalOpeningAt: Maybe<Scalars['String']>;
+  startupSelectionDeadline: Maybe<Scalars['String']>;
+};
+
+export type ConferenceInvestorMeetingConfigurationStartupPortalClosingAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type ConferenceInvestorMeetingConfigurationStartupPortalOpeningAtArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+export type ConferenceInvestorMeetingConfigurationStartupSelectionDeadlineArgs = {
+  format?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
 };
 
 export type ConferenceSchedule = {
@@ -2866,24 +3183,6 @@ export type ConferenceScheduleDayTracksArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-/** The connection type for ConferenceScheduleTimeslot. */
-export type ConferenceScheduleTimeslotConnection = {
-  __typename?: 'ConferenceScheduleTimeslotConnection';
-  /** A list of edges. */
-  edges: Array<ConferenceScheduleTimeslotEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type ConferenceScheduleTimeslotEdge = {
-  __typename?: 'ConferenceScheduleTimeslotEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: ConferenceScheduleTimeslot;
-};
-
 export type ConferenceScheduleTimeslot = {
   __typename?: 'ConferenceScheduleTimeslot';
   description: Maybe<Scalars['String']>;
@@ -2936,56 +3235,22 @@ export type ConferenceScheduleTimeslotTracksArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export enum TimeUnit {
-  Days = 'DAYS',
-  Hours = 'HOURS',
-  Minutes = 'MINUTES',
-  Months = 'MONTHS',
-  Seconds = 'SECONDS',
-  Weeks = 'WEEKS',
-  Years = 'YEARS',
-}
-
-/** The connection type for ScheduleTimeslotParticipant. */
-export type ScheduleTimeslotParticipantConnection = {
-  __typename?: 'ScheduleTimeslotParticipantConnection';
+/** The connection type for ConferenceScheduleTimeslot. */
+export type ConferenceScheduleTimeslotConnection = {
+  __typename?: 'ConferenceScheduleTimeslotConnection';
   /** A list of edges. */
-  edges: Array<ScheduleTimeslotParticipantEdge>;
+  edges: Array<ConferenceScheduleTimeslotEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
 };
 
 /** An edge in a connection. */
-export type ScheduleTimeslotParticipantEdge = {
-  __typename?: 'ScheduleTimeslotParticipantEdge';
+export type ConferenceScheduleTimeslotEdge = {
+  __typename?: 'ConferenceScheduleTimeslotEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
-  node: ScheduleTimeslotParticipant;
-};
-
-export type ScheduleTimeslotParticipant = {
-  __typename?: 'ScheduleTimeslotParticipant';
-  attendee: Attendee;
-  id: Scalars['ID'];
-};
-
-/** The connection type for ConferenceScheduleTrack. */
-export type ConferenceScheduleTrackConnection = {
-  __typename?: 'ConferenceScheduleTrackConnection';
-  /** A list of edges. */
-  edges: Array<ConferenceScheduleTrackEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type ConferenceScheduleTrackEdge = {
-  __typename?: 'ConferenceScheduleTrackEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: ConferenceScheduleTrack;
+  node: ConferenceScheduleTimeslot;
 };
 
 export type ConferenceScheduleTrack = {
@@ -3012,58 +3277,32 @@ export type ConferenceScheduleTrackTimeslotsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-/** The connection type for InvestorSession. */
-export type InvestorSessionConnection = {
-  __typename?: 'InvestorSessionConnection';
+/** The connection type for ConferenceScheduleTrack. */
+export type ConferenceScheduleTrackConnection = {
+  __typename?: 'ConferenceScheduleTrackConnection';
   /** A list of edges. */
-  edges: Array<InvestorSessionEdge>;
+  edges: Array<ConferenceScheduleTrackEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
 };
 
 /** An edge in a connection. */
-export type InvestorSessionEdge = {
-  __typename?: 'InvestorSessionEdge';
+export type ConferenceScheduleTrackEdge = {
+  __typename?: 'ConferenceScheduleTrackEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
-  node: InvestorSession;
+  node: ConferenceScheduleTrack;
 };
 
-export type User = {
-  __typename?: 'User';
-  connectionLinks: ConnectionLinkConnection;
-  connectionRequests: ConnectionRequestConnection;
-  email: Scalars['String'];
+export type ConnectionEntity = Appearance | Attendee;
+
+export type ConnectionLink = {
+  __typename?: 'ConnectionLink';
+  createdAt: Scalars['ISO8601DateTime'];
+  entity: ConnectionEntity;
   id: Scalars['ID'];
-  profile: Maybe<Attendee>;
 };
-
-export type UserConnectionLinksArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  entityIds?: Maybe<Array<Scalars['ID']>>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  type: ConnectionLinkTarget;
-};
-
-export type UserConnectionRequestsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  fromIds?: Maybe<Array<Scalars['ID']>>;
-  last?: Maybe<Scalars['Int']>;
-  status?: Maybe<ConnectionRequestStatus>;
-  toIds?: Maybe<Array<Scalars['ID']>>;
-};
-
-export enum ConnectionLinkTarget {
-  /** Connection to appearance */
-  Appearance = 'Appearance',
-  /** Connection to attendance */
-  Attendee = 'Attendee',
-}
 
 /** The connection type for ConnectionLink. */
 export type ConnectionLinkConnection = {
@@ -3083,41 +3322,27 @@ export type ConnectionLinkEdge = {
   node: ConnectionLink;
 };
 
-export type ConnectionLink = {
-  __typename?: 'ConnectionLink';
-  createdAt: Scalars['ISO8601DateTime'];
-  entity: ConnectionEntity;
+/** Autogenerated input type of ConnectionLinkRemove */
+export type ConnectionLinkRemoveInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
 };
 
-export type ConnectionEntity = Appearance | Attendee;
+/** Autogenerated return type of ConnectionLinkRemove */
+export type ConnectionLinkRemovePayload = {
+  __typename?: 'ConnectionLinkRemovePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  errors: Array<Error>;
+};
 
-export enum ConnectionRequestStatus {
-  /** Accepted request */
-  Accepted = 'ACCEPTED',
-  /** Pending request */
-  Pending = 'PENDING',
-  /** Rejected request */
-  Rejected = 'REJECTED',
+export enum ConnectionLinkTarget {
+  /** Connection to appearance */
+  Appearance = 'Appearance',
+  /** Connection to attendance */
+  Attendee = 'Attendee',
 }
-
-/** The connection type for ConnectionRequest. */
-export type ConnectionRequestConnection = {
-  __typename?: 'ConnectionRequestConnection';
-  /** A list of edges. */
-  edges: Array<ConnectionRequestEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type ConnectionRequestEdge = {
-  __typename?: 'ConnectionRequestEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: ConnectionRequest;
-};
 
 export type ConnectionRequest = {
   __typename?: 'ConnectionRequest';
@@ -3130,1055 +3355,262 @@ export type ConnectionRequest = {
   to: Maybe<ConnectionEntity>;
 };
 
-/** The connection type for UserRole. */
-export type UserRoleConnection = {
-  __typename?: 'UserRoleConnection';
+/** Autogenerated input type of ConnectionRequestAccept */
+export type ConnectionRequestAcceptInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+/** Autogenerated return type of ConnectionRequestAccept */
+export type ConnectionRequestAcceptPayload = {
+  __typename?: 'ConnectionRequestAcceptPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  connectionRequest: Maybe<ConnectionRequest>;
+  errors: Array<Error>;
+};
+
+/** The connection type for ConnectionRequest. */
+export type ConnectionRequestConnection = {
+  __typename?: 'ConnectionRequestConnection';
   /** A list of edges. */
-  edges: Array<UserRoleEdge>;
+  edges: Array<ConnectionRequestEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
 };
 
-/** An edge in a connection. */
-export type UserRoleEdge = {
-  __typename?: 'UserRoleEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: UserRole;
+/** Autogenerated input type of ConnectionRequestCreate */
+export type ConnectionRequestCreateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  initiatedAt?: Maybe<Scalars['ISO8601DateTime']>;
+  scanCode?: Maybe<Scalars['String']>;
+  sendNotification?: Maybe<Scalars['Boolean']>;
+  source?: Maybe<Scalars['String']>;
+  type: Scalars['String'];
 };
 
-export type AssignmentUser = {
-  __typename?: 'AssignmentUser';
-  assigneeAssignments: Maybe<AssignmentConnection>;
-  bio: Maybe<Scalars['String']>;
-  city: Maybe<Scalars['String']>;
-  companyName: Maybe<Scalars['String']>;
-  companySizeId: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  gender: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  industryId: Maybe<Scalars['String']>;
-  jobTitle: Maybe<Scalars['String']>;
-  lastLoginTokenCreatedAt: Maybe<Scalars['ISO8601Date']>;
-  lastName: Maybe<Scalars['String']>;
-  marketingConsent: Maybe<Scalars['String']>;
-  me: Scalars['Boolean'];
-  partnerSharingConsent: Maybe<Scalars['String']>;
-  passportNumber: Maybe<Scalars['String']>;
-  personalisationConsent: Maybe<Scalars['String']>;
-  phoneNumber: Maybe<Scalars['String']>;
-  versions: Maybe<Array<PaperTrailVersion>>;
-};
-
-export type AssignmentUserAssigneeAssignmentsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-/** The connection type for Assignment. */
-export type AssignmentConnection = {
-  __typename?: 'AssignmentConnection';
-  /** A list of edges. */
-  edges: Array<AssignmentEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
+/** Autogenerated return type of ConnectionRequestCreate */
+export type ConnectionRequestCreatePayload = {
+  __typename?: 'ConnectionRequestCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  connectionRequest: Maybe<ConnectionRequest>;
+  errors: Array<Error>;
 };
 
 /** An edge in a connection. */
-export type AssignmentEdge = {
-  __typename?: 'AssignmentEdge';
+export type ConnectionRequestEdge = {
+  __typename?: 'ConnectionRequestEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
-  node: Assignment;
+  node: ConnectionRequest;
 };
 
-export type Assignment = {
-  __typename?: 'Assignment';
-  appLoginEmail: Maybe<Scalars['String']>;
-  assignee: Maybe<AssignmentUser>;
-  assigner: Maybe<AssignmentUser>;
+/** Autogenerated input type of ConnectionRequestReject */
+export type ConnectionRequestRejectInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  state: AssignmentState;
-  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-export enum AssignmentState {
+/** Autogenerated return type of ConnectionRequestReject */
+export type ConnectionRequestRejectPayload = {
+  __typename?: 'ConnectionRequestRejectPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  connectionRequest: Maybe<ConnectionRequest>;
+  errors: Array<Error>;
+};
+
+export enum ConnectionRequestStatus {
+  /** Accepted request */
   Accepted = 'ACCEPTED',
-  Duplicate = 'DUPLICATE',
+  /** Pending request */
   Pending = 'PENDING',
-}
-
-export type Order = {
-  __typename?: 'Order';
-  /** @deprecated No longer used. Will always return 0 to maintain backwards compatiability. */
-  amount: Scalars['Float'];
-  completedAt: Scalars['ISO8601DateTime'];
-  currency: Scalars['String'];
-  id: Scalars['ID'];
-  invoiceUrl: Maybe<Scalars['String']>;
-  lastUpdatedAt: Scalars['ISO8601DateTime'];
-  owner: AssignmentUser;
-  reference: Scalars['String'];
-  refundReceiptUrl: Maybe<Scalars['String']>;
-  source: Maybe<OrderSource>;
-  sourceId: Maybe<Scalars['ID']>;
-  sourceUrl: Maybe<Scalars['String']>;
-  state: OrderFilterStatus;
-  summary: OrderSummary;
-  tickets: TicketConnection;
-  ticketsSummary: TicketsSummary;
-  versions: Maybe<Array<PaperTrailVersion>>;
-};
-
-export type OrderTicketsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  filter?: Maybe<TicketFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-export enum OrderSource {
-  TicketMachine = 'TICKET_MACHINE',
-  Tito = 'TITO',
-}
-
-export enum OrderFilterStatus {
-  Active = 'ACTIVE',
-  Cancelled = 'CANCELLED',
-}
-
-export type OrderSummary = {
-  __typename?: 'OrderSummary';
-  ticketType: Maybe<TicketType>;
-  /** @deprecated Use `order.ticketsSummary.all` instead. */
-  tickets: Scalars['Int'];
-};
-
-export type TicketFilter = {
-  assignment?: Maybe<TicketFilterAssignment>;
-  status?: Maybe<TicketFilterStatus>;
-  ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
-};
-
-export enum TicketFilterAssignment {
-  Assigned = 'ASSIGNED',
-  Unassigned = 'UNASSIGNED',
-}
-
-export enum TicketFilterStatus {
-  Accepted = 'ACCEPTED',
-  Assigned = 'ASSIGNED',
-  CheckedIn = 'CHECKED_IN',
-  Duplicate = 'DUPLICATE',
-  Locked = 'LOCKED',
+  /** Rejected request */
   Rejected = 'REJECTED',
-  Unassigned = 'UNASSIGNED',
-  Void = 'VOID',
 }
 
-/** The connection type for Ticket. */
-export type TicketConnection = {
-  __typename?: 'TicketConnection';
-  /** A list of edges. */
-  edges: Array<TicketEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
+export enum ContactsProvider {
+  Facebook = 'FACEBOOK',
+  Phonebook = 'PHONEBOOK',
+  Twitter = 'TWITTER',
+}
 
-/** An edge in a connection. */
-export type TicketEdge = {
-  __typename?: 'TicketEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Ticket;
-};
-
-export type Ticket = {
-  __typename?: 'Ticket';
-  assignment: Maybe<Assignment>;
-  assignments: Maybe<AssignmentConnection>;
-  bookingRef: Scalars['String'];
-  context: TicketContext;
+export type ContentCollection = {
+  __typename?: 'ContentCollection';
   id: Scalars['ID'];
-  order: Order;
-  state: TicketState;
-  ticketType: Maybe<TicketType>;
-  ticketTypeModified: Scalars['Boolean'];
-  versions: Maybe<Array<PaperTrailVersion>>;
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+  elements: Array<ContentElement>;
 };
 
-export type TicketAssignmentsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+export type ContentCollectionElementsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
 };
 
-export type TicketContext = {
-  __typename?: 'TicketContext';
-  acceptable: Scalars['Boolean'];
-  assignable: Scalars['Boolean'];
-  editable: Scalars['Boolean'];
-  rejectable: Scalars['Boolean'];
+export type ContentCollectionInput = {
+  name: Scalars['String'];
+  elements?: Maybe<Array<Scalars['ID']>>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
 };
 
-export enum TicketState {
-  Accepted = 'ACCEPTED',
-  CheckedIn = 'CHECKED_IN',
-  Duplicate = 'DUPLICATE',
-  Locked = 'LOCKED',
-  Pending = 'PENDING',
-  Rejected = 'REJECTED',
-  Unassigned = 'UNASSIGNED',
-  Void = 'VOID',
+export type ContentElement = {
+  __typename?: 'ContentElement';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  image: Maybe<UploadFile>;
+  link: Maybe<ComponentWebLinksUrlLink>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+  collections: Array<ContentCollection>;
+};
+
+export type ContentElementCollectionsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type ContentElementInput = {
+  title?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['ID']>;
+  link?: Maybe<ComponentWebLinksUrlLinkInput>;
+  collections?: Maybe<Array<Scalars['ID']>>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type Country = {
+  __typename?: 'Country';
+  callingCode: Scalars['Int'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type Currency = {
+  __typename?: 'Currency';
+  code: CurrencyCode;
+  name: Scalars['String'];
+  symbol: Scalars['String'];
+};
+
+export enum CurrencyCode {
+  Aed = 'AED',
+  Aud = 'AUD',
+  Brl = 'BRL',
+  Cad = 'CAD',
+  Chf = 'CHF',
+  Clp = 'CLP',
+  Cny = 'CNY',
+  Cop = 'COP',
+  Czk = 'CZK',
+  Dkk = 'DKK',
+  Eur = 'EUR',
+  Gbp = 'GBP',
+  Hkd = 'HKD',
+  Huf = 'HUF',
+  Idr = 'IDR',
+  Ils = 'ILS',
+  Inr = 'INR',
+  Jpy = 'JPY',
+  Krw = 'KRW',
+  Mxn = 'MXN',
+  Myr = 'MYR',
+  Nok = 'NOK',
+  Nzd = 'NZD',
+  Php = 'PHP',
+  Pln = 'PLN',
+  Ron = 'RON',
+  Rub = 'RUB',
+  Sar = 'SAR',
+  Sek = 'SEK',
+  Sgd = 'SGD',
+  Thb = 'THB',
+  Try = 'TRY',
+  Twd = 'TWD',
+  Usd = 'USD',
+  Zar = 'ZAR',
 }
-
-export type TicketsSummary = {
-  __typename?: 'TicketsSummary';
-  all: All;
-};
-
-export type All = {
-  __typename?: 'All';
-  active: Active;
-  count: Scalars['Int'];
-  void: Void;
-};
-
-export type Active = {
-  __typename?: 'Active';
-  assigned: Assigned;
-  count: Scalars['Int'];
-  unassigned: Unassigned;
-};
-
-export type Assigned = {
-  __typename?: 'Assigned';
-  accepted: Accepted;
-  checkedIn: CheckedIn;
-  count: Scalars['Int'];
-  duplicate: Duplicate;
-  locked: Locked;
-  pending: Pending;
-};
-
-export type Accepted = {
-  __typename?: 'Accepted';
-  count: Scalars['Int'];
-};
-
-export type CheckedIn = {
-  __typename?: 'CheckedIn';
-  count: Scalars['Int'];
-};
 
 export type Duplicate = {
   __typename?: 'Duplicate';
   count: Scalars['Int'];
 };
 
-export type Locked = {
-  __typename?: 'Locked';
-  count: Scalars['Int'];
-};
-
-export type Pending = {
-  __typename?: 'Pending';
-  count: Scalars['Int'];
-};
-
-export type Unassigned = {
-  __typename?: 'Unassigned';
-  count: Scalars['Int'];
-  neverAssigned: NeverAssigned;
-  rejected: Rejected;
-};
-
-export type NeverAssigned = {
-  __typename?: 'NeverAssigned';
-  count: Scalars['Int'];
-};
-
-export type Rejected = {
-  __typename?: 'Rejected';
-  count: Scalars['Int'];
-};
-
-export type Void = {
-  __typename?: 'Void';
-  count: Scalars['Int'];
-};
-
-export type OrderFilter = {
-  createdAtFrom?: Maybe<Scalars['ISO8601Date']>;
-  createdAtTo?: Maybe<Scalars['ISO8601Date']>;
-  status?: Maybe<OrderFilterStatus>;
-  ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
-};
-
-/** The connection type for Order. */
-export type OrderConnection = {
-  __typename?: 'OrderConnection';
-  /** A list of edges. */
-  edges: Array<OrderEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type OrderEdge = {
-  __typename?: 'OrderEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Order;
-};
-
-export type TaEvent = {
-  __typename?: 'TAEvent';
-  companySizes: Scalars['JSONSchemaForm'];
+export type DynamicForm = {
+  __typename?: 'DynamicForm';
   id: Scalars['ID'];
-  industries: Scalars['JSONSchemaForm'];
-  name: Maybe<Scalars['String']>;
-  passportRequired: Scalars['Boolean'];
-  slug: Scalars['String'];
-  sponsorName: Maybe<Scalars['String']>;
-  sponsorPrivacyPolicyUrl: Maybe<Scalars['String']>;
+  data: Scalars['JSON'];
+  schema: Scalars['JSONSchemaForm'];
+  mutation: Scalars['String'];
+  uiSchema: Scalars['JSONSchemaForm'];
 };
 
-export type CommerceAuditEntry = {
-  __typename?: 'CommerceAuditEntry';
-  action: Maybe<CommerceAuditEntryAction>;
-  payload: Maybe<Scalars['JSON']>;
-  reason: Maybe<Scalars['String']>;
-  scopeId: Maybe<Scalars['ID']>;
-  scopeType: Maybe<Scalars['String']>;
-  target: Maybe<Scalars['ID']>;
-  timestamp: Maybe<Scalars['Date']>;
-  transactionId: Maybe<Scalars['ID']>;
-  type: Maybe<Scalars['String']>;
-  userData: Maybe<Scalars['JSON']>;
+export type DynamicFormSubmissionError = {
+  __typename?: 'DynamicFormSubmissionError';
+  field: Maybe<Array<Scalars['String']>>;
+  message: Scalars['String'];
 };
 
-export enum CommerceAuditEntryAction {
-  Create = 'CREATE',
-  Delete = 'DELETE',
-  Get = 'GET',
-  List = 'LIST',
-  NoOp = 'NO_OP',
-  Update = 'UPDATE',
+export type DynamicFormSubmissionPayload = {
+  __typename?: 'DynamicFormSubmissionPayload';
+  dynamicForm: Maybe<DynamicForm>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<DynamicFormSubmissionError>;
+};
+
+export enum Enum_Componentwebelementsherosection_Variant {
+  Compact = 'COMPACT',
+  Regular = 'REGULAR',
 }
 
-export type CommerceCategory = {
-  __typename?: 'CommerceCategory';
-  active: Maybe<Scalars['Boolean']>;
-  children: Maybe<Array<CommerceCategory>>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  description: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  parent: Maybe<CommerceCategory>;
-  products: Maybe<Array<CommerceProduct>>;
-};
-
-export type CommerceUser = {
-  __typename?: 'CommerceUser';
-  email: Scalars['String'];
-  id: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
-};
-
-export type CommerceProduct = {
-  __typename?: 'CommerceProduct';
-  active: Maybe<Scalars['Boolean']>;
-  categories: Maybe<Array<CommerceCategory>>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  defaultPrice: Maybe<Scalars['Int']>;
-  description: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  onSale: Maybe<Scalars['Boolean']>;
-  packagedProducts: Maybe<Array<CommercePackagedProduct>>;
-  packages: Maybe<Array<CommerceProduct>>;
-  price: Scalars['Int'];
-  tags: Maybe<Array<CommerceTag>>;
-  taxMode: Maybe<CommerceProductTaxMode>;
-  taxType: CommerceTaxType;
-  timesUsed: Maybe<Scalars['Int']>;
-  type: Maybe<CommerceProductType>;
-};
-
-export type CommercePackagedProduct = {
-  __typename?: 'CommercePackagedProduct';
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  packagedProduct: Maybe<CommerceProduct>;
-  quantity: Scalars['Int'];
-};
-
-export type CommerceTag = {
-  __typename?: 'CommerceTag';
-  code: Scalars['String'];
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  description: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-};
-
-export enum CommerceProductTaxMode {
-  B2B = 'B2B',
-  B2C = 'B2C',
+export enum Enum_Componentwebelementsproducts_Promotiontype {
+  Annotation = 'ANNOTATION',
+  Highlight = 'HIGHLIGHT',
 }
 
-export type CommerceTaxType = {
-  __typename?: 'CommerceTaxType';
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  description: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  name: Scalars['String'];
-  taxes: Maybe<Array<CommerceTax>>;
-};
-
-export type CommerceTax = {
-  __typename?: 'CommerceTax';
-  country: Scalars['String'];
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  note: Maybe<Scalars['String']>;
-  rateAmount: Scalars['Int'];
-  rateType: CommerceTaxRateType;
-  taxType: CommerceTaxType;
-};
-
-export enum CommerceTaxRateType {
-  Absolute = 'ABSOLUTE',
-  Percentage = 'PERCENTAGE',
+export enum Enum_Componentwebelementsproducts_Type {
+  Link = 'link',
+  Sale = 'sale',
+  SoldOut = 'soldOut',
 }
 
-export enum CommerceProductType {
-  Package = 'PACKAGE',
-  Simple = 'SIMPLE',
+export enum Enum_Products_Type {
+  Custom = 'custom',
+  Deal = 'deal',
+  Package = 'package',
+  Product = 'product',
 }
 
-export type CommerceCustomer = {
-  __typename?: 'CommerceCustomer';
-  address: Maybe<CommerceAddress>;
-  companyName: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  id: Maybe<Scalars['ID']>;
-  lastName: Scalars['String'];
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  owner: Maybe<CommerceUser>;
-  phoneNumber: Maybe<Scalars['String']>;
-  vatNumber: Maybe<Scalars['String']>;
-  vatVerified: Maybe<Scalars['Boolean']>;
-};
-
-export type CommerceAddress = {
-  __typename?: 'CommerceAddress';
-  city: Scalars['String'];
-  country: Scalars['String'];
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  line1: Scalars['String'];
-  line2: Maybe<Scalars['String']>;
-  owner: Maybe<CommerceUser>;
-  postalCode: Scalars['String'];
-  state: Maybe<Scalars['String']>;
-};
-
-export type CommerceDeal = {
-  __typename?: 'CommerceDeal';
-  active: Maybe<Scalars['Boolean']>;
-  code: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  dealItems: Maybe<Array<CommerceDealItem>>;
-  description: Maybe<Scalars['String']>;
-  endDate: Scalars['Date'];
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  startDate: Scalars['Date'];
-  timesUsed: Maybe<Scalars['Int']>;
-  usages: Maybe<Scalars['Int']>;
-};
-
-export type CommerceDealItem = {
-  __typename?: 'CommerceDealItem';
-  amount: Scalars['Int'];
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  max: Scalars['Int'];
-  metadata: Maybe<Scalars['JSON']>;
-  min: Scalars['Int'];
-  name: Maybe<Scalars['String']>;
-  product: Maybe<CommerceProduct>;
-  step: Scalars['Int'];
-  type: CommerceDealItemType;
-};
-
-export enum CommerceDealItemType {
-  AbsoluteDiscount = 'ABSOLUTE_DISCOUNT',
-  AbsolutePrice = 'ABSOLUTE_PRICE',
-  PercentageDiscount = 'PERCENTAGE_DISCOUNT',
+export enum Enum_Webpage_Status {
+  Archived = 'ARCHIVED',
+  Draft = 'DRAFT',
+  Published = 'PUBLISHED',
 }
 
-export type CommerceOrder = {
-  __typename?: 'CommerceOrder';
-  applicableDeals: Maybe<Array<CommerceDeal>>;
-  billed: Maybe<Scalars['Int']>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  currency: Maybe<Scalars['String']>;
-  currencySymbol: Maybe<Scalars['String']>;
-  customer: Maybe<CommerceCustomer>;
-  deal: Maybe<CommerceDeal>;
-  dealDiscount: Maybe<Scalars['Int']>;
-  discountTotal: Maybe<Scalars['Int']>;
-  id: Maybe<Scalars['ID']>;
-  invoiceUrl: Maybe<Scalars['String']>;
-  itemSubtotal: Maybe<Scalars['Int']>;
-  items: Array<CommerceOrderItem>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  locked: Maybe<Scalars['Boolean']>;
-  marketingMetadata: Maybe<Scalars['JSON']>;
-  metadata: Maybe<Scalars['JSON']>;
-  owner: Maybe<CommerceUser>;
-  paid: Maybe<Scalars['Int']>;
-  paymentMethod: Maybe<CommercePaymentMethod>;
-  paymentStatus: Maybe<CommerceOrderPaymentStatus>;
-  reference: Maybe<Scalars['String']>;
-  refundReceiptUrl: Maybe<Scalars['String']>;
-  refunded: Maybe<Scalars['Int']>;
-  status: Maybe<CommerceOrderStatus>;
-  subTotal: Maybe<Scalars['Int']>;
-  taxTotal: Maybe<Scalars['Int']>;
-  taxes: Maybe<Array<CommerceTaxSummary>>;
-  total: Maybe<Scalars['Int']>;
-  transactions: Maybe<Array<Maybe<CommerceTransaction>>>;
-  url: Maybe<Scalars['String']>;
-  valueTotal: Maybe<Scalars['Int']>;
-  voucher: Maybe<CommerceVoucher>;
-  voucherDiscount: Maybe<Scalars['Int']>;
-};
-
-export type CommerceOrderItem = {
-  __typename?: 'CommerceOrderItem';
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  dealDiscount: Maybe<Scalars['Int']>;
-  discountTotal: Maybe<Scalars['Int']>;
-  id: Maybe<Scalars['ID']>;
-  itemName: Maybe<Scalars['String']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  price: Maybe<Scalars['Int']>;
-  product: Maybe<CommerceProduct>;
-  productMetadata: Maybe<Scalars['JSON']>;
-  productType: Maybe<CommerceOrderItemProductType>;
-  quantity: Scalars['Int'];
-  subTotal: Maybe<Scalars['Int']>;
-  tax: Maybe<CommerceTax>;
-  taxTotal: Maybe<Scalars['Int']>;
-  total: Maybe<Scalars['Int']>;
-  valueTotal: Maybe<Scalars['Int']>;
-  voucherDiscount: Maybe<Scalars['Int']>;
-};
-
-export enum CommerceOrderItemProductType {
-  Package = 'PACKAGE',
-  Simple = 'SIMPLE',
-}
-
-export type CommercePaymentMethod = {
-  __typename?: 'CommercePaymentMethod';
-  active: Maybe<Scalars['Boolean']>;
-  configuration: Maybe<Scalars['JSON']>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  gateway: Scalars['ID'];
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  name: Scalars['String'];
-};
-
-export enum CommerceOrderPaymentStatus {
-  Overpaid = 'OVERPAID',
-  Paid = 'PAID',
-  PartiallyRefunded = 'PARTIALLY_REFUNDED',
-  Pending = 'PENDING',
-  Refunded = 'REFUNDED',
-}
-
-export enum CommerceOrderStatus {
-  Cancelled = 'CANCELLED',
-  Complete = 'COMPLETE',
-  Pending = 'PENDING',
-  Reinstated = 'REINSTATED',
-}
-
-export type CommerceTaxSummary = {
-  __typename?: 'CommerceTaxSummary';
-  name: Maybe<Scalars['String']>;
-  netTotal: Maybe<Scalars['Int']>;
-  rateAmount: Maybe<Scalars['Int']>;
-  rateType: Maybe<CommerceTaxSummaryRateType>;
-  taxId: Scalars['ID'];
-  taxType: Maybe<Scalars['String']>;
-  total: Scalars['Int'];
-};
-
-export enum CommerceTaxSummaryRateType {
-  Absolute = 'ABSOLUTE',
-  Percentage = 'PERCENTAGE',
-}
-
-export type CommerceTransaction = {
-  __typename?: 'CommerceTransaction';
-  amount: Maybe<Scalars['Int']>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  currency: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  paymentMethod: Maybe<CommercePaymentMethod>;
-  refundedTransaction: Maybe<Scalars['ID']>;
-  status: Maybe<CommerceTransactionStatus>;
-  taxDetails: Maybe<Array<CommerceTaxDetail>>;
-  timestamp: Maybe<Scalars['Date']>;
-  type: Maybe<CommerceTransactionType>;
-};
-
-export enum CommerceTransactionStatus {
-  Cancelled = 'CANCELLED',
-  Complete = 'COMPLETE',
-  Pending = 'PENDING',
-}
-
-export type CommerceTaxDetail = {
-  __typename?: 'CommerceTaxDetail';
-  taxId: Scalars['ID'];
-  total: Scalars['Int'];
-};
-
-export enum CommerceTransactionType {
-  Payment = 'PAYMENT',
-  Refund = 'REFUND',
-}
-
-export type CommerceVoucher = {
-  __typename?: 'CommerceVoucher';
-  active: Maybe<Scalars['Boolean']>;
-  amount: Scalars['Int'];
-  code: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  description: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  timesUsed: Maybe<Scalars['Int']>;
-  type: CommerceVoucherType;
-  usages: Maybe<Scalars['Int']>;
-};
-
-export enum CommerceVoucherType {
-  Absolute = 'ABSOLUTE',
-  Percentage = 'PERCENTAGE',
-}
-
-export type CommercePaymentGateway = {
-  __typename?: 'CommercePaymentGateway';
-  configKeys: Maybe<Array<Maybe<Scalars['String']>>>;
-  id: Maybe<Scalars['ID']>;
-  name: Maybe<Scalars['String']>;
-  sensitiveKeys: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type CommerceSale = {
-  __typename?: 'CommerceSale';
-  active: Maybe<Scalars['Boolean']>;
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  description: Maybe<Scalars['String']>;
-  endDate: Scalars['Date'];
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  saleProducts: Maybe<Array<CommerceSaleProduct>>;
-  startDate: Scalars['Date'];
-};
-
-export type CommerceSaleProduct = {
-  __typename?: 'CommerceSaleProduct';
-  active: Maybe<Scalars['Boolean']>;
-  amount: Scalars['Int'];
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  description: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  name: Maybe<Scalars['String']>;
-  price: Maybe<Scalars['Int']>;
-  product: Maybe<CommerceProduct>;
-  type: CommerceSaleProductType;
-};
-
-export enum CommerceSaleProductType {
-  AbsoluteDiscount = 'ABSOLUTE_DISCOUNT',
-  AbsolutePrice = 'ABSOLUTE_PRICE',
-  PercentageDiscount = 'PERCENTAGE_DISCOUNT',
-}
-
-export type CommerceStore = {
-  __typename?: 'CommerceStore';
-  active: Maybe<Scalars['Boolean']>;
-  baseUrl: Scalars['String'];
-  categories: Maybe<Array<CommerceCategory>>;
-  country: Scalars['String'];
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  currency: Scalars['String'];
-  currencySymbol: Maybe<Scalars['String']>;
-  currentSales: Maybe<Array<CommerceSale>>;
-  deals: Maybe<Array<CommerceDeal>>;
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  metadata: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  paymentMethods: Maybe<Array<CommercePaymentMethod>>;
-  products: Maybe<Array<CommerceProduct>>;
-  sales: Maybe<Array<CommerceSale>>;
-  slug: Scalars['String'];
-  stockMode: CommerceStoreStockMode;
-  storeBilling: CommerceStoreBilling;
-  tags: Maybe<Array<CommerceTag>>;
-  taxErrors: Maybe<Array<Maybe<Scalars['String']>>>;
-  taxTypes: Maybe<Array<CommerceTaxType>>;
-  taxes: Maybe<Array<CommerceTax>>;
-  vatNumber: Scalars['String'];
-  vouchers: Maybe<Array<CommerceVoucher>>;
-};
-
-export enum CommerceStoreStockMode {
-  None = 'NONE',
-  Sale = 'SALE',
-}
-
-export type CommerceStoreBilling = {
-  __typename?: 'CommerceStoreBilling';
-  city: Scalars['String'];
-  companyName: Scalars['String'];
-  companyRegNumber: Maybe<Scalars['String']>;
-  country: Scalars['String'];
-  createdAt: Maybe<Scalars['Date']>;
-  createdBy: Maybe<CommerceUser>;
-  email: Scalars['String'];
-  id: Maybe<Scalars['ID']>;
-  lastUpdatedAt: Maybe<Scalars['Date']>;
-  lastUpdatedBy: Maybe<CommerceUser>;
-  line1: Scalars['String'];
-  line2: Maybe<Scalars['String']>;
-  note: Maybe<Scalars['String']>;
-  phone: Scalars['String'];
-  postalCode: Scalars['String'];
-  state: Maybe<Scalars['String']>;
-  vatNumber: Scalars['String'];
-};
-
-export type CommerceSortTerm = {
-  direction?: Maybe<CommerceSortTermDirection>;
-  field?: Maybe<Scalars['String']>;
-};
-
-export enum CommerceSortTermDirection {
-  Asc = 'asc',
-  Desc = 'desc',
-}
-
-export type CommerceSearchTerm = {
-  field?: Maybe<Scalars['String']>;
-  op?: Maybe<CommerceSearchTermOp>;
-  value?: Maybe<Scalars['Object']>;
-};
-
-export enum CommerceSearchTermOp {
-  Eq = 'eq',
-  Gt = 'gt',
-  Gte = 'gte',
-  Like = 'like',
-  Lt = 'lt',
-  Lte = 'lte',
-  Ne = 'ne',
-}
-
-export type CommerceSearchResponseCategory = {
-  __typename?: 'CommerceSearchResponseCategory';
-  hits: Maybe<Array<CommerceCategory>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSortTermOutput = {
-  __typename?: 'CommerceSortTermOutput';
-  direction: CommerceSortTermOutputDirection;
-  field: Scalars['String'];
-};
-
-export enum CommerceSortTermOutputDirection {
-  Asc = 'asc',
-  Desc = 'desc',
-}
-
-export type CommerceSearchTermOutput = {
-  __typename?: 'CommerceSearchTermOutput';
-  field: Scalars['String'];
-  op: CommerceSearchTermOutputOp;
-  value: Scalars['Object'];
-};
-
-export enum CommerceSearchTermOutputOp {
-  Eq = 'eq',
-  Gt = 'gt',
-  Gte = 'gte',
-  Like = 'like',
-  Lt = 'lt',
-  Lte = 'lte',
-  Ne = 'ne',
-}
-
-export type CommerceSearchResponseCustomer = {
-  __typename?: 'CommerceSearchResponseCustomer';
-  hits: Maybe<Array<CommerceCustomer>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseDealItem = {
-  __typename?: 'CommerceSearchResponseDealItem';
-  hits: Maybe<Array<CommerceDealItem>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseDeal = {
-  __typename?: 'CommerceSearchResponseDeal';
-  hits: Maybe<Array<CommerceDeal>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseOrder = {
-  __typename?: 'CommerceSearchResponseOrder';
-  hits: Maybe<Array<CommerceOrder>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponsePackagedProduct = {
-  __typename?: 'CommerceSearchResponsePackagedProduct';
-  hits: Maybe<Array<CommercePackagedProduct>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponsePaymentGateway = {
-  __typename?: 'CommerceSearchResponsePaymentGateway';
-  hits: Maybe<Array<Maybe<CommercePaymentGateway>>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponsePaymentMethod = {
-  __typename?: 'CommerceSearchResponsePaymentMethod';
-  hits: Maybe<Array<CommercePaymentMethod>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseProduct = {
-  __typename?: 'CommerceSearchResponseProduct';
-  hits: Maybe<Array<CommerceProduct>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseSaleProduct = {
-  __typename?: 'CommerceSearchResponseSaleProduct';
-  hits: Maybe<Array<CommerceSaleProduct>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseSale = {
-  __typename?: 'CommerceSearchResponseSale';
-  hits: Maybe<Array<CommerceSale>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseStore = {
-  __typename?: 'CommerceSearchResponseStore';
-  hits: Maybe<Array<CommerceStore>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseTag = {
-  __typename?: 'CommerceSearchResponseTag';
-  hits: Maybe<Array<CommerceTag>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseTaxType = {
-  __typename?: 'CommerceSearchResponseTaxType';
-  hits: Maybe<Array<CommerceTaxType>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseTax = {
-  __typename?: 'CommerceSearchResponseTax';
-  hits: Maybe<Array<CommerceTax>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-export type CommerceSearchResponseVoucher = {
-  __typename?: 'CommerceSearchResponseVoucher';
-  hits: Maybe<Array<CommerceVoucher>>;
-  page: Maybe<Scalars['Int']>;
-  pageSize: Maybe<Scalars['Int']>;
-  sort: Maybe<Array<CommerceSortTermOutput>>;
-  terms: Maybe<Array<CommerceSearchTermOutput>>;
-  total: Maybe<Scalars['Int']>;
-};
-
-/** The connection type for EventConfigurationCountry. */
-export type EventConfigurationCountryConnection = {
-  __typename?: 'EventConfigurationCountryConnection';
-  /** A list of edges. */
-  edges: Array<EventConfigurationCountryEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type EventConfigurationCountryEdge = {
-  __typename?: 'EventConfigurationCountryEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: EventConfigurationCountry;
-};
-
-export type EventConfigurationCountry = {
-  __typename?: 'EventConfigurationCountry';
-  /** ISO 3166-1 alpha-2 */
-  code: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
+export type Error = {
+  __typename?: 'Error';
+  /** A description of the error */
+  message: Scalars['String'];
+  /** Which input value this error came from */
+  path: Maybe<Array<Scalars['String']>>;
+  type: Scalars['String'];
 };
 
 export type Event = {
@@ -4227,6 +3659,293 @@ export type EventPartnersArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+export type EventConfigurationCountry = {
+  __typename?: 'EventConfigurationCountry';
+  /** ISO 3166-1 alpha-2 */
+  code: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+/** The connection type for EventConfigurationCountry. */
+export type EventConfigurationCountryConnection = {
+  __typename?: 'EventConfigurationCountryConnection';
+  /** A list of edges. */
+  edges: Array<EventConfigurationCountryEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type EventConfigurationCountryEdge = {
+  __typename?: 'EventConfigurationCountryEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: EventConfigurationCountry;
+};
+
+/** The connection type for Event. */
+export type EventConnection = {
+  __typename?: 'EventConnection';
+  /** A list of edges. */
+  edges: Array<EventEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** Autogenerated input type of EventCreate */
+export type EventCreateInput = {
+  baseUrl?: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['ID']>;
+  currency?: Maybe<CurrencyCode>;
+  description?: Maybe<Scalars['String']>;
+  enableRegistration?: Maybe<Scalars['Boolean']>;
+  /** Must be equal to or greater than the start_date */
+  endDate?: Maybe<Scalars['String']>;
+  legalEntityId?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+  securityZonesCount?: Maybe<Scalars['Int']>;
+  slug: Scalars['String'];
+  startDate?: Maybe<Scalars['String']>;
+  taxNumber?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of EventCreate */
+export type EventCreatePayload = {
+  __typename?: 'EventCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  event: Maybe<Event>;
+  userErrors: Array<UserError>;
+};
+
+/** An edge in a connection. */
+export type EventEdge = {
+  __typename?: 'EventEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Event;
+};
+
+export type EventFilter = {
+  endDateAfter?: Maybe<Scalars['ISO8601Date']>;
+  endDateBefore?: Maybe<Scalars['ISO8601Date']>;
+  startDateAfter?: Maybe<Scalars['ISO8601Date']>;
+  startDateBefore?: Maybe<Scalars['ISO8601Date']>;
+};
+
+/** Autogenerated input type of EventUpdate */
+export type EventUpdateInput = {
+  baseUrl?: Maybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['ID']>;
+  currency?: Maybe<CurrencyCode>;
+  description?: Maybe<Scalars['String']>;
+  enableRegistration?: Maybe<Scalars['Boolean']>;
+  /** Must be equal to or greater than the start_date */
+  endDate?: Maybe<Scalars['String']>;
+  legalEntityId?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  securityZonesCount?: Maybe<Scalars['Int']>;
+  slug: Scalars['String'];
+  startDate?: Maybe<Scalars['String']>;
+  taxNumber?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of EventUpdate */
+export type EventUpdatePayload = {
+  __typename?: 'EventUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  event: Maybe<Event>;
+  userErrors: Array<UserError>;
+};
+
+export type FileInput = {
+  name: Scalars['String'];
+  alternativeText?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Int']>;
+  height?: Maybe<Scalars['Int']>;
+  formats?: Maybe<Scalars['JSON']>;
+  hash: Scalars['String'];
+  ext?: Maybe<Scalars['String']>;
+  mime: Scalars['String'];
+  size: Scalars['Float'];
+  url: Scalars['String'];
+  previewUrl?: Maybe<Scalars['String']>;
+  provider: Scalars['String'];
+  provider_metadata?: Maybe<Scalars['JSON']>;
+  related: Array<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type Form = {
+  __typename?: 'Form';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  contentBefore: Maybe<Scalars['Markdown']>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+  dynamicForm: DynamicForm;
+};
+
+export type FormInput = {
+  name: Scalars['String'];
+  formstackId?: Maybe<Scalars['String']>;
+  contentBefore?: Maybe<Scalars['Markdown']>;
+  successMessage: Scalars['Markdown'];
+  submissions?: Maybe<Array<Scalars['ID']>>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type Industry = {
+  __typename?: 'Industry';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type InputId = {
+  id: Scalars['ID'];
+};
+
+/** Autogenerated input type of InvestorAccessGrant */
+export type InvestorAccessGrantInput = {
+  bookingReferences: Array<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  startupSelectionsCount: Scalars['Int'];
+};
+
+/** Autogenerated return type of InvestorAccessGrant */
+export type InvestorAccessGrantPayload = {
+  __typename?: 'InvestorAccessGrantPayload';
+  attendances: Maybe<Array<Attendee>>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  errors: Array<Error>;
+  invalidBookingReferences: Maybe<Array<Scalars['String']>>;
+  successMessage: Maybe<Scalars['String']>;
+};
+
+export type InvestorMeetingConfiguration = {
+  investorMeetingsDefaultStartupSelections?: Maybe<Scalars['Int']>;
+  investorMeetingsMeetingsPerSession?: Maybe<Scalars['Int']>;
+  investorMeetingsSessionDuration?: Maybe<Scalars['Int']>;
+  investorMeetingsSponsorLogo?: Maybe<Scalars['String']>;
+  investorMeetingsStartupPortalClosingAt?: Maybe<Scalars['ISO8601DateTime']>;
+  investorMeetingsStartupPortalOpeningAt?: Maybe<Scalars['ISO8601DateTime']>;
+  investorMeetingsStartupSelectionDeadline?: Maybe<Scalars['ISO8601DateTime']>;
+  notifyOfficeHoursInvitees?: Maybe<Scalars['Boolean']>;
+};
+
+/** Autogenerated input type of InvestorMeetingConfigurationUpdate */
+export type InvestorMeetingConfigurationUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  investorMeetingConfiguration?: Maybe<InvestorMeetingConfiguration>;
+};
+
+/** Autogenerated return type of InvestorMeetingConfigurationUpdate */
+export type InvestorMeetingConfigurationUpdatePayload = {
+  __typename?: 'InvestorMeetingConfigurationUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of InvestorPortalRevokeAccess */
+export type InvestorPortalRevokeAccessInput = {
+  attendanceId: Scalars['ID'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of InvestorPortalRevokeAccess */
+export type InvestorPortalRevokeAccessPayload = {
+  __typename?: 'InvestorPortalRevokeAccessPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+export type InvestorSession = {
+  __typename?: 'InvestorSession';
+  attendanceId: Maybe<Scalars['ID']>;
+  endsAt: Scalars['ISO8601DateTime'];
+  id: Scalars['ID'];
+  startsAt: Scalars['ISO8601DateTime'];
+  tableNumber: Scalars['Int'];
+};
+
+export type InvestorSessionConfiguration = {
+  attendanceId: Scalars['ID'];
+  startsAt?: Maybe<Scalars['ISO8601DateTime']>;
+  unlockInvestor: Scalars['Boolean'];
+};
+
+/** The connection type for InvestorSession. */
+export type InvestorSessionConnection = {
+  __typename?: 'InvestorSessionConnection';
+  /** A list of edges. */
+  edges: Array<InvestorSessionEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type InvestorSessionEdge = {
+  __typename?: 'InvestorSessionEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: InvestorSession;
+};
+
+export type InvestorSessionsConfiguration = {
+  investorSessionsCount: Scalars['Int'];
+  investorSessionsEndsAt: Scalars['ISO8601DateTime'];
+  investorSessionsStartsAt: Scalars['ISO8601DateTime'];
+};
+
+/** Autogenerated input type of InvestorSessionsCreate */
+export type InvestorSessionsCreateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  investorSessionsConfiguration?: Maybe<InvestorSessionsConfiguration>;
+};
+
+/** Autogenerated return type of InvestorSessionsCreate */
+export type InvestorSessionsCreatePayload = {
+  __typename?: 'InvestorSessionsCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+export type InvestorSessionsSummary = {
+  __typename?: 'InvestorSessionsSummary';
+  available: Maybe<Scalars['ID']>;
+  claimed: Maybe<Scalars['ID']>;
+  count: Maybe<Scalars['ID']>;
+  endsAt: Maybe<Scalars['ISO8601DateTime']>;
+  startsAt: Maybe<Scalars['ISO8601DateTime']>;
+};
+
 export type LegalEntity = {
   __typename?: 'LegalEntity';
   address: Maybe<Address>;
@@ -4241,94 +3960,6 @@ export type LegalEntity = {
   website: Maybe<Scalars['String']>;
 };
 
-export type Address = {
-  __typename?: 'Address';
-  city: Maybe<Scalars['String']>;
-  country: Maybe<EventConfigurationCountry>;
-  id: Scalars['ID'];
-  lineOne: Maybe<Scalars['String']>;
-  lineTwo: Maybe<Scalars['String']>;
-  postalCode: Maybe<Scalars['String']>;
-  region: Maybe<Scalars['String']>;
-};
-
-export type TimeZone = {
-  __typename?: 'TimeZone';
-  displayName: Scalars['String'];
-  ianaName: Scalars['String'];
-  utcOffset: Scalars['String'];
-};
-
-export type ConferenceConfiguration = {
-  __typename?: 'ConferenceConfiguration';
-  algoliaKey: Maybe<Scalars['String']>;
-  investorMeetingConfiguration: Maybe<ConferenceInvestorMeetingConfiguration>;
-  pubnubPublishKey: Maybe<Scalars['String']>;
-  pubnubSecretKey: Maybe<Scalars['String']>;
-  pubnubSubscribeKey: Maybe<Scalars['String']>;
-};
-
-export type ConferenceInvestorMeetingConfiguration = {
-  __typename?: 'ConferenceInvestorMeetingConfiguration';
-  defaultStartupSelections: Maybe<Scalars['Int']>;
-  meetingsPerSession: Maybe<Scalars['Int']>;
-  notifyOfficeHoursInvitees: Maybe<Scalars['Boolean']>;
-  sessionDuration: Maybe<Scalars['Int']>;
-  sponsorLogoUrl: Maybe<Scalars['String']>;
-  startupPortalClosingAt: Maybe<Scalars['String']>;
-  startupPortalOpeningAt: Maybe<Scalars['String']>;
-  startupSelectionDeadline: Maybe<Scalars['String']>;
-};
-
-export type ConferenceInvestorMeetingConfigurationStartupPortalClosingAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type ConferenceInvestorMeetingConfigurationStartupPortalOpeningAtArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type ConferenceInvestorMeetingConfigurationStartupSelectionDeadlineArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-export type InvestorSessionsSummary = {
-  __typename?: 'InvestorSessionsSummary';
-  available: Maybe<Scalars['ID']>;
-  claimed: Maybe<Scalars['ID']>;
-  count: Maybe<Scalars['ID']>;
-  endsAt: Maybe<Scalars['ISO8601DateTime']>;
-  startsAt: Maybe<Scalars['ISO8601DateTime']>;
-};
-
-export type EventFilter = {
-  endDateAfter?: Maybe<Scalars['ISO8601Date']>;
-  endDateBefore?: Maybe<Scalars['ISO8601Date']>;
-  startDateAfter?: Maybe<Scalars['ISO8601Date']>;
-  startDateBefore?: Maybe<Scalars['ISO8601Date']>;
-};
-
-/** The connection type for Event. */
-export type EventConnection = {
-  __typename?: 'EventConnection';
-  /** A list of edges. */
-  edges: Array<EventEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type EventEdge = {
-  __typename?: 'EventEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Event;
-};
-
 /** The connection type for LegalEntity. */
 export type LegalEntityConnection = {
   __typename?: 'LegalEntityConnection';
@@ -4336,6 +3967,30 @@ export type LegalEntityConnection = {
   edges: Array<LegalEntityEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
+};
+
+/** Autogenerated input type of LegalEntityCreate */
+export type LegalEntityCreateInput = {
+  address?: Maybe<AddressInput>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  /** Must be unique */
+  name: Scalars['String'];
+  note?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  regNumber?: Maybe<Scalars['String']>;
+  taxNumber?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of LegalEntityCreate */
+export type LegalEntityCreatePayload = {
+  __typename?: 'LegalEntityCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  legalEntity: Maybe<LegalEntity>;
+  userErrors: Array<UserError>;
 };
 
 /** An edge in a connection. */
@@ -4347,29 +4002,150 @@ export type LegalEntityEdge = {
   node: LegalEntity;
 };
 
-/** The connection type for TimeZone. */
-export type TimeZoneConnection = {
-  __typename?: 'TimeZoneConnection';
-  /** A list of edges. */
-  edges: Array<TimeZoneEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An edge in a connection. */
-export type TimeZoneEdge = {
-  __typename?: 'TimeZoneEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: TimeZone;
-};
-
-export type Room = {
-  __typename?: 'Room';
+/** Autogenerated input type of LegalEntityUpdate */
+export type LegalEntityUpdateInput = {
+  address?: Maybe<AddressInput>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  title: Scalars['String'];
-  timeslot: Maybe<ScheduleTimeslot>;
+  name?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  regNumber?: Maybe<Scalars['String']>;
+  taxNumber?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of LegalEntityUpdate */
+export type LegalEntityUpdatePayload = {
+  __typename?: 'LegalEntityUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  legalEntity: Maybe<LegalEntity>;
+  userErrors: Array<UserError>;
+};
+
+export type Location = {
+  __typename?: 'Location';
+  id: Scalars['ID'];
+  livestreamUrl: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type Locked = {
+  __typename?: 'Locked';
+  count: Scalars['Int'];
+};
+
+/** Autogenerated input type of MagicLinkGenerate */
+export type MagicLinkGenerateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Use `%{token}` to indicate where to interpolate the token. */
+  linkFormat?: Maybe<Scalars['String']>;
+  ticketReference: Scalars['String'];
+};
+
+/** Autogenerated return type of MagicLinkGenerate */
+export type MagicLinkGeneratePayload = {
+  __typename?: 'MagicLinkGeneratePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+/** Autogenerated input type of MagicLinkScheduleDelivery */
+export type MagicLinkScheduleDeliveryInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Use `%{token}` to indicate where to interpolate the token. */
+  linkFormat?: Maybe<Scalars['String']>;
+  /** Url to let the user request a new magic link email. */
+  loginUrl?: Maybe<Scalars['String']>;
+  /**
+   * Datetime when the emails will get triggered.
+   * The process will be trigger right away if missing.
+   */
+  scheduleAt?: Maybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of MagicLinkScheduleDelivery */
+export type MagicLinkScheduleDeliveryPayload = {
+  __typename?: 'MagicLinkScheduleDeliveryPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+export type Menu = {
+  __typename?: 'Menu';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  label: Maybe<Scalars['String']>;
+  site: Maybe<Site>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+  menuItems: Array<MenuItem>;
+};
+
+export type MenuMenuItemsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type MenuInput = {
+  name: Scalars['String'];
+  label?: Maybe<Scalars['String']>;
+  menuItems?: Maybe<Array<Scalars['ID']>>;
+  site?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type MenuItem = {
+  __typename?: 'MenuItem';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  label: Scalars['String'];
+  link: MenuItemLinkDynamicZone;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+};
+
+export type MenuItemInput = {
+  label: Scalars['String'];
+  link: Array<Scalars['MenuItemLinkDynamicZoneInput']>;
+  parentMenu?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type MenuItemLinkDynamicZone =
+  | ComponentWebLinksPageLink
+  | ComponentWebLinksUrlLink
+  | ComponentWebLinksSubMenu;
+
+export type Money = {
+  __typename?: 'Money';
+  amount: Scalars['Decimal'];
+  currency: Currency;
+  format: Scalars['String'];
+};
+
+export type MoneyFormatArgs = {
+  includeUnit?: Maybe<Scalars['Boolean']>;
+  locale?: Maybe<Scalars['String']>;
+  precision?: Maybe<Scalars['Int']>;
 };
 
 export type Mutation = {
@@ -5120,74 +4896,213 @@ export type MutationRoomJoinArgs = {
   input?: Maybe<RoomJoinInput>;
 };
 
-export type CreateBrandingInput = {
-  data?: Maybe<BrandingInput>;
+/** Autogenerated input type of MyConnectionsEmailSend */
+export type MyConnectionsEmailSendInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
-export type BrandingInput = {
-  title?: Maybe<Scalars['String']>;
-  googleFontsUrl?: Maybe<Scalars['String']>;
-  typekitFontsUrl?: Maybe<Scalars['String']>;
-  theme?: Maybe<Scalars['JSON']>;
-  events?: Maybe<Array<Scalars['ID']>>;
-  logo?: Maybe<Scalars['ID']>;
-  headerBranding?: Maybe<Scalars['ID']>;
-  favicon?: Maybe<Scalars['ID']>;
-  ticketLogo?: Maybe<Scalars['ID']>;
-  invoiceHeader?: Maybe<Scalars['ID']>;
-  invoiceFooter?: Maybe<Scalars['ID']>;
-  invoiceStamp?: Maybe<Scalars['ID']>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
+/** Autogenerated return type of MyConnectionsEmailSend */
+export type MyConnectionsEmailSendPayload = {
+  __typename?: 'MyConnectionsEmailSendPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  errors: Array<Error>;
+  recipient: User;
 };
 
-export type CreateBrandingPayload = {
-  __typename?: 'createBrandingPayload';
-  branding: Maybe<Branding>;
+export type NeverAssigned = {
+  __typename?: 'NeverAssigned';
+  count: Scalars['Int'];
 };
 
-export type UpdateBrandingInput = {
-  where?: Maybe<InputId>;
-  data?: Maybe<EditBrandingInput>;
-};
-
-export type InputId = {
+export type Order = {
+  __typename?: 'Order';
+  /** @deprecated No longer used. Will always return 0 to maintain backwards compatiability. */
+  amount: Scalars['Float'];
+  completedAt: Scalars['ISO8601DateTime'];
+  currency: Scalars['String'];
   id: Scalars['ID'];
+  invoiceUrl: Maybe<Scalars['String']>;
+  lastUpdatedAt: Scalars['ISO8601DateTime'];
+  owner: AssignmentUser;
+  reference: Scalars['String'];
+  refundReceiptUrl: Maybe<Scalars['String']>;
+  source: Maybe<OrderSource>;
+  sourceId: Maybe<Scalars['ID']>;
+  sourceUrl: Maybe<Scalars['String']>;
+  state: OrderFilterStatus;
+  summary: OrderSummary;
+  tickets: TicketConnection;
+  ticketsSummary: TicketsSummary;
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-export type EditBrandingInput = {
-  title?: Maybe<Scalars['String']>;
-  googleFontsUrl?: Maybe<Scalars['String']>;
-  typekitFontsUrl?: Maybe<Scalars['String']>;
-  theme?: Maybe<Scalars['JSON']>;
-  events?: Maybe<Array<Scalars['ID']>>;
-  logo?: Maybe<Scalars['ID']>;
-  headerBranding?: Maybe<Scalars['ID']>;
-  favicon?: Maybe<Scalars['ID']>;
-  ticketLogo?: Maybe<Scalars['ID']>;
-  invoiceHeader?: Maybe<Scalars['ID']>;
-  invoiceFooter?: Maybe<Scalars['ID']>;
-  invoiceStamp?: Maybe<Scalars['ID']>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
+export type OrderTicketsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filter?: Maybe<TicketFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
-export type UpdateBrandingPayload = {
-  __typename?: 'updateBrandingPayload';
-  branding: Maybe<Branding>;
+/** Autogenerated input type of OrderCancel */
+export type OrderCancelInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  disableEmailNotification?: Maybe<Scalars['Boolean']>;
+  reference: Scalars['String'];
 };
 
-export type DeleteBrandingInput = {
-  where?: Maybe<InputId>;
+/** Autogenerated return type of OrderCancel */
+export type OrderCancelPayload = {
+  __typename?: 'OrderCancelPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  order: Maybe<Order>;
+  userErrors: Array<UserError>;
 };
 
-export type DeleteBrandingPayload = {
-  __typename?: 'deleteBrandingPayload';
-  branding: Maybe<Branding>;
+/** The connection type for Order. */
+export type OrderConnection = {
+  __typename?: 'OrderConnection';
+  /** A list of edges. */
+  edges: Array<OrderEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
-export type CreateProductBenefitInput = {
-  data?: Maybe<ProductBenefitInput>;
+/** Autogenerated input type of OrderCreate */
+export type OrderCreateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  notify?: Maybe<Scalars['Boolean']>;
+  owner: AccountAttributes;
+  reference: Scalars['String'];
+  source: Scalars['String'];
+  tickets?: Maybe<Array<TicketAttributes>>;
+};
+
+/** Autogenerated return type of OrderCreate */
+export type OrderCreatePayload = {
+  __typename?: 'OrderCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  order: Maybe<Order>;
+  userErrors: Array<UserError>;
+};
+
+/** An edge in a connection. */
+export type OrderEdge = {
+  __typename?: 'OrderEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Order;
+};
+
+export type OrderFilter = {
+  createdAtFrom?: Maybe<Scalars['ISO8601Date']>;
+  createdAtTo?: Maybe<Scalars['ISO8601Date']>;
+  status?: Maybe<OrderFilterStatus>;
+  ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
+};
+
+export enum OrderFilterStatus {
+  Active = 'ACTIVE',
+  Cancelled = 'CANCELLED',
+}
+
+/** Autogenerated input type of OrderInvoiceSend */
+export type OrderInvoiceSendInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  reference: Scalars['String'];
+};
+
+/** Autogenerated return type of OrderInvoiceSend */
+export type OrderInvoiceSendPayload = {
+  __typename?: 'OrderInvoiceSendPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  order: Maybe<Order>;
+  userErrors: Array<UserError>;
+};
+
+export enum OrderSource {
+  TicketMachine = 'TICKET_MACHINE',
+  Tito = 'TITO',
+}
+
+export type OrderSummary = {
+  __typename?: 'OrderSummary';
+  ticketType: Maybe<TicketType>;
+  /** @deprecated Use `order.ticketsSummary.all` instead. */
+  tickets: Scalars['Int'];
+};
+
+/** Autogenerated input type of OrderUpdate */
+export type OrderUpdateInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  notify?: Maybe<Scalars['Boolean']>;
+  owner: AccountAttributes;
+  reference: Scalars['String'];
+};
+
+/** Autogenerated return type of OrderUpdate */
+export type OrderUpdatePayload = {
+  __typename?: 'OrderUpdatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  order: Maybe<Order>;
+  userErrors: Array<UserError>;
+};
+
+/** Information about pagination in a connection. */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']>;
+};
+
+export type PaperTrailVersion = {
+  __typename?: 'PaperTrailVersion';
+  command: Maybe<Scalars['String']>;
+  context: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['ISO8601Date']>;
+  event: Scalars['String'];
+  id: Scalars['Int'];
+  itemId: Scalars['ID'];
+  itemType: Scalars['String'];
+  object: Maybe<Scalars['String']>;
+  objectChanges: Maybe<Scalars['String']>;
+  reason: Maybe<Scalars['String']>;
+  sourceLocation: Maybe<Scalars['String']>;
+  whodunnit: Maybe<Scalars['String']>;
+};
+
+export type Pending = {
+  __typename?: 'Pending';
+  count: Scalars['Int'];
+};
+
+export type Price = {
+  __typename?: 'Price';
+  /** Price without a tax */
+  exTax: Money;
+  /** @deprecated This field is only here for compatibility reasons.You should not use it because we no longer support tax lines, the returned value is hardcoded to an empty array. */
+  taxLines: Array<TaxLine>;
+  /** Total price including taxes */
+  total: Money;
+  /** Total tax value */
+  totalTax: Money;
 };
 
 export type ProductBenefitInput = {
@@ -5197,39 +5112,89 @@ export type ProductBenefitInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
-export type CreateProductBenefitPayload = {
-  __typename?: 'createProductBenefitPayload';
-  productBenefit: Maybe<ProductBenefits>;
+export type ProductBenefits = {
+  __typename?: 'ProductBenefits';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
 };
 
-export type UpdateProductBenefitInput = {
-  where?: Maybe<InputId>;
-  data?: Maybe<EditProductBenefitInput>;
+export type ProductBenefitsAggregator = {
+  __typename?: 'ProductBenefitsAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
 };
 
-export type EditProductBenefitInput = {
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
+export type ProductBenefitsConnection = {
+  __typename?: 'ProductBenefitsConnection';
+  values: Maybe<Array<Maybe<ProductBenefits>>>;
+  groupBy: Maybe<ProductBenefitsGroupBy>;
+  aggregate: Maybe<ProductBenefitsAggregator>;
 };
 
-export type UpdateProductBenefitPayload = {
-  __typename?: 'updateProductBenefitPayload';
-  productBenefit: Maybe<ProductBenefits>;
+export type ProductBenefitsConnectionCreatedAt = {
+  __typename?: 'ProductBenefitsConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductBenefitsConnection>;
 };
 
-export type DeleteProductBenefitInput = {
-  where?: Maybe<InputId>;
+export type ProductBenefitsConnectionCreated_By = {
+  __typename?: 'ProductBenefitsConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
 };
 
-export type DeleteProductBenefitPayload = {
-  __typename?: 'deleteProductBenefitPayload';
-  productBenefit: Maybe<ProductBenefits>;
+export type ProductBenefitsConnectionDescription = {
+  __typename?: 'ProductBenefitsConnectionDescription';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductBenefitsConnection>;
 };
 
-export type CreateProductInput = {
-  data?: Maybe<ProductInput>;
+export type ProductBenefitsConnectionId = {
+  __typename?: 'ProductBenefitsConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionTitle = {
+  __typename?: 'ProductBenefitsConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionUpdatedAt = {
+  __typename?: 'ProductBenefitsConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnectionUpdated_By = {
+  __typename?: 'ProductBenefitsConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsConnection_Id = {
+  __typename?: 'ProductBenefitsConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductBenefitsConnection>;
+};
+
+export type ProductBenefitsGroupBy = {
+  __typename?: 'ProductBenefitsGroupBy';
+  id: Maybe<Array<Maybe<ProductBenefitsConnectionId>>>;
+  _id: Maybe<Array<Maybe<ProductBenefitsConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<ProductBenefitsConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<ProductBenefitsConnectionUpdatedAt>>>;
+  title: Maybe<Array<Maybe<ProductBenefitsConnectionTitle>>>;
+  description: Maybe<Array<Maybe<ProductBenefitsConnectionDescription>>>;
+  created_by: Maybe<Array<Maybe<ProductBenefitsConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<ProductBenefitsConnectionUpdated_By>>>;
 };
 
 export type ProductInput = {
@@ -5243,43 +5208,1197 @@ export type ProductInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
-export type CreateProductPayload = {
-  __typename?: 'createProductPayload';
+export type Products = {
+  __typename?: 'Products';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  sourceId: Maybe<Scalars['String']>;
+  sourceName: Maybe<Scalars['String']>;
+  type: Maybe<Enum_Products_Type>;
+  title: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+};
+
+export type ProductsAggregator = {
+  __typename?: 'ProductsAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
+};
+
+export type ProductsConnection = {
+  __typename?: 'ProductsConnection';
+  values: Maybe<Array<Maybe<Products>>>;
+  groupBy: Maybe<ProductsGroupBy>;
+  aggregate: Maybe<ProductsAggregator>;
+};
+
+export type ProductsConnectionCreatedAt = {
+  __typename?: 'ProductsConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionCreated_By = {
+  __typename?: 'ProductsConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionDescription = {
+  __typename?: 'ProductsConnectionDescription';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionEvent = {
+  __typename?: 'ProductsConnectionEvent';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionId = {
+  __typename?: 'ProductsConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionSourceId = {
+  __typename?: 'ProductsConnectionSourceId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionSourceName = {
+  __typename?: 'ProductsConnectionSourceName';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionTitle = {
+  __typename?: 'ProductsConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionType = {
+  __typename?: 'ProductsConnectionType';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionUpdatedAt = {
+  __typename?: 'ProductsConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnectionUpdated_By = {
+  __typename?: 'ProductsConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsConnection_Id = {
+  __typename?: 'ProductsConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<ProductsConnection>;
+};
+
+export type ProductsGroupBy = {
+  __typename?: 'ProductsGroupBy';
+  id: Maybe<Array<Maybe<ProductsConnectionId>>>;
+  _id: Maybe<Array<Maybe<ProductsConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<ProductsConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<ProductsConnectionUpdatedAt>>>;
+  sourceId: Maybe<Array<Maybe<ProductsConnectionSourceId>>>;
+  sourceName: Maybe<Array<Maybe<ProductsConnectionSourceName>>>;
+  type: Maybe<Array<Maybe<ProductsConnectionType>>>;
+  title: Maybe<Array<Maybe<ProductsConnectionTitle>>>;
+  description: Maybe<Array<Maybe<ProductsConnectionDescription>>>;
+  event: Maybe<Array<Maybe<ProductsConnectionEvent>>>;
+  created_by: Maybe<Array<Maybe<ProductsConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<ProductsConnectionUpdated_By>>>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  appConfig: Maybe<AppConfig>;
+  branding: Maybe<Branding>;
+  brandings: Maybe<Array<Maybe<Branding>>>;
+  brandingsConnection: Maybe<BrandingConnection>;
+  productBenefit: Maybe<ProductBenefits>;
+  productBenefits: Maybe<Array<Maybe<ProductBenefits>>>;
+  productBenefitsConnection: Maybe<ProductBenefitsConnection>;
   product: Maybe<Products>;
+  products: Maybe<Array<Maybe<Products>>>;
+  productsConnection: Maybe<ProductsConnection>;
+  site: Maybe<Site>;
+  sites: Maybe<Array<Maybe<Site>>>;
+  sitesConnection: Maybe<SiteConnection>;
+  webPageConfig: Maybe<WebPageConfig>;
+  webPageConfigs: Maybe<Array<Maybe<WebPageConfig>>>;
+  webPageConfigsConnection: Maybe<WebPageConfigConnection>;
+  brandingBySlug: Maybe<Branding>;
+  webPageByPath: Maybe<WebPage>;
+  webPageByHostPath: Maybe<WebPage>;
+  webPagesByHostMenuLabel: Maybe<Array<Maybe<WebPage>>>;
+  webPageConfigByPathHost: Maybe<WebPageConfig>;
+  accessPermissions: AccessPermissionConnection;
+  ticketCategories: TicketCategoryConnection;
+  ticketRelease: Maybe<TicketRelease>;
+  ticketReleasePhase: Maybe<TicketReleasePhase>;
+  ticketReleasePhases: TicketReleasePhaseConnection;
+  ticketReleases: TicketReleaseConnection;
+  adminAttendeeProfile: Maybe<Attendee>;
+  admins: AdminConnection;
+  appearance: Maybe<Appearance>;
+  appearances: AppearanceConnection;
+  attendance: Maybe<Attendee>;
+  attendanceAppearanceSelection: AttendanceAppearanceSelection;
+  attendances: AttendeeConnection;
+  chatChannel: Maybe<ChatChannel>;
+  chatChannels: Maybe<ChatChannelConnection>;
+  /** @deprecated As we consider more to develop more generic APIs, the term "event" is preferrable to "conference". */
+  conference: Maybe<Conference>;
+  formAttendeeProfileUpdate: Maybe<DynamicForm>;
+  investorSession: Maybe<InvestorSession>;
+  investorSessions: Maybe<InvestorSessionConnection>;
+  me: Maybe<User>;
+  scheduleTimeslot: Maybe<ScheduleTimeslot>;
+  topics: TopicConnection;
+  userRoles: UserRoleConnection;
+  /** Returns the attendee's profile */
+  assignmentProfile: Maybe<AssignmentUser>;
+  /** Retrieves the current users details */
+  assignmentUser: Maybe<AssignmentUser>;
+  /** Retrieves an order by the booking reference. ex: "xdbaWXXtqN" */
+  order: Maybe<Order>;
+  /**
+   * Retrieves all orders.
+   * Can be filtered by:
+   *   - `filter`
+   *   - `search_query`
+   */
+  orders: OrderConnection;
+  /** Retrieves an event */
+  taEvent: Maybe<TaEvent>;
+  /** Retrieves a ticket by the booking reference. ex: "MVSD-1" */
+  ticket: Maybe<Ticket>;
+  ticketType: Maybe<TicketType>;
+  ticketTypes: TicketTypeConnection;
+  /**
+   * Retrieves all the tickets.
+   * Can be filtered by:
+   *   - `order_id`
+   *   - `filter`
+   *   - `search_query`
+   */
+  tickets: TicketConnection;
+  /** *Equivalent to GET /commerce/audit/{entity}/{id}* */
+  commerceGetAuditForTypeAndTargetAuditEntry: Maybe<
+    Array<Maybe<CommerceAuditEntry>>
+  >;
+  /** *Equivalent to GET /commerce/audit/{entity}* */
+  commerceGetAuditForTypeAuditEntry: Maybe<Array<Maybe<CommerceAuditEntry>>>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/categories/{id}* */
+  commerceGetCategory: Maybe<CommerceCategory>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers/{id}* */
+  commerceGetCustomer: Maybe<CommerceCustomer>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{id}* */
+  commerceGetDeal: Maybe<CommerceDeal>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems/{id}* */
+  commerceGetDealItem: Maybe<CommerceDealItem>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/orders/{id}* */
+  commerceGetOrder: Maybe<CommerceOrder>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/product/{productId}/packagedProducts/{id}* */
+  commerceGetPackagedProduct: Maybe<CommercePackagedProduct>;
+  /** *Equivalent to GET /commerce/paymentGateways/{id}* */
+  commerceGetPaymentGateway: Maybe<CommercePaymentGateway>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods/{id}* */
+  commerceGetPaymentMethod: Maybe<CommercePaymentMethod>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/products/{id}* */
+  commerceGetProduct: Maybe<CommerceProduct>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/sales/{id}* */
+  commerceGetSale: Maybe<CommerceSale>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/sales/{saleId}/saleProducts/{id}* */
+  commerceGetSaleProduct: Maybe<CommerceSaleProduct>;
+  /** *Equivalent to GET /commerce/stores/{id}* */
+  commerceGetStore: Maybe<CommerceStore>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/tags/{id}* */
+  commerceGetTag: Maybe<CommerceTag>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/taxes/{id}* */
+  commerceGetTax: Maybe<CommerceTax>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/taxTypes/{id}* */
+  commerceGetTaxType: Maybe<CommerceTaxType>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/vouchers/{id}* */
+  commerceGetVoucher: Maybe<CommerceVoucher>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/categories* */
+  commerceListCategories: Maybe<CommerceSearchResponseCategory>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/orders/{orderId}/customers* */
+  commerceListCustomers: Maybe<CommerceSearchResponseCustomer>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals/{dealId}/dealItems* */
+  commerceListDealItems: Maybe<CommerceSearchResponseDealItem>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/deals* */
+  commerceListDeals: Maybe<CommerceSearchResponseDeal>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/orders* */
+  commerceListOrders: Maybe<CommerceSearchResponseOrder>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/product/{productId}/packagedProducts* */
+  commerceListPackagedProducts: Maybe<CommerceSearchResponsePackagedProduct>;
+  /** *Equivalent to GET /commerce/paymentGateways* */
+  commerceListPaymentGateways: Maybe<CommerceSearchResponsePaymentGateway>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/paymentMethods* */
+  commerceListPaymentMethods: Maybe<CommerceSearchResponsePaymentMethod>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/products* */
+  commerceListProducts: Maybe<CommerceSearchResponseProduct>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/sales/{saleId}/saleProducts* */
+  commerceListSaleProducts: Maybe<CommerceSearchResponseSaleProduct>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/sales* */
+  commerceListSales: Maybe<CommerceSearchResponseSale>;
+  /**
+   * *Equivalent to GET /commerce/stores*
+   * # List Stores
+   *
+   * ...
+   */
+  commerceListStores: Maybe<CommerceSearchResponseStore>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/tags* */
+  commerceListTags: Maybe<CommerceSearchResponseTag>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/taxTypes* */
+  commerceListTaxTypes: Maybe<CommerceSearchResponseTaxType>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/taxes* */
+  commerceListTaxes: Maybe<CommerceSearchResponseTax>;
+  /** *Equivalent to GET /commerce/stores/{storeId}/vouchers* */
+  commerceListVouchers: Maybe<CommerceSearchResponseVoucher>;
+  /** Retrieves all countries. */
+  countries: EventConfigurationCountryConnection;
+  /**
+   * Returns an event by slug.
+   * X-EVENT-ID http header is used when the slug argument is not provided on the query.
+   */
+  event: Maybe<Event>;
+  /**
+   * Retrieves events sorted by start_date in descending order.
+   * All events are returned unless the filter is applied.
+   */
+  events: EventConnection;
+  /** Retrieves all legal_entities. */
+  legalEntities: LegalEntityConnection;
+  /** Returns a legal_entity by id. */
+  legalEntity: LegalEntity;
+  /** Retrieves all time zones */
+  timeZones: TimeZoneConnection;
+  room: Maybe<Room>;
 };
 
-export type UpdateProductInput = {
-  where?: Maybe<InputId>;
-  data?: Maybe<EditProductInput>;
+export type QueryBrandingArgs = {
+  id: Scalars['ID'];
 };
 
-export type EditProductInput = {
-  sourceId?: Maybe<Scalars['String']>;
-  sourceName?: Maybe<Scalars['String']>;
-  type?: Maybe<Enum_Products_Type>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  event?: Maybe<Scalars['ID']>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
+export type QueryBrandingsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
 };
 
-export type UpdateProductPayload = {
-  __typename?: 'updateProductPayload';
-  product: Maybe<Products>;
+export type QueryBrandingsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
 };
 
-export type DeleteProductInput = {
-  where?: Maybe<InputId>;
+export type QueryProductBenefitArgs = {
+  id: Scalars['ID'];
 };
 
-export type DeleteProductPayload = {
-  __typename?: 'deleteProductPayload';
-  product: Maybe<Products>;
+export type QueryProductBenefitsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
 };
 
-export type CreateSiteInput = {
-  data?: Maybe<SiteInput>;
+export type QueryProductBenefitsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryProductsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryProductsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QuerySiteArgs = {
+  id: Scalars['ID'];
+};
+
+export type QuerySitesArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QuerySitesConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryWebPageConfigArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryWebPageConfigsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryWebPageConfigsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type QueryBrandingBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+export type QueryWebPageByPathArgs = {
+  path: Scalars['String'];
+};
+
+export type QueryWebPageByHostPathArgs = {
+  host: Scalars['String'];
+  path: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+};
+
+export type QueryWebPagesByHostMenuLabelArgs = {
+  host: Scalars['String'];
+  menuLabel: Scalars['String'];
+};
+
+export type QueryWebPageConfigByPathHostArgs = {
+  path: Scalars['String'];
+  host: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+};
+
+export type QueryAccessPermissionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
+};
+
+export type QueryTicketCategoriesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryTicketReleaseArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryTicketReleasePhaseArgs = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type QueryTicketReleasePhasesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryTicketReleasesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  releasePhaseIds?: Maybe<Array<Scalars['ID']>>;
+  showBenefits?: Maybe<Scalars['Boolean']>;
+  ticketCategoryIds?: Maybe<Array<Scalars['ID']>>;
+  ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
+};
+
+export type QueryAdminAttendeeProfileArgs = {
+  email: Scalars['String'];
+};
+
+export type QueryAdminsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryAppearanceArgs = {
+  id: Scalars['UUID'];
+};
+
+export type QueryAppearancesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  ids?: Maybe<Array<Scalars['ID']>>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryAttendanceArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryAttendanceAppearanceSelectionArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryAttendancesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filter?: Maybe<AttendanceFilter>;
+  first?: Maybe<Scalars['Int']>;
+  ids?: Maybe<Array<Scalars['ID']>>;
+  last?: Maybe<Scalars['Int']>;
+  searchQuery?: Maybe<Scalars['String']>;
+};
+
+export type QueryChatChannelArgs = {
+  id?: Maybe<Scalars['ID']>;
+  providerId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryChatChannelsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  ids?: Maybe<Array<Scalars['ID']>>;
+  includeEmpty?: Maybe<Scalars['Boolean']>;
+  last?: Maybe<Scalars['Int']>;
+  provider: ChatProvider;
+  providerIds?: Maybe<Array<Scalars['ID']>>;
+};
+
+export type QueryConferenceArgs = {
+  id?: Maybe<Scalars['ID']>;
+  slug?: Maybe<Scalars['ID']>;
+};
+
+export type QueryInvestorSessionArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryInvestorSessionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryScheduleTimeslotArgs = {
+  id?: Maybe<Scalars['ID']>;
+  slug?: Maybe<Scalars['String']>;
+};
+
+export type QueryTopicsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryUserRolesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryAssignmentProfileArgs = {
+  ticketId: Scalars['ID'];
+};
+
+export type QueryAssignmentUserArgs = {
+  email?: Maybe<Scalars['String']>;
+};
+
+export type QueryOrderArgs = {
+  reference: Scalars['String'];
+};
+
+export type QueryOrdersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filter?: Maybe<OrderFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  searchQuery?: Maybe<Scalars['String']>;
+};
+
+export type QueryTaEventArgs = {
+  slug: Scalars['String'];
+};
+
+export type QueryTicketArgs = {
+  reference: Scalars['String'];
+};
+
+export type QueryTicketTypeArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryTicketTypesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  ids?: Maybe<Array<Scalars['ID']>>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryTicketsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filter?: Maybe<TicketFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  orderId?: Maybe<Scalars['ID']>;
+  searchQuery?: Maybe<Scalars['String']>;
+};
+
+export type QueryCommerceGetAuditForTypeAndTargetAuditEntryArgs = {
+  entity: Scalars['String'];
+  id: Scalars['ID'];
+  storeId: Scalars['ID'];
+};
+
+export type QueryCommerceGetAuditForTypeAuditEntryArgs = {
+  entity: Scalars['String'];
+  storeId: Scalars['ID'];
+};
+
+export type QueryCommerceGetCategoryArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetCustomerArgs = {
+  id: Scalars['ID'];
+  orderId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetDealArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetDealItemArgs = {
+  dealId: Scalars['ID'];
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetOrderArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetPackagedProductArgs = {
+  id: Scalars['ID'];
+  productId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetPaymentGatewayArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryCommerceGetPaymentMethodArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetProductArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetSaleArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetSaleProductArgs = {
+  id: Scalars['ID'];
+  saleId: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetStoreArgs = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetTagArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetTaxArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetTaxTypeArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceGetVoucherArgs = {
+  id: Scalars['ID'];
+  storeId?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCommerceListCategoriesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListCustomersArgs = {
+  orderId: Scalars['ID'];
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListDealItemsArgs = {
+  dealId: Scalars['ID'];
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListDealsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListOrdersArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListPackagedProductsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  productId: Scalars['ID'];
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListPaymentGatewaysArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListPaymentMethodsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListProductsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListSaleProductsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  saleId: Scalars['ID'];
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListSalesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListStoresArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListTagsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListTaxTypesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListTaxesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCommerceListVouchersArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Array<CommerceSortTerm>>;
+  storeId?: Maybe<Scalars['ID']>;
+  terms?: Maybe<Array<CommerceSearchTerm>>;
+};
+
+export type QueryCountriesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryEventArgs = {
+  slug?: Maybe<Scalars['String']>;
+};
+
+export type QueryEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filter?: Maybe<EventFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryLegalEntitiesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryLegalEntityArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryTimeZonesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryRoomArgs = {
+  roomId: Scalars['ID'];
+};
+
+/** Autogenerated input type of RefundReceiptSend */
+export type RefundReceiptSendInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  reference: Scalars['String'];
+};
+
+/** Autogenerated return type of RefundReceiptSend */
+export type RefundReceiptSendPayload = {
+  __typename?: 'RefundReceiptSendPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  order: Maybe<Order>;
+  userErrors: Array<UserError>;
+};
+
+export type Rejected = {
+  __typename?: 'Rejected';
+  count: Scalars['Int'];
+};
+
+export type Role = {
+  __typename?: 'Role';
+  admin: Admin;
+  id: Scalars['ID'];
+  userRole: UserRole;
+};
+
+export type Room = {
+  __typename?: 'Room';
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  timeslot: Maybe<ScheduleTimeslot>;
+};
+
+export type RoomChatConfig = {
+  allowedDomains: Array<Scalars['String']>;
+};
+
+export type RoomChatConfigPubnub = RoomChatConfig &
+  RoomPubnubConfig & {
+    __typename?: 'RoomChatConfigPubnub';
+    allowedDomains: Array<Scalars['String']>;
+    channel: Scalars['String'];
+    authKey: Scalars['String'];
+    publishKey: Scalars['String'];
+    subscribeKey: Scalars['String'];
+  };
+
+export type RoomConfig = {
+  __typename?: 'RoomConfig';
+  backstageEnabled: Scalars['Boolean'];
+  heartbeatInterval: Scalars['Int'];
+  moderation: RoomModerationConfig;
+  chat: Maybe<RoomChatConfig>;
+  reactions: Maybe<RoomReactionsConfig>;
+  questions: Maybe<RoomQuestionsConfig>;
+  videoCall: Maybe<RoomVideoCallConfig>;
+  videoCallLiveStream: Maybe<RoomStreamConfig>;
+  contentLiveStream: Maybe<RoomStreamConfig>;
+};
+
+export type RoomGrant = {
+  __typename?: 'RoomGrant';
+  id: Scalars['ID'];
+  role: RoomRole;
+  room: Room;
+  config: RoomConfig;
+  permissions: RoomPermissions;
+};
+
+export type RoomJoinInput = {
+  roomId?: Maybe<Scalars['ID']>;
+  locationId?: Maybe<Scalars['ID']>;
+  timeslotId?: Maybe<Scalars['ID']>;
+  calendarEventId?: Maybe<Scalars['ID']>;
+};
+
+export type RoomModerationConfig = RoomModerationConfigPubnub;
+
+export type RoomModerationConfigPubnub = RoomPubnubConfig & {
+  __typename?: 'RoomModerationConfigPubnub';
+  channel: Scalars['String'];
+  authKey: Scalars['String'];
+  publishKey: Scalars['String'];
+  subscribeKey: Scalars['String'];
+};
+
+export type RoomPermissions = {
+  __typename?: 'RoomPermissions';
+  publishVideo: Scalars['Boolean'];
+  viewBackstage: Scalars['Boolean'];
+  readQuestions: Scalars['Boolean'];
+  kickUser: Scalars['Boolean'];
+  changeMode: Scalars['Boolean'];
+  pinChatMessage: Scalars['Boolean'];
+  deleteChatMessage: Scalars['Boolean'];
+  toggleParticipantAudio: Scalars['Boolean'];
+  toggleParticipantVideo: Scalars['Boolean'];
+};
+
+export type RoomPubnubConfig = {
+  channel: Scalars['String'];
+  authKey: Scalars['String'];
+  publishKey: Scalars['String'];
+  subscribeKey: Scalars['String'];
+};
+
+export type RoomQuestionsConfig = RoomQuestionsConfigPubnub;
+
+export type RoomQuestionsConfigPubnub = RoomPubnubConfig & {
+  __typename?: 'RoomQuestionsConfigPubnub';
+  channel: Scalars['String'];
+  authKey: Scalars['String'];
+  publishKey: Scalars['String'];
+  subscribeKey: Scalars['String'];
+};
+
+export enum RoomReaction {
+  Canada = 'CANADA',
+  Clap = 'CLAP',
+  Fire = 'FIRE',
+  Heart = 'HEART',
+  Laugh = 'LAUGH',
+  NotOk = 'NOT_OK',
+  Ok = 'OK',
+  Portugal = 'PORTUGAL',
+  Tomato = 'TOMATO',
+}
+
+export type RoomReactionsConfig = {
+  enabled: Array<RoomReaction>;
+};
+
+export type RoomReactionsConfigPubnub = RoomReactionsConfig &
+  RoomPubnubConfig & {
+    __typename?: 'RoomReactionsConfigPubnub';
+    enabled: Array<RoomReaction>;
+    channel: Scalars['String'];
+    authKey: Scalars['String'];
+    publishKey: Scalars['String'];
+    subscribeKey: Scalars['String'];
+  };
+
+export enum RoomRole {
+  Moderator = 'MODERATOR',
+  Participant = 'PARTICIPANT',
+  Spectator = 'SPECTATOR',
+}
+
+export type RoomStreamConfig = {
+  __typename?: 'RoomStreamConfig';
+  iframeUrl: Maybe<Scalars['String']>;
+  hlsUrl: Maybe<Scalars['String']>;
+};
+
+export type RoomVideoCallConfig = RoomVideoCallConfigVonage;
+
+export type RoomVideoCallConfigVonage = {
+  __typename?: 'RoomVideoCallConfigVonage';
+  apiKey: Scalars['String'];
+  sessionId: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type ScheduleTimeslot = {
+  __typename?: 'ScheduleTimeslot';
+  calendarEventId: Maybe<Scalars['String']>;
+  channelUrl: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
+  endsAt: Maybe<Scalars['ISO8601DateTime']>;
+  id: Scalars['ID'];
+  location: Maybe<Location>;
+  participants: AttendeeConnection;
+  slug: Maybe<Scalars['String']>;
+  startsAt: Maybe<Scalars['ISO8601DateTime']>;
+  title: Scalars['String'];
+  topics: Array<Topic>;
+};
+
+export type ScheduleTimeslotParticipantsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** The connection type for ScheduleTimeslot. */
+export type ScheduleTimeslotConnection = {
+  __typename?: 'ScheduleTimeslotConnection';
+  /** A list of edges. */
+  edges: Array<ScheduleTimeslotEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type ScheduleTimeslotEdge = {
+  __typename?: 'ScheduleTimeslotEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: ScheduleTimeslot;
+};
+
+export type ScheduleTimeslotParticipant = {
+  __typename?: 'ScheduleTimeslotParticipant';
+  attendee: Attendee;
+  id: Scalars['ID'];
+};
+
+/** The connection type for ScheduleTimeslotParticipant. */
+export type ScheduleTimeslotParticipantConnection = {
+  __typename?: 'ScheduleTimeslotParticipantConnection';
+  /** A list of edges. */
+  edges: Array<ScheduleTimeslotParticipantEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type ScheduleTimeslotParticipantEdge = {
+  __typename?: 'ScheduleTimeslotParticipantEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: ScheduleTimeslotParticipant;
+};
+
+export enum SearchRefinementWidgetType {
+  DropdownMulti = 'DROPDOWN_MULTI',
+  DropdownSingle = 'DROPDOWN_SINGLE',
+  Hidden = 'HIDDEN',
+  LiveTalksOnly = 'LIVE_TALKS_ONLY',
+  NumericSlider = 'NUMERIC_SLIDER',
+  TagsMulti = 'TAGS_MULTI',
+}
+
+/** Autogenerated input type of SessionTimeslotParticipationCreate */
+export type SessionTimeslotParticipationCreateInput = {
+  attendanceId: Scalars['ID'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  sessionTimeslotId: Scalars['ID'];
+};
+
+/** Autogenerated return type of SessionTimeslotParticipationCreate */
+export type SessionTimeslotParticipationCreatePayload = {
+  __typename?: 'SessionTimeslotParticipationCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  participations: Maybe<Array<Attendee>>;
+  successMessage: Maybe<Scalars['String']>;
+  userErrors: Array<UserError>;
+};
+
+export type Site = {
+  __typename?: 'Site';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  host: Scalars['String'];
+};
+
+export type SiteAggregator = {
+  __typename?: 'SiteAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
+};
+
+export type SiteConnection = {
+  __typename?: 'SiteConnection';
+  values: Maybe<Array<Maybe<Site>>>;
+  groupBy: Maybe<SiteGroupBy>;
+  aggregate: Maybe<SiteAggregator>;
+};
+
+export type SiteConnectionActiveEvent = {
+  __typename?: 'SiteConnectionActiveEvent';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteConnectionCreatedAt = {
+  __typename?: 'SiteConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteConnectionCreated_By = {
+  __typename?: 'SiteConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteConnectionHost = {
+  __typename?: 'SiteConnectionHost';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteConnectionId = {
+  __typename?: 'SiteConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteConnectionTitle = {
+  __typename?: 'SiteConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteConnectionUpdatedAt = {
+  __typename?: 'SiteConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteConnectionUpdated_By = {
+  __typename?: 'SiteConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteConnection_Id = {
+  __typename?: 'SiteConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<SiteConnection>;
+};
+
+export type SiteGroupBy = {
+  __typename?: 'SiteGroupBy';
+  id: Maybe<Array<Maybe<SiteConnectionId>>>;
+  _id: Maybe<Array<Maybe<SiteConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<SiteConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<SiteConnectionUpdatedAt>>>;
+  title: Maybe<Array<Maybe<SiteConnectionTitle>>>;
+  host: Maybe<Array<Maybe<SiteConnectionHost>>>;
+  activeEvent: Maybe<Array<Maybe<SiteConnectionActiveEvent>>>;
+  created_by: Maybe<Array<Maybe<SiteConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<SiteConnectionUpdated_By>>>;
 };
 
 export type SiteInput = {
@@ -5293,147 +6412,123 @@ export type SiteInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
-export type CreateSitePayload = {
-  __typename?: 'createSitePayload';
-  site: Maybe<Site>;
+/**
+ * A union abstraction over source ticket types.
+ *
+ * Currently only contains Tito releases but is open for extension once we have other types.
+ */
+export type SourceTicketReleaseUnion = TitoTicketRelease;
+
+export type TaEvent = {
+  __typename?: 'TAEvent';
+  companySizes: Scalars['JSONSchemaForm'];
+  id: Scalars['ID'];
+  industries: Scalars['JSONSchemaForm'];
+  name: Maybe<Scalars['String']>;
+  passportRequired: Scalars['Boolean'];
+  slug: Scalars['String'];
+  sponsorName: Maybe<Scalars['String']>;
+  sponsorPrivacyPolicyUrl: Maybe<Scalars['String']>;
 };
 
-export type UpdateSiteInput = {
-  where?: Maybe<InputId>;
-  data?: Maybe<EditSiteInput>;
+export type TaxLine = {
+  __typename?: 'TaxLine';
+  amount: Money;
+  name: Scalars['String'];
+  rate: Scalars['Decimal'];
 };
 
-export type EditSiteInput = {
-  title?: Maybe<Scalars['String']>;
-  host?: Maybe<Scalars['String']>;
-  events?: Maybe<Array<Scalars['ID']>>;
-  webPages?: Maybe<Array<Scalars['ID']>>;
-  activeEvent?: Maybe<Scalars['ID']>;
-  menus?: Maybe<Array<Scalars['ID']>>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
+export type Ticket = {
+  __typename?: 'Ticket';
+  assignment: Maybe<Assignment>;
+  assignments: Maybe<AssignmentConnection>;
+  bookingRef: Scalars['String'];
+  context: TicketContext;
+  id: Scalars['ID'];
+  order: Order;
+  state: TicketState;
+  ticketType: Maybe<TicketType>;
+  ticketTypeModified: Scalars['Boolean'];
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-export type UpdateSitePayload = {
-  __typename?: 'updateSitePayload';
-  site: Maybe<Site>;
+export type TicketAssignmentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
-export type DeleteSiteInput = {
-  where?: Maybe<InputId>;
+/** Autogenerated input type of TicketAccept */
+export type TicketAcceptInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  ticketId: Scalars['ID'];
 };
 
-export type DeleteSitePayload = {
-  __typename?: 'deleteSitePayload';
-  site: Maybe<Site>;
+/** Autogenerated return type of TicketAccept */
+export type TicketAcceptPayload = {
+  __typename?: 'TicketAcceptPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  ticket: Maybe<Ticket>;
+  userErrors: Array<UserError>;
 };
 
-export type CreateWebPageConfigInput = {
-  data?: Maybe<WebPageConfigInput>;
+/** Autogenerated input type of TicketAssign */
+export type TicketAssignInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName?: Maybe<Scalars['String']>;
+  notify?: Maybe<Scalars['Boolean']>;
+  ticketId: Scalars['ID'];
 };
 
-export type WebPageConfigInput = {
-  title?: Maybe<Scalars['String']>;
-  googleTagManagerId?: Maybe<Scalars['String']>;
-  googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
-  baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
-  googleOptimizeId?: Maybe<Scalars['String']>;
-  googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
-  matomoUrl?: Maybe<Scalars['String']>;
-  matomoSiteId?: Maybe<Scalars['String']>;
-  segmentId?: Maybe<Scalars['String']>;
-  metaData?: Maybe<ComponentSiteConfigMetaDatumInput>;
-  events?: Maybe<Array<Scalars['ID']>>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
+/** Autogenerated return type of TicketAssign */
+export type TicketAssignPayload = {
+  __typename?: 'TicketAssignPayload';
+  assignment: Maybe<Assignment>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  ticket: Maybe<Ticket>;
+  userErrors: Array<UserError>;
 };
 
-export type ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput = {
-  domain?: Maybe<Scalars['String']>;
+export type TicketAttributes = {
+  assignee?: Maybe<AccountAttributes>;
+  reference: Scalars['String'];
+  typeId: Scalars['ID'];
+  void?: Maybe<Scalars['Boolean']>;
 };
 
-export type ComponentSiteConfigMetaDatumInput = {
-  image?: Maybe<Scalars['ID']>;
-  siteTitle: Scalars['String'];
-  siteDescription: Scalars['String'];
-  facebookId?: Maybe<Scalars['String']>;
-  facebookPublisher?: Maybe<Scalars['String']>;
-  twitterId?: Maybe<Scalars['String']>;
-  twitterCreator?: Maybe<Scalars['String']>;
+/** A ticket category groups ticket types by their common denominator */
+export type TicketCategory = {
+  __typename?: 'TicketCategory';
+  description: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  /** Must be unique in the scope of the event */
+  name: Scalars['String'];
+  ticketTypes: TicketTypeConnection;
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-export type CreateWebPageConfigPayload = {
-  __typename?: 'createWebPageConfigPayload';
-  webPageConfig: Maybe<WebPageConfig>;
+/** A ticket category groups ticket types by their common denominator */
+export type TicketCategoryTicketTypesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
-export type UpdateWebPageConfigInput = {
-  where?: Maybe<InputId>;
-  data?: Maybe<EditWebPageConfigInput>;
-};
-
-export type EditWebPageConfigInput = {
-  title?: Maybe<Scalars['String']>;
-  googleTagManagerId?: Maybe<Scalars['String']>;
-  googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
-  baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
-  googleOptimizeId?: Maybe<Scalars['String']>;
-  googleAnalyticsLinkerDomains: Array<EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
-  matomoUrl?: Maybe<Scalars['String']>;
-  matomoSiteId?: Maybe<Scalars['String']>;
-  segmentId?: Maybe<Scalars['String']>;
-  metaData?: Maybe<EditComponentSiteConfigMetaDatumInput>;
-  events?: Maybe<Array<Scalars['ID']>>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
-};
-
-export type EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput = {
-  id?: Maybe<Scalars['ID']>;
-  domain?: Maybe<Scalars['String']>;
-};
-
-export type EditComponentSiteConfigMetaDatumInput = {
-  id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['ID']>;
-  siteTitle?: Maybe<Scalars['String']>;
-  siteDescription?: Maybe<Scalars['String']>;
-  facebookId?: Maybe<Scalars['String']>;
-  facebookPublisher?: Maybe<Scalars['String']>;
-  twitterId?: Maybe<Scalars['String']>;
-  twitterCreator?: Maybe<Scalars['String']>;
-};
-
-export type UpdateWebPageConfigPayload = {
-  __typename?: 'updateWebPageConfigPayload';
-  webPageConfig: Maybe<WebPageConfig>;
-};
-
-export type DeleteWebPageConfigInput = {
-  where?: Maybe<InputId>;
-};
-
-export type DeleteWebPageConfigPayload = {
-  __typename?: 'deleteWebPageConfigPayload';
-  webPageConfig: Maybe<WebPageConfig>;
-};
-
-export type UserPermissionsPasswordPayload = {
-  __typename?: 'UserPermissionsPasswordPayload';
-  ok: Scalars['Boolean'];
-};
-
-export type DynamicFormSubmissionPayload = {
-  __typename?: 'DynamicFormSubmissionPayload';
-  dynamicForm: Maybe<DynamicForm>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<DynamicFormSubmissionError>;
-};
-
-export type DynamicFormSubmissionError = {
-  __typename?: 'DynamicFormSubmissionError';
-  field: Maybe<Array<Scalars['String']>>;
-  message: Scalars['String'];
+/** The connection type for TicketCategory. */
+export type TicketCategoryConnection = {
+  __typename?: 'TicketCategoryConnection';
+  /** A list of edges. */
+  edges: Array<TicketCategoryEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
 /** Autogenerated input type of TicketCategoryCreate */
@@ -5453,14 +6548,6 @@ export type TicketCategoryCreatePayload = {
   userErrors: Array<UserError>;
 };
 
-export type UserError = {
-  __typename?: 'UserError';
-  /** A description of the error */
-  message: Scalars['String'];
-  /** Which input value this error came from */
-  path: Maybe<Array<Scalars['String']>>;
-};
-
 /** Autogenerated input type of TicketCategoryDelete */
 export type TicketCategoryDeleteInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -5475,6 +6562,15 @@ export type TicketCategoryDeletePayload = {
   clientMutationId: Maybe<Scalars['String']>;
   ticketCategory: Maybe<TicketCategory>;
   userErrors: Array<UserError>;
+};
+
+/** An edge in a connection. */
+export type TicketCategoryEdge = {
+  __typename?: 'TicketCategoryEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TicketCategory;
 };
 
 /** Autogenerated input type of TicketCategoryUpdate */
@@ -5493,6 +6589,171 @@ export type TicketCategoryUpdatePayload = {
   clientMutationId: Maybe<Scalars['String']>;
   ticketCategory: Maybe<TicketCategory>;
   userErrors: Array<UserError>;
+};
+
+/** The connection type for Ticket. */
+export type TicketConnection = {
+  __typename?: 'TicketConnection';
+  /** A list of edges. */
+  edges: Array<TicketEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type TicketContext = {
+  __typename?: 'TicketContext';
+  acceptable: Scalars['Boolean'];
+  assignable: Scalars['Boolean'];
+  editable: Scalars['Boolean'];
+  rejectable: Scalars['Boolean'];
+};
+
+/** Autogenerated input type of TicketCreate */
+export type TicketCreateInput = {
+  assignee?: Maybe<AccountAttributes>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderReference: Scalars['String'];
+  reference: Scalars['String'];
+  typeId: Scalars['ID'];
+  void?: Maybe<Scalars['Boolean']>;
+};
+
+/** Autogenerated return type of TicketCreate */
+export type TicketCreatePayload = {
+  __typename?: 'TicketCreatePayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  ticket: Maybe<Ticket>;
+  userErrors: Array<UserError>;
+};
+
+/** An edge in a connection. */
+export type TicketEdge = {
+  __typename?: 'TicketEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Ticket;
+};
+
+export type TicketFilter = {
+  assignment?: Maybe<TicketFilterAssignment>;
+  status?: Maybe<TicketFilterStatus>;
+  ticketTypeIds?: Maybe<Array<Scalars['ID']>>;
+};
+
+export enum TicketFilterAssignment {
+  Assigned = 'ASSIGNED',
+  Unassigned = 'UNASSIGNED',
+}
+
+export enum TicketFilterStatus {
+  Accepted = 'ACCEPTED',
+  Assigned = 'ASSIGNED',
+  CheckedIn = 'CHECKED_IN',
+  Duplicate = 'DUPLICATE',
+  Locked = 'LOCKED',
+  Rejected = 'REJECTED',
+  Unassigned = 'UNASSIGNED',
+  Void = 'VOID',
+}
+
+/** Autogenerated input type of TicketLock */
+export type TicketLockInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  reference: Scalars['String'];
+};
+
+/** Autogenerated return type of TicketLock */
+export type TicketLockPayload = {
+  __typename?: 'TicketLockPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  ticket: Maybe<Ticket>;
+  userErrors: Array<UserError>;
+};
+
+export enum TicketPromotionType {
+  Annotation = 'ANNOTATION',
+  Highlight = 'HIGHLIGHT',
+}
+
+/** Autogenerated input type of TicketReject */
+export type TicketRejectInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  notify?: Maybe<Scalars['Boolean']>;
+  ticketId: Scalars['ID'];
+};
+
+/** Autogenerated return type of TicketReject */
+export type TicketRejectPayload = {
+  __typename?: 'TicketRejectPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId: Maybe<Scalars['String']>;
+  ticket: Maybe<Ticket>;
+  userErrors: Array<UserError>;
+};
+
+/** A ticket release combines a ticket type and a release phase, e.g. Early-Bird General Attendee */
+export type TicketRelease = {
+  __typename?: 'TicketRelease';
+  /** The action available to the user, inferred from a combination of factors */
+  action: Maybe<TicketReleaseAction>;
+  /** Returns true when the release phase is active */
+  active: Scalars['Boolean'];
+  description: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  /** The next release, after this release phase has elapsed */
+  nextRelease: Maybe<TicketRelease>;
+  /** The previous release, before this one began */
+  previousRelease: Maybe<TicketRelease>;
+  price: Maybe<Price>;
+  releasePhase: TicketReleasePhase;
+  soldOut: Scalars['Boolean'];
+  /** The corresponding source entity from third-party provider, e.g. from Tito */
+  source: Maybe<SourceTicketReleaseUnion>;
+  ticketType: TicketType;
+  versions: Maybe<Array<PaperTrailVersion>>;
+};
+
+export type TicketReleaseAction =
+  | TicketReleaseActionsExpiredTicketAction
+  | TicketReleaseActionsPriceAlertAction
+  | TicketReleaseActionsPriceEnquiryAction
+  | TicketReleaseActionsTitoCheckoutAction;
+
+export type TicketReleaseActionsExpiredTicketAction = {
+  __typename?: 'TicketReleaseActionsExpiredTicketAction';
+  message: Scalars['String'];
+  suggestedRelease: Maybe<TicketRelease>;
+};
+
+export type TicketReleaseActionsPriceAlertAction = {
+  __typename?: 'TicketReleaseActionsPriceAlertAction';
+  dynamicForm: DynamicForm;
+};
+
+export type TicketReleaseActionsPriceEnquiryAction = {
+  __typename?: 'TicketReleaseActionsPriceEnquiryAction';
+  emailAddress: Maybe<Scalars['EmailAddress']>;
+};
+
+export type TicketReleaseActionsTitoCheckoutAction = {
+  __typename?: 'TicketReleaseActionsTitoCheckoutAction';
+  quantity: Scalars['Int'];
+};
+
+/** The connection type for TicketRelease. */
+export type TicketReleaseConnection = {
+  __typename?: 'TicketReleaseConnection';
+  /** A list of edges. */
+  edges: Array<TicketReleaseEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
 /** Autogenerated input type of TicketReleaseCreate */
@@ -5518,6 +6779,41 @@ export type TicketReleaseCreatePayload = {
   clientMutationId: Maybe<Scalars['String']>;
   ticketRelease: Maybe<TicketRelease>;
   userErrors: Array<UserError>;
+};
+
+/** An edge in a connection. */
+export type TicketReleaseEdge = {
+  __typename?: 'TicketReleaseEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TicketRelease;
+};
+
+/** Tickets are often released in phased batches, e.g. Early-Bird or Late-Late Booker */
+export type TicketReleasePhase = {
+  __typename?: 'TicketReleasePhase';
+  active: Scalars['Boolean'];
+  description: Maybe<Scalars['String']>;
+  endsAt: Scalars['ISO8601DateTime'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  /** A link to the phase that follows this phase, if there is one */
+  nextPhase: Maybe<TicketReleasePhase>;
+  /** A link to the phase that predated this phase, if there is one */
+  previousPhase: Maybe<TicketReleasePhase>;
+  startsAt: Scalars['ISO8601DateTime'];
+  status: TicketReleasePhaseStatus;
+  versions: Maybe<Array<PaperTrailVersion>>;
+};
+
+/** The connection type for TicketReleasePhase. */
+export type TicketReleasePhaseConnection = {
+  __typename?: 'TicketReleasePhaseConnection';
+  /** A list of edges. */
+  edges: Array<TicketReleasePhaseEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
 /** Autogenerated input type of TicketReleasePhaseCreate */
@@ -5553,6 +6849,22 @@ export type TicketReleasePhaseDeletePayload = {
   clientMutationId: Maybe<Scalars['String']>;
   userErrors: Array<UserError>;
 };
+
+/** An edge in a connection. */
+export type TicketReleasePhaseEdge = {
+  __typename?: 'TicketReleasePhaseEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TicketReleasePhase;
+};
+
+/** Possible release phase states */
+export enum TicketReleasePhaseStatus {
+  Active = 'ACTIVE',
+  InTheFuture = 'IN_THE_FUTURE',
+  InThePast = 'IN_THE_PAST',
+}
 
 /** Autogenerated input type of TicketReleasePhaseUpdate */
 export type TicketReleasePhaseUpdateInput = {
@@ -5600,845 +6912,78 @@ export type TicketReleaseUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
-/** Autogenerated input type of AdminAssignRole */
-export type AdminAssignRoleInput = {
-  adminId: Scalars['ID'];
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  userRoleId: Scalars['ID'];
-};
+export enum TicketState {
+  Accepted = 'ACCEPTED',
+  CheckedIn = 'CHECKED_IN',
+  Duplicate = 'DUPLICATE',
+  Locked = 'LOCKED',
+  Pending = 'PENDING',
+  Rejected = 'REJECTED',
+  Unassigned = 'UNASSIGNED',
+  Void = 'VOID',
+}
 
-/** Autogenerated return type of AdminAssignRole */
-export type AdminAssignRolePayload = {
-  __typename?: 'AdminAssignRolePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  role: Maybe<Role>;
-  userErrors: Array<UserError>;
-};
-
-export type Role = {
-  __typename?: 'Role';
-  admin: Admin;
+export type TicketType = {
+  __typename?: 'TicketType';
+  accessPermissions: AccessPermissionConnection;
+  category: Maybe<TicketCategory>;
   id: Scalars['ID'];
-  userRole: UserRole;
-};
-
-/** Autogenerated input type of AdminCreate */
-export type AdminCreateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
+  /** If no arguments given, it returns current release */
+  release: Maybe<TicketRelease>;
+  releasePhases: TicketReleasePhaseConnection;
+  /**
+   * The same ticket type may be released over several release phases at incrementally increasing prices.
+   * The combination of ticket type and release phase is captured in the concept of a "TicketRelease".
+   */
+  releases: TicketReleaseConnection;
+  assignmentProperties: Maybe<AssignmentProperties>;
+  description: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  permissions: Array<Scalars['String']>;
+  versions: Maybe<Array<PaperTrailVersion>>;
 };
 
-/** Autogenerated return type of AdminCreate */
-export type AdminCreatePayload = {
-  __typename?: 'AdminCreatePayload';
-  admin: Maybe<Admin>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AdminUnassignRole */
-export type AdminUnassignRoleInput = {
-  adminId: Scalars['ID'];
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  userRoleId: Scalars['ID'];
-};
-
-/** Autogenerated return type of AdminUnassignRole */
-export type AdminUnassignRolePayload = {
-  __typename?: 'AdminUnassignRolePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  role: Maybe<Role>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AdminUpdate */
-export type AdminUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  permissions?: Maybe<Array<Scalars['String']>>;
-};
-
-/** Autogenerated return type of AdminUpdate */
-export type AdminUpdatePayload = {
-  __typename?: 'AdminUpdatePayload';
-  admin: Maybe<Admin>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AppearanceUpdate */
-export type AppearanceUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['UUID'];
-  isSponsor: Scalars['Boolean'];
-  privacyPolicyUrl?: Maybe<Scalars['String']>;
-};
-
-/** Autogenerated return type of AppearanceUpdate */
-export type AppearanceUpdatePayload = {
-  __typename?: 'AppearanceUpdatePayload';
-  appearance: Maybe<Appearance>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  errors: Array<Error>;
-};
-
-export type Error = {
-  __typename?: 'Error';
-  /** A description of the error */
-  message: Scalars['String'];
-  /** Which input value this error came from */
-  path: Maybe<Array<Scalars['String']>>;
-  type: Scalars['String'];
-};
-
-/** Autogenerated input type of AttendanceAppearanceSelectionDestroy */
-export type AttendanceAppearanceSelectionDestroyInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-};
-
-/** Autogenerated return type of AttendanceAppearanceSelectionDestroy */
-export type AttendanceAppearanceSelectionDestroyPayload = {
-  __typename?: 'AttendanceAppearanceSelectionDestroyPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AttendanceAppearanceSelectionsUpdate */
-export type AttendanceAppearanceSelectionsUpdateInput = {
-  attendanceIds: Array<Scalars['ID']>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  status: Scalars['String'];
-};
-
-/** Autogenerated return type of AttendanceAppearanceSelectionsUpdate */
-export type AttendanceAppearanceSelectionsUpdatePayload = {
-  __typename?: 'AttendanceAppearanceSelectionsUpdatePayload';
-  attendances: Maybe<AttendeeConnection>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated return type of AttendanceAppearanceSelectionsUpdate */
-export type AttendanceAppearanceSelectionsUpdatePayloadAttendancesArgs = {
+export type TicketTypeAccessPermissionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
 
-/** Autogenerated input type of AttendanceInvestorSessionUpdate */
-export type AttendanceInvestorSessionUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  investorSessionConfiguration?: Maybe<InvestorSessionConfiguration>;
-};
-
-export type InvestorSessionConfiguration = {
-  attendanceId: Scalars['ID'];
-  startsAt?: Maybe<Scalars['ISO8601DateTime']>;
-  unlockInvestor: Scalars['Boolean'];
-};
-
-/** Autogenerated return type of AttendanceInvestorSessionUpdate */
-export type AttendanceInvestorSessionUpdatePayload = {
-  __typename?: 'AttendanceInvestorSessionUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AttendeeProfileUpdate */
-export type AttendeeProfileUpdateInput = {
-  bio?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  companyName?: Maybe<Scalars['String']>;
-  companySizeId?: Maybe<Scalars['ID']>;
-  countryId?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  industryId?: Maybe<Scalars['ID']>;
-  jobTitle?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  marketingConsent?: Maybe<Scalars['String']>;
-  offeringTopicIds?: Maybe<Array<Scalars['ID']>>;
-  passportNumber?: Maybe<Scalars['String']>;
-  personalisationConsent?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
-  seekingTopicIds?: Maybe<Array<Scalars['ID']>>;
-};
-
-/** Autogenerated return type of AttendeeProfileUpdate */
-export type AttendeeProfileUpdatePayload = {
-  __typename?: 'AttendeeProfileUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  dynamicForm: Maybe<DynamicForm>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AuthenticateByToken */
-export type AuthenticateByTokenInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  token: Scalars['String'];
-};
-
-/** Autogenerated return type of AuthenticateByToken */
-export type AuthenticateByTokenPayload = {
-  __typename?: 'AuthenticateByTokenPayload';
-  accessToken: Maybe<Scalars['String']>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  user: User;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of ConnectionLinkRemove */
-export type ConnectionLinkRemoveInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-};
-
-/** Autogenerated return type of ConnectionLinkRemove */
-export type ConnectionLinkRemovePayload = {
-  __typename?: 'ConnectionLinkRemovePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  errors: Array<Error>;
-};
-
-/** Autogenerated input type of ConnectionRequestAccept */
-export type ConnectionRequestAcceptInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-};
-
-/** Autogenerated return type of ConnectionRequestAccept */
-export type ConnectionRequestAcceptPayload = {
-  __typename?: 'ConnectionRequestAcceptPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  connectionRequest: Maybe<ConnectionRequest>;
-  errors: Array<Error>;
-};
-
-/** Autogenerated input type of ConnectionRequestCreate */
-export type ConnectionRequestCreateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
+export type TicketTypeReleaseArgs = {
   id?: Maybe<Scalars['ID']>;
-  initiatedAt?: Maybe<Scalars['ISO8601DateTime']>;
-  scanCode?: Maybe<Scalars['String']>;
-  sendNotification?: Maybe<Scalars['Boolean']>;
-  source?: Maybe<Scalars['String']>;
-  type: Scalars['String'];
+  releasePhaseId?: Maybe<Scalars['ID']>;
 };
 
-/** Autogenerated return type of ConnectionRequestCreate */
-export type ConnectionRequestCreatePayload = {
-  __typename?: 'ConnectionRequestCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  connectionRequest: Maybe<ConnectionRequest>;
-  errors: Array<Error>;
+export type TicketTypeReleasePhasesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
-/** Autogenerated input type of ConnectionRequestReject */
-export type ConnectionRequestRejectInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+export type TicketTypeReleasesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
-/** Autogenerated return type of ConnectionRequestReject */
-export type ConnectionRequestRejectPayload = {
-  __typename?: 'ConnectionRequestRejectPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  connectionRequest: Maybe<ConnectionRequest>;
-  errors: Array<Error>;
+/** The connection type for TicketType. */
+export type TicketTypeConnection = {
+  __typename?: 'TicketTypeConnection';
+  /** A list of edges. */
+  edges: Array<TicketTypeEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
-/** Autogenerated input type of InvestorAccessGrant */
-export type InvestorAccessGrantInput = {
-  bookingReferences: Array<Scalars['String']>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  startupSelectionsCount: Scalars['Int'];
-};
-
-/** Autogenerated return type of InvestorAccessGrant */
-export type InvestorAccessGrantPayload = {
-  __typename?: 'InvestorAccessGrantPayload';
-  attendances: Maybe<Array<Attendee>>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  errors: Array<Error>;
-  invalidBookingReferences: Maybe<Array<Scalars['String']>>;
-  successMessage: Maybe<Scalars['String']>;
-};
-
-/** Autogenerated input type of InvestorMeetingConfigurationUpdate */
-export type InvestorMeetingConfigurationUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  investorMeetingConfiguration?: Maybe<InvestorMeetingConfiguration>;
-};
-
-export type InvestorMeetingConfiguration = {
-  investorMeetingsDefaultStartupSelections?: Maybe<Scalars['Int']>;
-  investorMeetingsMeetingsPerSession?: Maybe<Scalars['Int']>;
-  investorMeetingsSessionDuration?: Maybe<Scalars['Int']>;
-  investorMeetingsSponsorLogo?: Maybe<Scalars['String']>;
-  investorMeetingsStartupPortalClosingAt?: Maybe<Scalars['ISO8601DateTime']>;
-  investorMeetingsStartupPortalOpeningAt?: Maybe<Scalars['ISO8601DateTime']>;
-  investorMeetingsStartupSelectionDeadline?: Maybe<Scalars['ISO8601DateTime']>;
-  notifyOfficeHoursInvitees?: Maybe<Scalars['Boolean']>;
-};
-
-/** Autogenerated return type of InvestorMeetingConfigurationUpdate */
-export type InvestorMeetingConfigurationUpdatePayload = {
-  __typename?: 'InvestorMeetingConfigurationUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of InvestorPortalRevokeAccess */
-export type InvestorPortalRevokeAccessInput = {
-  attendanceId: Scalars['ID'];
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-};
-
-/** Autogenerated return type of InvestorPortalRevokeAccess */
-export type InvestorPortalRevokeAccessPayload = {
-  __typename?: 'InvestorPortalRevokeAccessPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of InvestorSessionsCreate */
-export type InvestorSessionsCreateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  investorSessionsConfiguration?: Maybe<InvestorSessionsConfiguration>;
-};
-
-export type InvestorSessionsConfiguration = {
-  investorSessionsCount: Scalars['Int'];
-  investorSessionsEndsAt: Scalars['ISO8601DateTime'];
-  investorSessionsStartsAt: Scalars['ISO8601DateTime'];
-};
-
-/** Autogenerated return type of InvestorSessionsCreate */
-export type InvestorSessionsCreatePayload = {
-  __typename?: 'InvestorSessionsCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of MagicLinkGenerate */
-export type MagicLinkGenerateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** Use `%{token}` to indicate where to interpolate the token. */
-  linkFormat?: Maybe<Scalars['String']>;
-  ticketReference: Scalars['String'];
-};
-
-/** Autogenerated return type of MagicLinkGenerate */
-export type MagicLinkGeneratePayload = {
-  __typename?: 'MagicLinkGeneratePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of MagicLinkScheduleDelivery */
-export type MagicLinkScheduleDeliveryInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** Use `%{token}` to indicate where to interpolate the token. */
-  linkFormat?: Maybe<Scalars['String']>;
-  /** Url to let the user request a new magic link email. */
-  loginUrl?: Maybe<Scalars['String']>;
-  /**
-   * Datetime when the emails will get triggered.
-   * The process will be trigger right away if missing.
-   */
-  scheduleAt?: Maybe<Scalars['String']>;
-};
-
-/** Autogenerated return type of MagicLinkScheduleDelivery */
-export type MagicLinkScheduleDeliveryPayload = {
-  __typename?: 'MagicLinkScheduleDeliveryPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of MyConnectionsEmailSend */
-export type MyConnectionsEmailSendInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-};
-
-/** Autogenerated return type of MyConnectionsEmailSend */
-export type MyConnectionsEmailSendPayload = {
-  __typename?: 'MyConnectionsEmailSendPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  errors: Array<Error>;
-  recipient: User;
-};
-
-/** Autogenerated input type of SessionTimeslotParticipationCreate */
-export type SessionTimeslotParticipationCreateInput = {
-  attendanceId: Scalars['ID'];
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  sessionTimeslotId: Scalars['ID'];
-};
-
-/** Autogenerated return type of SessionTimeslotParticipationCreate */
-export type SessionTimeslotParticipationCreatePayload = {
-  __typename?: 'SessionTimeslotParticipationCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  participations: Maybe<Array<Attendee>>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of UserRoleCreate */
-export type UserRoleCreateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  permissions: Array<Scalars['String']>;
-};
-
-/** Autogenerated return type of UserRoleCreate */
-export type UserRoleCreatePayload = {
-  __typename?: 'UserRoleCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-  userRole: Maybe<UserRole>;
-};
-
-/** Autogenerated input type of UserRoleUpdate */
-export type UserRoleUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  permissions?: Maybe<Array<Scalars['String']>>;
-};
-
-/** Autogenerated return type of UserRoleUpdate */
-export type UserRoleUpdatePayload = {
-  __typename?: 'UserRoleUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-  userRole: Maybe<UserRole>;
-};
-
-/** Autogenerated input type of AssignmentAccountUpdate */
-export type AssignmentAccountUpdateInput = {
-  accountId: Scalars['ID'];
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-};
-
-/** Autogenerated return type of AssignmentAccountUpdate */
-export type AssignmentAccountUpdatePayload = {
-  __typename?: 'AssignmentAccountUpdatePayload';
-  account: Maybe<AssignmentUser>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AssignmentAuthenticate */
-export type AssignmentAuthenticateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  token: Scalars['String'];
-};
-
-/** Autogenerated return type of AssignmentAuthenticate */
-export type AssignmentAuthenticatePayload = {
-  __typename?: 'AssignmentAuthenticatePayload';
-  accessToken: Maybe<Scalars['String']>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  conferenceSlug: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AssignmentMagicLinkGenerate */
-export type AssignmentMagicLinkGenerateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** Email address of the account. */
-  email: Scalars['String'];
-  eventSlug: Scalars['String'];
-  /** Specifies the time in minutes the generated login link will be valid for. Defaults to 30 minutes. */
-  ttl?: Maybe<Scalars['Int']>;
-};
-
-/** Autogenerated return type of AssignmentMagicLinkGenerate */
-export type AssignmentMagicLinkGeneratePayload = {
-  __typename?: 'AssignmentMagicLinkGeneratePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  email: Maybe<Scalars['String']>;
-  loginLink: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AssignmentMagicLinkLoginRequest */
-export type AssignmentMagicLinkLoginRequestInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-};
-
-/** Autogenerated return type of AssignmentMagicLinkLoginRequest */
-export type AssignmentMagicLinkLoginRequestPayload = {
-  __typename?: 'AssignmentMagicLinkLoginRequestPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AssignmentProfileAdminUpdate */
-export type AssignmentProfileAdminUpdateInput = {
-  accountId: Scalars['ID'];
-  bio?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  companyName?: Maybe<Scalars['String']>;
-  companySizeId?: Maybe<Scalars['ID']>;
-  firstName?: Maybe<Scalars['String']>;
-  gender?: Maybe<Scalars['String']>;
-  industryId?: Maybe<Scalars['ID']>;
-  jobTitle?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
-};
-
-/** Autogenerated return type of AssignmentProfileAdminUpdate */
-export type AssignmentProfileAdminUpdatePayload = {
-  __typename?: 'AssignmentProfileAdminUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  profile: Maybe<AssignmentUser>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AssignmentProfileUpdate */
-export type AssignmentProfileUpdateInput = {
-  city?: Maybe<Scalars['String']>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  companyName?: Maybe<Scalars['String']>;
-  companySizeId: Scalars['ID'];
-  firstName: Scalars['String'];
-  industryId: Scalars['ID'];
-  jobTitle: Scalars['String'];
-  lastName?: Maybe<Scalars['String']>;
-  marketingConsent: Scalars['String'];
-  partnerSharingConsent?: Maybe<Scalars['String']>;
-  passportNumber?: Maybe<Scalars['String']>;
-  personalisationConsent: Scalars['String'];
-  phoneNumber?: Maybe<Scalars['String']>;
-  ticketId: Scalars['ID'];
-};
-
-/** Autogenerated return type of AssignmentProfileUpdate */
-export type AssignmentProfileUpdatePayload = {
-  __typename?: 'AssignmentProfileUpdatePayload';
-  assignee: Maybe<AssignmentUser>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AssignmentSalesforceAccountUpdate */
-export type AssignmentSalesforceAccountUpdateInput = {
-  announcementStatus?: Maybe<Scalars['String']>;
-  appLoginEmail?: Maybe<Scalars['String']>;
-  bio?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  companyName?: Maybe<Scalars['String']>;
-  countryName?: Maybe<Scalars['String']>;
-  gender?: Maybe<Scalars['String']>;
-  industry?: Maybe<Scalars['String']>;
-  jobTitle?: Maybe<Scalars['String']>;
-  passportNumber?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
-  salesforceAttendanceUid: Scalars['String'];
-};
-
-/** Autogenerated return type of AssignmentSalesforceAccountUpdate */
-export type AssignmentSalesforceAccountUpdatePayload = {
-  __typename?: 'AssignmentSalesforceAccountUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of AssignmentTicketLoginUpdate */
-export type AssignmentTicketLoginUpdateInput = {
-  appLoginEmail: Scalars['String'];
-  bookingRef: Scalars['String'];
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-};
-
-/** Autogenerated return type of AssignmentTicketLoginUpdate */
-export type AssignmentTicketLoginUpdatePayload = {
-  __typename?: 'AssignmentTicketLoginUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  successMessage: Maybe<Scalars['String']>;
-  ticket: Maybe<Ticket>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of OrderCancel */
-export type OrderCancelInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  disableEmailNotification?: Maybe<Scalars['Boolean']>;
-  reference: Scalars['String'];
-};
-
-/** Autogenerated return type of OrderCancel */
-export type OrderCancelPayload = {
-  __typename?: 'OrderCancelPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  order: Maybe<Order>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of OrderCreate */
-export type OrderCreateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  notify?: Maybe<Scalars['Boolean']>;
-  owner: AccountAttributes;
-  reference: Scalars['String'];
-  source: Scalars['String'];
-  tickets?: Maybe<Array<TicketAttributes>>;
-};
-
-export type AccountAttributes = {
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName?: Maybe<Scalars['String']>;
-};
-
-export type TicketAttributes = {
-  assignee?: Maybe<AccountAttributes>;
-  reference: Scalars['String'];
-  typeId: Scalars['ID'];
-  void?: Maybe<Scalars['Boolean']>;
-};
-
-/** Autogenerated return type of OrderCreate */
-export type OrderCreatePayload = {
-  __typename?: 'OrderCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  order: Maybe<Order>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of OrderInvoiceSend */
-export type OrderInvoiceSendInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  reference: Scalars['String'];
-};
-
-/** Autogenerated return type of OrderInvoiceSend */
-export type OrderInvoiceSendPayload = {
-  __typename?: 'OrderInvoiceSendPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  order: Maybe<Order>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of RefundReceiptSend */
-export type RefundReceiptSendInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  reference: Scalars['String'];
-};
-
-/** Autogenerated return type of RefundReceiptSend */
-export type RefundReceiptSendPayload = {
-  __typename?: 'RefundReceiptSendPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  order: Maybe<Order>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of OrderUpdate */
-export type OrderUpdateInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  notify?: Maybe<Scalars['Boolean']>;
-  owner: AccountAttributes;
-  reference: Scalars['String'];
-};
-
-/** Autogenerated return type of OrderUpdate */
-export type OrderUpdatePayload = {
-  __typename?: 'OrderUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  order: Maybe<Order>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of TicketAccept */
-export type TicketAcceptInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  ticketId: Scalars['ID'];
-};
-
-/** Autogenerated return type of TicketAccept */
-export type TicketAcceptPayload = {
-  __typename?: 'TicketAcceptPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticket: Maybe<Ticket>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of TicketAssign */
-export type TicketAssignInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName?: Maybe<Scalars['String']>;
-  notify?: Maybe<Scalars['Boolean']>;
-  ticketId: Scalars['ID'];
-};
-
-/** Autogenerated return type of TicketAssign */
-export type TicketAssignPayload = {
-  __typename?: 'TicketAssignPayload';
-  assignment: Maybe<Assignment>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticket: Maybe<Ticket>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of TicketCreate */
-export type TicketCreateInput = {
-  assignee?: Maybe<AccountAttributes>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  orderReference: Scalars['String'];
-  reference: Scalars['String'];
-  typeId: Scalars['ID'];
-  void?: Maybe<Scalars['Boolean']>;
-};
-
-/** Autogenerated return type of TicketCreate */
-export type TicketCreatePayload = {
-  __typename?: 'TicketCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticket: Maybe<Ticket>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of TicketLock */
-export type TicketLockInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  reference: Scalars['String'];
-};
-
-/** Autogenerated return type of TicketLock */
-export type TicketLockPayload = {
-  __typename?: 'TicketLockPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticket: Maybe<Ticket>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of TicketReject */
-export type TicketRejectInput = {
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  notify?: Maybe<Scalars['Boolean']>;
-  ticketId: Scalars['ID'];
-};
-
-/** Autogenerated return type of TicketReject */
-export type TicketRejectPayload = {
-  __typename?: 'TicketRejectPayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  ticket: Maybe<Ticket>;
-  userErrors: Array<UserError>;
+/** An edge in a connection. */
+export type TicketTypeEdge = {
+  __typename?: 'TicketTypeEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TicketType;
 };
 
 /** Autogenerated input type of TicketUnlock */
@@ -6508,990 +7053,457 @@ export type TicketVoidPayload = {
   userErrors: Array<UserError>;
 };
 
-export type CommerceCategoryCreate = {
-  active?: Maybe<Scalars['Boolean']>;
-  children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  description?: Maybe<Scalars['String']>;
+export type TicketsSummary = {
+  __typename?: 'TicketsSummary';
+  all: All;
+};
+
+export enum TimeUnit {
+  Days = 'DAYS',
+  Hours = 'HOURS',
+  Minutes = 'MINUTES',
+  Months = 'MONTHS',
+  Seconds = 'SECONDS',
+  Weeks = 'WEEKS',
+  Years = 'YEARS',
+}
+
+export type TimeZone = {
+  __typename?: 'TimeZone';
+  displayName: Scalars['String'];
+  ianaName: Scalars['String'];
+  utcOffset: Scalars['String'];
+};
+
+/** The connection type for TimeZone. */
+export type TimeZoneConnection = {
+  __typename?: 'TimeZoneConnection';
+  /** A list of edges. */
+  edges: Array<TimeZoneEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type TimeZoneEdge = {
+  __typename?: 'TimeZoneEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: TimeZone;
+};
+
+/** Tito linked ticket release */
+export type TitoTicketRelease = {
+  __typename?: 'TitoTicketRelease';
+  /** The unique event slug of the event this release is for */
+  eventSlug: Scalars['String'];
+  slug: Scalars['String'];
+  /** The ti.to url that links to this release */
+  url: Maybe<Scalars['URL']>;
+};
+
+export type Topic = {
+  __typename?: 'Topic';
+  id: Scalars['ID'];
   name: Scalars['String'];
-  parent?: Maybe<Scalars['ID']>;
-  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
 };
 
-export type CommerceCategoryCreateOrUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  parent?: Maybe<Scalars['ID']>;
-  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
+/** The connection type for Topic. */
+export type TopicConnection = {
+  __typename?: 'TopicConnection';
+  /** A list of edges. */
+  edges: Array<TopicEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
-export type CommerceProductCreateOrUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  defaultPrice?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
-  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
-  price?: Maybe<Scalars['Int']>;
-  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
-  taxMode?: Maybe<CommerceProductTaxMode>;
-  taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
-  timesUsed?: Maybe<Scalars['Int']>;
-  type?: Maybe<CommerceProductType>;
+/** An edge in a connection. */
+export type TopicEdge = {
+  __typename?: 'TopicEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Topic;
 };
 
-export type CommercePackagedProductCreateOrUpdate = {
-  id?: Maybe<Scalars['ID']>;
-  packagedProduct?: Maybe<Scalars['ID']>;
-  quantity?: Maybe<Scalars['Int']>;
+export type Unassigned = {
+  __typename?: 'Unassigned';
+  count: Scalars['Int'];
+  neverAssigned: NeverAssigned;
+  rejected: Rejected;
 };
 
-export type CommerceTagCreateOrUpdate = {
-  code?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+export type UploadFile = {
+  __typename?: 'UploadFile';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  alternativeText: Maybe<Scalars['String']>;
+  caption: Maybe<Scalars['String']>;
+  width: Maybe<Scalars['Int']>;
+  height: Maybe<Scalars['Int']>;
+  formats: Maybe<Scalars['JSON']>;
+  hash: Scalars['String'];
+  ext: Maybe<Scalars['String']>;
+  mime: Scalars['String'];
+  size: Scalars['Float'];
+  url: Scalars['String'];
+  previewUrl: Maybe<Scalars['String']>;
+  provider: Scalars['String'];
+  provider_metadata: Maybe<Scalars['JSON']>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+  absoluteUrl: Scalars['String'];
 };
 
-export type CommerceTaxTypeCreateOrUpdate = {
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
-};
-
-export type CommerceTaxCreateOrUpdate = {
-  country?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  note?: Maybe<Scalars['String']>;
-  rateAmount?: Maybe<Scalars['Int']>;
-  rateType?: Maybe<CommerceTaxRateType>;
-  taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
-};
-
-export type CommerceCustomerCreate = {
-  address?: Maybe<CommerceAddressCreateOrUpdate>;
-  companyName?: Maybe<Scalars['String']>;
+export type User = {
+  __typename?: 'User';
+  connectionLinks: ConnectionLinkConnection;
+  connectionRequests: ConnectionRequestConnection;
+  contacts: AttendeeConnection;
   email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  phoneNumber?: Maybe<Scalars['String']>;
-  vatNumber?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  profile: Maybe<Attendee>;
 };
 
-export type CommerceAddressCreateOrUpdate = {
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  line1?: Maybe<Scalars['String']>;
-  line2?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
+export type UserConnectionLinksArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  entityIds?: Maybe<Array<Scalars['ID']>>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  type: ConnectionLinkTarget;
 };
 
-export type CommerceDealCreate = {
-  active?: Maybe<Scalars['Boolean']>;
-  code?: Maybe<Scalars['String']>;
-  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
-  description?: Maybe<Scalars['String']>;
-  endDate: Scalars['Date'];
-  metadata?: Maybe<Scalars['JSON']>;
+export type UserConnectionRequestsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  fromIds?: Maybe<Array<Scalars['ID']>>;
+  last?: Maybe<Scalars['Int']>;
+  status?: Maybe<ConnectionRequestStatus>;
+  toIds?: Maybe<Array<Scalars['ID']>>;
+};
+
+export type UserContactsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  provider: ContactsProvider;
+};
+
+export type UserError = {
+  __typename?: 'UserError';
+  /** A description of the error */
+  message: Scalars['String'];
+  /** Which input value this error came from */
+  path: Maybe<Array<Scalars['String']>>;
+};
+
+export type UserPermissionsPasswordPayload = {
+  __typename?: 'UserPermissionsPasswordPayload';
+  ok: Scalars['Boolean'];
+};
+
+export type UserRole = {
+  __typename?: 'UserRole';
+  id: Scalars['ID'];
   name: Scalars['String'];
-  startDate: Scalars['Date'];
-  usages?: Maybe<Scalars['Int']>;
+  permissions: Array<Scalars['String']>;
 };
 
-export type CommerceDealItemCreateOrUpdate = {
-  amount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  max?: Maybe<Scalars['Int']>;
-  min?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
-  product?: Maybe<Scalars['ID']>;
-  step?: Maybe<Scalars['Int']>;
-  type?: Maybe<CommerceDealItemType>;
+/** The connection type for UserRole. */
+export type UserRoleConnection = {
+  __typename?: 'UserRoleConnection';
+  /** A list of edges. */
+  edges: Array<UserRoleEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
 };
 
-export type CommerceDealItemCreate = {
-  amount: Scalars['Int'];
-  max: Scalars['Int'];
-  min: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
-  product: Scalars['ID'];
-  step: Scalars['Int'];
-  type: CommerceDealItemType;
-};
-
-export type CommerceOrderCreate = {
-  applicableDeals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
-  billed?: Maybe<Scalars['Int']>;
-  currency?: Maybe<Scalars['String']>;
-  currencySymbol?: Maybe<Scalars['String']>;
-  customer?: Maybe<CommerceCustomerCreateOrUpdate>;
-  deal?: Maybe<Scalars['ID']>;
-  dealDiscount?: Maybe<Scalars['Int']>;
-  discountTotal?: Maybe<Scalars['Int']>;
-  invoiceUrl?: Maybe<Scalars['String']>;
-  itemSubtotal?: Maybe<Scalars['Int']>;
-  items: Array<CommerceOrderItemCreateOrUpdate>;
-  locked?: Maybe<Scalars['Boolean']>;
-  marketingMetadata?: Maybe<Scalars['JSON']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  paid?: Maybe<Scalars['Int']>;
-  paymentMethod?: Maybe<Scalars['ID']>;
-  refundReceiptUrl?: Maybe<Scalars['String']>;
-  status?: Maybe<CommerceOrderStatus>;
-  subTotal?: Maybe<Scalars['Int']>;
-  taxTotal?: Maybe<Scalars['Int']>;
-  taxes?: Maybe<Array<CommerceTaxSummaryCreateOrUpdate>>;
-  total?: Maybe<Scalars['Int']>;
-  url?: Maybe<Scalars['String']>;
-  valueTotal?: Maybe<Scalars['Int']>;
-  voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
-  voucherDiscount?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceDealCreateOrUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  code?: Maybe<Scalars['String']>;
-  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
-  description?: Maybe<Scalars['String']>;
-  endDate?: Maybe<Scalars['Date']>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  startDate?: Maybe<Scalars['Date']>;
-  usages?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceCustomerCreateOrUpdate = {
-  address?: Maybe<CommerceAddressCreateOrUpdate>;
-  companyName?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastName?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
-  vatNumber?: Maybe<Scalars['String']>;
-};
-
-export type CommerceOrderItemCreateOrUpdate = {
-  dealDiscount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  itemName?: Maybe<Scalars['String']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  price?: Maybe<Scalars['Int']>;
-  product?: Maybe<Scalars['ID']>;
-  productMetadata?: Maybe<Scalars['JSON']>;
-  quantity?: Maybe<Scalars['Int']>;
-  subTotal?: Maybe<Scalars['Int']>;
-  total?: Maybe<Scalars['Int']>;
-  valueTotal?: Maybe<Scalars['Int']>;
-  voucherDiscount?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceTaxSummaryCreateOrUpdate = {
-  name?: Maybe<Scalars['String']>;
-  netTotal?: Maybe<Scalars['Int']>;
-  rateAmount?: Maybe<Scalars['Int']>;
-  rateType?: Maybe<CommerceTaxSummaryRateType>;
-  taxId?: Maybe<Scalars['ID']>;
-  taxType?: Maybe<Scalars['String']>;
-  total?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceVoucherCreateOrUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  amount?: Maybe<Scalars['Int']>;
-  code?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<CommerceVoucherType>;
-  usages?: Maybe<Scalars['Int']>;
-};
-
-export type CommercePackagedProductCreate = {
-  packagedProduct: Scalars['ID'];
-  quantity: Scalars['Int'];
-};
-
-export type CommercePaymentMethodCreate = {
-  active?: Maybe<Scalars['Boolean']>;
-  configuration?: Maybe<Scalars['JSON']>;
-  gateway: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-export type CommerceProductCreate = {
-  active?: Maybe<Scalars['Boolean']>;
-  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  defaultPrice?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
-  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
-  price: Scalars['Int'];
-  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
-  taxMode?: Maybe<CommerceProductTaxMode>;
-  taxType: CommerceTaxTypeCreateOrUpdate;
-  timesUsed?: Maybe<Scalars['Int']>;
-  type?: Maybe<CommerceProductType>;
-};
-
-export type CommerceSaleCreate = {
-  active?: Maybe<Scalars['Boolean']>;
-  description?: Maybe<Scalars['String']>;
-  endDate: Scalars['Date'];
-  metadata?: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
-  startDate: Scalars['Date'];
-};
-
-export type CommerceSaleProductCreateOrUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  amount?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  product?: Maybe<Scalars['ID']>;
-  type?: Maybe<CommerceSaleProductType>;
-};
-
-export type CommerceSaleProductCreate = {
-  active?: Maybe<Scalars['Boolean']>;
-  amount: Scalars['Int'];
-  description?: Maybe<Scalars['String']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  product: Scalars['ID'];
-  type: CommerceSaleProductType;
-};
-
-export type CommerceStoreCreate = {
-  active?: Maybe<Scalars['Boolean']>;
-  baseUrl: Scalars['String'];
-  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  country: Scalars['String'];
-  currency: Scalars['String'];
-  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
-  paymentMethods?: Maybe<Array<CommercePaymentMethodCreateOrUpdate>>;
-  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
-  sales?: Maybe<Array<CommerceSaleCreateOrUpdate>>;
-  slug: Scalars['String'];
-  stockMode: CommerceStoreStockMode;
-  storeBilling: CommerceStoreBillingCreateOrUpdate;
-  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
-  taxErrors?: Maybe<Array<Maybe<Scalars['String']>>>;
-  taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
-  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
-  vatNumber: Scalars['String'];
-  vouchers?: Maybe<Array<CommerceVoucherCreateOrUpdate>>;
-};
-
-export type CommercePaymentMethodCreateOrUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  configuration?: Maybe<Scalars['JSON']>;
-  gateway?: Maybe<Scalars['ID']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-};
-
-export type CommerceSaleCreateOrUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  description?: Maybe<Scalars['String']>;
-  endDate?: Maybe<Scalars['Date']>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
-  startDate?: Maybe<Scalars['Date']>;
-};
-
-export type CommerceStoreBillingCreateOrUpdate = {
-  city?: Maybe<Scalars['String']>;
-  companyName?: Maybe<Scalars['String']>;
-  companyRegNumber?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  line1?: Maybe<Scalars['String']>;
-  line2?: Maybe<Scalars['String']>;
-  note?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  vatNumber?: Maybe<Scalars['String']>;
-};
-
-export type CommerceTagCreate = {
-  code: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-};
-
-export type CommerceTaxCreate = {
-  country: Scalars['String'];
-  name: Scalars['String'];
-  note?: Maybe<Scalars['String']>;
-  rateAmount: Scalars['Int'];
-  rateType: CommerceTaxRateType;
-  taxType: CommerceTaxTypeCreateOrUpdate;
-};
-
-export type CommerceTaxTypeCreate = {
-  description?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
-};
-
-export type CommerceTransactionCreate = {
-  amount?: Maybe<Scalars['Int']>;
-  currency?: Maybe<Scalars['String']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  paymentMethod?: Maybe<CommercePaymentMethodCreateOrUpdate>;
-  refundedTransaction?: Maybe<Scalars['ID']>;
-  status?: Maybe<CommerceTransactionStatus>;
-  taxDetails?: Maybe<Array<CommerceTaxDetailCreateOrUpdate>>;
-  timestamp?: Maybe<Scalars['Date']>;
-  type?: Maybe<CommerceTransactionType>;
-};
-
-export type CommerceTaxDetailCreateOrUpdate = {
-  taxId?: Maybe<Scalars['ID']>;
-  total?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceVoucherCreate = {
-  active?: Maybe<Scalars['Boolean']>;
-  amount: Scalars['Int'];
-  code?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  type: CommerceVoucherType;
-  usages?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceCategoryUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  children?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  parent?: Maybe<Scalars['ID']>;
-  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
-};
-
-export type CommerceCustomerUpdate = {
-  address?: Maybe<CommerceAddressCreateOrUpdate>;
-  companyName?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastName?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
-  vatNumber?: Maybe<Scalars['String']>;
-};
-
-export type CommerceDealUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  code?: Maybe<Scalars['String']>;
-  dealItems?: Maybe<Array<CommerceDealItemCreateOrUpdate>>;
-  description?: Maybe<Scalars['String']>;
-  endDate?: Maybe<Scalars['Date']>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  startDate?: Maybe<Scalars['Date']>;
-  usages?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceDealItemUpdate = {
-  amount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  max?: Maybe<Scalars['Int']>;
-  min?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
-  product?: Maybe<Scalars['ID']>;
-  step?: Maybe<Scalars['Int']>;
-  type?: Maybe<CommerceDealItemType>;
-};
-
-export type CommerceOrderUpdate = {
-  applicableDeals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
-  billed?: Maybe<Scalars['Int']>;
-  currency?: Maybe<Scalars['String']>;
-  currencySymbol?: Maybe<Scalars['String']>;
-  customer?: Maybe<CommerceCustomerCreateOrUpdate>;
-  deal?: Maybe<Scalars['ID']>;
-  dealDiscount?: Maybe<Scalars['Int']>;
-  discountTotal?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  invoiceUrl?: Maybe<Scalars['String']>;
-  itemSubtotal?: Maybe<Scalars['Int']>;
-  items?: Maybe<Array<CommerceOrderItemCreateOrUpdate>>;
-  locked?: Maybe<Scalars['Boolean']>;
-  marketingMetadata?: Maybe<Scalars['JSON']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  paid?: Maybe<Scalars['Int']>;
-  paymentMethod?: Maybe<Scalars['ID']>;
-  refundReceiptUrl?: Maybe<Scalars['String']>;
-  status?: Maybe<CommerceOrderStatus>;
-  subTotal?: Maybe<Scalars['Int']>;
-  taxTotal?: Maybe<Scalars['Int']>;
-  taxes?: Maybe<Array<CommerceTaxSummaryCreateOrUpdate>>;
-  total?: Maybe<Scalars['Int']>;
-  url?: Maybe<Scalars['String']>;
-  valueTotal?: Maybe<Scalars['Int']>;
-  voucher?: Maybe<CommerceVoucherCreateOrUpdate>;
-  voucherDiscount?: Maybe<Scalars['Int']>;
-};
-
-export type CommercePackagedProductUpdate = {
-  id?: Maybe<Scalars['ID']>;
-  packagedProduct?: Maybe<Scalars['ID']>;
-  quantity?: Maybe<Scalars['Int']>;
-};
-
-export type CommercePaymentMethodUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  configuration?: Maybe<Scalars['JSON']>;
-  gateway?: Maybe<Scalars['ID']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-};
-
-export type CommerceProductUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  defaultPrice?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  packagedProducts?: Maybe<Array<CommercePackagedProductCreateOrUpdate>>;
-  packages?: Maybe<Array<CommerceProductCreateOrUpdate>>;
-  price?: Maybe<Scalars['Int']>;
-  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
-  taxMode?: Maybe<CommerceProductTaxMode>;
-  taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
-  timesUsed?: Maybe<Scalars['Int']>;
-  type?: Maybe<CommerceProductType>;
-};
-
-export type CommerceSaleUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  description?: Maybe<Scalars['String']>;
-  endDate?: Maybe<Scalars['Date']>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  saleProducts?: Maybe<Array<CommerceSaleProductCreateOrUpdate>>;
-  startDate?: Maybe<Scalars['Date']>;
-};
-
-export type CommerceSaleProductUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  amount?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  product?: Maybe<Scalars['ID']>;
-  type?: Maybe<CommerceSaleProductType>;
-};
-
-export type CommerceStoreUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  baseUrl?: Maybe<Scalars['String']>;
-  categories?: Maybe<Array<CommerceCategoryCreateOrUpdate>>;
-  country?: Maybe<Scalars['String']>;
-  currency?: Maybe<Scalars['String']>;
-  deals?: Maybe<Array<CommerceDealCreateOrUpdate>>;
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  name?: Maybe<Scalars['String']>;
-  paymentMethods?: Maybe<Array<CommercePaymentMethodCreateOrUpdate>>;
-  products?: Maybe<Array<CommerceProductCreateOrUpdate>>;
-  sales?: Maybe<Array<CommerceSaleCreateOrUpdate>>;
-  slug?: Maybe<Scalars['String']>;
-  stockMode?: Maybe<CommerceStoreStockMode>;
-  storeBilling?: Maybe<CommerceStoreBillingCreateOrUpdate>;
-  tags?: Maybe<Array<CommerceTagCreateOrUpdate>>;
-  taxErrors?: Maybe<Array<Maybe<Scalars['String']>>>;
-  taxTypes?: Maybe<Array<CommerceTaxTypeCreateOrUpdate>>;
-  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
-  vatNumber?: Maybe<Scalars['String']>;
-  vouchers?: Maybe<Array<CommerceVoucherCreateOrUpdate>>;
-};
-
-export type CommerceTagUpdate = {
-  code?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-};
-
-export type CommerceTaxUpdate = {
-  country?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  note?: Maybe<Scalars['String']>;
-  rateAmount?: Maybe<Scalars['Int']>;
-  rateType?: Maybe<CommerceTaxRateType>;
-  taxType?: Maybe<CommerceTaxTypeCreateOrUpdate>;
-};
-
-export type CommerceTaxTypeUpdate = {
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  taxes?: Maybe<Array<CommerceTaxCreateOrUpdate>>;
-};
-
-export type CommerceVoucherUpdate = {
-  active?: Maybe<Scalars['Boolean']>;
-  amount?: Maybe<Scalars['Int']>;
-  code?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<CommerceVoucherType>;
-  usages?: Maybe<Scalars['Int']>;
-};
-
-/** Autogenerated input type of EventCreate */
-export type EventCreateInput = {
-  baseUrl?: Maybe<Scalars['String']>;
+/** Autogenerated input type of UserRoleCreate */
+export type UserRoleCreateInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['ID']>;
-  currency?: Maybe<CurrencyCode>;
-  description?: Maybe<Scalars['String']>;
-  enableRegistration?: Maybe<Scalars['Boolean']>;
-  /** Must be equal to or greater than the start_date */
-  endDate?: Maybe<Scalars['String']>;
-  legalEntityId?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
-  securityZonesCount?: Maybe<Scalars['Int']>;
-  slug: Scalars['String'];
-  startDate?: Maybe<Scalars['String']>;
-  taxNumber?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
+  permissions: Array<Scalars['String']>;
 };
 
-/** Autogenerated return type of EventCreate */
-export type EventCreatePayload = {
-  __typename?: 'EventCreatePayload';
+/** Autogenerated return type of UserRoleCreate */
+export type UserRoleCreatePayload = {
+  __typename?: 'UserRoleCreatePayload';
   /** A unique identifier for the client performing the mutation. */
   clientMutationId: Maybe<Scalars['String']>;
-  event: Maybe<Event>;
   userErrors: Array<UserError>;
+  userRole: Maybe<UserRole>;
 };
 
-/** Autogenerated input type of EventUpdate */
-export type EventUpdateInput = {
-  baseUrl?: Maybe<Scalars['String']>;
+/** An edge in a connection. */
+export type UserRoleEdge = {
+  __typename?: 'UserRoleEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: UserRole;
+};
+
+/** Autogenerated input type of UserRoleUpdate */
+export type UserRoleUpdateInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['ID']>;
-  currency?: Maybe<CurrencyCode>;
-  description?: Maybe<Scalars['String']>;
-  enableRegistration?: Maybe<Scalars['Boolean']>;
-  /** Must be equal to or greater than the start_date */
-  endDate?: Maybe<Scalars['String']>;
-  legalEntityId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  securityZonesCount?: Maybe<Scalars['Int']>;
-  slug: Scalars['String'];
-  startDate?: Maybe<Scalars['String']>;
-  taxNumber?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
-
-/** Autogenerated return type of EventUpdate */
-export type EventUpdatePayload = {
-  __typename?: 'EventUpdatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  event: Maybe<Event>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of LegalEntityCreate */
-export type LegalEntityCreateInput = {
-  address?: Maybe<AddressInput>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  /** Must be unique */
-  name: Scalars['String'];
-  note?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  regNumber?: Maybe<Scalars['String']>;
-  taxNumber?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-};
-
-export type AddressInput = {
-  city: Scalars['String'];
-  countryId: Scalars['ID'];
-  lineOne: Scalars['String'];
-  lineTwo?: Maybe<Scalars['String']>;
-  postalCode: Scalars['String'];
-  region: Scalars['String'];
-};
-
-/** Autogenerated return type of LegalEntityCreate */
-export type LegalEntityCreatePayload = {
-  __typename?: 'LegalEntityCreatePayload';
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId: Maybe<Scalars['String']>;
-  legalEntity: Maybe<LegalEntity>;
-  userErrors: Array<UserError>;
-};
-
-/** Autogenerated input type of LegalEntityUpdate */
-export type LegalEntityUpdateInput = {
-  address?: Maybe<AddressInput>;
-  /** A unique identifier for the client performing the mutation. */
-  clientMutationId?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  note?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  regNumber?: Maybe<Scalars['String']>;
-  taxNumber?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
+  permissions?: Maybe<Array<Scalars['String']>>;
 };
 
-/** Autogenerated return type of LegalEntityUpdate */
-export type LegalEntityUpdatePayload = {
-  __typename?: 'LegalEntityUpdatePayload';
+/** Autogenerated return type of UserRoleUpdate */
+export type UserRoleUpdatePayload = {
+  __typename?: 'UserRoleUpdatePayload';
   /** A unique identifier for the client performing the mutation. */
   clientMutationId: Maybe<Scalars['String']>;
-  legalEntity: Maybe<LegalEntity>;
   userErrors: Array<UserError>;
+  userRole: Maybe<UserRole>;
 };
 
-export type RoomJoinInput = {
-  roomId?: Maybe<Scalars['ID']>;
-  locationId?: Maybe<Scalars['ID']>;
-  timeslotId?: Maybe<Scalars['ID']>;
-  calendarEventId?: Maybe<Scalars['ID']>;
+export type UsersPermissionsLoginInput = {
+  identifier: Scalars['String'];
+  password: Scalars['String'];
+  provider?: Maybe<Scalars['String']>;
 };
 
-export type RoomGrant = {
-  __typename?: 'RoomGrant';
+export type UsersPermissionsRegisterInput = {
+  username: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type Void = {
+  __typename?: 'Void';
+  count: Scalars['Int'];
+};
+
+export type WebPage = {
+  __typename?: 'WebPage';
   id: Scalars['ID'];
-  role: RoomRole;
-  room: Room;
-  config: RoomConfig;
-  permissions: RoomPermissions;
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Scalars['String'];
+  path: Maybe<Scalars['String']>;
+  content: Array<WebPageContentDynamicZone>;
+  seoTags: Maybe<ComponentWebElementsSeoMetaData>;
 };
 
-export enum RoomRole {
-  Moderator = 'MODERATOR',
-  Participant = 'PARTICIPANT',
-  Spectator = 'SPECTATOR',
-}
-
-export type RoomConfig = {
-  __typename?: 'RoomConfig';
-  backstageEnabled: Scalars['Boolean'];
-  heartbeatInterval: Scalars['Int'];
-  moderation: RoomModerationConfig;
-  chat: Maybe<RoomChatConfig>;
-  reactions: Maybe<RoomReactionsConfig>;
-  questions: Maybe<RoomQuestionsConfig>;
-  videoCall: Maybe<RoomVideoCallConfig>;
-  videoCallLiveStream: Maybe<RoomStreamConfig>;
-  contentLiveStream: Maybe<RoomStreamConfig>;
+export type WebPageConfig = {
+  __typename?: 'WebPageConfig';
+  id: Scalars['ID'];
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  title: Maybe<Scalars['String']>;
+  googleTagManagerId: Maybe<Scalars['String']>;
+  googleAnalyticsTrackingId: Maybe<Scalars['String']>;
+  baseGoogleAnalyticsTrackingId: Maybe<Scalars['String']>;
+  googleOptimizeId: Maybe<Scalars['String']>;
+  googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainList>;
+  matomoUrl: Maybe<Scalars['String']>;
+  matomoSiteId: Maybe<Scalars['String']>;
+  segmentId: Maybe<Scalars['String']>;
+  metaData: Maybe<ComponentSiteConfigMetaData>;
+  created_by: Maybe<AdminUser>;
+  updated_by: Maybe<AdminUser>;
+  site: Maybe<Site>;
+  branding: Maybe<Branding>;
+  config: Maybe<WebPageConfig>;
+  event: Maybe<WebPageEvent>;
 };
 
-export type RoomModerationConfig = RoomModerationConfigPubnub;
-
-export type RoomModerationConfigPubnub = RoomPubnubConfig & {
-  __typename?: 'RoomModerationConfigPubnub';
-  channel: Scalars['String'];
-  authKey: Scalars['String'];
-  publishKey: Scalars['String'];
-  subscribeKey: Scalars['String'];
+export type WebPageConfigAggregator = {
+  __typename?: 'WebPageConfigAggregator';
+  count: Maybe<Scalars['Int']>;
+  totalCount: Maybe<Scalars['Int']>;
 };
 
-export type RoomPubnubConfig = {
-  channel: Scalars['String'];
-  authKey: Scalars['String'];
-  publishKey: Scalars['String'];
-  subscribeKey: Scalars['String'];
+export type WebPageConfigConnection = {
+  __typename?: 'WebPageConfigConnection';
+  values: Maybe<Array<Maybe<WebPageConfig>>>;
+  groupBy: Maybe<WebPageConfigGroupBy>;
+  aggregate: Maybe<WebPageConfigAggregator>;
 };
 
-export type RoomChatConfig = {
-  allowedDomains: Array<Scalars['String']>;
+export type WebPageConfigConnectionBaseGoogleAnalyticsTrackingId = {
+  __typename?: 'WebPageConfigConnectionBaseGoogleAnalyticsTrackingId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
 };
 
-export type RoomReactionsConfig = {
-  enabled: Array<RoomReaction>;
+export type WebPageConfigConnectionCreatedAt = {
+  __typename?: 'WebPageConfigConnectionCreatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<WebPageConfigConnection>;
 };
 
-export enum RoomReaction {
-  Canada = 'CANADA',
-  Clap = 'CLAP',
-  Fire = 'FIRE',
-  Heart = 'HEART',
-  Laugh = 'LAUGH',
-  NotOk = 'NOT_OK',
-  Ok = 'OK',
-  Portugal = 'PORTUGAL',
-  Tomato = 'TOMATO',
-}
-
-export type RoomQuestionsConfig = RoomQuestionsConfigPubnub;
-
-export type RoomQuestionsConfigPubnub = RoomPubnubConfig & {
-  __typename?: 'RoomQuestionsConfigPubnub';
-  channel: Scalars['String'];
-  authKey: Scalars['String'];
-  publishKey: Scalars['String'];
-  subscribeKey: Scalars['String'];
+export type WebPageConfigConnectionCreated_By = {
+  __typename?: 'WebPageConfigConnectionCreated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<WebPageConfigConnection>;
 };
 
-export type RoomVideoCallConfig = RoomVideoCallConfigVonage;
-
-export type RoomVideoCallConfigVonage = {
-  __typename?: 'RoomVideoCallConfigVonage';
-  apiKey: Scalars['String'];
-  sessionId: Scalars['String'];
-  token: Scalars['String'];
+export type WebPageConfigConnectionGoogleAnalyticsTrackingId = {
+  __typename?: 'WebPageConfigConnectionGoogleAnalyticsTrackingId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
 };
 
-export type RoomStreamConfig = {
-  __typename?: 'RoomStreamConfig';
-  iframeUrl: Maybe<Scalars['String']>;
-  hlsUrl: Maybe<Scalars['String']>;
+export type WebPageConfigConnectionGoogleOptimizeId = {
+  __typename?: 'WebPageConfigConnectionGoogleOptimizeId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
 };
 
-export type RoomPermissions = {
-  __typename?: 'RoomPermissions';
-  publishVideo: Scalars['Boolean'];
-  viewBackstage: Scalars['Boolean'];
-  readQuestions: Scalars['Boolean'];
-  kickUser: Scalars['Boolean'];
-  changeMode: Scalars['Boolean'];
-  pinChatMessage: Scalars['Boolean'];
-  deleteChatMessage: Scalars['Boolean'];
-  toggleParticipantAudio: Scalars['Boolean'];
-  toggleParticipantVideo: Scalars['Boolean'];
+export type WebPageConfigConnectionGoogleTagManagerId = {
+  __typename?: 'WebPageConfigConnectionGoogleTagManagerId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
 };
 
-export type AppConfigInput = {
-  googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
+export type WebPageConfigConnectionId = {
+  __typename?: 'WebPageConfigConnectionId';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionMatomoSiteId = {
+  __typename?: 'WebPageConfigConnectionMatomoSiteId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionMatomoUrl = {
+  __typename?: 'WebPageConfigConnectionMatomoUrl';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionMetaData = {
+  __typename?: 'WebPageConfigConnectionMetaData';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionSegmentId = {
+  __typename?: 'WebPageConfigConnectionSegmentId';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionTitle = {
+  __typename?: 'WebPageConfigConnectionTitle';
+  key: Maybe<Scalars['String']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionUpdatedAt = {
+  __typename?: 'WebPageConfigConnectionUpdatedAt';
+  key: Maybe<Scalars['DateTime']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnectionUpdated_By = {
+  __typename?: 'WebPageConfigConnectionUpdated_by';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigConnection_Id = {
+  __typename?: 'WebPageConfigConnection_id';
+  key: Maybe<Scalars['ID']>;
+  connection: Maybe<WebPageConfigConnection>;
+};
+
+export type WebPageConfigGroupBy = {
+  __typename?: 'WebPageConfigGroupBy';
+  id: Maybe<Array<Maybe<WebPageConfigConnectionId>>>;
+  _id: Maybe<Array<Maybe<WebPageConfigConnection_Id>>>;
+  createdAt: Maybe<Array<Maybe<WebPageConfigConnectionCreatedAt>>>;
+  updatedAt: Maybe<Array<Maybe<WebPageConfigConnectionUpdatedAt>>>;
+  title: Maybe<Array<Maybe<WebPageConfigConnectionTitle>>>;
+  googleTagManagerId: Maybe<
+    Array<Maybe<WebPageConfigConnectionGoogleTagManagerId>>
+  >;
+  googleAnalyticsTrackingId: Maybe<
+    Array<Maybe<WebPageConfigConnectionGoogleAnalyticsTrackingId>>
+  >;
+  baseGoogleAnalyticsTrackingId: Maybe<
+    Array<Maybe<WebPageConfigConnectionBaseGoogleAnalyticsTrackingId>>
+  >;
+  googleOptimizeId: Maybe<
+    Array<Maybe<WebPageConfigConnectionGoogleOptimizeId>>
+  >;
+  matomoUrl: Maybe<Array<Maybe<WebPageConfigConnectionMatomoUrl>>>;
+  matomoSiteId: Maybe<Array<Maybe<WebPageConfigConnectionMatomoSiteId>>>;
+  segmentId: Maybe<Array<Maybe<WebPageConfigConnectionSegmentId>>>;
+  metaData: Maybe<Array<Maybe<WebPageConfigConnectionMetaData>>>;
+  created_by: Maybe<Array<Maybe<WebPageConfigConnectionCreated_By>>>;
+  updated_by: Maybe<Array<Maybe<WebPageConfigConnectionUpdated_By>>>;
+};
+
+export type WebPageConfigInput = {
+  title?: Maybe<Scalars['String']>;
   googleTagManagerId?: Maybe<Scalars['String']>;
+  googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
+  baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
+  googleOptimizeId?: Maybe<Scalars['String']>;
   googleAnalyticsLinkerDomains: Array<ComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
-  googleFontsUrl?: Maybe<Scalars['String']>;
   matomoUrl?: Maybe<Scalars['String']>;
   matomoSiteId?: Maybe<Scalars['String']>;
   segmentId?: Maybe<Scalars['String']>;
-  theme?: Maybe<Scalars['JSON']>;
-  metaData: ComponentSiteConfigMetaDatumInput;
+  metaData?: Maybe<ComponentSiteConfigMetaDatumInput>;
+  events?: Maybe<Array<Scalars['ID']>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
 
-export type ComponentSearchAlgoliaRefinementInput = {
+export type WebPageContentDynamicZone =
+  | ComponentWebLayoutsTicketSalesPage
+  | ComponentWebLayoutsTicketApplicationsPage
+  | ComponentWebElementsShowcaseGrid
+  | ComponentWebElementsScheduleSearchSidebarFilters
+  | ComponentWebElementsCompanySearchSidebarFilters
+  | ComponentWebElementsAttendeeSearchSidebarFilters
+  | ComponentWebElementsHeroSection
+  | ComponentWebElementsFreshchat
+  | ComponentWebLayoutsStoresTicketSalesPage
+  | ComponentWebLayoutsStoresTicketApplicationsPage;
+
+export type WebPageEvent = {
+  __typename?: 'WebPageEvent';
+  slug: Maybe<Scalars['String']>;
+};
+
+export type WebPageInput = {
   title: Scalars['String'];
-  attribute: Scalars['String'];
-  defaults?: Maybe<Scalars['JSON']>;
-  variant: SearchRefinementWidgetType;
-  refinementItemsLimit?: Maybe<Scalars['Int']>;
-};
-
-export type ComponentWebElementsAttendeeSearchSidebarFilterInput = {
-  apiKey: Scalars['String'];
-  indexName: Scalars['String'];
-  refinements: Array<ComponentSearchAlgoliaRefinementInput>;
-};
-
-export type ComponentWebElementsCompanySearchSidebarFilterInput = {
-  apiKey: Scalars['String'];
-  conferenceId?: Maybe<Scalars['String']>;
-  indexName: Scalars['String'];
-  refinements: Array<ComponentSearchAlgoliaRefinementInput>;
-};
-
-export type ComponentWebElementsCtaLinkInput = {
-  text: Scalars['String'];
-  url: Scalars['String'];
-  openInNewTab: Scalars['Boolean'];
-};
-
-export type ComponentWebElementsFreshchatInput = {
-  OnMobile?: Maybe<Scalars['Boolean']>;
-  OnDesktop?: Maybe<Scalars['Boolean']>;
-};
-
-export type ComponentWebElementsHeroSectionInput = {
-  backgroundImage?: Maybe<Scalars['ID']>;
-  backgroundImageAlt?: Maybe<Scalars['String']>;
-  backgroundImageDescription?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  subtitle?: Maybe<Scalars['Markdown']>;
-  brandImage?: Maybe<Scalars['ID']>;
-  variant: Enum_Componentwebelementsherosection_Variant;
-  ctaLink?: Maybe<ComponentWebElementsCtaLinkInput>;
-};
-
-export type ComponentWebElementsPriceIncreaseCountdownTimerInput = {
-  ticketTypeId: Scalars['String'];
-  product?: Maybe<Scalars['ID']>;
-};
-
-export type ComponentWebElementsProductInput = {
-  product?: Maybe<Scalars['ID']>;
-  type?: Maybe<Enum_Componentwebelementsproducts_Type>;
-  buttonLabel?: Maybe<Scalars['String']>;
-  link?: Maybe<Scalars['String']>;
-  promotionType?: Maybe<Enum_Componentwebelementsproducts_Promotiontype>;
-  promotionLabel?: Maybe<Scalars['String']>;
-  promotionColor?: Maybe<Scalars['String']>;
-  benefits?: Maybe<Array<Scalars['ID']>>;
-};
-
-export type ComponentWebElementsReleasePhaseStepperInput = {
-  ticketTypeId: Scalars['String'];
-  product?: Maybe<Scalars['ID']>;
-};
-
-export type ComponentWebElementsScheduleSearchSidebarFilterInput = {
-  apiKey: Scalars['String'];
-  indexName: Scalars['String'];
-  refinements: Array<ComponentSearchAlgoliaRefinementInput>;
-};
-
-export type ComponentWebElementsSeoMetaDatumInput = {
-  defaultImage?: Maybe<Scalars['ID']>;
-  description?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
-  twitterImage?: Maybe<Scalars['ID']>;
-  facebookImage?: Maybe<Scalars['ID']>;
-  twitterTitle?: Maybe<Scalars['String']>;
-  facebookTitle?: Maybe<Scalars['String']>;
-  twitterDescription?: Maybe<Scalars['String']>;
-  facebookDescription?: Maybe<Scalars['String']>;
-};
-
-export type ComponentWebElementsShowcaseGridInput = {
-  contentBefore?: Maybe<Scalars['Markdown']>;
-  backgroundColor?: Maybe<Scalars['String']>;
-  contentCollection?: Maybe<Scalars['ID']>;
-};
-
-export type ComponentWebElementsTicketApplicationOverviewPanelInput = {
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  imageUrl?: Maybe<Scalars['String']>;
-  altImageText?: Maybe<Scalars['String']>;
-};
-
-export type ComponentWebElementsTicketPromotionInput = {
-  ticketTypeId: Scalars['String'];
-  type: TicketPromotionType;
-  label?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-};
-
-export type ComponentWebElementsTicketReleasesPanelInput = {
-  displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
-};
-
-export type ComponentWebElementsTicketTypeInformationInput = {
-  ticketTypeId: Scalars['String'];
-  product?: Maybe<Scalars['ID']>;
-  showBenefits: Scalars['Boolean'];
-  benefits?: Maybe<Array<Scalars['ID']>>;
-  displayPriceIncludingTax?: Maybe<Scalars['Boolean']>;
-  heading?: Maybe<Scalars['String']>;
-};
-
-export type ComponentWebLayoutsStoresTicketApplicationsPageInput = {
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['Markdown']>;
-  categoriesMenu?: Maybe<Scalars['ID']>;
-  applicationForm?: Maybe<Scalars['ID']>;
-  ticketInfoPanel?: Maybe<ComponentWebElementsTicketTypeInformationInput>;
-  applicationOverviewPanel?: Maybe<ComponentWebElementsTicketApplicationOverviewPanelInput>;
-  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
-  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
-};
-
-export type ComponentWebLayoutsStoresTicketSalesPageInput = {
-  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
-  categoriesMenu?: Maybe<Scalars['ID']>;
-  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
-  products: Array<ComponentWebElementsProductInput>;
-  productIds?: Maybe<Scalars['JSON']>;
-  ticketReleasesPanel?: Maybe<ComponentWebElementsTicketReleasesPanelInput>;
-  promotions: Array<ComponentWebElementsTicketPromotionInput>;
-  benefitsList?: Maybe<Array<Scalars['ID']>>;
-};
-
-export type ComponentWebLayoutsTicketApplicationsPageInput = {
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['Markdown']>;
-  categoriesMenu?: Maybe<Scalars['ID']>;
-  applicationForm?: Maybe<Scalars['ID']>;
-  ticketInfoPanel?: Maybe<ComponentWebElementsTicketTypeInformationInput>;
-  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
-  applicationOverviewPanel?: Maybe<ComponentWebElementsTicketApplicationOverviewPanelInput>;
-  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
-};
-
-export type ComponentWebLayoutsTicketSalesPageInput = {
-  ticketCategoryId: Scalars['String'];
-  ticketReleasesPanel?: Maybe<ComponentWebElementsTicketReleasesPanelInput>;
-  categoriesMenu?: Maybe<Scalars['ID']>;
-  priceIncreaseCountdownTimer?: Maybe<ComponentWebElementsPriceIncreaseCountdownTimerInput>;
-  promotions: Array<ComponentWebElementsTicketPromotionInput>;
-  releasePhaseStepper?: Maybe<ComponentWebElementsReleasePhaseStepperInput>;
-};
-
-export type ComponentWebLinksPageLinkInput = {
-  page?: Maybe<Scalars['ID']>;
-};
-
-export type ComponentWebLinksSubMenuInput = {
-  menu?: Maybe<Scalars['ID']>;
-};
-
-export type ComponentWebLinksUrlLinkInput = {
-  url: Scalars['String'];
-  target?: Maybe<Scalars['String']>;
-};
-
-export type ContentCollectionInput = {
-  name: Scalars['String'];
-  elements?: Maybe<Array<Scalars['ID']>>;
+  status?: Maybe<Enum_Webpage_Status>;
+  path?: Maybe<Scalars['String']>;
+  content: Array<Scalars['WebPageContentDynamicZoneInput']>;
+  seoTags?: Maybe<ComponentWebElementsSeoMetaDatumInput>;
+  event?: Maybe<Scalars['ID']>;
+  site?: Maybe<Scalars['ID']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
 
-export type ContentElementInput = {
-  title?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['ID']>;
-  link?: Maybe<ComponentWebLinksUrlLinkInput>;
-  collections?: Maybe<Array<Scalars['ID']>>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
+export type CreateBrandingInput = {
+  data?: Maybe<BrandingInput>;
+};
+
+export type CreateBrandingPayload = {
+  __typename?: 'createBrandingPayload';
+  branding: Maybe<Branding>;
 };
 
 export type CreateContentCollectionInput = {
@@ -7516,16 +7528,6 @@ export type CreateFormInput = {
   data?: Maybe<FormInput>;
 };
 
-export type FormInput = {
-  name: Scalars['String'];
-  formstackId?: Maybe<Scalars['String']>;
-  contentBefore?: Maybe<Scalars['Markdown']>;
-  successMessage: Scalars['Markdown'];
-  submissions?: Maybe<Array<Scalars['ID']>>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
-};
-
 export type CreateFormPayload = {
   __typename?: 'createFormPayload';
   form: Maybe<Form>;
@@ -7535,25 +7537,8 @@ export type CreateMenuInput = {
   data?: Maybe<MenuInput>;
 };
 
-export type MenuInput = {
-  name: Scalars['String'];
-  label?: Maybe<Scalars['String']>;
-  menuItems?: Maybe<Array<Scalars['ID']>>;
-  site?: Maybe<Scalars['ID']>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
-};
-
 export type CreateMenuItemInput = {
   data?: Maybe<MenuItemInput>;
-};
-
-export type MenuItemInput = {
-  label: Scalars['String'];
-  link: Array<Scalars['MenuItemLinkDynamicZoneInput']>;
-  parentMenu?: Maybe<Scalars['ID']>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
 };
 
 export type CreateMenuItemPayload = {
@@ -7566,27 +7551,45 @@ export type CreateMenuPayload = {
   menu: Maybe<Menu>;
 };
 
+export type CreateProductBenefitInput = {
+  data?: Maybe<ProductBenefitInput>;
+};
+
+export type CreateProductBenefitPayload = {
+  __typename?: 'createProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type CreateProductInput = {
+  data?: Maybe<ProductInput>;
+};
+
+export type CreateProductPayload = {
+  __typename?: 'createProductPayload';
+  product: Maybe<Products>;
+};
+
+export type CreateSiteInput = {
+  data?: Maybe<SiteInput>;
+};
+
+export type CreateSitePayload = {
+  __typename?: 'createSitePayload';
+  site: Maybe<Site>;
+};
+
+export type CreateWebPageConfigInput = {
+  data?: Maybe<WebPageConfigInput>;
+};
+
+export type CreateWebPageConfigPayload = {
+  __typename?: 'createWebPageConfigPayload';
+  webPageConfig: Maybe<WebPageConfig>;
+};
+
 export type CreateWebPageInput = {
   data?: Maybe<WebPageInput>;
 };
-
-export type WebPageInput = {
-  title: Scalars['String'];
-  status?: Maybe<Enum_Webpage_Status>;
-  path?: Maybe<Scalars['String']>;
-  content: Array<Scalars['WebPageContentDynamicZoneInput']>;
-  seoTags?: Maybe<ComponentWebElementsSeoMetaDatumInput>;
-  event?: Maybe<Scalars['ID']>;
-  site?: Maybe<Scalars['ID']>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
-};
-
-export enum Enum_Webpage_Status {
-  Archived = 'ARCHIVED',
-  Draft = 'DRAFT',
-  Published = 'PUBLISHED',
-}
 
 export type CreateWebPagePayload = {
   __typename?: 'createWebPagePayload';
@@ -7596,6 +7599,15 @@ export type CreateWebPagePayload = {
 export type DeleteAppConfigPayload = {
   __typename?: 'deleteAppConfigPayload';
   appConfig: Maybe<AppConfig>;
+};
+
+export type DeleteBrandingInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteBrandingPayload = {
+  __typename?: 'deleteBrandingPayload';
+  branding: Maybe<Branding>;
 };
 
 export type DeleteContentCollectionInput = {
@@ -7643,6 +7655,42 @@ export type DeleteMenuPayload = {
   menu: Maybe<Menu>;
 };
 
+export type DeleteProductBenefitInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteProductBenefitPayload = {
+  __typename?: 'deleteProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type DeleteProductInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteProductPayload = {
+  __typename?: 'deleteProductPayload';
+  product: Maybe<Products>;
+};
+
+export type DeleteSiteInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteSitePayload = {
+  __typename?: 'deleteSitePayload';
+  site: Maybe<Site>;
+};
+
+export type DeleteWebPageConfigInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteWebPageConfigPayload = {
+  __typename?: 'deleteWebPageConfigPayload';
+  webPageConfig: Maybe<WebPageConfig>;
+};
+
 export type DeleteWebPageInput = {
   where?: Maybe<InputId>;
 };
@@ -7666,6 +7714,23 @@ export type EditAppConfigInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
+export type EditBrandingInput = {
+  title?: Maybe<Scalars['String']>;
+  googleFontsUrl?: Maybe<Scalars['String']>;
+  typekitFontsUrl?: Maybe<Scalars['String']>;
+  theme?: Maybe<Scalars['JSON']>;
+  events?: Maybe<Array<Scalars['ID']>>;
+  logo?: Maybe<Scalars['ID']>;
+  headerBranding?: Maybe<Scalars['ID']>;
+  favicon?: Maybe<Scalars['ID']>;
+  ticketLogo?: Maybe<Scalars['ID']>;
+  invoiceHeader?: Maybe<Scalars['ID']>;
+  invoiceFooter?: Maybe<Scalars['ID']>;
+  invoiceStamp?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
 export type EditComponentSearchAlgoliaRefinementInput = {
   id?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
@@ -7673,6 +7738,22 @@ export type EditComponentSearchAlgoliaRefinementInput = {
   defaults?: Maybe<Scalars['JSON']>;
   variant?: Maybe<SearchRefinementWidgetType>;
   refinementItemsLimit?: Maybe<Scalars['Int']>;
+};
+
+export type EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput = {
+  id?: Maybe<Scalars['ID']>;
+  domain?: Maybe<Scalars['String']>;
+};
+
+export type EditComponentSiteConfigMetaDatumInput = {
+  id?: Maybe<Scalars['ID']>;
+  image?: Maybe<Scalars['ID']>;
+  siteTitle?: Maybe<Scalars['String']>;
+  siteDescription?: Maybe<Scalars['String']>;
+  facebookId?: Maybe<Scalars['String']>;
+  facebookPublisher?: Maybe<Scalars['String']>;
+  twitterId?: Maybe<Scalars['String']>;
+  twitterCreator?: Maybe<Scalars['String']>;
 };
 
 export type EditComponentWebElementsAttendeeSearchSidebarFilterInput = {
@@ -7923,6 +8004,51 @@ export type EditMenuItemInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
+export type EditProductBenefitInput = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type EditProductInput = {
+  sourceId?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  type?: Maybe<Enum_Products_Type>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  event?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type EditSiteInput = {
+  title?: Maybe<Scalars['String']>;
+  host?: Maybe<Scalars['String']>;
+  events?: Maybe<Array<Scalars['ID']>>;
+  webPages?: Maybe<Array<Scalars['ID']>>;
+  activeEvent?: Maybe<Scalars['ID']>;
+  menus?: Maybe<Array<Scalars['ID']>>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type EditWebPageConfigInput = {
+  title?: Maybe<Scalars['String']>;
+  googleTagManagerId?: Maybe<Scalars['String']>;
+  googleAnalyticsTrackingId?: Maybe<Scalars['String']>;
+  baseGoogleAnalyticsTrackingId?: Maybe<Scalars['String']>;
+  googleOptimizeId?: Maybe<Scalars['String']>;
+  googleAnalyticsLinkerDomains: Array<EditComponentSiteConfigGoogleAnalyticsLinkerDomainListInput>;
+  matomoUrl?: Maybe<Scalars['String']>;
+  matomoSiteId?: Maybe<Scalars['String']>;
+  segmentId?: Maybe<Scalars['String']>;
+  metaData?: Maybe<EditComponentSiteConfigMetaDatumInput>;
+  events?: Maybe<Array<Scalars['ID']>>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
 export type EditWebPageInput = {
   title?: Maybe<Scalars['String']>;
   status?: Maybe<Enum_Webpage_Status>;
@@ -7935,26 +8061,6 @@ export type EditWebPageInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
-export type FileInput = {
-  name: Scalars['String'];
-  alternativeText?: Maybe<Scalars['String']>;
-  caption?: Maybe<Scalars['String']>;
-  width?: Maybe<Scalars['Int']>;
-  height?: Maybe<Scalars['Int']>;
-  formats?: Maybe<Scalars['JSON']>;
-  hash: Scalars['String'];
-  ext?: Maybe<Scalars['String']>;
-  mime: Scalars['String'];
-  size: Scalars['Float'];
-  url: Scalars['String'];
-  previewUrl?: Maybe<Scalars['String']>;
-  provider: Scalars['String'];
-  provider_metadata?: Maybe<Scalars['JSON']>;
-  related: Array<Scalars['ID']>;
-  created_by?: Maybe<Scalars['ID']>;
-  updated_by?: Maybe<Scalars['ID']>;
-};
-
 export type UpdateAppConfigInput = {
   data?: Maybe<EditAppConfigInput>;
 };
@@ -7962,6 +8068,16 @@ export type UpdateAppConfigInput = {
 export type UpdateAppConfigPayload = {
   __typename?: 'updateAppConfigPayload';
   appConfig: Maybe<AppConfig>;
+};
+
+export type UpdateBrandingInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditBrandingInput>;
+};
+
+export type UpdateBrandingPayload = {
+  __typename?: 'updateBrandingPayload';
+  branding: Maybe<Branding>;
 };
 
 export type UpdateContentCollectionInput = {
@@ -8014,6 +8130,46 @@ export type UpdateMenuPayload = {
   menu: Maybe<Menu>;
 };
 
+export type UpdateProductBenefitInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditProductBenefitInput>;
+};
+
+export type UpdateProductBenefitPayload = {
+  __typename?: 'updateProductBenefitPayload';
+  productBenefit: Maybe<ProductBenefits>;
+};
+
+export type UpdateProductInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditProductInput>;
+};
+
+export type UpdateProductPayload = {
+  __typename?: 'updateProductPayload';
+  product: Maybe<Products>;
+};
+
+export type UpdateSiteInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditSiteInput>;
+};
+
+export type UpdateSitePayload = {
+  __typename?: 'updateSitePayload';
+  site: Maybe<Site>;
+};
+
+export type UpdateWebPageConfigInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditWebPageConfigInput>;
+};
+
+export type UpdateWebPageConfigPayload = {
+  __typename?: 'updateWebPageConfigPayload';
+  webPageConfig: Maybe<WebPageConfig>;
+};
+
 export type UpdateWebPageInput = {
   where?: Maybe<InputId>;
   data?: Maybe<EditWebPageInput>;
@@ -8023,147 +8179,6 @@ export type UpdateWebPagePayload = {
   __typename?: 'updateWebPagePayload';
   webPage: Maybe<WebPage>;
 };
-
-export type UsersPermissionsLoginInput = {
-  identifier: Scalars['String'];
-  password: Scalars['String'];
-  provider?: Maybe<Scalars['String']>;
-};
-
-export type UsersPermissionsRegisterInput = {
-  username: Scalars['String'];
-  email: Scalars['String'];
-  password: Scalars['String'];
-};
-
-export type CommerceAddressCreate = {
-  city: Scalars['String'];
-  country: Scalars['String'];
-  line1: Scalars['String'];
-  line2?: Maybe<Scalars['String']>;
-  postalCode: Scalars['String'];
-  state?: Maybe<Scalars['String']>;
-};
-
-export type CommerceAddressUpdate = {
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  line1?: Maybe<Scalars['String']>;
-  line2?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-};
-
-export type CommerceOrderItemCreate = {
-  dealDiscount?: Maybe<Scalars['Int']>;
-  itemName?: Maybe<Scalars['String']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  price?: Maybe<Scalars['Int']>;
-  product: Scalars['ID'];
-  productMetadata?: Maybe<Scalars['JSON']>;
-  quantity: Scalars['Int'];
-  subTotal?: Maybe<Scalars['Int']>;
-  total?: Maybe<Scalars['Int']>;
-  valueTotal?: Maybe<Scalars['Int']>;
-  voucherDiscount?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceOrderItemUpdate = {
-  dealDiscount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  itemName?: Maybe<Scalars['String']>;
-  metadata?: Maybe<Scalars['JSON']>;
-  price?: Maybe<Scalars['Int']>;
-  product?: Maybe<Scalars['ID']>;
-  productMetadata?: Maybe<Scalars['JSON']>;
-  quantity?: Maybe<Scalars['Int']>;
-  subTotal?: Maybe<Scalars['Int']>;
-  total?: Maybe<Scalars['Int']>;
-  valueTotal?: Maybe<Scalars['Int']>;
-  voucherDiscount?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceStoreBillingCreate = {
-  city: Scalars['String'];
-  companyName: Scalars['String'];
-  companyRegNumber?: Maybe<Scalars['String']>;
-  country: Scalars['String'];
-  email: Scalars['String'];
-  line1: Scalars['String'];
-  line2?: Maybe<Scalars['String']>;
-  note?: Maybe<Scalars['String']>;
-  phone: Scalars['String'];
-  postalCode: Scalars['String'];
-  state?: Maybe<Scalars['String']>;
-  vatNumber: Scalars['String'];
-};
-
-export type CommerceStoreBillingUpdate = {
-  city?: Maybe<Scalars['String']>;
-  companyName?: Maybe<Scalars['String']>;
-  companyRegNumber?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  line1?: Maybe<Scalars['String']>;
-  line2?: Maybe<Scalars['String']>;
-  note?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  vatNumber?: Maybe<Scalars['String']>;
-};
-
-export type CommerceTaxDetailCreate = {
-  taxId: Scalars['ID'];
-  total: Scalars['Int'];
-};
-
-export type CommerceTaxDetailUpdate = {
-  taxId?: Maybe<Scalars['ID']>;
-  total?: Maybe<Scalars['Int']>;
-};
-
-export type CommerceTaxSummaryCreate = {
-  name?: Maybe<Scalars['String']>;
-  netTotal?: Maybe<Scalars['Int']>;
-  rateAmount?: Maybe<Scalars['Int']>;
-  rateType?: Maybe<CommerceTaxSummaryRateType>;
-  taxId: Scalars['ID'];
-  taxType?: Maybe<Scalars['String']>;
-  total: Scalars['Int'];
-};
-
-export type CommerceTaxSummaryUpdate = {
-  name?: Maybe<Scalars['String']>;
-  netTotal?: Maybe<Scalars['Int']>;
-  rateAmount?: Maybe<Scalars['Int']>;
-  rateType?: Maybe<CommerceTaxSummaryRateType>;
-  taxId?: Maybe<Scalars['ID']>;
-  taxType?: Maybe<Scalars['String']>;
-  total?: Maybe<Scalars['Int']>;
-};
-
-export type RoomChatConfigPubnub = RoomChatConfig &
-  RoomPubnubConfig & {
-    __typename?: 'RoomChatConfigPubnub';
-    allowedDomains: Array<Scalars['String']>;
-    channel: Scalars['String'];
-    authKey: Scalars['String'];
-    publishKey: Scalars['String'];
-    subscribeKey: Scalars['String'];
-  };
-
-export type RoomReactionsConfigPubnub = RoomReactionsConfig &
-  RoomPubnubConfig & {
-    __typename?: 'RoomReactionsConfigPubnub';
-    enabled: Array<RoomReaction>;
-    channel: Scalars['String'];
-    authKey: Scalars['String'];
-    publishKey: Scalars['String'];
-    subscribeKey: Scalars['String'];
-  };
 
 export type AppearanceUpdateMutationVariables = Exact<{
   id: Scalars['UUID'];

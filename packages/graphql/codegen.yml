@@ -49,5 +49,4 @@ generates:
 
 overwrite: true
 schema:
-  - src/operations/mock/schema/**/*.ts
-  - ${GRAPHQL_API_URL:https://catalyst.cluster.cilabs.net/graphql}
+  - ${GRAPHQL_API_URL:https://api.cilabs.com/catalyst}
