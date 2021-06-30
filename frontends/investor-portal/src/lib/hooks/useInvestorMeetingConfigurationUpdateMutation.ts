@@ -50,24 +50,22 @@ const useInvestorMeetingConfigurationUpdateMutation = ({
     return moment(dateString).tz(eventTimezone, true).format();
   };
 
-  const [
-    updateInvestorMeetingConfiguration,
-    { data, error, loading },
-  ] = useMutation<InvestorMeetingConfigurationUpdateData>(
-    INVESTOR_MEETING_CONFIGURATION_UPDATE,
-    {
-      onCompleted: ({ investorMeetingConfigurationUpdate }) => {
-        if (investorMeetingConfigurationUpdate?.userErrors[0]) {
-          errorMessage(
-            investorMeetingConfigurationUpdate?.userErrors[0].message,
-          );
-        } else {
-          success(investorMeetingConfigurationUpdate.successMessage);
-        }
+  const [updateInvestorMeetingConfiguration, { data, error, loading }] =
+    useMutation<InvestorMeetingConfigurationUpdateData>(
+      INVESTOR_MEETING_CONFIGURATION_UPDATE,
+      {
+        onCompleted: ({ investorMeetingConfigurationUpdate }) => {
+          if (investorMeetingConfigurationUpdate?.userErrors[0]) {
+            errorMessage(
+              investorMeetingConfigurationUpdate?.userErrors[0].message,
+            );
+          } else {
+            success(investorMeetingConfigurationUpdate.successMessage);
+          }
+        },
+        onError: (e) => errorMessage(e.message),
       },
-      onError: (e) => errorMessage(e.message),
-    },
-  );
+    );
 
   const investorMeetingConfigurationUpdateMutation = async () => {
     await updateInvestorMeetingConfiguration({

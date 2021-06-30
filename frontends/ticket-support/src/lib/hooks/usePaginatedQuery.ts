@@ -18,7 +18,7 @@ type PaginatedQuery<NodeType, key> = {
 type UsePaginatedQueryArgs<
   TData,
   TVariables extends { after?: string },
-  TContext
+  TContext,
 > = {
   context?: TContext;
   initialPage?: string;

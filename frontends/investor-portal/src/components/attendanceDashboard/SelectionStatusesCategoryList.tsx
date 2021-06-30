@@ -12,13 +12,11 @@ const SelectionStatusesCategoryList = ({
   initialValues = [],
   onSelectionStatusFilterChange = () => null,
 }: SelectionStatusesCategoryListProps): ReactElement => {
-  const {
-    selectionStatusesOptions,
-    handleSelectionStatusFilterChange,
-  } = useSelectionStatusesCategoryList({
-    initialValues,
-    onSelectionStatusFilterChange,
-  });
+  const { selectionStatusesOptions, handleSelectionStatusFilterChange } =
+    useSelectionStatusesCategoryList({
+      initialValues,
+      onSelectionStatusFilterChange,
+    });
 
   return (
     <CategoryList

@@ -701,12 +701,13 @@ export type AttendanceAppearanceSelectionsDetails = {
   submittedSelectionCount: Scalars['Int'];
 };
 
-export type AttendanceAppearanceSelectionsDetailsAttendanceAppearanceSelectionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
+export type AttendanceAppearanceSelectionsDetailsAttendanceAppearanceSelectionsArgs =
+  {
+    after?: Maybe<Scalars['String']>;
+    before?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    last?: Maybe<Scalars['Int']>;
+  };
 
 export enum AttendanceAppearanceSelectionsStatus {
   /** Accepted */
@@ -3105,10 +3106,11 @@ export type ConferenceInvestorMeetingConfigurationStartupPortalOpeningAtArgs = {
   timezone?: Maybe<Scalars['String']>;
 };
 
-export type ConferenceInvestorMeetingConfigurationStartupSelectionDeadlineArgs = {
-  format?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-};
+export type ConferenceInvestorMeetingConfigurationStartupSelectionDeadlineArgs =
+  {
+    format?: Maybe<Scalars['String']>;
+    timezone?: Maybe<Scalars['String']>;
+  };
 
 export type ConferenceSchedule = {
   __typename?: 'ConferenceSchedule';
@@ -14080,7 +14082,8 @@ export function useAppearanceUpdateMutation(
 export type AppearanceUpdateMutationHookResult = ReturnType<
   typeof useAppearanceUpdateMutation
 >;
-export type AppearanceUpdateMutationResult = Apollo.MutationResult<AppearanceUpdateMutation>;
+export type AppearanceUpdateMutationResult =
+  Apollo.MutationResult<AppearanceUpdateMutation>;
 export type AppearanceUpdateMutationOptions = Apollo.BaseMutationOptions<
   AppearanceUpdateMutation,
   AppearanceUpdateMutationVariables
@@ -14194,7 +14197,8 @@ export function useAssignmentAuthenticateMutation(
 export type AssignmentAuthenticateMutationHookResult = ReturnType<
   typeof useAssignmentAuthenticateMutation
 >;
-export type AssignmentAuthenticateMutationResult = Apollo.MutationResult<AssignmentAuthenticateMutation>;
+export type AssignmentAuthenticateMutationResult =
+  Apollo.MutationResult<AssignmentAuthenticateMutation>;
 export type AssignmentAuthenticateMutationOptions = Apollo.BaseMutationOptions<
   AssignmentAuthenticateMutation,
   AssignmentAuthenticateMutationVariables
@@ -14349,7 +14353,8 @@ export function useProfileAdminUpdateMutation(
 export type ProfileAdminUpdateMutationHookResult = ReturnType<
   typeof useProfileAdminUpdateMutation
 >;
-export type ProfileAdminUpdateMutationResult = Apollo.MutationResult<ProfileAdminUpdateMutation>;
+export type ProfileAdminUpdateMutationResult =
+  Apollo.MutationResult<ProfileAdminUpdateMutation>;
 export type ProfileAdminUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileAdminUpdateMutation,
   ProfileAdminUpdateMutationVariables
@@ -14509,7 +14514,8 @@ export function useProfileUpdateMutation(
 export type ProfileUpdateMutationHookResult = ReturnType<
   typeof useProfileUpdateMutation
 >;
-export type ProfileUpdateMutationResult = Apollo.MutationResult<ProfileUpdateMutation>;
+export type ProfileUpdateMutationResult =
+  Apollo.MutationResult<ProfileUpdateMutation>;
 export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileUpdateMutation,
   ProfileUpdateMutationVariables
@@ -14602,7 +14608,8 @@ export function useCommerceCreateDealMutation(
 export type CommerceCreateDealMutationHookResult = ReturnType<
   typeof useCommerceCreateDealMutation
 >;
-export type CommerceCreateDealMutationResult = Apollo.MutationResult<CommerceCreateDealMutation>;
+export type CommerceCreateDealMutationResult =
+  Apollo.MutationResult<CommerceCreateDealMutation>;
 export type CommerceCreateDealMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateDealMutation,
   CommerceCreateDealMutationVariables
@@ -14714,7 +14721,8 @@ export function useCommerceCreateDealItemMutation(
 export type CommerceCreateDealItemMutationHookResult = ReturnType<
   typeof useCommerceCreateDealItemMutation
 >;
-export type CommerceCreateDealItemMutationResult = Apollo.MutationResult<CommerceCreateDealItemMutation>;
+export type CommerceCreateDealItemMutationResult =
+  Apollo.MutationResult<CommerceCreateDealItemMutation>;
 export type CommerceCreateDealItemMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateDealItemMutation,
   CommerceCreateDealItemMutationVariables
@@ -14807,7 +14815,8 @@ export function useCommerceCreateSaleMutation(
 export type CommerceCreateSaleMutationHookResult = ReturnType<
   typeof useCommerceCreateSaleMutation
 >;
-export type CommerceCreateSaleMutationResult = Apollo.MutationResult<CommerceCreateSaleMutation>;
+export type CommerceCreateSaleMutationResult =
+  Apollo.MutationResult<CommerceCreateSaleMutation>;
 export type CommerceCreateSaleMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateSaleMutation,
   CommerceCreateSaleMutationVariables
@@ -14913,7 +14922,8 @@ export function useCommerceDeleteDealItemMutation(
 export type CommerceDeleteDealItemMutationHookResult = ReturnType<
   typeof useCommerceDeleteDealItemMutation
 >;
-export type CommerceDeleteDealItemMutationResult = Apollo.MutationResult<CommerceDeleteDealItemMutation>;
+export type CommerceDeleteDealItemMutationResult =
+  Apollo.MutationResult<CommerceDeleteDealItemMutation>;
 export type CommerceDeleteDealItemMutationOptions = Apollo.BaseMutationOptions<
   CommerceDeleteDealItemMutation,
   CommerceDeleteDealItemMutationVariables
@@ -15023,7 +15033,8 @@ export function useCommerceUpdateDealMutation(
 export type CommerceUpdateDealMutationHookResult = ReturnType<
   typeof useCommerceUpdateDealMutation
 >;
-export type CommerceUpdateDealMutationResult = Apollo.MutationResult<CommerceUpdateDealMutation>;
+export type CommerceUpdateDealMutationResult =
+  Apollo.MutationResult<CommerceUpdateDealMutation>;
 export type CommerceUpdateDealMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateDealMutation,
   CommerceUpdateDealMutationVariables
@@ -15152,7 +15163,8 @@ export function useCommerceUpdateDealItemMutation(
 export type CommerceUpdateDealItemMutationHookResult = ReturnType<
   typeof useCommerceUpdateDealItemMutation
 >;
-export type CommerceUpdateDealItemMutationResult = Apollo.MutationResult<CommerceUpdateDealItemMutation>;
+export type CommerceUpdateDealItemMutationResult =
+  Apollo.MutationResult<CommerceUpdateDealItemMutation>;
 export type CommerceUpdateDealItemMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateDealItemMutation,
   CommerceUpdateDealItemMutationVariables
@@ -15262,7 +15274,8 @@ export function useCommerceUpdateSaleMutation(
 export type CommerceUpdateSaleMutationHookResult = ReturnType<
   typeof useCommerceUpdateSaleMutation
 >;
-export type CommerceUpdateSaleMutationResult = Apollo.MutationResult<CommerceUpdateSaleMutation>;
+export type CommerceUpdateSaleMutationResult =
+  Apollo.MutationResult<CommerceUpdateSaleMutation>;
 export type CommerceUpdateSaleMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateSaleMutation,
   CommerceUpdateSaleMutationVariables
@@ -15355,7 +15368,8 @@ export function useCommerceCreateCategoryMutation(
 export type CommerceCreateCategoryMutationHookResult = ReturnType<
   typeof useCommerceCreateCategoryMutation
 >;
-export type CommerceCreateCategoryMutationResult = Apollo.MutationResult<CommerceCreateCategoryMutation>;
+export type CommerceCreateCategoryMutationResult =
+  Apollo.MutationResult<CommerceCreateCategoryMutation>;
 export type CommerceCreateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateCategoryMutation,
   CommerceCreateCategoryMutationVariables
@@ -15526,7 +15540,8 @@ export function useCommerceCreateOrderMutation(
 export type CommerceCreateOrderMutationHookResult = ReturnType<
   typeof useCommerceCreateOrderMutation
 >;
-export type CommerceCreateOrderMutationResult = Apollo.MutationResult<CommerceCreateOrderMutation>;
+export type CommerceCreateOrderMutationResult =
+  Apollo.MutationResult<CommerceCreateOrderMutation>;
 export type CommerceCreateOrderMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateOrderMutation,
   CommerceCreateOrderMutationVariables
@@ -15641,11 +15656,13 @@ export function useCommerceCreatePackagedProductMutation(
 export type CommerceCreatePackagedProductMutationHookResult = ReturnType<
   typeof useCommerceCreatePackagedProductMutation
 >;
-export type CommerceCreatePackagedProductMutationResult = Apollo.MutationResult<CommerceCreatePackagedProductMutation>;
-export type CommerceCreatePackagedProductMutationOptions = Apollo.BaseMutationOptions<
-  CommerceCreatePackagedProductMutation,
-  CommerceCreatePackagedProductMutationVariables
->;
+export type CommerceCreatePackagedProductMutationResult =
+  Apollo.MutationResult<CommerceCreatePackagedProductMutation>;
+export type CommerceCreatePackagedProductMutationOptions =
+  Apollo.BaseMutationOptions<
+    CommerceCreatePackagedProductMutation,
+    CommerceCreatePackagedProductMutationVariables
+  >;
 export const CommerceCreateProductDocument: DocumentNode = {
   definitions: [
     {
@@ -15734,7 +15751,8 @@ export function useCommerceCreateProductMutation(
 export type CommerceCreateProductMutationHookResult = ReturnType<
   typeof useCommerceCreateProductMutation
 >;
-export type CommerceCreateProductMutationResult = Apollo.MutationResult<CommerceCreateProductMutation>;
+export type CommerceCreateProductMutationResult =
+  Apollo.MutationResult<CommerceCreateProductMutation>;
 export type CommerceCreateProductMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateProductMutation,
   CommerceCreateProductMutationVariables
@@ -15847,11 +15865,13 @@ export function useCommerceSaleProductCreateMutation(
 export type CommerceSaleProductCreateMutationHookResult = ReturnType<
   typeof useCommerceSaleProductCreateMutation
 >;
-export type CommerceSaleProductCreateMutationResult = Apollo.MutationResult<CommerceSaleProductCreateMutation>;
-export type CommerceSaleProductCreateMutationOptions = Apollo.BaseMutationOptions<
-  CommerceSaleProductCreateMutation,
-  CommerceSaleProductCreateMutationVariables
->;
+export type CommerceSaleProductCreateMutationResult =
+  Apollo.MutationResult<CommerceSaleProductCreateMutation>;
+export type CommerceSaleProductCreateMutationOptions =
+  Apollo.BaseMutationOptions<
+    CommerceSaleProductCreateMutation,
+    CommerceSaleProductCreateMutationVariables
+  >;
 export const CommerceCreateTagDocument: DocumentNode = {
   definitions: [
     {
@@ -15941,7 +15961,8 @@ export function useCommerceCreateTagMutation(
 export type CommerceCreateTagMutationHookResult = ReturnType<
   typeof useCommerceCreateTagMutation
 >;
-export type CommerceCreateTagMutationResult = Apollo.MutationResult<CommerceCreateTagMutation>;
+export type CommerceCreateTagMutationResult =
+  Apollo.MutationResult<CommerceCreateTagMutation>;
 export type CommerceCreateTagMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateTagMutation,
   CommerceCreateTagMutationVariables
@@ -16074,7 +16095,8 @@ export function useCommerceCreateTaxMutation(
 export type CommerceCreateTaxMutationHookResult = ReturnType<
   typeof useCommerceCreateTaxMutation
 >;
-export type CommerceCreateTaxMutationResult = Apollo.MutationResult<CommerceCreateTaxMutation>;
+export type CommerceCreateTaxMutationResult =
+  Apollo.MutationResult<CommerceCreateTaxMutation>;
 export type CommerceCreateTaxMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateTaxMutation,
   CommerceCreateTaxMutationVariables
@@ -16186,11 +16208,13 @@ export function useCommerceCreateTransactionMutation(
 export type CommerceCreateTransactionMutationHookResult = ReturnType<
   typeof useCommerceCreateTransactionMutation
 >;
-export type CommerceCreateTransactionMutationResult = Apollo.MutationResult<CommerceCreateTransactionMutation>;
-export type CommerceCreateTransactionMutationOptions = Apollo.BaseMutationOptions<
-  CommerceCreateTransactionMutation,
-  CommerceCreateTransactionMutationVariables
->;
+export type CommerceCreateTransactionMutationResult =
+  Apollo.MutationResult<CommerceCreateTransactionMutation>;
+export type CommerceCreateTransactionMutationOptions =
+  Apollo.BaseMutationOptions<
+    CommerceCreateTransactionMutation,
+    CommerceCreateTransactionMutationVariables
+  >;
 export const CommerceDeletePackagedProductDocument: DocumentNode = {
   definitions: [
     {
@@ -16292,11 +16316,13 @@ export function useCommerceDeletePackagedProductMutation(
 export type CommerceDeletePackagedProductMutationHookResult = ReturnType<
   typeof useCommerceDeletePackagedProductMutation
 >;
-export type CommerceDeletePackagedProductMutationResult = Apollo.MutationResult<CommerceDeletePackagedProductMutation>;
-export type CommerceDeletePackagedProductMutationOptions = Apollo.BaseMutationOptions<
-  CommerceDeletePackagedProductMutation,
-  CommerceDeletePackagedProductMutationVariables
->;
+export type CommerceDeletePackagedProductMutationResult =
+  Apollo.MutationResult<CommerceDeletePackagedProductMutation>;
+export type CommerceDeletePackagedProductMutationOptions =
+  Apollo.BaseMutationOptions<
+    CommerceDeletePackagedProductMutation,
+    CommerceDeletePackagedProductMutationVariables
+  >;
 export const CommerceCreatePaymentMethodDocument: DocumentNode = {
   definitions: [
     {
@@ -16387,11 +16413,13 @@ export function useCommerceCreatePaymentMethodMutation(
 export type CommerceCreatePaymentMethodMutationHookResult = ReturnType<
   typeof useCommerceCreatePaymentMethodMutation
 >;
-export type CommerceCreatePaymentMethodMutationResult = Apollo.MutationResult<CommerceCreatePaymentMethodMutation>;
-export type CommerceCreatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<
-  CommerceCreatePaymentMethodMutation,
-  CommerceCreatePaymentMethodMutationVariables
->;
+export type CommerceCreatePaymentMethodMutationResult =
+  Apollo.MutationResult<CommerceCreatePaymentMethodMutation>;
+export type CommerceCreatePaymentMethodMutationOptions =
+  Apollo.BaseMutationOptions<
+    CommerceCreatePaymentMethodMutation,
+    CommerceCreatePaymentMethodMutationVariables
+  >;
 export const CommerceUpdatePaymentMethodDocument: DocumentNode = {
   definitions: [
     {
@@ -16499,11 +16527,13 @@ export function useCommerceUpdatePaymentMethodMutation(
 export type CommerceUpdatePaymentMethodMutationHookResult = ReturnType<
   typeof useCommerceUpdatePaymentMethodMutation
 >;
-export type CommerceUpdatePaymentMethodMutationResult = Apollo.MutationResult<CommerceUpdatePaymentMethodMutation>;
-export type CommerceUpdatePaymentMethodMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdatePaymentMethodMutation,
-  CommerceUpdatePaymentMethodMutationVariables
->;
+export type CommerceUpdatePaymentMethodMutationResult =
+  Apollo.MutationResult<CommerceUpdatePaymentMethodMutation>;
+export type CommerceUpdatePaymentMethodMutationOptions =
+  Apollo.BaseMutationOptions<
+    CommerceUpdatePaymentMethodMutation,
+    CommerceUpdatePaymentMethodMutationVariables
+  >;
 export const CommerceUpdateCategoryDocument: DocumentNode = {
   definitions: [
     {
@@ -16609,7 +16639,8 @@ export function useCommerceUpdateCategoryMutation(
 export type CommerceUpdateCategoryMutationHookResult = ReturnType<
   typeof useCommerceUpdateCategoryMutation
 >;
-export type CommerceUpdateCategoryMutationResult = Apollo.MutationResult<CommerceUpdateCategoryMutation>;
+export type CommerceUpdateCategoryMutationResult =
+  Apollo.MutationResult<CommerceUpdateCategoryMutation>;
 export type CommerceUpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateCategoryMutation,
   CommerceUpdateCategoryMutationVariables
@@ -16741,11 +16772,13 @@ export function useCommerceUpdatePackagedProductMutation(
 export type CommerceUpdatePackagedProductMutationHookResult = ReturnType<
   typeof useCommerceUpdatePackagedProductMutation
 >;
-export type CommerceUpdatePackagedProductMutationResult = Apollo.MutationResult<CommerceUpdatePackagedProductMutation>;
-export type CommerceUpdatePackagedProductMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdatePackagedProductMutation,
-  CommerceUpdatePackagedProductMutationVariables
->;
+export type CommerceUpdatePackagedProductMutationResult =
+  Apollo.MutationResult<CommerceUpdatePackagedProductMutation>;
+export type CommerceUpdatePackagedProductMutationOptions =
+  Apollo.BaseMutationOptions<
+    CommerceUpdatePackagedProductMutation,
+    CommerceUpdatePackagedProductMutationVariables
+  >;
 export const CommerceUpdateProductDocument: DocumentNode = {
   definitions: [
     {
@@ -16851,7 +16884,8 @@ export function useCommerceUpdateProductMutation(
 export type CommerceUpdateProductMutationHookResult = ReturnType<
   typeof useCommerceUpdateProductMutation
 >;
-export type CommerceUpdateProductMutationResult = Apollo.MutationResult<CommerceUpdateProductMutation>;
+export type CommerceUpdateProductMutationResult =
+  Apollo.MutationResult<CommerceUpdateProductMutation>;
 export type CommerceUpdateProductMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateProductMutation,
   CommerceUpdateProductMutationVariables
@@ -16981,11 +17015,13 @@ export function useCommerceUpdateSaleProductMutation(
 export type CommerceUpdateSaleProductMutationHookResult = ReturnType<
   typeof useCommerceUpdateSaleProductMutation
 >;
-export type CommerceUpdateSaleProductMutationResult = Apollo.MutationResult<CommerceUpdateSaleProductMutation>;
-export type CommerceUpdateSaleProductMutationOptions = Apollo.BaseMutationOptions<
-  CommerceUpdateSaleProductMutation,
-  CommerceUpdateSaleProductMutationVariables
->;
+export type CommerceUpdateSaleProductMutationResult =
+  Apollo.MutationResult<CommerceUpdateSaleProductMutation>;
+export type CommerceUpdateSaleProductMutationOptions =
+  Apollo.BaseMutationOptions<
+    CommerceUpdateSaleProductMutation,
+    CommerceUpdateSaleProductMutationVariables
+  >;
 export const CommerceUpdateStoreDocument: DocumentNode = {
   definitions: [
     {
@@ -17092,7 +17128,8 @@ export function useCommerceUpdateStoreMutation(
 export type CommerceUpdateStoreMutationHookResult = ReturnType<
   typeof useCommerceUpdateStoreMutation
 >;
-export type CommerceUpdateStoreMutationResult = Apollo.MutationResult<CommerceUpdateStoreMutation>;
+export type CommerceUpdateStoreMutationResult =
+  Apollo.MutationResult<CommerceUpdateStoreMutation>;
 export type CommerceUpdateStoreMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateStoreMutation,
   CommerceUpdateStoreMutationVariables
@@ -17203,7 +17240,8 @@ export function useCommerceUpdateTagMutation(
 export type CommerceUpdateTagMutationHookResult = ReturnType<
   typeof useCommerceUpdateTagMutation
 >;
-export type CommerceUpdateTagMutationResult = Apollo.MutationResult<CommerceUpdateTagMutation>;
+export type CommerceUpdateTagMutationResult =
+  Apollo.MutationResult<CommerceUpdateTagMutation>;
 export type CommerceUpdateTagMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateTagMutation,
   CommerceUpdateTagMutationVariables
@@ -17353,7 +17391,8 @@ export function useCommerceUpdateTaxMutation(
 export type CommerceUpdateTaxMutationHookResult = ReturnType<
   typeof useCommerceUpdateTaxMutation
 >;
-export type CommerceUpdateTaxMutationResult = Apollo.MutationResult<CommerceUpdateTaxMutation>;
+export type CommerceUpdateTaxMutationResult =
+  Apollo.MutationResult<CommerceUpdateTaxMutation>;
 export type CommerceUpdateTaxMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateTaxMutation,
   CommerceUpdateTaxMutationVariables
@@ -17491,7 +17530,8 @@ export function useCreateOrderMutation(
 export type CreateOrderMutationHookResult = ReturnType<
   typeof useCreateOrderMutation
 >;
-export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
+export type CreateOrderMutationResult =
+  Apollo.MutationResult<CreateOrderMutation>;
 export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<
   CreateOrderMutation,
   CreateOrderMutationVariables
@@ -17653,7 +17693,8 @@ export function useEventCreateMutation(
 export type EventCreateMutationHookResult = ReturnType<
   typeof useEventCreateMutation
 >;
-export type EventCreateMutationResult = Apollo.MutationResult<EventCreateMutation>;
+export type EventCreateMutationResult =
+  Apollo.MutationResult<EventCreateMutation>;
 export type EventCreateMutationOptions = Apollo.BaseMutationOptions<
   EventCreateMutation,
   EventCreateMutationVariables
@@ -17832,7 +17873,8 @@ export function useEventUpdateMutation(
 export type EventUpdateMutationHookResult = ReturnType<
   typeof useEventUpdateMutation
 >;
-export type EventUpdateMutationResult = Apollo.MutationResult<EventUpdateMutation>;
+export type EventUpdateMutationResult =
+  Apollo.MutationResult<EventUpdateMutation>;
 export type EventUpdateMutationOptions = Apollo.BaseMutationOptions<
   EventUpdateMutation,
   EventUpdateMutationVariables
@@ -18008,7 +18050,8 @@ export function useLegalEntityCreateMutation(
 export type LegalEntityCreateMutationHookResult = ReturnType<
   typeof useLegalEntityCreateMutation
 >;
-export type LegalEntityCreateMutationResult = Apollo.MutationResult<LegalEntityCreateMutation>;
+export type LegalEntityCreateMutationResult =
+  Apollo.MutationResult<LegalEntityCreateMutation>;
 export type LegalEntityCreateMutationOptions = Apollo.BaseMutationOptions<
   LegalEntityCreateMutation,
   LegalEntityCreateMutationVariables
@@ -18184,7 +18227,8 @@ export function useLegalEntityUpdateMutation(
 export type LegalEntityUpdateMutationHookResult = ReturnType<
   typeof useLegalEntityUpdateMutation
 >;
-export type LegalEntityUpdateMutationResult = Apollo.MutationResult<LegalEntityUpdateMutation>;
+export type LegalEntityUpdateMutationResult =
+  Apollo.MutationResult<LegalEntityUpdateMutation>;
 export type LegalEntityUpdateMutationOptions = Apollo.BaseMutationOptions<
   LegalEntityUpdateMutation,
   LegalEntityUpdateMutationVariables
@@ -18310,7 +18354,8 @@ export function useUpdateCommerceOrderMutation(
 export type UpdateCommerceOrderMutationHookResult = ReturnType<
   typeof useUpdateCommerceOrderMutation
 >;
-export type UpdateCommerceOrderMutationResult = Apollo.MutationResult<UpdateCommerceOrderMutation>;
+export type UpdateCommerceOrderMutationResult =
+  Apollo.MutationResult<UpdateCommerceOrderMutation>;
 export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<
   UpdateCommerceOrderMutation,
   UpdateCommerceOrderMutationVariables
@@ -18438,7 +18483,8 @@ export function useOrderInvoiceSendMutation(
 export type OrderInvoiceSendMutationHookResult = ReturnType<
   typeof useOrderInvoiceSendMutation
 >;
-export type OrderInvoiceSendMutationResult = Apollo.MutationResult<OrderInvoiceSendMutation>;
+export type OrderInvoiceSendMutationResult =
+  Apollo.MutationResult<OrderInvoiceSendMutation>;
 export type OrderInvoiceSendMutationOptions = Apollo.BaseMutationOptions<
   OrderInvoiceSendMutation,
   OrderInvoiceSendMutationVariables
@@ -18566,7 +18612,8 @@ export function useOrderRefundReceiptSendMutation(
 export type OrderRefundReceiptSendMutationHookResult = ReturnType<
   typeof useOrderRefundReceiptSendMutation
 >;
-export type OrderRefundReceiptSendMutationResult = Apollo.MutationResult<OrderRefundReceiptSendMutation>;
+export type OrderRefundReceiptSendMutationResult =
+  Apollo.MutationResult<OrderRefundReceiptSendMutation>;
 export type OrderRefundReceiptSendMutationOptions = Apollo.BaseMutationOptions<
   OrderRefundReceiptSendMutation,
   OrderRefundReceiptSendMutationVariables
@@ -18697,7 +18744,8 @@ export function useOrderTransferMutation(
 export type OrderTransferMutationHookResult = ReturnType<
   typeof useOrderTransferMutation
 >;
-export type OrderTransferMutationResult = Apollo.MutationResult<OrderTransferMutation>;
+export type OrderTransferMutationResult =
+  Apollo.MutationResult<OrderTransferMutation>;
 export type OrderTransferMutationOptions = Apollo.BaseMutationOptions<
   OrderTransferMutation,
   OrderTransferMutationVariables
@@ -18805,11 +18853,13 @@ export function useTicketMagicLoginLinkRequestMutation(
 export type TicketMagicLoginLinkRequestMutationHookResult = ReturnType<
   typeof useTicketMagicLoginLinkRequestMutation
 >;
-export type TicketMagicLoginLinkRequestMutationResult = Apollo.MutationResult<TicketMagicLoginLinkRequestMutation>;
-export type TicketMagicLoginLinkRequestMutationOptions = Apollo.BaseMutationOptions<
-  TicketMagicLoginLinkRequestMutation,
-  TicketMagicLoginLinkRequestMutationVariables
->;
+export type TicketMagicLoginLinkRequestMutationResult =
+  Apollo.MutationResult<TicketMagicLoginLinkRequestMutation>;
+export type TicketMagicLoginLinkRequestMutationOptions =
+  Apollo.BaseMutationOptions<
+    TicketMagicLoginLinkRequestMutation,
+    TicketMagicLoginLinkRequestMutationVariables
+  >;
 export const TicketAcceptDocument: DocumentNode = {
   definitions: [
     {
@@ -18968,7 +19018,8 @@ export function useTicketAcceptMutation(
 export type TicketAcceptMutationHookResult = ReturnType<
   typeof useTicketAcceptMutation
 >;
-export type TicketAcceptMutationResult = Apollo.MutationResult<TicketAcceptMutation>;
+export type TicketAcceptMutationResult =
+  Apollo.MutationResult<TicketAcceptMutation>;
 export type TicketAcceptMutationOptions = Apollo.BaseMutationOptions<
   TicketAcceptMutation,
   TicketAcceptMutationVariables
@@ -19240,7 +19291,8 @@ export function useTicketAssignMutation(
 export type TicketAssignMutationHookResult = ReturnType<
   typeof useTicketAssignMutation
 >;
-export type TicketAssignMutationResult = Apollo.MutationResult<TicketAssignMutation>;
+export type TicketAssignMutationResult =
+  Apollo.MutationResult<TicketAssignMutation>;
 export type TicketAssignMutationOptions = Apollo.BaseMutationOptions<
   TicketAssignMutation,
   TicketAssignMutationVariables
@@ -19399,7 +19451,8 @@ export function useTicketRejectMutation(
 export type TicketRejectMutationHookResult = ReturnType<
   typeof useTicketRejectMutation
 >;
-export type TicketRejectMutationResult = Apollo.MutationResult<TicketRejectMutation>;
+export type TicketRejectMutationResult =
+  Apollo.MutationResult<TicketRejectMutation>;
 export type TicketRejectMutationOptions = Apollo.BaseMutationOptions<
   TicketRejectMutation,
   TicketRejectMutationVariables
@@ -19519,7 +19572,8 @@ export function useTicketUnvoidMutation(
 export type TicketUnvoidMutationHookResult = ReturnType<
   typeof useTicketUnvoidMutation
 >;
-export type TicketUnvoidMutationResult = Apollo.MutationResult<TicketUnvoidMutation>;
+export type TicketUnvoidMutationResult =
+  Apollo.MutationResult<TicketUnvoidMutation>;
 export type TicketUnvoidMutationOptions = Apollo.BaseMutationOptions<
   TicketUnvoidMutation,
   TicketUnvoidMutationVariables
@@ -19624,7 +19678,8 @@ export function useTicketUpdateMutation(
 export type TicketUpdateMutationHookResult = ReturnType<
   typeof useTicketUpdateMutation
 >;
-export type TicketUpdateMutationResult = Apollo.MutationResult<TicketUpdateMutation>;
+export type TicketUpdateMutationResult =
+  Apollo.MutationResult<TicketUpdateMutation>;
 export type TicketUpdateMutationOptions = Apollo.BaseMutationOptions<
   TicketUpdateMutation,
   TicketUpdateMutationVariables
@@ -19744,7 +19799,8 @@ export function useVoidTicketMutation(
 export type VoidTicketMutationHookResult = ReturnType<
   typeof useVoidTicketMutation
 >;
-export type VoidTicketMutationResult = Apollo.MutationResult<VoidTicketMutation>;
+export type VoidTicketMutationResult =
+  Apollo.MutationResult<VoidTicketMutation>;
 export type VoidTicketMutationOptions = Apollo.BaseMutationOptions<
   VoidTicketMutation,
   VoidTicketMutationVariables
@@ -23177,7 +23233,8 @@ export function useCommerceUpdateCustomerMutation(
 export type CommerceUpdateCustomerMutationHookResult = ReturnType<
   typeof useCommerceUpdateCustomerMutation
 >;
-export type CommerceUpdateCustomerMutationResult = Apollo.MutationResult<CommerceUpdateCustomerMutation>;
+export type CommerceUpdateCustomerMutationResult =
+  Apollo.MutationResult<CommerceUpdateCustomerMutation>;
 export type CommerceUpdateCustomerMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateCustomerMutation,
   CommerceUpdateCustomerMutationVariables

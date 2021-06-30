@@ -36,23 +36,22 @@ const useAttendanceAppearanceSelectionUpdateMutation = ({
     status,
   };
 
-  const [
-    attendanceAppearanceSelectionUpdateMutation,
-  ] = useMutation<SelectionUpdateData>(ATTENDANCE_APPEARANCE_SELECTION_UPDATE, {
-    context,
-    onCompleted: ({ attendanceAppearanceSelectionUpdate }) => {
-      if (attendanceAppearanceSelectionUpdate?.userErrors[0]) {
-        errorMessage(
-          attendanceAppearanceSelectionUpdate?.userErrors[0].message,
-        );
-      } else {
-        success(attendanceAppearanceSelectionUpdate.successMessage);
-      }
-    },
-    onError: (e) => errorMessage(e.message),
-    refetchQueries: ['Attendances', 'AttendanceDetailsQuery'],
-    variables,
-  });
+  const [attendanceAppearanceSelectionUpdateMutation] =
+    useMutation<SelectionUpdateData>(ATTENDANCE_APPEARANCE_SELECTION_UPDATE, {
+      context,
+      onCompleted: ({ attendanceAppearanceSelectionUpdate }) => {
+        if (attendanceAppearanceSelectionUpdate?.userErrors[0]) {
+          errorMessage(
+            attendanceAppearanceSelectionUpdate?.userErrors[0].message,
+          );
+        } else {
+          success(attendanceAppearanceSelectionUpdate.successMessage);
+        }
+      },
+      onError: (e) => errorMessage(e.message),
+      refetchQueries: ['Attendances', 'AttendanceDetailsQuery'],
+      variables,
+    });
 
   const updateAttendanceAppearanceSelections = async () => {
     await attendanceAppearanceSelectionUpdateMutation();

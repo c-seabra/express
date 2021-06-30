@@ -55,7 +55,7 @@ export type extractTypeFromMaybe<Type> = Type extends Maybe<infer X>
  */
 export type CommerceListQueryHitsResult<
   Query,
-  T extends keyof Query // Name of the query here e.g. commerceListProducts
+  T extends keyof Query, // Name of the query here e.g. commerceListProducts
 > = NonNullable<extractTypeFromMaybe<Query[T]>> extends { hits: any }
   ? NonNullable<extractTypeFromMaybe<Query[T]>>['hits']
   : never;
@@ -80,5 +80,5 @@ export type CommerceGetQueryResult<Query, T extends keyof Query> = NonNullable<
  */
 export type GetQueryResult<
   Query,
-  T extends keyof Query
+  T extends keyof Query,
 > = CommerceGetQueryResult<Query, T>;

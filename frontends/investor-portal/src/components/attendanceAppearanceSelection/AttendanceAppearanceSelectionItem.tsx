@@ -21,11 +21,10 @@ const AttendanceAppearanceSelectionItem = ({
 }): ReactElement => {
   const { isOpen, openModal, closeModal } = useModalState();
 
-  const {
-    attendanceAppearanceSelectionDestroyMutation,
-  } = useAttendanceAppearanceSelectionDestroyMutation({
-    selectionId: selection.id,
-  });
+  const { attendanceAppearanceSelectionDestroyMutation } =
+    useAttendanceAppearanceSelectionDestroyMutation({
+      selectionId: selection.id,
+    });
 
   const history = useHistory();
   const { attendanceId } = useParams<{ attendanceId: string }>();

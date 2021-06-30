@@ -225,16 +225,14 @@ const PackagePage = () => {
     },
   });
   const deal = dealResponse?.commerceGetDeal;
-  const {
-    loading: dealItemsLoading,
-    data: dealItemsResponse,
-  } = useCommerceListDealItemsQuery({
-    context,
-    onError: (error) => errorSnackbar(error.message),
-    variables: {
-      dealId,
-    },
-  });
+  const { loading: dealItemsLoading, data: dealItemsResponse } =
+    useCommerceListDealItemsQuery({
+      context,
+      onError: (error) => errorSnackbar(error.message),
+      variables: {
+        dealId,
+      },
+    });
   const dealItems = dealItemsResponse?.commerceListDealItems?.hits;
   const hasDealItems = dealItems && dealItems.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
@@ -259,9 +257,10 @@ const PackagePage = () => {
     context,
   });
 
-  const activePaymentMethods = paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
-    (method) => method.active,
-  );
+  const activePaymentMethods =
+    paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
+      (method) => method.active,
+    );
   const [dealItemId, setDealItemId] = useState<string>();
   const {
     isOpen: isPackageItemModalOpen,

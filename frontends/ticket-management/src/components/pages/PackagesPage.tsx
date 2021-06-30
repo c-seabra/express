@@ -106,13 +106,11 @@ const PackagesPage = () => {
     context,
     onError: (error) => errorSnackbar(error.message),
   });
-  const {
-    data: commerceCategories,
-    loading: loadingCategories,
-  } = useCommerceListCategoriesQuery({
-    context,
-    onError: (e) => errorSnackbar(e.message),
-  });
+  const { data: commerceCategories, loading: loadingCategories } =
+    useCommerceListCategoriesQuery({
+      context,
+      onError: (e) => errorSnackbar(e.message),
+    });
 
   const ticketCategories =
     commerceCategories?.commerceListCategories?.hits || [];

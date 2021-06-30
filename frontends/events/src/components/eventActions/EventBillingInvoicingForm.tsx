@@ -193,18 +193,16 @@ const EventBillingForm = ({
     refetchQueries: ['Event'],
   });
 
-  const [
-    legalEntityResult,
-    { data: legalEntityData },
-  ] = useLegalEntityLazyQuery({
-    context: { token },
-    onCompleted: ({ legalEntity }) => {
-      if (legalEntity) {
-        info(`Billing and invoice data switched to ${legalEntity.name}`);
-      }
-    },
-    onError: (e) => error(e.message),
-  });
+  const [legalEntityResult, { data: legalEntityData }] =
+    useLegalEntityLazyQuery({
+      context: { token },
+      onCompleted: ({ legalEntity }) => {
+        if (legalEntity) {
+          info(`Billing and invoice data switched to ${legalEntity.name}`);
+        }
+      },
+      onError: (e) => error(e.message),
+    });
 
   const [isCompanyChanged, setIsCompanyChanged] = useState(false);
   const fillCompanyInfo = (event: any) => {

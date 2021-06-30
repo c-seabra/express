@@ -26,24 +26,22 @@ const useAttendanceAppearanceSelectionDestroyMutation = ({
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
-  const [
-    selectionDestroy,
-    { data, error, loading },
-  ] = useMutation<AttendanceAppearanceSelectionDestroyData>(
-    ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION,
-    {
-      onCompleted: ({ attendanceAppearanceSelectionDestroy }) => {
-        if (attendanceAppearanceSelectionDestroy?.userErrors[0]) {
-          errorMessage(
-            attendanceAppearanceSelectionDestroy?.userErrors[0].message,
-          );
-        } else {
-          success(attendanceAppearanceSelectionDestroy.successMessage);
-        }
+  const [selectionDestroy, { data, error, loading }] =
+    useMutation<AttendanceAppearanceSelectionDestroyData>(
+      ATTENDANCE_APPEARANCE_SELECTION_DESTROY_MUTATION,
+      {
+        onCompleted: ({ attendanceAppearanceSelectionDestroy }) => {
+          if (attendanceAppearanceSelectionDestroy?.userErrors[0]) {
+            errorMessage(
+              attendanceAppearanceSelectionDestroy?.userErrors[0].message,
+            );
+          } else {
+            success(attendanceAppearanceSelectionDestroy.successMessage);
+          }
+        },
+        onError: (e) => errorMessage(e.message),
       },
-      onError: (e) => errorMessage(e.message),
-    },
-  );
+    );
 
   const attendanceAppearanceSelectionDestroyMutation = async () => {
     await selectionDestroy({

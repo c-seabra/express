@@ -91,10 +91,8 @@ const TicketCategoryModal = ({
   onRequestClose,
   ticketCategory,
 }: TicketCategoryModalProps) => {
-  const {
-    createTicketCategory,
-    updateTicketCategory,
-  } = useTicketCategoryMutations();
+  const { createTicketCategory, updateTicketCategory } =
+    useTicketCategoryMutations();
 
   return (
     <Modal withDefaultFooter isOpen={isOpen} onRequestClose={onRequestClose}>

@@ -15,14 +15,12 @@ const TicketTypesCategoryList = ({
   onTicketTypeFilterChange = () => null,
   ticketTypes,
 }: TicketTypesCategoryListProps): ReactElement => {
-  const {
-    ticketTypesOptions,
-    handleTicketTypeFilterChange,
-  } = useTicketTypesCategoryList({
-    initialValues,
-    onTicketTypeFilterChange,
-    ticketTypes,
-  });
+  const { ticketTypesOptions, handleTicketTypeFilterChange } =
+    useTicketTypesCategoryList({
+      initialValues,
+      onTicketTypeFilterChange,
+      ticketTypes,
+    });
 
   return (
     <CategoryList

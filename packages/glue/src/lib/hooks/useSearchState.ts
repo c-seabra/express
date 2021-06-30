@@ -28,7 +28,7 @@ const useSearchState = <T = SearchState>({
   }, []);
 
   useEffect(() => {
-    const state = (searchState as unknown) as SearchState;
+    const state = searchState as unknown as SearchState;
     const url = searchStateToUrl({ pathname, searchState: state });
     history.push(url);
     // todo: I hope we know what we are doing here

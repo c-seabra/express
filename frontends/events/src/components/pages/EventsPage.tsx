@@ -95,14 +95,11 @@ const EventPage = () => {
   };
   const errSnackbar = useErrorSnackbar();
 
-  const {
-    loading,
-    error,
-    data,
-  }: EventListQueryResponse = useEventListQueryQuery({
-    context,
-    onError: (e) => errSnackbar(e.message),
-  });
+  const { loading, error, data }: EventListQueryResponse =
+    useEventListQueryQuery({
+      context,
+      onError: (e) => errSnackbar(e.message),
+    });
 
   const hasEvents = data?.events && data?.events?.edges.length;
   const events = data?.events && data?.events.edges.map((node) => node.node);

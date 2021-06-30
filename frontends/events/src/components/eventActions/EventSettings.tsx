@@ -230,9 +230,8 @@ const EventSettings = () => {
     !!paymentMethods?.length && configCompletion.stores.ready;
   const eventInfoSpecificCompletion = checkEventInfoCompletion(data);
   const eventTaxSpecificCompletion = !!taxes?.length;
-  const eventBillingSpecificCompletion = checkBillingCompletion(
-    eventLegalEntity,
-  );
+  const eventBillingSpecificCompletion =
+    checkBillingCompletion(eventLegalEntity);
 
   const configCompleteRules = {
     additional_settings: {

@@ -132,12 +132,11 @@ const AttendanceTable = (): ReactElement => {
     );
   };
 
-  const {
-    updateAttendanceAppearanceSelections,
-  } = useAttendanceAppearanceSelectionUpdateMutation({
-    attendanceIds: selectedValues,
-    status: 'submitted',
-  });
+  const { updateAttendanceAppearanceSelections } =
+    useAttendanceAppearanceSelectionUpdateMutation({
+      attendanceIds: selectedValues,
+      status: 'submitted',
+    });
 
   const onUpdateConfirmed = async () => {
     await updateAttendanceAppearanceSelections();

@@ -55,14 +55,13 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
 
   const startsAt = styledDateForMutation(newStartsAt);
 
-  const {
-    attendanceInvestorSessionUpdateMutation,
-  } = useAttendanceInvestorSessionUpdateMutation({
-    attendanceId,
-    eventTimezone,
-    startsAt,
-    unlockInvestor,
-  });
+  const { attendanceInvestorSessionUpdateMutation } =
+    useAttendanceInvestorSessionUpdateMutation({
+      attendanceId,
+      eventTimezone,
+      startsAt,
+      unlockInvestor,
+    });
 
   const submit = async () => {
     await attendanceInvestorSessionUpdateMutation();
