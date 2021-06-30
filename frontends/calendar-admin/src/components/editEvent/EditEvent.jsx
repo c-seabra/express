@@ -1,4 +1,6 @@
-import ButtonComponent, { DestructiveButton } from '@websummit/components/src/atoms/Button';
+import ButtonComponent, {
+  DestructiveButton,
+} from '@websummit/components/src/atoms/Button';
 import React, { useContext, useEffect, useState } from 'react';
 
 import AddAttendance from '../addAttendance/AddAttendance';
