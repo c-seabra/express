@@ -183,7 +183,7 @@ const OrderDetailsSummary = ({
               tableShape={tableShape}
             />
             <Container>
-              {commerceOrder.billed > 0 && (
+              {commerceOrder.invoiceUrl && (
                 <>
                   <OrderSendDocumentModal
                     alertText="Send email with invoice?"
