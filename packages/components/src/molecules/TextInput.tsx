@@ -50,6 +50,7 @@ type TextInputProps = HTMLProps<HTMLInputElement> & {
 
 const TextInput = ({
   className,
+  defaultValue,
   label,
   required,
   placeholder,
@@ -66,6 +67,7 @@ const TextInput = ({
     <FieldContainer className={className}>
       {label && <Label required={required}>{label}</Label>}
       <StyledInput
+        defaultValue={defaultValue}
         disabled={disabled}
         list={list}
         min={min}
