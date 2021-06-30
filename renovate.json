@@ -1,12 +1,10 @@
 {
+  "automerge": true,
   "branchConcurrentLimit": 2,
   "bumpVersion": "patch",
   "dependencyDashboard": true,
   "extends": ["config:base"],
   "packageRules": [
-    {
-      "automerge": true
-    },
     {
       "groupName": "eslint",
       "matchPackagePatterns": ["eslint"]
