@@ -92,7 +92,7 @@
     "single-spa-layout": "1.5.4",
     "single-spa-react": "3.2.0",
     "styled-components": "5.3.0",
-    "systemjs": "6.8.3",
+    "systemjs": "6.10.1",
     "yup": "0.32.9"
   },
   "dependencies": {
