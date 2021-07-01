@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 /**
  * Heading - atom component, encapsulates CSS for h1
  *
@@ -6,12 +8,9 @@
  *  via dynamic `React.createElement operation` and dynamic font-size
  *
  * Example API
- *  level="1" --> <h1>
- *  level="2" --> <h2>
+ *  level="1" --\> h1
+ *  level="2" --\> h2
  */
-
-import styled from 'styled-components';
-
 const Heading = styled.h1`
   color: #0c1439;
   font-family: 'azo-sans-web';

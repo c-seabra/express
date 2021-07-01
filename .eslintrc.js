@@ -39,6 +39,7 @@ module.exports = {
         'jsx-a11y/anchor-is-valid': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         'typescript-sort-keys/interface': 'off',
+        'tsdoc/syntax': 'off',
       },
     },
     {
@@ -66,6 +67,7 @@ module.exports = {
     'react',
     'react-hooks',
     '@typescript-eslint',
+    'eslint-plugin-tsdoc',
     'promise',
     'prettier',
     'react',
@@ -114,6 +116,8 @@ module.exports = {
         },
       },
     ],
+
+    "tsdoc/syntax": 'error',
 
     // we run prettier anyway extra
     'prettier/prettier': 'off',

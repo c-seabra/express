@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 
-import BulkOperation from './bulkOperation';
-import { BulkOperationContainer } from './bulkOperationContainer';
+import BulkOperation from './BulkOperation';
+import { BulkOperationContainer } from './BulkOperationContainer';
 
 export type BulkOperationToolConfiguration<WorkUnit, SharedContext> = {
   RenderContextForm: FunctionComponent<{

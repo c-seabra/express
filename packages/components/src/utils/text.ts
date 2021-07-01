@@ -5,14 +5,14 @@ export const upperWord = (word: string): string => {
 /**
  * Shorten string with length greater than limit
  * eg. abc...xyz
- * @param elem
- * @param lengthLimit
+ * @param text - the text to shorten
+ * @param lengthLimit - how many characters to keep
  */
-export const shortenString = (elem: string, lengthLimit = 15): string => {
-  if (elem.length > lengthLimit) {
+export const shortenString = (text: string, lengthLimit = 15): string => {
+  if (text.length > lengthLimit) {
     const halfLimit = Math.round(lengthLimit / 2);
-    return `${elem.substr(0, halfLimit)}...${elem.substr(-halfLimit)}`;
+    return `${text.substr(0, halfLimit)}...${text.substr(-halfLimit)}`;
   }
 
-  return elem;
+  return text;
 };

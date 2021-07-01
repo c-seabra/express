@@ -1,12 +1,5 @@
 import { DateTime, Duration } from 'luxon';
 
-/**
- * Format DateTime ISO helper
- *
- * Note: export func or static class usage can be discussed and revisited
- * @param isoDate
- */
-
 export const getNow = () => {
   return DateTime.now().toLocaleString();
 };
