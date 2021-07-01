@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
-import OrderInvoiceForm from '../order/OrderInvoiceForm';
+import OrderCustomerDetailsForm from '../order/OrderCustomerDetailsForm';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -63,6 +63,7 @@ const OrderInvoicePage = () => {
   const [prefillData, setPrefillData] = useState({});
   useEffect(() => {
     setPrefillData({
+      addressId: customer?.address?.id,
       addressLine1: customer?.address?.line1?.trim(),
       addressLine2: customer?.address?.line2?.trim(),
       city: customer?.address?.city.trim(),
@@ -115,7 +116,7 @@ const OrderInvoicePage = () => {
 
                 {loadingCommerceOrder && <Loader />}
                 {!loadingCommerceOrder && (
-                  <OrderInvoiceForm
+                  <OrderCustomerDetailsForm
                     orderId={orderId}
                     prefillData={prefillData}
                   />
