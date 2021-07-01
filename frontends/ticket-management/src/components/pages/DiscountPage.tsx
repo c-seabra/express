@@ -24,7 +24,6 @@ import styled from 'styled-components';
 import { useRequestContext } from '../app/AppContext';
 import DiscountTemplateItemModalWrapper from '../modals/DiscountTemplateItemModalWrapper';
 import DiscountTemplateItemRemovalModal from '../modals/DiscountTemplateItemRemovalModal';
-import InviteToPurchasePackageModal from '../modals/InviteToPurchasePackageModal';
 import DealItemsList from '../organisms/DealItemsList';
 import DiscountList from '../organisms/DiscountsList';
 import DiscountTemplateForm from '../organisms/DiscountTemplateForm';
