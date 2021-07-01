@@ -1,7 +1,11 @@
 import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import BulkOperation from '@websummit/glue/src/lib/operations/bulkOperation';
+import {
+  BulkOperationTool,
+  dummyProcess,
+  dummyRender,
+} from '@websummit/glue/src/lib/operations/bulkOperationTool';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
@@ -10,9 +14,7 @@ import styled from 'styled-components';
 import {
   CreateDiscountWorkUnit,
   processCreateDiscountWorkUnit,
-} from '../../lib/extract/createDiscount';
-import AssigneeList from '../assigneeList/AssigneeList';
-import Form from '../form/Form';
+} from '../lib/bulkOperation/process';
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -59,8 +61,6 @@ export type Conference = {
   storeId?: string;
 };
 
-
-
 export const AppContext = createContext<GraphQLParams>({
   apiURL: '',
   slug: '',
@@ -68,7 +68,6 @@ export const AppContext = createContext<GraphQLParams>({
 });
 
 const App = ({ token, apiURL }: GraphQLParams) => {
-
   const tokenPayload: { conf_slug: string; email: string } = jwt(token || '');
   const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
 
@@ -109,14 +108,16 @@ const App = ({ token, apiURL }: GraphQLParams) => {
               </Spacing>
             </StyledSection>
             <StyledSection>
-              {discountsList && discountsList?.length > 0 && (
-                <BulkOperation
-                  Display={AssigneeList}
-                  context={bulkContext}
-                  input={discountsList}
-                  process={processCreateDiscountWorkUnit}
-                />
-              )}
+              <BulkOperationTool
+                RenderContextForm={dummyRender}
+                RenderContextSummary={dummyRender}
+                RenderList={dummyRender}
+                RenderListForm={dummyRender}
+                RenderPrepareSummary={dummyRender}
+                RenderProcessSummary={dummyRender}
+                prepare={dummyProcess}
+                process={processCreateDiscountWorkUnit}
+              />
             </StyledSection>
           </StyledContainer>
         </AppContext.Provider>

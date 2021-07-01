@@ -12,8 +12,12 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 
-import { CreateDiscountWorkUnit } from '../../lib/extract/createDiscount';
-import UploadStatus from '../statusIcon/StatusIcon';
+import {
+  CreateDiscountWorkUnit,
+  Status,
+  StatusType,
+} from '../lib/bulkOperation/workUnit';
+import UploadStatus from './statusIcon/StatusIcon';
 
 const Flex = styled.div`
   display: flex;
@@ -28,37 +32,39 @@ const FlexEnd = styled(Flex)`
 `;
 
 const createGroupedResults = (list: CreateDiscountWorkUnit[]) => {
-  const statuses = list.map((e: CreateDiscountWorkUnit) => {
-    return {
-      status: e.status.type,
-    };
-  });
-
-  return _.countBy(statuses, 'status');
+  const statuses = list.map((elem) => elem.prepareStatus);
+  return _.countBy(statuses, 'type');
 };
 
 const tableShape: ColumnDescriptor<CreateDiscountWorkUnit>[] = [
   {
-    header: 'Booking Ref',
-    renderCell: (order) =>
-      order.reference || order.singleTicket?.bookingRef || '⌛',
-    width: '20%',
+    header: 'Discount code',
+    renderCell: (discount) => discount.code || '⌛',
+    width: '40%',
   },
   {
-    header: 'First & last name',
-    renderCell: (order) => `${order.firstName} ${order.lastName} ` || 'N/A',
-    width: '30%',
-  },
-  {
-    header: 'Email',
-    renderCell: (order) => order.email || 'N/A',
+    header: 'Status',
+    renderCell: (discount) => {
+      return (
+        (discount.prepareStatus && (
+          <UploadStatus status={discount.prepareStatus} />
+        )) ||
+        'N/A'
+      );
+    },
     width: '30%',
   },
   {
     header: 'Status',
-    renderCell: (order) => {
-      return (order.status && <UploadStatus status={order.status} />) || 'N/A';
+    renderCell: (discount) => {
+      return (
+        (discount.processStatus && (
+          <UploadStatus status={discount.processStatus} />
+        )) ||
+        'N/A'
+      );
     },
+    width: '30%',
   },
 ];
 
@@ -114,15 +120,11 @@ const AssigneeList: React.FC<{ list: CreateDiscountWorkUnit[] }> = ({
             <FlexEnd>
               <DownloadCSVButton
                 buttonText="Download .csv file"
-                data={list.map((elem: any) => {
+                data={list.map((elem: CreateDiscountWorkUnit) => {
                   return {
-                    'First name': elem.firstName || 'N/A',
-                    'Last name': elem.lastName || 'N/A',
-                    Reference:
-                      elem.reference || elem.singleTicket?.bookingRef || 'N/A',
-                    // eslint-disable-next-line
-                    'Email used': elem.email || 'N/A',
-                    'Ticket Status': elem.status?.message || 'N/A',
+                    Code: elem.code || 'N/A',
+                    'Preparation Status': elem.prepareStatus?.message || 'N/A',
+                    'Processing Status': elem.processStatus?.message || 'N/A',
                   };
                 })}
               />

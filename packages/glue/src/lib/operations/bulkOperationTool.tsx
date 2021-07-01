@@ -29,6 +29,10 @@ export type BulkOperationToolConfiguration<WorkUnit, SharedContext> = {
   ) => Promise<WorkUnit>;
 };
 
+export const dummyRender = () => <></>;
+// eslint-ignore-next-line @typescript-eslint/require-await
+export const dummyProcess: () => Promise<any> = async () => undefined;
+
 enum BulkOperationToolState {
   DEFINE_CONTEXT,
   UPLOAD_WORK_UNIT_LIST,
@@ -36,7 +40,7 @@ enum BulkOperationToolState {
   PROCESS_WORK_UNITS,
 }
 
-function BulkOperationTool<WorkUnit, SharedContext>({
+export function BulkOperationTool<WorkUnit, SharedContext>({
   RenderList,
   RenderPrepareSummary,
   RenderProcessSummary,
@@ -170,4 +174,10 @@ function BulkOperationTool<WorkUnit, SharedContext>({
       </BulkOperationContainer>
     );
   }
+
+  return (
+    <>
+      <h1>The Bulk Operation Toolkit is in an invalid state: {toolState}</h1>
+    </>
+  );
 }

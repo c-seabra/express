@@ -123,16 +123,14 @@ const DiscountPage = () => {
     },
   });
   const deal = dealResponse?.commerceGetDeal;
-  const {
-    loading: dealItemsLoading,
-    data: dealItemsResponse,
-  } = useCommerceListDealItemsQuery({
-    context,
-    onError: (error) => errorSnackbar(error.message),
-    variables: {
-      dealId,
-    },
-  });
+  const { loading: dealItemsLoading, data: dealItemsResponse } =
+    useCommerceListDealItemsQuery({
+      context,
+      onError: (error) => errorSnackbar(error.message),
+      variables: {
+        dealId,
+      },
+    });
   const dealItems = dealItemsResponse?.commerceListDealItems?.hits;
   const hasDealItems = dealItems && dealItems.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
@@ -155,9 +153,10 @@ const DiscountPage = () => {
     context,
   });
 
-  const activePaymentMethods = paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
-    (method) => method.active,
-  );
+  const activePaymentMethods =
+    paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
+      (method) => method.active,
+    );
   const [dealItemId, setDealItemId] = useState<string>();
   const {
     isOpen: isPackageItemModalOpen,
@@ -170,7 +169,7 @@ const DiscountPage = () => {
   };
 
   // todo: Pawels part
-  const { loading, data } = useCommerceListDealsQuery({
+  const { data } = useCommerceListDealsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {

@@ -146,6 +146,7 @@ function BulkOperation<Element, Context>({
       // eslint-disable-next-line promise/always-return
       (list) => {
         console.log('All Operations completed!');
+        // eslint-disable-next-line promise/no-callback-in-promise
         if (callback) callback(list);
         window.onbeforeunload = null;
         return list;
