@@ -19,13 +19,6 @@ export async function processCreateDiscountWorkUnit(
   };
   forceUpdate();
 
-  const variables: CommerceCreateDealMutationVariables = {
-    // @ts-ignore
-    commerceDealCreate: {
-      ...workUnit.template,
-    },
-  };
-
   const result: FetchResult<CommerceCreateDealMutation> | undefined =
     await context.apolloClient?.mutate({
       context: {
@@ -34,7 +27,6 @@ export async function processCreateDiscountWorkUnit(
       },
       mutation:
         CommerceCreateDealDocument as TypedDocumentNode<CommerceCreateDealMutation>,
-      variables,
     });
 
   if (!result || result.errors) {

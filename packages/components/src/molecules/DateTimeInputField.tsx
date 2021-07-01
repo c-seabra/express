@@ -1,8 +1,8 @@
+import { getTimeZoneAbbreviation } from '@websummit/tsutils/src/utils/time';
 import React from 'react';
 import styled from 'styled-components';
 
 import { SecondaryButton } from '../atoms/Button';
-import { getTimeZoneAbbreviation } from '@websummit/tsutils/src/utils/time';
 import TextInputField from './TextInputField';
 
 const DateTimeFieldContainer = styled.div`

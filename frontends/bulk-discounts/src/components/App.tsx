@@ -5,15 +5,13 @@ import {
   BulkOperationTool,
   dummyProcess,
   dummyRender,
-} from '@websummit/glue/src/lib/operations/bulkOperationTool';
+} from '@websummit/glue/src/lib/operations/BulkOperationTool';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import {
-  processCreateDiscountWorkUnit,
-} from '../lib/bulkOperation/process';
+import { processCreateDiscountWorkUnit } from '../lib/bulkOperation/process';
 import { CreateDiscountWorkUnit } from '../lib/bulkOperation/workUnit';
 
 const StyledContainer = styled.section`

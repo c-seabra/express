@@ -1,10 +1,10 @@
 import Loader from '@websummit/components/src/atoms/Loader';
 import React from 'react';
 
+import { Status } from '../../lib/bulkOperation/workUnit';
 import Alert from '../../lib/svgs/Alert';
 import CheckMark from '../../lib/svgs/CheckMark';
 import Tooltip from '../tooltip/Tooltip';
-import { Status } from '../../lib/bulkOperation/workUnit';
 
 const StatusIcon: React.FC<{ status: Status }> = ({
   status: { type, message },

@@ -2,9 +2,9 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
-import { formatFullDateTime } from '@websummit/tsutils/src/utils/time';
 import { CommerceDeal } from '@websummit/graphql/src/@types/operations';
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
+import { formatFullDateTime } from '@websummit/tsutils/src/utils/time';
 import React from 'react';
 import styled from 'styled-components';
 

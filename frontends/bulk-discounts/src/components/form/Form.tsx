@@ -13,14 +13,15 @@ import Select, {
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import TextInput from '@websummit/components/src/molecules/TextInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { shortenString } from '@websummit/tsutils/src/utils/text';
 import {
   CommerceProductType,
   useCommerceListPaymentMethodsQuery,
   useCommerceListProductsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { shortenString } from '@websummit/tsutils/src/utils/text';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+
 import { AppContext, Staff } from '../App';
 
 const Flex = styled.div`
@@ -60,10 +61,6 @@ const StyledTextInput = styled(TextInput)`
 const StyledNumberInput = styled(TextInput)`
   width: 48%;
 `;
-
-function capitalizeFirstLetter(input: string) {
-  return input.charAt(0).toUpperCase() + input.slice(1);
-}
 
 const Form: React.FC = () => {
   const context = useContext(AppContext);
@@ -370,7 +367,7 @@ const Form: React.FC = () => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-  }
+  };
   const onSingleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // some hackery because ts is not smart enough for this type to work

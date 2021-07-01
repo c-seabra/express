@@ -1,8 +1,8 @@
 import { Button } from '@websummit/components/src/atoms/Button';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { formatFullDate, timeTo } from '@websummit/tsutils/src/utils/time';
 import { Event } from '@websummit/graphql/src/@types/operations';
+import { formatFullDate, timeTo } from '@websummit/tsutils/src/utils/time';
 import React from 'react';
 import styled from 'styled-components';
 

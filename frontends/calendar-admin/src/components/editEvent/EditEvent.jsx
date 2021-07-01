@@ -1,5 +1,6 @@
 import {
-  DestructiveButton, Button
+  Button,
+  DestructiveButton,
 } from '@websummit/components/src/atoms/Button';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -245,11 +246,7 @@ const EditEvent = ({
               >
                 Yes
               </DestructiveButton>
-              <Button
-                onClick={() => setDeletePopupActive(false)}
-              >
-                No
-              </Button>
+              <Button onClick={() => setDeletePopupActive(false)}>No</Button>
             </OverlayButtons>
           </Overlay>
         )}

@@ -30,8 +30,8 @@ export type BulkOperationToolConfiguration<WorkUnit, SharedContext> = {
 };
 
 export const dummyRender = () => <></>;
-// eslint-ignore-next-line @typescript-eslint/require-await
-export const dummyProcess: () => Promise<any> = async () => undefined;
+export const dummyProcess: () => Promise<any> = () =>
+  new Promise(() => undefined);
 
 enum BulkOperationToolState {
   DEFINE_CONTEXT,

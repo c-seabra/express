@@ -12,11 +12,7 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 
-import {
-  CreateDiscountWorkUnit,
-  Status,
-  StatusType,
-} from '../lib/bulkOperation/workUnit';
+import { CreateDiscountWorkUnit } from '../lib/bulkOperation/workUnit';
 import UploadStatus from './statusIcon/StatusIcon';
 
 const Flex = styled.div`

@@ -4,9 +4,6 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import DownloadCSVButton from '@websummit/components/src/molecules/DownloadCSVButton';
 import GroupedProgressBar from '@websummit/components/src/molecules/GroupedProgressBar';
 import Legend from '@websummit/components/src/molecules/Legend';
-import Table, {
-  ColumnDescriptor,
-} from '@websummit/components/src/molecules/Table';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import _ from 'lodash';
 import React from 'react';
@@ -29,16 +26,13 @@ const createGroupedResults = (list: any[]) => {
   return _.countBy(statuses, 'type');
 };
 
-
 const x: 'A' | 'B' = 'A';
 function testing<A>(t: StringLiteral<A>) {
   console.log(t);
 }
 testing(x);
 
-const AssigneeList: React.FC<{ list: any[] }> = ({
-  list,
-}) => {
+const AssigneeList: React.FC<{ list: any[] }> = ({ list }) => {
   if (!list || list?.length < 0) return null;
 
   const groupedResults = createGroupedResults(list);
