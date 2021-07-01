@@ -1441,6 +1441,7 @@ export type CommerceOrder = {
   deal: Maybe<CommerceDeal>;
   dealDiscount: Maybe<Scalars['Int']>;
   discountTotal: Maybe<Scalars['Int']>;
+  eutoEUOrder: Maybe<Scalars['Boolean']>;
   id: Maybe<Scalars['ID']>;
   invoiceUrl: Maybe<Scalars['String']>;
   itemSubtotal: Maybe<Scalars['Int']>;
@@ -9624,6 +9625,7 @@ export type CommerceListDealsQuery = { __typename?: 'Query' } & {
               | 'code'
               | 'usages'
               | 'startDate'
+              | 'timesUsed'
             > & {
                 dealItems: Maybe<
                   Array<
@@ -21848,6 +21850,10 @@ export const CommerceListDealsDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'startDate' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'timesUsed' },
                       },
                       {
                         kind: 'Field',

@@ -26,6 +26,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { externalPaymentMethods } from '../../lib/constants/paymentGateways';
+import useCompleteOrderMutation from '../../lib/hooks/useCompleteOrderMutation';
 import { useRequestContext } from '../app/AppContext';
 
 const Wrapper = styled.div`
@@ -190,6 +191,8 @@ const InviteToPurhcaseModal = ({
     onError: (e) => error(e.message),
   });
 
+  const completeOrder = useCompleteOrderMutation();
+
   const ticketPrice = (ticketType?.price || 0) as TotalInCents;
 
   return (
@@ -211,7 +214,7 @@ const InviteToPurhcaseModal = ({
         onSubmit={async (values) => {
           const isOrderPaidFor = values.external || values.complementary;
 
-          await createOrder({
+          const { data } = await createOrder({
             variables: {
               commerceOrderCreate: {
                 customer: {
@@ -242,6 +245,12 @@ const InviteToPurhcaseModal = ({
               },
             },
           });
+
+          if (isOrderPaidFor) {
+            const createdOrder = data?.commerceCreateOrder;
+
+            await completeOrder(createdOrder);
+          }
 
           onRequestClose();
         }}

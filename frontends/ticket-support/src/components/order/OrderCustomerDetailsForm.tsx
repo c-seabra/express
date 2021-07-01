@@ -49,7 +49,8 @@ type Props = {
   prefillData: any;
 };
 
-export type OrderInvoiceFormData = {
+export type OrderCustomerDetailsFormData = {
+  addressId: string;
   addressLine1: string;
   addressLine2: string;
   city: string;
@@ -65,9 +66,10 @@ export type OrderInvoiceFormData = {
 
 const validationSchema = Yup.object().shape({
   addressLine1: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  addressLine2: Yup.string(),
   city: Yup.string(),
   companyName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
-  companyTaxNo: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  companyTaxNo: Yup.string(),
   country: Yup.string(),
   email: Yup.string().email().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   firstName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
@@ -91,7 +93,7 @@ const getCountryOptions = (
   })),
 ];
 
-const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
+const OrderCustomerDetailsForm = ({ prefillData, orderId }: Props) => {
   const [isEditOn, setEditOn] = useState(false);
   const openEditMode = () => setEditOn(true);
   const closeEditMode = () => setEditOn(false);
@@ -121,6 +123,7 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
 
   const initialValues = () => {
     return {
+      addressId: prefillData.addressId,
       addressLine1: prefillData.addressLine1,
       addressLine2: prefillData.addressLine2,
       city: prefillData.city,
@@ -135,11 +138,12 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
     };
   };
 
-  const onSubmit = (formData: OrderInvoiceFormData) => {
+  const onSubmit = (formData: OrderCustomerDetailsFormData) => {
     const input = {
       address: {
         city: formData?.city?.trim(),
         country: formData?.country?.trim(),
+        id: formData?.addressId,
         line1: formData?.addressLine1?.trim(),
         line2: formData?.addressLine2?.trim(),
         postalCode: formData?.postalCode?.trim(),
@@ -314,4 +318,4 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
   );
 };
 
-export default OrderInvoiceForm;
+export default OrderCustomerDetailsForm;
