@@ -1,10 +1,10 @@
 import { ApolloProvider } from '@apollo/client';
 import { initApollo } from '@websummit/graphql';
+import AppContext from '@websummit/graphql/src/utils/AppContext';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import AppContext from './AppContext';
 import MainNavigation from './MainNavigation';
 
 const StyledContainer = styled.section`
