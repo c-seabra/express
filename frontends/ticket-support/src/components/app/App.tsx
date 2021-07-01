@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
+import AppContext from '@websummit/graphql/src/utils/AppContext';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import {
@@ -16,7 +17,6 @@ import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
 import CustomerBillingInfo from '../pages/CustomerBillingInfoPage';
 import TicketDashboard from '../ticketDashboard/TicketDashboard';
 import TicketDetails from '../ticketDetails/TicketDetails';
-import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
   margin: 0 auto;

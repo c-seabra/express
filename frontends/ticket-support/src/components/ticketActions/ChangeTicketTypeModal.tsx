@@ -10,6 +10,7 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import { GetQueryResult } from '@websummit/graphql/src/lib/types';
 import Ticket from '@websummit/graphql/src/operations/queries/Ticket';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -22,7 +23,6 @@ import {
   HeaderText,
   IconWrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
-import { useRequestContext } from '../app/AppContext';
 
 const StyledForm = styled(Form)`
   display: flex;

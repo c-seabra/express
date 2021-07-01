@@ -1,6 +1,6 @@
 import Orders from '@websummit/graphql/src/operations/queries/Orders';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 
-import { useRequestContext } from '../../components/app/AppContext';
 import { Order } from '../types';
 import usePaginatedQuery from './usePaginatedQuery';
 

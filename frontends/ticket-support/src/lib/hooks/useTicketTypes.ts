@@ -1,6 +1,6 @@
 import { useTicketTypesQuery } from '@websummit/graphql/src/@types/operations';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 
-import { useRequestContext } from '../../components/app/AppContext';
 import { TicketType } from '../types';
 
 const useTicketTypes = (): TicketType[] => {

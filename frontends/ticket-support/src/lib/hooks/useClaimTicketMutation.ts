@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 
-import { useAppContext } from '../../components/app/AppContext';
 import { TICKET_ACCEPT_MUTATION } from '../../operations/mutations/TicketAccept';
 
 type ClaimTicketMutationArgs = {
