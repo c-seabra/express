@@ -50,6 +50,7 @@ type Props = {
 };
 
 export type OrderInvoiceFormData = {
+  addressId: string;
   addressLine1: string;
   addressLine2: string;
   city: string;
@@ -65,6 +66,7 @@ export type OrderInvoiceFormData = {
 
 const validationSchema = Yup.object().shape({
   addressLine1: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
+  addressLine2: Yup.string(),
   city: Yup.string(),
   companyName: Yup.string().required(STATIC_MESSAGES.VALIDATION.REQUIRED),
   companyTaxNo: Yup.string(),
@@ -121,6 +123,7 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
 
   const initialValues = () => {
     return {
+      addressId: prefillData.addressId,
       addressLine1: prefillData.addressLine1,
       addressLine2: prefillData.addressLine2,
       city: prefillData.city,
@@ -140,6 +143,7 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
       address: {
         city: formData?.city?.trim(),
         country: formData?.country?.trim(),
+        id: formData?.addressId,
         line1: formData?.addressLine1?.trim(),
         line2: formData?.addressLine2?.trim(),
         postalCode: formData?.postalCode?.trim(),

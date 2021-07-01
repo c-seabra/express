@@ -63,6 +63,7 @@ const OrderInvoicePage = () => {
   const [prefillData, setPrefillData] = useState({});
   useEffect(() => {
     setPrefillData({
+      addressId: customer?.address?.id,
       addressLine1: customer?.address?.line1?.trim(),
       addressLine2: customer?.address?.line2?.trim(),
       city: customer?.address?.city.trim(),
