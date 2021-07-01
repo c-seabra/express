@@ -7,14 +7,14 @@ import {
 
 const applications = constructApplications({
   loadApp({ name }) {
-    console.log(name, name.length)
+    console.log(name, name.length);
     // eslint-disable-next-line
-    return System.import(name).then(application => {
+    return System.import(name).then((application) => {
       // Verify that this object has the lifecycle functions on it.
       // If compiling with webpack and consuming in-browser with SystemJS, consider
       // setting webpack's output.libraryTarget to "system".
-      console.log(application)
-      console.log(JSON.stringify(application))
+      console.log(application);
+      console.log(JSON.stringify(application));
       return application as import('single-spa').Application;
     });
   },
