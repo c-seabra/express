@@ -9,7 +9,7 @@ import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { formatDefaultDateTime } from '@websummit/components/src/utils/time';
+import { formatDefaultDateTime } from '@websummit/tsutils/src/utils/time';
 import {
   CommerceCategory,
   useCommerceListCategoriesQuery,

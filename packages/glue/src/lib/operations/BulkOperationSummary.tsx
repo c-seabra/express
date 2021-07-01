@@ -12,13 +12,6 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 
-import {
-  CreateDiscountWorkUnit,
-  Status,
-  StatusType,
-} from '../lib/bulkOperation/workUnit';
-import UploadStatus from './statusIcon/StatusIcon';
-
 const Flex = styled.div`
   display: flex;
 `;
@@ -31,55 +24,26 @@ const FlexEnd = styled(Flex)`
   justify-content: flex-end;
 `;
 
-const createGroupedResults = (list: CreateDiscountWorkUnit[]) => {
+const createGroupedResults = (list: any[]) => {
   const statuses = list.map((elem) => elem.prepareStatus);
   return _.countBy(statuses, 'type');
 };
 
-
 /**
  *
  */
-type StringLiteral<T> = T extends string ? string extends T ? never : T : never;
+type StringLiteral<T> = T extends string
+  ? string extends T
+    ? never
+    : T
+  : never;
 const x: 'A' | 'B' = 'A';
 function testing<A>(t: StringLiteral<A>) {
   console.log(t);
 }
 testing(x);
 
-const tableShape: ColumnDescriptor<CreateDiscountWorkUnit>[] = [
-  {
-    header: 'Discount code',
-    renderCell: (discount) => discount.code || '⌛',
-    width: '40%',
-  },
-  {
-    header: 'Status',
-    renderCell: (discount) => {
-      return (
-        (discount.prepareStatus && (
-          <UploadStatus status={discount.prepareStatus} />
-        )) ||
-        'N/A'
-      );
-    },
-    width: '30%',
-  },
-  {
-    header: 'Status',
-    renderCell: (discount) => {
-      return (
-        (discount.processStatus && (
-          <UploadStatus status={discount.processStatus} />
-        )) ||
-        'N/A'
-      );
-    },
-    width: '30%',
-  },
-];
-
-const AssigneeList: React.FC<{ list: CreateDiscountWorkUnit[] }> = ({
+const AssigneeList: React.FC<{ list: any[] }> = ({
   list,
 }) => {
   if (!list || list?.length < 0) return null;
@@ -131,7 +95,7 @@ const AssigneeList: React.FC<{ list: CreateDiscountWorkUnit[] }> = ({
             <FlexEnd>
               <DownloadCSVButton
                 buttonText="Download .csv file"
-                data={list.map((elem: CreateDiscountWorkUnit) => {
+                data={list.map((elem: any) => {
                   return {
                     Code: elem.code || 'N/A',
                     'Preparation Status': elem.prepareStatus?.message || 'N/A',
@@ -167,12 +131,6 @@ const AssigneeList: React.FC<{ list: CreateDiscountWorkUnit[] }> = ({
               <Legend labels={labels} position="Horizontal" />
             </FlexCentered>
           </Spacing>
-        </ContainerCard>
-      </Spacing>
-
-      <Spacing bottom="2rem">
-        <ContainerCard noPadding title="Results">
-          <Table<any> items={list} tableShape={tableShape} />
         </ContainerCard>
       </Spacing>
     </>

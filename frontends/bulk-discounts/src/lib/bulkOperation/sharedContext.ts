@@ -10,7 +10,8 @@ export function transformTemplateIntoWorkUnit(
   template: CommerceDeal,
 ): CreateDiscountWorkUnit {
   return {
-    status: defaultStatus(),
+    prepareStatus: defaultStatus(),
+    processStatus: defaultStatus(),
     template,
   };
 }

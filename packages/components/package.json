@@ -19,6 +19,7 @@
     "test": "yarn run build"
   },
   "dependencies": {
+    "@websummit/tsutils": "*",
     "formik": "*",
     "luxon": "*",
     "react": "*",

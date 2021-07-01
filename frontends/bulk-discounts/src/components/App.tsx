@@ -12,9 +12,9 @@ import React, { createContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import {
-  CreateDiscountWorkUnit,
   processCreateDiscountWorkUnit,
 } from '../lib/bulkOperation/process';
+import { CreateDiscountWorkUnit } from '../lib/bulkOperation/workUnit';
 
 const StyledContainer = styled.section`
   padding: 1rem;

@@ -13,7 +13,7 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import {
   toIsoDateTime,
   toShortDateTime,
-} from '@websummit/components/src/utils/time';
+} from '@websummit/tsutils/src/utils/time';
 import { useCommerceUpdateSaleMutation } from '@websummit/graphql/src/@types/operations';
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import COMMERCE_SALES_LIST from '@websummit/graphql/src/operations/queries/SalesCyclesList';

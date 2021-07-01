@@ -3,7 +3,7 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
-import { formatFullDateTime } from '@websummit/components/src/utils/time';
+import { formatFullDateTime } from '@websummit/tsutils/src/utils/time';
 import { CommerceDeal } from '@websummit/graphql/src/@types/operations';
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import React from 'react';

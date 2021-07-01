@@ -12,7 +12,7 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { shortenString } from '@websummit/components/src/utils/text';
+import { shortenString } from '@websummit/tsutils/src/utils/text';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 

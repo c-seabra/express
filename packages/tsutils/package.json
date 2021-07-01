@@ -1,8 +1,10 @@
 {
-  "name": "@websummit/glue",
+  "name": "@websummit/tsutils",
   "version": "1.0.0",
   "private": true,
+  "description": "Websummit Typescript helpers and utilities",
   "license": "MIT",
+  "author": "Marvin Hofmann",
   "main": "src/index",
   "types": "src/index",
   "files": [
@@ -17,16 +19,7 @@
     "test": "yarn run build"
   },
   "dependencies": {
-    "@apollo/client": "*",
-    "@websummit/components": "*",
-    "@websummit/graphql": "*",
-    "@websummit/tsutils": "*",
-    "qs": "*",
-    "react": "*",
-    "react-router-dom": "*",
-    "react-simple-snackbar": "*",
-    "single-spa": "*",
-    "single-spa-layout": "*"
+    "luxon": "*"
   },
   "devDependencies": {}
 }

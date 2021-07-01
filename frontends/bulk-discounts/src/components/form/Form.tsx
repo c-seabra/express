@@ -13,7 +13,7 @@ import Select, {
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import TextInput from '@websummit/components/src/molecules/TextInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { shortenString } from '@websummit/components/src/utils/text';
+import { shortenString } from '@websummit/tsutils/src/utils/text';
 import {
   CommerceProductType,
   useCommerceListPaymentMethodsQuery,
@@ -21,11 +21,6 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-
-import {
-  transformTemplateIntoWorkUnit,
-  WorkUnitContext,
-} from '../../lib/bulkOperation/process';
 import { AppContext, Staff } from '../App';
 
 const Flex = styled.div`
@@ -373,27 +368,9 @@ const Form: React.FC = () => {
     </>
   );
 
-  const metaContext: WorkUnitContext = {
-    guestProductId: volumeTicketsProductID,
-    notify: notifyOrderOwner,
-    paymentMethodId: paymentMethodID,
-    quantity: volumeTicketsQuantity,
-    staffProductId: singleTicketProductID,
-  };
-
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (assignees && assignees.length > 0 && context.setDiscountsList) {
-      setAssignees(assignees);
-      context.setDiscountsList(
-        assignees.map((staff) =>
-          transformTemplateIntoWorkUnit(metaContext, staff),
-        ),
-      );
-    } else {
-      setFormError(true);
-    }
-  };
+  }
   const onSingleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // some hackery because ts is not smart enough for this type to work
@@ -401,23 +378,6 @@ const Form: React.FC = () => {
     const lastName = (e.target as any).lastName.value as string;
     const emailField = (e.target as any).email.value as string;
     const email: string = emailField.toLowerCase().trim();
-
-    if (context.setDiscountsList) {
-      const staff = {
-        email,
-        firstName: capitalizeFirstLetter(firstName),
-        lastName: capitalizeFirstLetter(lastName),
-      };
-      const workUnit = transformTemplateIntoWorkUnit(metaContext, staff);
-      context.setDiscountsList([workUnit]);
-    } else {
-      setFormError(true);
-    }
-  };
-
-  const badge = {
-    background: notifyOrderOwner ? '#EAF9EA' : '#FDEBEB',
-    color: notifyOrderOwner ? '#3BB273' : '#E15554',
   };
 
   const csvTemplateFile = [
@@ -497,13 +457,6 @@ const Form: React.FC = () => {
               </Spacing>
             </>
           )}
-
-          <Spacing bottom="1rem">
-            <span>Notify order owner:&nbsp;</span>
-            <Badge background={badge.background} color={badge.color}>
-              {notifyOrderOwner ? 'Yes' : 'No' || 'N/A'}
-            </Badge>
-          </Spacing>
         </ContainerCard>
       </Spacing>
 

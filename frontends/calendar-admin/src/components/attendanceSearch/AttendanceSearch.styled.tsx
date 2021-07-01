@@ -1,5 +1,5 @@
 import SearchInput from '@websummit/components/src/molecules/SearchInput';
-import { device } from '@websummit/components/src/utils/mediaQueries';
+import { device } from '@websummit/tsutils/src/utils/mediaQueries';
 import styled from 'styled-components';
 
 export const SearchContainer = styled.div`

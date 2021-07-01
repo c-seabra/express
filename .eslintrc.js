@@ -117,7 +117,7 @@ module.exports = {
       },
     ],
 
-    "tsdoc/syntax": 'error',
+    'tsdoc/syntax': 'error',
 
     // we run prettier anyway extra
     'prettier/prettier': 'off',
