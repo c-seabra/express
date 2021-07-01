@@ -1441,8 +1441,8 @@ export type CommerceOrder = {
   deal: Maybe<CommerceDeal>;
   dealDiscount: Maybe<Scalars['Int']>;
   discountTotal: Maybe<Scalars['Int']>;
-  eutoEUOrder: Maybe<Scalars['Boolean']>;
   id: Maybe<Scalars['ID']>;
+  intraEU: Maybe<Scalars['Boolean']>;
   invoiceUrl: Maybe<Scalars['String']>;
   itemSubtotal: Maybe<Scalars['Int']>;
   items: Array<CommerceOrderItem>;
