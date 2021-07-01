@@ -1,5 +1,6 @@
-import ButtonComponent from '@websummit/components/src/atoms/Button';
-import { DestructiveButton } from '@websummit/components/src/atoms/Button';
+import ButtonComponent, {
+  DestructiveButton,
+} from '@websummit/components/src/atoms/Button';
 import React, { useContext, useEffect, useState } from 'react';
 
 import AddAttendance from '../addAttendance/AddAttendance';
@@ -104,8 +105,8 @@ const EditEvent = ({
     <>
       <DestructiveButton
         style={{
-          marginTop: '1em',
           marginLeft: '75%',
+          marginTop: '1em',
         }}
         onClick={(e) => {
           e.preventDefault();
@@ -155,8 +156,8 @@ const EditEvent = ({
             onChange={(e) => handleLocationChange(e)}
           />
           <datalist id="locations">
-            {locations?.map((loc, i) => (
-              <option key={i} value={loc.name}>
+            {locations?.map((loc) => (
+              <option key={loc.name} value={loc.name}>
                 {loc.name}
               </option>
             ))}
@@ -171,8 +172,8 @@ const EditEvent = ({
             onChange={(e) => handleFormatChange(e)}
           >
             <option defaultChecked>Please select a format</option>
-            {formats?.map((format, i) => (
-              <option key={i} value={format.label}>
+            {formats?.map((format) => (
+              <option key={format.label} value={format.label}>
                 {format.label}
               </option>
             ))}

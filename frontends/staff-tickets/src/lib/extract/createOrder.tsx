@@ -160,16 +160,16 @@ export async function processCreateOrderWorkUnit(
     disableOrderEmail: !workUnit.notify,
   };
 
-  const result:
-    | FetchResult<CommerceCreateOrderMutation>
-    | undefined = await context.apolloClient?.mutate({
-    context: {
-      slug: context.slug,
-      token: context.token,
-    },
-    mutation: CommerceCreateOrderDocument as TypedDocumentNode<CommerceCreateOrderMutation>,
-    variables,
-  });
+  const result: FetchResult<CommerceCreateOrderMutation> | undefined =
+    await context.apolloClient?.mutate({
+      context: {
+        slug: context.slug,
+        token: context.token,
+      },
+      mutation:
+        CommerceCreateOrderDocument as TypedDocumentNode<CommerceCreateOrderMutation>,
+      variables,
+    });
 
   if (!result || result.errors) {
     workUnit.status = {
@@ -190,21 +190,21 @@ export async function processCreateOrderWorkUnit(
     return workUnit;
   }
   if (order.status !== CommerceOrderStatus.Complete) {
-    const updateResult:
-      | FetchResult<UpdateCommerceOrderMutation>
-      | undefined = await context.apolloClient?.mutate({
-      context: {
-        slug: context.slug,
-        token: context.token,
-      },
-      mutation: UpdateCommerceOrderDocument as TypedDocumentNode<UpdateCommerceOrderMutation>,
-      variables: {
-        commerceOrderUpdate: {
-          status: CommerceOrderStatus.Complete,
+    const updateResult: FetchResult<UpdateCommerceOrderMutation> | undefined =
+      await context.apolloClient?.mutate({
+        context: {
+          slug: context.slug,
+          token: context.token,
         },
-        id: result?.data?.commerceCreateOrder?.id,
-      },
-    });
+        mutation:
+          UpdateCommerceOrderDocument as TypedDocumentNode<UpdateCommerceOrderMutation>,
+        variables: {
+          commerceOrderUpdate: {
+            status: CommerceOrderStatus.Complete,
+          },
+          id: result?.data?.commerceCreateOrder?.id,
+        },
+      });
 
     if (!updateResult || updateResult.errors) {
       workUnit.status = {

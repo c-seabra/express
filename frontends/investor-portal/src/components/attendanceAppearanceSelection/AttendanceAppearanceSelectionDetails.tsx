@@ -45,12 +45,11 @@ const AttendanceAppearanceSelectionDetails = (): ReactElement => {
     loading?: boolean;
   } = useAttendanceAppearanceSelectionQuery({ selectionId });
 
-  const {
-    createSessionTimeslotParticipationMutation,
-  } = useSessionTimeslotParticipationCreateMutation({
-    attendanceId,
-    sessionTimeslotId,
-  });
+  const { createSessionTimeslotParticipationMutation } =
+    useSessionTimeslotParticipationCreateMutation({
+      attendanceId,
+      sessionTimeslotId,
+    });
 
   useEffect(() => {
     if (data) {
@@ -106,8 +105,8 @@ const AttendanceAppearanceSelectionDetails = (): ReactElement => {
                 <div>
                   <StyledHeading>Current participants:</StyledHeading>
                   <StyledList>
-                    {participations?.map((participant, i) => (
-                      <StyledListItem key={i}>
+                    {participations?.map((participant) => (
+                      <StyledListItem key={participant.id}>
                         {participant.name}
                         <StyledSpan>({participant.companyName})</StyledSpan>
                       </StyledListItem>

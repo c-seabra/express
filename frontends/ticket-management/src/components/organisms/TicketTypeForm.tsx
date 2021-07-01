@@ -310,7 +310,7 @@ const TicketTypeForm = ({
         bookingRefSuffix: suffix,
         category:
           (ticketType?.categories && ticketType?.categories[0]?.id) || '',
-        description: ticketType?.description,
+        description: ticketType?.description || '',
         name: ticketType?.name || '',
         price: fromCents(ticketType?.price),
         taxMode: ticketType?.taxMode || '',

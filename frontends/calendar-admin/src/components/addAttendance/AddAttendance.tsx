@@ -57,10 +57,13 @@ const AddAttendance = ({
       />
       {display && !loading && !error && (
         <ResultsContainer>
-          {results?.map((attendance, i) => (
-            <div key={i}>
+          {results?.map((attendance) => (
+            <div key={attendance.id}>
               {!selected.find((e) => e === attendance.id) && (
-                <ListItem key={i} onClick={() => handleSelect(attendance)}>
+                <ListItem
+                  key={`${attendance.id}-list-item`}
+                  onClick={() => handleSelect(attendance)}
+                >
                   {attendance.name} - {attendance.bookingRef}
                 </ListItem>
               )}

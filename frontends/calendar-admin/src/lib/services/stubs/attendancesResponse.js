@@ -14,8 +14,7 @@ export default {
       person: {
         avatar_url:
           'https://s3-eu-west-1.amazonaws.com/avenger.cilabs.net/production/avatars/medium/b421966bf50b331624c3a9f637cab190bf7306f5.png?1533051671',
-        bio:
-          'Susan Credle joined FCB in 2016 as one of the first female global CCOs of a network creative agency. Her iconic work for leading global brands includes M&M’s “Characters” and P&G/Secret’s “Mean Stinks," and she has won numerous industry honors.',
+        bio: 'Susan Credle joined FCB in 2016 as one of the first female global CCOs of a network creative agency. Her iconic work for leading global brands includes M&M’s “Characters” and P&G/Secret’s “Mean Stinks," and she has won numerous industry honors.',
         company_name: 'FCB Global',
         country_id: '5e2e58e6-4fc2-4d62-89ca-92ac9b4c6b9c',
         first_name: 'Susan',
@@ -40,8 +39,7 @@ export default {
       person: {
         avatar_url:
           'https://s3-eu-west-1.amazonaws.com/avenger.cilabs.net/production/avatars/medium/771309a732f9069a9b0174acb92ff08d6117a4c1.png?1540371376',
-        bio:
-          'Salah Zalatimo joined Forbes Media in 2015 through the acquisition of his mobile startup, Camerama. He has since led an organizational transformation and complete site rebuild that resulted in record-breaking audience size and engagement. ',
+        bio: 'Salah Zalatimo joined Forbes Media in 2015 through the acquisition of his mobile startup, Camerama. He has since led an organizational transformation and complete site rebuild that resulted in record-breaking audience size and engagement. ',
         company_name: 'Forbes',
         country_id: '5e2e58e6-4fc2-4d62-89ca-92ac9b4c6b9c',
         first_name: 'Salah',
@@ -66,8 +64,7 @@ export default {
       person: {
         avatar_url:
           'https://s3-eu-west-1.amazonaws.com/avenger.cilabs.net/production/avatars/medium/d6d37f1e4aba1483584ce0f3584021f583ac6573.png?1534151273',
-        bio:
-          'A true seriel entrepreneur, Alex Zosel, helped build one of the first skateboard halfpipes in Germany. He set up his first companies & patents all before starting his studies in civil engineering. Now, he is co-founder and Visionary of Volocopter.',
+        bio: 'A true seriel entrepreneur, Alex Zosel, helped build one of the first skateboard halfpipes in Germany. He set up his first companies & patents all before starting his studies in civil engineering. Now, he is co-founder and Visionary of Volocopter.',
         company_name: 'Volocopter',
         country_id: 'fc17cb24-e531-4e6f-96a5-21192eda2970',
         first_name: 'Alexander',
@@ -92,8 +89,7 @@ export default {
       person: {
         avatar_url:
           'https://s3-eu-west-1.amazonaws.com/avenger.cilabs.net/production/avatars/medium/9380eea2f85bbe48123c1aff6eb0a0e35a8e7d86.png?1523539246',
-        bio:
-          'Rik is responsible for leading the global Axe business across strategy, communication and innovations. With his team he is helping young guys look, feel and smell more attractive across more than 90 countries, from the Americas to Asia.\r\n\r\nWorking @Unilever',
+        bio: 'Rik is responsible for leading the global Axe business across strategy, communication and innovations. With his team he is helping young guys look, feel and smell more attractive across more than 90 countries, from the Americas to Asia.\r\n\r\nWorking @Unilever',
         company_name: 'Axe',
         country_id: '21e7ead1-eb63-4a72-9216-9e72bd065d46',
         first_name: 'Rik',

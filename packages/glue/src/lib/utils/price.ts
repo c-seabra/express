@@ -15,7 +15,7 @@ export const formatDisplayPrice = (
 // when dealing with prices instead of having
 // `* 100` or `/ 100` all over the codebase
 export const toCents = (price?: number | null): TotalInCents =>
-  (price ? Math.trunc(price * 100) : 0) as TotalInCents;
+  (price ? Math.round(price * 100) : 0) as TotalInCents;
 export const fromCents = (priceInCents?: number | null): Total =>
   (priceInCents ? priceInCents / 100 : 0) as Total;
 

@@ -1,6 +1,11 @@
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -18,7 +23,6 @@ import {
   Wrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
 import useAssignTicketOperation from '../../lib/hooks/useTicketAssignMutation';
-import { Ticket } from '../../lib/types';
 
 const ContentContainer = styled.div`
   font-size: 0.85rem;
@@ -41,10 +45,14 @@ const StyledInput = styled(TextInputField)`
   }
 `;
 
+type ExtractedTicketQueryResult = extractTypeFromMaybe<
+  GetQueryResult<TicketQuery, 'ticket'>
+>;
+
 type TicketAssignModalProps = {
   closeModal: () => void;
   isOpen: boolean;
-  ticket: Ticket;
+  ticket: ExtractedTicketQueryResult;
 };
 
 const assignSchema = Yup.object().shape({
@@ -68,6 +76,9 @@ const TicketAssignModal = ({
 }: TicketAssignModalProps) => {
   const isAssigned = ticket.assignment !== null;
   const assignPhrase = isAssigned ? 'reassign' : 'assign';
+  const notifyPhrase = isAssigned
+    ? 'Send email notification to new and old assignee'
+    : 'Send email notification to assignee';
   const { assignTicket } = useAssignTicketOperation();
   const handleClose = () => {
     closeModal();
@@ -132,8 +143,8 @@ const TicketAssignModal = ({
                   />
                 </StyledRow>
 
-                {isAssigned && (
-                  <>
+                <>
+                  {isAssigned && (
                     <Spacing top="8px">
                       <FieldWrapper
                         required
@@ -142,15 +153,15 @@ const TicketAssignModal = ({
                         name="reason"
                       />
                     </Spacing>
-                    <StyledRow>
-                      <CheckboxField
-                        color="#E15554"
-                        label="Send email notification to new and old assignee"
-                        name="notify"
-                      />
-                    </StyledRow>
-                  </>
-                )}
+                  )}
+                  <StyledRow>
+                    <CheckboxField
+                      color="#E15554"
+                      label={notifyPhrase}
+                      name="notify"
+                    />
+                  </StyledRow>
+                </>
 
                 <Spacing bottom="53px" top="24px">
                   <StyledActionRow>

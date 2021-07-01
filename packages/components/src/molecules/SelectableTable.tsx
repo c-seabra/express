@@ -44,86 +44,88 @@ type OnSelect<T> = (
 ) => void;
 type OnSelectAll<T> = (selectedItems: T[], selected: boolean) => void;
 
-const selectableTableReducer = <T extends unknown & { id: string | null }>(
-  onSelect: OnSelect<T>,
-  onSelectAll?: OnSelectAll<T>,
-): Reducer<SelectableTableState<T>, SelectableReducerAction<T>> => (
-  { items, selected }: SelectableTableState<T>,
-  { item, type, items: loadedItems }: SelectableReducerAction<T>,
-) => {
-  switch (type) {
-    case 'SELECT': {
-      const newItems = items.map((i) => {
-        if (i.id === item?.id) {
+const selectableTableReducer =
+  <T extends unknown & { id: string | null }>(
+    onSelect: OnSelect<T>,
+    onSelectAll?: OnSelectAll<T>,
+  ): Reducer<SelectableTableState<T>, SelectableReducerAction<T>> =>
+  (
+    { items, selected }: SelectableTableState<T>,
+    { item, type, items: loadedItems }: SelectableReducerAction<T>,
+  ) => {
+    switch (type) {
+      case 'SELECT': {
+        const newItems = items.map((i) => {
+          if (i.id === item?.id) {
+            return {
+              ...i,
+              selected: true,
+            };
+          }
+
+          return i;
+        });
+        onSelect(
+          item,
+          true,
+          newItems.filter((i) => i.selected),
+        );
+
+        return {
+          items: newItems,
+          selected: checkItemsSelectionStatus(newItems),
+        };
+      }
+      case 'DESELECT': {
+        const newItems = items.map((i) => {
+          if (i.id === item?.id) {
+            return {
+              ...i,
+              selected: false,
+            };
+          }
+
+          return i;
+        });
+        onSelect(
+          item,
+          false,
+          newItems.filter((i) => i.selected),
+        );
+
+        return {
+          items: newItems,
+          selected: checkItemsSelectionStatus(newItems),
+        };
+      }
+      case 'SELECT_ALL':
+        if (onSelectAll) {
+          onSelectAll(items, true);
+
           return {
-            ...i,
-            selected: true,
+            items: items.map((i) => ({ ...i, selected: true })),
+            selected: 'all',
           };
         }
 
-        return i;
-      });
-      onSelect(
-        item,
-        true,
-        newItems.filter((i) => i.selected),
-      );
+        return { items, selected };
+      case 'DESELECT_ALL':
+        if (onSelectAll) {
+          onSelectAll([], false);
 
-      return {
-        items: newItems,
-        selected: checkItemsSelectionStatus(newItems),
-      };
-    }
-    case 'DESELECT': {
-      const newItems = items.map((i) => {
-        if (i.id === item?.id) {
           return {
-            ...i,
-            selected: false,
+            items: items.map((i) => ({ ...i, selected: false })),
+            selected: 'none',
           };
         }
 
-        return i;
-      });
-      onSelect(
-        item,
-        false,
-        newItems.filter((i) => i.selected),
-      );
-
-      return {
-        items: newItems,
-        selected: checkItemsSelectionStatus(newItems),
-      };
+        return { items, selected };
+      case 'LOAD_ITEMS':
+        return { items: loadedItems || [], selected };
+      default:
+        return { items, selected };
     }
-    case 'SELECT_ALL':
-      if (onSelectAll) {
-        onSelectAll(items, true);
-
-        return {
-          items: items.map((i) => ({ ...i, selected: true })),
-          selected: 'all',
-        };
-      }
-
-      return { items, selected };
-    case 'DESELECT_ALL':
-      if (onSelectAll) {
-        onSelectAll([], false);
-
-        return {
-          items: items.map((i) => ({ ...i, selected: false })),
-          selected: 'none',
-        };
-      }
-
-      return { items, selected };
-    case 'LOAD_ITEMS':
-      return { items: loadedItems || [], selected };
-    default:
-      return { items, selected };
-  }
-};
+  };
 
 type CheckboxColumnArgs<T> = {
   actions: {
@@ -173,7 +175,7 @@ type SelectableTableProps<T> = TableProps<T> & {
 };
 
 const SelectableTable = <
-  T extends unknown & { id: string | null; selected?: boolean }
+  T extends unknown & { id: string | null; selected?: boolean },
 >({
   tableShape,
   onSelect,

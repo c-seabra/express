@@ -95,9 +95,9 @@ const SelectField = ({
               form.setFieldValue(field.name, event.target.value);
             }}
           >
-            {options.map((option) => (
+            {options.map((option, index) => (
               <option
-                key={option.value}
+                key={option.value || index}
                 disabled={option.disabled}
                 value={option.value}
               >

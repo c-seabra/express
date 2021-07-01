@@ -63,15 +63,17 @@ const PricesWithTaxTable = ({
     {
       header: 'Tax name',
       renderCell: (taxRate) => taxRate?.name,
+      width: '25%',
     },
     {
       header: 'Tax amount',
       renderCell: (taxRate) => formatAmount(taxRate),
-      width: '14%',
+      width: '25%',
     },
     {
       header: 'Country of tax',
       renderCell: (taxRate) => taxRate?.country || 'N/A',
+      width: '25%',
     },
     {
       header: 'Price incl. tax',
@@ -81,6 +83,7 @@ const PricesWithTaxTable = ({
           priceInCents: toCents(price),
           taxRate,
         }),
+      width: '25%',
     },
   ];
 

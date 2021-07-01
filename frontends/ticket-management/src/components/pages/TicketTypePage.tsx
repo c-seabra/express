@@ -154,9 +154,10 @@ const TicketTypePage = () => {
   const ticketCategories =
     commerceCategoriesData?.commerceListCategories?.hits || [];
 
-  const activePaymentMethods = paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
-    (method) => method.active,
-  );
+  const activePaymentMethods =
+    paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
+      (method) => method.active,
+    );
 
   const breadcrumbsRoutes: Breadcrumb[] = [
     {

@@ -13,8 +13,8 @@ const Popup = ({
 }) => {
   const renderExistingEvent = ({ syntheticEvent }) => {
     const popupStyle = {
-      top: `${syntheticEvent.pageY}px`,
       left: `${syntheticEvent.pageX}px`,
+      top: `${syntheticEvent.pageY}px`,
     };
 
     return (

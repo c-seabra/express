@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client';
 
-const TICKET = gql`
+export default gql`
   query Ticket($reference: String!) {
     ticket(reference: $reference) {
       id
       bookingRef
       state
       ticketType {
+        id
         name
       }
       order {
@@ -50,4 +51,3 @@ const TICKET = gql`
     }
   }
 `;
-export default TICKET;

@@ -17,10 +17,12 @@
     "test": "yarn run build"
   },
   "dependencies": {
+    "@apollo/client": "*",
     "@websummit/graphql": "*",
     "qs": "*",
     "react": "*",
     "react-router-dom": "*",
+    "react-simple-snackbar": "*",
     "single-spa": "*",
     "single-spa-layout": "*"
   },

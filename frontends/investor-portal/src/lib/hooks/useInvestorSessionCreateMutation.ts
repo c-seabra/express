@@ -42,12 +42,8 @@ const useInvestorSessionCreateMutation = ({
     return moment(dateString).tz(eventTimezone, true).format();
   };
 
-  const [
-    createSesions,
-    { data, error, loading },
-  ] = useMutation<InvestorSessionsCreateData>(
-    INVESTOR_SESSIONS_CREATE_MUTATION,
-    {
+  const [createSesions, { data, error, loading }] =
+    useMutation<InvestorSessionsCreateData>(INVESTOR_SESSIONS_CREATE_MUTATION, {
       onCompleted: ({ investorSessionsCreate }) => {
         if (investorSessionsCreate?.userErrors[0]) {
           errorMessage(investorSessionsCreate?.userErrors[0].message);
@@ -56,8 +52,7 @@ const useInvestorSessionCreateMutation = ({
         }
       },
       onError: (e) => errorMessage(e.message),
-    },
-  );
+    });
 
   const createSesionsMutation = async () => {
     await createSesions({

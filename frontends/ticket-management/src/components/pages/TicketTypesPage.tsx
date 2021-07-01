@@ -156,13 +156,11 @@ const TicketTypesPage = () => {
     onError: (e) => error(e.message),
   });
 
-  const {
-    data: commerceCategoriesData,
-    loading: categoriesLoading,
-  } = useCommerceListCategoriesQuery({
-    context,
-    onError: (e) => error(e.message),
-  });
+  const { data: commerceCategoriesData, loading: categoriesLoading } =
+    useCommerceListCategoriesQuery({
+      context,
+      onError: (e) => error(e.message),
+    });
 
   const ticketTypes = data?.commerceListProducts?.hits || [];
   const areCommerceProductsPresent = !!(

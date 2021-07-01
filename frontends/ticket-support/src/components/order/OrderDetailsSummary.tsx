@@ -16,10 +16,11 @@ import { formatSourceOfSale } from '../../lib/utils/formatSourceOfSale';
 import { formatDefaultDateTime } from '../../lib/utils/time';
 import Warning from '../ticketActions/Warning';
 import StatePlate from '../ticketItem/StatePlate';
-import OrderSendInvoiceModal from './OrderSendInvoiceModal';
+import OrderSendDocumentModal from './OrderSendDocumentModal';
 
 const Container = styled.div`
   display: flex;
+  gap: 20px;
   padding: 20px;
   justify-content: flex-end;
   border-top: 1px solid #dde0e5;
@@ -126,6 +127,7 @@ type Props = {
   loading: boolean;
   loadingCommerceOrder: boolean;
   order?: Order | null;
+  refundReceiptSendEmail: any;
 };
 
 const OrderDetailsSummary = ({
@@ -136,13 +138,23 @@ const OrderDetailsSummary = ({
   invoiceSendEmail,
   commerceOrder,
   loadingCommerceOrder,
+  refundReceiptSendEmail,
 }: Props): ReactElement => {
   const orderWithActions: any = {
     ...order,
     ...commerceOrder,
     editCustomerBillingRedirect,
   };
-  const { isOpen, closeModal, openModal } = useModalState();
+  const {
+    isOpen: invoiceModalOpen,
+    closeModal: invoiceCloseModal,
+    openModal: invoiceOpenModal,
+  } = useModalState();
+  const {
+    isOpen: refundReceiptModalOpen,
+    closeModal: refundReceiptCloseModal,
+    openModal: refundReceiptOpenModal,
+  } = useModalState();
   const defaultTableShape = orderDetailsTableShape.concat(
     tableShapeWithOrderDocuments,
   );
@@ -170,16 +182,34 @@ const OrderDetailsSummary = ({
               items={[orderWithActions]}
               tableShape={tableShape}
             />
-            {commerceOrder.billed > 0 && (
-              <Container>
-                <OrderSendInvoiceModal
-                  closeModal={closeModal}
-                  isOpen={isOpen}
-                  sendEmail={invoiceSendEmail}
-                />
-                <Button onClick={openModal}>Send email with invoice</Button>
-              </Container>
-            )}
+            <Container>
+              {commerceOrder.invoiceUrl && (
+                <>
+                  <OrderSendDocumentModal
+                    alertText="Send email with invoice?"
+                    closeModal={invoiceCloseModal}
+                    isOpen={invoiceModalOpen}
+                    sendEmail={invoiceSendEmail}
+                  />
+                  <Button onClick={invoiceOpenModal}>
+                    Send email with invoice
+                  </Button>
+                </>
+              )}
+              {commerceOrder.refundReceiptUrl && (
+                <>
+                  <OrderSendDocumentModal
+                    alertText="Send email with refund receipt?"
+                    closeModal={refundReceiptCloseModal}
+                    isOpen={refundReceiptModalOpen}
+                    sendEmail={refundReceiptSendEmail}
+                  />
+                  <Button onClick={refundReceiptOpenModal}>
+                    Send email with refund receipt
+                  </Button>
+                </>
+              )}
+            </Container>
           </StyledContainer>
         )}
       </StyledContainer>

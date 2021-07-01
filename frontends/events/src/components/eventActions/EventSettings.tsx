@@ -12,6 +12,8 @@ import {
   EventQuery,
   useCommerceGetStoreQuery,
   useCommerceListPaymentMethodsQuery,
+  useCommerceListTaxesQuery,
+  useCountriesQuery,
   useEventQuery,
   useLegalEntitiesQuery,
 } from '@websummit/graphql/src/@types/operations';
@@ -190,9 +192,23 @@ const EventSettings = () => {
   });
 
   const { data: storeData } = useCommerceGetStoreQuery({
-    context: { token },
+    context: { slug: usedSlug, token },
     onError: (e) => error(e.message),
   });
+
+  const { data: taxesResponse } = useCommerceListTaxesQuery({
+    context: {
+      slug: usedSlug,
+      token,
+    },
+    fetchPolicy: 'network-only',
+    onError: (e) => error(e.message),
+  });
+
+  const { data: countriesResponse } = useCountriesQuery();
+  const countries = countriesResponse?.countries?.edges.map(
+    (node) => node.node,
+  );
 
   const store = storeData?.commerceGetStore;
 
@@ -203,7 +219,7 @@ const EventSettings = () => {
     (node) => node.node,
   );
   const eventConfigHeaderText = eventExists ? 'settings' : 'setup';
-  const taxes = data?.event?.taxRates?.edges?.map((node) => node.node);
+  const taxes = taxesResponse?.commerceListTaxes?.hits;
   const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
     context: { slug, token },
     skip: !slug,
@@ -214,9 +230,8 @@ const EventSettings = () => {
     !!paymentMethods?.length && configCompletion.stores.ready;
   const eventInfoSpecificCompletion = checkEventInfoCompletion(data);
   const eventTaxSpecificCompletion = !!taxes?.length;
-  const eventBillingSpecificCompletion = checkBillingCompletion(
-    eventLegalEntity,
-  );
+  const eventBillingSpecificCompletion =
+    checkBillingCompletion(eventLegalEntity);
 
   const configCompleteRules = {
     additional_settings: {
@@ -346,9 +361,9 @@ const EventSettings = () => {
             )}
             {currentTab.id === 'tax_info' && (
               <SelectTax
-                eventId={data?.event?.id as string}
+                countries={countries as any}
                 loading={loading}
-                refetch={refetch}
+                slugParam={slug}
                 taxes={taxes}
               />
             )}

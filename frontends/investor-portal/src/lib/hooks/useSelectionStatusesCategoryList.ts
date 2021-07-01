@@ -10,9 +10,8 @@ const useSelectionStatusesCategoryList = ({
   initialValues?: string[];
   onSelectionStatusFilterChange: (selectedTypes: string[]) => void;
 }) => {
-  const [selectedSelectionStatuses, setSelectedSelectionStatuses] = useState<
-    string[]
-  >(initialValues);
+  const [selectedSelectionStatuses, setSelectedSelectionStatuses] =
+    useState<string[]>(initialValues);
 
   const selectionStatusesOptions: CategoryItem[] = Object.entries(
     AttendanceAppearanceSelectionsStatus,
