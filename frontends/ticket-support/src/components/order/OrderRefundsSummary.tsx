@@ -50,9 +50,10 @@ const OrderRefundsSummary = ({
   currencySymbol,
   refunds,
 }: OrderRefundsSummaryProps) => {
-  const transactionsTableShape = useMemo(() => tableShape(currencySymbol), [
-    currencySymbol,
-  ]);
+  const transactionsTableShape = useMemo(
+    () => tableShape(currencySymbol),
+    [currencySymbol],
+  );
 
   return (
     <ContainerCard noPadding title="Order refunds summary">

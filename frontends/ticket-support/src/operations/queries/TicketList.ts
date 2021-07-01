@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const TICKET_LIST = gql`
-  query(
+  query (
     $filter: TicketFilter
     $searchQuery: String
     $first: Int
