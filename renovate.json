@@ -20,6 +20,16 @@
     {
       "groupName": "eslint",
       "matchPackagePatterns": ["eslint"]
+    },
+    {
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "groupName": "all patch dependencies",
+      "groupSlug": "all-patch"
     }
   ],
   "rangeStrategy": "pin",
