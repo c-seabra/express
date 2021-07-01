@@ -81,8 +81,8 @@ type TicketTrailResponse = {
 
 type AuditTrailProps = {
   bookingRef: string;
-  slug: string;
-  token: string;
+  slug?: string;
+  token?: string;
 };
 
 const AuditTrail = ({ bookingRef, slug, token }: AuditTrailProps) => {

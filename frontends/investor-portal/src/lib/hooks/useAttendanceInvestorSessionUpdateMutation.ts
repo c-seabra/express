@@ -31,22 +31,22 @@ const useAttendanceInvestorSessionUpdateMutation = ({
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
-  const [
-    updateAttendanceInvestorSession,
-    { data, error, loading },
-  ] = useMutation<AttendanceInvestorSessionUpdateData>(
-    ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION,
-    {
-      onCompleted: ({ attendanceInvestorSessionUpdate }) => {
-        if (attendanceInvestorSessionUpdate?.userErrors[0]) {
-          errorMessage(attendanceInvestorSessionUpdate?.userErrors[0].message);
-        } else {
-          success(attendanceInvestorSessionUpdate.successMessage);
-        }
+  const [updateAttendanceInvestorSession, { data, error, loading }] =
+    useMutation<AttendanceInvestorSessionUpdateData>(
+      ATTENDANCE_INVESTOR_SESSION_UPDATE_MUTATION,
+      {
+        onCompleted: ({ attendanceInvestorSessionUpdate }) => {
+          if (attendanceInvestorSessionUpdate?.userErrors[0]) {
+            errorMessage(
+              attendanceInvestorSessionUpdate?.userErrors[0].message,
+            );
+          } else {
+            success(attendanceInvestorSessionUpdate.successMessage);
+          }
+        },
+        onError: (e) => errorMessage(e.message),
       },
-      onError: (e) => errorMessage(e.message),
-    },
-  );
+    );
 
   const attendanceInvestorSessionUpdateMutation = async () => {
     await updateAttendanceInvestorSession({

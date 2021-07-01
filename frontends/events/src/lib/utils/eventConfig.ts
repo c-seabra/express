@@ -15,32 +15,31 @@ type CompletionInfo = {
   ready: boolean;
 };
 
-const getConfigCompletion = (data?: EventQuery) => (
-  rule: keyof typeof eventCompletionRequirements,
-) => {
-  if (data?.event) {
-    const { event } = data;
+const getConfigCompletion =
+  (data?: EventQuery) => (rule: keyof typeof eventCompletionRequirements) => {
+    if (data?.event) {
+      const { event } = data;
 
-    const configCompletion: CompletionInfo = {
-      missing: [],
-      ready: true,
+      const configCompletion: CompletionInfo = {
+        missing: [],
+        ready: true,
+      };
+
+      eventCompletionRequirements[rule].forEach((field: string) => {
+        if (!get(event, field)) {
+          configCompletion.missing.push(field);
+          configCompletion.ready = false;
+        }
+      });
+
+      return configCompletion;
+    }
+
+    return {
+      missing: Object.assign([], eventCompletionRequirements[rule]),
+      ready: false,
     };
-
-    eventCompletionRequirements[rule].forEach((field: string) => {
-      if (!get(event, field)) {
-        configCompletion.missing.push(field);
-        configCompletion.ready = false;
-      }
-    });
-
-    return configCompletion;
-  }
-
-  return {
-    missing: Object.assign([], eventCompletionRequirements[rule]),
-    ready: false,
   };
-};
 
 export const getServicesReadyForEvent = (data?: EventQuery) => {
   const configCompletionFor = getConfigCompletion(data);

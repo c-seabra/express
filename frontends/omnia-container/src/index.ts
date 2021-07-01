@@ -92,9 +92,11 @@ export default function loadContainer(props: RequiredProps) {
     }
     // Append other spas to container
     singleSPAs.forEach((singleSPAElement) => {
-      const singleSPAId = ((singleSPAElement as unknown) as {
-        attributes: Array<{ value: string }>;
-      }).attributes[0].value;
+      const singleSPAId = (
+        singleSPAElement as unknown as {
+          attributes: Array<{ value: string }>;
+        }
+      ).attributes[0].value;
       if (
         singleSPAId !==
         'single-spa-application:@websummit-micro/summit-engine-nav'

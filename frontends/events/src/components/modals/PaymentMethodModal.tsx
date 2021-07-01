@@ -166,11 +166,8 @@ const trimConfiguration = (
       };
     }
     case paymentGatewayIds.paypal: {
-      const {
-        client_id,
-        client_secret,
-        env,
-      } = configuration as PaypalConfigType;
+      const { client_id, client_secret, env } =
+        configuration as PaypalConfigType;
       return {
         client_id: client_id?.trim() || '',
         client_secret: client_secret?.trim() || '',
@@ -179,10 +176,8 @@ const trimConfiguration = (
     }
     case paymentGatewayIds.complementary:
     case paymentGatewayIds.external: {
-      const {
-        refundMethod,
-        acceptUnpaidRefunds,
-      } = configuration as ExternalConfigType;
+      const { refundMethod, acceptUnpaidRefunds } =
+        configuration as ExternalConfigType;
       return {
         acceptUnpaidRefunds: acceptUnpaidRefunds ? 'true' : 'false',
         refundMethod: refundMethod ? 'true' : 'false',
@@ -203,21 +198,16 @@ const getInitialConfigValues = (
   if (paymentMethod?.configuration) {
     switch (paymentMethod.gateway) {
       case paymentGatewayIds.stripe: {
-        const {
-          publishable_key,
-          secret_key,
-        } = paymentMethod.configuration as StripeConfigType;
+        const { publishable_key, secret_key } =
+          paymentMethod.configuration as StripeConfigType;
         return {
           publishable_key,
           secret_key,
         };
       }
       case paymentGatewayIds.paypal: {
-        const {
-          client_id,
-          client_secret,
-          env,
-        } = paymentMethod.configuration as PaypalConfigType;
+        const { client_id, client_secret, env } =
+          paymentMethod.configuration as PaypalConfigType;
         return {
           client_id,
           client_secret,
@@ -226,11 +216,8 @@ const getInitialConfigValues = (
       }
       case paymentGatewayIds.complementary:
       case paymentGatewayIds.external: {
-        const {
-          refundMethod,
-          acceptUnpaidRefunds,
-          type,
-        } = paymentMethod.configuration as ExternalConfigType;
+        const { refundMethod, acceptUnpaidRefunds, type } =
+          paymentMethod.configuration as ExternalConfigType;
         return {
           acceptUnpaidRefunds,
           refundMethod,

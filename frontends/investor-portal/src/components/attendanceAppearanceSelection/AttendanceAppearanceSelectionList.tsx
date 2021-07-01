@@ -54,12 +54,11 @@ const AttendanceAppearanceSelectionList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const {
-    updateAttendanceAppearanceSelections,
-  } = useAttendanceAppearanceSelectionUpdateMutation({
-    attendanceIds: [attendanceId],
-    status,
-  });
+  const { updateAttendanceAppearanceSelections } =
+    useAttendanceAppearanceSelectionUpdateMutation({
+      attendanceIds: [attendanceId],
+      status,
+    });
 
   const submit = async () => {
     await updateAttendanceAppearanceSelections();

@@ -26,10 +26,8 @@ import {
 } from './SettingsDashboard.styled';
 
 const SettingsDashboard: React.FC = () => {
-  const [
-    defaultStartupSelections,
-    setDefaultStartupSelections,
-  ] = useState<number>();
+  const [defaultStartupSelections, setDefaultStartupSelections] =
+    useState<number>();
   const [eventTimezone, setEventTimezone] = useState<string>('Europe/Dublin');
   const [sponsorLogo, setSponsorLogo] = useState<string | undefined>();
   const [meetingsPerSession, setMeetingsPerSession] = useState<
@@ -91,18 +89,17 @@ const SettingsDashboard: React.FC = () => {
 
   const investorSessionsSummary = data?.event.investorSessionsSummary;
 
-  const {
-    investorMeetingConfigurationUpdateMutation,
-  } = useInvestorMeetingConfigurationUpdateMutation({
-    defaultStartupSelections,
-    eventTimezone,
-    meetingsPerSession,
-    sessionDuration,
-    sponsorLogo,
-    startupPortalClosingAt,
-    startupPortalOpeningAt,
-    startupSelectionDeadline,
-  });
+  const { investorMeetingConfigurationUpdateMutation } =
+    useInvestorMeetingConfigurationUpdateMutation({
+      defaultStartupSelections,
+      eventTimezone,
+      meetingsPerSession,
+      sessionDuration,
+      sponsorLogo,
+      startupPortalClosingAt,
+      startupPortalOpeningAt,
+      startupSelectionDeadline,
+    });
 
   const breadcrumbsRoutes: Breadcrumb[] = [
     {

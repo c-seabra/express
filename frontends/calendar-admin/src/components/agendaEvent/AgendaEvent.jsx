@@ -18,6 +18,7 @@ const AgendaEvent = ({ event }) => {
   }
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div onClick={(eClick) => onSelectEvent(event, eClick)}>
       {event && event.title} - {locationName && locationName}
     </div>

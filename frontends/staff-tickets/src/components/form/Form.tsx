@@ -208,13 +208,12 @@ const Form: React.FC = () => {
     },
   );
 
-  const singleTicketTypesOptions:
-    | SelectFieldOption[]
-    | undefined = sortedProductsWithoutPackages?.map((product) => ({
-    disabled: !product.id,
-    label: product.name,
-    value: product.id || 'backend error!',
-  }));
+  const singleTicketTypesOptions: SelectFieldOption[] | undefined =
+    sortedProductsWithoutPackages?.map((product) => ({
+      disabled: !product.id,
+      label: product.name,
+      value: product.id || 'backend error!',
+    }));
 
   const options: SelectFieldOption[] | undefined = products?.map((product) => ({
     disabled: !product.id,

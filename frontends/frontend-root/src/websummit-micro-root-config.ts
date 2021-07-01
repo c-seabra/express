@@ -5,22 +5,27 @@ import {
   constructLayoutEngine,
 } from 'single-spa-layout';
 
-// console.log(JSON.stringify(routes));
 const applications = constructApplications({
   loadApp({ name }) {
+    console.log(name, name.length);
     // eslint-disable-next-line
-    return System.import(name);
+    return System.import(name).then((application) => {
+      // Verify that this object has the lifecycle functions on it.
+      // If compiling with webpack and consuming in-browser with SystemJS, consider
+      // setting webpack's output.libraryTarget to "system".
+      console.log(application);
+      console.log(JSON.stringify(application));
+      return application as import('single-spa').Application;
+    });
   },
   routes,
 });
 const layoutEngine = constructLayoutEngine({ applications, routes });
 
-// eslint-disable-next-line no-undef
-const { env } = process;
 const customProps = {
-  apiURL: env.API_URL,
+  apiURL: process.env.API_URL,
   test: 'testing',
-  token: env.AUTH_TOKEN,
+  token: process.env.AUTH_TOKEN,
 };
 
 applications.forEach((app) => {

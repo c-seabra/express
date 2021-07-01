@@ -29,8 +29,11 @@ generates:
       documentMode: documentNode
       documentNodeImport: '@graphql-typed-document-node/core#TypedDocumentNode'
     plugins:
-      - add: "import { JsonObject, AnyJson } from './json'"
-      - add: "import { OperationVariables as QueryVariables } from 'apollo-client'"
+      - add:
+          placement: 'prepend'
+          content:
+            - "import { JsonObject, AnyJson } from './json'"
+            - "import { OperationVariables as QueryVariables } from 'apollo-client'"
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-react-apollo'
@@ -49,5 +52,4 @@ generates:
 
 overwrite: true
 schema:
-  - src/operations/mock/schema/**/*.ts
-  - ${GRAPHQL_API_URL:https://catalyst.cluster.cilabs.net/graphql}
+  - ${GRAPHQL_API_URL:https://api.cilabs.com/catalyst}

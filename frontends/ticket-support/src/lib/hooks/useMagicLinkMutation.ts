@@ -3,10 +3,15 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import { TicketQuery } from '@websummit/graphql/src/@types/operations';
+import {
+  extractTypeFromMaybe,
+  GetQueryResult,
+} from '@websummit/graphql/src/lib/types';
 
 import { useAppContext } from '../../components/app/AppContext';
 import MAGIC_LINK_GENERATE from '../../operations/mutations/LoginLinkGenerate';
-import { Account, UserError } from '../types';
+import { UserError } from '../types';
 
 type MagicLinkData = {
   assignmentMagicLinkGenerate: {
@@ -16,7 +21,13 @@ type MagicLinkData = {
   };
 };
 
-const useMagicLinkMutation = ({ assignee }: { assignee: Account }) => {
+const useMagicLinkMutation = ({
+  assignee,
+}: {
+  assignee: NonNullable<
+    extractTypeFromMaybe<GetQueryResult<TicketQuery, 'ticket'>['assignment']>
+  >['assignee'];
+}) => {
   const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
@@ -47,7 +58,7 @@ const useMagicLinkMutation = ({ assignee }: { assignee: Account }) => {
         },
         variables: {
           input: {
-            email: assignee.email,
+            email: assignee?.email,
             eventSlug: slug,
           },
         },

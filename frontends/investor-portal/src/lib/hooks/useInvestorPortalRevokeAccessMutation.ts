@@ -27,22 +27,20 @@ const useInvestorPortalRevokeAccessMutation = ({
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
-  const [
-    investorPortalRevokeAccessMutation,
-    { data, error, loading },
-  ] = useMutation<InvestorPortalRevokeAccessData>(
-    INVESTOR_PORTAL_REVOKE_ACCESS_MUTATION,
-    {
-      onCompleted: ({ investorPortalRevokeAccess }) => {
-        if (investorPortalRevokeAccess?.userErrors[0]) {
-          errorMessage(investorPortalRevokeAccess?.userErrors[0].message);
-        } else {
-          success(investorPortalRevokeAccess.successMessage);
-        }
+  const [investorPortalRevokeAccessMutation, { data, error, loading }] =
+    useMutation<InvestorPortalRevokeAccessData>(
+      INVESTOR_PORTAL_REVOKE_ACCESS_MUTATION,
+      {
+        onCompleted: ({ investorPortalRevokeAccess }) => {
+          if (investorPortalRevokeAccess?.userErrors[0]) {
+            errorMessage(investorPortalRevokeAccess?.userErrors[0].message);
+          } else {
+            success(investorPortalRevokeAccess.successMessage);
+          }
+        },
+        onError: (e) => errorMessage(e.message),
       },
-      onError: (e) => errorMessage(e.message),
-    },
-  );
+    );
 
   const context = {
     slug,

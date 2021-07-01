@@ -20,6 +20,7 @@ import {
   useCommerceListPaymentMethodsQuery,
   useOrderByRefQuery,
   useOrderInvoiceSendMutation,
+  useOrderRefundReceiptSendMutation,
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -36,6 +37,7 @@ import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQ
 import useTicketsQuery from '../../lib/hooks/useTicketsQuery';
 import Loader from '../../lib/Loading';
 import Pagination from '../../lib/Pagination';
+import { Error } from '../../lib/types';
 import { switchCase } from '../../lib/utils/logic';
 import { useRequestContext } from '../app/AppContext';
 import OrderRefundModal from '../orderActions/OrderRefundModal';
@@ -274,21 +276,32 @@ const OrderDetails = (): ReactElement => {
     history.push(`/order/${orderRef}/customer-billing/${sourceId}`);
   };
 
-  const [sendEmail] = useOrderInvoiceSendMutation({
+  const [sendRefundReceiptEmail] = useOrderRefundReceiptSendMutation({
+    context,
+    onCompleted: () => {
+      snackbar('Email with refund receipt sent');
+    },
+    onError: (e: Error) => errSnackbar(e.message),
+  });
+  const [sendInvoiceEmail] = useOrderInvoiceSendMutation({
     context,
     onCompleted: () => {
       snackbar(`Email with invoice sent`);
     },
-    onError: (e) => errSnackbar(e.message),
+    onError: (e: Error) => errSnackbar(e.message),
   });
-  const invoiceSendEmail = async () => {
-    await sendEmail({
-      variables: {
-        input: {
-          reference: orderRef,
-        },
+  const sendOrderDocumentInput = {
+    variables: {
+      input: {
+        reference: orderRef,
       },
-    });
+    },
+  };
+  const invoiceSendEmail = async () => {
+    await sendInvoiceEmail(sendOrderDocumentInput);
+  };
+  const refundReceiptSendEmail = async () => {
+    await sendRefundReceiptEmail(sendOrderDocumentInput);
   };
 
   return (
@@ -390,6 +403,7 @@ const OrderDetails = (): ReactElement => {
                   loading={loading}
                   loadingCommerceOrder={loadingCommerceOrder}
                   order={order as Order}
+                  refundReceiptSendEmail={refundReceiptSendEmail}
                 />
               </SpacingBottom>
 

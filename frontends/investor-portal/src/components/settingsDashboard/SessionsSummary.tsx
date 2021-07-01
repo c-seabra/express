@@ -30,6 +30,7 @@ const SessionsSummary = ({
       <StyledGridContainer>
         {investorSessionsSummaries?.map((item, i) => (
           <StyledColumnContainer
+            // eslint-disable-next-line react/no-array-index-key
             key={i}
             className={item.claimed === item.count ? 'full' : 'available'}
           >

@@ -1,9 +1,8 @@
-import ButtonComponent from '@websummit/components/src/atoms/Button';
+import { Button, ErrorButton } from '@websummit/components/src/atoms/Button';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 
 import AvatarList from '../avatarList/AvatarList';
-import Button from '../button/Button';
 import { DetailsContext } from '../calendar/Context';
 import EditEvent from '../editEvent/EditEvent';
 import { TopButtons } from '../popup/Popup.styled';
@@ -55,13 +54,18 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
     setEventTime(dateFormatted);
   };
 
-  useEffect(() => {
-    // get location name
-    location && setLocationName(getLocationName(location));
+  useEffect(
+    () => {
+      // get location name
+      // eslint-disable-next-line no-unused-expressions,no-use-before-define
+      location && setLocationName(getLocationName(location));
 
-    // Format the date to desired layout
-    formatDate(starts_at.toString(), ends_at.toString());
-  }, [location && location.id, location && location.name, invitations, rsvps]);
+      // Format the date to desired layout
+      formatDate(starts_at.toString(), ends_at.toString());
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location && location.id, location && location.name, invitations, rsvps],
+  );
 
   const handleDelete = () => {
     // open popup overlay
@@ -130,8 +134,8 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
           {rsvps && rsvps.length ? (
             <AvatarList
               avatarList={rsvps}
-              organizerId={organizer ? organizer.id : undefined}
               listType="rsvps"
+              organizerId={organizer ? organizer.id : undefined}
             />
           ) : (
             'Loading...'
@@ -172,19 +176,16 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
         <Overlay>
           <h3>Are you sure you want to delete this event?</h3>
           <OverlayButtons>
-            <ButtonComponent
-              type="primary"
-              onClick={() => handleDeleteResponse(true)}
-            >
+            <Button type="primary" onClick={() => handleDeleteResponse(true)}>
               Yes
-            </ButtonComponent>
+            </Button>
 
-            <ButtonComponent
+            <ErrorButton
               type="error"
               onClick={() => handleDeleteResponse(false)}
             >
               No
-            </ButtonComponent>
+            </ErrorButton>
           </OverlayButtons>
         </Overlay>
       )}

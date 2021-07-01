@@ -31,24 +31,22 @@ const useSessionTimeslotParticipationCreateMutation = ({
   const success = useSuccessSnackbar();
   const errorMessage = useErrorSnackbar();
 
-  const [
-    createSessionTimeslotParticipation,
-    { data, error, loading },
-  ] = useMutation<SessionTimeslotParticipationCreateData>(
-    SESSION_TIMESLOT_PARTICIPATION_CREATE,
-    {
-      onCompleted: ({ sessionTimeslotParticipationCreate }) => {
-        if (sessionTimeslotParticipationCreate?.userErrors[0]) {
-          errorMessage(
-            sessionTimeslotParticipationCreate?.userErrors[0].message,
-          );
-        } else {
-          success(sessionTimeslotParticipationCreate.successMessage);
-        }
+  const [createSessionTimeslotParticipation, { data, error, loading }] =
+    useMutation<SessionTimeslotParticipationCreateData>(
+      SESSION_TIMESLOT_PARTICIPATION_CREATE,
+      {
+        onCompleted: ({ sessionTimeslotParticipationCreate }) => {
+          if (sessionTimeslotParticipationCreate?.userErrors[0]) {
+            errorMessage(
+              sessionTimeslotParticipationCreate?.userErrors[0].message,
+            );
+          } else {
+            success(sessionTimeslotParticipationCreate.successMessage);
+          }
+        },
+        onError: (e) => errorMessage(e.message),
       },
-      onError: (e) => errorMessage(e.message),
-    },
-  );
+    );
 
   const createSessionTimeslotParticipationMutation = async () => {
     await createSessionTimeslotParticipation({
