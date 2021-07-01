@@ -311,26 +311,27 @@ const OrderRefundModal = ({
                   label="Amount to refund"
                   name="amount"
                 />
-                {values.type === refundTypes.partial && (
-                  <Row>
-                    <CheckboxField
-                      label={
-                        name && country && rateAmount
-                          ? `Refund ${name} (${country}) at ${rateAmount}%?`
-                          : ''
-                      }
-                      name="refundTax"
-                    />
-                    <DependentTaxRateAmountInputField
-                      currencySymbol={commerceOrder.currencySymbol || ''}
-                      disabled={!values.refundTax}
-                      required={values.refundTax}
-                      taxName={name}
-                      taxRate={rateAmount}
-                      taxTotal={commerceOrder.taxTotal}
-                    />
-                  </Row>
-                )}
+                {values.type === refundTypes.partial &&
+                  (commerceOrder.taxTotal || 0) > 0 && (
+                    <Row>
+                      <CheckboxField
+                        label={
+                          name && country && rateAmount
+                            ? `Refund ${name} (${country}) at ${rateAmount}%?`
+                            : ''
+                        }
+                        name="refundTax"
+                      />
+                      <DependentTaxRateAmountInputField
+                        currencySymbol={commerceOrder.currencySymbol || ''}
+                        disabled={!values.refundTax}
+                        required={values.refundTax}
+                        taxName={name}
+                        taxRate={rateAmount}
+                        taxTotal={commerceOrder.taxTotal}
+                      />
+                    </Row>
+                  )}
                 <SelectField
                   required
                   label="How would you like this order to be refunded"
