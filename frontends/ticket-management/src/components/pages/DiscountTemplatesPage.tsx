@@ -11,14 +11,14 @@ import {
   useCommerceListCategoriesQuery,
   useCommerceListDealsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import { dealsFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
+import { discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useRequestContext } from '../app/AppContext';
-import PackageModalWrapper from '../modals/PackageModalWrapper';
-import PackagesList from '../organisms/PackagesList';
+import DiscountModalWrapper from '../modals/DiscountModalWrapper';
+import DiscountTemplatesList from '../organisms/DiscountTemplatesList';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -57,57 +57,61 @@ type CommerceDealWithCategories = CommerceDeal & {
   categories: CommerceCategory[];
 };
 
-const groupPackagesByCategories = (
-  packages: Partial<CommerceDealWithCategories>[] = [],
+const groupDiscountsByCategories = (
+  discounts: Partial<CommerceDealWithCategories>[] = [],
   ticketCategories: Pick<CommerceCategory, 'name' | 'id'>[] = [],
 ) => {
-  let packagesByCategories: GroupedPackages = {};
+  let discountsByCategories: GroupedPackages = {};
 
   ticketCategories.forEach((category) => {
-    const packagesByCategory = packages.filter((type) =>
+    const discountsByCategory = discounts.filter((type) =>
       type?.categories?.some(
         (typeCategory: any) => typeCategory.id === category.id,
       ),
     );
 
-    if (packagesByCategory.length > 0) {
-      packagesByCategories = {
-        ...packagesByCategories,
-        [category.name]: packagesByCategory,
+    if (discountsByCategory.length > 0) {
+      discountsByCategories = {
+        ...discountsByCategories,
+        [category.name]: discountsByCategory,
       };
     }
   });
 
-  const ticketsWithoutCategory = packages.filter(
+  const ticketsWithoutCategory = discounts.filter(
     (type) => !type.categories || type?.categories?.length === 0,
   );
 
   if (ticketsWithoutCategory.length > 0) {
     return {
-      ...packagesByCategories,
+      ...discountsByCategories,
       [ungroupedCategoryName]: ticketsWithoutCategory,
     };
   }
 
-  return packagesByCategories;
+  return discountsByCategories;
 };
 
-const PackagesPage = () => {
+const DiscountTemplatesPage = () => {
   const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
   const redirectToPackage = (id: string) => {
-    history.push(`/deal/${id}`);
+    history.push(`/discount/${id}`);
   };
   const onRowClick = (event: any) => {
     redirectToPackage(event.id);
   };
   const context = useRequestContext();
+
   const { loading, data } = useCommerceListDealsQuery({
     context,
     onError: (error) => errorSnackbar(error.message),
-    variables: { terms: dealsFilter },
+    variables: {
+      terms: discountTemplateFilter,
+    },
   });
+
   const { data: commerceCategories, loading: loadingCategories } =
     useCommerceListCategoriesQuery({
       context,
@@ -119,8 +123,8 @@ const PackagesPage = () => {
   const hasPackages = !!(
     data?.commerceListDeals?.hits && data?.commerceListDeals?.hits?.length > 0
   );
-  const packages: any = data?.commerceListDeals?.hits;
-  const mappedPackages = packages?.map((item: CommerceDeal) => {
+  const discounts: any = data?.commerceListDeals?.hits;
+  const mappedDiscounts = discounts?.map((item: CommerceDeal) => {
     let category: CommerceCategory[] = [];
     item.dealItems?.map((elem: any) => {
       category = elem.product.categories;
@@ -129,8 +133,8 @@ const PackagesPage = () => {
     return { ...item, categories: category };
   });
 
-  const groupedPackages = groupPackagesByCategories(
-    mappedPackages,
+  const groupedDiscounts = groupDiscountsByCategories(
+    mappedDiscounts,
     ticketCategories,
   );
 
@@ -140,16 +144,16 @@ const PackagesPage = () => {
 
   return (
     <Container>
-      <PackageModalWrapper closeModal={closeModal} isOpen={isOpen} />
+      <DiscountModalWrapper closeModal={closeModal} isOpen={isOpen} />
 
       <FlexCol>
         <FlexRow>
           <Spacing bottom="1rem">
-            <HeaderText>Deals</HeaderText>
+            <HeaderText>Discount Templates</HeaderText>
           </Spacing>
 
           {shouldRenderPackages && (
-            <Button onClick={openModal}>Create new deal</Button>
+            <Button onClick={openModal}>Create new discount template</Button>
           )}
         </FlexRow>
 
@@ -160,8 +164,8 @@ const PackagesPage = () => {
             <Spacing bottom="36px" left="24px" right="24px" top="36px">
               <BlockMessage
                 buttonText="Create now"
-                header="Create new package"
-                message="Please create a new package to see grouped results"
+                header="Create new discount template"
+                message="Please create a new discount template to see grouped results"
                 onClickAction={openModal}
               />
             </Spacing>
@@ -169,11 +173,11 @@ const PackagesPage = () => {
         )}
 
         {shouldRenderPackages &&
-          Object.entries(groupedPackages).map(([key, value]) => (
+          Object.entries(groupedDiscounts).map(([key, value]) => (
             <Spacing key={key} top="1.5rem">
               <ContainerCard noPadding title={key}>
-                <PackagesList
-                  packages={value as CommerceDeal[]}
+                <DiscountTemplatesList
+                  discounts={value as CommerceDeal[]}
                   onRowClick={onRowClick}
                 />
               </ContainerCard>
@@ -184,4 +188,4 @@ const PackagesPage = () => {
   );
 };
 
-export default PackagesPage;
+export default DiscountTemplatesPage;

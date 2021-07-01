@@ -45,7 +45,7 @@ const Error = styled.div`
   margin-top: 4px;
 `;
 
-type SelectFieldOption = {
+export type SelectFieldOption = {
   disabled?: boolean;
   label?: string;
   value?: string;
@@ -60,6 +60,11 @@ type SelectFieldProps = {
   options?: SelectFieldOption[];
   placeholder?: string;
   required?: boolean;
+};
+
+export const blankOption: SelectFieldOption = {
+  label: 'Please select an option',
+  value: '',
 };
 
 const SelectField = ({
