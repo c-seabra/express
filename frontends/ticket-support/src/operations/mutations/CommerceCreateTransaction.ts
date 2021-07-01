@@ -60,14 +60,18 @@ const useCommerceCreateTransactionMutation = ({
   const { slug, token } = useAppContext();
   const success = useSuccessSnackbar();
   const error = useErrorSnackbar();
-  const [createTransactionMutation] =
-    useMutation<CreateTransactionMutationResult>(CREATE_TRANSACTION_MUTATION, {
+  const [
+    createTransactionMutation,
+  ] = useMutation<CreateTransactionMutationResult>(
+    CREATE_TRANSACTION_MUTATION,
+    {
       onCompleted: () => {
         success('Operation successful');
       },
       onError: (e) => error(e.message),
       refetchQueries: ['Order', 'CommerceOrder'],
-    });
+    },
+  );
 
   return async ({
     amount,

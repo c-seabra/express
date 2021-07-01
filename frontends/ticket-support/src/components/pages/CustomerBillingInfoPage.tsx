@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useSingleCommerceOrderQuery from '../../lib/hooks/useSingleCommerceOrderQuery';
-import OrderInvoiceForm from '../order/OrderInvoiceForm';
+import OrderCustomerDetailsForm from '../order/OrderCustomerDetailsForm';
 
 export const Container = styled.div`
   max-width: 1440px;
@@ -116,7 +116,7 @@ const OrderInvoicePage = () => {
 
                 {loadingCommerceOrder && <Loader />}
                 {!loadingCommerceOrder && (
-                  <OrderInvoiceForm
+                  <OrderCustomerDetailsForm
                     orderId={orderId}
                     prefillData={prefillData}
                   />

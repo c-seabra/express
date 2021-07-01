@@ -49,7 +49,7 @@ type Props = {
   prefillData: any;
 };
 
-export type OrderInvoiceFormData = {
+export type OrderCustomerDetailsFormData = {
   addressId: string;
   addressLine1: string;
   addressLine2: string;
@@ -93,7 +93,7 @@ const getCountryOptions = (
   })),
 ];
 
-const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
+const OrderCustomerDetailsForm = ({ prefillData, orderId }: Props) => {
   const [isEditOn, setEditOn] = useState(false);
   const openEditMode = () => setEditOn(true);
   const closeEditMode = () => setEditOn(false);
@@ -138,7 +138,7 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
     };
   };
 
-  const onSubmit = (formData: OrderInvoiceFormData) => {
+  const onSubmit = (formData: OrderCustomerDetailsFormData) => {
     const input = {
       address: {
         city: formData?.city?.trim(),
@@ -318,4 +318,4 @@ const OrderInvoiceForm = ({ prefillData, orderId }: Props) => {
   );
 };
 
-export default OrderInvoiceForm;
+export default OrderCustomerDetailsForm;

@@ -12,8 +12,9 @@ const useTicketTypesCategoryList = ({
   onTicketTypeFilterChange: (selectedTypes: string[]) => void;
   ticketTypes?: TicketType[];
 }) => {
-  const [selectedTicketTypes, setSelectedTicketTypes] =
-    useState<string[]>(initialValues);
+  const [selectedTicketTypes, setSelectedTicketTypes] = useState<string[]>(
+    initialValues,
+  );
 
   const ticketTypesOptions: CategoryItem[] = ticketTypes.map(
     ({ id, name }) => ({

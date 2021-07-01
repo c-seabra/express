@@ -53,8 +53,10 @@ const LoginLinkActions = ({
   assignee: Assignee;
   isTicketVoided: boolean;
 }): ReactElement => {
-  const [lastLoginLinkRequestedAt, setLastLoginLinkRequestedAt] =
-    useState<string>();
+  const [
+    lastLoginLinkRequestedAt,
+    setLastLoginLinkRequestedAt,
+  ] = useState<string>();
   const { isOpen, openModal, closeModal } = useModalState();
 
   const { sendLoginLink } = useSendLoginLinkMutation({ assignee });

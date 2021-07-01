@@ -50,8 +50,9 @@ const UpdateUniqueUserIdentifierModal = ({
   email,
   accountId,
 }: UserIdentifierModalProps) => {
-  const { updateUniqueUserIdentifier } =
-    useUpdateUniqueUserIdentifierMutation();
+  const {
+    updateUniqueUserIdentifier,
+  } = useUpdateUniqueUserIdentifierMutation();
   const [formControls, setFormControls] = useState<
     | {
         boundReset?: () => void;

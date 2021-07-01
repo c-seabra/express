@@ -26,22 +26,23 @@ const useUpdateUniqueUserIdentifierMutation = () => {
   const successSnackbar = useSuccessSnackbar();
   const errorSnackbar = useErrorSnackbar();
 
-  const [updateUniqueUserIdentificationMutation] =
-    useMutation<UpdateUniqueIdentifierResponse>(IDENTITY_EMAIL_UPDATE, {
-      onCompleted: ({ assignmentAccountUpdate }) => {
-        if (assignmentAccountUpdate?.account?.email) {
-          successSnackbar('Unique user identifier updated');
-        }
-        if (assignmentAccountUpdate?.userErrors?.length) {
-          const msg = assignmentAccountUpdate?.userErrors[0]?.message;
-          const defaultMsg = 'Updating unique user identifier failed';
+  const [
+    updateUniqueUserIdentificationMutation,
+  ] = useMutation<UpdateUniqueIdentifierResponse>(IDENTITY_EMAIL_UPDATE, {
+    onCompleted: ({ assignmentAccountUpdate }) => {
+      if (assignmentAccountUpdate?.account?.email) {
+        successSnackbar('Unique user identifier updated');
+      }
+      if (assignmentAccountUpdate?.userErrors?.length) {
+        const msg = assignmentAccountUpdate?.userErrors[0]?.message;
+        const defaultMsg = 'Updating unique user identifier failed';
 
-          errorSnackbar(msg || defaultMsg);
-        }
-      },
-      onError: (error) => errorSnackbar(error.message),
-      refetchQueries: ['TicketAuditTrail', 'Ticket'],
-    });
+        errorSnackbar(msg || defaultMsg);
+      }
+    },
+    onError: (error) => errorSnackbar(error.message),
+    refetchQueries: ['TicketAuditTrail', 'Ticket'],
+  });
 
   const updateUniqueUserIdentifier = async ({
     reason,

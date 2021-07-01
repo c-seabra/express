@@ -3,8 +3,9 @@ const validationMessages = {
   REQUIRED: 'Required',
 };
 
-export const VALIDATION_MESSAGES: Readonly<typeof validationMessages> =
-  validationMessages;
+export const VALIDATION_MESSAGES: Readonly<
+  typeof validationMessages
+> = validationMessages;
 
 const STATIC_MESSAGES = {
   VALIDATION: VALIDATION_MESSAGES,
