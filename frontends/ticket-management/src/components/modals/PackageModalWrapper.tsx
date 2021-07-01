@@ -11,12 +11,12 @@ import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useCommerceCreateDealMutation } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useRequestContext } from '../app/AppContext';
 
 const StyledInputField = styled(TextInputField)`
   width: 48%;

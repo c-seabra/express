@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
+import AppContext from '@websummit/graphql/src/utils/AppContext';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
@@ -14,7 +15,6 @@ import TagsPage from '../pages/TagsPage';
 import TicketCategoriesPage from '../pages/TicketCategoriesPage';
 import TicketTypePage from '../pages/TicketTypePage';
 import TicketTypesPage from '../pages/TicketTypesPage';
-import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
   margin: 0 auto;

@@ -11,11 +11,11 @@ import {
   useCommerceListCategoriesQuery,
   useCommerceListDealsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useRequestContext } from '../app/AppContext';
 import PackageModalWrapper from '../modals/PackageModalWrapper';
 import PackagesList from '../organisms/PackagesList';
 

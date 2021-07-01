@@ -11,11 +11,11 @@ import {
   CommerceTag,
   useCommerceListTagsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
-import { useRequestContext } from '../app/AppContext';
 import TagModal from '../modals/TagModal';
 
 const HeaderContainer = styled.div`

@@ -22,12 +22,12 @@ import {
   useCommerceListDealItemsQuery,
   useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import useCopyToClipboard from '../../lib/hooks/useCopyToClipboard';
-import { useRequestContext } from '../app/AppContext';
 import InviteToPurchasePackageModal from '../modals/InviteToPurchasePackageModal';
 import PackageItemModalWrapper from '../modals/PackageItemModalWrapper';
 import PackageItemRemovalModal from '../modals/PackageItemRemovalModal';
