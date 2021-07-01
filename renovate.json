@@ -6,10 +6,6 @@
   "extends": ["config:base"],
   "packageRules": [
     {
-      "groupName": "eslint",
-      "matchPackagePatterns": ["eslint"]
-    },
-    {
       "groupName": "react",
       "matchPackagePatterns": ["react"]
     },
@@ -20,7 +16,11 @@
     {
       "groupName": "jest",
       "matchPackagePatterns": ["jest"]
-    }
+    },
+    {
+      "groupName": "eslint",
+      "matchPackagePatterns": ["eslint"]
+    },
   ],
   "rangeStrategy": "pin",
   "reviewers": ["reggaemuffin"]
