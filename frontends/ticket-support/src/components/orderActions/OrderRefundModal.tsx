@@ -311,7 +311,7 @@ const OrderRefundModal = ({
                   label="Amount to refund"
                   name="amount"
                 />
-                {values.type === refundTypes.partial && (
+                {values.type === refundTypes.partial && (commerceOrder.taxTotal || 0) > 0 && (
                   <Row>
                     <CheckboxField
                       label={
