@@ -16,7 +16,7 @@ import {
   useCommerceListDealsQuery,
   useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import { discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
+import { discountFilter, discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -74,7 +74,7 @@ const Separator = styled.div`
   border-top: 3px solid #f1f1f1;
 `;
 
-const DiscountPage = () => {
+const DiscountTemplatePage = () => {
   const context = useRequestContext();
   const errorSnackbar = useErrorSnackbar();
   const {
@@ -170,7 +170,7 @@ const DiscountPage = () => {
     context,
     onError: (error) => errorSnackbar(error.message),
     variables: {
-      terms: discountTemplateFilter,
+      terms: discountFilter,
     },
   });
   const discounts = dealsResponse?.commerceListDeals?.hits as CommerceDeal[];
@@ -288,4 +288,4 @@ const DiscountPage = () => {
   );
 };
 
-export default DiscountPage;
+export default DiscountTemplatePage;

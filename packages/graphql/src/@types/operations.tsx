@@ -12,6 +12,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -1440,6 +1441,7 @@ export type CommerceOrder = {
   deal: Maybe<CommerceDeal>;
   dealDiscount: Maybe<Scalars['Int']>;
   discountTotal: Maybe<Scalars['Int']>;
+  eutoEUOrder: Maybe<Scalars['Boolean']>;
   id: Maybe<Scalars['ID']>;
   invoiceUrl: Maybe<Scalars['String']>;
   itemSubtotal: Maybe<Scalars['Int']>;
@@ -11380,7 +11382,7 @@ export type DynamicFormPayloadFragment = { __typename?: 'DynamicForm' } & Pick<
   'id' | 'data' | 'schema' | 'mutation' | 'uiSchema'
 >;
 
-export const CommerceUserFragmentDoc: DocumentNode = {
+export const CommerceUserFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -11400,8 +11402,8 @@ export const CommerceUserFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CommerceProductFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CommerceProductFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -11455,8 +11457,8 @@ export const CommerceProductFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CommerceTaxTypeFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CommerceTaxTypeFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -11507,8 +11509,8 @@ export const CommerceTaxTypeFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CommerceTaxFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CommerceTaxFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -11605,8 +11607,8 @@ export const CommerceTaxFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CommerceOrderItemFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CommerceOrderItemFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -11800,8 +11802,8 @@ export const CommerceOrderItemFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CommerceAddressFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CommerceAddressFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -11856,8 +11858,8 @@ export const CommerceAddressFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CommerceCustomerFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CommerceCustomerFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -11961,8 +11963,8 @@ export const CommerceCustomerFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CommercePaymentMethodFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CommercePaymentMethodFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -11982,8 +11984,8 @@ export const CommercePaymentMethodFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CommerceTransactionFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CommerceTransactionFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12071,8 +12073,8 @@ export const CommerceTransactionFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const TicketsSummaryFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const TicketsSummaryFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12236,8 +12238,8 @@ export const TicketsSummaryFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const DisplayMoneyFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const DisplayMoneyFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12281,8 +12283,8 @@ export const DisplayMoneyFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const DisplayPriceFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const DisplayPriceFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12390,8 +12392,8 @@ export const DisplayPriceFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const DisplayReleaseFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const DisplayReleaseFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12726,8 +12728,8 @@ export const DisplayReleaseFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const ReleasePhaseSummaryFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const ReleasePhaseSummaryFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12748,8 +12750,8 @@ export const ReleasePhaseSummaryFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const TicketReleasesPanelFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const TicketReleasesPanelFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12773,8 +12775,8 @@ export const TicketReleasesPanelFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const UrlLinkFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const UrlLinkFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12793,8 +12795,8 @@ export const UrlLinkFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const PageLinkFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const PageLinkFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12821,8 +12823,8 @@ export const PageLinkFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const TabularMenuFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const TabularMenuFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -12938,8 +12940,8 @@ export const TabularMenuFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const TicketSalesPageLayoutFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const TicketSalesPageLayoutFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13187,8 +13189,8 @@ export const TicketSalesPageLayoutFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const ApplicationFormFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const ApplicationFormFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13221,8 +13223,8 @@ export const ApplicationFormFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const ApplicationOverviewPanelFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const ApplicationOverviewPanelFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13247,8 +13249,8 @@ export const ApplicationOverviewPanelFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const TicketTypeFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const TicketTypeFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13267,8 +13269,8 @@ export const TicketTypeFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const TicketInfoPanelFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const TicketInfoPanelFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13322,8 +13324,8 @@ export const TicketInfoPanelFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const TicketApplicationsPageLayoutFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const TicketApplicationsPageLayoutFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13648,8 +13650,8 @@ export const TicketApplicationsPageLayoutFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const ShowcaseGridFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const ShowcaseGridFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13702,8 +13704,8 @@ export const ShowcaseGridFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const ScheduleSearchSidebarFiltersFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const ScheduleSearchSidebarFiltersFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13743,8 +13745,8 @@ export const ScheduleSearchSidebarFiltersFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const AttendeeSearchSidebarFiltersFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const AttendeeSearchSidebarFiltersFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13784,8 +13786,8 @@ export const AttendeeSearchSidebarFiltersFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const CompanySearchSidebarFiltersFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const CompanySearchSidebarFiltersFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13825,8 +13827,8 @@ export const CompanySearchSidebarFiltersFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const HeroSectionFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const HeroSectionFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13894,8 +13896,8 @@ export const HeroSectionFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const DynamicFormPayloadFragmentDoc: DocumentNode = {
+} as unknown as DocumentNode;
+export const DynamicFormPayloadFragmentDoc = {
   definitions: [
     {
       kind: 'FragmentDefinition',
@@ -13917,8 +13919,8 @@ export const DynamicFormPayloadFragmentDoc: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
-export const AppearanceUpdateDocument: DocumentNode = {
+} as unknown as DocumentNode;
+export const AppearanceUpdateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -14049,7 +14051,7 @@ export const AppearanceUpdateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type AppearanceUpdateMutationFn = Apollo.MutationFunction<
   AppearanceUpdateMutation,
   AppearanceUpdateMutationVariables
@@ -14080,10 +14082,11 @@ export function useAppearanceUpdateMutation(
     AppearanceUpdateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     AppearanceUpdateMutation,
     AppearanceUpdateMutationVariables
-  >(AppearanceUpdateDocument, baseOptions);
+  >(AppearanceUpdateDocument, options);
 }
 export type AppearanceUpdateMutationHookResult = ReturnType<
   typeof useAppearanceUpdateMutation
@@ -14094,7 +14097,7 @@ export type AppearanceUpdateMutationOptions = Apollo.BaseMutationOptions<
   AppearanceUpdateMutation,
   AppearanceUpdateMutationVariables
 >;
-export const AssignmentAuthenticateDocument: DocumentNode = {
+export const AssignmentAuthenticateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -14166,7 +14169,7 @@ export const AssignmentAuthenticateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type AssignmentAuthenticateMutationFn = Apollo.MutationFunction<
   AssignmentAuthenticateMutation,
   AssignmentAuthenticateMutationVariables
@@ -14195,10 +14198,11 @@ export function useAssignmentAuthenticateMutation(
     AssignmentAuthenticateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     AssignmentAuthenticateMutation,
     AssignmentAuthenticateMutationVariables
-  >(AssignmentAuthenticateDocument, baseOptions);
+  >(AssignmentAuthenticateDocument, options);
 }
 export type AssignmentAuthenticateMutationHookResult = ReturnType<
   typeof useAssignmentAuthenticateMutation
@@ -14209,7 +14213,7 @@ export type AssignmentAuthenticateMutationOptions = Apollo.BaseMutationOptions<
   AssignmentAuthenticateMutation,
   AssignmentAuthenticateMutationVariables
 >;
-export const ProfileAdminUpdateDocument: DocumentNode = {
+export const ProfileAdminUpdateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -14322,7 +14326,7 @@ export const ProfileAdminUpdateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type ProfileAdminUpdateMutationFn = Apollo.MutationFunction<
   ProfileAdminUpdateMutation,
   ProfileAdminUpdateMutationVariables
@@ -14351,10 +14355,11 @@ export function useProfileAdminUpdateMutation(
     ProfileAdminUpdateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     ProfileAdminUpdateMutation,
     ProfileAdminUpdateMutationVariables
-  >(ProfileAdminUpdateDocument, baseOptions);
+  >(ProfileAdminUpdateDocument, options);
 }
 export type ProfileAdminUpdateMutationHookResult = ReturnType<
   typeof useProfileAdminUpdateMutation
@@ -14365,7 +14370,7 @@ export type ProfileAdminUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileAdminUpdateMutation,
   ProfileAdminUpdateMutationVariables
 >;
-export const ProfileUpdateDocument: DocumentNode = {
+export const ProfileUpdateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -14483,7 +14488,7 @@ export const ProfileUpdateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type ProfileUpdateMutationFn = Apollo.MutationFunction<
   ProfileUpdateMutation,
   ProfileUpdateMutationVariables
@@ -14512,10 +14517,11 @@ export function useProfileUpdateMutation(
     ProfileUpdateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     ProfileUpdateMutation,
     ProfileUpdateMutationVariables
-  >(ProfileUpdateDocument, baseOptions);
+  >(ProfileUpdateDocument, options);
 }
 export type ProfileUpdateMutationHookResult = ReturnType<
   typeof useProfileUpdateMutation
@@ -14526,7 +14532,7 @@ export type ProfileUpdateMutationOptions = Apollo.BaseMutationOptions<
   ProfileUpdateMutation,
   ProfileUpdateMutationVariables
 >;
-export const CommerceCreateDealDocument: DocumentNode = {
+export const CommerceCreateDealDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -14577,7 +14583,7 @@ export const CommerceCreateDealDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateDealMutationFn = Apollo.MutationFunction<
   CommerceCreateDealMutation,
   CommerceCreateDealMutationVariables
@@ -14606,10 +14612,11 @@ export function useCommerceCreateDealMutation(
     CommerceCreateDealMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateDealMutation,
     CommerceCreateDealMutationVariables
-  >(CommerceCreateDealDocument, baseOptions);
+  >(CommerceCreateDealDocument, options);
 }
 export type CommerceCreateDealMutationHookResult = ReturnType<
   typeof useCommerceCreateDealMutation
@@ -14620,7 +14627,7 @@ export type CommerceCreateDealMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateDealMutation,
   CommerceCreateDealMutationVariables
 >;
-export const CommerceCreateDealItemDocument: DocumentNode = {
+export const CommerceCreateDealItemDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -14689,7 +14696,7 @@ export const CommerceCreateDealItemDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateDealItemMutationFn = Apollo.MutationFunction<
   CommerceCreateDealItemMutation,
   CommerceCreateDealItemMutationVariables
@@ -14719,10 +14726,11 @@ export function useCommerceCreateDealItemMutation(
     CommerceCreateDealItemMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateDealItemMutation,
     CommerceCreateDealItemMutationVariables
-  >(CommerceCreateDealItemDocument, baseOptions);
+  >(CommerceCreateDealItemDocument, options);
 }
 export type CommerceCreateDealItemMutationHookResult = ReturnType<
   typeof useCommerceCreateDealItemMutation
@@ -14733,7 +14741,7 @@ export type CommerceCreateDealItemMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateDealItemMutation,
   CommerceCreateDealItemMutationVariables
 >;
-export const CommerceCreateSaleDocument: DocumentNode = {
+export const CommerceCreateSaleDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -14784,7 +14792,7 @@ export const CommerceCreateSaleDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateSaleMutationFn = Apollo.MutationFunction<
   CommerceCreateSaleMutation,
   CommerceCreateSaleMutationVariables
@@ -14813,10 +14821,11 @@ export function useCommerceCreateSaleMutation(
     CommerceCreateSaleMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateSaleMutation,
     CommerceCreateSaleMutationVariables
-  >(CommerceCreateSaleDocument, baseOptions);
+  >(CommerceCreateSaleDocument, options);
 }
 export type CommerceCreateSaleMutationHookResult = ReturnType<
   typeof useCommerceCreateSaleMutation
@@ -14827,7 +14836,7 @@ export type CommerceCreateSaleMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateSaleMutation,
   CommerceCreateSaleMutationVariables
 >;
-export const CommerceDeleteDealItemDocument: DocumentNode = {
+export const CommerceDeleteDealItemDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -14890,7 +14899,7 @@ export const CommerceDeleteDealItemDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceDeleteDealItemMutationFn = Apollo.MutationFunction<
   CommerceDeleteDealItemMutation,
   CommerceDeleteDealItemMutationVariables
@@ -14920,10 +14929,11 @@ export function useCommerceDeleteDealItemMutation(
     CommerceDeleteDealItemMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceDeleteDealItemMutation,
     CommerceDeleteDealItemMutationVariables
-  >(CommerceDeleteDealItemDocument, baseOptions);
+  >(CommerceDeleteDealItemDocument, options);
 }
 export type CommerceDeleteDealItemMutationHookResult = ReturnType<
   typeof useCommerceDeleteDealItemMutation
@@ -14934,7 +14944,7 @@ export type CommerceDeleteDealItemMutationOptions = Apollo.BaseMutationOptions<
   CommerceDeleteDealItemMutation,
   CommerceDeleteDealItemMutationVariables
 >;
-export const CommerceUpdateDealDocument: DocumentNode = {
+export const CommerceUpdateDealDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15001,7 +15011,7 @@ export const CommerceUpdateDealDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateDealMutationFn = Apollo.MutationFunction<
   CommerceUpdateDealMutation,
   CommerceUpdateDealMutationVariables
@@ -15031,10 +15041,11 @@ export function useCommerceUpdateDealMutation(
     CommerceUpdateDealMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateDealMutation,
     CommerceUpdateDealMutationVariables
-  >(CommerceUpdateDealDocument, baseOptions);
+  >(CommerceUpdateDealDocument, options);
 }
 export type CommerceUpdateDealMutationHookResult = ReturnType<
   typeof useCommerceUpdateDealMutation
@@ -15045,7 +15056,7 @@ export type CommerceUpdateDealMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateDealMutation,
   CommerceUpdateDealMutationVariables
 >;
-export const CommerceUpdateDealItemDocument: DocumentNode = {
+export const CommerceUpdateDealItemDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15130,7 +15141,7 @@ export const CommerceUpdateDealItemDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateDealItemMutationFn = Apollo.MutationFunction<
   CommerceUpdateDealItemMutation,
   CommerceUpdateDealItemMutationVariables
@@ -15161,10 +15172,11 @@ export function useCommerceUpdateDealItemMutation(
     CommerceUpdateDealItemMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateDealItemMutation,
     CommerceUpdateDealItemMutationVariables
-  >(CommerceUpdateDealItemDocument, baseOptions);
+  >(CommerceUpdateDealItemDocument, options);
 }
 export type CommerceUpdateDealItemMutationHookResult = ReturnType<
   typeof useCommerceUpdateDealItemMutation
@@ -15175,7 +15187,7 @@ export type CommerceUpdateDealItemMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateDealItemMutation,
   CommerceUpdateDealItemMutationVariables
 >;
-export const CommerceUpdateSaleDocument: DocumentNode = {
+export const CommerceUpdateSaleDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15242,7 +15254,7 @@ export const CommerceUpdateSaleDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateSaleMutationFn = Apollo.MutationFunction<
   CommerceUpdateSaleMutation,
   CommerceUpdateSaleMutationVariables
@@ -15272,10 +15284,11 @@ export function useCommerceUpdateSaleMutation(
     CommerceUpdateSaleMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateSaleMutation,
     CommerceUpdateSaleMutationVariables
-  >(CommerceUpdateSaleDocument, baseOptions);
+  >(CommerceUpdateSaleDocument, options);
 }
 export type CommerceUpdateSaleMutationHookResult = ReturnType<
   typeof useCommerceUpdateSaleMutation
@@ -15286,7 +15299,7 @@ export type CommerceUpdateSaleMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateSaleMutation,
   CommerceUpdateSaleMutationVariables
 >;
-export const CommerceCreateCategoryDocument: DocumentNode = {
+export const CommerceCreateCategoryDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15337,7 +15350,7 @@ export const CommerceCreateCategoryDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateCategoryMutationFn = Apollo.MutationFunction<
   CommerceCreateCategoryMutation,
   CommerceCreateCategoryMutationVariables
@@ -15366,10 +15379,11 @@ export function useCommerceCreateCategoryMutation(
     CommerceCreateCategoryMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateCategoryMutation,
     CommerceCreateCategoryMutationVariables
-  >(CommerceCreateCategoryDocument, baseOptions);
+  >(CommerceCreateCategoryDocument, options);
 }
 export type CommerceCreateCategoryMutationHookResult = ReturnType<
   typeof useCommerceCreateCategoryMutation
@@ -15380,7 +15394,7 @@ export type CommerceCreateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateCategoryMutation,
   CommerceCreateCategoryMutationVariables
 >;
-export const CommerceCreateOrderDocument: DocumentNode = {
+export const CommerceCreateOrderDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15509,7 +15523,7 @@ export const CommerceCreateOrderDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateOrderMutationFn = Apollo.MutationFunction<
   CommerceCreateOrderMutation,
   CommerceCreateOrderMutationVariables
@@ -15538,10 +15552,11 @@ export function useCommerceCreateOrderMutation(
     CommerceCreateOrderMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateOrderMutation,
     CommerceCreateOrderMutationVariables
-  >(CommerceCreateOrderDocument, baseOptions);
+  >(CommerceCreateOrderDocument, options);
 }
 export type CommerceCreateOrderMutationHookResult = ReturnType<
   typeof useCommerceCreateOrderMutation
@@ -15552,7 +15567,7 @@ export type CommerceCreateOrderMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateOrderMutation,
   CommerceCreateOrderMutationVariables
 >;
-export const CommerceCreatePackagedProductDocument: DocumentNode = {
+export const CommerceCreatePackagedProductDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15624,7 +15639,7 @@ export const CommerceCreatePackagedProductDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreatePackagedProductMutationFn = Apollo.MutationFunction<
   CommerceCreatePackagedProductMutation,
   CommerceCreatePackagedProductMutationVariables
@@ -15654,10 +15669,11 @@ export function useCommerceCreatePackagedProductMutation(
     CommerceCreatePackagedProductMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreatePackagedProductMutation,
     CommerceCreatePackagedProductMutationVariables
-  >(CommerceCreatePackagedProductDocument, baseOptions);
+  >(CommerceCreatePackagedProductDocument, options);
 }
 export type CommerceCreatePackagedProductMutationHookResult = ReturnType<
   typeof useCommerceCreatePackagedProductMutation
@@ -15669,7 +15685,7 @@ export type CommerceCreatePackagedProductMutationOptions =
     CommerceCreatePackagedProductMutation,
     CommerceCreatePackagedProductMutationVariables
   >;
-export const CommerceCreateProductDocument: DocumentNode = {
+export const CommerceCreateProductDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15720,7 +15736,7 @@ export const CommerceCreateProductDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateProductMutationFn = Apollo.MutationFunction<
   CommerceCreateProductMutation,
   CommerceCreateProductMutationVariables
@@ -15749,10 +15765,11 @@ export function useCommerceCreateProductMutation(
     CommerceCreateProductMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateProductMutation,
     CommerceCreateProductMutationVariables
-  >(CommerceCreateProductDocument, baseOptions);
+  >(CommerceCreateProductDocument, options);
 }
 export type CommerceCreateProductMutationHookResult = ReturnType<
   typeof useCommerceCreateProductMutation
@@ -15763,7 +15780,7 @@ export type CommerceCreateProductMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateProductMutation,
   CommerceCreateProductMutationVariables
 >;
-export const CommerceSaleProductCreateDocument: DocumentNode = {
+export const CommerceSaleProductCreateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15833,7 +15850,7 @@ export const CommerceSaleProductCreateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceSaleProductCreateMutationFn = Apollo.MutationFunction<
   CommerceSaleProductCreateMutation,
   CommerceSaleProductCreateMutationVariables
@@ -15863,10 +15880,11 @@ export function useCommerceSaleProductCreateMutation(
     CommerceSaleProductCreateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceSaleProductCreateMutation,
     CommerceSaleProductCreateMutationVariables
-  >(CommerceSaleProductCreateDocument, baseOptions);
+  >(CommerceSaleProductCreateDocument, options);
 }
 export type CommerceSaleProductCreateMutationHookResult = ReturnType<
   typeof useCommerceSaleProductCreateMutation
@@ -15878,7 +15896,7 @@ export type CommerceSaleProductCreateMutationOptions =
     CommerceSaleProductCreateMutation,
     CommerceSaleProductCreateMutationVariables
   >;
-export const CommerceCreateTagDocument: DocumentNode = {
+export const CommerceCreateTagDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -15930,7 +15948,7 @@ export const CommerceCreateTagDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateTagMutationFn = Apollo.MutationFunction<
   CommerceCreateTagMutation,
   CommerceCreateTagMutationVariables
@@ -15959,10 +15977,11 @@ export function useCommerceCreateTagMutation(
     CommerceCreateTagMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateTagMutation,
     CommerceCreateTagMutationVariables
-  >(CommerceCreateTagDocument, baseOptions);
+  >(CommerceCreateTagDocument, options);
 }
 export type CommerceCreateTagMutationHookResult = ReturnType<
   typeof useCommerceCreateTagMutation
@@ -15973,7 +15992,7 @@ export type CommerceCreateTagMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateTagMutation,
   CommerceCreateTagMutationVariables
 >;
-export const CommerceCreateTaxDocument: DocumentNode = {
+export const CommerceCreateTaxDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16064,7 +16083,7 @@ export const CommerceCreateTaxDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateTaxMutationFn = Apollo.MutationFunction<
   CommerceCreateTaxMutation,
   CommerceCreateTaxMutationVariables
@@ -16093,10 +16112,11 @@ export function useCommerceCreateTaxMutation(
     CommerceCreateTaxMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateTaxMutation,
     CommerceCreateTaxMutationVariables
-  >(CommerceCreateTaxDocument, baseOptions);
+  >(CommerceCreateTaxDocument, options);
 }
 export type CommerceCreateTaxMutationHookResult = ReturnType<
   typeof useCommerceCreateTaxMutation
@@ -16107,7 +16127,7 @@ export type CommerceCreateTaxMutationOptions = Apollo.BaseMutationOptions<
   CommerceCreateTaxMutation,
   CommerceCreateTaxMutationVariables
 >;
-export const CommerceCreateTransactionDocument: DocumentNode = {
+export const CommerceCreateTransactionDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16176,7 +16196,7 @@ export const CommerceCreateTransactionDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreateTransactionMutationFn = Apollo.MutationFunction<
   CommerceCreateTransactionMutation,
   CommerceCreateTransactionMutationVariables
@@ -16206,10 +16226,11 @@ export function useCommerceCreateTransactionMutation(
     CommerceCreateTransactionMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreateTransactionMutation,
     CommerceCreateTransactionMutationVariables
-  >(CommerceCreateTransactionDocument, baseOptions);
+  >(CommerceCreateTransactionDocument, options);
 }
 export type CommerceCreateTransactionMutationHookResult = ReturnType<
   typeof useCommerceCreateTransactionMutation
@@ -16221,7 +16242,7 @@ export type CommerceCreateTransactionMutationOptions =
     CommerceCreateTransactionMutation,
     CommerceCreateTransactionMutationVariables
   >;
-export const CommerceDeletePackagedProductDocument: DocumentNode = {
+export const CommerceDeletePackagedProductDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16284,7 +16305,7 @@ export const CommerceDeletePackagedProductDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceDeletePackagedProductMutationFn = Apollo.MutationFunction<
   CommerceDeletePackagedProductMutation,
   CommerceDeletePackagedProductMutationVariables
@@ -16314,10 +16335,11 @@ export function useCommerceDeletePackagedProductMutation(
     CommerceDeletePackagedProductMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceDeletePackagedProductMutation,
     CommerceDeletePackagedProductMutationVariables
-  >(CommerceDeletePackagedProductDocument, baseOptions);
+  >(CommerceDeletePackagedProductDocument, options);
 }
 export type CommerceDeletePackagedProductMutationHookResult = ReturnType<
   typeof useCommerceDeletePackagedProductMutation
@@ -16329,7 +16351,7 @@ export type CommerceDeletePackagedProductMutationOptions =
     CommerceDeletePackagedProductMutation,
     CommerceDeletePackagedProductMutationVariables
   >;
-export const CommerceCreatePaymentMethodDocument: DocumentNode = {
+export const CommerceCreatePaymentMethodDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16382,7 +16404,7 @@ export const CommerceCreatePaymentMethodDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceCreatePaymentMethodMutationFn = Apollo.MutationFunction<
   CommerceCreatePaymentMethodMutation,
   CommerceCreatePaymentMethodMutationVariables
@@ -16411,10 +16433,11 @@ export function useCommerceCreatePaymentMethodMutation(
     CommerceCreatePaymentMethodMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceCreatePaymentMethodMutation,
     CommerceCreatePaymentMethodMutationVariables
-  >(CommerceCreatePaymentMethodDocument, baseOptions);
+  >(CommerceCreatePaymentMethodDocument, options);
 }
 export type CommerceCreatePaymentMethodMutationHookResult = ReturnType<
   typeof useCommerceCreatePaymentMethodMutation
@@ -16426,7 +16449,7 @@ export type CommerceCreatePaymentMethodMutationOptions =
     CommerceCreatePaymentMethodMutation,
     CommerceCreatePaymentMethodMutationVariables
   >;
-export const CommerceUpdatePaymentMethodDocument: DocumentNode = {
+export const CommerceUpdatePaymentMethodDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16495,7 +16518,7 @@ export const CommerceUpdatePaymentMethodDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdatePaymentMethodMutationFn = Apollo.MutationFunction<
   CommerceUpdatePaymentMethodMutation,
   CommerceUpdatePaymentMethodMutationVariables
@@ -16525,10 +16548,11 @@ export function useCommerceUpdatePaymentMethodMutation(
     CommerceUpdatePaymentMethodMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdatePaymentMethodMutation,
     CommerceUpdatePaymentMethodMutationVariables
-  >(CommerceUpdatePaymentMethodDocument, baseOptions);
+  >(CommerceUpdatePaymentMethodDocument, options);
 }
 export type CommerceUpdatePaymentMethodMutationHookResult = ReturnType<
   typeof useCommerceUpdatePaymentMethodMutation
@@ -16540,7 +16564,7 @@ export type CommerceUpdatePaymentMethodMutationOptions =
     CommerceUpdatePaymentMethodMutation,
     CommerceUpdatePaymentMethodMutationVariables
   >;
-export const CommerceUpdateCategoryDocument: DocumentNode = {
+export const CommerceUpdateCategoryDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16607,7 +16631,7 @@ export const CommerceUpdateCategoryDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateCategoryMutationFn = Apollo.MutationFunction<
   CommerceUpdateCategoryMutation,
   CommerceUpdateCategoryMutationVariables
@@ -16637,10 +16661,11 @@ export function useCommerceUpdateCategoryMutation(
     CommerceUpdateCategoryMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateCategoryMutation,
     CommerceUpdateCategoryMutationVariables
-  >(CommerceUpdateCategoryDocument, baseOptions);
+  >(CommerceUpdateCategoryDocument, options);
 }
 export type CommerceUpdateCategoryMutationHookResult = ReturnType<
   typeof useCommerceUpdateCategoryMutation
@@ -16651,7 +16676,7 @@ export type CommerceUpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateCategoryMutation,
   CommerceUpdateCategoryMutationVariables
 >;
-export const CommerceUpdatePackagedProductDocument: DocumentNode = {
+export const CommerceUpdatePackagedProductDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16739,7 +16764,7 @@ export const CommerceUpdatePackagedProductDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdatePackagedProductMutationFn = Apollo.MutationFunction<
   CommerceUpdatePackagedProductMutation,
   CommerceUpdatePackagedProductMutationVariables
@@ -16770,10 +16795,11 @@ export function useCommerceUpdatePackagedProductMutation(
     CommerceUpdatePackagedProductMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdatePackagedProductMutation,
     CommerceUpdatePackagedProductMutationVariables
-  >(CommerceUpdatePackagedProductDocument, baseOptions);
+  >(CommerceUpdatePackagedProductDocument, options);
 }
 export type CommerceUpdatePackagedProductMutationHookResult = ReturnType<
   typeof useCommerceUpdatePackagedProductMutation
@@ -16785,7 +16811,7 @@ export type CommerceUpdatePackagedProductMutationOptions =
     CommerceUpdatePackagedProductMutation,
     CommerceUpdatePackagedProductMutationVariables
   >;
-export const CommerceUpdateProductDocument: DocumentNode = {
+export const CommerceUpdateProductDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16852,7 +16878,7 @@ export const CommerceUpdateProductDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateProductMutationFn = Apollo.MutationFunction<
   CommerceUpdateProductMutation,
   CommerceUpdateProductMutationVariables
@@ -16882,10 +16908,11 @@ export function useCommerceUpdateProductMutation(
     CommerceUpdateProductMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateProductMutation,
     CommerceUpdateProductMutationVariables
-  >(CommerceUpdateProductDocument, baseOptions);
+  >(CommerceUpdateProductDocument, options);
 }
 export type CommerceUpdateProductMutationHookResult = ReturnType<
   typeof useCommerceUpdateProductMutation
@@ -16896,7 +16923,7 @@ export type CommerceUpdateProductMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateProductMutation,
   CommerceUpdateProductMutationVariables
 >;
-export const CommerceUpdateSaleProductDocument: DocumentNode = {
+export const CommerceUpdateSaleProductDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -16982,7 +17009,7 @@ export const CommerceUpdateSaleProductDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateSaleProductMutationFn = Apollo.MutationFunction<
   CommerceUpdateSaleProductMutation,
   CommerceUpdateSaleProductMutationVariables
@@ -17013,10 +17040,11 @@ export function useCommerceUpdateSaleProductMutation(
     CommerceUpdateSaleProductMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateSaleProductMutation,
     CommerceUpdateSaleProductMutationVariables
-  >(CommerceUpdateSaleProductDocument, baseOptions);
+  >(CommerceUpdateSaleProductDocument, options);
 }
 export type CommerceUpdateSaleProductMutationHookResult = ReturnType<
   typeof useCommerceUpdateSaleProductMutation
@@ -17028,7 +17056,7 @@ export type CommerceUpdateSaleProductMutationOptions =
     CommerceUpdateSaleProductMutation,
     CommerceUpdateSaleProductMutationVariables
   >;
-export const CommerceUpdateStoreDocument: DocumentNode = {
+export const CommerceUpdateStoreDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -17096,7 +17124,7 @@ export const CommerceUpdateStoreDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateStoreMutationFn = Apollo.MutationFunction<
   CommerceUpdateStoreMutation,
   CommerceUpdateStoreMutationVariables
@@ -17126,10 +17154,11 @@ export function useCommerceUpdateStoreMutation(
     CommerceUpdateStoreMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateStoreMutation,
     CommerceUpdateStoreMutationVariables
-  >(CommerceUpdateStoreDocument, baseOptions);
+  >(CommerceUpdateStoreDocument, options);
 }
 export type CommerceUpdateStoreMutationHookResult = ReturnType<
   typeof useCommerceUpdateStoreMutation
@@ -17140,7 +17169,7 @@ export type CommerceUpdateStoreMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateStoreMutation,
   CommerceUpdateStoreMutationVariables
 >;
-export const CommerceUpdateTagDocument: DocumentNode = {
+export const CommerceUpdateTagDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -17208,7 +17237,7 @@ export const CommerceUpdateTagDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateTagMutationFn = Apollo.MutationFunction<
   CommerceUpdateTagMutation,
   CommerceUpdateTagMutationVariables
@@ -17238,10 +17267,11 @@ export function useCommerceUpdateTagMutation(
     CommerceUpdateTagMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateTagMutation,
     CommerceUpdateTagMutationVariables
-  >(CommerceUpdateTagDocument, baseOptions);
+  >(CommerceUpdateTagDocument, options);
 }
 export type CommerceUpdateTagMutationHookResult = ReturnType<
   typeof useCommerceUpdateTagMutation
@@ -17252,7 +17282,7 @@ export type CommerceUpdateTagMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateTagMutation,
   CommerceUpdateTagMutationVariables
 >;
-export const CommerceUpdateTaxDocument: DocumentNode = {
+export const CommerceUpdateTaxDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -17359,7 +17389,7 @@ export const CommerceUpdateTaxDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateTaxMutationFn = Apollo.MutationFunction<
   CommerceUpdateTaxMutation,
   CommerceUpdateTaxMutationVariables
@@ -17389,10 +17419,11 @@ export function useCommerceUpdateTaxMutation(
     CommerceUpdateTaxMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateTaxMutation,
     CommerceUpdateTaxMutationVariables
-  >(CommerceUpdateTaxDocument, baseOptions);
+  >(CommerceUpdateTaxDocument, options);
 }
 export type CommerceUpdateTaxMutationHookResult = ReturnType<
   typeof useCommerceUpdateTaxMutation
@@ -17403,7 +17434,7 @@ export type CommerceUpdateTaxMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateTaxMutation,
   CommerceUpdateTaxMutationVariables
 >;
-export const CreateOrderDocument: DocumentNode = {
+export const CreateOrderDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -17498,7 +17529,7 @@ export const CreateOrderDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CreateOrderMutationFn = Apollo.MutationFunction<
   CreateOrderMutation,
   CreateOrderMutationVariables
@@ -17528,9 +17559,10 @@ export function useCreateOrderMutation(
     CreateOrderMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(
     CreateOrderDocument,
-    baseOptions,
+    options,
   );
 }
 export type CreateOrderMutationHookResult = ReturnType<
@@ -17542,7 +17574,7 @@ export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<
   CreateOrderMutation,
   CreateOrderMutationVariables
 >;
-export const EventCreateDocument: DocumentNode = {
+export const EventCreateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -17662,7 +17694,7 @@ export const EventCreateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type EventCreateMutationFn = Apollo.MutationFunction<
   EventCreateMutation,
   EventCreateMutationVariables
@@ -17691,9 +17723,10 @@ export function useEventCreateMutation(
     EventCreateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<EventCreateMutation, EventCreateMutationVariables>(
     EventCreateDocument,
-    baseOptions,
+    options,
   );
 }
 export type EventCreateMutationHookResult = ReturnType<
@@ -17705,7 +17738,7 @@ export type EventCreateMutationOptions = Apollo.BaseMutationOptions<
   EventCreateMutation,
   EventCreateMutationVariables
 >;
-export const EventUpdateDocument: DocumentNode = {
+export const EventUpdateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -17842,7 +17875,7 @@ export const EventUpdateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type EventUpdateMutationFn = Apollo.MutationFunction<
   EventUpdateMutation,
   EventUpdateMutationVariables
@@ -17871,9 +17904,10 @@ export function useEventUpdateMutation(
     EventUpdateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<EventUpdateMutation, EventUpdateMutationVariables>(
     EventUpdateDocument,
-    baseOptions,
+    options,
   );
 }
 export type EventUpdateMutationHookResult = ReturnType<
@@ -17885,7 +17919,7 @@ export type EventUpdateMutationOptions = Apollo.BaseMutationOptions<
   EventUpdateMutation,
   EventUpdateMutationVariables
 >;
-export const LegalEntityCreateDocument: DocumentNode = {
+export const LegalEntityCreateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -18019,7 +18053,7 @@ export const LegalEntityCreateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type LegalEntityCreateMutationFn = Apollo.MutationFunction<
   LegalEntityCreateMutation,
   LegalEntityCreateMutationVariables
@@ -18048,10 +18082,11 @@ export function useLegalEntityCreateMutation(
     LegalEntityCreateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     LegalEntityCreateMutation,
     LegalEntityCreateMutationVariables
-  >(LegalEntityCreateDocument, baseOptions);
+  >(LegalEntityCreateDocument, options);
 }
 export type LegalEntityCreateMutationHookResult = ReturnType<
   typeof useLegalEntityCreateMutation
@@ -18062,7 +18097,7 @@ export type LegalEntityCreateMutationOptions = Apollo.BaseMutationOptions<
   LegalEntityCreateMutation,
   LegalEntityCreateMutationVariables
 >;
-export const LegalEntityUpdateDocument: DocumentNode = {
+export const LegalEntityUpdateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -18196,7 +18231,7 @@ export const LegalEntityUpdateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type LegalEntityUpdateMutationFn = Apollo.MutationFunction<
   LegalEntityUpdateMutation,
   LegalEntityUpdateMutationVariables
@@ -18225,10 +18260,11 @@ export function useLegalEntityUpdateMutation(
     LegalEntityUpdateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     LegalEntityUpdateMutation,
     LegalEntityUpdateMutationVariables
-  >(LegalEntityUpdateDocument, baseOptions);
+  >(LegalEntityUpdateDocument, options);
 }
 export type LegalEntityUpdateMutationHookResult = ReturnType<
   typeof useLegalEntityUpdateMutation
@@ -18239,7 +18275,7 @@ export type LegalEntityUpdateMutationOptions = Apollo.BaseMutationOptions<
   LegalEntityUpdateMutation,
   LegalEntityUpdateMutationVariables
 >;
-export const UpdateCommerceOrderDocument: DocumentNode = {
+export const UpdateCommerceOrderDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -18321,7 +18357,7 @@ export const UpdateCommerceOrderDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type UpdateCommerceOrderMutationFn = Apollo.MutationFunction<
   UpdateCommerceOrderMutation,
   UpdateCommerceOrderMutationVariables
@@ -18352,10 +18388,11 @@ export function useUpdateCommerceOrderMutation(
     UpdateCommerceOrderMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     UpdateCommerceOrderMutation,
     UpdateCommerceOrderMutationVariables
-  >(UpdateCommerceOrderDocument, baseOptions);
+  >(UpdateCommerceOrderDocument, options);
 }
 export type UpdateCommerceOrderMutationHookResult = ReturnType<
   typeof useUpdateCommerceOrderMutation
@@ -18366,7 +18403,7 @@ export type UpdateCommerceOrderMutationOptions = Apollo.BaseMutationOptions<
   UpdateCommerceOrderMutation,
   UpdateCommerceOrderMutationVariables
 >;
-export const OrderInvoiceSendDocument: DocumentNode = {
+export const OrderInvoiceSendDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -18452,7 +18489,7 @@ export const OrderInvoiceSendDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type OrderInvoiceSendMutationFn = Apollo.MutationFunction<
   OrderInvoiceSendMutation,
   OrderInvoiceSendMutationVariables
@@ -18481,10 +18518,11 @@ export function useOrderInvoiceSendMutation(
     OrderInvoiceSendMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     OrderInvoiceSendMutation,
     OrderInvoiceSendMutationVariables
-  >(OrderInvoiceSendDocument, baseOptions);
+  >(OrderInvoiceSendDocument, options);
 }
 export type OrderInvoiceSendMutationHookResult = ReturnType<
   typeof useOrderInvoiceSendMutation
@@ -18495,7 +18533,7 @@ export type OrderInvoiceSendMutationOptions = Apollo.BaseMutationOptions<
   OrderInvoiceSendMutation,
   OrderInvoiceSendMutationVariables
 >;
-export const OrderRefundReceiptSendDocument: DocumentNode = {
+export const OrderRefundReceiptSendDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -18581,7 +18619,7 @@ export const OrderRefundReceiptSendDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type OrderRefundReceiptSendMutationFn = Apollo.MutationFunction<
   OrderRefundReceiptSendMutation,
   OrderRefundReceiptSendMutationVariables
@@ -18610,10 +18648,11 @@ export function useOrderRefundReceiptSendMutation(
     OrderRefundReceiptSendMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     OrderRefundReceiptSendMutation,
     OrderRefundReceiptSendMutationVariables
-  >(OrderRefundReceiptSendDocument, baseOptions);
+  >(OrderRefundReceiptSendDocument, options);
 }
 export type OrderRefundReceiptSendMutationHookResult = ReturnType<
   typeof useOrderRefundReceiptSendMutation
@@ -18624,7 +18663,7 @@ export type OrderRefundReceiptSendMutationOptions = Apollo.BaseMutationOptions<
   OrderRefundReceiptSendMutation,
   OrderRefundReceiptSendMutationVariables
 >;
-export const OrderTransferDocument: DocumentNode = {
+export const OrderTransferDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -18713,7 +18752,7 @@ export const OrderTransferDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type OrderTransferMutationFn = Apollo.MutationFunction<
   OrderTransferMutation,
   OrderTransferMutationVariables
@@ -18742,10 +18781,11 @@ export function useOrderTransferMutation(
     OrderTransferMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     OrderTransferMutation,
     OrderTransferMutationVariables
-  >(OrderTransferDocument, baseOptions);
+  >(OrderTransferDocument, options);
 }
 export type OrderTransferMutationHookResult = ReturnType<
   typeof useOrderTransferMutation
@@ -18756,7 +18796,7 @@ export type OrderTransferMutationOptions = Apollo.BaseMutationOptions<
   OrderTransferMutation,
   OrderTransferMutationVariables
 >;
-export const TicketMagicLoginLinkRequestDocument: DocumentNode = {
+export const TicketMagicLoginLinkRequestDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -18822,7 +18862,7 @@ export const TicketMagicLoginLinkRequestDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type TicketMagicLoginLinkRequestMutationFn = Apollo.MutationFunction<
   TicketMagicLoginLinkRequestMutation,
   TicketMagicLoginLinkRequestMutationVariables
@@ -18851,10 +18891,11 @@ export function useTicketMagicLoginLinkRequestMutation(
     TicketMagicLoginLinkRequestMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     TicketMagicLoginLinkRequestMutation,
     TicketMagicLoginLinkRequestMutationVariables
-  >(TicketMagicLoginLinkRequestDocument, baseOptions);
+  >(TicketMagicLoginLinkRequestDocument, options);
 }
 export type TicketMagicLoginLinkRequestMutationHookResult = ReturnType<
   typeof useTicketMagicLoginLinkRequestMutation
@@ -18866,7 +18907,7 @@ export type TicketMagicLoginLinkRequestMutationOptions =
     TicketMagicLoginLinkRequestMutation,
     TicketMagicLoginLinkRequestMutationVariables
   >;
-export const TicketAcceptDocument: DocumentNode = {
+export const TicketAcceptDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -18987,7 +19028,7 @@ export const TicketAcceptDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type TicketAcceptMutationFn = Apollo.MutationFunction<
   TicketAcceptMutation,
   TicketAcceptMutationVariables
@@ -19016,10 +19057,11 @@ export function useTicketAcceptMutation(
     TicketAcceptMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     TicketAcceptMutation,
     TicketAcceptMutationVariables
-  >(TicketAcceptDocument, baseOptions);
+  >(TicketAcceptDocument, options);
 }
 export type TicketAcceptMutationHookResult = ReturnType<
   typeof useTicketAcceptMutation
@@ -19030,7 +19072,7 @@ export type TicketAcceptMutationOptions = Apollo.BaseMutationOptions<
   TicketAcceptMutation,
   TicketAcceptMutationVariables
 >;
-export const TicketAssignDocument: DocumentNode = {
+export const TicketAssignDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -19256,7 +19298,7 @@ export const TicketAssignDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type TicketAssignMutationFn = Apollo.MutationFunction<
   TicketAssignMutation,
   TicketAssignMutationVariables
@@ -19289,10 +19331,11 @@ export function useTicketAssignMutation(
     TicketAssignMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     TicketAssignMutation,
     TicketAssignMutationVariables
-  >(TicketAssignDocument, baseOptions);
+  >(TicketAssignDocument, options);
 }
 export type TicketAssignMutationHookResult = ReturnType<
   typeof useTicketAssignMutation
@@ -19303,7 +19346,7 @@ export type TicketAssignMutationOptions = Apollo.BaseMutationOptions<
   TicketAssignMutation,
   TicketAssignMutationVariables
 >;
-export const TicketRejectDocument: DocumentNode = {
+export const TicketRejectDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -19420,7 +19463,7 @@ export const TicketRejectDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type TicketRejectMutationFn = Apollo.MutationFunction<
   TicketRejectMutation,
   TicketRejectMutationVariables
@@ -19449,10 +19492,11 @@ export function useTicketRejectMutation(
     TicketRejectMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     TicketRejectMutation,
     TicketRejectMutationVariables
-  >(TicketRejectDocument, baseOptions);
+  >(TicketRejectDocument, options);
 }
 export type TicketRejectMutationHookResult = ReturnType<
   typeof useTicketRejectMutation
@@ -19463,7 +19507,7 @@ export type TicketRejectMutationOptions = Apollo.BaseMutationOptions<
   TicketRejectMutation,
   TicketRejectMutationVariables
 >;
-export const TicketUnvoidDocument: DocumentNode = {
+export const TicketUnvoidDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -19541,7 +19585,7 @@ export const TicketUnvoidDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type TicketUnvoidMutationFn = Apollo.MutationFunction<
   TicketUnvoidMutation,
   TicketUnvoidMutationVariables
@@ -19570,10 +19614,11 @@ export function useTicketUnvoidMutation(
     TicketUnvoidMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     TicketUnvoidMutation,
     TicketUnvoidMutationVariables
-  >(TicketUnvoidDocument, baseOptions);
+  >(TicketUnvoidDocument, options);
 }
 export type TicketUnvoidMutationHookResult = ReturnType<
   typeof useTicketUnvoidMutation
@@ -19584,7 +19629,7 @@ export type TicketUnvoidMutationOptions = Apollo.BaseMutationOptions<
   TicketUnvoidMutation,
   TicketUnvoidMutationVariables
 >;
-export const TicketUpdateDocument: DocumentNode = {
+export const TicketUpdateDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -19647,7 +19692,7 @@ export const TicketUpdateDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type TicketUpdateMutationFn = Apollo.MutationFunction<
   TicketUpdateMutation,
   TicketUpdateMutationVariables
@@ -19676,10 +19721,11 @@ export function useTicketUpdateMutation(
     TicketUpdateMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     TicketUpdateMutation,
     TicketUpdateMutationVariables
-  >(TicketUpdateDocument, baseOptions);
+  >(TicketUpdateDocument, options);
 }
 export type TicketUpdateMutationHookResult = ReturnType<
   typeof useTicketUpdateMutation
@@ -19690,7 +19736,7 @@ export type TicketUpdateMutationOptions = Apollo.BaseMutationOptions<
   TicketUpdateMutation,
   TicketUpdateMutationVariables
 >;
-export const VoidTicketDocument: DocumentNode = {
+export const VoidTicketDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -19768,7 +19814,7 @@ export const VoidTicketDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type VoidTicketMutationFn = Apollo.MutationFunction<
   VoidTicketMutation,
   VoidTicketMutationVariables
@@ -19797,9 +19843,10 @@ export function useVoidTicketMutation(
     VoidTicketMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<VoidTicketMutation, VoidTicketMutationVariables>(
     VoidTicketDocument,
-    baseOptions,
+    options,
   );
 }
 export type VoidTicketMutationHookResult = ReturnType<
@@ -19811,7 +19858,7 @@ export type VoidTicketMutationOptions = Apollo.BaseMutationOptions<
   VoidTicketMutation,
   VoidTicketMutationVariables
 >;
-export const AccessPermissionsDocument: DocumentNode = {
+export const AccessPermissionsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -19937,7 +19984,7 @@ export const AccessPermissionsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useAccessPermissionsQuery__
@@ -19961,10 +20008,11 @@ export function useAccessPermissionsQuery(
     AccessPermissionsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     AccessPermissionsQuery,
     AccessPermissionsQueryVariables
-  >(AccessPermissionsDocument, baseOptions);
+  >(AccessPermissionsDocument, options);
 }
 export function useAccessPermissionsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -19972,10 +20020,11 @@ export function useAccessPermissionsLazyQuery(
     AccessPermissionsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     AccessPermissionsQuery,
     AccessPermissionsQueryVariables
-  >(AccessPermissionsDocument, baseOptions);
+  >(AccessPermissionsDocument, options);
 }
 export type AccessPermissionsQueryHookResult = ReturnType<
   typeof useAccessPermissionsQuery
@@ -19987,7 +20036,7 @@ export type AccessPermissionsQueryResult = Apollo.QueryResult<
   AccessPermissionsQuery,
   AccessPermissionsQueryVariables
 >;
-export const AppConfigDocument: DocumentNode = {
+export const AppConfigDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -20083,7 +20132,7 @@ export const AppConfigDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useAppConfigQuery__
@@ -20106,9 +20155,10 @@ export function useAppConfigQuery(
     AppConfigQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<AppConfigQuery, AppConfigQueryVariables>(
     AppConfigDocument,
-    baseOptions,
+    options,
   );
 }
 export function useAppConfigLazyQuery(
@@ -20117,9 +20167,10 @@ export function useAppConfigLazyQuery(
     AppConfigQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<AppConfigQuery, AppConfigQueryVariables>(
     AppConfigDocument,
-    baseOptions,
+    options,
   );
 }
 export type AppConfigQueryHookResult = ReturnType<typeof useAppConfigQuery>;
@@ -20130,7 +20181,7 @@ export type AppConfigQueryResult = Apollo.QueryResult<
   AppConfigQuery,
   AppConfigQueryVariables
 >;
-export const CommerceGetCustomerDocument: DocumentNode = {
+export const CommerceGetCustomerDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -20219,7 +20270,7 @@ export const CommerceGetCustomerDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceGetCustomerQuery__
@@ -20244,10 +20295,11 @@ export function useCommerceGetCustomerQuery(
     CommerceGetCustomerQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceGetCustomerQuery,
     CommerceGetCustomerQueryVariables
-  >(CommerceGetCustomerDocument, baseOptions);
+  >(CommerceGetCustomerDocument, options);
 }
 export function useCommerceGetCustomerLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -20255,10 +20307,11 @@ export function useCommerceGetCustomerLazyQuery(
     CommerceGetCustomerQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceGetCustomerQuery,
     CommerceGetCustomerQueryVariables
-  >(CommerceGetCustomerDocument, baseOptions);
+  >(CommerceGetCustomerDocument, options);
 }
 export type CommerceGetCustomerQueryHookResult = ReturnType<
   typeof useCommerceGetCustomerQuery
@@ -20270,7 +20323,7 @@ export type CommerceGetCustomerQueryResult = Apollo.QueryResult<
   CommerceGetCustomerQuery,
   CommerceGetCustomerQueryVariables
 >;
-export const CommerceGetDealDocument: DocumentNode = {
+export const CommerceGetDealDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -20448,7 +20501,7 @@ export const CommerceGetDealDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceGetDealQuery__
@@ -20472,9 +20525,10 @@ export function useCommerceGetDealQuery(
     CommerceGetDealQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<CommerceGetDealQuery, CommerceGetDealQueryVariables>(
     CommerceGetDealDocument,
-    baseOptions,
+    options,
   );
 }
 export function useCommerceGetDealLazyQuery(
@@ -20483,10 +20537,11 @@ export function useCommerceGetDealLazyQuery(
     CommerceGetDealQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceGetDealQuery,
     CommerceGetDealQueryVariables
-  >(CommerceGetDealDocument, baseOptions);
+  >(CommerceGetDealDocument, options);
 }
 export type CommerceGetDealQueryHookResult = ReturnType<
   typeof useCommerceGetDealQuery
@@ -20498,7 +20553,7 @@ export type CommerceGetDealQueryResult = Apollo.QueryResult<
   CommerceGetDealQuery,
   CommerceGetDealQueryVariables
 >;
-export const CommerceGetOrderDocument: DocumentNode = {
+export const CommerceGetOrderDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -20994,7 +21049,7 @@ export const CommerceGetOrderDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceGetOrderQuery__
@@ -21019,9 +21074,10 @@ export function useCommerceGetOrderQuery(
     CommerceGetOrderQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<CommerceGetOrderQuery, CommerceGetOrderQueryVariables>(
     CommerceGetOrderDocument,
-    baseOptions,
+    options,
   );
 }
 export function useCommerceGetOrderLazyQuery(
@@ -21030,10 +21086,11 @@ export function useCommerceGetOrderLazyQuery(
     CommerceGetOrderQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceGetOrderQuery,
     CommerceGetOrderQueryVariables
-  >(CommerceGetOrderDocument, baseOptions);
+  >(CommerceGetOrderDocument, options);
 }
 export type CommerceGetOrderQueryHookResult = ReturnType<
   typeof useCommerceGetOrderQuery
@@ -21045,7 +21102,7 @@ export type CommerceGetOrderQueryResult = Apollo.QueryResult<
   CommerceGetOrderQuery,
   CommerceGetOrderQueryVariables
 >;
-export const CommerceGetProductDocument: DocumentNode = {
+export const CommerceGetProductDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -21241,7 +21298,7 @@ export const CommerceGetProductDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceGetProductQuery__
@@ -21265,10 +21322,11 @@ export function useCommerceGetProductQuery(
     CommerceGetProductQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceGetProductQuery,
     CommerceGetProductQueryVariables
-  >(CommerceGetProductDocument, baseOptions);
+  >(CommerceGetProductDocument, options);
 }
 export function useCommerceGetProductLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -21276,10 +21334,11 @@ export function useCommerceGetProductLazyQuery(
     CommerceGetProductQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceGetProductQuery,
     CommerceGetProductQueryVariables
-  >(CommerceGetProductDocument, baseOptions);
+  >(CommerceGetProductDocument, options);
 }
 export type CommerceGetProductQueryHookResult = ReturnType<
   typeof useCommerceGetProductQuery
@@ -21291,7 +21350,7 @@ export type CommerceGetProductQueryResult = Apollo.QueryResult<
   CommerceGetProductQuery,
   CommerceGetProductQueryVariables
 >;
-export const CommerceGetStoreDocument: DocumentNode = {
+export const CommerceGetStoreDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -21368,7 +21427,7 @@ export const CommerceGetStoreDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceGetStoreQuery__
@@ -21391,9 +21450,10 @@ export function useCommerceGetStoreQuery(
     CommerceGetStoreQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<CommerceGetStoreQuery, CommerceGetStoreQueryVariables>(
     CommerceGetStoreDocument,
-    baseOptions,
+    options,
   );
 }
 export function useCommerceGetStoreLazyQuery(
@@ -21402,10 +21462,11 @@ export function useCommerceGetStoreLazyQuery(
     CommerceGetStoreQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceGetStoreQuery,
     CommerceGetStoreQueryVariables
-  >(CommerceGetStoreDocument, baseOptions);
+  >(CommerceGetStoreDocument, options);
 }
 export type CommerceGetStoreQueryHookResult = ReturnType<
   typeof useCommerceGetStoreQuery
@@ -21417,7 +21478,7 @@ export type CommerceGetStoreQueryResult = Apollo.QueryResult<
   CommerceGetStoreQuery,
   CommerceGetStoreQueryVariables
 >;
-export const CommerceListCategoriesDocument: DocumentNode = {
+export const CommerceListCategoriesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -21484,7 +21545,7 @@ export const CommerceListCategoriesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListCategoriesQuery__
@@ -21507,10 +21568,11 @@ export function useCommerceListCategoriesQuery(
     CommerceListCategoriesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListCategoriesQuery,
     CommerceListCategoriesQueryVariables
-  >(CommerceListCategoriesDocument, baseOptions);
+  >(CommerceListCategoriesDocument, options);
 }
 export function useCommerceListCategoriesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -21518,10 +21580,11 @@ export function useCommerceListCategoriesLazyQuery(
     CommerceListCategoriesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListCategoriesQuery,
     CommerceListCategoriesQueryVariables
-  >(CommerceListCategoriesDocument, baseOptions);
+  >(CommerceListCategoriesDocument, options);
 }
 export type CommerceListCategoriesQueryHookResult = ReturnType<
   typeof useCommerceListCategoriesQuery
@@ -21533,7 +21596,7 @@ export type CommerceListCategoriesQueryResult = Apollo.QueryResult<
   CommerceListCategoriesQuery,
   CommerceListCategoriesQueryVariables
 >;
-export const CommerceListDealItemsDocument: DocumentNode = {
+export const CommerceListDealItemsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -21661,7 +21724,7 @@ export const CommerceListDealItemsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListDealItemsQuery__
@@ -21685,10 +21748,11 @@ export function useCommerceListDealItemsQuery(
     CommerceListDealItemsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListDealItemsQuery,
     CommerceListDealItemsQueryVariables
-  >(CommerceListDealItemsDocument, baseOptions);
+  >(CommerceListDealItemsDocument, options);
 }
 export function useCommerceListDealItemsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -21696,10 +21760,11 @@ export function useCommerceListDealItemsLazyQuery(
     CommerceListDealItemsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListDealItemsQuery,
     CommerceListDealItemsQueryVariables
-  >(CommerceListDealItemsDocument, baseOptions);
+  >(CommerceListDealItemsDocument, options);
 }
 export type CommerceListDealItemsQueryHookResult = ReturnType<
   typeof useCommerceListDealItemsQuery
@@ -21711,7 +21776,7 @@ export type CommerceListDealItemsQueryResult = Apollo.QueryResult<
   CommerceListDealItemsQuery,
   CommerceListDealItemsQueryVariables
 >;
-export const CommerceListDealsDocument: DocumentNode = {
+export const CommerceListDealsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -21943,7 +22008,7 @@ export const CommerceListDealsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListDealsQuery__
@@ -21968,10 +22033,11 @@ export function useCommerceListDealsQuery(
     CommerceListDealsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListDealsQuery,
     CommerceListDealsQueryVariables
-  >(CommerceListDealsDocument, baseOptions);
+  >(CommerceListDealsDocument, options);
 }
 export function useCommerceListDealsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -21979,10 +22045,11 @@ export function useCommerceListDealsLazyQuery(
     CommerceListDealsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListDealsQuery,
     CommerceListDealsQueryVariables
-  >(CommerceListDealsDocument, baseOptions);
+  >(CommerceListDealsDocument, options);
 }
 export type CommerceListDealsQueryHookResult = ReturnType<
   typeof useCommerceListDealsQuery
@@ -21994,7 +22061,7 @@ export type CommerceListDealsQueryResult = Apollo.QueryResult<
   CommerceListDealsQuery,
   CommerceListDealsQueryVariables
 >;
-export const CommerceListPaymentMethodsDocument: DocumentNode = {
+export const CommerceListPaymentMethodsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -22040,7 +22107,7 @@ export const CommerceListPaymentMethodsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListPaymentMethodsQuery__
@@ -22063,10 +22130,11 @@ export function useCommerceListPaymentMethodsQuery(
     CommerceListPaymentMethodsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListPaymentMethodsQuery,
     CommerceListPaymentMethodsQueryVariables
-  >(CommerceListPaymentMethodsDocument, baseOptions);
+  >(CommerceListPaymentMethodsDocument, options);
 }
 export function useCommerceListPaymentMethodsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -22074,10 +22142,11 @@ export function useCommerceListPaymentMethodsLazyQuery(
     CommerceListPaymentMethodsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListPaymentMethodsQuery,
     CommerceListPaymentMethodsQueryVariables
-  >(CommerceListPaymentMethodsDocument, baseOptions);
+  >(CommerceListPaymentMethodsDocument, options);
 }
 export type CommerceListPaymentMethodsQueryHookResult = ReturnType<
   typeof useCommerceListPaymentMethodsQuery
@@ -22089,7 +22158,7 @@ export type CommerceListPaymentMethodsQueryResult = Apollo.QueryResult<
   CommerceListPaymentMethodsQuery,
   CommerceListPaymentMethodsQueryVariables
 >;
-export const CommerceListProductsDocument: DocumentNode = {
+export const CommerceListProductsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -22254,7 +22323,7 @@ export const CommerceListProductsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListProductsQuery__
@@ -22277,10 +22346,11 @@ export function useCommerceListProductsQuery(
     CommerceListProductsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListProductsQuery,
     CommerceListProductsQueryVariables
-  >(CommerceListProductsDocument, baseOptions);
+  >(CommerceListProductsDocument, options);
 }
 export function useCommerceListProductsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -22288,10 +22358,11 @@ export function useCommerceListProductsLazyQuery(
     CommerceListProductsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListProductsQuery,
     CommerceListProductsQueryVariables
-  >(CommerceListProductsDocument, baseOptions);
+  >(CommerceListProductsDocument, options);
 }
 export type CommerceListProductsQueryHookResult = ReturnType<
   typeof useCommerceListProductsQuery
@@ -22303,7 +22374,7 @@ export type CommerceListProductsQueryResult = Apollo.QueryResult<
   CommerceListProductsQuery,
   CommerceListProductsQueryVariables
 >;
-export const CommerceListSaleProductsDocument: DocumentNode = {
+export const CommerceListSaleProductsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -22435,7 +22506,7 @@ export const CommerceListSaleProductsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListSaleProductsQuery__
@@ -22460,10 +22531,11 @@ export function useCommerceListSaleProductsQuery(
     CommerceListSaleProductsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListSaleProductsQuery,
     CommerceListSaleProductsQueryVariables
-  >(CommerceListSaleProductsDocument, baseOptions);
+  >(CommerceListSaleProductsDocument, options);
 }
 export function useCommerceListSaleProductsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -22471,10 +22543,11 @@ export function useCommerceListSaleProductsLazyQuery(
     CommerceListSaleProductsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListSaleProductsQuery,
     CommerceListSaleProductsQueryVariables
-  >(CommerceListSaleProductsDocument, baseOptions);
+  >(CommerceListSaleProductsDocument, options);
 }
 export type CommerceListSaleProductsQueryHookResult = ReturnType<
   typeof useCommerceListSaleProductsQuery
@@ -22486,7 +22559,7 @@ export type CommerceListSaleProductsQueryResult = Apollo.QueryResult<
   CommerceListSaleProductsQuery,
   CommerceListSaleProductsQueryVariables
 >;
-export const CommerceListStoresDocument: DocumentNode = {
+export const CommerceListStoresDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -22579,7 +22652,7 @@ export const CommerceListStoresDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListStoresQuery__
@@ -22602,10 +22675,11 @@ export function useCommerceListStoresQuery(
     CommerceListStoresQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListStoresQuery,
     CommerceListStoresQueryVariables
-  >(CommerceListStoresDocument, baseOptions);
+  >(CommerceListStoresDocument, options);
 }
 export function useCommerceListStoresLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -22613,10 +22687,11 @@ export function useCommerceListStoresLazyQuery(
     CommerceListStoresQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListStoresQuery,
     CommerceListStoresQueryVariables
-  >(CommerceListStoresDocument, baseOptions);
+  >(CommerceListStoresDocument, options);
 }
 export type CommerceListStoresQueryHookResult = ReturnType<
   typeof useCommerceListStoresQuery
@@ -22628,7 +22703,7 @@ export type CommerceListStoresQueryResult = Apollo.QueryResult<
   CommerceListStoresQuery,
   CommerceListStoresQueryVariables
 >;
-export const CommerceListTagsDocument: DocumentNode = {
+export const CommerceListTagsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -22763,7 +22838,7 @@ export const CommerceListTagsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListTagsQuery__
@@ -22791,9 +22866,10 @@ export function useCommerceListTagsQuery(
     CommerceListTagsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<CommerceListTagsQuery, CommerceListTagsQueryVariables>(
     CommerceListTagsDocument,
-    baseOptions,
+    options,
   );
 }
 export function useCommerceListTagsLazyQuery(
@@ -22802,10 +22878,11 @@ export function useCommerceListTagsLazyQuery(
     CommerceListTagsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListTagsQuery,
     CommerceListTagsQueryVariables
-  >(CommerceListTagsDocument, baseOptions);
+  >(CommerceListTagsDocument, options);
 }
 export type CommerceListTagsQueryHookResult = ReturnType<
   typeof useCommerceListTagsQuery
@@ -22817,7 +22894,7 @@ export type CommerceListTagsQueryResult = Apollo.QueryResult<
   CommerceListTagsQuery,
   CommerceListTagsQueryVariables
 >;
-export const CommerceListTaxTypesDocument: DocumentNode = {
+export const CommerceListTaxTypesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -22939,7 +23016,7 @@ export const CommerceListTaxTypesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListTaxTypesQuery__
@@ -22962,10 +23039,11 @@ export function useCommerceListTaxTypesQuery(
     CommerceListTaxTypesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListTaxTypesQuery,
     CommerceListTaxTypesQueryVariables
-  >(CommerceListTaxTypesDocument, baseOptions);
+  >(CommerceListTaxTypesDocument, options);
 }
 export function useCommerceListTaxTypesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -22973,10 +23051,11 @@ export function useCommerceListTaxTypesLazyQuery(
     CommerceListTaxTypesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListTaxTypesQuery,
     CommerceListTaxTypesQueryVariables
-  >(CommerceListTaxTypesDocument, baseOptions);
+  >(CommerceListTaxTypesDocument, options);
 }
 export type CommerceListTaxTypesQueryHookResult = ReturnType<
   typeof useCommerceListTaxTypesQuery
@@ -22988,7 +23067,7 @@ export type CommerceListTaxTypesQueryResult = Apollo.QueryResult<
   CommerceListTaxTypesQuery,
   CommerceListTaxTypesQueryVariables
 >;
-export const CommerceListTaxesDocument: DocumentNode = {
+export const CommerceListTaxesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -23103,7 +23182,7 @@ export const CommerceListTaxesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCommerceListTaxesQuery__
@@ -23126,10 +23205,11 @@ export function useCommerceListTaxesQuery(
     CommerceListTaxesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     CommerceListTaxesQuery,
     CommerceListTaxesQueryVariables
-  >(CommerceListTaxesDocument, baseOptions);
+  >(CommerceListTaxesDocument, options);
 }
 export function useCommerceListTaxesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -23137,10 +23217,11 @@ export function useCommerceListTaxesLazyQuery(
     CommerceListTaxesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     CommerceListTaxesQuery,
     CommerceListTaxesQueryVariables
-  >(CommerceListTaxesDocument, baseOptions);
+  >(CommerceListTaxesDocument, options);
 }
 export type CommerceListTaxesQueryHookResult = ReturnType<
   typeof useCommerceListTaxesQuery
@@ -23152,7 +23233,7 @@ export type CommerceListTaxesQueryResult = Apollo.QueryResult<
   CommerceListTaxesQuery,
   CommerceListTaxesQueryVariables
 >;
-export const CommerceUpdateCustomerDocument: DocumentNode = {
+export const CommerceUpdateCustomerDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -23237,7 +23318,7 @@ export const CommerceUpdateCustomerDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 export type CommerceUpdateCustomerMutationFn = Apollo.MutationFunction<
   CommerceUpdateCustomerMutation,
   CommerceUpdateCustomerMutationVariables
@@ -23268,10 +23349,11 @@ export function useCommerceUpdateCustomerMutation(
     CommerceUpdateCustomerMutationVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
     CommerceUpdateCustomerMutation,
     CommerceUpdateCustomerMutationVariables
-  >(CommerceUpdateCustomerDocument, baseOptions);
+  >(CommerceUpdateCustomerDocument, options);
 }
 export type CommerceUpdateCustomerMutationHookResult = ReturnType<
   typeof useCommerceUpdateCustomerMutation
@@ -23282,7 +23364,7 @@ export type CommerceUpdateCustomerMutationOptions = Apollo.BaseMutationOptions<
   CommerceUpdateCustomerMutation,
   CommerceUpdateCustomerMutationVariables
 >;
-export const CountriesDocument: DocumentNode = {
+export const CountriesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -23335,7 +23417,7 @@ export const CountriesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useCountriesQuery__
@@ -23358,9 +23440,10 @@ export function useCountriesQuery(
     CountriesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<CountriesQuery, CountriesQueryVariables>(
     CountriesDocument,
-    baseOptions,
+    options,
   );
 }
 export function useCountriesLazyQuery(
@@ -23369,9 +23452,10 @@ export function useCountriesLazyQuery(
     CountriesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<CountriesQuery, CountriesQueryVariables>(
     CountriesDocument,
-    baseOptions,
+    options,
   );
 }
 export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
@@ -23382,7 +23466,7 @@ export type CountriesQueryResult = Apollo.QueryResult<
   CountriesQuery,
   CountriesQueryVariables
 >;
-export const EventDocument: DocumentNode = {
+export const EventDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -23568,7 +23652,7 @@ export const EventDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useEventQuery__
@@ -23589,17 +23673,19 @@ export const EventDocument: DocumentNode = {
 export function useEventQuery(
   baseOptions?: Apollo.QueryHookOptions<EventQuery, EventQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<EventQuery, EventQueryVariables>(
     EventDocument,
-    baseOptions,
+    options,
   );
 }
 export function useEventLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<EventQuery, EventQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<EventQuery, EventQueryVariables>(
     EventDocument,
-    baseOptions,
+    options,
   );
 }
 export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
@@ -23608,7 +23694,7 @@ export type EventQueryResult = Apollo.QueryResult<
   EventQuery,
   EventQueryVariables
 >;
-export const EventListQueryDocument: DocumentNode = {
+export const EventListQueryDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -23767,7 +23853,7 @@ export const EventListQueryDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useEventListQueryQuery__
@@ -23791,9 +23877,10 @@ export function useEventListQueryQuery(
     EventListQueryQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<EventListQueryQuery, EventListQueryQueryVariables>(
     EventListQueryDocument,
-    baseOptions,
+    options,
   );
 }
 export function useEventListQueryLazyQuery(
@@ -23802,9 +23889,10 @@ export function useEventListQueryLazyQuery(
     EventListQueryQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<EventListQueryQuery, EventListQueryQueryVariables>(
     EventListQueryDocument,
-    baseOptions,
+    options,
   );
 }
 export type EventListQueryQueryHookResult = ReturnType<
@@ -23817,7 +23905,7 @@ export type EventListQueryQueryResult = Apollo.QueryResult<
   EventListQueryQuery,
   EventListQueryQueryVariables
 >;
-export const EventPartnersDocument: DocumentNode = {
+export const EventPartnersDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -23908,7 +23996,7 @@ export const EventPartnersDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useEventPartnersQuery__
@@ -23932,9 +24020,10 @@ export function useEventPartnersQuery(
     EventPartnersQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<EventPartnersQuery, EventPartnersQueryVariables>(
     EventPartnersDocument,
-    baseOptions,
+    options,
   );
 }
 export function useEventPartnersLazyQuery(
@@ -23943,9 +24032,10 @@ export function useEventPartnersLazyQuery(
     EventPartnersQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<EventPartnersQuery, EventPartnersQueryVariables>(
     EventPartnersDocument,
-    baseOptions,
+    options,
   );
 }
 export type EventPartnersQueryHookResult = ReturnType<
@@ -23958,7 +24048,7 @@ export type EventPartnersQueryResult = Apollo.QueryResult<
   EventPartnersQuery,
   EventPartnersQueryVariables
 >;
-export const EventTimeZoneDocument: DocumentNode = {
+export const EventTimeZoneDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -24019,7 +24109,7 @@ export const EventTimeZoneDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useEventTimeZoneQuery__
@@ -24043,9 +24133,10 @@ export function useEventTimeZoneQuery(
     EventTimeZoneQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<EventTimeZoneQuery, EventTimeZoneQueryVariables>(
     EventTimeZoneDocument,
-    baseOptions,
+    options,
   );
 }
 export function useEventTimeZoneLazyQuery(
@@ -24054,9 +24145,10 @@ export function useEventTimeZoneLazyQuery(
     EventTimeZoneQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<EventTimeZoneQuery, EventTimeZoneQueryVariables>(
     EventTimeZoneDocument,
-    baseOptions,
+    options,
   );
 }
 export type EventTimeZoneQueryHookResult = ReturnType<
@@ -24069,7 +24161,7 @@ export type EventTimeZoneQueryResult = Apollo.QueryResult<
   EventTimeZoneQuery,
   EventTimeZoneQueryVariables
 >;
-export const TaEventDataDocument: DocumentNode = {
+export const TaEventDataDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -24127,7 +24219,7 @@ export const TaEventDataDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTaEventDataQuery__
@@ -24151,9 +24243,10 @@ export function useTaEventDataQuery(
     TaEventDataQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<TaEventDataQuery, TaEventDataQueryVariables>(
     TaEventDataDocument,
-    baseOptions,
+    options,
   );
 }
 export function useTaEventDataLazyQuery(
@@ -24162,9 +24255,10 @@ export function useTaEventDataLazyQuery(
     TaEventDataQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<TaEventDataQuery, TaEventDataQueryVariables>(
     TaEventDataDocument,
-    baseOptions,
+    options,
   );
 }
 export type TaEventDataQueryHookResult = ReturnType<typeof useTaEventDataQuery>;
@@ -24175,7 +24269,7 @@ export type TaEventDataQueryResult = Apollo.QueryResult<
   TaEventDataQuery,
   TaEventDataQueryVariables
 >;
-export const LegalEntityDocument: DocumentNode = {
+export const LegalEntityDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -24274,7 +24368,7 @@ export const LegalEntityDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useLegalEntityQuery__
@@ -24298,9 +24392,10 @@ export function useLegalEntityQuery(
     LegalEntityQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<LegalEntityQuery, LegalEntityQueryVariables>(
     LegalEntityDocument,
-    baseOptions,
+    options,
   );
 }
 export function useLegalEntityLazyQuery(
@@ -24309,9 +24404,10 @@ export function useLegalEntityLazyQuery(
     LegalEntityQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<LegalEntityQuery, LegalEntityQueryVariables>(
     LegalEntityDocument,
-    baseOptions,
+    options,
   );
 }
 export type LegalEntityQueryHookResult = ReturnType<typeof useLegalEntityQuery>;
@@ -24322,7 +24418,7 @@ export type LegalEntityQueryResult = Apollo.QueryResult<
   LegalEntityQuery,
   LegalEntityQueryVariables
 >;
-export const LegalEntitiesDocument: DocumentNode = {
+export const LegalEntitiesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -24466,7 +24562,7 @@ export const LegalEntitiesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useLegalEntitiesQuery__
@@ -24489,9 +24585,10 @@ export function useLegalEntitiesQuery(
     LegalEntitiesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(
     LegalEntitiesDocument,
-    baseOptions,
+    options,
   );
 }
 export function useLegalEntitiesLazyQuery(
@@ -24500,9 +24597,10 @@ export function useLegalEntitiesLazyQuery(
     LegalEntitiesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<LegalEntitiesQuery, LegalEntitiesQueryVariables>(
     LegalEntitiesDocument,
-    baseOptions,
+    options,
   );
 }
 export type LegalEntitiesQueryHookResult = ReturnType<
@@ -24515,7 +24613,7 @@ export type LegalEntitiesQueryResult = Apollo.QueryResult<
   LegalEntitiesQuery,
   LegalEntitiesQueryVariables
 >;
-export const MyAssignmentDashboardDocument: DocumentNode = {
+export const MyAssignmentDashboardDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -24612,7 +24710,7 @@ export const MyAssignmentDashboardDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useMyAssignmentDashboardQuery__
@@ -24635,10 +24733,11 @@ export function useMyAssignmentDashboardQuery(
     MyAssignmentDashboardQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     MyAssignmentDashboardQuery,
     MyAssignmentDashboardQueryVariables
-  >(MyAssignmentDashboardDocument, baseOptions);
+  >(MyAssignmentDashboardDocument, options);
 }
 export function useMyAssignmentDashboardLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -24646,10 +24745,11 @@ export function useMyAssignmentDashboardLazyQuery(
     MyAssignmentDashboardQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     MyAssignmentDashboardQuery,
     MyAssignmentDashboardQueryVariables
-  >(MyAssignmentDashboardDocument, baseOptions);
+  >(MyAssignmentDashboardDocument, options);
 }
 export type MyAssignmentDashboardQueryHookResult = ReturnType<
   typeof useMyAssignmentDashboardQuery
@@ -24661,7 +24761,7 @@ export type MyAssignmentDashboardQueryResult = Apollo.QueryResult<
   MyAssignmentDashboardQuery,
   MyAssignmentDashboardQueryVariables
 >;
-export const MyDashboardDocument: DocumentNode = {
+export const MyDashboardDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -24737,7 +24837,7 @@ export const MyDashboardDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useMyDashboardQuery__
@@ -24760,9 +24860,10 @@ export function useMyDashboardQuery(
     MyDashboardQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<MyDashboardQuery, MyDashboardQueryVariables>(
     MyDashboardDocument,
-    baseOptions,
+    options,
   );
 }
 export function useMyDashboardLazyQuery(
@@ -24771,9 +24872,10 @@ export function useMyDashboardLazyQuery(
     MyDashboardQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<MyDashboardQuery, MyDashboardQueryVariables>(
     MyDashboardDocument,
-    baseOptions,
+    options,
   );
 }
 export type MyDashboardQueryHookResult = ReturnType<typeof useMyDashboardQuery>;
@@ -24784,7 +24886,7 @@ export type MyDashboardQueryResult = Apollo.QueryResult<
   MyDashboardQuery,
   MyDashboardQueryVariables
 >;
-export const MyOrdersDocument: DocumentNode = {
+export const MyOrdersDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -24871,7 +24973,7 @@ export const MyOrdersDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useMyOrdersQuery__
@@ -24891,9 +24993,10 @@ export const MyOrdersDocument: DocumentNode = {
 export function useMyOrdersQuery(
   baseOptions?: Apollo.QueryHookOptions<MyOrdersQuery, MyOrdersQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<MyOrdersQuery, MyOrdersQueryVariables>(
     MyOrdersDocument,
-    baseOptions,
+    options,
   );
 }
 export function useMyOrdersLazyQuery(
@@ -24902,9 +25005,10 @@ export function useMyOrdersLazyQuery(
     MyOrdersQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<MyOrdersQuery, MyOrdersQueryVariables>(
     MyOrdersDocument,
-    baseOptions,
+    options,
   );
 }
 export type MyOrdersQueryHookResult = ReturnType<typeof useMyOrdersQuery>;
@@ -24915,7 +25019,7 @@ export type MyOrdersQueryResult = Apollo.QueryResult<
   MyOrdersQuery,
   MyOrdersQueryVariables
 >;
-export const MyTicketsDocument: DocumentNode = {
+export const MyTicketsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -25128,7 +25232,7 @@ export const MyTicketsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useMyTicketsQuery__
@@ -25151,9 +25255,10 @@ export function useMyTicketsQuery(
     MyTicketsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<MyTicketsQuery, MyTicketsQueryVariables>(
     MyTicketsDocument,
-    baseOptions,
+    options,
   );
 }
 export function useMyTicketsLazyQuery(
@@ -25162,9 +25267,10 @@ export function useMyTicketsLazyQuery(
     MyTicketsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<MyTicketsQuery, MyTicketsQueryVariables>(
     MyTicketsDocument,
-    baseOptions,
+    options,
   );
 }
 export type MyTicketsQueryHookResult = ReturnType<typeof useMyTicketsQuery>;
@@ -25175,7 +25281,7 @@ export type MyTicketsQueryResult = Apollo.QueryResult<
   MyTicketsQuery,
   MyTicketsQueryVariables
 >;
-export const OrderByRefDocument: DocumentNode = {
+export const OrderByRefDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -25675,7 +25781,7 @@ export const OrderByRefDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useOrderByRefQuery__
@@ -25699,9 +25805,10 @@ export function useOrderByRefQuery(
     OrderByRefQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<OrderByRefQuery, OrderByRefQueryVariables>(
     OrderByRefDocument,
-    baseOptions,
+    options,
   );
 }
 export function useOrderByRefLazyQuery(
@@ -25710,9 +25817,10 @@ export function useOrderByRefLazyQuery(
     OrderByRefQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<OrderByRefQuery, OrderByRefQueryVariables>(
     OrderByRefDocument,
-    baseOptions,
+    options,
   );
 }
 export type OrderByRefQueryHookResult = ReturnType<typeof useOrderByRefQuery>;
@@ -25723,7 +25831,7 @@ export type OrderByRefQueryResult = Apollo.QueryResult<
   OrderByRefQuery,
   OrderByRefQueryVariables
 >;
-export const OrdersDocument: DocumentNode = {
+export const OrdersDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -26186,7 +26294,7 @@ export const OrdersDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useOrdersQuery__
@@ -26210,17 +26318,19 @@ export const OrdersDocument: DocumentNode = {
 export function useOrdersQuery(
   baseOptions?: Apollo.QueryHookOptions<OrdersQuery, OrdersQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<OrdersQuery, OrdersQueryVariables>(
     OrdersDocument,
-    baseOptions,
+    options,
   );
 }
 export function useOrdersLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<OrdersQuery, OrdersQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<OrdersQuery, OrdersQueryVariables>(
     OrdersDocument,
-    baseOptions,
+    options,
   );
 }
 export type OrdersQueryHookResult = ReturnType<typeof useOrdersQuery>;
@@ -26229,7 +26339,7 @@ export type OrdersQueryResult = Apollo.QueryResult<
   OrdersQuery,
   OrdersQueryVariables
 >;
-export const SaleCyclesDocument: DocumentNode = {
+export const SaleCyclesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -26295,7 +26405,7 @@ export const SaleCyclesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useSaleCyclesQuery__
@@ -26319,9 +26429,10 @@ export function useSaleCyclesQuery(
     SaleCyclesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<SaleCyclesQuery, SaleCyclesQueryVariables>(
     SaleCyclesDocument,
-    baseOptions,
+    options,
   );
 }
 export function useSaleCyclesLazyQuery(
@@ -26330,9 +26441,10 @@ export function useSaleCyclesLazyQuery(
     SaleCyclesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<SaleCyclesQuery, SaleCyclesQueryVariables>(
     SaleCyclesDocument,
-    baseOptions,
+    options,
   );
 }
 export type SaleCyclesQueryHookResult = ReturnType<typeof useSaleCyclesQuery>;
@@ -26343,7 +26455,7 @@ export type SaleCyclesQueryResult = Apollo.QueryResult<
   SaleCyclesQuery,
   SaleCyclesQueryVariables
 >;
-export const SalesCyclesDocument: DocumentNode = {
+export const SalesCyclesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -26423,7 +26535,7 @@ export const SalesCyclesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useSalesCyclesQuery__
@@ -26446,9 +26558,10 @@ export function useSalesCyclesQuery(
     SalesCyclesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<SalesCyclesQuery, SalesCyclesQueryVariables>(
     SalesCyclesDocument,
-    baseOptions,
+    options,
   );
 }
 export function useSalesCyclesLazyQuery(
@@ -26457,9 +26570,10 @@ export function useSalesCyclesLazyQuery(
     SalesCyclesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<SalesCyclesQuery, SalesCyclesQueryVariables>(
     SalesCyclesDocument,
-    baseOptions,
+    options,
   );
 }
 export type SalesCyclesQueryHookResult = ReturnType<typeof useSalesCyclesQuery>;
@@ -26470,7 +26584,7 @@ export type SalesCyclesQueryResult = Apollo.QueryResult<
   SalesCyclesQuery,
   SalesCyclesQueryVariables
 >;
-export const TicketDocument: DocumentNode = {
+export const TicketDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -26690,7 +26804,7 @@ export const TicketDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTicketQuery__
@@ -26711,17 +26825,19 @@ export const TicketDocument: DocumentNode = {
 export function useTicketQuery(
   baseOptions: Apollo.QueryHookOptions<TicketQuery, TicketQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<TicketQuery, TicketQueryVariables>(
     TicketDocument,
-    baseOptions,
+    options,
   );
 }
 export function useTicketLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<TicketQuery, TicketQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<TicketQuery, TicketQueryVariables>(
     TicketDocument,
-    baseOptions,
+    options,
   );
 }
 export type TicketQueryHookResult = ReturnType<typeof useTicketQuery>;
@@ -26730,7 +26846,7 @@ export type TicketQueryResult = Apollo.QueryResult<
   TicketQuery,
   TicketQueryVariables
 >;
-export const TicketCategoriesDocument: DocumentNode = {
+export const TicketCategoriesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -26813,7 +26929,7 @@ export const TicketCategoriesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTicketCategoriesQuery__
@@ -26836,9 +26952,10 @@ export function useTicketCategoriesQuery(
     TicketCategoriesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<TicketCategoriesQuery, TicketCategoriesQueryVariables>(
     TicketCategoriesDocument,
-    baseOptions,
+    options,
   );
 }
 export function useTicketCategoriesLazyQuery(
@@ -26847,10 +26964,11 @@ export function useTicketCategoriesLazyQuery(
     TicketCategoriesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     TicketCategoriesQuery,
     TicketCategoriesQueryVariables
-  >(TicketCategoriesDocument, baseOptions);
+  >(TicketCategoriesDocument, options);
 }
 export type TicketCategoriesQueryHookResult = ReturnType<
   typeof useTicketCategoriesQuery
@@ -26862,7 +26980,7 @@ export type TicketCategoriesQueryResult = Apollo.QueryResult<
   TicketCategoriesQuery,
   TicketCategoriesQueryVariables
 >;
-export const Document: DocumentNode = {
+export const Document = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -27009,7 +27127,7 @@ export const Document: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useQuery__
@@ -27029,17 +27147,19 @@ export const Document: DocumentNode = {
 export function useQuery(
   baseOptions?: Apollo.QueryHookOptions<Query, QueryVariables>,
 ) {
-  return Apollo.useQuery<Query, QueryVariables>(Document, baseOptions);
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<Query, QueryVariables>(Document, options);
 }
 export function useLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<Query, QueryVariables>,
 ) {
-  return Apollo.useLazyQuery<Query, QueryVariables>(Document, baseOptions);
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<Query, QueryVariables>(Document, options);
 }
 export type QueryHookResult = ReturnType<typeof useQuery>;
 export type LazyQueryHookResult = ReturnType<typeof useLazyQuery>;
 export type QueryResult = Apollo.QueryResult<Query, QueryVariables>;
-export const TicketReleasePhaseDocument: DocumentNode = {
+export const TicketReleasePhaseDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -27095,7 +27215,7 @@ export const TicketReleasePhaseDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTicketReleasePhaseQuery__
@@ -27119,10 +27239,11 @@ export function useTicketReleasePhaseQuery(
     TicketReleasePhaseQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     TicketReleasePhaseQuery,
     TicketReleasePhaseQueryVariables
-  >(TicketReleasePhaseDocument, baseOptions);
+  >(TicketReleasePhaseDocument, options);
 }
 export function useTicketReleasePhaseLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -27130,10 +27251,11 @@ export function useTicketReleasePhaseLazyQuery(
     TicketReleasePhaseQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     TicketReleasePhaseQuery,
     TicketReleasePhaseQueryVariables
-  >(TicketReleasePhaseDocument, baseOptions);
+  >(TicketReleasePhaseDocument, options);
 }
 export type TicketReleasePhaseQueryHookResult = ReturnType<
   typeof useTicketReleasePhaseQuery
@@ -27145,7 +27267,7 @@ export type TicketReleasePhaseQueryResult = Apollo.QueryResult<
   TicketReleasePhaseQuery,
   TicketReleasePhaseQueryVariables
 >;
-export const TicketReleasesDocument: DocumentNode = {
+export const TicketReleasesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -27569,7 +27691,7 @@ export const TicketReleasesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTicketReleasesQuery__
@@ -27594,9 +27716,10 @@ export function useTicketReleasesQuery(
     TicketReleasesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<TicketReleasesQuery, TicketReleasesQueryVariables>(
     TicketReleasesDocument,
-    baseOptions,
+    options,
   );
 }
 export function useTicketReleasesLazyQuery(
@@ -27605,9 +27728,10 @@ export function useTicketReleasesLazyQuery(
     TicketReleasesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<TicketReleasesQuery, TicketReleasesQueryVariables>(
     TicketReleasesDocument,
-    baseOptions,
+    options,
   );
 }
 export type TicketReleasesQueryHookResult = ReturnType<
@@ -27620,7 +27744,7 @@ export type TicketReleasesQueryResult = Apollo.QueryResult<
   TicketReleasesQuery,
   TicketReleasesQueryVariables
 >;
-export const TicketTypeReleasePhaseSummaryDocument: DocumentNode = {
+export const TicketTypeReleasePhaseSummaryDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -27753,7 +27877,7 @@ export const TicketTypeReleasePhaseSummaryDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTicketTypeReleasePhaseSummaryQuery__
@@ -27778,10 +27902,11 @@ export function useTicketTypeReleasePhaseSummaryQuery(
     TicketTypeReleasePhaseSummaryQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     TicketTypeReleasePhaseSummaryQuery,
     TicketTypeReleasePhaseSummaryQueryVariables
-  >(TicketTypeReleasePhaseSummaryDocument, baseOptions);
+  >(TicketTypeReleasePhaseSummaryDocument, options);
 }
 export function useTicketTypeReleasePhaseSummaryLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -27789,10 +27914,11 @@ export function useTicketTypeReleasePhaseSummaryLazyQuery(
     TicketTypeReleasePhaseSummaryQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     TicketTypeReleasePhaseSummaryQuery,
     TicketTypeReleasePhaseSummaryQueryVariables
-  >(TicketTypeReleasePhaseSummaryDocument, baseOptions);
+  >(TicketTypeReleasePhaseSummaryDocument, options);
 }
 export type TicketTypeReleasePhaseSummaryQueryHookResult = ReturnType<
   typeof useTicketTypeReleasePhaseSummaryQuery
@@ -27804,7 +27930,7 @@ export type TicketTypeReleasePhaseSummaryQueryResult = Apollo.QueryResult<
   TicketTypeReleasePhaseSummaryQuery,
   TicketTypeReleasePhaseSummaryQueryVariables
 >;
-export const TicketTypeReleasePhasesDocument: DocumentNode = {
+export const TicketTypeReleasePhasesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -27895,7 +28021,7 @@ export const TicketTypeReleasePhasesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTicketTypeReleasePhasesQuery__
@@ -27919,10 +28045,11 @@ export function useTicketTypeReleasePhasesQuery(
     TicketTypeReleasePhasesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     TicketTypeReleasePhasesQuery,
     TicketTypeReleasePhasesQueryVariables
-  >(TicketTypeReleasePhasesDocument, baseOptions);
+  >(TicketTypeReleasePhasesDocument, options);
 }
 export function useTicketTypeReleasePhasesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -27930,10 +28057,11 @@ export function useTicketTypeReleasePhasesLazyQuery(
     TicketTypeReleasePhasesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     TicketTypeReleasePhasesQuery,
     TicketTypeReleasePhasesQueryVariables
-  >(TicketTypeReleasePhasesDocument, baseOptions);
+  >(TicketTypeReleasePhasesDocument, options);
 }
 export type TicketTypeReleasePhasesQueryHookResult = ReturnType<
   typeof useTicketTypeReleasePhasesQuery
@@ -27945,7 +28073,7 @@ export type TicketTypeReleasePhasesQueryResult = Apollo.QueryResult<
   TicketTypeReleasePhasesQuery,
   TicketTypeReleasePhasesQueryVariables
 >;
-export const TicketTypesDocument: DocumentNode = {
+export const TicketTypesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -27998,7 +28126,7 @@ export const TicketTypesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTicketTypesQuery__
@@ -28021,9 +28149,10 @@ export function useTicketTypesQuery(
     TicketTypesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<TicketTypesQuery, TicketTypesQueryVariables>(
     TicketTypesDocument,
-    baseOptions,
+    options,
   );
 }
 export function useTicketTypesLazyQuery(
@@ -28032,9 +28161,10 @@ export function useTicketTypesLazyQuery(
     TicketTypesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<TicketTypesQuery, TicketTypesQueryVariables>(
     TicketTypesDocument,
-    baseOptions,
+    options,
   );
 }
 export type TicketTypesQueryHookResult = ReturnType<typeof useTicketTypesQuery>;
@@ -28045,7 +28175,7 @@ export type TicketTypesQueryResult = Apollo.QueryResult<
   TicketTypesQuery,
   TicketTypesQueryVariables
 >;
-export const TicketsDocument: DocumentNode = {
+export const TicketsDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -28475,7 +28605,7 @@ export const TicketsDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTicketsQuery__
@@ -28502,9 +28632,10 @@ export const TicketsDocument: DocumentNode = {
 export function useTicketsQuery(
   baseOptions?: Apollo.QueryHookOptions<TicketsQuery, TicketsQueryVariables>,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<TicketsQuery, TicketsQueryVariables>(
     TicketsDocument,
-    baseOptions,
+    options,
   );
 }
 export function useTicketsLazyQuery(
@@ -28513,9 +28644,10 @@ export function useTicketsLazyQuery(
     TicketsQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<TicketsQuery, TicketsQueryVariables>(
     TicketsDocument,
-    baseOptions,
+    options,
   );
 }
 export type TicketsQueryHookResult = ReturnType<typeof useTicketsQuery>;
@@ -28524,7 +28656,7 @@ export type TicketsQueryResult = Apollo.QueryResult<
   TicketsQuery,
   TicketsQueryVariables
 >;
-export const TimeZonesDocument: DocumentNode = {
+export const TimeZonesDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -28577,7 +28709,7 @@ export const TimeZonesDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useTimeZonesQuery__
@@ -28600,9 +28732,10 @@ export function useTimeZonesQuery(
     TimeZonesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<TimeZonesQuery, TimeZonesQueryVariables>(
     TimeZonesDocument,
-    baseOptions,
+    options,
   );
 }
 export function useTimeZonesLazyQuery(
@@ -28611,9 +28744,10 @@ export function useTimeZonesLazyQuery(
     TimeZonesQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<TimeZonesQuery, TimeZonesQueryVariables>(
     TimeZonesDocument,
-    baseOptions,
+    options,
   );
 }
 export type TimeZonesQueryHookResult = ReturnType<typeof useTimeZonesQuery>;
@@ -28624,7 +28758,7 @@ export type TimeZonesQueryResult = Apollo.QueryResult<
   TimeZonesQuery,
   TimeZonesQueryVariables
 >;
-export const WebPageByHostPathDocument: DocumentNode = {
+export const WebPageByHostPathDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -29611,7 +29745,7 @@ export const WebPageByHostPathDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useWebPageByHostPathQuery__
@@ -29636,10 +29770,11 @@ export function useWebPageByHostPathQuery(
     WebPageByHostPathQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     WebPageByHostPathQuery,
     WebPageByHostPathQueryVariables
-  >(WebPageByHostPathDocument, baseOptions);
+  >(WebPageByHostPathDocument, options);
 }
 export function useWebPageByHostPathLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -29647,10 +29782,11 @@ export function useWebPageByHostPathLazyQuery(
     WebPageByHostPathQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     WebPageByHostPathQuery,
     WebPageByHostPathQueryVariables
-  >(WebPageByHostPathDocument, baseOptions);
+  >(WebPageByHostPathDocument, options);
 }
 export type WebPageByHostPathQueryHookResult = ReturnType<
   typeof useWebPageByHostPathQuery
@@ -29662,7 +29798,7 @@ export type WebPageByHostPathQueryResult = Apollo.QueryResult<
   WebPageByHostPathQuery,
   WebPageByHostPathQueryVariables
 >;
-export const WebPageByPathDocument: DocumentNode = {
+export const WebPageByPathDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -30630,7 +30766,7 @@ export const WebPageByPathDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useWebPageByPathQuery__
@@ -30654,9 +30790,10 @@ export function useWebPageByPathQuery(
     WebPageByPathQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<WebPageByPathQuery, WebPageByPathQueryVariables>(
     WebPageByPathDocument,
-    baseOptions,
+    options,
   );
 }
 export function useWebPageByPathLazyQuery(
@@ -30665,9 +30802,10 @@ export function useWebPageByPathLazyQuery(
     WebPageByPathQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<WebPageByPathQuery, WebPageByPathQueryVariables>(
     WebPageByPathDocument,
-    baseOptions,
+    options,
   );
 }
 export type WebPageByPathQueryHookResult = ReturnType<
@@ -30680,7 +30818,7 @@ export type WebPageByPathQueryResult = Apollo.QueryResult<
   WebPageByPathQuery,
   WebPageByPathQueryVariables
 >;
-export const WebPageConfigByPathHostDocument: DocumentNode = {
+export const WebPageConfigByPathHostDocument = {
   definitions: [
     {
       kind: 'OperationDefinition',
@@ -30945,7 +31083,7 @@ export const WebPageConfigByPathHostDocument: DocumentNode = {
     },
   ],
   kind: 'Document',
-};
+} as unknown as DocumentNode;
 
 /**
  * __useWebPageConfigByPathHostQuery__
@@ -30970,10 +31108,11 @@ export function useWebPageConfigByPathHostQuery(
     WebPageConfigByPathHostQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
     WebPageConfigByPathHostQuery,
     WebPageConfigByPathHostQueryVariables
-  >(WebPageConfigByPathHostDocument, baseOptions);
+  >(WebPageConfigByPathHostDocument, options);
 }
 export function useWebPageConfigByPathHostLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -30981,10 +31120,11 @@ export function useWebPageConfigByPathHostLazyQuery(
     WebPageConfigByPathHostQueryVariables
   >,
 ) {
+  const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
     WebPageConfigByPathHostQuery,
     WebPageConfigByPathHostQueryVariables
-  >(WebPageConfigByPathHostDocument, baseOptions);
+  >(WebPageConfigByPathHostDocument, options);
 }
 export type WebPageConfigByPathHostQueryHookResult = ReturnType<
   typeof useWebPageConfigByPathHostQuery

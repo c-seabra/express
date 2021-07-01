@@ -92,7 +92,7 @@ const groupDiscountsByCategories = (
   return discountsByCategories;
 };
 
-const DiscountsPage = () => {
+const DiscountTemplatesPage = () => {
   const history = useHistory();
   const errorSnackbar = useErrorSnackbar();
   const { isOpen, closeModal, openModal } = useModalState();
@@ -190,4 +190,4 @@ const DiscountsPage = () => {
   );
 };
 
-export default DiscountsPage;
+export default DiscountTemplatesPage;
