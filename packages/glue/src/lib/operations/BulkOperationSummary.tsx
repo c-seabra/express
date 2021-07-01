@@ -29,14 +29,7 @@ const createGroupedResults = (list: any[]) => {
   return _.countBy(statuses, 'type');
 };
 
-/**
- *
- */
-type StringLiteral<T> = T extends string
-  ? string extends T
-    ? never
-    : T
-  : never;
+
 const x: 'A' | 'B' = 'A';
 function testing<A>(t: StringLiteral<A>) {
   console.log(t);
