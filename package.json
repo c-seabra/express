@@ -40,12 +40,8 @@
     "start:serve": "yarn run build:standalone && yarn serve --cors -s builds -l 9337",
     "start:single-spa": "lerna run start --scope @websummit-micro/* --concurrency 80",
     "test": "lerna run test",
-    "test:watch": "lerna run test:watch --stream"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn commit-hook || true"
-    }
+    "test:watch": "lerna run test:watch --stream",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

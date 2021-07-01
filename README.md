@@ -52,6 +52,13 @@ There variables are shared between all micro frontends. Currently we use:
 - `AUTH_TOKEN` this is your admin auth token you get from omnia, it determines the active conference, your user permissions and is valid for either staging or production. There are a few prefixed environment variables that you can use to save different tokens and cycle between them.
 - `API_URL` this is the url pointing to the catalyst that you want to use. There are prefixed examples for production and sandbox that you can copy, or you point it to your local setup as needed.
 
+### One time git hooks setup
+
+If you want your code to automatically be checked on every commit you do, to prevent formatting mistakes
+then you can install our git pre-commit hook by running:
+
+`yarn prepare`
+
 ### Requirements
 
 Node v14 (exact working v14.17.1)
