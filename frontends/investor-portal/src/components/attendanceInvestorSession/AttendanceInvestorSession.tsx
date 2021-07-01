@@ -97,6 +97,7 @@ const AttendanceInvestorSession: React.FC<AttendanceInvestorSessionType> = ({
               <option defaultChecked>Select another available session</option>
               {investorSessionsSummary?.map((item, i) => (
                 <option
+                  // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   disabled={item.available === '0'}
                   value={moment

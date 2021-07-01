@@ -88,11 +88,11 @@ const AttendanceSearch = (): ReactElement => {
       />
       {display && !loading && !error && (
         <ResultsContainer>
-          {results?.map((attendance, i) => (
-            <span key={i}>
+          {results?.map((attendance) => (
+            <span key={attendance.id}>
               {!selections.find((e) => e.id === attendance.id) && (
                 <ListItem
-                  key={i}
+                  key={`${attendance.id}-list-item`}
                   className="full-width"
                   onClick={() => handleSelect(attendance)}
                 >

@@ -74,7 +74,7 @@ const Calendar = ({ token, env }) => {
 
     if (Array.isArray(error) && error.length) {
       _error = error
-        .map((item) => normalizeError(error, status))
+        .map(() => normalizeError(error, status))
         .filter((val) => val);
     }
 
@@ -84,23 +84,27 @@ const Calendar = ({ token, env }) => {
   };
 
   /* eslint-disable react-hooks/rules-of-hooks */
-  useEffect(() => {
-    const tokenPayload = jwt(token);
-    try {
-      setCurrentToken(token); // use token or currentToken, not both (below)
-      // setPayload(tokenPayload)
-      // eslint-disable-next-line no-use-before-define,no-void
-      void getRequiredData(tokenPayload);
+  useEffect(
+    () => {
+      const tokenPayload = jwt(token);
+      try {
+        setCurrentToken(token); // use token or currentToken, not both (below)
+        // setPayload(tokenPayload)
+        // eslint-disable-next-line no-use-before-define,no-void
+        void getRequiredData(tokenPayload);
 
-      setCurrentUserId(tokenPayload.sub);
-      // setENV(env)
-      setConfSlug(tokenPayload.conf_slug);
-      // getAllLocationsDetails(tokenPayload.conf_slug)
-      // getAllCalendarEvents(token)
-    } catch (e) {
-      addError(e);
-    }
-  }, [attendances, token]);
+        setCurrentUserId(tokenPayload.sub);
+        // setENV(env)
+        setConfSlug(tokenPayload.conf_slug);
+        // getAllLocationsDetails(tokenPayload.conf_slug)
+        // getAllCalendarEvents(token)
+      } catch (e) {
+        addError(e);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [attendances, token],
+  );
   /* eslint-enable react-hooks/rules-of-hooks */
 
   const getAdminEvents = async () => {
@@ -378,7 +382,7 @@ const Calendar = ({ token, env }) => {
     setChosenDate(new Date(when));
   };
 
-  const onDrillDown = (d) => setCurrentView(BigCalendar.Views.DAY);
+  const onDrillDown = () => setCurrentView(BigCalendar.Views.DAY);
 
   const tooltipAccessor = (e) =>
     `${e.title} -> ${e.starts_at} + ${e.description || ''}`;
@@ -400,35 +404,39 @@ const Calendar = ({ token, env }) => {
     return { style };
   };
 
-  const moveEvent = ({ event, start, end, isAllDay: droppedOnAllDaySlot }) => {
-    // don't do anything if already doing
-    // if (newEvent || existingEvent) return;
-    // const idx = events.indexOf(event);
-    // let { allDay } = event;
-    // if (!event.allDay && droppedOnAllDaySlot) {
-    //   allDay = true;
-    // } else if (event.allDay && !droppedOnAllDaySlot) {
-    //   allDay = false;
-    // }
-    // const updatedEvent = { ...event, allDay };
-    // updatedEvent.starts_at = start;
-    // updatedEvent.ends_at = end;
-    // const nextEvents = [...events];
-    // nextEvents.splice(idx, 1, updatedEvent);
-    // setEvents(nextEvents);
-    // console.log(`${updatedEvent.id} was dropped onto ${updatedEvent.starts_at}`)
-  };
+  const moveEvent = () =>
+    // {event, start, end, isAllDay: droppedOnAllDaySlot}
+    {
+      // don't do anything if already doing
+      // if (newEvent || existingEvent) return;
+      // const idx = events.indexOf(event);
+      // let { allDay } = event;
+      // if (!event.allDay && droppedOnAllDaySlot) {
+      //   allDay = true;
+      // } else if (event.allDay && !droppedOnAllDaySlot) {
+      //   allDay = false;
+      // }
+      // const updatedEvent = { ...event, allDay };
+      // updatedEvent.starts_at = start;
+      // updatedEvent.ends_at = end;
+      // const nextEvents = [...events];
+      // nextEvents.splice(idx, 1, updatedEvent);
+      // setEvents(nextEvents);
+      // console.log(`${updatedEvent.id} was dropped onto ${updatedEvent.starts_at}`)
+    };
 
-  const resizeEvent = ({ event, start, end }) => {
-    // const starts_at = start;
-    // const ends_at = end;
-    // const nextEvents = events.map((existingEvent) =>
-    //   existingEvent.id === event.id
-    //     ? { ...existingEvent, ends_at, starts_at }
-    //     : existingEvent,
-    // );
-    // setEvents(nextEvents);
-  };
+  const resizeEvent = () =>
+    // {event, start, end}
+    {
+      // const starts_at = start;
+      // const ends_at = end;
+      // const nextEvents = events.map((existingEvent) =>
+      //   existingEvent.id === event.id
+      //     ? { ...existingEvent, ends_at, starts_at }
+      //     : existingEvent,
+      // );
+      // setEvents(nextEvents);
+    };
 
   const getAttendance = async (invitee_id) => {
     const result = await Api.getAttendance(
