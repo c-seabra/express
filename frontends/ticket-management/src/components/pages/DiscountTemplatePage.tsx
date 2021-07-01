@@ -16,7 +16,10 @@ import {
   useCommerceListDealsQuery,
   useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import { discountFilter, discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
+import {
+  discountFilter,
+  discountTemplateFilter,
+} from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -120,16 +123,14 @@ const DiscountTemplatePage = () => {
     },
   });
   const deal = dealResponse?.commerceGetDeal;
-  const {
-    loading: dealItemsLoading,
-    data: dealItemsResponse,
-  } = useCommerceListDealItemsQuery({
-    context,
-    onError: (error) => errorSnackbar(error.message),
-    variables: {
-      dealId,
-    },
-  });
+  const { loading: dealItemsLoading, data: dealItemsResponse } =
+    useCommerceListDealItemsQuery({
+      context,
+      onError: (error) => errorSnackbar(error.message),
+      variables: {
+        dealId,
+      },
+    });
   const dealItems = dealItemsResponse?.commerceListDealItems?.hits;
   const hasDealItems = dealItems && dealItems.length > 0;
   const breadcrumbsRoutes: Breadcrumb[] = [
@@ -152,9 +153,10 @@ const DiscountTemplatePage = () => {
     context,
   });
 
-  const activePaymentMethods = paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
-    (method) => method.active,
-  );
+  const activePaymentMethods =
+    paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
+      (method) => method.active,
+    );
   const [dealItemId, setDealItemId] = useState<string>();
   const {
     isOpen: isPackageItemModalOpen,
