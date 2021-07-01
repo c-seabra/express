@@ -170,8 +170,12 @@ module.exports = {
     'react/require-default-props': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
 
-    // results in false positives for single spa
+    // results in false positives:
+    // this triggers for single spa and makes no sense there
     'react/display-name': 'off',
+    // this results in false positives in anonymous functions
+    // for tables and such, where destructuring makes it worse
+    'react/destructuring-assignment': 'off',
 
     // disabled because prettier controls this
     indent: ['off', 2, { SwitchCase: 1 }],

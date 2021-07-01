@@ -54,14 +54,18 @@ const ExistingEvent = ({ event, close_popup, formats }) => {
     setEventTime(dateFormatted);
   };
 
-  useEffect(() => {
-    // get location name
-    // eslint-disable-next-line no-unused-expressions,no-use-before-define
-    location && setLocationName(getLocationName(location));
+  useEffect(
+    () => {
+      // get location name
+      // eslint-disable-next-line no-unused-expressions,no-use-before-define
+      location && setLocationName(getLocationName(location));
 
-    // Format the date to desired layout
-    formatDate(starts_at.toString(), ends_at.toString());
-  }, [location && location.id, location && location.name, invitations, rsvps]);
+      // Format the date to desired layout
+      formatDate(starts_at.toString(), ends_at.toString());
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location && location.id, location && location.name, invitations, rsvps],
+  );
 
   const handleDelete = () => {
     // open popup overlay
