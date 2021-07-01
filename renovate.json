@@ -20,7 +20,7 @@
     {
       "groupName": "eslint",
       "matchPackagePatterns": ["eslint"]
-    },
+    }
   ],
   "rangeStrategy": "pin",
   "reviewers": ["reggaemuffin"]
