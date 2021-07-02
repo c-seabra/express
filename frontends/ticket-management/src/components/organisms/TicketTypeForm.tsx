@@ -9,7 +9,6 @@ import { useSnackbars } from '@websummit/components/src/molecules/Snackbar';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInput from '@websummit/components/src/molecules/TextInput';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
-import { fromCents, toCents, Total } from '@websummit/glue/src/lib/utils/price';
 import {
   CommerceCategory,
   CommerceProduct,
@@ -25,12 +24,17 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import CommerceGetProduct from '@websummit/graphql/src/operations/queries/CommerceGetProduct';
 import CommerceListProducts from '@websummit/graphql/src/operations/queries/CommerceListProducts';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
+import {
+  fromCents,
+  toCents,
+  Total,
+} from '@websummit/tsutils/src/lib/utils/price';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useRequestContext } from '../app/AppContext';
 
 const FieldRow = styled.div`

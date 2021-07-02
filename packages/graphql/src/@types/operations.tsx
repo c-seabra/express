@@ -1,6 +1,6 @@
 import * as Apollo from '@apollo/client';
+import { OperationVariables as QueryVariables } from '@apollo/client';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-import { OperationVariables as QueryVariables } from 'apollo-client';
 
 import { AnyJson, JsonObject } from './json';
 

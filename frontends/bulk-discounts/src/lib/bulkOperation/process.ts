@@ -3,7 +3,6 @@ import { GraphQLParams } from '@websummit/graphql';
 import {
   CommerceCreateDealDocument,
   CommerceCreateDealMutation,
-  CommerceCreateDealMutationVariables,
 } from '@websummit/graphql/src/@types/operations';
 
 import { CreateDiscountWorkUnit } from './workUnit';

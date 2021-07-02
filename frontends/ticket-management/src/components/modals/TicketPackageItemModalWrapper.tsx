@@ -10,10 +10,10 @@ import {
   useCommerceUpdatePackagedProductMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_GET_PRODUCT from '@websummit/graphql/src/operations/queries/CommerceGetProduct';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import React from 'react';
 import * as Yup from 'yup';
 
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 import TicketPackageItemForm from '../organisms/TicketPackageItemForm';
 

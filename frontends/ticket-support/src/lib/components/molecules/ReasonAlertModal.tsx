@@ -1,12 +1,12 @@
 import CheckboxField from '@websummit/components/src/molecules/CheckboxField';
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import STATIC_MESSAGES from '../../constants/messages';
 import { DisabledButton, ErrorButton } from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import Modal from './Modal';

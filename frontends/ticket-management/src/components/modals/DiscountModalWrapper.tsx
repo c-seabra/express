@@ -15,11 +15,11 @@ import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useCommerceCreateDealMutation } from '@websummit/graphql/src/@types/operations';
 import { discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
 const StyledInputField = styled(TextInputField)`

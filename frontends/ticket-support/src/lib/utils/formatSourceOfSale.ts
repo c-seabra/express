@@ -1,4 +1,4 @@
-import { switchCase } from './logic';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
 
 export const missingDataAbbr = 'N/A';
 

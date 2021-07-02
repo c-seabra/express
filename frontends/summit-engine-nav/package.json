@@ -10,6 +10,8 @@
     "clean": "rimraf -rf ./dist",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
     "start": "webpack serve --port 9020",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "start:standalone": "webpack serve --env standalone"
   },
   "browserslist": {
@@ -39,6 +41,7 @@
     "react-helmet": "*",
     "react-modal": "*",
     "react-router-dom": "*",
+    "single-spa-react": "*",
     "styled-components": "*",
     "yup": "*"
   },

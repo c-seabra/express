@@ -6,10 +6,6 @@ import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInput from '@websummit/components/src/molecules/TextInput';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import {
-  formatDisplayPrice,
-  TotalInCents,
-} from '@websummit/glue/src/lib/utils/price';
 import { RecursivePartial } from '@websummit/glue/src/lib/utils/recursivePartial';
 import {
   CommerceDeal,
@@ -21,6 +17,10 @@ import {
   CommerceTaxType,
   useCommerceCreateOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
+import {
+  formatDisplayPrice,
+  TotalInCents,
+} from '@websummit/tsutils/src/lib/utils/price';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';

@@ -4,6 +4,7 @@ import {
   SpacingBottom,
   SpacingBottomXs,
 } from '@websummit/components/src/templates/Spacing';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
@@ -11,7 +12,6 @@ import * as Yup from 'yup';
 
 import { Button, SecondaryButton } from '../../lib/components/atoms/Button';
 import Modal, { useModalState } from '../../lib/components/molecules/Modal';
-import STATIC_MESSAGES from '../../lib/constants/messages';
 import UpdateUniqueUserIdentifierModal from './UpdateUniqueUserIdentifierModal';
 
 const StyledActions = styled.span`

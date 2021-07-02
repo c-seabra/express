@@ -1,13 +1,13 @@
 import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { SpacingBottom } from '@websummit/components/src/templates/Spacing';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import Modal from '../../lib/components/molecules/Modal';
-import STATIC_MESSAGES from '../../lib/constants/messages';
 import useUpdateUniqueUserIdentifierMutation from '../../lib/hooks/useUpdateUniqueUserIdentifier';
 
 const ContentContainer = styled.div`

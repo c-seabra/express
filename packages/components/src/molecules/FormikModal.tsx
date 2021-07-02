@@ -1,9 +1,10 @@
-import Icon from '@websummit/components/src/atoms/Icon';
-import Modal from '@websummit/components/src/molecules/Modal';
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
+
+import Icon from '../atoms/Icon';
+import { Spacing } from '../templates/Spacing';
+import Modal from './Modal';
 
 export const Wrapper = styled.div`
   display: flex;

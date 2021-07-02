@@ -16,11 +16,11 @@ import {
   useCommerceListCategoriesQuery,
   useCommerceListProductsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import PageContainer from '../../lib/components/templates/PageContainer';
 import { useAppContext } from '../app/AppContext';
 import TicketTypeModal from '../ticketTypes/TicketTypeModal';

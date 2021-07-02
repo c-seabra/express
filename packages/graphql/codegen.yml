@@ -33,7 +33,7 @@ generates:
           placement: 'prepend'
           content:
             - "import { JsonObject, AnyJson } from './json'"
-            - "import { OperationVariables as QueryVariables } from 'apollo-client'"
+            - "import { OperationVariables as QueryVariables } from '@apollo/client'"
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-react-apollo'

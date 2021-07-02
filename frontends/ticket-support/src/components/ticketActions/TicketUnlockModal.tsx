@@ -4,6 +4,7 @@ import {
   extractTypeFromMaybe,
   GetQueryResult,
 } from '@websummit/graphql/src/lib/types';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import { Form, Formik } from 'formik';
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
@@ -11,7 +12,6 @@ import * as Yup from 'yup';
 
 import { WarningMessage } from '../../lib/components/atoms/Messages';
 import Modal from '../../lib/components/molecules/Modal';
-import STATIC_MESSAGES from '../../lib/constants/messages';
 import useUnlockTicketMutation from '../../lib/hooks/useTicketUnlockMutation';
 
 const ContentContainer = styled.div`

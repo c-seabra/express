@@ -1,9 +1,9 @@
-import React from 'react';
-
-import BulkOperationCSV from '../../../../packages/glue/src/lib/operations/BulkOperationCSV';
+import BulkOperationCSV from '@websummit/glue/src/lib/operations/BulkOperationCSV';
 import BulkOperationSummary, {
   StatusMapping,
-} from '../../../../packages/glue/src/lib/operations/BulkOperationSummary';
+} from '@websummit/glue/src/lib/operations/BulkOperationSummary';
+import React from 'react';
+
 import {
   CreateDiscountWorkUnit,
   StatusType,

@@ -9,6 +9,7 @@ import {
   CommerceOrder,
   CommercePaymentMethod,
 } from '@websummit/graphql/src/@types/operations';
+import { VALIDATION_MESSAGES } from '@websummit/tsutils/src/lib/constants/messages';
 import { Form, Formik, useFormikContext } from 'formik';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -22,7 +23,6 @@ import {
   HeaderText,
   IconWrapper,
 } from '../../lib/components/molecules/ReasonAlertModal';
-import { VALIDATION_MESSAGES } from '../../lib/constants/messages';
 import useRefund from '../../lib/hooks/useRefund';
 import { fromCents, toCents, Total } from '../../lib/utils/price';
 

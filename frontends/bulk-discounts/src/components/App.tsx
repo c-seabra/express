@@ -78,13 +78,6 @@ const App = ({ token, apiURL }: GraphQLParams) => {
   if (!token) return null;
 
   const apolloClient = initApollo({ apiURL });
-
-  const bulkContext: GraphQLParams = {
-    apolloClient,
-    slug,
-    token,
-  };
-
   return (
     <ApolloProvider client={apolloClient}>
       <SnackbarProvider>

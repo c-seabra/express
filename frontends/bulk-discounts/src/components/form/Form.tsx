@@ -64,8 +64,8 @@ const StyledNumberInput = styled(TextInput)`
 
 const Form: React.FC = () => {
   const context = useContext(AppContext);
-  const [formError, setFormError] = useState(false);
-  const [assignees, setAssignees] = useState<Staff[]>([]);
+  const [formError] = useState(false);
+  const [, setAssignees] = useState<Staff[]>([]);
 
   const [paymentMethodID, setPaymentMethodID] = useState('');
   const [paymentMethodName, setPaymentMethodName] = useState('');
@@ -79,7 +79,7 @@ const Form: React.FC = () => {
   const [volumeTicketsProductName, setVolumeTicketsProductName] = useState('');
   const [volumeTicketsQuantity, setVolumeTicketsQuantity] = useState(10);
 
-  const [notifyOrderOwner, setNotifyOrderOwner] = useState(false);
+  const [, setNotifyOrderOwner] = useState(false);
 
   const fileUploadId = 'custom-file-upload';
   const errSnackbar = useErrorSnackbar();
@@ -370,11 +370,6 @@ const Form: React.FC = () => {
   };
   const onSingleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // some hackery because ts is not smart enough for this type to work
-    const firstName = (e.target as any).firstName.value as string;
-    const lastName = (e.target as any).lastName.value as string;
-    const emailField = (e.target as any).email.value as string;
-    const email: string = emailField.toLowerCase().trim();
   };
 
   const csvTemplateFile = [

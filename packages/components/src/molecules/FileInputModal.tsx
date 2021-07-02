@@ -1,12 +1,12 @@
-import { Button } from '@websummit/components/src/atoms/Button';
-import Icon, { IconWrapper } from '@websummit/components/src/atoms/Icon';
-import Modal from '@websummit/components/src/molecules/Modal';
-import ProgressBar from '@websummit/components/src/molecules/ProgressBar';
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import React from 'react';
 import styled from 'styled-components';
 
+import { Button } from '../atoms/Button';
+import Icon, { IconWrapper } from '../atoms/Icon';
+import { Spacing } from '../templates/Spacing';
 import FileUploadInput from './FileUploadInput';
+import Modal from './Modal';
+import ProgressBar from './ProgressBar';
 
 const Flex = styled.div`
   display: flex;

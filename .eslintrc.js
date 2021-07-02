@@ -1,3 +1,7 @@
+const fs = require('fs');
+
+const runInRootLevel = fs.existsSync('./frontends');
+
 module.exports = {
   env: {
     browser: true,
@@ -27,9 +31,9 @@ module.exports = {
   overrides: [
     {
       files: [
-        'packages/graphql/src/@types/operations.tsx',
-        'packages/graphql/src/@types/fragments.ts',
-        'packages/graphql/src/operations.wp/types.tsx',
+        '**/src/@types/operations.tsx',
+        '**/src/@types/fragments.ts',
+        '**/src/operations.wp/types.tsx',
       ],
       rules: {
         '@typescript-eslint/camelcase': 'off',
@@ -47,6 +51,13 @@ module.exports = {
         '@typescript-eslint/no-unsafe-assignment': 'off',
         '@typescript-eslint/no-unsafe-member-access': 'off',
         '@typescript-eslint/no-unsafe-return': 'off',
+      },
+    },
+    {
+      files: ['**/*test*.{js,jsx,ts,tsx}', '**/mocks/**/*'],
+      rules: {
+        // tests use devDependencies
+        'import/no-extraneous-dependencies': ['off'],
       },
     },
   ],
@@ -146,6 +157,12 @@ module.exports = {
     'typescript-sort-keys/interface': 2,
     'typescript-sort-keys/string-enum': 2,
 
+    // this one is a bit tricky because it only works if
+    // you run the command in the package, will fail on root level
+    // so we only turn it on conditionally
+    'import/no-extraneous-dependencies': [runInRootLevel ? 'off' : 'error'],
+    'import/no-relative-packages': 'error',
+
     // using simple-import-sort instead
     'sort-imports': 'off',
     'import/order': 'off',
@@ -170,7 +187,6 @@ module.exports = {
     'no-unused-vars': 'off',
     'import/prefer-default-export': 'off',
     'no-underscore-dangle': 'off',
-    'import/no-extraneous-dependencies': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',
     'react/require-default-props': 'off',

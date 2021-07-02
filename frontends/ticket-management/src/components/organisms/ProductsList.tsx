@@ -3,12 +3,12 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptor,
 } from '@websummit/components/src/molecules/Table';
+import { CommerceListSaleProductsQuery } from '@websummit/graphql/src/@types/operations';
+import { CommerceListQueryHitsResult } from '@websummit/graphql/src/lib/types';
 import {
   formatDisplayPrice,
   TotalInCents,
-} from '@websummit/glue/src/lib/utils/price';
-import { CommerceListSaleProductsQuery } from '@websummit/graphql/src/@types/operations';
-import { CommerceListQueryHitsResult } from '@websummit/graphql/src/lib/types';
+} from '@websummit/tsutils/src/lib/utils/price';
 import React from 'react';
 import styled from 'styled-components';
 

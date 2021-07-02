@@ -9,6 +9,8 @@
     "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
     "clean": "rimraf -rf ./dist",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "start": "webpack serve --port 9008",
     "start:standalone": "webpack serve --env standalone"
   },
@@ -32,6 +34,7 @@
     "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",
+    "@websummit/tsutils": "*",
     "graphql": "*",
     "immutability-helper": "*",
     "isomorphic-unfetch": "*",
@@ -45,6 +48,7 @@
     "react-datetime": "*",
     "react-dom": "*",
     "react-router-dom": "*",
+    "single-spa-react": "*",
     "styled-components": "*"
   },
   "devDependencies": {}

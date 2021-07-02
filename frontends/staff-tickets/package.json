@@ -12,6 +12,8 @@
     "start": "webpack serve --port 9003",
     "start:standalone": "webpack serve --env standalone",
     "test": "jest --passWithNoTests --verbose",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "test:watch": "jest --watch --verbose --no-cache"
   },
   "browserslist": {
@@ -31,11 +33,15 @@
     "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",
+    "@websummit/tsutils": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",
+    "lodash": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "single-spa-react": "*",
+    "styled-components": "*"
   },
   "devDependencies": {}
 }

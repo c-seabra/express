@@ -9,6 +9,8 @@
     "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
     "clean": "rimraf -rf ./dist",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "start": "webpack serve --port 9005",
     "start:standalone": "webpack serve --env standalone"
   },
@@ -28,6 +30,7 @@
     "@apollo/client": "*",
     "@apollo/react-common": "*",
     "@graphql-typed-document-node/core": "*",
+    "@material-ui/icons": "*",
     "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",

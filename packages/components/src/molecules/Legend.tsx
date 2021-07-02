@@ -1,7 +1,8 @@
-import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { nanoid } from 'nanoid';
 import React from 'react';
 import styled from 'styled-components';
+
+import { Spacing } from '../templates/Spacing';
 
 type Position = 'Vertical' | 'Horizontal';
 type LegendProps = {

@@ -14,6 +14,8 @@
     "clean": "rimraf -rf ./dist",
     "compile": "tsc -p tsconfig.build.json --noEmit",
     "prepublishOnly": "yarn run build",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "test": "yarn run build"
   },
   "devDependencies": {}
