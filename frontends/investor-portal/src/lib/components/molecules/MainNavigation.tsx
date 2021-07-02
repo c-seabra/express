@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Icon } from '..';
 import { Route, Routes } from '../../constants/routes';
+import { Icon } from '..';
 
 const StyledNavigation = styled.nav`
   display: flex;
