@@ -20,8 +20,6 @@ import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useRequestContext } from '../app/AppContext';
 import { ModalInputMode } from './TaxRateCreateModalWrapper';
 
 export const Wrapper = styled.div`

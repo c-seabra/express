@@ -27,16 +27,13 @@ import {
   CommerceListQueryHitsResult,
 } from '@websummit/graphql/src/lib/types';
 import COMMERCE_SALE_PRODUCTS_LIST from '@websummit/graphql/src/operations/queries/CommerceListSaleProducts';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import { fromCents, toCents } from '@websummit/tsutils/src/lib/utils/price';
-import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useRequestContext } from '../app/AppContext';
 
 const InlineWrapper = styled.div`
   display: flex;

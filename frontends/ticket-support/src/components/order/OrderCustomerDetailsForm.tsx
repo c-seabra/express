@@ -12,16 +12,14 @@ import {
   useCommerceUpdateCustomerMutation,
   useCountriesQuery,
 } from '@websummit/graphql/src/@types/operations';
-import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { SecondaryButton } from '../../lib/components/atoms/Button';
-import STATIC_MESSAGES from '../../lib/constants/messages';
-import { useRequestContext } from '../app/AppContext';
 
 const FlexEnd = styled.div`
   display: flex;

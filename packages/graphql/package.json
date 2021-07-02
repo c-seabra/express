@@ -25,6 +25,7 @@
     "apollo-cache-inmemory": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",
+    "jwt-decode": "*",
     "react": "*"
   },
   "devDependencies": {}

@@ -24,20 +24,17 @@ import {
 } from '@websummit/graphql/src/@types/operations';
 import CommerceGetProduct from '@websummit/graphql/src/operations/queries/CommerceGetProduct';
 import CommerceListProducts from '@websummit/graphql/src/operations/queries/CommerceListProducts';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
 import {
   fromCents,
   toCents,
   Total,
 } from '@websummit/tsutils/src/lib/utils/price';
-import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import { useRequestContext } from '../app/AppContext';
 
 const FieldRow = styled.div`
   display: flex;

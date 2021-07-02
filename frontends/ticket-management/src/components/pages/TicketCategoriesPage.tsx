@@ -13,8 +13,8 @@ import {
   CommerceCategory,
   useCommerceListCategoriesQuery,
 } from '@websummit/graphql/src/@types/operations';
-import { formatDefaultDateTime } from '@websummit/tsutils/src/utils/time';
 import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
+import { formatDefaultDateTime } from '@websummit/tsutils/src/utils/time';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
