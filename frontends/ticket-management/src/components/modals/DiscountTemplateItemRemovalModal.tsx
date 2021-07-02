@@ -5,9 +5,8 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import { useCommerceDeleteDealItemMutation } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
-
-import { useRequestContext } from '../app/AppContext';
 
 type ModalProps = {
   closeModal: () => void;

@@ -20,11 +20,11 @@ import {
   discountFilter,
   discountTemplateFilter,
 } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useRequestContext } from '../app/AppContext';
 import DiscountTemplateItemModalWrapper from '../modals/DiscountTemplateItemModalWrapper';
 import DiscountTemplateItemRemovalModal from '../modals/DiscountTemplateItemRemovalModal';
 import DealItemsList from '../organisms/DealItemsList';

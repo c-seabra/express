@@ -16,12 +16,12 @@ import { useCommerceUpdateDealMutation } from '@websummit/graphql/src/@types/ope
 import useGetEventTimeZone from '@websummit/graphql/src/hooks/useGetEventTimeZone';
 import { discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
 import COMMERCE_LIST_DEALS from '@websummit/graphql/src/operations/queries/CommerceListDeals';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useRequestContext } from '../app/AppContext';
 
 const FlexEnd = styled.div`
   display: flex;

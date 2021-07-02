@@ -5,8 +5,7 @@ import {
   CommerceOrderStatus,
   useUpdateCommerceOrderMutation,
 } from '@websummit/graphql/src/@types/operations';
-
-import { useRequestContext } from '../../components/app/AppContext';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 
 export default () => {
   const context = useRequestContext();

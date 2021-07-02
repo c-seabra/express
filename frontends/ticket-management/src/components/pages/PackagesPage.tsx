@@ -11,8 +11,8 @@ import {
   useCommerceListCategoriesQuery,
   useCommerceListDealsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import { dealsFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
