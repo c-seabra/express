@@ -1,9 +1,6 @@
-import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
-import { initApollo } from '@websummit/graphql';
-import AppContext from '@websummit/graphql/src/utils/AppContext';
-import jwt from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import ApolloAppContextProvider from '@websummit/graphql/src/utils/ApolloAppContextProvider';
+import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -30,68 +27,50 @@ type AppProps = {
 };
 
 const App = ({ token, apiURL }: AppProps) => {
-  const tokenPayload: { conf_slug: string; email: string } = jwt(token);
-  const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
-
-  useEffect(() => {
-    setSlug(tokenPayload.conf_slug);
-  }, [tokenPayload.conf_slug]);
-
-  if (!token) return null;
-
-  const apolloClient = initApollo({ apiURL });
-
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloAppContextProvider apiURL={apiURL} token={token}>
       <SnackbarProvider>
         <Router>
-          <AppContext.Provider
-            value={{
-              slug,
-              token,
-            }}
-          >
-            <StyledContainer>
-              <Switch>
-                <Route exact path="/">
-                  <SalesCyclesPage />
-                </Route>
-                <Route exact path="/sale-cycles">
-                  <SalesCyclesPage />
-                </Route>
-                <Route exact path="/sale-cycle/:id">
-                  <SalesCyclePage />
-                </Route>
-                <Route exact path="/ticket-categories">
-                  <TicketCategoriesPage />
-                </Route>
-                <Route exact path="/ticket-types">
-                  <TicketTypesPage />
-                </Route>
-                <Route exact path="/ticket-type/:id">
-                  <TicketTypePage />
-                </Route>
-                <Route exact path="/deals">
-                  <PackagesPage />
-                </Route>
-                <Route exact path="/deal/:id">
-                  <PackagePage />
-                </Route>
-                <Route exact path="/discounts">
-                  <DiscountTemplatesPage />
-                </Route>
-                <Route exact path="/discount/:id">
-                  <DiscountTemplatePage />
-                </Route>
-                <Route exact path="/tags">
-                  <TagsPage />
-                </Route>
-              </Switch>
-            </StyledContainer>
-          </AppContext.Provider>
+          <StyledContainer>
+            <Switch>
+              <Route exact path="/">
+                <SalesCyclesPage />
+              </Route>
+              <Route exact path="/sale-cycles">
+                <SalesCyclesPage />
+              </Route>
+              <Route exact path="/sale-cycle/:id">
+                <SalesCyclePage />
+              </Route>
+              <Route exact path="/ticket-categories">
+                <TicketCategoriesPage />
+              </Route>
+              <Route exact path="/ticket-types">
+                <TicketTypesPage />
+              </Route>
+              <Route exact path="/ticket-type/:id">
+                <TicketTypePage />
+              </Route>
+              <Route exact path="/deals">
+                <PackagesPage />
+              </Route>
+              <Route exact path="/deal/:id">
+                <PackagePage />
+              </Route>
+              <Route exact path="/discounts">
+                <DiscountTemplatesPage />
+              </Route>
+              <Route exact path="/discount/:id">
+                <DiscountTemplatePage />
+              </Route>
+              <Route exact path="/tags">
+                <TagsPage />
+              </Route>
+            </Switch>
+          </StyledContainer>
         </Router>
       </SnackbarProvider>
-    </ApolloProvider>
+    </ApolloAppContextProvider>
   );
 };
 
