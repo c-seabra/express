@@ -1,11 +1,12 @@
 import { ApolloError, useMutation, useQuery } from '@apollo/client';
-import React, { useContext, useEffect, useState } from 'react';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
+import React, { useEffect, useState } from 'react';
 
 import TICKET_ACCEPT_MUTATION from '../../operations/mutations/TicketAccept';
 import TICKET_ASSIGN_MUTATION from '../../operations/mutations/TicketAssign';
 import ASSIGNMENT_USER from '../../operations/queries/AssignmentUserByEmail';
 import TICKET_ID_BY_REFERENCE from '../../operations/queries/TicketIdByReference';
-import { AppContext, Assignee } from '../app/App';
+import { Assignee } from '../app/App';
 import AssigneeItem from './AssigneeItem';
 
 export type StatusType = {
@@ -28,7 +29,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   email,
   autoClaim,
 }) => {
-  const { token, slug } = useContext(AppContext);
+  const context = useRequestContext();
   const [status, setStatus] = useState<StatusType>({
     message: 'Assignment is still processing.',
     type: 'PENDING',
@@ -63,10 +64,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
 
   const claimTicket = (ticketId: string) => {
     ticketAccept({
-      context: {
-        slug,
-        token,
-      },
+      context,
       variables: {
         ticketId,
       },
@@ -80,10 +78,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
   };
 
   const { data: newAssignmentUserData } = useQuery(ASSIGNMENT_USER, {
-    context: {
-      slug,
-      token,
-    },
+    context,
     onCompleted: (data: {
       assignmentUser?: {
         assigneeAssignments?: {
@@ -140,10 +135,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
     error?: ApolloError;
     loading?: boolean;
   } = useQuery(TICKET_ID_BY_REFERENCE, {
-    context: {
-      slug,
-      token,
-    },
+    context,
     onCompleted: (ticketData) => {
       if (!ticketData?.ticket?.id) {
         setStatus({
@@ -228,10 +220,7 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
         data.ticket.id
       ) {
         ticketAssign({
-          context: {
-            slug,
-            token,
-          },
+          context,
           variables: {
             email,
             firstName,
@@ -288,13 +277,13 @@ const AssigneeItemProvider: React.FC<AssigneeItemProvider> = ({
       } else if (newAssignmentUserEmail) {
         setStatus({
           message: `${newAssignmentUserEmail} already owns a ticket for ${
-            slug as string
+            context?.slug as string
           } event therefore reassignment will not be executed.`,
           type: 'ERROR',
         });
         setClaimStatus({
           message: `${newAssignmentUserEmail} already owns a ticket for ${
-            slug as string
+            context?.slug as string
           } event therefore auto claim will not be executed.`,
           type: 'ERROR',
         });
