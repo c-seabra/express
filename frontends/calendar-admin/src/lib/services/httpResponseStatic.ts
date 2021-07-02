@@ -70,4 +70,4 @@ const HTTP_ERROR_MESSAGES = {
   SERVER_ERR: 'Internal server error',
 };
 
-export { HTTP_RESPONSE, HTTP_ERROR_MESSAGES };
+export { HTTP_ERROR_MESSAGES, HTTP_RESPONSE };
