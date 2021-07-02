@@ -87,27 +87,6 @@ const tableShapeWithOrderDocuments: ColumnDescriptor<ExtendedOrder>[] = [
     },
   },
   {
-    header: 'Refund receipt',
-    renderCell: (order) => {
-      return (
-        <>
-          {order?.refundReceiptUrl ? (
-            <StyledLink
-              download="refund-receipt.pdf"
-              href={order?.refundReceiptUrl || '#'}
-              rel="noreferrer"
-              target="_blank"
-            >
-              <>Download</>
-            </StyledLink>
-          ) : (
-            <span>N/A</span>
-          )}
-        </>
-      );
-    },
-  },
-  {
     header: 'Customer billing',
     renderCell: (order) => {
       return (
@@ -127,7 +106,6 @@ type Props = {
   loading: boolean;
   loadingCommerceOrder: boolean;
   order?: Order | null;
-  refundReceiptSendEmail: any;
 };
 
 const OrderDetailsSummary = ({
@@ -138,7 +116,6 @@ const OrderDetailsSummary = ({
   invoiceSendEmail,
   commerceOrder,
   loadingCommerceOrder,
-  refundReceiptSendEmail,
 }: Props): ReactElement => {
   const orderWithActions: any = {
     ...order,
@@ -149,11 +126,6 @@ const OrderDetailsSummary = ({
     isOpen: invoiceModalOpen,
     closeModal: invoiceCloseModal,
     openModal: invoiceOpenModal,
-  } = useModalState();
-  const {
-    isOpen: refundReceiptModalOpen,
-    closeModal: refundReceiptCloseModal,
-    openModal: refundReceiptOpenModal,
   } = useModalState();
   const defaultTableShape = orderDetailsTableShape.concat(
     tableShapeWithOrderDocuments,
@@ -193,19 +165,6 @@ const OrderDetailsSummary = ({
                   />
                   <Button onClick={invoiceOpenModal}>
                     Send email with invoice
-                  </Button>
-                </>
-              )}
-              {commerceOrder.refundReceiptUrl && (
-                <>
-                  <OrderSendDocumentModal
-                    alertText="Send email with refund receipt?"
-                    closeModal={refundReceiptCloseModal}
-                    isOpen={refundReceiptModalOpen}
-                    sendEmail={refundReceiptSendEmail}
-                  />
-                  <Button onClick={refundReceiptOpenModal}>
-                    Send email with refund receipt
                   </Button>
                 </>
               )}
