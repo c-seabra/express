@@ -11,12 +11,11 @@ import {
   useCommerceUpdateTagMutation,
 } from '@websummit/graphql/src/@types/operations';
 import CommerceListTags from '@websummit/graphql/src/operations/queries/CommerceListTags';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-
-import { useRequestContext } from '../app/AppContext';
 
 const Wrapper = styled.div`
   display: flex;

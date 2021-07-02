@@ -2,9 +2,9 @@ import {
   CommerceTaxRateType,
   EventConfigurationCountry,
 } from '@websummit/graphql/src/@types/operations';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
 import React from 'react';
 
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useTaxRateCreateOperation } from '../../operations/mutations/TaxRateCreate';
 import { useTaxRateUpdateOperation } from '../../operations/mutations/TaxRateUpdate';
 import TaxRateCreateModal from './TaxRateCreateModal';

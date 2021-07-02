@@ -1,11 +1,11 @@
 import Icon from '@websummit/components/src/atoms/Icon';
 import Logo from '@websummit/components/src/atoms/Logo';
 import { useEventQuery } from '@websummit/graphql/src/@types/operations';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import styled from 'styled-components';
 
 import ROUTES, { Route } from '../constants/routes';
-import { useAppContext } from './AppContext';
 
 export const HeaderText = styled.div`
   color: #0c1439;

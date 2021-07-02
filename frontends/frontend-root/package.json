@@ -7,7 +7,8 @@
     "build": "webpack --mode=production",
     "clean": "rimraf -rf ./dist",
     "format": "prettier --write \"./**\"",
-    "lint": "eslint src --ext js,ts,tsx",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "start": "webpack serve --port 9000 --env isLocal"
   },
   "dependencies": {

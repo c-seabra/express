@@ -1,8 +1,6 @@
-import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
-import { initApollo } from '@websummit/graphql';
-import jwt from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import ApolloAppContextProvider from '@websummit/graphql/src/utils/ApolloAppContextProvider';
+import React from 'react';
 import {
   HashRouter as Router,
   Redirect,
@@ -16,7 +14,6 @@ import OrdersDashboard from '../ordersDashboard/OrdersDashboard';
 import CustomerBillingInfo from '../pages/CustomerBillingInfoPage';
 import TicketDashboard from '../ticketDashboard/TicketDashboard';
 import TicketDetails from '../ticketDetails/TicketDetails';
-import AppContext from './AppContext';
 
 const StyledContainer = styled.section`
   margin: 0 auto;
@@ -31,53 +28,35 @@ type AppProps = {
 };
 
 const App = ({ token, apiURL }: AppProps) => {
-  const tokenPayload: { conf_slug: string; email: string } = jwt(token);
-  const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
-
-  useEffect(() => {
-    setSlug(tokenPayload.conf_slug);
-  }, [tokenPayload.conf_slug]);
-
-  if (!token) return null;
-
-  const apolloClient = initApollo({ apiURL });
-
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloAppContextProvider apiURL={apiURL} token={token}>
       <SnackbarProvider>
         <Router>
-          <AppContext.Provider
-            value={{
-              slug,
-              token,
-            }}
-          >
-            <StyledContainer>
-              <Switch>
-                <Route exact path="/">
-                  <Redirect to="/tickets" />
-                </Route>
-                <Route path="/tickets">
-                  <TicketDashboard />
-                </Route>
-                <Route path="/ticket/:bookingRef">
-                  <TicketDetails />
-                </Route>
-                <Route path="/order/:orderRef/customer-billing/:orderId">
-                  <CustomerBillingInfo />
-                </Route>
-                <Route path="/order/:orderRef">
-                  <OrderDetails />
-                </Route>
-                <Route exact path="/orders">
-                  <OrdersDashboard />
-                </Route>
-              </Switch>
-            </StyledContainer>
-          </AppContext.Provider>
+          <StyledContainer>
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/tickets" />
+              </Route>
+              <Route path="/tickets">
+                <TicketDashboard />
+              </Route>
+              <Route path="/ticket/:bookingRef">
+                <TicketDetails />
+              </Route>
+              <Route path="/order/:orderRef/customer-billing/:orderId">
+                <CustomerBillingInfo />
+              </Route>
+              <Route path="/order/:orderRef">
+                <OrderDetails />
+              </Route>
+              <Route exact path="/orders">
+                <OrdersDashboard />
+              </Route>
+            </Switch>
+          </StyledContainer>
         </Router>
       </SnackbarProvider>
-    </ApolloProvider>
+    </ApolloAppContextProvider>
   );
 };
 

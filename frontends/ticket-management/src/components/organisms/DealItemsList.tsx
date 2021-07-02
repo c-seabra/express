@@ -4,18 +4,17 @@ import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
 import {
-  formatDisplayPrice,
-  TotalInCents,
-} from '@websummit/glue/src/lib/utils/price';
-import {
   CommerceDealItem,
   CommerceDealItemType,
 } from '@websummit/graphql/src/@types/operations';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
+import {
+  formatDisplayPrice,
+  TotalInCents,
+} from '@websummit/tsutils/src/lib/utils/price';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import React from 'react';
 import styled from 'styled-components';
-
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 
 const StyledName = styled.span`
   color: #0067e9;

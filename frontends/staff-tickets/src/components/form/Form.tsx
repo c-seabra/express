@@ -13,12 +13,12 @@ import Select, {
 import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import TextInput from '@websummit/components/src/molecules/TextInput';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { shortenString } from '@websummit/components/src/utils/text';
 import {
   CommerceProductType,
   useCommerceListPaymentMethodsQuery,
   useCommerceListProductsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { shortenString } from '@websummit/tsutils/src/utils/text';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 

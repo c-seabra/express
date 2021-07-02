@@ -3,14 +3,14 @@ import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import Table, {
   ColumnDescriptors,
 } from '@websummit/components/src/molecules/Table';
-import { formatFullDateTime } from '@websummit/components/src/utils/time';
 import { Order } from '@websummit/graphql/src/@types/operations';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
+import { formatFullDateTime } from '@websummit/tsutils/src/utils/time';
 import React from 'react';
 import styled from 'styled-components';
 
 import Loader from '../../lib/Loading';
 import { OrderState, TicketsSummary } from '../../lib/types';
-import { switchCase } from '../../lib/utils/logic';
 
 const StyledReference = styled.div`
   color: #0067e9;

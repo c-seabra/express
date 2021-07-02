@@ -1,17 +1,18 @@
+import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
+import Table, {
+  ColumnDescriptors,
+} from '@websummit/components/src/molecules/Table';
+import {
+  CommerceTax,
+  CommerceTaxRateType,
+} from '@websummit/graphql/src/@types/operations';
 import {
   fromCents,
   toCents,
   Total,
   TotalInCents,
-} from '@websummit/glue/src/lib/utils/price';
-import {
-  CommerceTax,
-  CommerceTaxRateType,
-} from '@websummit/graphql/src/@types/operations';
+} from '@websummit/tsutils/src/lib/utils/price';
 import React from 'react';
-
-import ContainerCard from './ContainerCard';
-import Table, { ColumnDescriptors } from './Table';
 
 const getTotalPrice = ({
   taxRate,

@@ -2,12 +2,11 @@ import Icon from '@websummit/components/src/atoms/Icon';
 import Modal from '@websummit/components/src/molecules/Modal';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 
 export const Wrapper = styled.div`
   display: flex;

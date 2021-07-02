@@ -10,13 +10,16 @@
     "clean": "rimraf -rf ./dist",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
     "start": "webpack serve --port 9001",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "start:standalone": "webpack serve --env standalone"
   },
   "dependencies": {
     "@websummit/components": "*",
     "@websummit/ws-lib-example": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "single-spa-react": "*"
   },
   "devDependencies": {}
 }

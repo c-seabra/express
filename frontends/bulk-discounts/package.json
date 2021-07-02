@@ -1,0 +1,47 @@
+{
+  "name": "@websummit-micro/bulk-discounts",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "analyze": "webpack --mode=production --config ./webpack.config.build.js --env analyze",
+    "build": "webpack --mode=production",
+    "build:standalone": "webpack --mode=production --config ./webpack.config.build.js",
+    "clean": "rimraf -rf ./dist",
+    "coverage": "cross-env BABEL_ENV=test jest --coverage",
+    "start": "webpack serve --port 9009",
+    "start:standalone": "webpack serve --env standalone",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
+    "test": "jest --passWithNoTests --verbose",
+    "test:watch": "jest --watch --verbose --no-cache"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@apollo/client": "*",
+    "@websummit/components": "*",
+    "@websummit/glue": "*",
+    "@websummit/graphql": "*",
+    "@websummit/tsutils": "*",
+    "graphql": "*",
+    "isomorphic-unfetch": "*",
+    "jwt-decode": "*",
+    "lodash": "*",
+    "react": "*",
+    "react-dom": "*",
+    "single-spa-react": "*",
+    "styled-components": "*"
+  },
+  "devDependencies": {}
+}

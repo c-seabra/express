@@ -5,8 +5,8 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 
-import { useAppContext } from '../../components/app/AppContext';
 import SESSION_TIMESLOT_PARTICIPATION_CREATE from '../../operations/mutations/SessionTimeslotParticipationCreate';
 import { Attendance, UserError } from '../types';
 

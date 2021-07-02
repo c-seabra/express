@@ -11,6 +11,8 @@
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
     "start": "webpack serve --port 9004",
     "start:standalone": "webpack serve --env standalone",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "test": "jest --passWithNoTests --verbose",
     "test:watch": "jest --watch --verbose"
   },
@@ -28,13 +30,19 @@
   },
   "dependencies": {
     "@apollo/client": "*",
+    "@websummit-micro/ticket-support": "*",
+    "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",
+    "@websummit/tsutils": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "react-router-dom": "*",
+    "single-spa-react": "*",
+    "styled-components": "*"
   },
   "devDependencies": {}
 }

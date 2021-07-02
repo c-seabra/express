@@ -5,6 +5,7 @@ export default gql`
     commerceCreateDeal(commerceDealCreate: $commerceDealCreate) {
       id
       name
+      code
     }
   }
 `;

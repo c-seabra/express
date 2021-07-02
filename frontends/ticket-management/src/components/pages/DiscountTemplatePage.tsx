@@ -14,17 +14,13 @@ import {
   useCommerceGetStoreQuery,
   useCommerceListDealItemsQuery,
   useCommerceListDealsQuery,
-  useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
-import {
-  discountFilter,
-  discountTemplateFilter,
-} from '@websummit/graphql/src/lib/presets/dealSearchTerms';
+import { discountFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useRequestContext } from '../app/AppContext';
 import DiscountTemplateItemModalWrapper from '../modals/DiscountTemplateItemModalWrapper';
 import DiscountTemplateItemRemovalModal from '../modals/DiscountTemplateItemRemovalModal';
 import DealItemsList from '../organisms/DealItemsList';
@@ -85,7 +81,6 @@ const DiscountTemplatePage = () => {
     closeModal: packageCloseModal,
     openModal: packageOpenModal,
   } = useModalState();
-  const { isOpen, closeModal, openModal } = useModalState();
   const [prefillData, setPrefillData] = useState<any>(); // TODO reuse PackageFormData
   const onButtonClick = () => {
     setPrefillData({
@@ -149,14 +144,7 @@ const DiscountTemplatePage = () => {
   const store = storeData?.commerceGetStore;
   const isStoreConfigured = Boolean(!loadingStore && store);
   const storeCurrencySymbol = storeData?.commerceGetStore?.currencySymbol;
-  const { data: paymentMethodsData } = useCommerceListPaymentMethodsQuery({
-    context,
-  });
 
-  const activePaymentMethods =
-    paymentMethodsData?.commerceListPaymentMethods?.hits?.filter(
-      (method) => method.active,
-    );
   const [dealItemId, setDealItemId] = useState<string>();
   const {
     isOpen: isPackageItemModalOpen,

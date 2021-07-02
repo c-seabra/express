@@ -3,7 +3,6 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
-import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
 import {
   CommerceDealItemType,
   useCommerceCreateDealItemMutation,
@@ -11,12 +10,13 @@ import {
   useCommerceUpdateDealItemMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_DEAL_ITEMS_LIST from '@websummit/graphql/src/operations/queries/CommerceListDealItems';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
+import { fromCents, toCents } from '@websummit/tsutils/src/lib/utils/price';
 import React from 'react';
 import * as Yup from 'yup';
 
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
-import { useRequestContext } from '../app/AppContext';
 import DiscountTemplateItemForm from '../organisms/DiscountTemplateItemForm';
 
 type ModalProps = {

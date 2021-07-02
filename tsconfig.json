@@ -5,9 +5,16 @@
       "@websummit/components": ["packages/components/src"],
       "@websummit/glue": ["packages/glue/src"],
       "@websummit/graphql": ["packages/graphql/src"],
+      "@websummit/tsutils": ["packages/tsutils/src"],
       "@websummit/ws-lib-example": ["packages/ws-lib-example/src"]
     },
-    "typeRoots": ["node_modules/@types", "packages/components/src/@types"]
+    "typeRoots": [
+      "node_modules/@types",
+      "packages/components/src/@types",
+      "packages/glue/src/@types",
+      "packages/graphql/src/@types",
+      "packages/tsutils/src/@types"
+    ]
   },
   "extends": "./tsconfig.build.json"
 }

@@ -12,6 +12,8 @@
     "start": "webpack serve --port 9002",
     "start:standalone": "webpack serve --env standalone",
     "test": "jest --passWithNoTests --verbose",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "test:watch": "jest --watch --verbose"
   },
   "browserslist": {
@@ -29,9 +31,13 @@
   "dependencies": {
     "@apollo/client": "*",
     "@apollo/react-common": "*",
+    "@graphql-typed-document-node/core": "*",
+    "@material-ui/icons": "*",
+    "@websummit-micro/events": "*",
     "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",
+    "@websummit/tsutils": "*",
     "formik": "*",
     "isomorphic-unfetch": "*",
     "jwt-decode": "*",
@@ -39,8 +45,10 @@
     "react": "*",
     "react-dom": "*",
     "react-helmet": "*",
+    "react-json-pretty": "*",
     "react-modal": "*",
     "react-router-dom": "*",
+    "single-spa-react": "*",
     "styled-components": "*",
     "yup": "*"
   },

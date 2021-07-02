@@ -19,13 +19,13 @@ import {
   useCommerceListCategoriesQuery,
   useCommerceListPaymentMethodsQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import useCopyToClipboard from '../../lib/hooks/useCopyToClipboard';
-import { useRequestContext } from '../app/AppContext';
 import InviteToPurhcaseModal from '../modals/InviteToPurchaseModal';
 import TicketPackageItemModalWrapper from '../modals/TicketPackageItemModalWrapper';
 import TicketPackageItemRemovalModal from '../modals/TicketPackageItemRemovalModal';

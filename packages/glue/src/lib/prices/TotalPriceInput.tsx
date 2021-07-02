@@ -1,16 +1,15 @@
+import TextInput from '@websummit/components/src/molecules/TextInput';
+import {
+  CommerceTax,
+  CommerceTaxRateType,
+} from '@websummit/graphql/src/@types/operations';
 import {
   fromCents,
   toCents,
   Total,
   TotalInCents,
-} from '@websummit/glue/src/lib/utils/price';
-import {
-  CommerceTax,
-  CommerceTaxRateType,
-} from '@websummit/graphql/src/@types/operations';
+} from '@websummit/tsutils/src/lib/utils/price';
 import React from 'react';
-
-import TextInput from './TextInput';
 
 type TaxRate = Pick<
   CommerceTax,

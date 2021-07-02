@@ -1,5 +1,7 @@
 # Micro
 
+\_all our frontends are beloging to us
+
 <!--
 This readme uses an extension to automatically generate a table of content, no configuration required:
 Name: Markdown All in One
@@ -123,6 +125,8 @@ entry: {
   staffTickets: './src/index.js',
 },
 ```
+
+There is also a file `src/websummit-micro-[name].tsx` that needs to be renamed to your new micro frontends name.
 
 ### 2. Amend package.json start command
 

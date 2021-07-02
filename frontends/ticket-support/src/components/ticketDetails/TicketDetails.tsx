@@ -6,6 +6,8 @@ import Breadcrumbs, {
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useTicketQuery } from '@websummit/graphql/src/@types/operations';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
+import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
@@ -18,8 +20,6 @@ import Modal, { useModalState } from '../../lib/components/molecules/Modal';
 import useEventDataQuery from '../../lib/hooks/useEventDataQuery';
 import useTicketTypes from '../../lib/hooks/useTicketTypes';
 import Loader from '../../lib/Loading';
-import { switchCase } from '../../lib/utils/logic';
-import { useRequestContext } from '../app/AppContext';
 import AuditTrail from '../auditTrail/AuditTrail';
 import ChangeTicketTypeModal from '../ticketActions/ChangeTicketTypeModal';
 import LoginLinkActions from '../ticketActions/LoginLinkActions';

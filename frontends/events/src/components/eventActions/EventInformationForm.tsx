@@ -22,13 +22,13 @@ import {
   useTimeZonesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import EVENT from '@websummit/graphql/src/operations/queries/Event';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { useAppContext } from '../app/AppContext';
 import LegalEntityCreateModalWrapper from '../modals/LegalEntityCreateModalWrapper';
 
 const FieldRow = styled.div`

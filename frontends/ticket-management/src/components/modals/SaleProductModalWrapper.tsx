@@ -4,7 +4,6 @@ import FormikModal, {
 } from '@websummit/components/src/molecules/FormikModal';
 import Modal from '@websummit/components/src/molecules/Modal';
 import MoneyInputField from '@websummit/components/src/molecules/MoneyInputField';
-import PricesWithTaxTable from '@websummit/components/src/molecules/PricesWithTaxTable';
 import SelectField from '@websummit/components/src/molecules/SelectField';
 import {
   useErrorSnackbar,
@@ -13,7 +12,7 @@ import {
 import TextAreaField from '@websummit/components/src/molecules/TextAreaField';
 import TextInputField from '@websummit/components/src/molecules/TextInputField';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
-import { fromCents, toCents } from '@websummit/glue/src/lib/utils/price';
+import PricesWithTaxTable from '@websummit/glue/src/lib/prices/PricesWithTaxTable';
 import {
   CommerceGetStoreQuery,
   CommerceListProductsQuery,
@@ -28,13 +27,13 @@ import {
   CommerceListQueryHitsResult,
 } from '@websummit/graphql/src/lib/types';
 import COMMERCE_SALE_PRODUCTS_LIST from '@websummit/graphql/src/operations/queries/CommerceListSaleProducts';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
+import STATIC_MESSAGES from '@websummit/tsutils/src/lib/constants/messages';
+import { fromCents, toCents } from '@websummit/tsutils/src/lib/utils/price';
 import { Form } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-
-import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
-import { useRequestContext } from '../app/AppContext';
 
 const InlineWrapper = styled.div`
   display: flex;

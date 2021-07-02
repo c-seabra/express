@@ -7,8 +7,7 @@ import {
   useCommerceUpdateTaxMutation,
 } from '@websummit/graphql/src/@types/operations';
 import COMMERCE_LIST_TAXES from '@websummit/graphql/src/operations/queries/CommerceListTaxes';
-
-import { useRequestContext } from '../../components/app/AppContext';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 
 export type TaxRateUpdateRequest = {
   input: CommerceTaxUpdate;

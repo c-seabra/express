@@ -9,11 +9,10 @@ import {
   useCommerceUpdateStoreMutation,
 } from '@websummit/graphql/src/@types/operations';
 import CommerceGetStore from '@websummit/graphql/src/operations/queries/CommerceGetStore';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
-
-import { useAppContext } from '../app/AppContext';
 
 const ButtonsContainer = styled.div`
   width: 100%;

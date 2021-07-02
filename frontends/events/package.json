@@ -10,13 +10,18 @@
     "clean": "rimraf -rf ./dist",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
     "start": "webpack serve --port 9006",
+    "fix": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ --fix",
+    "lint": "eslint . --config ../../.eslintrc.js  --ignore-path ../../.eslintrelativeignore --ext js,jsx,ts,tsx --cache --cache-location ~/.eslintcache/ ",
     "start:standalone": "webpack serve --env standalone"
   },
   "dependencies": {
     "@apollo/client": "*",
+    "@material-ui/core": "*",
+    "@websummit-micro/ticket-support": "*",
     "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",
+    "@websummit/tsutils": "*",
     "file-loader": "*",
     "formik": "*",
     "graphql": "*",
@@ -27,6 +32,7 @@
     "react-dom": "*",
     "react-helmet": "*",
     "react-router-dom": "*",
+    "single-spa-react": "*",
     "styled-components": "*",
     "yup": "*"
   },

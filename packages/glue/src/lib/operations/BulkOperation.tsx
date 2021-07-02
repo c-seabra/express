@@ -4,6 +4,7 @@ export type BulkInput<Element> = Element[];
 
 export type BulkOperationConfig<Element, Context> = {
   Display: FunctionComponent<{ list: Element[] }>;
+  callback?: (list: Element[]) => void;
   context: Context;
   input: BulkInput<Element>;
   process: (
@@ -92,6 +93,8 @@ async function doSomeBulkOperationWork<Element, Context>(
   workingMemory.current.forceUpdate();
   // lets do the actual processing and wait for all of them to finish
   await Promise.all(workingMemory.current.list.map(enqueueProcessing));
+
+  return workingMemory.current.list;
 }
 
 function BulkOperation<Element, Context>({
@@ -99,6 +102,7 @@ function BulkOperation<Element, Context>({
   Display,
   process,
   context,
+  callback,
 }: BulkOperationConfig<Element, Context>) {
   const workingMemory = useRef<WorkingMemory<Element>>({
     completed: false,
@@ -140,9 +144,12 @@ function BulkOperation<Element, Context>({
     // eslint-disable-next-line promise/catch-or-return
     doSomeBulkOperationWork(workingMemory, process, context).then(
       // eslint-disable-next-line promise/always-return
-      () => {
+      (list) => {
         console.log('All Operations completed!');
+        // eslint-disable-next-line promise/no-callback-in-promise
+        if (callback) callback(list);
         window.onbeforeunload = null;
+        return list;
       },
       (reason) => {
         console.error(

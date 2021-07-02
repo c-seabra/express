@@ -1,4 +1,5 @@
-import { useAppContext } from '../../components/app/AppContext';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
+
 import ATTENDANCES_LIST from '../../operations/queries/Attendances';
 import { Attendance } from '../types';
 import usePaginatedQuery from './usePaginatedQuery';
