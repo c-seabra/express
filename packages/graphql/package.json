@@ -18,6 +18,7 @@
     "test": "yarn run build"
   },
   "dependencies": {
+    "@apollo/client": "*",
     "apollo-cache-inmemory": "*",
     "apollo-client": "*",
     "isomorphic-unfetch": "*"
