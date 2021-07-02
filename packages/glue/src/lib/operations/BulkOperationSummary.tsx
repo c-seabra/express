@@ -1,63 +1,84 @@
 import Badge from '@websummit/components/src/atoms/Badge';
-import BoxMessage from '@websummit/components/src/molecules/BoxMessage';
 import ContainerCard from '@websummit/components/src/molecules/ContainerCard';
-import DownloadCSVButton from '@websummit/components/src/molecules/DownloadCSVButton';
 import GroupedProgressBar from '@websummit/components/src/molecules/GroupedProgressBar';
 import Legend from '@websummit/components/src/molecules/Legend';
+import {
+  Flex,
+  FlexCentered,
+  FlexEnd,
+} from '@websummit/components/src/templates/Flex';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { StringLiteral } from '@websummit/tsutils/src/@types/string';
 import _ from 'lodash';
 import React from 'react';
-import styled from 'styled-components';
 
-const Flex = styled.div`
-  display: flex;
-`;
-
-const FlexCentered = styled(Flex)`
-  justify-content: center;
-`;
-
-const FlexEnd = styled(Flex)`
-  justify-content: flex-end;
-`;
-
-const createGroupedResults = (list: any[]) => {
-  const statuses = list.map((elem) => elem.prepareStatus);
-  return _.countBy(statuses, 'type');
+type GenericStatus<StatusType> = {
+  message: string;
+  type: StringLiteral<StatusType>;
 };
 
-const x: 'A' | 'B' = 'A';
-function testing<A>(t: StringLiteral<A>) {
-  console.log(t);
+function createGroupedResults<StatusType>(list: GenericStatus<StatusType>[]) {
+  return _.countBy(list, 'type');
 }
-testing(x);
 
-const AssigneeList: React.FC<{ list: any[] }> = ({ list }) => {
-  if (!list || list?.length < 0) return null;
+type Stack = {
+  color: string;
+  label: string;
+};
 
+/**
+ * This type defines a map of all your possible status strings
+ * to a Stack, which is color and label of that status
+ *
+ * Its a utility type you can explicitly specify so typescript
+ * can infer that everything is indeed correctly typed
+ *
+ * You use it to help the compiler out a bit :)
+ *
+ * @typeParam StatusType - an enum of all possible statuses
+ * This is enforced to be string literals
+ * It is technically a union type of string literals
+ * ```ts
+ * type MyStatusType = 'QUEUED' | 'PENDING' | 'SUCCESS' | 'ERROR';
+ * ```
+ */
+export type StatusMapping<StatusType> = {
+  [K in StringLiteral<StatusType>]: Stack;
+};
+
+type BulkOperationSummaryProps<StatusType> = {
+  list: GenericStatus<StatusType>[];
+  mapping: StatusMapping<StatusType>;
+  order: StringLiteral<StatusType>[];
+};
+
+/**
+ * This component renders a summary of a list of bulk operations
+ *
+ * It consists of a stacked progress bar and a textual summary with counts
+ *
+ * @typeParam StatusType - an enum of all possible statuses
+ * This is enforced to be string literals
+ * It is technically a union type of string literals
+ * ```ts
+ * type MyStatusType = 'QUEUED' | 'PENDING' | 'SUCCESS' | 'ERROR';
+ * ```
+ *
+ * @param list - a list of just the relevant status of each work unit
+ * @param mapping - a map of each possible status to its label and color
+ * @param order - the order in which each status should appear, omit to hide
+ */
+function BulkOperationSummary<StatusType>({
+  list,
+  mapping,
+  order,
+}: BulkOperationSummaryProps<StatusType>) {
   const groupedResults = createGroupedResults(list);
-  const stacks = [
-    {
-      color: '#3BB273',
-      label: 'Success',
-      value: groupedResults.SUCCESS,
-    },
-    {
-      color: '#E15554',
-      label: 'Error',
-      value: groupedResults.ERROR,
-    },
-    {
-      color: '#78abef',
-      label: 'Processing',
-      value: groupedResults.PENDING,
-    },
-    {
-      color: '#a8a8a8',
-      label: 'Queued',
-      value: groupedResults.QUEUED,
-    },
-  ];
+
+  const stacks = order.map((elem) => ({
+    ...mapping[elem],
+    value: groupedResults[elem],
+  }));
 
   const labels = stacks.map((elem) => ({
     ...elem,
@@ -67,42 +88,13 @@ const AssigneeList: React.FC<{ list: any[] }> = ({ list }) => {
   return (
     <>
       <Spacing bottom="2rem">
-        {list && list.length > 0 && (
-          <>
-            <Flex>
-              <BoxMessage
-                backgroundColor="rgb(253, 235, 235)"
-                color="#E15554"
-                dimension="sm"
-                type="warning"
-              >
-                Before getting new results please refresh this page
-              </BoxMessage>
-            </Flex>
-            <FlexEnd>
-              <DownloadCSVButton
-                buttonText="Download .csv file"
-                data={list.map((elem: any) => {
-                  return {
-                    Code: elem.code || 'N/A',
-                    'Preparation Status': elem.prepareStatus?.message || 'N/A',
-                    'Processing Status': elem.processStatus?.message || 'N/A',
-                  };
-                })}
-              />
-            </FlexEnd>
-          </>
-        )}
-      </Spacing>
-
-      <Spacing bottom="2rem">
         <ContainerCard title="Grouped results">
           <FlexEnd>
             <Spacing bottom="0.5rem">
               <span>Total: </span>
               <Badge background="#CCC" color="#000">
                 <span>
-                  {groupedResults.SUCCESS || 0}/{list?.length}
+                  {groupedResults[order[0]] || 0}/{list.length}
                 </span>
               </Badge>
             </Spacing>
@@ -113,7 +105,6 @@ const AssigneeList: React.FC<{ list: any[] }> = ({ list }) => {
                 <GroupedProgressBar barStacks={stacks} />
               </Flex>
             </Spacing>
-
             <FlexCentered>
               <Legend labels={labels} position="Horizontal" />
             </FlexCentered>
@@ -122,6 +113,6 @@ const AssigneeList: React.FC<{ list: any[] }> = ({ list }) => {
       </Spacing>
     </>
   );
-};
+}
 
-export default AssigneeList;
+export default BulkOperationSummary;

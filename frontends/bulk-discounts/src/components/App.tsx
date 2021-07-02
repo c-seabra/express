@@ -13,6 +13,8 @@ import styled from 'styled-components';
 
 import { processCreateDiscountWorkUnit } from '../lib/bulkOperation/process';
 import { CreateDiscountWorkUnit } from '../lib/bulkOperation/workUnit';
+import PrepareSummary from './PrepareSummary';
+import ProcessSummary from './ProcessSummary';
 
 const StyledContainer = styled.section`
   padding: 1rem;
@@ -111,8 +113,8 @@ const App = ({ token, apiURL }: GraphQLParams) => {
                 RenderContextSummary={dummyRender}
                 RenderList={dummyRender}
                 RenderListForm={dummyRender}
-                RenderPrepareSummary={dummyRender}
-                RenderProcessSummary={dummyRender}
+                RenderPrepareSummary={PrepareSummary}
+                RenderProcessSummary={ProcessSummary}
                 prepare={dummyProcess}
                 process={processCreateDiscountWorkUnit}
               />
