@@ -19,8 +19,6 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:promise/recommended',
     'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/react',
   ],
   globals: {
     Atomics: 'readonly',
@@ -139,12 +137,16 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
 
     // sorting rules
-    'simple-import-sort/sort': 'error',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error',
     'sort-keys-fix/sort-keys-fix': ['error', 'asc', { natural: true }],
     'typescript-sort-keys/interface': 2,
     'typescript-sort-keys/string-enum': 2,
 
-    // using simple-import-sort/sort instead
+    // using simple-import-sort instead
     'sort-imports': 'off',
     'import/order': 'off',
 

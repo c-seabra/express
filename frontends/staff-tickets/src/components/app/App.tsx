@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
+import { SingleSpaAppProps } from '@websummit/glue/src/@types/single-spa';
 import BulkOperation from '@websummit/glue/src/lib/operations/BulkOperation';
 import { GraphQLParams, initApollo } from '@websummit/graphql';
 import jwt from 'jwt-decode';
@@ -15,7 +16,7 @@ import AssigneeList from '../assigneeList/AssigneeList';
 import Form from '../form/Form';
 
 const StyledContainer = styled.section`
-  padding: 1rem;
+  padding: 1rem;yarn
   max-width: 1440px;
   width: 100%;
   margin: 0 auto;
@@ -70,7 +71,7 @@ export const AppContext = createContext<StaffTicketContext>({
   token: '',
 });
 
-const App = ({ token, apiURL }: StaffTicketContext) => {
+const App = ({ token, apiURL }: SingleSpaAppProps) => {
   const [ticketsList, setTicketList] = useState<TicketList>();
 
   const tokenPayload: { conf_slug: string; email: string } = jwt(token || '');

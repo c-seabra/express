@@ -7,6 +7,8 @@ import {
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import fetch from 'isomorphic-unfetch';
 
+import { SingleSpaAppProps } from '../../../glue/src/@types/single-spa';
+
 export const DEFAULT_CONFERENCE_SLUG = 'ws20';
 
 const constructContextHeaders = (

@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@apollo/client": "*",
+    "@websummit/glue": "*",
     "@websummit/graphql": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",
