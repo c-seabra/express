@@ -30,6 +30,7 @@
     "@material-ui/core": "*",
     "@material-ui/icons": "*",
     "@websummit/components": "*",
+    "@websummit/glue": "*",
     "@websummit/graphql": "*",
     "graphql": "*",
     "immutability-helper": "*",
