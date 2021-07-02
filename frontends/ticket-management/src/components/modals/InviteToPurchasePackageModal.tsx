@@ -28,6 +28,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { externalPaymentMethods } from '../../lib/constants/paymentGateways';
+import useCompleteOrderMutation from '../../lib/hooks/useCompleteOrderMutation';
 
 const Wrapper = styled.div`
   display: flex;
@@ -204,6 +205,8 @@ const InviteToPurhcasePackageModal = ({
     onError: (e) => error(e.message),
   });
 
+  const completeOrder = useCompleteOrderMutation();
+
   const dealPrice = getDealPrice(deal);
 
   const dealItems = deal?.dealItems || [];
@@ -233,7 +236,7 @@ const InviteToPurhcasePackageModal = ({
         onSubmit={async (values) => {
           const isOrderPaidFor = values.external || values.complementary;
 
-          await createOrder({
+          const { data } = await createOrder({
             variables: {
               commerceOrderCreate: {
                 customer: {
@@ -263,6 +266,12 @@ const InviteToPurhcasePackageModal = ({
               },
             },
           });
+
+          if (isOrderPaidFor) {
+            const createdOrder = data?.commerceCreateOrder;
+
+            await completeOrder(createdOrder);
+          }
 
           onRequestClose();
         }}

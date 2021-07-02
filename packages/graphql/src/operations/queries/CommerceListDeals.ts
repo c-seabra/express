@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client';
 
 export default gql`
-  query CommerceListDeals($sort: [CommerceSortTerm!]) {
-    commerceListDeals(sort: $sort) {
+  query CommerceListDeals(
+    $sort: [CommerceSortTerm!]
+    $terms: [CommerceSearchTerm!]
+  ) {
+    commerceListDeals(sort: $sort, terms: $terms) {
       hits {
         active
         createdAt
@@ -12,7 +15,10 @@ export default gql`
         lastUpdatedAt
         metadata
         name
+        code
+        usages
         startDate
+        timesUsed
         dealItems {
           amount
           createdAt

@@ -17,6 +17,7 @@
   "dependencies": {
     "@apollo/client": "*",
     "@websummit/components": "*",
+    "@websummit/glue": "*",
     "@websummit/graphql": "*",
     "file-loader": "*",
     "formik": "*",

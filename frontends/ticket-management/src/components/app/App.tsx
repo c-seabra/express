@@ -7,6 +7,8 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
+import DiscountTemplatePage from '../pages/DiscountTemplatePage';
+import DiscountTemplatesPage from '../pages/DiscountTemplatesPage';
 import PackagePage from '../pages/PackagePage';
 import PackagesPage from '../pages/PackagesPage';
 import SalesCyclePage from '../pages/SalesCyclePage';
@@ -74,6 +76,12 @@ const App = ({ token, apiURL }: AppProps) => {
                 </Route>
                 <Route exact path="/deal/:id">
                   <PackagePage />
+                </Route>
+                <Route exact path="/discounts">
+                  <DiscountTemplatesPage />
+                </Route>
+                <Route exact path="/discount/:id">
+                  <DiscountTemplatePage />
                 </Route>
                 <Route exact path="/tags">
                   <TagsPage />
