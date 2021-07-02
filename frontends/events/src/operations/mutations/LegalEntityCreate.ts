@@ -7,8 +7,7 @@ import {
   useLegalEntityCreateMutation,
 } from '@websummit/graphql/src/@types/operations';
 import LEGAL_ENTITY_LIST from '@websummit/graphql/src/operations/queries/LegalEntityList';
-
-import { useAppContext } from '../../components/app/AppContext';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 
 export type LegalEntityCreateRequest = {
   input: LegalEntityCreateInput;

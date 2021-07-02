@@ -3,8 +3,8 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 
-import { useAppContext } from '../../components/app/AppContext';
 import TICKET_REJECT_MUTATION from '../../operations/mutations/TicketReject';
 
 const useUnassignTicketMutation = ({ ticketId }: { ticketId: string }) => {

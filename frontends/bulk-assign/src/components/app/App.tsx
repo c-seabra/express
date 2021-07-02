@@ -1,8 +1,6 @@
-import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
-import { GraphQLParams, initApollo } from '@websummit/graphql';
-import jwt from 'jwt-decode';
-import React, { createContext, useEffect, useState } from 'react';
+import ApolloAppContextProvider from '@websummit/graphql/src/utils/ApolloAppContextProvider';
+import React from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -28,44 +26,22 @@ export type Assignee = {
   ticketId: string;
 };
 
-export type BulkAssignContext = GraphQLParams & {
-  assigneesList?: AssigneesList;
-  setAssigneesList?: SetAssigneesList;
+type AppProps = {
+  apiURL: string;
+  token: string;
 };
 
-export const AppContext = createContext<BulkAssignContext>({});
-
-const App = ({ token, apiURL = '' }: BulkAssignContext) => {
-  const tokenPayload: { conf_slug: string; email: string } = token
-    ? jwt(token)
-    : { conf_slug: '', email: '' };
-
-  const [conferenceSlug, setConferenceSlug] = useState<string>();
-
-  useEffect(() => {
-    setConferenceSlug(tokenPayload.conf_slug);
-  }, [tokenPayload.conf_slug]);
-
-  const apolloClient = initApollo({ apiURL });
-
+const App = ({ token = '', apiURL = '' }: AppProps) => {
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloAppContextProvider apiURL={apiURL} token={token}>
       <SnackbarProvider>
         <Router>
-          <AppContext.Provider
-            value={{
-              apiURL,
-              slug: conferenceSlug,
-              token,
-            }}
-          >
-            <StyledContainer>
-              <TicketsBulkAssignPage />
-            </StyledContainer>
-          </AppContext.Provider>
+          <StyledContainer>
+            <TicketsBulkAssignPage />
+          </StyledContainer>
         </Router>
       </SnackbarProvider>
-    </ApolloProvider>
+    </ApolloAppContextProvider>
   );
 };
 

@@ -17,12 +17,12 @@ import {
   useCommerceListProductsQuery,
 } from '@websummit/graphql/src/@types/operations';
 import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
-import { useAppContext } from '../app/AppContext';
 import TicketTypeModal from '../ticketTypes/TicketTypeModal';
 
 export const Badge = styled.span`

@@ -30,11 +30,13 @@ import {
   toCents,
   Total,
 } from '@websummit/tsutils/src/lib/utils/price';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { switchCase } from '../../../../ticket-support/src/lib/utils/logic';
 import { useRequestContext } from '../app/AppContext';
 
 const FieldRow = styled.div`

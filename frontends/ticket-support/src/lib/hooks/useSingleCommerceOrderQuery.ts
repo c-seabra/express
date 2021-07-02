@@ -3,8 +3,7 @@ import {
   CommerceOrder,
   useCommerceGetOrderQuery,
 } from '@websummit/graphql/src/@types/operations';
-
-import { useAppContext } from '../../components/app/AppContext';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 
 const useSingleCommerceOrderQuery = ({ id = '' }: { id?: string }) => {
   const { slug, token } = useAppContext();

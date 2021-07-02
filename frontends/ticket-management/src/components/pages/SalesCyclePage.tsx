@@ -15,11 +15,11 @@ import {
   useCommerceListSaleProductsQuery,
   useSaleCyclesQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useRequestContext } from '../app/AppContext';
 import SaleProductModalWrapper, {
   SaleProductFormData,
 } from '../modals/SaleProductModalWrapper';

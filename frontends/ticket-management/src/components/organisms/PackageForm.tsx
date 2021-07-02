@@ -18,10 +18,12 @@ import {
   toIsoDateTime,
   toShortDateTime,
 } from '@websummit/tsutils/src/utils/time';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import STATIC_MESSAGES from '../../../../ticket-support/src/lib/constants/messages';
 import { useRequestContext } from '../app/AppContext';
 
 const FlexEnd = styled.div`

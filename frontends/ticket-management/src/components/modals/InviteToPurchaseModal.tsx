@@ -20,6 +20,7 @@ import {
   formatDisplayPrice,
   TotalInCents,
 } from '@websummit/tsutils/src/lib/utils/price';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
@@ -27,7 +28,6 @@ import * as Yup from 'yup';
 
 import { externalPaymentMethods } from '../../lib/constants/paymentGateways';
 import useCompleteOrderMutation from '../../lib/hooks/useCompleteOrderMutation';
-import { useRequestContext } from '../app/AppContext';
 
 const Wrapper = styled.div`
   display: flex;

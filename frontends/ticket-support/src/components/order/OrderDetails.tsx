@@ -22,6 +22,7 @@ import {
   useOrderInvoiceSendMutation,
 } from '@websummit/graphql/src/@types/operations';
 import { switchCase } from '@websummit/tsutils/src/lib/utils/logic';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
@@ -38,6 +39,7 @@ import useTicketsQuery from '../../lib/hooks/useTicketsQuery';
 import Loader from '../../lib/Loading';
 import Pagination from '../../lib/Pagination';
 import { Error } from '../../lib/types';
+import { switchCase } from '../../lib/utils/logic';
 import { useRequestContext } from '../app/AppContext';
 import OrderRefundModal from '../orderActions/OrderRefundModal';
 import Warning from '../ticketActions/Warning';

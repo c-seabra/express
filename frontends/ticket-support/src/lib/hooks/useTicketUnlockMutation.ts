@@ -3,9 +3,9 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import { useState } from 'react';
 
-import { useAppContext } from '../../components/app/AppContext';
 import TICKET_UNLOCK_MUTATION from '../../operations/mutations/TicketUnlock';
 import { Ticket, UserError } from '../types';
 

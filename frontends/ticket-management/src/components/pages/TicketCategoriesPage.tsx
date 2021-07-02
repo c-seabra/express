@@ -14,11 +14,11 @@ import {
   useCommerceListCategoriesQuery,
 } from '@websummit/graphql/src/@types/operations';
 import { formatDefaultDateTime } from '@websummit/tsutils/src/utils/time';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import PageContainer from '../../lib/components/templates/PageContainer';
-import { useAppContext } from '../app/AppContext';
 import TicketCategoryModal from '../ticketCategories/TicketCategoryModal';
 
 const HeaderContainer = styled.div`

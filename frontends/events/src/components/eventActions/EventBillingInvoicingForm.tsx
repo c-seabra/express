@@ -18,6 +18,7 @@ import {
   useLegalEntityLazyQuery,
   useLegalEntityUpdateMutation,
 } from '@websummit/graphql/src/@types/operations';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -25,7 +26,6 @@ import * as Yup from 'yup';
 
 import { REGION_LIST } from '../../lib/constants/location';
 import { LegalEntity } from '../../lib/types';
-import { useAppContext } from '../app/AppContext';
 
 const FlexCol = styled.div`
   display: flex;

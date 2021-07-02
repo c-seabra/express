@@ -12,11 +12,11 @@ import {
   useCommerceListDealsQuery,
 } from '@websummit/graphql/src/@types/operations';
 import { discountTemplateFilter } from '@websummit/graphql/src/lib/presets/dealSearchTerms';
+import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useRequestContext } from '../app/AppContext';
 import DiscountModalWrapper from '../modals/DiscountModalWrapper';
 import DiscountTemplatesList from '../organisms/DiscountTemplatesList';
 

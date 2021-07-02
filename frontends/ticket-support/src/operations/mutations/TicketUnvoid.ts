@@ -3,9 +3,8 @@ import {
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
 import { useTicketUnvoidMutation } from '@websummit/graphql/src/@types/operations';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import { useState } from 'react';
-
-import { useAppContext } from '../../components/app/AppContext';
 
 export type TicketsUnvoidArgs = {
   bookingRef: string;

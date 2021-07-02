@@ -9,13 +9,13 @@ import {
   EventListQueryQuery,
   useEventListQueryQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import NoEventsPlaceholderImage from '../../lib/images/no-events-placeholder.png';
 import Loader from '../../lib/Loading';
-import { useAppContext } from '../app/AppContext';
 import EventList from '../organisms/EventList';
 import UpcomingEvents from '../templates/UpcomingEvents';
 

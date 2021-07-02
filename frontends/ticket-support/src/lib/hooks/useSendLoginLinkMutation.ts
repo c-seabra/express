@@ -8,8 +8,8 @@ import {
   extractTypeFromMaybe,
   GetQueryResult,
 } from '@websummit/graphql/src/lib/types';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 
-import { useAppContext } from '../../components/app/AppContext';
 import ASSIGNMENT_LOGIN_LINK from '../../operations/mutations/AssignmentLoginLinkRequest';
 import { UserError } from '../types';
 

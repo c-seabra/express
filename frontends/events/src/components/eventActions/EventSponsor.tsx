@@ -12,11 +12,11 @@ import {
   useEventPartnersQuery,
   useEventQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { useAppContext } from '../app/AppContext';
 import { emptyOption } from './EventInformationForm';
 
 const ButtonsContainer = styled.div`
@@ -38,7 +38,7 @@ const Header = styled.div`
   color: #0c1439;
   font-weight: 500;
   font-size: 24px;
-  padding: 1.2rem 0rem;
+  padding: 1.2rem 0;
 `;
 
 const SubHeader = styled.div`

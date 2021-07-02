@@ -1,4 +1,5 @@
 import { ApolloError, useQuery } from '@apollo/client';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
@@ -13,7 +14,6 @@ import ContainerCard from '../../lib/components/atoms/ContainerCard';
 import { useInvestorPortalRevokeAccessMutation } from '../../lib/hooks';
 import { Attendance, AttendanceAppearanceSelection } from '../../lib/types';
 import { ATTENDANCE_DETAILS_QUERY } from '../../operations/queries/AttendanceDetails';
-import { useAppContext } from '../app/AppContext';
 import AttendanceAppearanceSelectionsList from '../attendanceAppearanceSelection';
 import AttendanceInvestorSession from '../attendanceInvestorSession/AttendanceInvestorSession';
 import { BorderBottom } from '../settingsDashboard/SettingsDashboard.styled';
