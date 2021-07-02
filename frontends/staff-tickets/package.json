@@ -29,6 +29,7 @@
   "dependencies": {
     "@apollo/client": "*",
     "@websummit/components": "*",
+    "@websummit/glue": "*",
     "@websummit/graphql": "*",
     "graphql": "*",
     "isomorphic-unfetch": "*",
