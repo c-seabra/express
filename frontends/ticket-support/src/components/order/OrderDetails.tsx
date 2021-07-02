@@ -20,7 +20,6 @@ import {
   useCommerceListPaymentMethodsQuery,
   useOrderByRefQuery,
   useOrderInvoiceSendMutation,
-  useOrderRefundReceiptSendMutation,
 } from '@websummit/graphql/src/@types/operations';
 import React, { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -276,13 +275,6 @@ const OrderDetails = (): ReactElement => {
     history.push(`/order/${orderRef}/customer-billing/${sourceId}`);
   };
 
-  const [sendRefundReceiptEmail] = useOrderRefundReceiptSendMutation({
-    context,
-    onCompleted: () => {
-      snackbar('Email with refund receipt sent');
-    },
-    onError: (e: Error) => errSnackbar(e.message),
-  });
   const [sendInvoiceEmail] = useOrderInvoiceSendMutation({
     context,
     onCompleted: () => {
@@ -299,9 +291,6 @@ const OrderDetails = (): ReactElement => {
   };
   const invoiceSendEmail = async () => {
     await sendInvoiceEmail(sendOrderDocumentInput);
-  };
-  const refundReceiptSendEmail = async () => {
-    await sendRefundReceiptEmail(sendOrderDocumentInput);
   };
 
   return (
@@ -403,7 +392,6 @@ const OrderDetails = (): ReactElement => {
                   loading={loading}
                   loadingCommerceOrder={loadingCommerceOrder}
                   order={order as Order}
-                  refundReceiptSendEmail={refundReceiptSendEmail}
                 />
               </SpacingBottom>
 
