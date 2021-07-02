@@ -17,12 +17,12 @@ import {
   useEventQuery,
   useLegalEntitiesQuery,
 } from '@websummit/graphql/src/@types/operations';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { getServicesReadyForEvent } from '../../lib/utils/eventConfig';
-import { useAppContext } from '../app/AppContext';
 import AdditionalSettings from '../organisms/AdditionalSettings';
 import PaymentMethods from '../organisms/PaymentMethods';
 import SelectTax from '../organisms/SelectTax';

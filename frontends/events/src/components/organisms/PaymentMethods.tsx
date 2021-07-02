@@ -12,12 +12,12 @@ import {
   useCommerceUpdatePaymentMethodMutation,
 } from '@websummit/graphql/src/@types/operations';
 import CommerceListPaymentMethods from '@websummit/graphql/src/operations/queries/CommerceListPaymentMethods';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { paymentGatewayMap } from '../../lib/constants/paymentGateways';
-import { useAppContext } from '../app/AppContext';
 import PaymentMethodModal from '../modals/PaymentMethodModal';
 
 const FlexRow = styled.div`
