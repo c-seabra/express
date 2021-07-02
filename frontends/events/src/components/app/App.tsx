@@ -1,9 +1,6 @@
-import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
-import { initApollo } from '@websummit/graphql';
-import AppContext from '@websummit/graphql/src/utils/AppContext';
-import jwt from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import ApolloAppContextProvider from '@websummit/graphql/src/utils/ApolloAppContextProvider';
+import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -23,44 +20,26 @@ type AppProps = {
 };
 
 const App = ({ token, apiURL }: AppProps) => {
-  const tokenPayload: { conf_slug: string; email: string } = jwt(token);
-  const [slug, setSlug] = useState<string>(tokenPayload.conf_slug);
-
-  useEffect(() => {
-    setSlug(tokenPayload.conf_slug);
-  }, [tokenPayload.conf_slug]);
-
-  if (!token) return null;
-
-  const apolloClient = initApollo({ apiURL });
-
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloAppContextProvider apiURL={apiURL} token={token}>
       <SnackbarProvider>
         <Router>
-          <AppContext.Provider
-            value={{
-              slug,
-              token,
-            }}
-          >
-            <StyledContainer>
-              <Switch>
-                <Route exact path="/">
-                  <EventsPage />
-                </Route>
-                <Route exact path="/settings">
-                  <EventSettings />
-                </Route>
-                <Route exact path="/:slug/settings">
-                  <EventSettings />
-                </Route>
-              </Switch>
-            </StyledContainer>
-          </AppContext.Provider>
+          <StyledContainer>
+            <Switch>
+              <Route exact path="/">
+                <EventsPage />
+              </Route>
+              <Route exact path="/settings">
+                <EventSettings />
+              </Route>
+              <Route exact path="/:slug/settings">
+                <EventSettings />
+              </Route>
+            </Switch>
+          </StyledContainer>
         </Router>
       </SnackbarProvider>
-    </ApolloProvider>
+    </ApolloAppContextProvider>
   );
 };
 
