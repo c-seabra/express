@@ -5,9 +5,9 @@ import {
   useErrorSnackbar,
   useSuccessSnackbar,
 } from '@websummit/components/src/molecules/Snackbar';
+import { useAppContext } from '@websummit/graphql/src/utils/AppContext';
 import moment from 'moment';
 
-import { useAppContext } from '../../components/app/AppContext';
 import INVESTOR_MEETING_CONFIGURATION_UPDATE from '../../operations/mutations/InvestorMeetingConfigurationUpdate';
 import { UserError } from '../types';
 

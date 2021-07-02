@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from '@websummit/components/src/molecules/Snackbar';
 import { initApollo } from '@websummit/graphql';
+import AppContext from '@websummit/graphql/src/utils/AppContext';
 import jwt from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -19,7 +20,6 @@ import AttendanceDashboard from '../attendanceDashboard/AttendanceDashboard';
 import AttendanceDetailsDashboard from '../attendanceDetailsDashboard';
 import InvestorAccessDashboard from '../InvestorAccessDashboard/InvestorAccessDashboard';
 import SettingsDashboard from '../settingsDashboard/SettingsDashboard';
-import AppContext from './AppContext';
 
 const GlobalStyle = createGlobalStyle`
   html {
