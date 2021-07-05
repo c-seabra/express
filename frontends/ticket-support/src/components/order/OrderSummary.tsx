@@ -11,7 +11,7 @@ import {
   Order,
 } from '@websummit/graphql/src/@types/operations';
 // todo: cross frontent import to be fixed
-import { externalPaymentMethods } from '@websummit-micro/events/src/lib/constants/paymentGateways';
+import { externalPaymentMethods } from '../../../../events/src/lib/constants/paymentGateways';
 import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
