@@ -10,11 +10,11 @@ import {
   CommerceTaxRateType,
   Order,
 } from '@websummit/graphql/src/@types/operations';
-// todo: cross frontent import to be fixed
-import { externalPaymentMethods } from '../../../../events/src/lib/constants/paymentGateways';
 import React, { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
+// todo: cross frontent import to be fixed
+import { externalPaymentMethods } from '../../../../events/src/lib/constants/paymentGateways';
 import Loader from '../../lib/Loading';
 import { formatDisplayPrice } from '../../lib/utils/price';
 import Warning from '../ticketActions/Warning';
