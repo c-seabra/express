@@ -163,9 +163,12 @@ module.exports = {
     'import/no-extraneous-dependencies': [runInRootLevel ? 'off' : 'warn'],
     'import/no-relative-packages': 'warn',
     'import/no-cycle': 'warn',
-    "no-restricted-imports": ["warn", {
-      "patterns": ["@websummit-micro/*"]
-    }],
+    'no-restricted-imports': [
+      'warn',
+      {
+        patterns: ['@websummit-micro/*'],
+      },
+    ],
 
     // using simple-import-sort instead
     'sort-imports': 'off',
