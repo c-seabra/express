@@ -84,6 +84,7 @@ module.exports = {
     'sort-keys-fix',
     'typescript-sort-keys',
     'import',
+    "ban-package-import",
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
@@ -160,8 +161,12 @@ module.exports = {
     // this one is a bit tricky because it only works if
     // you run the command in the package, will fail on root level
     // so we only turn it on conditionally
-    'import/no-extraneous-dependencies': [runInRootLevel ? 'off' : 'error'],
-    'import/no-relative-packages': 'error',
+    'import/no-extraneous-dependencies': [runInRootLevel ? 'off' : 'warn'],
+    'import/no-relative-packages': 'warn',
+    'import/no-cycle': 'warn',
+    "no-restricted-imports": ["warn", {
+      "patterns": ["@websummit-micro/*"]
+    }],
 
     // using simple-import-sort instead
     'sort-imports': 'off',
@@ -176,7 +181,6 @@ module.exports = {
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     // better to maintain without but not business critical to fix
-    'import/no-cycle': 'off',
     'import/no-named-as-default': 'off',
 
     // disabled because they make no sense for us
