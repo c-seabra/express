@@ -84,7 +84,6 @@ module.exports = {
     'sort-keys-fix',
     'typescript-sort-keys',
     'import',
-    "ban-package-import",
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
