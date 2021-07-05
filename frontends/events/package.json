@@ -17,7 +17,6 @@
   "dependencies": {
     "@apollo/client": "*",
     "@material-ui/core": "*",
-    "@websummit-micro/ticket-support": "*",
     "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",

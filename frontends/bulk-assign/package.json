@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "@apollo/client": "*",
-    "@websummit-micro/ticket-support": "*",
     "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",

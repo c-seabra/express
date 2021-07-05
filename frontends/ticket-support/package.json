@@ -33,7 +33,6 @@
     "@apollo/react-common": "*",
     "@graphql-typed-document-node/core": "*",
     "@material-ui/icons": "*",
-    "@websummit-micro/events": "*",
     "@websummit/components": "*",
     "@websummit/glue": "*",
     "@websummit/graphql": "*",

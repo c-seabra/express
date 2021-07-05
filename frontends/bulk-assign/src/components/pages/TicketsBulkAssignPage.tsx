@@ -13,11 +13,11 @@ import {
 } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { shortenString } from '@websummit/tsutils/src/utils/text';
-// todo: this needs to be cleaned up, its cross frontend import
-import useEventDataQuery from '@websummit-micro/ticket-support/src/lib/hooks/useEventDataQuery';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+// todo: this needs to be cleaned up, its cross frontend import
+import useEventDataQuery from '../../../../ticket-support/src/lib/hooks/useEventDataQuery';
 import { AssigneesList } from '../app/App';
 import AssigneeList from '../assigneeList/AssigneeList';
 

@@ -6,12 +6,12 @@ import { useErrorSnackbar } from '@websummit/components/src/molecules/Snackbar';
 import { Spacing } from '@websummit/components/src/templates/Spacing';
 import { useSalesCyclesQuery } from '@websummit/graphql/src/@types/operations';
 import { useRequestContext } from '@websummit/graphql/src/utils/AppContext';
-// todo fix cross micro frontend imports
-import { useModalState } from '@websummit-micro/ticket-support/src/lib/components/molecules/Modal';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+// todo fix cross micro frontend imports
+import { useModalState } from '../../../../ticket-support/src/lib/components/molecules/Modal';
 import SaleCycleModalWrapper, {
   SaleCycleFormData,
 } from '../modals/SaleCycleModalWrapper';
