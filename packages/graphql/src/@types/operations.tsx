@@ -1456,7 +1456,7 @@ export type CommerceOrder = {
   paymentMethod: Maybe<CommercePaymentMethod>;
   paymentStatus: Maybe<CommerceOrderPaymentStatus>;
   reference: Maybe<Scalars['String']>;
-  refundReceiptUrl: Maybe<Scalars['String']>;
+  refundUrls: Maybe<Scalars['JSON']>;
   refunded: Maybe<Scalars['Int']>;
   status: Maybe<CommerceOrderStatus>;
   subTotal: Maybe<Scalars['Int']>;
@@ -1487,7 +1487,7 @@ export type CommerceOrderCreate = {
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
-  refundReceiptUrl?: Maybe<Scalars['String']>;
+  refundUrls?: Maybe<Scalars['JSON']>;
   status?: Maybe<CommerceOrderStatus>;
   subTotal?: Maybe<Scalars['Int']>;
   taxTotal?: Maybe<Scalars['Int']>;
@@ -1605,7 +1605,7 @@ export type CommerceOrderUpdate = {
   metadata?: Maybe<Scalars['JSON']>;
   paid?: Maybe<Scalars['Int']>;
   paymentMethod?: Maybe<Scalars['ID']>;
-  refundReceiptUrl?: Maybe<Scalars['String']>;
+  refundUrls?: Maybe<Scalars['JSON']>;
   status?: Maybe<CommerceOrderStatus>;
   subTotal?: Maybe<Scalars['Int']>;
   taxTotal?: Maybe<Scalars['Int']>;
@@ -9364,7 +9364,6 @@ export type CommerceGetOrderQuery = { __typename?: 'Query' } & {
       | 'currencySymbol'
       | 'id'
       | 'invoiceUrl'
-      | 'refundReceiptUrl'
       | 'refunded'
       | 'lastUpdatedAt'
       | 'locked'
@@ -20465,10 +20464,6 @@ export const CommerceGetOrderDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'invoiceUrl' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'refundReceiptUrl' },
-                },
                 { kind: 'Field', name: { kind: 'Name', value: 'refunded' } },
                 {
                   kind: 'Field',
