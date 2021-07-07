@@ -115,7 +115,34 @@ const ROUTES: Routes = [
     path: '~staff-tickets',
   },
   {
+    children: [
+      {
+        conferenceSpecific: true,
+        isActive: false,
+        meta: { description: 'Order report' },
+        path: '',
+      },
+      {
+        conferenceSpecific: true,
+        isActive: false,
+        meta: { description: 'Refund report' },
+        path: '',
+      },
+      {
+        conferenceSpecific: true,
+        isActive: false,
+        meta: { description: 'Attendee report' },
+        path: '',
+      },
+      {
+        conferenceSpecific: true,
+        isActive: false,
+        meta: { description: 'Revenue report' },
+        path: '',
+      },
+    ],
     conferenceSpecific: true,
+    hasChildren: true,
     isActive: false,
     meta: { description: 'Reports' },
     path: '~reports',

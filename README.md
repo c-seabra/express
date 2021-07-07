@@ -49,10 +49,12 @@ In addition, it also contains supporting packages, including UI components and l
 
 We have an `.env.example` file that you can copy as `.env` to set some environment variables.
 
-There variables are shared between all micro frontends. Currently we use:
+These variables are shared between all micro frontends. Currently we use:
 
 - `AUTH_TOKEN` this is your admin auth token you get from omnia, it determines the active conference, your user permissions and is valid for either staging or production. There are a few prefixed environment variables that you can use to save different tokens and cycle between them.
 - `API_URL` this is the url pointing to the catalyst that you want to use. There are prefixed examples for production and sandbox that you can copy, or you point it to your local setup as needed.
+
+If you have no idea where to get credentials, just grab some from this page https://omnia.cilabs.net/conferences/0df1f23d-e548-477d-b80c-caac4af18e56/~demo and replace, in your `.env`, `AUTH_TOKEN` and `API_URL` with `token` and `apiUrl` values respectively.
 
 ### One time git hooks setup
 

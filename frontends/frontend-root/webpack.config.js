@@ -30,8 +30,6 @@ module.exports = (webpackConfigEnv, argv) => {
         },
       }),
       new EnvironmentPlugin([
-        'SANDBOX_API_URL',
-        'SANDBOX_STORES_TOKEN',
         'PRODUCTION_API_URL',
         'PRODUCTION_STORES_TOKEN',
         'AUTH_TOKEN',
